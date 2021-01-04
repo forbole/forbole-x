@@ -1,0 +1,7 @@
+**/node_modules/*
+**/out/*
+**/.next/*
+**/dist/*
+**/.yalc/*
+**/.github/*
+**/coverage/*
