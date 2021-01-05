@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     bottom: 0,
     left: 0,
+    overflow: 'auto',
   },
   menu: {
     margin: theme.spacing(2, 2.5),

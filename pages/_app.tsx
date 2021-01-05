@@ -3,9 +3,29 @@ import Head from 'next/head'
 import { AppProps } from 'next/app'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import { lightTheme } from '../misc/theme'
+import { lightTheme, darkTheme } from '../misc/theme'
+import { SettingsProvider, useSettingsContext } from '../contexts/SettingsContext'
 
-export default function App({ Component, pageProps }: AppProps) {
+function InnerApp({ Component, pageProps }: AppProps) {
+  const { theme } = useSettingsContext()
+
+  const muiTheme = React.useMemo(() => {
+    if (theme === 'dark') {
+      return createMuiTheme(darkTheme)
+    } else {
+      return createMuiTheme(lightTheme)
+    }
+  }, [theme])
+
+  return (
+    <ThemeProvider theme={muiTheme}>
+      <CssBaseline />
+      <Component {...pageProps} />
+    </ThemeProvider>
+  )
+}
+
+export default function App(props: AppProps) {
   React.useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side')
@@ -32,10 +52,9 @@ export default function App({ Component, pageProps }: AppProps) {
           font-style: normal;
         }
       `}</style>
-      <ThemeProvider theme={createMuiTheme(lightTheme)}>
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <SettingsProvider>
+        <InnerApp {...props} />
+      </SettingsProvider>
     </>
   )
 }

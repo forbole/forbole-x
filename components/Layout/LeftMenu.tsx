@@ -1,4 +1,5 @@
 import React from 'react'
+import useTranslation from 'next-translate/useTranslation'
 import OverviewIcon from '../../assets/images/icons/icon_overview.svg'
 import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg'
 import DelegateIcon from '../../assets/images/icons/icon_delegate_08.svg'
@@ -18,6 +19,7 @@ interface LeftMenuProps {
 
 const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem }) => {
   const theme = useTheme()
+  const { t } = useTranslation('common')
   const iconProps = {
     width: theme.spacing(3),
     height: theme.spacing(3),
@@ -26,42 +28,42 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem }) => {
   const items = React.useMemo(
     () => [
       {
-        title: 'Overview',
+        title: t('overview'),
         icon: <OverviewIcon {...iconProps} />,
         href: '/',
       },
       {
-        title: 'Wallet Manage',
+        title: t('walletManage'),
         icon: <WalletManageIcon {...iconProps} />,
         href: '/wallets',
       },
       {
-        title: 'Delegate',
+        title: t('delegate'),
         icon: <DelegateIcon {...iconProps} />,
         href: '/delegate',
       },
       {
-        title: 'Market',
+        title: t('market'),
         icon: <MarketIcon {...iconProps} />,
         href: '/market',
       },
       {
-        title: 'Proposals',
+        title: t('proposals'),
         icon: <ProposalIcon {...iconProps} />,
         href: '/proposals',
       },
       {
-        title: 'Address Book',
+        title: t('addressBook'),
         icon: <AddressBookIcon {...iconProps} />,
         href: '/address-book',
       },
       {
-        title: 'Explorer',
+        title: t('explorer'),
         icon: <ExplorerIcon {...iconProps} />,
         href: '/explorer',
       },
     ],
-    [iconProps]
+    [iconProps, t]
   )
 
   return (
