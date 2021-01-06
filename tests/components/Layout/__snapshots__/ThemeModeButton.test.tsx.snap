@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component: ThemeModeButton renders dark theme correctly 1`] = `
+exports[`component: Layout - ThemeModeButton renders dark theme correctly 1`] = `
 <button
   className="MuiButtonBase-root MuiIconButton-root makeStyles-navBarButton-5"
   disabled={false}
@@ -35,7 +35,7 @@ exports[`component: ThemeModeButton renders dark theme correctly 1`] = `
 </button>
 `;
 
-exports[`component: ThemeModeButton renders light theme correctly 1`] = `
+exports[`component: Layout - ThemeModeButton renders light theme correctly 1`] = `
 <button
   className="MuiButtonBase-root MuiIconButton-root makeStyles-navBarButton-5"
   disabled={false}

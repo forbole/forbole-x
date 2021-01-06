@@ -57,7 +57,7 @@ const LangMenuButton: React.FC<LangMenuButtonProps> = (iconProps) => {
                 locale={l}
                 passHref
               >
-                <MenuItem button component="a" onClick={() => null}>
+                <MenuItem button component="a">
                   {t(l)}
                 </MenuItem>
               </Link>

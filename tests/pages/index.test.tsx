@@ -1,9 +1,13 @@
-import { render, screen } from '@testing-library/react'
-import App from '../../pages/index'
+import React from 'react'
+import renderer from 'react-test-renderer'
+import Home from '../../pages/index'
 
-describe('App', () => {
-  it('renders without crashing', () => {
-    render(<App />)
-    expect(screen.getByRole('heading', { name: 'Welcome to Next.js!' })).toBeInTheDocument()
+jest.mock('../../components/Layout', () => 'Layout')
+
+describe('page: Home', () => {
+  it('renders correctly', () => {
+    const component = renderer.create(<Home />)
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })

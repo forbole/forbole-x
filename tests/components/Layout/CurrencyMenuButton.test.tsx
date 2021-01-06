@@ -1,6 +1,5 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { Button, Menu, MenuItem, makeStyles } from '@material-ui/core'
 import CurrencyMenuButton from '../../../components/Layout/CurrencyMenuButton'
 
 const mockCurrencyContext = {
@@ -14,7 +13,7 @@ jest.mock('../../../contexts/SettingsContext', () => ({
 
 jest.mock('@material-ui/core/Menu', () => (props) => <div id="menu" {...props} />)
 
-describe('component: CurrencyMenuButton', () => {
+describe('component: Layout - CurrencyMenuButton', () => {
   it('renders USD correctly', () => {
     const component = renderer.create(<CurrencyMenuButton width={10} height={10} fill="#000" />)
     const tree = component.toJSON()

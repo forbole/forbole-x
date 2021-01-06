@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component: Layout renders correctly 1`] = `
+Array [
+  <NavBar />,
+  <LeftMenu
+    activeItem=""
+  />,
+  <div
+    className="MuiBox-root MuiBox-root-7 makeStyles-main-6"
+  >
+    <div />
+  </div>,
+]
+`;

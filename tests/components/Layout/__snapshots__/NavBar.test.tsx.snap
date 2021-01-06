@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component: Layout - NavBar renders correctly 1`] = `
+<div
+  className="MuiBox-root MuiBox-root-7 makeStyles-navBar-4"
+>
+  <CurrencyMenuButton
+    fill="#e0e0e0"
+    height={24}
+    width={24}
+  />
+  <CurrencyMenuButton
+    fill="#e0e0e0"
+    height={24}
+    width={24}
+  />
+  <button
+    className="MuiButtonBase-root MuiIconButton-root makeStyles-navBarButton-5"
+    disabled={false}
+    onBlur={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label"
+    >
+      <svg
+        data-file-name="SvgIcon_notification_32"
+        fill="#e0e0e0"
+        height={24}
+        width={24}
+      />
+    </span>
+  </button>
+  <CurrencyMenuButton
+    fill="#e0e0e0"
+    height={24}
+    width={24}
+  />
+  <button
+    className="MuiButtonBase-root MuiIconButton-root makeStyles-navBarButton-5"
+    disabled={false}
+    onBlur={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label"
+    >
+      <svg
+        data-file-name="SvgIcon_settings"
+        fill="#e0e0e0"
+        height={24}
+        width={24}
+      />
+    </span>
+  </button>
+</div>
+`;

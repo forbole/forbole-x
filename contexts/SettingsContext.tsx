@@ -7,16 +7,14 @@ type Currency = typeof currencies[number]
 
 interface SettingsState {
   currency: Currency
-  setCurrency: (currency: Currency) => void
   theme: Theme
-  setTheme: (theme: Theme) => void
+  setCurrency?: (currency: Currency) => void
+  setTheme?: (theme: Theme) => void
 }
 
 const initialState: SettingsState = {
   currency: 'USD',
-  setCurrency: () => null,
   theme: 'light',
-  setTheme: () => null,
 }
 
 const SettingsContext = React.createContext<SettingsState>(initialState)

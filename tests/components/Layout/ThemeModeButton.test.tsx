@@ -11,7 +11,7 @@ jest.mock('../../../contexts/SettingsContext', () => ({
   useSettingsContext: () => mockThemeContext,
 }))
 
-describe('component: ThemeModeButton', () => {
+describe('component: Layout - ThemeModeButton', () => {
   it('renders light theme correctly', () => {
     mockThemeContext.theme = 'light'
     const component = renderer.create(<ThemeModeButton width={10} height={10} fill="#000" />)
