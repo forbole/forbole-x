@@ -98,7 +98,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem }) => {
                 <ListItemText
                   primary={item.title}
                   primaryTypographyProps={{
-                    variant: 'h2',
+                    variant: 'h6',
                     color: selected ? 'primary' : 'textSecondary',
                   }}
                 />

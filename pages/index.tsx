@@ -5,7 +5,7 @@ import Layout from '../components/Layout'
 export default function Home() {
   return (
     <Layout activeItem="/">
-      <Typography variant="h1">SF Pro Text</Typography>
+      <div />
     </Layout>
   )
 }

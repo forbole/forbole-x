@@ -1,25 +1,58 @@
 const common = {
   typography: {
-    fontFamily: '"SF Pro Text", sans-serif',
+    fontFamily: '"Hind Madurai", sans-serif',
     h1: {
-      fontSize: '1.75rem',
-      lineHeight: 2,
+      fontSize: '2.25rem',
+      letterSpacing: -1.5,
     },
     h2: {
-      fontSize: '1.25rem',
-      lineHeight: 2,
+      fontFamily: '"Aurulent Sans Mono", sans-serif',
+      fontSize: '1.875rem',
+      letterSpacing: -0.5,
     },
     h3: {
+      fontFamily: '"Aurulent Sans Mono", sans-serif',
+      fontSize: '1.75rem',
+      letterSpacing: 0,
+    },
+    h4: {
+      fontSize: '1.5rem',
+      letterSpacing: 0.25,
+    },
+    h5: {
+      fontFamily: '"Aurulent Sans Mono", sans-serif',
+      fontSize: '1.25rem',
+      letterSpacing: 0,
+    },
+    h6: {
       fontSize: '1.125rem',
-      lineHeight: 1,
+      letterSpacing: 0.15,
+    },
+    subtitle1: {
+      fontSize: '1rem',
+      letterSpacing: 0.15,
+    },
+    subtitle2: {
+      fontFamily: '"Hind Madurai Medium", sans-serif',
+      fontSize: '0.875rem',
+      letterSpacing: 0.1,
     },
     body1: {
       fontSize: '1rem',
-      lineHeight: 1,
+      lineHeight: 0.5,
     },
     body2: {
       fontSize: '0.875rem',
-      lineHeight: 1,
+      lineHeight: 0.25,
+    },
+    overline: {
+      fontFamily: '"Hind Madurai Medium", sans-serif',
+      fontSize: '0.875rem',
+      letterSpacing: 1.25,
+    },
+    caption: {
+      fontSize: '0.75rem',
+      letterSpacing: 0.4,
     },
   },
 }
@@ -40,7 +73,7 @@ const lightTheme = {
       main: '#1EC490',
     },
     warning: {
-      main: '#E3953A',
+      main: '#E0A111',
     },
     error: {
       main: '#FD565F',
@@ -54,6 +87,9 @@ const lightTheme = {
       paper: '#FFFFFF',
     },
     grey: {
+      '50': '#F7F7F7',
+      '100': '#F2F2F2',
+      '200': '#DDDDDD',
       '300': '#8B8B8B', // icon
     },
     action: {
@@ -79,7 +115,7 @@ const darkTheme = {
       main: '#1EC490',
     },
     warning: {
-      main: '#E3953A',
+      main: '#E0A111',
     },
     error: {
       main: '#FD565F',
@@ -93,6 +129,9 @@ const darkTheme = {
       paper: '#25282D',
     },
     grey: {
+      '50': '#272A2F',
+      '100': '#34383E',
+      '200': '#3D4047',
       '300': '#AFAFAF', // icon
     },
     action: {

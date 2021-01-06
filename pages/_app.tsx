@@ -46,10 +46,16 @@ export default function App(props: AppProps) {
       </Head>
       <style jsx global>{`
         @font-face {
-          font-family: 'SF Pro Text';
-          src: url('/fonts/SFProDisplay-Regular.ttf');
-          font-weight: normal;
-          font-style: normal;
+          font-family: 'Aurulent Sans Mono';
+          src: url('/fonts/AurulentSansMono-Regular.otf');
+        }
+        @font-face {
+          font-family: 'Hind Madurai';
+          src: url('/fonts/HindMadurai-Regular.ttf');
+        }
+        @font-face {
+          font-family: 'Hind Madurai Medium';
+          src: url('/fonts/HindMadurai-Medium.ttf');
         }
       `}</style>
       <SettingsProvider>
