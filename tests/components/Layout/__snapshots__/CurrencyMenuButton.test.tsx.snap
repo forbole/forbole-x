@@ -1,0 +1,336 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component: CurrencyMenuButton renders HKD correctly 1`] = `
+Array [
+  <button
+    className="MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-navBarButton-5"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiButton-label"
+    >
+      <span
+        className="MuiButton-startIcon MuiButton-iconSizeMedium"
+      >
+        <svg
+          data-file-name="SvgIcon_delegate_08"
+          fill="#000"
+          height={10}
+          width={10}
+        />
+      </span>
+      HKD
+    </span>
+    <span
+      className="MuiTouchRipple-root"
+    />
+  </button>,
+  <div
+    anchorOrigin={
+      Object {
+        "horizontal": "center",
+        "vertical": "bottom",
+      }
+    }
+    getContentAnchorEl={null}
+    id="menu"
+    keepMounted={true}
+    onClose={[Function]}
+    open={false}
+    transformOrigin={
+      Object {
+        "horizontal": "center",
+        "vertical": "top",
+      }
+    }
+  >
+    <li
+      aria-disabled={false}
+      className="MuiButtonBase-root MuiListItem-root MuiMenuItem-root MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      role="menuitem"
+      tabIndex={-1}
+    >
+      USD
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </li>
+  </div>,
+]
+`;
+
+exports[`component: CurrencyMenuButton renders USD correctly 1`] = `
+Array [
+  <button
+    className="MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-navBarButton-5"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiButton-label"
+    >
+      <span
+        className="MuiButton-startIcon MuiButton-iconSizeMedium"
+      >
+        <svg
+          data-file-name="SvgIcon_delegate_08"
+          fill="#000"
+          height={10}
+          width={10}
+        />
+      </span>
+      USD
+    </span>
+  </button>,
+  <div
+    anchorOrigin={
+      Object {
+        "horizontal": "center",
+        "vertical": "bottom",
+      }
+    }
+    getContentAnchorEl={null}
+    id="menu"
+    keepMounted={true}
+    onClose={[Function]}
+    open={false}
+    transformOrigin={
+      Object {
+        "horizontal": "center",
+        "vertical": "top",
+      }
+    }
+  >
+    <li
+      aria-disabled={false}
+      className="MuiButtonBase-root MuiListItem-root MuiMenuItem-root MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      role="menuitem"
+      tabIndex={-1}
+    >
+      HKD
+    </li>
+  </div>,
+]
+`;
+
+exports[`component: CurrencyMenuButton renders menu correctly 1`] = `
+Array [
+  <button
+    className="MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-navBarButton-5"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiButton-label"
+    >
+      <span
+        className="MuiButton-startIcon MuiButton-iconSizeMedium"
+      >
+        <svg
+          data-file-name="SvgIcon_delegate_08"
+          fill="#000"
+          height={10}
+          width={10}
+        />
+      </span>
+      USD
+    </span>
+    <span
+      className="MuiTouchRipple-root"
+    />
+  </button>,
+  <div
+    anchorEl="button"
+    anchorOrigin={
+      Object {
+        "horizontal": "center",
+        "vertical": "bottom",
+      }
+    }
+    getContentAnchorEl={null}
+    id="menu"
+    keepMounted={true}
+    onClose={[Function]}
+    open={true}
+    transformOrigin={
+      Object {
+        "horizontal": "center",
+        "vertical": "top",
+      }
+    }
+  >
+    <li
+      aria-disabled={false}
+      className="MuiButtonBase-root MuiListItem-root MuiMenuItem-root MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      role="menuitem"
+      tabIndex={-1}
+    >
+      HKD
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </li>
+  </div>,
+]
+`;
+
+exports[`component: CurrencyMenuButton renders menu correctly 2`] = `
+Array [
+  <button
+    className="MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-navBarButton-5"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiButton-label"
+    >
+      <span
+        className="MuiButton-startIcon MuiButton-iconSizeMedium"
+      >
+        <svg
+          data-file-name="SvgIcon_delegate_08"
+          fill="#000"
+          height={10}
+          width={10}
+        />
+      </span>
+      USD
+    </span>
+    <span
+      className="MuiTouchRipple-root"
+    />
+  </button>,
+  <div
+    anchorOrigin={
+      Object {
+        "horizontal": "center",
+        "vertical": "bottom",
+      }
+    }
+    getContentAnchorEl={null}
+    id="menu"
+    keepMounted={true}
+    onClose={[Function]}
+    open={false}
+    transformOrigin={
+      Object {
+        "horizontal": "center",
+        "vertical": "top",
+      }
+    }
+  >
+    <li
+      aria-disabled={false}
+      className="MuiButtonBase-root MuiListItem-root MuiMenuItem-root MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      role="menuitem"
+      tabIndex={-1}
+    >
+      HKD
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </li>
+  </div>,
+]
+`;
