@@ -8,5 +8,19 @@
   "proposals": "Proposals",
   "addressBook": "Address Book",
   "explorer": "Explorer",
-  "portal": "PORTAL"
+  "portal": "PORTAL",
+  "get started button": "Get Started",
+  "get started line1": "Add wallet to manage your assets, control your multi assets in a single interface",
+  "get started line2": "Let’s get started with setting a password",
+  "set password title": "Set Password",
+  "set password description": "Set a password to prevent unauthorized access\nto wallet data on your application",
+  "password": "Password",
+  "password caption": "* at least 6 characters in length",
+  "next": "Next",
+  "confirm password title": "Confirm Password",
+  "confirm password description": "There will be No “restore password” button.\nMake sure you remember it.",
+  "confirm password caption": "The password will be saved on your application, we won’t be able to help if you lose your password",
+  "confirm": "Confirm",
+  "invalid password": "Please enter a password with at least 6 characters",
+  "invalid confirm password": "Confirm password does not match"
 }

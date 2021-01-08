@@ -5,13 +5,14 @@ import useStyles from './styles'
 import LangIcon from '../../assets/images/icons/icon_language.svg'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
-import { IconProps } from './NavBar'
+import useIconProps from '../../misc/useIconProps'
 
-interface LangMenuButtonProps extends IconProps {}
+interface LangMenuButtonProps {}
 
-const LangMenuButton: React.FC<LangMenuButtonProps> = (iconProps) => {
+const LangMenuButton: React.FC<LangMenuButtonProps> = () => {
   const { t, lang } = useTranslation('common')
   const { locales, pathname, query } = useRouter()
+  const iconProps = useIconProps(3)
   const classes = useStyles()
   const [anchor, setAnchor] = React.useState<Element>()
 

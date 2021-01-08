@@ -4,6 +4,7 @@ import { AppProps } from 'next/app'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { lightTheme, darkTheme } from '../misc/theme'
+import GlobalCss from '../misc/globalCss'
 import { SettingsProvider, useSettingsContext } from '../contexts/SettingsContext'
 
 function InnerApp({ Component, pageProps }: AppProps) {
@@ -20,6 +21,7 @@ function InnerApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline />
+      <GlobalCss />
       <Component {...pageProps} />
     </ThemeProvider>
   )

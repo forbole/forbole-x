@@ -1,3 +1,5 @@
+import { ThemeOptions } from '@material-ui/core'
+
 const common = {
   typography: {
     fontFamily: '"Hind Madurai", sans-serif',
@@ -39,11 +41,9 @@ const common = {
     },
     body1: {
       fontSize: '1rem',
-      lineHeight: 0.5,
     },
     body2: {
       fontSize: '0.875rem',
-      lineHeight: 0.25,
     },
     overline: {
       fontFamily: '"Hind Madurai Medium", sans-serif',
@@ -54,7 +54,13 @@ const common = {
       fontSize: '0.75rem',
       letterSpacing: 0.4,
     },
+    button: {
+      fontSize: '1rem',
+      letterSpacing: 0,
+      textTransform: 'none',
+    },
   },
+  shadows: Array(25).fill('none'),
 }
 
 const lightTheme = {
@@ -97,7 +103,7 @@ const lightTheme = {
       selected: '#F7F7F7',
     },
   },
-}
+} as ThemeOptions
 
 const darkTheme = {
   ...common,
@@ -139,6 +145,6 @@ const darkTheme = {
       selected: '#1D1E22',
     },
   },
-}
+} as ThemeOptions
 
 export { lightTheme, darkTheme }

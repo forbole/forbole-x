@@ -36,6 +36,8 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 0,
     marginLeft: theme.spacing(32),
     marginTop: theme.spacing(11),
+    display: 'flex',
+    flexDirection: 'column',
   },
 }))
 

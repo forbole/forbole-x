@@ -4,13 +4,14 @@ import currencies from '../../misc/currencies'
 import useStyles from './styles'
 import CurrencyIcon from '../../assets/images/icons/icon_delegate_08.svg'
 import { useSettingsContext } from '../../contexts/SettingsContext'
-import { IconProps } from './NavBar'
+import useIconProps from '../../misc/useIconProps'
 
-interface CurrencyMenuButtonProps extends IconProps {}
+interface CurrencyMenuButtonProps {}
 
-const CurrencyMenuButton: React.FC<CurrencyMenuButtonProps> = (iconProps) => {
+const CurrencyMenuButton: React.FC<CurrencyMenuButtonProps> = () => {
   const { currency, setCurrency } = useSettingsContext()
   const classes = useStyles()
+  const iconProps = useIconProps(3)
 
   const [currencyAnchor, setCurrencyAnchor] = React.useState<Element>()
 

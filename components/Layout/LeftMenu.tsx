@@ -8,22 +8,19 @@ import ProposalIcon from '../../assets/images/icons/icon_proposal.svg'
 import AddressBookIcon from '../../assets/images/icons/icon_address_book.svg'
 import ExplorerIcon from '../../assets/images/icons/icon_explorer.svg'
 import Logo from '../../assets/images/logo.svg'
-import { useTheme } from '@material-ui/core/styles'
-import { List, ListItem, ListItemIcon, ListItemText, Paper } from '@material-ui/core'
+import { List, ListItem, ListItemIcon, ListItemText, Paper, useTheme } from '@material-ui/core'
 import useStyles from './styles'
 import Link from 'next/link'
+import useIconProps from '../../misc/useIconProps'
 
 interface LeftMenuProps {
   activeItem: string
 }
 
 const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem }) => {
-  const theme = useTheme()
   const { t } = useTranslation('common')
-  const iconProps = {
-    width: theme.spacing(3),
-    height: theme.spacing(3),
-  }
+  const theme = useTheme()
+  const iconProps = useIconProps(3)
   const classes = useStyles()
   const items = React.useMemo(
     () => [

@@ -4,12 +4,13 @@ import useStyles from './styles'
 import DarkModeIcon from '../../assets/images/icons/icon_dark_mode.svg'
 import LightModeIcon from '../../assets/images/icons/icon_light_mode.svg'
 import { useSettingsContext } from '../../contexts/SettingsContext'
-import { IconProps } from './NavBar'
+import useIconProps from '../../misc/useIconProps'
 
-interface ThemeModeButtonProps extends IconProps {}
+interface ThemeModeButtonProps {}
 
-const ThemeModeButton: React.FC<ThemeModeButtonProps> = (iconProps) => {
+const ThemeModeButton: React.FC<ThemeModeButtonProps> = () => {
   const { theme, setTheme } = useSettingsContext()
+  const iconProps = useIconProps(3)
   const classes = useStyles()
   const isDarkMode = theme === 'dark'
   return (

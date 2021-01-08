@@ -8,5 +8,19 @@
   "proposals": "[zh] Proposals",
   "addressBook": "[zh] Address Book",
   "explorer": "[zh] Explorer",
-  "portal": "[zh] PORTAL"
+  "portal": "[zh] PORTAL",
+  "get started button": "[zh] Get Started",
+  "get started line1": "[zh] Add wallet to manage your assets, control your multi assets in a single interface",
+  "get started line2": "[zh] Let’s get started with setting a password",
+  "set password title": "[zh] Set Password",
+  "set password description": "[zh] Set a password to prevent unauthorized access\nto wallet data on your application",
+  "password": "[zh] Password",
+  "password caption": "[zh] * at least 6 characters in length",
+  "next": "[zh] Next",
+  "confirm password title": "[zh] Confirm Password",
+  "confirm password description": "[zh] There will be No “restore password” button.\nMake sure you remember it.",
+  "confirm password caption": "[zh] The password will be saved on your application, we won’t be able to help if you lose your password",
+  "confirm": "[zh] Confirm",
+  "invalid password": "[zh] Please enter a password with at least 6 characters",
+  "invalid confirm password": "[zh] Confirm password does not match"
 }
