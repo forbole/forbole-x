@@ -6,6 +6,7 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { lightTheme, darkTheme } from '../misc/theme'
 import GlobalCss from '../misc/globalCss'
 import { SettingsProvider, useSettingsContext } from '../contexts/SettingsContext'
+import { WalletsProvider } from '../contexts/WalletsContext'
 
 function InnerApp({ Component, pageProps }: AppProps) {
   const { theme } = useSettingsContext()
@@ -46,22 +47,10 @@ export default function App(props: AppProps) {
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
         <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
-      <style jsx global>{`
-        @font-face {
-          font-family: 'Aurulent Sans Mono';
-          src: url('/fonts/AurulentSansMono-Regular.otf');
-        }
-        @font-face {
-          font-family: 'Hind Madurai';
-          src: url('/fonts/HindMadurai-Regular.ttf');
-        }
-        @font-face {
-          font-family: 'Hind Madurai Medium';
-          src: url('/fonts/HindMadurai-Medium.ttf');
-        }
-      `}</style>
       <SettingsProvider>
-        <InnerApp {...props} />
+        <WalletsProvider>
+          <InnerApp {...props} />
+        </WalletsProvider>
       </SettingsProvider>
     </>
   )

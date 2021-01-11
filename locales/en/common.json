@@ -22,5 +22,10 @@
   "confirm password caption": "The password will be saved on your application, we won’t be able to help if you lose your password",
   "confirm": "Confirm",
   "invalid password": "Please enter a password with at least 6 characters",
-  "invalid confirm password": "Confirm password does not match"
+  "invalid confirm password": "Confirm password does not match",
+  "create wallet title": "Getting Started",
+  "create wallet description": "create wallet description description",
+  "i have mnemonic phrase": "I have 12 / 24 word mnemonic phrase",
+  "i dont have mnemonic phrase": "I don’t have any mnemonic phrase",
+  "what is mnemonic phrase": "What is mnemonic phrase?"
 }

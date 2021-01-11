@@ -2,6 +2,20 @@ import { withStyles } from '@material-ui/core'
 
 const GlobalCss = withStyles((theme) => ({
   '@global': {
+    '@font-face': [
+      {
+        fontFamily: 'Aurulent Sans Mono',
+        src: "url('/fonts/AurulentSansMono-Regular.otf')",
+      },
+      {
+        fontFamily: 'Hind Madurai',
+        src: "url('/fonts/HindMadurai-Regular.ttf')",
+      },
+      {
+        fontFamily: 'Hind Madurai Medium',
+        src: "url('/fonts/HindMadurai-Medium.ttf')",
+      },
+    ],
     '.MuiDialogTitle-root': {
       marginTop: theme.spacing(3),
       textAlign: 'center',

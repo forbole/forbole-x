@@ -6,14 +6,18 @@ import useStyles from './styles'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 import useTranslation from 'next-translate/useTranslation'
 import OnboardingDialog from '../OnboardingDialog'
+import { useWalletsContext } from '../../contexts/WalletsContext'
+import CreateWalletDialog from '../CreateWalletDialog'
 
 interface GetStartedProps {}
 
 const GetStarted: React.FC<GetStartedProps> = () => {
   const classes = useStyles()
   const { theme } = useSettingsContext()
+  const { setPassword } = useWalletsContext()
   const { t } = useTranslation('common')
   const [isOnboardingDialogOpen, setIsOnboardingDialogOpen] = React.useState(false)
+  const [isCreateWalletDialogOpen, setIsCreateWalletDialogOpen] = React.useState(false)
   return (
     <>
       <Box className={classes.container}>
@@ -36,6 +40,15 @@ const GetStarted: React.FC<GetStartedProps> = () => {
       <OnboardingDialog
         open={isOnboardingDialogOpen}
         onClose={() => setIsOnboardingDialogOpen(false)}
+        onSubmit={(password) => {
+          setPassword(password)
+          setIsOnboardingDialogOpen(false)
+          setIsCreateWalletDialogOpen(true)
+        }}
+      />
+      <CreateWalletDialog
+        open={isCreateWalletDialogOpen}
+        onClose={() => setIsCreateWalletDialogOpen(false)}
       />
     </>
   )

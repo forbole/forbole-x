@@ -18,9 +18,10 @@ import useIconProps from '../../misc/useIconProps'
 interface OnboardingDialogProps {
   open: boolean
   onClose(): void
+  onSubmit(password: string): void
 }
 
-const OnboardingDialog: React.FC<OnboardingDialogProps> = ({ open, onClose }) => {
+const OnboardingDialog: React.FC<OnboardingDialogProps> = ({ open, onClose, onSubmit }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
@@ -41,8 +42,7 @@ const OnboardingDialog: React.FC<OnboardingDialogProps> = ({ open, onClose }) =>
       if (password !== confirmPassword) {
         return setError(t('invalid confirm password'))
       } else {
-        // TODO
-        onClose()
+        onSubmit(password)
       }
     }
   }, [isConfirmingPassword, password, confirmPassword])

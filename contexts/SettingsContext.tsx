@@ -8,8 +8,8 @@ type Currency = typeof currencies[number]
 interface SettingsState {
   currency: Currency
   theme: Theme
-  setCurrency?: (currency: Currency) => void
-  setTheme?: (theme: Theme) => void
+  setCurrency?: React.Dispatch<React.SetStateAction<Currency>>
+  setTheme?: React.Dispatch<React.SetStateAction<Theme>>
 }
 
 const initialState: SettingsState = {
