@@ -13,3 +13,7 @@ describe('component: Layout - NavBar', () => {
     expect(tree).toMatchSnapshot()
   })
 })
+
+afterEach(() => {
+  jest.clearAllMocks()
+})

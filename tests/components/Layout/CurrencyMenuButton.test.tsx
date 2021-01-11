@@ -15,18 +15,18 @@ jest.mock('@material-ui/core/Menu', () => (props) => <div id="menu" {...props} /
 
 describe('component: Layout - CurrencyMenuButton', () => {
   it('renders USD correctly', () => {
-    const component = renderer.create(<CurrencyMenuButton width={10} height={10} fill="#000" />)
+    const component = renderer.create(<CurrencyMenuButton />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders HKD correctly', () => {
     mockCurrencyContext.currency = 'HKD'
-    const component = renderer.create(<CurrencyMenuButton width={10} height={10} fill="#000" />)
+    const component = renderer.create(<CurrencyMenuButton />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders menu correctly', () => {
-    const component = renderer.create(<CurrencyMenuButton width={10} height={10} fill="#000" />)
+    const component = renderer.create(<CurrencyMenuButton />)
     renderer.act(() => {
       component.root.findByType('button').props.onClick({ currentTarget: 'button' })
     })
@@ -39,7 +39,7 @@ describe('component: Layout - CurrencyMenuButton', () => {
     expect(menuClosedTree).toMatchSnapshot()
   })
   it('sets currency to HKD on click', () => {
-    const component = renderer.create(<CurrencyMenuButton width={10} height={10} fill="#000" />)
+    const component = renderer.create(<CurrencyMenuButton />)
     renderer.act(() => {
       component.root.findByType('button').props.onClick({ currentTarget: 'button' })
       component.root.findByProps({ children: 'HKD' }).props.onClick()

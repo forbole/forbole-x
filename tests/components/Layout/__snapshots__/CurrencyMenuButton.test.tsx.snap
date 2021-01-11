@@ -28,9 +28,9 @@ Array [
       >
         <svg
           data-file-name="SvgIcon_delegate_08"
-          fill="#000"
-          height={10}
-          width={10}
+          fill="#e0e0e0"
+          height={24}
+          width={24}
         />
       </span>
       HKD
@@ -113,9 +113,9 @@ Array [
       >
         <svg
           data-file-name="SvgIcon_delegate_08"
-          fill="#000"
-          height={10}
-          width={10}
+          fill="#e0e0e0"
+          height={24}
+          width={24}
         />
       </span>
       USD
@@ -192,9 +192,9 @@ Array [
       >
         <svg
           data-file-name="SvgIcon_delegate_08"
-          fill="#000"
-          height={10}
-          width={10}
+          fill="#e0e0e0"
+          height={24}
+          width={24}
         />
       </span>
       USD
@@ -278,9 +278,9 @@ Array [
       >
         <svg
           data-file-name="SvgIcon_delegate_08"
-          fill="#000"
-          height={10}
-          width={10}
+          fill="#e0e0e0"
+          height={24}
+          width={24}
         />
       </span>
       USD

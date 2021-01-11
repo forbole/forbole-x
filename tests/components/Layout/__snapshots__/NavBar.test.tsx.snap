@@ -4,16 +4,8 @@ exports[`component: Layout - NavBar renders correctly 1`] = `
 <div
   className="MuiBox-root MuiBox-root-7 makeStyles-navBar-4"
 >
-  <CurrencyMenuButton
-    fill="#e0e0e0"
-    height={24}
-    width={24}
-  />
-  <CurrencyMenuButton
-    fill="#e0e0e0"
-    height={24}
-    width={24}
-  />
+  <CurrencyMenuButton />
+  <CurrencyMenuButton />
   <button
     className="MuiButtonBase-root MuiIconButton-root makeStyles-navBarButton-5"
     disabled={false}
@@ -42,11 +34,7 @@ exports[`component: Layout - NavBar renders correctly 1`] = `
       />
     </span>
   </button>
-  <CurrencyMenuButton
-    fill="#e0e0e0"
-    height={24}
-    width={24}
-  />
+  <CurrencyMenuButton />
   <button
     className="MuiButtonBase-root MuiIconButton-root makeStyles-navBarButton-5"
     disabled={false}

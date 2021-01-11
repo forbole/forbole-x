@@ -14,3 +14,7 @@ describe('component: Layout - LeftMenu', () => {
     expect(tree).toMatchSnapshot()
   })
 })
+
+afterEach(() => {
+  jest.clearAllMocks()
+})

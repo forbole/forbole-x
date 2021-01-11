@@ -4,6 +4,6 @@ exports[`page: Home renders correctly 1`] = `
 <Layout
   activeItem="/"
 >
-  <div />
+  <GetStarted />
 </Layout>
 `;

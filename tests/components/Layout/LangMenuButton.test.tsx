@@ -19,18 +19,18 @@ jest.mock('next/router', () => ({
 
 describe('component: Layout - LangMenuButton', () => {
   it('renders en correctly', () => {
-    const component = renderer.create(<LangMenuButton width={10} height={10} fill="#000" />)
+    const component = renderer.create(<LangMenuButton />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders zh correctly', () => {
     mockI18n.lang = 'zh'
-    const component = renderer.create(<LangMenuButton width={10} height={10} fill="#000" />)
+    const component = renderer.create(<LangMenuButton />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders menu correctly', () => {
-    const component = renderer.create(<LangMenuButton width={10} height={10} fill="#000" />)
+    const component = renderer.create(<LangMenuButton />)
     renderer.act(() => {
       component.root.findByType('button').props.onClick({ currentTarget: 'button' })
     })

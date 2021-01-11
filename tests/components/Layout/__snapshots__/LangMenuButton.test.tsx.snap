@@ -28,9 +28,9 @@ Array [
       >
         <svg
           data-file-name="SvgIcon_language"
-          fill="#000"
-          height={10}
-          width={10}
+          fill="#e0e0e0"
+          height={24}
+          width={24}
         />
       </span>
       en
@@ -111,9 +111,9 @@ Array [
       >
         <svg
           data-file-name="SvgIcon_language"
-          fill="#000"
-          height={10}
-          width={10}
+          fill="#e0e0e0"
+          height={24}
+          width={24}
         />
       </span>
       en
@@ -200,9 +200,9 @@ Array [
       >
         <svg
           data-file-name="SvgIcon_language"
-          fill="#000"
-          height={10}
-          width={10}
+          fill="#e0e0e0"
+          height={24}
+          width={24}
         />
       </span>
       en
@@ -289,9 +289,9 @@ Array [
       >
         <svg
           data-file-name="SvgIcon_language"
-          fill="#000"
-          height={10}
-          width={10}
+          fill="#e0e0e0"
+          height={24}
+          width={24}
         />
       </span>
       zh

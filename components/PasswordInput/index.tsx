@@ -1,10 +1,4 @@
-import {
-  FilledTextFieldProps,
-  IconButton,
-  InputAdornment,
-  TextField,
-  useTheme,
-} from '@material-ui/core'
+import { FilledTextFieldProps, IconButton, InputAdornment, TextField } from '@material-ui/core'
 import HidePasswordIcon from '../../assets/images/icons/icon_hide.svg'
 import ShowPasswordIcon from '../../assets/images/icons/icon_show.svg'
 import React from 'react'

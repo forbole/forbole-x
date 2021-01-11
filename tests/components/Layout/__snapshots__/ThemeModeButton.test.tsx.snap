@@ -24,9 +24,9 @@ exports[`component: Layout - ThemeModeButton renders dark theme correctly 1`] = 
   >
     <svg
       data-file-name="SvgIcon_light_mode"
-      fill="#000"
-      height={10}
-      width={10}
+      fill="#e0e0e0"
+      height={24}
+      width={24}
     />
   </span>
   <span
@@ -59,9 +59,9 @@ exports[`component: Layout - ThemeModeButton renders light theme correctly 1`] =
   >
     <svg
       data-file-name="SvgIcon_dark_mode"
-      fill="#000"
-      height={10}
-      width={10}
+      fill="#e0e0e0"
+      height={24}
+      width={24}
     />
   </span>
 </button>

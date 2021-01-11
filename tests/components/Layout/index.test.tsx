@@ -16,3 +16,7 @@ describe('component: Layout', () => {
     expect(tree).toMatchSnapshot()
   })
 })
+
+afterEach(() => {
+  jest.clearAllMocks()
+})
