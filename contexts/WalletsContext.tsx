@@ -2,13 +2,20 @@ import React from 'react'
 import CryptoJS from 'crypto-js'
 import usePersistedState from '../misc/usePersistedState'
 
-interface Wallet {}
+interface Wallet {
+  id: string
+  name: string
+  mnemonic?: string
+  privateKey?: string
+}
 
 interface WalletsState {
   isFirstTimeUser: boolean
   wallets: Wallet[]
   password: string
   setPassword?: React.Dispatch<React.SetStateAction<string>>
+  addWallet?: (wallet: Wallet) => void
+  deleteWallet?: (id: string) => void
 }
 
 const initialState: WalletsState = {
@@ -37,6 +44,31 @@ const WalletsProvider: React.FC = ({ children }) => {
       return []
     }
   }, [password, encryptedWalletsString])
+
+  const addWallet = React.useCallback(
+    (wallet: Omit<Wallet, 'id'>) => {
+      setEncryptedWalletsString(
+        CryptoJS.AES.encrypt(
+          JSON.stringify([{ ...wallet, id: Date.now() }, ...wallets]).toString(),
+          password
+        )
+      )
+    },
+    [wallets, password, setEncryptedWalletsString]
+  )
+
+  const deleteWallet = React.useCallback(
+    (id: string) => {
+      setEncryptedWalletsString(
+        CryptoJS.AES.encrypt(
+          JSON.stringify(wallets.filter((w) => w.id !== id)).toString(),
+          password
+        )
+      )
+    },
+    [wallets, password, setEncryptedWalletsString]
+  )
+
   return (
     <WalletsContext.Provider
       value={{
@@ -44,6 +76,8 @@ const WalletsProvider: React.FC = ({ children }) => {
         wallets,
         password,
         setPassword,
+        addWallet,
+        deleteWallet,
       }}
     >
       {children}

@@ -27,5 +27,9 @@
   "create wallet description": "create wallet description description",
   "i have mnemonic phrase": "I have 12 / 24 word mnemonic phrase",
   "i dont have mnemonic phrase": "I don’t have any mnemonic phrase",
-  "what is mnemonic phrase": "What is mnemonic phrase?"
+  "what is mnemonic phrase": "What is mnemonic phrase?",
+  "create new wallet title": "Create Wallet",
+  "create new wallet description": "Please write down and safe your mnemonic phrase\nIt’s the ONLY WAY to restore your account",
+  "create new wallet button": "I have written it down",
+  "create new wallet caption": "We’ll confirm on the next screen"
 }
