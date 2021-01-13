@@ -27,5 +27,7 @@
   "create wallet description": "[zh] create wallet description description",
   "i have mnemonic phrase": "[zh] I have 12 / 24 word mnemonic phrase",
   "i dont have mnemonic phrase": "[zh] I don’t have any mnemonic phrase",
-  "what is mnemonic phrase": "[zh] What is mnemonic phrase?"
+  "what is mnemonic phrase": "[zh] What is mnemonic phrase?",
+  "confirm mnemonic description": "[zh] Please enter your mnemonic phrase in order and\nmake sure your mnemonic is written correctly",
+  "invalid mnemonic": "[zh] Invalid mnemonic phrase"
 }

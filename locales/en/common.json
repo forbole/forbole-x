@@ -31,5 +31,7 @@
   "create new wallet title": "Create Wallet",
   "create new wallet description": "Please write down and safe your mnemonic phrase\nIt’s the ONLY WAY to restore your account",
   "create new wallet button": "I have written it down",
-  "create new wallet caption": "We’ll confirm on the next screen"
+  "create new wallet caption": "We’ll confirm on the next screen",
+  "confirm mnemonic description": "Please enter your mnemonic phrase in order and\nmake sure your mnemonic is written correctly",
+  "invalid mnemonic": "Invalid mnemonic phrase"
 }

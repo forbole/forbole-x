@@ -20,7 +20,7 @@ const MnemonicPhraseInput: React.FC<MnemonicPhraseInputProps> = ({
     if (!mnemonic) {
       return times(24).map(() => '')
     }
-    const arr = mnemonic.split(' ')
+    const arr = mnemonic.split(/\s+/)
     return times(24).map((i) => arr[i] || '')
   }, [mnemonic])
 
@@ -37,24 +37,28 @@ const MnemonicPhraseInput: React.FC<MnemonicPhraseInputProps> = ({
       {times(24).map((i) => (
         <Grid item xs={3}>
           <Box position="relative">
-            <input
-              id={`mnemonic-${i}`}
-              disabled={disabled}
-              value={mnemonicArr[i]}
-              onChange={(e) =>
-                onChange(
-                  mnemonicArr
-                    .map((m, j) => (j === i ? e.target.value.replace(' ', '') : m))
-                    .join(' ')
-                )
-              }
-              onKeyPress={(e) => {
-                if (e.key === ' ') {
-                  moveToNextInput(i)
+            {disabled ? (
+              <Typography className={classes.input}>{mnemonicArr[i]}</Typography>
+            ) : (
+              <input
+                id={`mnemonic-${i}`}
+                value={mnemonicArr[i]}
+                onChange={(e) =>
+                  onChange(
+                    mnemonicArr
+                      .map((m, j) => (j === i ? e.target.value.replace(/^. + [^ ]*$/, '') : m))
+                      .join(' ')
+                      .trim()
+                  )
                 }
-              }}
-              className={classes.input}
-            />
+                onKeyPress={(e) => {
+                  if (e.key === ' ') {
+                    moveToNextInput(i)
+                  }
+                }}
+                className={classes.input}
+              />
+            )}
             <Typography variant="caption" className={classes.label} color="textSecondary">
               {i + 1}
             </Typography>

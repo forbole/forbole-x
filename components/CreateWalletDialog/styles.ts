@@ -10,6 +10,11 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(2),
     right: theme.spacing(2),
   },
+  backButton: {
+    position: 'absolute',
+    top: theme.spacing(2),
+    left: theme.spacing(2),
+  },
   selectionBox: {
     border: `1px solid ${theme.palette.grey[200]}`,
     borderRadius: theme.shape.borderRadius,

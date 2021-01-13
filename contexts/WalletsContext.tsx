@@ -14,7 +14,7 @@ interface WalletsState {
   wallets: Wallet[]
   password: string
   setPassword?: React.Dispatch<React.SetStateAction<string>>
-  addWallet?: (wallet: Wallet) => void
+  addWallet?: (wallet: Omit<Wallet, 'id'>) => void
   deleteWallet?: (id: string) => void
 }
 
@@ -49,9 +49,9 @@ const WalletsProvider: React.FC = ({ children }) => {
     (wallet: Omit<Wallet, 'id'>) => {
       setEncryptedWalletsString(
         CryptoJS.AES.encrypt(
-          JSON.stringify([{ ...wallet, id: Date.now() }, ...wallets]).toString(),
+          JSON.stringify([{ ...wallet, id: Date.now() }, ...wallets]),
           password
-        )
+        ).toString()
       )
     },
     [wallets, password, setEncryptedWalletsString]
@@ -61,9 +61,9 @@ const WalletsProvider: React.FC = ({ children }) => {
     (id: string) => {
       setEncryptedWalletsString(
         CryptoJS.AES.encrypt(
-          JSON.stringify(wallets.filter((w) => w.id !== id)).toString(),
+          JSON.stringify(wallets.filter((w) => w.id !== id)),
           password
-        )
+        ).toString()
       )
     },
     [wallets, password, setEncryptedWalletsString]

@@ -7,9 +7,11 @@ import { lightTheme, darkTheme } from '../misc/theme'
 import GlobalCss from '../misc/globalCss'
 import { SettingsProvider, useSettingsContext } from '../contexts/SettingsContext'
 import { WalletsProvider } from '../contexts/WalletsContext'
+import useTranslation from 'next-translate/useTranslation'
 
 function InnerApp({ Component, pageProps }: AppProps) {
   const { theme } = useSettingsContext()
+  const { lang } = useTranslation()
 
   const muiTheme = React.useMemo(() => {
     if (theme === 'dark') {
@@ -18,6 +20,10 @@ function InnerApp({ Component, pageProps }: AppProps) {
       return createMuiTheme(lightTheme)
     }
   }, [theme])
+
+  React.useEffect(() => {
+    document.cookie = `NEXT_LOCALE=${lang}`
+  }, [lang])
 
   return (
     <ThemeProvider theme={muiTheme}>
