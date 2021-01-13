@@ -45,8 +45,6 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
 
   const confirmMnemonic = React.useCallback(
     (input) => {
-      console.log(input)
-      console.log(mnemonic)
       if (input === mnemonic) {
         addWallet({ mnemonic, name: 'TEST' })
         onClose()

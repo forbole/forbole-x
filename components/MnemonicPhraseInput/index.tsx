@@ -48,6 +48,7 @@ const MnemonicPhraseInput: React.FC<MnemonicPhraseInputProps> = ({
                     mnemonicArr
                       .map((m, j) => (j === i ? e.target.value.replace(/^. + [^ ]*$/, '') : m))
                       .join(' ')
+                      .replace(/\s+/g, ' ')
                       .trim()
                   )
                 }

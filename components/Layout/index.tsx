@@ -5,6 +5,7 @@ import LeftMenu from './LeftMenu'
 import NavBar from './NavBar'
 import GetStarted from '../GetStarted'
 import { useWalletsContext } from '../../contexts/WalletsContext'
+import UnlockPasswordDialog from '../UnlockPasswordDialog'
 
 interface LayoutProps {
   activeItem: string
@@ -22,6 +23,7 @@ const Layout: React.FC<LayoutProps> = ({ activeItem, passwordRequired, children 
       <Box className={classes.main}>
         {passwordRequired && isFirstTimeUser ? <GetStarted /> : children}
       </Box>
+      {passwordRequired && !isFirstTimeUser ? <UnlockPasswordDialog /> : null}
     </>
   )
 }
