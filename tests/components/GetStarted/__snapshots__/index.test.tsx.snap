@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component: GetStarted closes Onboarding Dialog when onClose is called from Dialog 1`] = `
+exports[`component: GetStarted closes OnboardingDialog when onClose is called from Dialog 1`] = `
 Array [
   <div
     className="MuiBox-root MuiBox-root-7 makeStyles-container-1"
@@ -48,7 +48,70 @@ Array [
   </div>,
   <OnboardingDialog
     onClose={[Function]}
+    onSubmit={[Function]}
     open={false}
+  />,
+  <CreateWalletDialog
+    onClose={[Function]}
+    open={false}
+  />,
+]
+`;
+
+exports[`component: GetStarted opens CreateWalletDialog and calls setPassword when onSubmit is called from OnboardingDialog 1`] = `
+Array [
+  <div
+    className="MuiBox-root MuiBox-root-8 makeStyles-container-1"
+  >
+    <svg
+      data-file-name="SvgGet_started_dark"
+    />
+    <h4
+      className="MuiTypography-root makeStyles-marginTop-2 MuiTypography-h4 MuiTypography-alignCenter"
+    >
+      common:get started line1
+    </h4>
+    <h6
+      className="MuiTypography-root makeStyles-marginTop-2 MuiTypography-h6 MuiTypography-alignCenter"
+    >
+      common:get started line2
+    </h6>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-3 MuiButton-containedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:get started button
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+  </div>,
+  <OnboardingDialog
+    onClose={[Function]}
+    onSubmit={[Function]}
+    open={false}
+  />,
+  <CreateWalletDialog
+    onClose={[Function]}
+    open={true}
   />,
 ]
 `;
@@ -101,7 +164,12 @@ Array [
   </div>,
   <OnboardingDialog
     onClose={[Function]}
+    onSubmit={[Function]}
     open={true}
+  />,
+  <CreateWalletDialog
+    onClose={[Function]}
+    open={false}
   />,
 ]
 `;
@@ -154,6 +222,11 @@ Array [
   </div>,
   <OnboardingDialog
     onClose={[Function]}
+    onSubmit={[Function]}
+    open={false}
+  />,
+  <CreateWalletDialog
+    onClose={[Function]}
     open={false}
   />,
 ]
@@ -203,6 +276,11 @@ Array [
     </button>
   </div>,
   <OnboardingDialog
+    onClose={[Function]}
+    onSubmit={[Function]}
+    open={false}
+  />,
+  <CreateWalletDialog
     onClose={[Function]}
     open={false}
   />,

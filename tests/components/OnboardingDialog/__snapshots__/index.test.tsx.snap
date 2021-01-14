@@ -210,38 +210,14 @@ exports[`component: OnboardingDialog renders correctly when submit valid confirm
 <div
   fullWidth={true}
   id="dialog"
-  onClose={
-    [MockFunction] {
-      "calls": Array [
-        Array [],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
-    }
-  }
+  onClose={[MockFunction]}
   open={true}
 >
   <button
     className="MuiButtonBase-root MuiIconButton-root makeStyles-closeButton-3"
     disabled={false}
     onBlur={[Function]}
-    onClick={
-      [MockFunction] {
-        "calls": Array [
-          Array [],
-        ],
-        "results": Array [
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-        ],
-      }
-    }
+    onClick={[MockFunction]}
     onDragLeave={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}

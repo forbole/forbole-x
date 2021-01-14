@@ -2,16 +2,25 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import GetStarted from '../../../components/GetStarted'
 
-const mockThemeContext = {
+const mockSettingsContext = {
   theme: 'light',
   setTheme: jest.fn(),
 }
 
+const mockWalletsContext = {
+  setPassword: jest.fn(),
+}
+
 jest.mock('../../../contexts/SettingsContext', () => ({
-  useSettingsContext: () => mockThemeContext,
+  useSettingsContext: () => mockSettingsContext,
+}))
+
+jest.mock('../../../contexts/WalletsContext', () => ({
+  useWalletsContext: () => mockWalletsContext,
 }))
 
 jest.mock('../../../components/OnboardingDialog', () => 'OnboardingDialog')
+jest.mock('../../../components/CreateWalletDialog', () => 'CreateWalletDialog')
 
 describe('component: GetStarted', () => {
   it('renders light theme correctly', () => {
@@ -20,7 +29,7 @@ describe('component: GetStarted', () => {
     expect(tree).toMatchSnapshot()
   })
   it('renders dark theme correctly', () => {
-    mockThemeContext.theme = 'dark'
+    mockSettingsContext.theme = 'dark'
     const component = renderer.create(<GetStarted />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -33,7 +42,7 @@ describe('component: GetStarted', () => {
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
-  it('closes Onboarding Dialog when onClose is called from Dialog', () => {
+  it('closes OnboardingDialog when onClose is called from Dialog', () => {
     const component = renderer.create(<GetStarted />)
     renderer.act(() => {
       component.root.findByType('button').props.onClick()
@@ -41,6 +50,18 @@ describe('component: GetStarted', () => {
     renderer.act(() => {
       component.root.findByProps({ open: true }).props.onClose()
     })
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+  it('opens CreateWalletDialog and calls setPassword when onSubmit is called from OnboardingDialog', () => {
+    const component = renderer.create(<GetStarted />)
+    renderer.act(() => {
+      component.root.findByType('button').props.onClick()
+    })
+    renderer.act(() => {
+      component.root.findByProps({ open: true }).props.onSubmit('123123')
+    })
+    expect(mockWalletsContext.setPassword).toBeCalledWith('123123')
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

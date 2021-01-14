@@ -3,7 +3,12 @@
 exports[`page: Home renders correctly 1`] = `
 <Layout
   activeItem="/"
+  passwordRequired={true}
 >
-  <GetStarted />
+  <p
+    className="MuiTypography-root MuiTypography-body1"
+  >
+    Overview
+  </p>
 </Layout>
 `;

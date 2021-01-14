@@ -34,13 +34,9 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
   const [error, setError] = React.useState('')
 
   const createWallet = React.useCallback(async () => {
-    try {
-      const wallet = await Secp256k1HdWallet.generate(24)
-      setMnemonic(wallet.mnemonic)
-      setStage('create wallet')
-    } catch (err) {
-      console.log(err)
-    }
+    const wallet = await Secp256k1HdWallet.generate(24)
+    setMnemonic(wallet.mnemonic)
+    setStage('create wallet')
   }, [setMnemonic])
 
   const confirmMnemonic = React.useCallback(
@@ -104,7 +100,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
         }
     }
   }, [stage, t])
-  // 'quide check kick present flash casual history auto agree help actor swarm battle decline canyon magnet novel curve dad guild web actor weekend uncover'
+
   return (
     <Dialog fullWidth open={open} onClose={onClose}>
       {content.prevStage ? (
