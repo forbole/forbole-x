@@ -15,7 +15,7 @@ interface WalletsState {
   password: string
   setPassword?: React.Dispatch<React.SetStateAction<string>>
   addWallet?: (wallet: Omit<Wallet, 'id'>) => void
-  deleteWallet?: (id: string) => void
+  deleteWallet?: (id: number) => void
 }
 
 const initialState: WalletsState = {
@@ -40,7 +40,6 @@ const WalletsProvider: React.FC = ({ children }) => {
       }
       return []
     } catch (err) {
-      console.log(err)
       return []
     }
   }, [password, encryptedWalletsString])
@@ -58,7 +57,7 @@ const WalletsProvider: React.FC = ({ children }) => {
   )
 
   const deleteWallet = React.useCallback(
-    (id: string) => {
+    (id: number) => {
       setEncryptedWalletsString(
         CryptoJS.AES.encrypt(
           JSON.stringify(wallets.filter((w) => w.id !== id)),

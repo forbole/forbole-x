@@ -2,13 +2,53 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import Layout from '../../../components/Layout'
 
+const mockWalletsContext = {
+  isFirstTimeUser: true,
+}
+
+jest.mock('../../../contexts/WalletsContext', () => ({
+  useWalletsContext: () => mockWalletsContext,
+}))
 jest.mock('../../../components/Layout/NavBar', () => 'NavBar')
 jest.mock('../../../components/Layout/LeftMenu', () => 'LeftMenu')
+jest.mock('../../../components/GetStarted', () => 'GetStarted')
+jest.mock('../../../components/UnlockPasswordDialog', () => 'UnlockPasswordDialog')
 
 describe('component: Layout', () => {
-  it('renders correctly', () => {
+  it('renders default state for first time user correctly', () => {
+    mockWalletsContext.isFirstTimeUser = true
     const component = renderer.create(
       <Layout activeItem="">
+        <div />
+      </Layout>
+    )
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+  it('renders passwordRequired state for first time user correctly', () => {
+    mockWalletsContext.isFirstTimeUser = true
+    const component = renderer.create(
+      <Layout activeItem="" passwordRequired>
+        <div />
+      </Layout>
+    )
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+  it('renders default state for non first time user correctly', () => {
+    mockWalletsContext.isFirstTimeUser = false
+    const component = renderer.create(
+      <Layout activeItem="">
+        <div />
+      </Layout>
+    )
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+  it('renders passwordRequired state for non first time user correctly', () => {
+    mockWalletsContext.isFirstTimeUser = false
+    const component = renderer.create(
+      <Layout activeItem="" passwordRequired>
         <div />
       </Layout>
     )

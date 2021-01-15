@@ -13,11 +13,10 @@ import useStyles from './styles'
 
 interface CreateWalletProps {
   mnemonic: string
-  setMnemonic(mnemonic: string): void
   onConfirm(): void
 }
 
-const CreateWallet: React.FC<CreateWalletProps> = ({ mnemonic, setMnemonic, onConfirm }) => {
+const CreateWallet: React.FC<CreateWalletProps> = ({ mnemonic, onConfirm }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
 
@@ -25,7 +24,7 @@ const CreateWallet: React.FC<CreateWalletProps> = ({ mnemonic, setMnemonic, onCo
     <>
       <DialogContent className={classes.dialogContent}>
         <DialogContentText>{t('create new wallet description')}</DialogContentText>
-        <MnemonicPhraseInput disabled mnemonic={mnemonic} onChange={setMnemonic} />
+        <MnemonicPhraseInput disabled mnemonic={mnemonic} />
         <Box mt={6} />
       </DialogContent>
       <DialogActions>

@@ -32,7 +32,7 @@ jest.mock('@cosmjs/launchpad', () => ({
   },
 }))
 
-describe('component: GetStarted', () => {
+describe('component: CreateWalletDialog', () => {
   it('renders open state correctly', () => {
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
     const tree = component.toJSON()

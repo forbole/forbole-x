@@ -65,6 +65,20 @@ describe('component: GetStarted', () => {
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
+  it('closes CreateWalletDialog when onClose is called from CreateWalletDialog', () => {
+    const component = renderer.create(<GetStarted />)
+    renderer.act(() => {
+      component.root.findByType('button').props.onClick()
+    })
+    renderer.act(() => {
+      component.root.findByProps({ open: true }).props.onSubmit('123123')
+    })
+    renderer.act(() => {
+      component.root.findByProps({ open: true }).props.onClose()
+    })
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
 })
 
 afterEach(() => {

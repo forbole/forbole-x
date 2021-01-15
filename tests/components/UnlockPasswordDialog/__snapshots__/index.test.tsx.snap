@@ -1,0 +1,262 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component: UnlockPasswordDialog renders correctly 1`] = `
+<div
+  fullWidth={true}
+  id="dialog"
+  open={true}
+>
+  <div
+    className="MuiDialogTitle-root"
+  >
+    <h2
+      className="MuiTypography-root MuiTypography-h6"
+    >
+      common:unlock password title
+    </h2>
+  </div>
+  <div
+    className="MuiDialogContent-root"
+  >
+    <p
+      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    >
+      common:unlock password description
+    </p>
+    <div
+      error={false}
+      helperText=""
+      id="PasswordInput"
+      onChange={[Function]}
+      placeholder="common:password"
+      value=""
+    />
+  </div>
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-2 MuiButton-containedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:next
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component: UnlockPasswordDialog renders correctly when password is changed 1`] = `
+<div
+  fullWidth={true}
+  id="dialog"
+  open={true}
+>
+  <div
+    className="MuiDialogTitle-root"
+  >
+    <h2
+      className="MuiTypography-root MuiTypography-h6"
+    >
+      common:unlock password title
+    </h2>
+  </div>
+  <div
+    className="MuiDialogContent-root"
+  >
+    <p
+      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    >
+      common:unlock password description
+    </p>
+    <div
+      error={false}
+      helperText=""
+      id="PasswordInput"
+      onChange={[Function]}
+      placeholder="common:password"
+      value="password"
+    />
+  </div>
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-2 MuiButton-containedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:next
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component: UnlockPasswordDialog renders non empty password correctly 1`] = `
+<div
+  fullWidth={true}
+  id="dialog"
+  open={true}
+>
+  <div
+    className="MuiDialogTitle-root"
+  >
+    <h2
+      className="MuiTypography-root MuiTypography-h6"
+    >
+      common:unlock password title
+    </h2>
+  </div>
+  <div
+    className="MuiDialogContent-root"
+  >
+    <p
+      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    >
+      common:unlock password description
+    </p>
+    <div
+      error={true}
+      helperText="common:invalid password"
+      id="PasswordInput"
+      onChange={[Function]}
+      placeholder="common:password"
+      value=""
+    />
+  </div>
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-2 MuiButton-containedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:next
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component: UnlockPasswordDialog renders non empty wallets correctly 1`] = `
+<div
+  fullWidth={true}
+  id="dialog"
+  open={false}
+>
+  <div
+    className="MuiDialogTitle-root"
+  >
+    <h2
+      className="MuiTypography-root MuiTypography-h6"
+    >
+      common:unlock password title
+    </h2>
+  </div>
+  <div
+    className="MuiDialogContent-root"
+  >
+    <p
+      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    >
+      common:unlock password description
+    </p>
+    <div
+      error={false}
+      helperText=""
+      id="PasswordInput"
+      onChange={[Function]}
+      placeholder="common:password"
+      value=""
+    />
+  </div>
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-2 MuiButton-containedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:next
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+</div>
+`;

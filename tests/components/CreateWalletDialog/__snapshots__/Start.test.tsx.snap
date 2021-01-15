@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component: CreateWalletDialog - Start renders correctly 1`] = `
+Array [
+  <div
+    className="MuiDialogContent-root makeStyles-dialogContent-5"
+  >
+    <p
+      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    >
+      common:create wallet description
+    </p>
+    <div
+      className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-5"
+    >
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6"
+      >
+        <button
+          className="MuiButtonBase-root makeStyles-selectionBox-4"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[MockFunction]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+          >
+            common:i have mnemonic phrase
+          </p>
+        </button>
+      </div>
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6"
+      >
+        <button
+          className="MuiButtonBase-root makeStyles-selectionBox-4"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[MockFunction]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+          >
+            common:i dont have mnemonic phrase
+          </p>
+        </button>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-button-1 MuiButton-textSecondary"
+      disabled={false}
+      onBlur={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:what is mnemonic phrase
+      </span>
+    </button>
+  </div>,
+]
+`;

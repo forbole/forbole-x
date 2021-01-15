@@ -3,7 +3,6 @@ import renderer from 'react-test-renderer'
 import Home from '../../pages/index'
 
 jest.mock('../../components/Layout', () => 'Layout')
-jest.mock('../../components/GetStarted', () => 'GetStarted')
 
 describe('page: Home', () => {
   it('renders correctly', () => {

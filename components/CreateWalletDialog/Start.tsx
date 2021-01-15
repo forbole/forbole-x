@@ -42,7 +42,7 @@ const Start: React.FC<StartProps> = ({ onImportWalletClick, onCreateWalletClick 
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button className={classes.button} color="secondary" onClick={() => null}>
+        <Button className={classes.button} color="secondary">
           {t('what is mnemonic phrase')}
         </Button>
       </DialogActions>

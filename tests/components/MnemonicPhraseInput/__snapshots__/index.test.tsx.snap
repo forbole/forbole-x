@@ -1,0 +1,1877 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component: MnemonicPhraseInput renders default state correctly 1`] = `
+<div
+  className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-3"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-0"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="guide"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        1
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-4"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-1"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="check"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        2
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-5"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-2"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="kick"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        3
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-6"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-3"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="present"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        4
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-7"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-4"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="flash"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        5
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-8"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-5"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="casual"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        6
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-9"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-6"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="history"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        7
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-10"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-7"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="auto"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        8
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-11"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-8"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="agree"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        9
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-12"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-9"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="help"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        10
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-13"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-10"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="actor"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        11
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-14"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-11"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="swarm"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        12
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-15"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-12"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="battle"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        13
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-16"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-13"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="decline"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        14
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-17"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-14"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="canyon"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        15
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-18"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-15"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="magnet"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        16
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-19"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-16"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="novel"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        17
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-20"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-17"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="curve"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        18
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-21"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-18"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="dad"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        19
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-22"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-19"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="guilt"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        20
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-23"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-20"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="web"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        21
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-24"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-21"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="actor"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        22
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-25"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-22"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="weekend"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        23
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-26"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-23"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value="uncover"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        24
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
+<div
+  className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-51"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        guide
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        1
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-52"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        check
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        2
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-53"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        kick
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        3
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-54"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        present
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        4
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-55"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        flash
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        5
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-56"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        casual
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        6
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-57"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        history
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        7
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-58"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        auto
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        8
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-59"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        agree
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        9
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-60"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        help
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        10
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-61"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        actor
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        11
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-62"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        swarm
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        12
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-63"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        battle
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        13
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-64"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        decline
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        14
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-65"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        canyon
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        15
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-66"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        magnet
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        16
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-67"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        novel
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        17
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-68"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        curve
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        18
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-69"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        dad
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        19
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-70"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        guilt
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        20
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-71"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        web
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        21
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-72"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        actor
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        22
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-73"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        weekend
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        23
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-74"
+    >
+      <p
+        className="MuiTypography-root makeStyles-input-1 MuiTypography-body1"
+      >
+        uncover
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        24
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`component: MnemonicPhraseInput renders empty mnemonic state correctly 1`] = `
+<div
+  className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-27"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-0"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        1
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-28"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-1"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        2
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-29"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-2"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        3
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-30"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-3"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        4
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-31"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-4"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        5
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-32"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-5"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        6
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-33"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-6"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        7
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-34"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-7"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        8
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-35"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-8"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        9
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-36"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-9"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        10
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-37"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-10"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        11
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-38"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-11"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        12
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-39"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-12"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        13
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-40"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-13"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        14
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-41"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-14"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        15
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-42"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-15"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        16
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-43"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-16"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        17
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-44"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-17"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        18
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-45"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-18"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        19
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-46"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-19"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        20
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-47"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-20"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        21
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-48"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-21"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        22
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-49"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-22"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        23
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-50"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-23"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        value=""
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        24
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`component: MnemonicPhraseInput renders no onChange state correctly 1`] = `
+<div
+  className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-75"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-0"
+        onKeyPress={[Function]}
+        value="guide"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        1
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-76"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-1"
+        onKeyPress={[Function]}
+        value="check"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        2
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-77"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-2"
+        onKeyPress={[Function]}
+        value="kick"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        3
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-78"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-3"
+        onKeyPress={[Function]}
+        value="present"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        4
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-79"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-4"
+        onKeyPress={[Function]}
+        value="flash"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        5
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-80"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-5"
+        onKeyPress={[Function]}
+        value="casual"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        6
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-81"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-6"
+        onKeyPress={[Function]}
+        value="history"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        7
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-82"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-7"
+        onKeyPress={[Function]}
+        value="auto"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        8
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-83"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-8"
+        onKeyPress={[Function]}
+        value="agree"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        9
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-84"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-9"
+        onKeyPress={[Function]}
+        value="help"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        10
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-85"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-10"
+        onKeyPress={[Function]}
+        value="actor"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        11
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-86"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-11"
+        onKeyPress={[Function]}
+        value="swarm"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        12
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-87"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-12"
+        onKeyPress={[Function]}
+        value="battle"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        13
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-88"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-13"
+        onKeyPress={[Function]}
+        value="decline"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        14
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-89"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-14"
+        onKeyPress={[Function]}
+        value="canyon"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        15
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-90"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-15"
+        onKeyPress={[Function]}
+        value="magnet"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        16
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-91"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-16"
+        onKeyPress={[Function]}
+        value="novel"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        17
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-92"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-17"
+        onKeyPress={[Function]}
+        value="curve"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        18
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-93"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-18"
+        onKeyPress={[Function]}
+        value="dad"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        19
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-94"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-19"
+        onKeyPress={[Function]}
+        value="guilt"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        20
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-95"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-20"
+        onKeyPress={[Function]}
+        value="web"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        21
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-96"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-21"
+        onKeyPress={[Function]}
+        value="actor"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        22
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-97"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-22"
+        onKeyPress={[Function]}
+        value="weekend"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        23
+      </span>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-98"
+    >
+      <input
+        className="makeStyles-input-1"
+        id="mnemonic-23"
+        onKeyPress={[Function]}
+        value="uncover"
+      />
+      <span
+        className="MuiTypography-root makeStyles-label-2 MuiTypography-caption MuiTypography-colorTextSecondary"
+      >
+        24
+      </span>
+    </div>
+  </div>
+</div>
+`;

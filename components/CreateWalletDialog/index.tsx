@@ -53,37 +53,23 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
-      case 'start':
-        return {
-          title: t('create wallet title'),
-          content: (
-            <Start
-              onCreateWalletClick={createWallet}
-              onImportWalletClick={() => setStage('import wallets')}
-            />
-          ),
-        }
       case 'import wallets':
         return {
           title: '',
           content: <></>,
           prevStage: 'start',
         }
-      case 'import mnemonic':
-        return {
-          title: '',
-          content: <></>,
-          prevStage: 'start',
-        }
+      // case 'import mnemonic':
+      //   return {
+      //     title: '',
+      //     content: <></>,
+      //     prevStage: 'start',
+      //   }
       case 'create wallet':
         return {
           title: t('create new wallet title'),
           content: (
-            <CreateWallet
-              setMnemonic={setMnemonic}
-              mnemonic={mnemonic}
-              onConfirm={() => setStage('confirm mnemonic')}
-            />
+            <CreateWallet mnemonic={mnemonic} onConfirm={() => setStage('confirm mnemonic')} />
           ),
           prevStage: 'start',
         }
@@ -93,10 +79,16 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
           content: <ConfirmMnemonic onConfirm={confirmMnemonic} error={error} />,
           prevStage: 'create wallet',
         }
+      case 'start':
       default:
         return {
-          title: '',
-          content: <></>,
+          title: t('create wallet title'),
+          content: (
+            <Start
+              onCreateWalletClick={createWallet}
+              onImportWalletClick={() => setStage('import wallets')}
+            />
+          ),
         }
     }
   }, [stage, t])

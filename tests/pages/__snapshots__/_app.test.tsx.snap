@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`page: _app renders dark theme correctly 1`] = `
+<SettingsProvider>
+  <ThemeProvider>
+    <GlobalCss />
+    <div
+      id="component"
+    />
+  </ThemeProvider>
+</SettingsProvider>
+`;
+
+exports[`page: _app renders light theme correctly 1`] = `
+<SettingsProvider>
+  <ThemeProvider>
+    <GlobalCss />
+    <div
+      id="component"
+    />
+  </ThemeProvider>
+</SettingsProvider>
+`;

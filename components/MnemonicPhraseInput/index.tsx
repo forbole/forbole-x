@@ -5,7 +5,7 @@ import useStyles from './styles'
 
 interface MnemonicPhraseInputProps {
   mnemonic: string
-  onChange(mnemonic: string): void
+  onChange?(mnemonic: string): void
   disabled?: boolean
 }
 
@@ -17,9 +17,6 @@ const MnemonicPhraseInput: React.FC<MnemonicPhraseInputProps> = ({
   const classes = useStyles()
 
   const mnemonicArr = React.useMemo(() => {
-    if (!mnemonic) {
-      return times(24).map(() => '')
-    }
     const arr = mnemonic.split(/\s+/)
     return times(24).map((i) => arr[i] || '')
   }, [mnemonic])
@@ -35,7 +32,7 @@ const MnemonicPhraseInput: React.FC<MnemonicPhraseInputProps> = ({
   return (
     <Grid container spacing={2}>
       {times(24).map((i) => (
-        <Grid item xs={3}>
+        <Grid item xs={3} key={`mnemonic-${i}`}>
           <Box position="relative">
             {disabled ? (
               <Typography className={classes.input}>{mnemonicArr[i]}</Typography>
@@ -43,14 +40,19 @@ const MnemonicPhraseInput: React.FC<MnemonicPhraseInputProps> = ({
               <input
                 id={`mnemonic-${i}`}
                 value={mnemonicArr[i]}
-                onChange={(e) =>
-                  onChange(
-                    mnemonicArr
-                      .map((m, j) => (j === i ? e.target.value.replace(/^. + [^ ]*$/, '') : m))
-                      .join(' ')
-                      .replace(/\s+/g, ' ')
-                      .trim()
-                  )
+                onChange={
+                  onChange
+                    ? (e) =>
+                        onChange(
+                          mnemonicArr
+                            .map((m, j) =>
+                              j === i ? e.target.value.replace(/^. + [^ ]*$/, '') : m
+                            )
+                            .join(' ')
+                            .replace(/\s+/g, ' ')
+                            .trim()
+                        )
+                    : undefined
                 }
                 onKeyPress={(e) => {
                   if (e.key === ' ') {
