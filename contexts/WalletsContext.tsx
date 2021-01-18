@@ -2,15 +2,9 @@ import React from 'react'
 import CryptoJS from 'crypto-js'
 import usePersistedState from '../misc/usePersistedState'
 
-interface Wallet {
-  id: string
-  name: string
-  mnemonic?: string
-  privateKey?: string
-}
-
 interface WalletsState {
   isFirstTimeUser: boolean
+  isUnlocked: boolean
   wallets: Wallet[]
   password: string
   setPassword?: React.Dispatch<React.SetStateAction<string>>
@@ -20,6 +14,7 @@ interface WalletsState {
 
 const initialState: WalletsState = {
   isFirstTimeUser: false,
+  isUnlocked: false,
   wallets: [],
   password: '',
 }
@@ -72,6 +67,7 @@ const WalletsProvider: React.FC = ({ children }) => {
     <WalletsContext.Provider
       value={{
         isFirstTimeUser: !encryptedWalletsString,
+        isUnlocked: !!wallets.length,
         wallets,
         password,
         setPassword,

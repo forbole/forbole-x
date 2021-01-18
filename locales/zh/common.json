@@ -31,5 +31,11 @@
   "confirm mnemonic description": "[zh] Please enter your mnemonic phrase in order and\nmake sure your mnemonic is written correctly",
   "invalid mnemonic": "[zh] Invalid mnemonic phrase",
   "unlock password title": "[zh] Unlock Password",
-  "unlock password description": "[zh] Enter password to unlock your application"
+  "unlock password description": "[zh] Enter password to unlock your application",
+  "incorrect password": "[zh] Incorrect password",
+  "day": "[zh] Day",
+  "week": "[zh] Week",
+  "month": "[zh] Month",
+  "asset distribution": "[zh] Asset Distribution",
+  "by validators": "[zh] by validators"
 }

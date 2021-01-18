@@ -15,13 +15,14 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ activeItem, passwordRequired, children }) => {
   const classes = useStyles()
-  const { isFirstTimeUser } = useWalletsContext()
+  const { isFirstTimeUser, isUnlocked } = useWalletsContext()
   return (
     <>
       <NavBar />
       <LeftMenu activeItem={activeItem} />
       <Box className={classes.main}>
-        {passwordRequired && isFirstTimeUser ? <GetStarted /> : children}
+        {passwordRequired && isFirstTimeUser ? <GetStarted /> : null}
+        {!passwordRequired || isUnlocked ? children : null}
       </Box>
       {passwordRequired && !isFirstTimeUser ? <UnlockPasswordDialog /> : null}
     </>

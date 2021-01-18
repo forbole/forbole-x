@@ -35,5 +35,11 @@
   "confirm mnemonic description": "Please enter your mnemonic phrase in order and\nmake sure your mnemonic is written correctly",
   "invalid mnemonic": "Invalid mnemonic phrase",
   "unlock password title": "Unlock Password",
-  "unlock password description": "Enter password to unlock your application"
+  "unlock password description": "Enter password to unlock your application",
+  "incorrect password": "Incorrect password",
+  "day": "Day",
+  "week": "Week",
+  "month": "Month",
+  "asset distribution": "Asset Distribution",
+  "by validators": "by validators"
 }

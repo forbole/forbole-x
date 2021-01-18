@@ -1,7 +1,7 @@
 import { Box, IconButton } from '@material-ui/core'
 import React from 'react'
 import useStyles from './styles'
-import NotiIcon from '../../assets/images/icons/icon_notification_32.svg'
+import NotiIcon from '../../assets/images/icons/icon_notification_71.svg'
 import SettingsIcon from '../../assets/images/icons/icon_settings.svg'
 import CurrencyMenuButton from './CurrencyMenuButton'
 import LangMenuButton from './LangMenuButton'

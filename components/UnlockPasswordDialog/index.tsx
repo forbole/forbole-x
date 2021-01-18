@@ -28,7 +28,7 @@ const UnlockPasswordDialog: React.FC<UnlockPasswordDialogProps> = () => {
 
   React.useEffect(() => {
     if (unlockPassword && !wallets.length) {
-      setError(t('invalid password'))
+      setError(t('incorrect password'))
       setPassword('')
       setUnlockPassword('')
     }

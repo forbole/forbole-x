@@ -14,10 +14,12 @@
     "@material-ui/icons": "^4.11.2",
     "big-dipper-default-ui": "git+https://github.com/forbole/big-dipper-default-ui.git",
     "crypto-js": "^4.0.0",
+    "date-fns": "^2.16.1",
     "next": "10.0.4",
     "next-translate": "^1.0.1",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "recharts": "^2.0.3"
   },
   "devDependencies": {
     "@svgr/webpack": "^5.5.0",
