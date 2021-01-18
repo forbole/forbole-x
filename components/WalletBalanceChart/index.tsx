@@ -47,8 +47,9 @@ const WalletBalanceChart: React.FC<WalletBalanceChartProps> = () => {
       />
       <Box mt={1} mb={2} display="flex" justifyContent="space-between" alignItems="flex-end">
         <Box>
-          <Typography variant="h2" gutterBottom>
-            {new Intl.NumberFormat(lang, { style: 'currency', currency }).format(balance)}
+          <Typography variant="h3" gutterBottom>
+            {new Intl.NumberFormat(lang, { style: 'currency', currency }).format(balance)}{' '}
+            {currency}
           </Typography>
           <Typography variant="h6">
             {new Intl.NumberFormat(lang, { signDisplay: 'never' }).format(btcBalance)} {'฿'}
@@ -66,38 +67,40 @@ const WalletBalanceChart: React.FC<WalletBalanceChartProps> = () => {
           </Button>
         </Box>
       </Box>
-      <ResponsiveContainer width="100%" aspect={2}>
-        <LineChart data={data}>
-          <CartesianGrid stroke={theme.palette.grey[100]} />
-          <XAxis
-            dataKey="time"
-            tickFormatter={(v) => format(v, 'd MMM')}
-            type="number"
-            ticks={new Array(7).fill(null).map((_a, i) => now - (6 - i) * 24 * 3600000)}
-            domain={['dataMin', 'dataMax']}
-            axisLine={false}
-            tickLine={false}
-          />
-          <YAxis
-            axisLine={false}
-            tickLine={false}
-            tickFormatter={(v) => new Intl.NumberFormat(lang, { signDisplay: 'never' }).format(v)}
-          />
-          <Tooltip
-            formatter={(v, n) => [
-              new Intl.NumberFormat(lang, { style: 'currency', currency }).format(v),
-            ]}
-            labelFormatter={(v) => format(v, 'd MMM h:ma')}
-          />
-          <Line
-            type="monotone"
-            dataKey="balance"
-            stroke={theme.palette.success.main}
-            dot={false}
-            strokeWidth={3}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      <Box height={theme.spacing(31)}>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={data}>
+            <CartesianGrid stroke={theme.palette.grey[100]} />
+            <XAxis
+              dataKey="time"
+              tickFormatter={(v) => format(v, 'd MMM')}
+              type="number"
+              ticks={new Array(7).fill(null).map((_a, i) => now - (6 - i) * 24 * 3600000)}
+              domain={['dataMin', 'dataMax']}
+              axisLine={false}
+              tickLine={false}
+            />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tickFormatter={(v) => new Intl.NumberFormat(lang, { signDisplay: 'never' }).format(v)}
+            />
+            <Tooltip
+              formatter={(v, n) => [
+                new Intl.NumberFormat(lang, { style: 'currency', currency }).format(v),
+              ]}
+              labelFormatter={(v) => format(v, 'd MMM h:ma')}
+            />
+            <Line
+              type="monotone"
+              dataKey="balance"
+              stroke={theme.palette.success.main}
+              dot={false}
+              strokeWidth={3}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </Box>
     </Card>
   )
 }
