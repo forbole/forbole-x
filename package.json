@@ -12,7 +12,6 @@
     "@cosmjs/launchpad": "^0.23.2",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
-    "big-dipper-default-ui": "git+https://github.com/forbole/big-dipper-default-ui.git",
     "crypto-js": "^4.0.0",
     "date-fns": "^2.16.1",
     "next": "10.0.4",
