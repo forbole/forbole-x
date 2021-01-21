@@ -1,15 +1,15 @@
+import isEqual from 'lodash/isEqual'
 import React from 'react'
-import CryptoJS from 'crypto-js'
-import usePersistedState from '../misc/usePersistedState'
+import sendMsgToChromeExt from '../misc/sendMsgToChromeExt'
 
 interface WalletsState {
   isFirstTimeUser: boolean
   isUnlocked: boolean
   wallets: Wallet[]
   password: string
-  setPassword?: React.Dispatch<React.SetStateAction<string>>
-  addWallet?: (wallet: Omit<Wallet, 'id'>) => void
-  deleteWallet?: (id: number) => void
+  unlockWallets?: (password: string) => void
+  addWallet?: (wallet: CreateWalletParams) => void
+  deleteWallet?: (pubkey: Uint8Array) => void
 }
 
 const initialState: WalletsState = {
@@ -22,55 +22,61 @@ const initialState: WalletsState = {
 const WalletsContext = React.createContext<WalletsState>(initialState)
 
 const WalletsProvider: React.FC = ({ children }) => {
-  const [encryptedWalletsString, setEncryptedWalletsString] = usePersistedState('wallets', '')
+  const [wallets, setWallets] = React.useState<Wallet[]>([])
+  const [isFirstTimeUser, setIsFirstTimeUser] = React.useState(false)
   const [password, setPassword] = React.useState('')
-  const wallets = React.useMemo(() => {
-    try {
-      if (password && encryptedWalletsString) {
-        const decryptedWalletsString = CryptoJS.AES.decrypt(
-          encryptedWalletsString,
-          password
-        ).toString(CryptoJS.enc.Utf8)
-        return JSON.parse(decryptedWalletsString)
+
+  const checkIsFirstTimeUser = React.useCallback(async () => {
+    const response = await sendMsgToChromeExt({ event: 'ping' })
+    setIsFirstTimeUser(response.isFirstTimeUser)
+  }, [])
+
+  const unlockWallets = React.useCallback(
+    async (pw: string) => {
+      if (!isFirstTimeUser) {
+        const response = await sendMsgToChromeExt({ event: 'getWallets', data: { password: pw } })
+        setWallets(response.wallets)
       }
-      return []
-    } catch (err) {
-      return []
-    }
-  }, [password, encryptedWalletsString])
+      setPassword(pw)
+    },
+    [isFirstTimeUser]
+  )
 
   const addWallet = React.useCallback(
-    (wallet: Omit<Wallet, 'id'>) => {
-      setEncryptedWalletsString(
-        CryptoJS.AES.encrypt(
-          JSON.stringify([{ ...wallet, id: Date.now() }, ...wallets]),
-          password
-        ).toString()
-      )
+    async (wallet: CreateWalletParams) => {
+      await sendMsgToChromeExt({
+        event: 'addWallet',
+        data: { wallet, password },
+      })
+      setIsFirstTimeUser(false)
+      setWallets((ws) => [{ name: wallet.name, pubkey: wallet.pubkey }, ...ws])
     },
-    [wallets, password, setEncryptedWalletsString]
+    [password]
   )
 
   const deleteWallet = React.useCallback(
-    (id: number) => {
-      setEncryptedWalletsString(
-        CryptoJS.AES.encrypt(
-          JSON.stringify(wallets.filter((w) => w.id !== id)),
-          password
-        ).toString()
-      )
+    async (pubkey: Uint8Array) => {
+      await sendMsgToChromeExt({
+        event: 'deleteWallet',
+        data: { pubkey },
+      })
+      setWallets((ws) => ws.filter((w) => !isEqual(w.pubkey, pubkey)))
     },
-    [wallets, password, setEncryptedWalletsString]
+    [wallets, password]
   )
+
+  React.useEffect(() => {
+    checkIsFirstTimeUser()
+  }, [])
 
   return (
     <WalletsContext.Provider
       value={{
-        isFirstTimeUser: !encryptedWalletsString,
+        isFirstTimeUser,
         isUnlocked: !!wallets.length,
         wallets,
         password,
-        setPassword,
+        unlockWallets,
         addWallet,
         deleteWallet,
       }}

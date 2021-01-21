@@ -18,21 +18,18 @@ const UnlockPasswordDialog: React.FC<UnlockPasswordDialogProps> = () => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const [password, setPassword] = React.useState('')
-  const { setPassword: setUnlockPassword, password: unlockPassword, wallets } = useWalletsContext()
+  const { unlockWallets, wallets } = useWalletsContext()
   const [error, setError] = React.useState('')
 
-  const onButtonClick = React.useCallback(() => {
-    setError('')
-    setUnlockPassword(password)
-  }, [password, setError, setUnlockPassword])
-
-  React.useEffect(() => {
-    if (unlockPassword && !wallets.length) {
-      setError(t('incorrect password'))
+  const onButtonClick = React.useCallback(async () => {
+    try {
+      setError('')
+      await unlockWallets(password)
+    } catch (err) {
+      setError(t(err.message))
       setPassword('')
-      setUnlockPassword('')
     }
-  }, [unlockPassword, wallets, setError, setPassword, setUnlockPassword])
+  }, [password, setError, setPassword])
 
   return (
     <Dialog fullWidth open={!wallets.length}>

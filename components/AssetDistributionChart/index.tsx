@@ -55,7 +55,7 @@ const AssetDistributionChart: React.FC<AssetDistributionChartProps> = () => {
         <Typography variant="h1">{t('asset distribution')}</Typography>
         <SectoredByButton sectoredBy={sectoredBy} onChange={setSectoredBy} />
       </Box>
-      <Box position="relative" height={theme.spacing(33.5)} mx="15%">
+      <Box position="relative" height={theme.spacing(33.5)} maxWidth={theme.spacing(64)} mx="auto">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             {data.map((d, i) => (

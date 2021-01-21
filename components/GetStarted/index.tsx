@@ -14,7 +14,7 @@ interface GetStartedProps {}
 const GetStarted: React.FC<GetStartedProps> = () => {
   const classes = useStyles()
   const { theme } = useSettingsContext()
-  const { setPassword } = useWalletsContext()
+  const { unlockWallets } = useWalletsContext()
   const { t } = useTranslation('common')
   const [isOnboardingDialogOpen, setIsOnboardingDialogOpen] = React.useState(false)
   const [isCreateWalletDialogOpen, setIsCreateWalletDialogOpen] = React.useState(false)
@@ -41,7 +41,7 @@ const GetStarted: React.FC<GetStartedProps> = () => {
         open={isOnboardingDialogOpen}
         onClose={() => setIsOnboardingDialogOpen(false)}
         onSubmit={(password) => {
-          setPassword(password)
+          unlockWallets(password)
           setIsOnboardingDialogOpen(false)
           setIsCreateWalletDialogOpen(true)
         }}
