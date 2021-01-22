@@ -4,6 +4,7 @@ import Layout from '../components/Layout'
 import WalletBalanceChart from '../components/WalletBalanceChart'
 import AssetDistributionChart from '../components/AssetDistributionChart'
 import useTranslation from 'next-translate/useTranslation'
+import AccountCard from '../components/AccountCard'
 
 export default function Home() {
   const { t } = useTranslation('common')
@@ -22,6 +23,17 @@ export default function Home() {
           {t('accounts')}
         </Typography>
       </Box>
+      <Grid container spacing={3}>
+        <Grid item xl={4} lg={6}>
+          <AccountCard />
+        </Grid>
+        <Grid item xl={4} lg={6}>
+          <AccountCard />
+        </Grid>
+        <Grid item xl={4} lg={6}>
+          <AccountCard />
+        </Grid>
+      </Grid>
     </Layout>
   )
 }

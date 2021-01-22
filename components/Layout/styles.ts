@@ -9,6 +9,7 @@ const useStyles = makeStyles(
       bottom: 0,
       left: 0,
       overflow: 'auto',
+      zIndex: 2,
     },
     menu: {
       margin: theme.spacing(2, 2.5),
@@ -28,6 +29,8 @@ const useStyles = makeStyles(
       justifyContent: 'flex-end',
       alignItems: 'center',
       padding: theme.spacing(5),
+      backgroundColor: theme.palette.background.default,
+      zIndex: 1,
     },
     navBarButton: {
       marginLeft: theme.spacing(2),
