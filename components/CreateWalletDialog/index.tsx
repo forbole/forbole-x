@@ -11,6 +11,7 @@ import { Secp256k1HdWallet } from '@cosmjs/launchpad'
 import ConfirmMnemonic from './ConfirmMnemonic'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import SecurityPassword from './SecurityPassword'
+import ImportWallet from './ImportWallet'
 
 type Stage =
   | 'start'
@@ -69,6 +70,23 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
     [setStage, setSecurityPassword]
   )
 
+  const saveWallet = React.useCallback(
+    async (name: string) => {
+      try {
+        await addWallet({
+          name,
+          pubkey,
+          mnemonic,
+          securityPassword,
+        })
+        onClose()
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    [addWallet, pubkey, mnemonic, securityPassword, onClose]
+  )
+
   const content: Content = React.useMemo(() => {
     switch (stage) {
       case 'import wallets':
@@ -106,7 +124,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
       case 'import wallet':
         return {
           title: t('import wallet title'),
-          content: <></>,
+          content: <ImportWallet onConfirm={saveWallet} />,
           prevStage: 'set security password',
         }
       case 'start':
