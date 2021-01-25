@@ -12,16 +12,20 @@ import ConfirmMnemonic from './ConfirmMnemonic'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import SecurityPassword from './SecurityPassword'
 import ImportWallet from './ImportWallet'
-import AccessMyWallet, { ImportMode } from './AccessMyWallet'
+import AccessMyWallet, { ImportStage } from './AccessMyWallet'
+import WhatIsMnemonic from './WhatIsMnemonic'
 
-type Stage =
-  | 'start'
-  | 'access my wallet'
-  | ImportMode
-  | 'create wallet'
-  | 'confirm mnemonic'
-  | 'set security password'
-  | 'import wallet'
+enum CommonStage {
+  Start = 'start',
+  AccessMyWallet = 'access my wallet',
+  CreateWallet = 'create wallet',
+  ConfirmMnemonic = 'confirm mnemonic',
+  SetSecurityPassword = 'set security password',
+  ImportWallet = 'import wallet',
+  WhatIsMnemonic = 'what is mnemonic',
+}
+
+type Stage = CommonStage | ImportStage
 
 interface CreateWalletDialogProps {
   open: boolean
@@ -39,7 +43,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
   const classes = useStyles()
   const iconProps = useIconProps()
   const { addWallet } = useWalletsContext()
-  const [stage, setStage] = React.useState<Stage>('start')
+  const [stage, setStage] = React.useState<Stage>(CommonStage.Start)
   const [mnemonic, setMnemonic] = React.useState('')
   const [pubkey, setPubkey] = React.useState<Uint8Array>()
   const [securityPassword, setSecurityPassword] = React.useState('')
@@ -49,7 +53,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
     const wallet = await Secp256k1HdWallet.generate(24)
     setPubkey((wallet as any).pubkey)
     setMnemonic(wallet.mnemonic)
-    setStage('create wallet')
+    setStage(CommonStage.CreateWallet)
   }, [setMnemonic])
 
   const importMnemonic = React.useCallback(
@@ -58,9 +62,8 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
         const wallet = await Secp256k1HdWallet.fromMnemonic(input)
         setPubkey((wallet as any).pubkey)
         setMnemonic(wallet.mnemonic)
-        setStage('set security password')
+        setStage(CommonStage.SetSecurityPassword)
       } catch (err) {
-        console.log(err)
         setError(t('invalid mnemonic'))
       }
     },
@@ -70,7 +73,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
   const confirmMnemonic = React.useCallback(
     (input) => {
       if (input === mnemonic) {
-        setStage('set security password')
+        setStage(CommonStage.SetSecurityPassword)
       } else {
         setError(t('invalid mnemonic'))
       }
@@ -81,7 +84,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
   const confirmSecurityPassword = React.useCallback(
     (pw: string) => {
       setSecurityPassword(pw)
-      setStage('import wallet')
+      setStage(CommonStage.ImportWallet)
     },
     [setStage, setSecurityPassword]
   )
@@ -105,13 +108,13 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
-      case 'access my wallet':
+      case CommonStage.AccessMyWallet:
         return {
           title: t('access my wallet title'),
-          content: <AccessMyWallet onConfirm={setStage} />,
-          prevStage: 'start',
+          content: <AccessMyWallet onConfirm={setStage} onCreateWallet={createWallet} />,
+          prevStage: CommonStage.Start,
         }
-      case ImportMode.ImportMnemonicPhrase:
+      case ImportStage.ImportMnemonicPhrase:
         return {
           title: t('mnemonic'),
           content: (
@@ -121,17 +124,20 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
               error={error}
             />
           ),
-          prevStage: 'access my wallet',
+          prevStage: CommonStage.AccessMyWallet,
         }
-      case 'create wallet':
+      case CommonStage.CreateWallet:
         return {
           title: t('create new wallet title'),
           content: (
-            <CreateWallet mnemonic={mnemonic} onConfirm={() => setStage('confirm mnemonic')} />
+            <CreateWallet
+              mnemonic={mnemonic}
+              onConfirm={() => setStage(CommonStage.ConfirmMnemonic)}
+            />
           ),
-          prevStage: 'start',
+          prevStage: CommonStage.Start,
         }
-      case 'confirm mnemonic':
+      case CommonStage.ConfirmMnemonic:
         return {
           title: t('create new wallet title'),
           content: (
@@ -141,28 +147,35 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
               error={error}
             />
           ),
-          prevStage: 'create wallet',
+          prevStage: CommonStage.CreateWallet,
         }
-      case 'set security password':
+      case CommonStage.SetSecurityPassword:
         return {
           title: t('security password title'),
           content: <SecurityPassword onConfirm={confirmSecurityPassword} />,
-          prevStage: 'confirm mnemonic',
+          prevStage: CommonStage.ConfirmMnemonic,
         }
-      case 'import wallet':
+      case CommonStage.ImportWallet:
         return {
           title: t('import wallet title'),
           content: <ImportWallet onConfirm={saveWallet} />,
-          prevStage: 'set security password',
+          prevStage: CommonStage.SetSecurityPassword,
         }
-      case 'start':
+      case CommonStage.WhatIsMnemonic:
+        return {
+          title: t('what is mnemonic phrase'),
+          content: <WhatIsMnemonic />,
+          prevStage: CommonStage.Start,
+        }
+      case CommonStage.Start:
       default:
         return {
           title: t('create wallet title'),
           content: (
             <Start
+              onWhatIsMnemonicClick={() => setStage(CommonStage.WhatIsMnemonic)}
               onCreateWalletClick={createWallet}
-              onImportWalletClick={() => setStage('access my wallet')}
+              onImportWalletClick={() => setStage(CommonStage.AccessMyWallet)}
             />
           ),
         }

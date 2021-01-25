@@ -14,9 +14,14 @@ import useStyles from './styles'
 interface StartProps {
   onImportWalletClick(): void
   onCreateWalletClick(): void
+  onWhatIsMnemonicClick(): void
 }
 
-const Start: React.FC<StartProps> = ({ onImportWalletClick, onCreateWalletClick }) => {
+const Start: React.FC<StartProps> = ({
+  onImportWalletClick,
+  onCreateWalletClick,
+  onWhatIsMnemonicClick,
+}) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
 
@@ -42,7 +47,7 @@ const Start: React.FC<StartProps> = ({ onImportWalletClick, onCreateWalletClick 
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button className={classes.button} color="secondary">
+        <Button className={classes.button} color="secondary" onClick={onWhatIsMnemonicClick}>
           {t('what is mnemonic phrase')}
         </Button>
       </DialogActions>

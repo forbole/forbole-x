@@ -4,7 +4,6 @@ import {
   DialogContent,
   Typography,
   Box,
-  TextField,
   DialogContentText,
   ButtonBase,
 } from '@material-ui/core'
@@ -12,17 +11,18 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
 
-export enum ImportMode {
+export enum ImportStage {
   ImportMnemonicPhrase = 'import mnemonic phrase',
   MnemonicPhraseBackup = 'use mnemonic phrase backup',
   ConnectLedgerDevice = 'connect ledger device',
 }
 
 interface AccessMyWalletProps {
-  onConfirm(mode: ImportMode): void
+  onConfirm(stage: ImportStage): void
+  onCreateWallet(): void
 }
 
-const AccessMyWallet: React.FC<AccessMyWalletProps> = ({ onConfirm }) => {
+const AccessMyWallet: React.FC<AccessMyWalletProps> = ({ onConfirm, onCreateWallet }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
 
@@ -31,24 +31,24 @@ const AccessMyWallet: React.FC<AccessMyWalletProps> = ({ onConfirm }) => {
       <DialogContent className={classes.dialogContent}>
         <DialogContentText>{t('access my wallet description')}</DialogContentText>
         <Box my={-2}>
-          {Object.values(ImportMode).map((mode) => (
+          {Object.values(ImportStage).map((stage) => (
             <ButtonBase
-              key={mode}
+              key={stage}
               className={classes.borderedButton}
-              onClick={() => onConfirm(mode)}
+              onClick={() => onConfirm(stage)}
             >
               <Typography variant="h6" gutterBottom>
-                {t(mode)}
+                {t(stage)}
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                {t(`${mode} description`)}
+                {t(`${stage} description`)}
               </Typography>
             </ButtonBase>
           ))}
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button className={classes.button} color="secondary">
+        <Button onClick={onCreateWallet} className={classes.button} color="secondary">
           {t('create a wallet')}
         </Button>
       </DialogActions>
