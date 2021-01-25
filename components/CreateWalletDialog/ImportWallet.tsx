@@ -1,17 +1,6 @@
-import {
-  Button,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  Typography,
-  Box,
-  useTheme,
-  TextField,
-} from '@material-ui/core'
+import { Button, DialogActions, DialogContent, Typography, Box, TextField } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import passwordStrength from 'check-password-strength'
-import PasswordInput from '../PasswordInput'
 import useStyles from './styles'
 
 interface ImportWalletProps {

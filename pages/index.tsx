@@ -24,13 +24,13 @@ export default function Home() {
         </Typography>
       </Box>
       <Grid container spacing={3}>
-        <Grid item xl={4} lg={6}>
+        <Grid item lg={4} md={6}>
           <AccountCard />
         </Grid>
-        <Grid item xl={4} lg={6}>
+        <Grid item lg={4} md={6}>
           <AccountCard />
         </Grid>
-        <Grid item xl={4} lg={6}>
+        <Grid item lg={4} md={6}>
           <AccountCard />
         </Grid>
       </Grid>

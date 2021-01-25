@@ -12,11 +12,12 @@ import ConfirmMnemonic from './ConfirmMnemonic'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import SecurityPassword from './SecurityPassword'
 import ImportWallet from './ImportWallet'
+import AccessMyWallet, { ImportMode } from './AccessMyWallet'
 
 type Stage =
   | 'start'
-  | 'import wallets'
-  | 'import mnemonic'
+  | 'access my wallet'
+  | ImportMode
   | 'create wallet'
   | 'confirm mnemonic'
   | 'set security password'
@@ -50,6 +51,21 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
     setMnemonic(wallet.mnemonic)
     setStage('create wallet')
   }, [setMnemonic])
+
+  const importMnemonic = React.useCallback(
+    async (input) => {
+      try {
+        const wallet = await Secp256k1HdWallet.fromMnemonic(input)
+        setPubkey((wallet as any).pubkey)
+        setMnemonic(wallet.mnemonic)
+        setStage('set security password')
+      } catch (err) {
+        console.log(err)
+        setError(t('invalid mnemonic'))
+      }
+    },
+    [setMnemonic]
+  )
 
   const confirmMnemonic = React.useCallback(
     (input) => {
@@ -89,18 +105,24 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
-      case 'import wallets':
+      case 'access my wallet':
         return {
-          title: '',
-          content: <></>,
+          title: t('access my wallet title'),
+          content: <AccessMyWallet onConfirm={setStage} />,
           prevStage: 'start',
         }
-      // case 'import mnemonic':
-      //   return {
-      //     title: '',
-      //     content: <></>,
-      //     prevStage: 'start',
-      //   }
+      case ImportMode.ImportMnemonicPhrase:
+        return {
+          title: t('mnemonic'),
+          content: (
+            <ConfirmMnemonic
+              description={t('mnemonic description')}
+              onConfirm={importMnemonic}
+              error={error}
+            />
+          ),
+          prevStage: 'access my wallet',
+        }
       case 'create wallet':
         return {
           title: t('create new wallet title'),
@@ -112,7 +134,13 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
       case 'confirm mnemonic':
         return {
           title: t('create new wallet title'),
-          content: <ConfirmMnemonic onConfirm={confirmMnemonic} error={error} />,
+          content: (
+            <ConfirmMnemonic
+              description={t('confirm mnemonic description')}
+              onConfirm={confirmMnemonic}
+              error={error}
+            />
+          ),
           prevStage: 'create wallet',
         }
       case 'set security password':
@@ -134,7 +162,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
           content: (
             <Start
               onCreateWalletClick={createWallet}
-              onImportWalletClick={() => setStage('import wallets')}
+              onImportWalletClick={() => setStage('access my wallet')}
             />
           ),
         }

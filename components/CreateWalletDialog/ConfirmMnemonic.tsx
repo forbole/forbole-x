@@ -12,11 +12,12 @@ import MnemonicPhraseInput from '../MnemonicPhraseInput'
 import useStyles from './styles'
 
 interface ConfirmMnemonicProps {
+  description: string
   onConfirm(mnemonic: string): void
   error: string
 }
 
-const ConfirmMnemonic: React.FC<ConfirmMnemonicProps> = ({ onConfirm, error }) => {
+const ConfirmMnemonic: React.FC<ConfirmMnemonicProps> = ({ onConfirm, error, description }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const [mnemonic, setMnemonic] = React.useState('')
@@ -24,7 +25,7 @@ const ConfirmMnemonic: React.FC<ConfirmMnemonicProps> = ({ onConfirm, error }) =
   return (
     <>
       <DialogContent className={classes.dialogContent}>
-        <DialogContentText>{t('confirm mnemonic description')}</DialogContentText>
+        <DialogContentText>{description}</DialogContentText>
         <MnemonicPhraseInput mnemonic={mnemonic} onChange={setMnemonic} />
         <Box mt={2} mb={4}>
           <Typography variant="body2" color="error">

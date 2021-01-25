@@ -28,6 +28,20 @@ const useStyles = makeStyles(
         border: `1px solid ${theme.palette.grey[300]}`,
       },
     },
+    borderedButton: {
+      border: `1px solid ${theme.palette.grey[200]}`,
+      borderRadius: theme.shape.borderRadius,
+      padding: theme.spacing(2, 3),
+      margin: theme.spacing(2),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      textAlign: 'left',
+      alignSelf: 'stretch',
+      '&:hover': {
+        border: `1px solid ${theme.palette.grey[300]}`,
+      },
+    },
     dialogContent: {
       overflowY: 'initial',
     },
