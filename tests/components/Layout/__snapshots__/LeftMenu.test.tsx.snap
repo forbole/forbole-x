@@ -2,14 +2,14 @@
 
 exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
 <div
-  className="MuiPaper-root makeStyles-leftMenuContainer-1 MuiPaper-elevation0 MuiPaper-rounded"
+  className="MuiPaper-root HookGlobalStyles-leftMenuContainer-1 MuiPaper-elevation0 MuiPaper-rounded"
 >
   <ul
-    className="MuiList-root makeStyles-menu-2 MuiList-padding"
+    className="MuiList-root HookGlobalStyles-menu-2 MuiList-padding"
   >
     <div
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root makeStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       onBlur={[Function]}
       onDragLeave={[Function]}
       onFocus={[Function]}
@@ -49,7 +49,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
     </div>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root makeStyles-menuItem-3 MuiListItem-gutters MuiListItem-button Mui-selected"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button Mui-selected"
       href="/"
       onBlur={[Function]}
       onClick={[Function]}
@@ -91,7 +91,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root makeStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       href="/wallets"
       onBlur={[Function]}
       onClick={[Function]}
@@ -133,7 +133,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root makeStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       href="/delegate"
       onBlur={[Function]}
       onClick={[Function]}
@@ -175,7 +175,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root makeStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       href="/market"
       onBlur={[Function]}
       onClick={[Function]}
@@ -217,7 +217,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root makeStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       href="/proposals"
       onBlur={[Function]}
       onClick={[Function]}
@@ -259,7 +259,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root makeStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       href="/address-book"
       onBlur={[Function]}
       onClick={[Function]}
@@ -301,7 +301,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root makeStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       href="/explorer"
       onBlur={[Function]}
       onClick={[Function]}
@@ -347,14 +347,14 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
 
 exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1`] = `
 <div
-  className="MuiPaper-root makeStyles-leftMenuContainer-1 MuiPaper-elevation0 MuiPaper-rounded"
+  className="MuiPaper-root HookGlobalStyles-leftMenuContainer-1 MuiPaper-elevation0 MuiPaper-rounded"
 >
   <ul
-    className="MuiList-root makeStyles-menu-2 MuiList-padding"
+    className="MuiList-root HookGlobalStyles-menu-2 MuiList-padding"
   >
     <div
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root makeStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       onBlur={[Function]}
       onDragLeave={[Function]}
       onFocus={[Function]}
@@ -391,7 +391,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
     </div>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root makeStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       href="/"
       onBlur={[Function]}
       onClick={[Function]}
@@ -430,7 +430,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root makeStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       href="/wallets"
       onBlur={[Function]}
       onClick={[Function]}
@@ -469,7 +469,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root makeStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       href="/delegate"
       onBlur={[Function]}
       onClick={[Function]}
@@ -508,7 +508,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root makeStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       href="/market"
       onBlur={[Function]}
       onClick={[Function]}
@@ -547,7 +547,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root makeStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       href="/proposals"
       onBlur={[Function]}
       onClick={[Function]}
@@ -586,7 +586,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root makeStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       href="/address-book"
       onBlur={[Function]}
       onClick={[Function]}
@@ -625,7 +625,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root makeStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       href="/explorer"
       onBlur={[Function]}
       onClick={[Function]}

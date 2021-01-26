@@ -8,7 +8,7 @@ const mockSettingsContext = {
 }
 
 const mockWalletsContext = {
-  setPassword: jest.fn(),
+  unlockWallets: jest.fn(),
 }
 
 jest.mock('../../../contexts/SettingsContext', () => ({
@@ -61,7 +61,7 @@ describe('component: GetStarted', () => {
     renderer.act(() => {
       component.root.findByProps({ open: true }).props.onSubmit('123123')
     })
-    expect(mockWalletsContext.setPassword).toBeCalledWith('123123')
+    expect(mockWalletsContext.unlockWallets).toBeCalledWith('123123')
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

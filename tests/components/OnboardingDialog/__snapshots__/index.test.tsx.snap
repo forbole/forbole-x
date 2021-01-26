@@ -8,7 +8,7 @@ exports[`component: OnboardingDialog renders closed state correctly 1`] = `
   open={false}
 >
   <button
-    className="MuiButtonBase-root MuiIconButton-root makeStyles-closeButton-3"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-3"
     disabled={false}
     onBlur={[Function]}
     onClick={[MockFunction]}
@@ -64,7 +64,7 @@ exports[`component: OnboardingDialog renders closed state correctly 1`] = `
       value=""
     />
     <p
-      className="MuiTypography-root makeStyles-passwordRequirement-1 MuiTypography-body2"
+      className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
     >
       common:password caption
     </p>
@@ -73,7 +73,7 @@ exports[`component: OnboardingDialog renders closed state correctly 1`] = `
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-2 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -111,7 +111,7 @@ exports[`component: OnboardingDialog renders confirming password state when subm
   open={true}
 >
   <button
-    className="MuiButtonBase-root MuiIconButton-root makeStyles-closeButton-3"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-3"
     disabled={false}
     onBlur={[Function]}
     onClick={[MockFunction]}
@@ -167,7 +167,7 @@ exports[`component: OnboardingDialog renders confirming password state when subm
       value=""
     />
     <p
-      className="MuiTypography-root makeStyles-passwordRequirement-1 MuiTypography-body2"
+      className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
     >
       common:confirm password caption
     </p>
@@ -176,7 +176,7 @@ exports[`component: OnboardingDialog renders confirming password state when subm
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-2 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -214,7 +214,7 @@ exports[`component: OnboardingDialog renders correctly when submit valid confirm
   open={true}
 >
   <button
-    className="MuiButtonBase-root MuiIconButton-root makeStyles-closeButton-3"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-3"
     disabled={false}
     onBlur={[Function]}
     onClick={[MockFunction]}
@@ -270,7 +270,7 @@ exports[`component: OnboardingDialog renders correctly when submit valid confirm
       value="123456"
     />
     <p
-      className="MuiTypography-root makeStyles-passwordRequirement-1 MuiTypography-body2"
+      className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
     >
       common:confirm password caption
     </p>
@@ -279,7 +279,7 @@ exports[`component: OnboardingDialog renders correctly when submit valid confirm
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-2 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -317,7 +317,7 @@ exports[`component: OnboardingDialog renders error state when submit invalid con
   open={true}
 >
   <button
-    className="MuiButtonBase-root MuiIconButton-root makeStyles-closeButton-3"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-3"
     disabled={false}
     onBlur={[Function]}
     onClick={[MockFunction]}
@@ -373,7 +373,7 @@ exports[`component: OnboardingDialog renders error state when submit invalid con
       value="123455"
     />
     <p
-      className="MuiTypography-root makeStyles-passwordRequirement-1 MuiTypography-body2"
+      className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
     >
       common:confirm password caption
     </p>
@@ -382,7 +382,7 @@ exports[`component: OnboardingDialog renders error state when submit invalid con
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-2 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -420,7 +420,7 @@ exports[`component: OnboardingDialog renders error state when submit invalid pas
   open={true}
 >
   <button
-    className="MuiButtonBase-root MuiIconButton-root makeStyles-closeButton-3"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-3"
     disabled={false}
     onBlur={[Function]}
     onClick={[MockFunction]}
@@ -476,7 +476,7 @@ exports[`component: OnboardingDialog renders error state when submit invalid pas
       value=""
     />
     <p
-      className="MuiTypography-root makeStyles-passwordRequirement-1 MuiTypography-body2"
+      className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
     >
       common:password caption
     </p>
@@ -485,7 +485,7 @@ exports[`component: OnboardingDialog renders error state when submit invalid pas
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-2 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -523,7 +523,7 @@ exports[`component: OnboardingDialog renders open state correctly 1`] = `
   open={true}
 >
   <button
-    className="MuiButtonBase-root MuiIconButton-root makeStyles-closeButton-3"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-3"
     disabled={false}
     onBlur={[Function]}
     onClick={[MockFunction]}
@@ -576,7 +576,7 @@ exports[`component: OnboardingDialog renders open state correctly 1`] = `
       value=""
     />
     <p
-      className="MuiTypography-root makeStyles-passwordRequirement-1 MuiTypography-body2"
+      className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
     >
       common:password caption
     </p>
@@ -585,7 +585,7 @@ exports[`component: OnboardingDialog renders open state correctly 1`] = `
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-2 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}

@@ -36,7 +36,7 @@ exports[`component: UnlockPasswordDialog renders correctly 1`] = `
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-2 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -99,7 +99,7 @@ exports[`component: UnlockPasswordDialog renders correctly when password is chan
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-2 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -153,8 +153,8 @@ exports[`component: UnlockPasswordDialog renders non empty password correctly 1`
       common:unlock password description
     </p>
     <div
-      error={true}
-      helperText="common:invalid password"
+      error={false}
+      helperText=""
       id="PasswordInput"
       onChange={[Function]}
       placeholder="common:password"
@@ -165,7 +165,7 @@ exports[`component: UnlockPasswordDialog renders non empty password correctly 1`
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-2 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -231,7 +231,7 @@ exports[`component: UnlockPasswordDialog renders non empty wallets correctly 1`]
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-2 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}

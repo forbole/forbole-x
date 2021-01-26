@@ -7,7 +7,7 @@ Array [
     activeItem=""
   />,
   <div
-    className="MuiBox-root MuiBox-root-7 makeStyles-main-6"
+    className="MuiBox-root MuiBox-root-7 HookGlobalStyles-main-6"
   >
     <div />
   </div>,
@@ -21,7 +21,7 @@ Array [
     activeItem=""
   />,
   <div
-    className="MuiBox-root MuiBox-root-9 makeStyles-main-6"
+    className="MuiBox-root MuiBox-root-9 HookGlobalStyles-main-6"
   >
     <div />
   </div>,
@@ -35,7 +35,7 @@ Array [
     activeItem=""
   />,
   <div
-    className="MuiBox-root MuiBox-root-8 makeStyles-main-6"
+    className="MuiBox-root MuiBox-root-8 HookGlobalStyles-main-6"
   >
     <GetStarted />
   </div>,
@@ -49,10 +49,8 @@ Array [
     activeItem=""
   />,
   <div
-    className="MuiBox-root MuiBox-root-10 makeStyles-main-6"
-  >
-    <div />
-  </div>,
+    className="MuiBox-root MuiBox-root-10 HookGlobalStyles-main-6"
+  />,
   <UnlockPasswordDialog />,
 ]
 `;

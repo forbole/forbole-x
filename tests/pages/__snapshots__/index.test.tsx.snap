@@ -5,10 +5,47 @@ exports[`page: Home renders correctly 1`] = `
   activeItem="/"
   passwordRequired={true}
 >
-  <p
-    className="MuiTypography-root MuiTypography-body1"
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
   >
-    Overview
-  </p>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6"
+    >
+      <WalletBalanceChart />
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6"
+    >
+      <AssetDistributionChart />
+    </div>
+  </div>
+  <div
+    className="MuiBox-root MuiBox-root-1"
+  >
+    <h4
+      className="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom"
+    >
+      common:accounts
+    </h4>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+  >
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 MuiGrid-grid-lg-4"
+    >
+      <AccountCard />
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 MuiGrid-grid-lg-4"
+    >
+      <AccountCard />
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 MuiGrid-grid-lg-4"
+    >
+      <AccountCard />
+    </div>
+  </div>
 </Layout>
 `;

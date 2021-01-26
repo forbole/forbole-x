@@ -4,7 +4,7 @@ import UnlockPasswordDialog from '../../../components/UnlockPasswordDialog'
 
 const mockWalletsContext = {
   password: '',
-  setPassword: jest.fn(),
+  unlockWallets: jest.fn(),
   wallets: [],
 }
 
@@ -56,7 +56,7 @@ describe('component: UnlockPasswordDialog', () => {
     renderer.act(() => {
       component.root.findByType('button').props.onClick()
     })
-    expect(mockWalletsContext.setPassword).toBeCalledWith('password')
+    expect(mockWalletsContext.unlockWallets).toBeCalledWith('password')
   })
 })
 

@@ -22,12 +22,18 @@ jest.mock('../../../components/CreateWalletDialog/CreateWallet', () => (props) =
 jest.mock('../../../components/CreateWalletDialog/ConfirmMnemonic', () => (props) => (
   <div id="ConfirmMnemonic" {...props} />
 ))
+jest.mock('../../../components/CreateWalletDialog/SecurityPassword', () => (props) => (
+  <div id="SecurityPassword" {...props} />
+))
+jest.mock('../../../components/CreateWalletDialog/ImportWallet', () => (props) => (
+  <div id="ImportWallet" {...props} />
+))
 jest.mock('@material-ui/core/Dialog', () => (props) => <div id="dialog" {...props} />)
 jest.mock('@cosmjs/launchpad', () => ({
   Secp256k1HdWallet: {
     generate: jest.fn().mockResolvedValue({
-      mnemonic:
-        'guide check kick present flash casual history auto agree help actor swarm battle decline canyon magnet novel curve dad guilt web actor weekend uncover',
+      mnemonic: 'guide check kick present flash casual',
+      pubkey: { 1: { 2: 3 } },
     }),
   },
 }))
@@ -93,7 +99,7 @@ describe('component: CreateWalletDialog', () => {
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
-  it('calls addWallet and onClose when mnemonic is confirmed to be correct', async () => {
+  it('renders set security password stage correctly when mnemonic is confirmed to be correct', async () => {
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
     const { mnemonic: mockMnemonic } = await Secp256k1HdWallet.generate()
     await renderer.act(async () => {
@@ -105,8 +111,8 @@ describe('component: CreateWalletDialog', () => {
     renderer.act(() => {
       component.root.findByProps({ id: 'ConfirmMnemonic' }).props.onConfirm(mockMnemonic)
     })
-    expect(mockWalletsContext.addWallet).toBeCalledWith({ mnemonic: mockMnemonic, name: 'TEST' })
-    expect(onClose).toBeCalled()
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
   })
   it('renders correctly when confirm mnemonic is invalid', async () => {
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
@@ -121,6 +127,52 @@ describe('component: CreateWalletDialog', () => {
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
+  })
+  it('renders import wallet stage correctly when security password is set', async () => {
+    const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
+    const { mnemonic: mockMnemonic } = await Secp256k1HdWallet.generate()
+    await renderer.act(async () => {
+      await component.root.findByProps({ id: 'Start' }).props.onCreateWalletClick()
+    })
+    renderer.act(() => {
+      component.root.findByProps({ id: 'CreateWallet' }).props.onConfirm()
+    })
+    renderer.act(() => {
+      component.root.findByProps({ id: 'ConfirmMnemonic' }).props.onConfirm(mockMnemonic)
+    })
+    renderer.act(() => {
+      component.root.findByProps({ id: 'SecurityPassword' }).props.onConfirm('123123')
+    })
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+  it('calls addWallet and onClose when wallet name is set', async () => {
+    const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
+    const { mnemonic: mockMnemonic, pubkey: mockPubkey }: any = await Secp256k1HdWallet.generate()
+    await renderer.act(async () => {
+      await component.root.findByProps({ id: 'Start' }).props.onCreateWalletClick()
+    })
+    renderer.act(() => {
+      component.root.findByProps({ id: 'CreateWallet' }).props.onConfirm()
+    })
+    renderer.act(() => {
+      component.root.findByProps({ id: 'ConfirmMnemonic' }).props.onConfirm(mockMnemonic)
+    })
+    renderer.act(() => {
+      component.root.findByProps({ id: 'SecurityPassword' }).props.onConfirm('123123')
+    })
+    await renderer.act(async () => {
+      await component.root.findByProps({ id: 'ImportWallet' }).props.onConfirm('wallet name')
+    })
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    expect(mockWalletsContext.addWallet).toBeCalledWith({
+      mnemonic: mockMnemonic,
+      name: 'wallet name',
+      securityPassword: '123123',
+      pubkey: mockPubkey,
+    })
+    expect(onClose).toBeCalled()
   })
 })
 

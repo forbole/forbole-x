@@ -2,12 +2,12 @@
 
 exports[`component: Layout - NavBar renders correctly 1`] = `
 <div
-  className="MuiBox-root MuiBox-root-7 makeStyles-navBar-4"
+  className="MuiBox-root MuiBox-root-7 HookGlobalStyles-navBar-4"
 >
   <CurrencyMenuButton />
   <CurrencyMenuButton />
   <button
-    className="MuiButtonBase-root MuiIconButton-root makeStyles-navBarButton-5"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-navBarButton-5"
     disabled={false}
     onBlur={[Function]}
     onDragLeave={[Function]}
@@ -27,7 +27,7 @@ exports[`component: Layout - NavBar renders correctly 1`] = `
       className="MuiIconButton-label"
     >
       <svg
-        data-file-name="SvgIcon_notification_32"
+        data-file-name="SvgIcon_notification_71"
         fill="#e0e0e0"
         height={24}
         width={24}
@@ -36,7 +36,7 @@ exports[`component: Layout - NavBar renders correctly 1`] = `
   </button>
   <CurrencyMenuButton />
   <button
-    className="MuiButtonBase-root MuiIconButton-root makeStyles-navBarButton-5"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-navBarButton-5"
     disabled={false}
     onBlur={[Function]}
     onDragLeave={[Function]}

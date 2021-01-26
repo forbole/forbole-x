@@ -3,7 +3,7 @@
 exports[`component: CreateWalletDialog - CreateWallet renders correctly 1`] = `
 Array [
   <div
-    className="MuiDialogContent-root makeStyles-dialogContent-5"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-6"
   >
     <p
       className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -15,17 +15,17 @@ Array [
       mnemonic="mnemonic"
     />
     <div
-      className="MuiBox-root MuiBox-root-6"
+      className="MuiBox-root MuiBox-root-7"
     />
   </div>,
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-7"
+      className="MuiBox-root MuiBox-root-8"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-1 MuiButton-containedPrimary"
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary"
         disabled={false}
         onBlur={[Function]}
         onClick={[MockFunction]}
