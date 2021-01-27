@@ -1,10 +1,10 @@
 import { FilledTextFieldProps, IconButton, InputAdornment, TextField } from '@material-ui/core'
+import React from 'react'
 import HidePasswordIcon from '../../assets/images/icons/icon_hide.svg'
 import ShowPasswordIcon from '../../assets/images/icons/icon_show.svg'
-import React from 'react'
 import useIconProps from '../../misc/useIconProps'
 
-interface PasswordInputProps extends Partial<FilledTextFieldProps> {}
+type PasswordInputProps = Partial<FilledTextFieldProps>
 
 const PasswordInput: React.FC<PasswordInputProps> = (props) => {
   const iconProps = useIconProps()

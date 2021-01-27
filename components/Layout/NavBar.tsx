@@ -8,9 +8,7 @@ import LangMenuButton from './LangMenuButton'
 import ThemeModeButton from './ThemeModeButton'
 import useIconProps from '../../misc/useIconProps'
 
-interface NavBarProps {}
-
-const NavBar: React.FC<NavBarProps> = () => {
+const NavBar: React.FC = () => {
   const iconProps = useIconProps(3)
   const classes = useStyles()
 

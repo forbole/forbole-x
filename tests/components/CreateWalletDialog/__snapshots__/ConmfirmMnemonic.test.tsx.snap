@@ -7,7 +7,9 @@ Array [
   >
     <p
       className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
-    />
+    >
+      description
+    </p>
     <div
       id="MnemonicPhraseInput"
       mnemonic="mnemonic"
@@ -68,7 +70,9 @@ Array [
   >
     <p
       className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
-    />
+    >
+      description
+    </p>
     <div
       id="MnemonicPhraseInput"
       mnemonic=""
@@ -126,7 +130,9 @@ Array [
   >
     <p
       className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
-    />
+    >
+      description
+    </p>
     <div
       id="MnemonicPhraseInput"
       mnemonic=""

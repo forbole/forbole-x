@@ -27,14 +27,21 @@ const WalletsProvider: React.FC = ({ children }) => {
   const [password, setPassword] = React.useState('')
 
   const checkIsFirstTimeUser = React.useCallback(async () => {
-    const response = await sendMsgToChromeExt({ event: 'ping' })
+    const response = await sendMsgToChromeExt({
+      event: 'ping',
+    })
     setIsFirstTimeUser(response.isFirstTimeUser)
   }, [])
 
   const unlockWallets = React.useCallback(
     async (pw: string) => {
       if (!isFirstTimeUser) {
-        const response = await sendMsgToChromeExt({ event: 'getWallets', data: { password: pw } })
+        const response = await sendMsgToChromeExt({
+          event: 'getWallets',
+          data: {
+            password: pw,
+          },
+        })
         setWallets(response.wallets)
       }
       setPassword(pw)
@@ -46,10 +53,19 @@ const WalletsProvider: React.FC = ({ children }) => {
     async (wallet: CreateWalletParams) => {
       await sendMsgToChromeExt({
         event: 'addWallet',
-        data: { wallet, password },
+        data: {
+          wallet,
+          password,
+        },
       })
       setIsFirstTimeUser(false)
-      setWallets((ws) => [{ name: wallet.name, pubkey: wallet.pubkey }, ...ws])
+      setWallets((ws) => [
+        {
+          name: wallet.name,
+          pubkey: wallet.pubkey,
+        },
+        ...ws,
+      ])
     },
     [password]
   )
@@ -58,7 +74,10 @@ const WalletsProvider: React.FC = ({ children }) => {
     async (pubkey: Uint8Array) => {
       await sendMsgToChromeExt({
         event: 'deleteWallet',
-        data: { pubkey },
+        data: {
+          pubkey,
+          password,
+        },
       })
       setWallets((ws) => ws.filter((w) => !isEqual(w.pubkey, pubkey)))
     },

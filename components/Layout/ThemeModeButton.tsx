@@ -6,9 +6,7 @@ import LightModeIcon from '../../assets/images/icons/icon_light_mode.svg'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 import useIconProps from '../../misc/useIconProps'
 
-interface ThemeModeButtonProps {}
-
-const ThemeModeButton: React.FC<ThemeModeButtonProps> = () => {
+const ThemeModeButton: React.FC = () => {
   const { theme, setTheme } = useSettingsContext()
   const iconProps = useIconProps(3)
   const classes = useStyles()

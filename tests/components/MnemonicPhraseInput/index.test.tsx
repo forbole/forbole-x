@@ -5,9 +5,14 @@ import MnemonicPhraseInput from '../../../components/MnemonicPhraseInput'
 const onChange = jest.fn()
 const focus = jest.fn()
 const blur = jest.fn()
-document.getElementById = jest
-  .fn()
-  .mockImplementation((id) => (id === 'mnemonic-24' ? null : { focus, blur }))
+document.getElementById = jest.fn().mockImplementation((id) =>
+  id === 'mnemonic-24'
+    ? null
+    : {
+        focus,
+        blur,
+      }
+)
 const mnemonic =
   'guide check kick present flash casual history auto agree help actor swarm battle decline canyon magnet novel curve dad guilt web actor weekend uncover'
 
@@ -39,7 +44,13 @@ describe('component: MnemonicPhraseInput', () => {
       <MnemonicPhraseInput onChange={onChange} mnemonic={mnemonic} />
     )
     renderer.act(() => {
-      component.root.findByProps({ id: 'mnemonic-1' }).props.onKeyPress({ key: ' ' })
+      component.root
+        .findByProps({
+          id: 'mnemonic-1',
+        })
+        .props.onKeyPress({
+          key: ' ',
+        })
     })
     expect(document.getElementById).toBeCalledWith('mnemonic-2')
     expect(focus).toBeCalled()
@@ -49,7 +60,13 @@ describe('component: MnemonicPhraseInput', () => {
       <MnemonicPhraseInput onChange={onChange} mnemonic={mnemonic} />
     )
     renderer.act(() => {
-      component.root.findByProps({ id: 'mnemonic-1' }).props.onKeyPress({ key: 'a' })
+      component.root
+        .findByProps({
+          id: 'mnemonic-1',
+        })
+        .props.onKeyPress({
+          key: 'a',
+        })
     })
     expect(document.getElementById).toBeCalledTimes(0)
     expect(focus).toBeCalledTimes(0)
@@ -59,7 +76,13 @@ describe('component: MnemonicPhraseInput', () => {
       <MnemonicPhraseInput onChange={onChange} mnemonic={mnemonic} />
     )
     renderer.act(() => {
-      component.root.findByProps({ id: 'mnemonic-23' }).props.onKeyPress({ key: ' ' })
+      component.root
+        .findByProps({
+          id: 'mnemonic-23',
+        })
+        .props.onKeyPress({
+          key: ' ',
+        })
     })
     expect(document.getElementById).toBeCalledWith('mnemonic-23')
     expect(blur).toBeCalled()
@@ -70,8 +93,14 @@ describe('component: MnemonicPhraseInput', () => {
     )
     renderer.act(() => {
       component.root
-        .findByProps({ id: 'mnemonic-1' })
-        .props.onChange({ target: { value: 'apple' } })
+        .findByProps({
+          id: 'mnemonic-1',
+        })
+        .props.onChange({
+          target: {
+            value: 'apple',
+          },
+        })
     })
     expect(onChange).toBeCalledWith(mnemonic.replace('check', 'apple'))
   })

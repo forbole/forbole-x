@@ -6,15 +6,15 @@ const GlobalCss = withStyles(
       '@font-face': [
         {
           fontFamily: 'Aurulent Sans Mono',
-          src: "url('/fonts/AurulentSansMono-Regular.otf')",
+          src: 'url("/fonts/AurulentSansMono-Regular.otf")',
         },
         {
           fontFamily: 'Hind Madurai',
-          src: "url('/fonts/HindMadurai-Regular.ttf')",
+          src: 'url("/fonts/HindMadurai-Regular.ttf")',
         },
         {
           fontFamily: 'Hind Madurai Medium',
-          src: "url('/fonts/HindMadurai-Medium.ttf')",
+          src: 'url("/fonts/HindMadurai-Medium.ttf")',
         },
       ],
       '.MuiDialogTitle-root': {
@@ -44,7 +44,10 @@ const GlobalCss = withStyles(
       },
     },
   }),
-  { name: 'GlobalStyles', index: 2 }
+  {
+    name: 'GlobalStyles',
+    index: 2,
+  }
 )(() => null)
 
 export default GlobalCss

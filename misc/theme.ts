@@ -94,10 +94,10 @@ const lightTheme = {
       paper: '#FFFFFF',
     },
     grey: {
-      '50': '#F7F7F7',
-      '100': '#F2F2F2',
-      '200': '#DDDDDD',
-      '300': '#8B8B8B', // icon
+      50: '#F7F7F7',
+      100: '#F2F2F2',
+      200: '#DDDDDD',
+      300: '#8B8B8B', // icon
     },
     action: {
       hover: '#F7F7F7',
@@ -136,10 +136,10 @@ const darkTheme = {
       paper: '#25282D',
     },
     grey: {
-      '50': '#272A2F',
-      '100': '#34383E',
-      '200': '#3D4047',
-      '300': '#AFAFAF', // icon
+      50: '#272A2F',
+      100: '#34383E',
+      200: '#3D4047',
+      300: '#AFAFAF', // icon
     },
     action: {
       hover: '#1D1E22',

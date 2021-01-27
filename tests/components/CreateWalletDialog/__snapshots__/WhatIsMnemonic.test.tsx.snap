@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component: CreateWalletDialog - WhatIsMnemonic renders correctly 1`] = `
+<div
+  className="MuiDialogContent-root HookGlobalStyles-dialogContent-6"
+>
+  <div
+    className="MuiBox-root MuiBox-root-7"
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
+    >
+      common:what is mnemonic description
+    </p>
+  </div>
+</div>
+`;

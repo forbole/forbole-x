@@ -1,5 +1,7 @@
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
+import { List, ListItem, ListItemIcon, ListItemText, Paper, useTheme } from '@material-ui/core'
+import Link from 'next/link'
 import OverviewIcon from '../../assets/images/icons/icon_overview.svg'
 import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg'
 import DelegateIcon from '../../assets/images/icons/icon_delegate_08.svg'
@@ -8,9 +10,7 @@ import ProposalIcon from '../../assets/images/icons/icon_proposal.svg'
 import AddressBookIcon from '../../assets/images/icons/icon_address_book.svg'
 import ExplorerIcon from '../../assets/images/icons/icon_explorer.svg'
 import Logo from '../../assets/images/logo.svg'
-import { List, ListItem, ListItemIcon, ListItemText, Paper, useTheme } from '@material-ui/core'
 import useStyles from './styles'
-import Link from 'next/link'
 import useIconProps from '../../misc/useIconProps'
 
 interface LeftMenuProps {

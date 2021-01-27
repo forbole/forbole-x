@@ -4,7 +4,7 @@ import UnlockPasswordDialog from '../../../components/UnlockPasswordDialog'
 
 const mockWalletsContext = {
   password: '',
-  unlockWallets: jest.fn(),
+  unlockWallets: jest.fn().mockResolvedValue('done'),
   wallets: [],
 }
 
@@ -32,7 +32,7 @@ describe('component: UnlockPasswordDialog', () => {
   it('renders non empty password correctly', () => {
     mockWalletsContext.password = 'password'
     const component = renderer.create(<UnlockPasswordDialog />)
-    renderer.act(() => {})
+    renderer.act(() => undefined)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
@@ -40,23 +40,56 @@ describe('component: UnlockPasswordDialog', () => {
     const component = renderer.create(<UnlockPasswordDialog />)
     renderer.act(() => {
       component.root
-        .findByProps({ id: 'PasswordInput' })
-        .props.onChange({ target: { value: 'password' } })
+        .findByProps({
+          id: 'PasswordInput',
+        })
+        .props.onChange({
+          target: {
+            value: 'password',
+          },
+        })
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
-  it('calls setPassword when button is clicked', () => {
+  it('calls unlockWallets when button is clicked', async () => {
     const component = renderer.create(<UnlockPasswordDialog />)
     renderer.act(() => {
       component.root
-        .findByProps({ id: 'PasswordInput' })
-        .props.onChange({ target: { value: 'password' } })
+        .findByProps({
+          id: 'PasswordInput',
+        })
+        .props.onChange({
+          target: {
+            value: 'password',
+          },
+        })
     })
-    renderer.act(() => {
-      component.root.findByType('button').props.onClick()
+    await renderer.act(async () => {
+      await component.root.findByType('button').props.onClick()
     })
     expect(mockWalletsContext.unlockWallets).toBeCalledWith('password')
+  })
+  it('renders error state correctly', async () => {
+    mockWalletsContext.unlockWallets.mockRejectedValueOnce({ message: 'invalid password' })
+    const component = renderer.create(<UnlockPasswordDialog />)
+    renderer.act(() => {
+      component.root
+        .findByProps({
+          id: 'PasswordInput',
+        })
+        .props.onChange({
+          target: {
+            value: 'password',
+          },
+        })
+    })
+    await renderer.act(async () => {
+      await component.root.findByType('button').props.onClick()
+    })
+    expect(mockWalletsContext.unlockWallets).toBeCalledWith('password')
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })
 

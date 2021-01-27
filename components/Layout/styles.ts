@@ -44,7 +44,10 @@ const useStyles = makeStyles(
       flexDirection: 'column',
     },
   }),
-  { name: 'HookGlobalStyles', index: 2 }
+  {
+    name: 'HookGlobalStyles',
+    index: 2,
+  }
 )
 
 export default useStyles

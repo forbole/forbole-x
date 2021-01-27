@@ -29,5 +29,5 @@ type ChromeMessage =
     }
   | {
       event: 'deleteWallet'
-      data: { pubkey: Uint8Array }
+      data: { pubkey: Uint8Array; password: string }
     }

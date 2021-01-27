@@ -12,9 +12,7 @@ import useStyles from './styles'
 import PasswordInput from '../PasswordInput'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 
-interface UnlockPasswordDialogProps {}
-
-const UnlockPasswordDialog: React.FC<UnlockPasswordDialogProps> = () => {
+const UnlockPasswordDialog: React.FC = () => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const [password, setPassword] = React.useState('')

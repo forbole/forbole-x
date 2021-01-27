@@ -10,19 +10,29 @@ jest.mock('../../../components/MnemonicPhraseInput', () => (props) => (
 
 describe('component: CreateWalletDialog - ConfirmMnemonic', () => {
   it('renders default state correctly', () => {
-    const component = renderer.create(<ConfirmMnemonic error="" onConfirm={onConfirm} />)
+    const component = renderer.create(
+      <ConfirmMnemonic description="description" error="" onConfirm={onConfirm} />
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders error state correctly', () => {
-    const component = renderer.create(<ConfirmMnemonic error="error" onConfirm={onConfirm} />)
+    const component = renderer.create(
+      <ConfirmMnemonic description="description" error="error" onConfirm={onConfirm} />
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('calls onConfirm with correct params', () => {
-    const component = renderer.create(<ConfirmMnemonic error="" onConfirm={onConfirm} />)
+    const component = renderer.create(
+      <ConfirmMnemonic description="description" error="" onConfirm={onConfirm} />
+    )
     renderer.act(() => {
-      component.root.findByProps({ id: 'MnemonicPhraseInput' }).props.onChange('mnemonic')
+      component.root
+        .findByProps({
+          id: 'MnemonicPhraseInput',
+        })
+        .props.onChange('mnemonic')
     })
     renderer.act(() => {
       component.root.findByType('button').props.onClick()

@@ -16,7 +16,10 @@ const useStyles = makeStyles(
       right: theme.spacing(2),
     },
   }),
-  { name: 'HookGlobalStyles', index: 2 }
+  {
+    name: 'HookGlobalStyles',
+    index: 2,
+  }
 )
 
 export default useStyles

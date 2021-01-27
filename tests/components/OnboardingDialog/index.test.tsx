@@ -28,7 +28,11 @@ describe('component: OnboardingDialog', () => {
       <OnboardingDialog open onClose={onClose} onSubmit={onSubmit} />
     )
     renderer.act(() => {
-      component.root.findByProps({ className: 'MuiIconButton-label' }).parent.props.onClick()
+      component.root
+        .findByProps({
+          className: 'MuiIconButton-label',
+        })
+        .parent.props.onClick()
     })
     expect(onClose).toBeCalled()
   })
@@ -37,7 +41,12 @@ describe('component: OnboardingDialog', () => {
       <OnboardingDialog open onClose={onClose} onSubmit={onSubmit} />
     )
     renderer.act(() => {
-      component.root.findByProps({ variant: 'contained', color: 'primary' }).props.onClick()
+      component.root
+        .findByProps({
+          variant: 'contained',
+          color: 'primary',
+        })
+        .props.onClick()
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -47,12 +56,19 @@ describe('component: OnboardingDialog', () => {
       <OnboardingDialog open onClose={onClose} onSubmit={onSubmit} />
     )
     renderer.act(() => {
-      component.root
-        .findByType('PasswordInput' as any)
-        .props.onChange({ target: { value: '123456' } })
+      component.root.findByType('PasswordInput' as any).props.onChange({
+        target: {
+          value: '123456',
+        },
+      })
     })
     renderer.act(() => {
-      component.root.findByProps({ variant: 'contained', color: 'primary' }).props.onClick()
+      component.root
+        .findByProps({
+          variant: 'contained',
+          color: 'primary',
+        })
+        .props.onClick()
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -62,20 +78,34 @@ describe('component: OnboardingDialog', () => {
       <OnboardingDialog open onClose={onClose} onSubmit={onSubmit} />
     )
     renderer.act(() => {
+      component.root.findByType('PasswordInput' as any).props.onChange({
+        target: {
+          value: '123456',
+        },
+      })
+    })
+    renderer.act(() => {
       component.root
-        .findByType('PasswordInput' as any)
-        .props.onChange({ target: { value: '123456' } })
+        .findByProps({
+          variant: 'contained',
+          color: 'primary',
+        })
+        .props.onClick()
     })
     renderer.act(() => {
-      component.root.findByProps({ variant: 'contained', color: 'primary' }).props.onClick()
+      component.root.findByType('PasswordInput' as any).props.onChange({
+        target: {
+          value: '123455',
+        },
+      })
     })
     renderer.act(() => {
       component.root
-        .findByType('PasswordInput' as any)
-        .props.onChange({ target: { value: '123455' } })
-    })
-    renderer.act(() => {
-      component.root.findByProps({ variant: 'contained', color: 'primary' }).props.onClick()
+        .findByProps({
+          variant: 'contained',
+          color: 'primary',
+        })
+        .props.onClick()
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -85,20 +115,34 @@ describe('component: OnboardingDialog', () => {
       <OnboardingDialog open onClose={onClose} onSubmit={onSubmit} />
     )
     renderer.act(() => {
+      component.root.findByType('PasswordInput' as any).props.onChange({
+        target: {
+          value: '123456',
+        },
+      })
+    })
+    renderer.act(() => {
       component.root
-        .findByType('PasswordInput' as any)
-        .props.onChange({ target: { value: '123456' } })
+        .findByProps({
+          variant: 'contained',
+          color: 'primary',
+        })
+        .props.onClick()
     })
     renderer.act(() => {
-      component.root.findByProps({ variant: 'contained', color: 'primary' }).props.onClick()
+      component.root.findByType('PasswordInput' as any).props.onChange({
+        target: {
+          value: '123456',
+        },
+      })
     })
     renderer.act(() => {
       component.root
-        .findByType('PasswordInput' as any)
-        .props.onChange({ target: { value: '123456' } })
-    })
-    renderer.act(() => {
-      component.root.findByProps({ variant: 'contained', color: 'primary' }).props.onClick()
+        .findByProps({
+          variant: 'contained',
+          color: 'primary',
+        })
+        .props.onClick()
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

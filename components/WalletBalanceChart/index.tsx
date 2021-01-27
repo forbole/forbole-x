@@ -16,9 +16,7 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import SelectWalletButton from './SelectWalletButton'
 import useStyles from './styles'
 
-interface WalletBalanceChartProps {}
-
-const WalletBalanceChart: React.FC<WalletBalanceChartProps> = () => {
+const WalletBalanceChart: React.FC = () => {
   const { wallets } = useWalletsContext()
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
@@ -48,11 +46,17 @@ const WalletBalanceChart: React.FC<WalletBalanceChartProps> = () => {
       <Box mt={1} mb={2} display="flex" justifyContent="space-between" alignItems="flex-end">
         <Box>
           <Typography variant="h3" gutterBottom>
-            {new Intl.NumberFormat(lang, { style: 'currency', currency }).format(balance)}{' '}
+            {new Intl.NumberFormat(lang, {
+              style: 'currency',
+              currency,
+            }).format(balance)}{' '}
             {currency}
           </Typography>
           <Typography variant="h6">
-            {new Intl.NumberFormat(lang, { signDisplay: 'never' }).format(btcBalance)} {'฿'}
+            {new Intl.NumberFormat(lang, {
+              signDisplay: 'never',
+            }).format(btcBalance)}{' '}
+            ฿
           </Typography>
         </Box>
         <Box display="flex">
@@ -83,11 +87,18 @@ const WalletBalanceChart: React.FC<WalletBalanceChartProps> = () => {
             <YAxis
               axisLine={false}
               tickLine={false}
-              tickFormatter={(v) => new Intl.NumberFormat(lang, { signDisplay: 'never' }).format(v)}
+              tickFormatter={(v) =>
+                new Intl.NumberFormat(lang, {
+                  signDisplay: 'never',
+                }).format(v)
+              }
             />
             <Tooltip
-              formatter={(v, n) => [
-                new Intl.NumberFormat(lang, { style: 'currency', currency }).format(v),
+              formatter={(v) => [
+                new Intl.NumberFormat(lang, {
+                  style: 'currency',
+                  currency,
+                }).format(v),
               ]}
               labelFormatter={(v) => format(v, 'd MMM h:ma')}
             />

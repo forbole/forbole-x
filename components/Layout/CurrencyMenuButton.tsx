@@ -6,9 +6,7 @@ import CurrencyIcon from '../../assets/images/icons/icon_delegate_08.svg'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 import useIconProps from '../../misc/useIconProps'
 
-interface CurrencyMenuButtonProps {}
-
-const CurrencyMenuButton: React.FC<CurrencyMenuButtonProps> = () => {
+const CurrencyMenuButton: React.FC = () => {
   const { currency, setCurrency } = useSettingsContext()
   const classes = useStyles()
   const iconProps = useIconProps(3)

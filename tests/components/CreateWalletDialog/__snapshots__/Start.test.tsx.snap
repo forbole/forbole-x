@@ -78,6 +78,7 @@ Array [
       className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-button-1 MuiButton-textSecondary"
       disabled={false}
       onBlur={[Function]}
+      onClick={[MockFunction]}
       onDragLeave={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}

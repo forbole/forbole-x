@@ -4,7 +4,13 @@
     "es2020": true,
     "node": true
   },
-  "extends": ["plugin:react/recommended", "airbnb"],
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -26,18 +32,15 @@
     {
       "files": ["tests/**/*"],
       "rules": {
-        "no-undef": "off"
-      }
-    },
-    {
-      "files": ["src/**/*.test.tsx"],
-      "rules": {
         "no-undef": "off",
-        "import/no-extraneous-dependencies": "off"
+        "import/no-extraneous-dependencies": "off",
+        "@typescript-eslint/no-extra-semi": "off",
+        "@typescript-eslint/no-explicit-any": "off"
       }
     }
   ],
   "rules": {
+    "prettier/prettier": "error",
     "jsx-a11y/interactive-supports-focus": "off",
     "jsx-a11y/click-events-have-key-events": "off",
     "arrow-body-style": "off",
@@ -48,7 +51,12 @@
     "import/no-unresolved": "off",
     "lines-between-class-members": "off",
     "react/no-array-index-key": "warn",
+    "react/jsx-one-expression-per-line": "off",
     "jsx-a11y/anchor-is-valid": "off",
+    "react/prop-types": "off",
+    "react/jsx-curly-newline": "off",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
     "react/jsx-first-prop-new-line": ["error", "multiline"],
     "quotes": ["error", "single"],
     "import/extensions": [
@@ -74,21 +82,6 @@
         "classes": false,
         "variables": false,
         "typedefs": false
-      }
-    ],
-    "object-curly-newline": [
-      "error",
-      {
-        "ObjectExpression": "always",
-        "ObjectPattern": {
-          "multiline": true,
-          "minProperties": 2
-        },
-        "ImportDeclaration": {
-          "multiline": true,
-          "minProperties": 2
-        },
-        "ExportDeclaration": "always"
       }
     ]
   }

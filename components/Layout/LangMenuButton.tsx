@@ -1,15 +1,13 @@
 import { Button, Menu, MenuItem } from '@material-ui/core'
 import React from 'react'
 import Link from 'next/link'
-import useStyles from './styles'
-import LangIcon from '../../assets/images/icons/icon_language.svg'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
+import useStyles from './styles'
+import LangIcon from '../../assets/images/icons/icon_language.svg'
 import useIconProps from '../../misc/useIconProps'
 
-interface LangMenuButtonProps {}
-
-const LangMenuButton: React.FC<LangMenuButtonProps> = () => {
+const LangMenuButton: React.FC = () => {
   const { t, lang } = useTranslation('common')
   const { locales, pathname, query } = useRouter()
   const iconProps = useIconProps(3)

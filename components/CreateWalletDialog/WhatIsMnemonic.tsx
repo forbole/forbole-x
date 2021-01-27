@@ -3,9 +3,7 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
 
-interface WhatIsMnemonicProps {}
-
-const WhatIsMnemonic: React.FC<WhatIsMnemonicProps> = () => {
+const WhatIsMnemonic: React.FC = () => {
   const { t } = useTranslation('common')
   const classes = useStyles()
 

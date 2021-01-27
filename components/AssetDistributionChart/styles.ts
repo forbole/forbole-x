@@ -21,7 +21,10 @@ const useStyles = makeStyles(
       marginTop: theme.spacing(-5),
     },
   }),
-  { name: 'HookGlobalStyles', index: 2 }
+  {
+    name: 'HookGlobalStyles',
+    index: 2,
+  }
 )
 
 export default useStyles

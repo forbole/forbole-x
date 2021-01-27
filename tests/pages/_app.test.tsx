@@ -27,7 +27,9 @@ describe('page: _app', () => {
       <App
         router={{} as any}
         Component={() => <div id="component" />}
-        pageProps={{ props: 'props' }}
+        pageProps={{
+          props: 'props',
+        }}
       />
     )
     const tree = component.toJSON()
@@ -40,7 +42,9 @@ describe('page: _app', () => {
       <App
         router={{} as any}
         Component={() => <div id="component" />}
-        pageProps={{ props: 'props' }}
+        pageProps={{
+          props: 'props',
+        }}
       />
     )
     const tree = component.toJSON()
@@ -52,10 +56,12 @@ describe('page: _app', () => {
       <App
         router={{} as any}
         Component={() => <div id="component" />}
-        pageProps={{ props: 'props' }}
+        pageProps={{
+          props: 'props',
+        }}
       />
     )
-    renderer.act(() => {})
+    renderer.act(() => undefined)
     expect(document.cookie).toBe('NEXT_LOCALE=en')
   })
   it('removes server-side injected CSS', () => {
@@ -69,10 +75,12 @@ describe('page: _app', () => {
       <App
         router={{} as any}
         Component={() => <div id="component" />}
-        pageProps={{ props: 'props' }}
+        pageProps={{
+          props: 'props',
+        }}
       />
     )
-    renderer.act(() => {})
+    renderer.act(() => undefined)
     expect(document.querySelector).toBeCalledWith('#jss-server-side')
     expect(removeChild).toBeCalledWith({
       parentElement: {

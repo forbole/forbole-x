@@ -1,29 +1,47 @@
-import { Box, Button, Card, Typography, useTheme } from '@material-ui/core'
+import { Box, Card, Typography, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import format from 'date-fns/format'
 import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import useStyles from './styles'
 import SectoredByButton from './SectoredByButton'
 import { SectoredBy, sectoredByTypes } from './types'
 
-interface AssetDistributionChartProps {}
-
-const AssetDistributionChart: React.FC<AssetDistributionChartProps> = () => {
+const AssetDistributionChart: React.FC = () => {
   const classes = useStyles()
-  const { t, lang } = useTranslation('common')
+  const { t } = useTranslation('common')
   const theme = useTheme()
   const [sectoredBy, setSectoredBy] = React.useState<SectoredBy>(sectoredByTypes[0])
   const [activeIndex, setActiveIndex] = React.useState(0)
   // TODO: fetch data from backend
   const rawData = [
-    { name: 'Forbole', value: 35 },
-    { name: 'Binance Staking', value: 18 },
-    { name: 'DokiaCapital', value: 12 },
-    { name: '🐠stake.fish', value: 10 },
-    { name: 'CCN', value: 10 },
-    { name: 'Sikka', value: 8 },
-    { name: 'Zero Knowledge Validator (ZKV)', value: 7 },
+    {
+      name: 'Forbole',
+      value: 35,
+    },
+    {
+      name: 'Binance Staking',
+      value: 18,
+    },
+    {
+      name: 'DokiaCapital',
+      value: 12,
+    },
+    {
+      name: '🐠stake.fish',
+      value: 10,
+    },
+    {
+      name: 'CCN',
+      value: 10,
+    },
+    {
+      name: 'Sikka',
+      value: 8,
+    },
+    {
+      name: 'Zero Knowledge Validator (ZKV)',
+      value: 7,
+    },
   ]
   const COLORS = [
     theme.palette.error,
@@ -37,16 +55,22 @@ const AssetDistributionChart: React.FC<AssetDistributionChartProps> = () => {
     const startAngle = i === 0 ? 0 : data[i - 1].endAngle
     const endAngle = startAngle + (360 * d.value) / 100
     const outerRadius = `${100 * (1 - 0.6 * (i / rawData.length))}%`
-    data.push({ ...d, startAngle, endAngle, outerRadius })
+    data.push({
+      ...d,
+      startAngle,
+      endAngle,
+      outerRadius,
+    })
   })
 
   const { top, left } = React.useMemo(() => {
     const midAngle =
       (((data[activeIndex].startAngle + data[activeIndex].endAngle) / 2) * Math.PI) / 180
     const radius = (1.27 * Number(data[activeIndex].outerRadius.replace('%', ''))) / 2
-    const top = `calc(50% - ${Math.sin(midAngle) * radius}px)`
-    const left = `calc(30% + ${Math.cos(midAngle) * radius}px)`
-    return { top, left }
+    return {
+      top: `calc(50% - ${Math.sin(midAngle) * radius}px)`,
+      left: `calc(30% + ${Math.cos(midAngle) * radius}px)`,
+    }
   }, [activeIndex, data])
 
   return (
@@ -79,7 +103,13 @@ const AssetDistributionChart: React.FC<AssetDistributionChartProps> = () => {
             ))}
           </PieChart>
         </ResponsiveContainer>
-        <Box className={classes.divider} style={{ top, left }}>
+        <Box
+          className={classes.divider}
+          style={{
+            top,
+            left,
+          }}
+        >
           <Typography className={classes.percentText} variant="h2" gutterBottom>
             {data[activeIndex].value}%
           </Typography>

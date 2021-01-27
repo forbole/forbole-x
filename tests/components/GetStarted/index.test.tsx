@@ -48,7 +48,11 @@ describe('component: GetStarted', () => {
       component.root.findByType('button').props.onClick()
     })
     renderer.act(() => {
-      component.root.findByProps({ open: true }).props.onClose()
+      component.root
+        .findByProps({
+          open: true,
+        })
+        .props.onClose()
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -59,7 +63,11 @@ describe('component: GetStarted', () => {
       component.root.findByType('button').props.onClick()
     })
     renderer.act(() => {
-      component.root.findByProps({ open: true }).props.onSubmit('123123')
+      component.root
+        .findByProps({
+          open: true,
+        })
+        .props.onSubmit('123123')
     })
     expect(mockWalletsContext.unlockWallets).toBeCalledWith('123123')
     const tree = component.toJSON()
@@ -71,10 +79,18 @@ describe('component: GetStarted', () => {
       component.root.findByType('button').props.onClick()
     })
     renderer.act(() => {
-      component.root.findByProps({ open: true }).props.onSubmit('123123')
+      component.root
+        .findByProps({
+          open: true,
+        })
+        .props.onSubmit('123123')
     })
     renderer.act(() => {
-      component.root.findByProps({ open: true }).props.onClose()
+      component.root
+        .findByProps({
+          open: true,
+        })
+        .props.onClose()
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

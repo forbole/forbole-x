@@ -1,17 +1,15 @@
 import { Box, Button, Typography } from '@material-ui/core'
 import React from 'react'
+import useTranslation from 'next-translate/useTranslation'
 import GetStartedLightImage from '../../assets/images/get_started_light.svg'
 import GetStartedDarkImage from '../../assets/images/get_started_dark.svg'
 import useStyles from './styles'
 import { useSettingsContext } from '../../contexts/SettingsContext'
-import useTranslation from 'next-translate/useTranslation'
 import OnboardingDialog from '../OnboardingDialog'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import CreateWalletDialog from '../CreateWalletDialog'
 
-interface GetStartedProps {}
-
-const GetStarted: React.FC<GetStartedProps> = () => {
+const GetStarted: React.FC = () => {
   const classes = useStyles()
   const { theme } = useSettingsContext()
   const { unlockWallets } = useWalletsContext()

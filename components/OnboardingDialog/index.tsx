@@ -9,8 +9,8 @@ import {
   Typography,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-import ClossIcon from '../../assets/images/icons/icon_cross.svg'
 import React from 'react'
+import ClossIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import PasswordInput from '../PasswordInput'
 import useIconProps from '../../misc/useIconProps'
@@ -34,16 +34,14 @@ const OnboardingDialog: React.FC<OnboardingDialogProps> = ({ open, onClose, onSu
     setError('')
     if (!isConfirmingPassword) {
       if (password.length < 6) {
-        return setError(t('invalid password'))
+        setError(t('invalid password'))
       } else {
         setIsConfirmingPassword(true)
       }
+    } else if (password !== confirmPassword) {
+      setError(t('invalid confirm password'))
     } else {
-      if (password !== confirmPassword) {
-        return setError(t('invalid confirm password'))
-      } else {
-        onSubmit(password)
-      }
+      onSubmit(password)
     }
   }, [isConfirmingPassword, password, confirmPassword])
   return (

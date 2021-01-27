@@ -3,11 +3,11 @@ import Head from 'next/head'
 import { AppProps } from 'next/app'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import useTranslation from 'next-translate/useTranslation'
 import { lightTheme, darkTheme } from '../misc/theme'
 import GlobalCss from '../misc/globalCss'
 import { SettingsProvider, useSettingsContext } from '../contexts/SettingsContext'
 import { WalletsProvider } from '../contexts/WalletsContext'
-import useTranslation from 'next-translate/useTranslation'
 
 function InnerApp({ Component, pageProps }: AppProps) {
   const { theme } = useSettingsContext()
@@ -16,9 +16,8 @@ function InnerApp({ Component, pageProps }: AppProps) {
   const muiTheme = React.useMemo(() => {
     if (theme === 'dark') {
       return createMuiTheme(darkTheme)
-    } else {
-      return createMuiTheme(lightTheme)
     }
+    return createMuiTheme(lightTheme)
   }, [theme])
 
   React.useEffect(() => {

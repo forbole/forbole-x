@@ -28,12 +28,18 @@ describe('component: Layout - CurrencyMenuButton', () => {
   it('renders menu correctly', () => {
     const component = renderer.create(<CurrencyMenuButton />)
     renderer.act(() => {
-      component.root.findByType('button').props.onClick({ currentTarget: 'button' })
+      component.root.findByType('button').props.onClick({
+        currentTarget: 'button',
+      })
     })
     const menuOpenedTree = component.toJSON()
     expect(menuOpenedTree).toMatchSnapshot()
     renderer.act(() => {
-      component.root.findByProps({ id: 'menu' }).props.onClose()
+      component.root
+        .findByProps({
+          id: 'menu',
+        })
+        .props.onClose()
     })
     const menuClosedTree = component.toJSON()
     expect(menuClosedTree).toMatchSnapshot()
@@ -41,8 +47,14 @@ describe('component: Layout - CurrencyMenuButton', () => {
   it('sets currency to HKD on click', () => {
     const component = renderer.create(<CurrencyMenuButton />)
     renderer.act(() => {
-      component.root.findByType('button').props.onClick({ currentTarget: 'button' })
-      component.root.findByProps({ children: 'HKD' }).props.onClick()
+      component.root.findByType('button').props.onClick({
+        currentTarget: 'button',
+      })
+      component.root
+        .findByProps({
+          children: 'HKD',
+        })
+        .props.onClick()
     })
     expect(mockCurrencyContext.setCurrency).toBeCalledWith('HKD')
   })

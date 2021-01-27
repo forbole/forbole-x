@@ -13,7 +13,9 @@ jest.mock('next/router', () => ({
   useRouter: () => ({
     locales: ['en', 'zh'],
     pathname: '/app/home',
-    query: { key: 'val' },
+    query: {
+      key: 'val',
+    },
   }),
 }))
 
@@ -32,12 +34,18 @@ describe('component: Layout - LangMenuButton', () => {
   it('renders menu correctly', () => {
     const component = renderer.create(<LangMenuButton />)
     renderer.act(() => {
-      component.root.findByType('button').props.onClick({ currentTarget: 'button' })
+      component.root.findByType('button').props.onClick({
+        currentTarget: 'button',
+      })
     })
     const menuOpenedTree = component.toJSON()
     expect(menuOpenedTree).toMatchSnapshot()
     renderer.act(() => {
-      component.root.findByProps({ id: 'menu' }).props.onClose()
+      component.root
+        .findByProps({
+          id: 'menu',
+        })
+        .props.onClose()
     })
     const menuClosedTree = component.toJSON()
     expect(menuClosedTree).toMatchSnapshot()

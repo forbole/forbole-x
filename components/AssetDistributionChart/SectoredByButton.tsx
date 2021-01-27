@@ -1,10 +1,8 @@
 import { Button, Menu, MenuItem } from '@material-ui/core'
 import React from 'react'
-import useStyles from './styles'
-import WalletIcon from '../../assets/images/icons/icon_wallet_manage.svg'
+import useTranslation from 'next-translate/useTranslation'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import useIconProps from '../../misc/useIconProps'
-import useTranslation from 'next-translate/useTranslation'
 import { SectoredBy, sectoredByTypes } from './types'
 
 interface SectoredByButtonProps {

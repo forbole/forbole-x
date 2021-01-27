@@ -3,13 +3,11 @@ import React from 'react'
 import { LineChart, Line, YAxis } from 'recharts'
 import UpIcon from '@material-ui/icons/ArrowDropUp'
 import DownIcon from '@material-ui/icons/ArrowDropDown'
-import useStyles from './styles'
 import useTranslation from 'next-translate/useTranslation'
+import useStyles from './styles'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 
-interface AccountCardProps {}
-
-const AccountCard: React.FC<AccountCardProps> = () => {
+const AccountCard: React.FC = () => {
   const classes = useStyles()
   const theme = useTheme()
   const { lang } = useTranslation()
@@ -67,17 +65,26 @@ const AccountCard: React.FC<AccountCardProps> = () => {
               <Typography color="textSecondary">{percentageChange}% (24h)</Typography>
             </Box>
             <Typography>
-              {new Intl.NumberFormat(lang, { style: 'currency', currency }).format(diff)} {currency}
+              {new Intl.NumberFormat(lang, {
+                style: 'currency',
+                currency,
+              }).format(diff)}{' '}
+              {currency}
             </Typography>
           </Box>
         </Box>
         <Box display="flex" flexDirection="column" alignItems="flex-end">
           <Typography variant="h4" align="right">
-            {new Intl.NumberFormat(lang, { signDisplay: 'never' }).format(balance)}
+            {new Intl.NumberFormat(lang, {
+              signDisplay: 'never',
+            }).format(balance)}
             {' ATOM'}
           </Typography>
           <Typography variant="h6" align="right">
-            {new Intl.NumberFormat(lang, { style: 'currency', currency }).format(usdBalance)}{' '}
+            {new Intl.NumberFormat(lang, {
+              style: 'currency',
+              currency,
+            }).format(usdBalance)}{' '}
             {currency}
           </Typography>
         </Box>

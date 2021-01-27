@@ -1,9 +1,9 @@
 import { Box, Grid, Typography } from '@material-ui/core'
 import React from 'react'
+import useTranslation from 'next-translate/useTranslation'
 import Layout from '../components/Layout'
 import WalletBalanceChart from '../components/WalletBalanceChart'
 import AssetDistributionChart from '../components/AssetDistributionChart'
-import useTranslation from 'next-translate/useTranslation'
 import AccountCard from '../components/AccountCard'
 
 export default function Home() {

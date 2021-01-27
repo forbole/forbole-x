@@ -10,12 +10,7 @@ import {
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
-
-export enum ImportStage {
-  ImportMnemonicPhrase = 'import mnemonic phrase',
-  MnemonicPhraseBackup = 'use mnemonic phrase backup',
-  ConnectLedgerDevice = 'connect ledger device',
-}
+import { ImportStage } from '.'
 
 interface AccessMyWalletProps {
   onConfirm(stage: ImportStage): void
