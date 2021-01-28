@@ -12,7 +12,7 @@ jest.mock('../../contexts/SettingsContext', () => ({
   useSettingsContext: () => mockThemeContext,
   SettingsProvider: 'SettingsProvider',
 }))
-jest.mock('../../misc/GlobalCss', () => 'GlobalCss')
+jest.mock('../../misc/globalCss', () => 'GlobalCss')
 jest.mock('@material-ui/core/styles', () => ({
   ThemeProvider: 'ThemeProvider',
   createMuiTheme: jest.fn(),
