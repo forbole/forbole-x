@@ -11,7 +11,9 @@ jobs:
         run: yarn lint
       - name: Run unit tests
         run: yarn test
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
       - name: Run build check
         run: yarn build
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          start: yarn start
