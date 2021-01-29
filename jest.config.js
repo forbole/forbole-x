@@ -1,5 +1,5 @@
 module.exports = {
-  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
+  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/', '<rootDir>/cypress'],
   coveragePathIgnorePatterns: ['<rootDir>/assets/'],
   setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
   transform: {
