@@ -13,3 +13,7 @@ jobs:
         run: yarn test
       - name: Run build check
         run: yarn build
+      - name: Run e2e tests
+        uses: cypress-io/github-action@v2
+        with:
+          start: yarn start

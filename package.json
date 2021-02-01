@@ -8,7 +8,8 @@
     "start": "next start",
     "prettier": "prettier --config .prettierrc --write '**/*.{ts,tsx,json,yaml}'",
     "lint": "eslint '**/*.{ts,tsx}'",
-    "test": "jest"
+    "test": "jest",
+    "e2e": "cypress run"
   },
   "dependencies": {
     "@cosmjs/launchpad": "^0.23.2",
