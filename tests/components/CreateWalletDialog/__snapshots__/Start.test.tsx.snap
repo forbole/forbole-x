@@ -3,7 +3,7 @@
 exports[`component: CreateWalletDialog - Start renders correctly 1`] = `
 Array [
   <div
-    className="MuiDialogContent-root HookGlobalStyles-dialogContent-6"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
     <p
       className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"

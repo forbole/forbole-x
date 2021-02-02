@@ -39,19 +39,9 @@ jest.mock('@cosmjs/launchpad', () => ({
   Secp256k1HdWallet: {
     generate: jest.fn().mockResolvedValue({
       mnemonic: 'guide check kick present flash casual',
-      pubkey: {
-        1: {
-          2: 3,
-        },
-      },
     }),
     fromMnemonic: jest.fn().mockResolvedValue({
       mnemonic: 'guide check kick present flash casual',
-      pubkey: {
-        1: {
-          2: 3,
-        },
-      },
     }),
   },
 }))
@@ -242,7 +232,7 @@ describe('component: CreateWalletDialog', () => {
   })
   it('calls addWallet and onClose when wallet name is set', async () => {
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
-    const { mnemonic: mockMnemonic, pubkey: mockPubkey }: any = await Secp256k1HdWallet.generate()
+    const { mnemonic: mockMnemonic }: any = await Secp256k1HdWallet.generate()
     await renderer.act(async () => {
       await component.root
         .findByProps({
@@ -284,7 +274,6 @@ describe('component: CreateWalletDialog', () => {
       mnemonic: mockMnemonic,
       name: 'wallet name',
       securityPassword: '123123',
-      pubkey: mockPubkey,
     })
     expect(onClose).toBeCalled()
   })

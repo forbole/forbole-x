@@ -58,6 +58,7 @@
   "moniker": "Moniker",
   "wallet name": "Wallet name",
   "import": "Import",
+  "select currencies": "Select the currencies you want to import",
   "day": "Day",
   "week": "Week",
   "month": "Month",

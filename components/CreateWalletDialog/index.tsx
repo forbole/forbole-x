@@ -51,13 +51,11 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
   const { addWallet } = useWalletsContext()
   const [stage, setStage] = React.useState<Stage>(CommonStage.StartStage)
   const [mnemonic, setMnemonic] = React.useState('')
-  const [pubkey, setPubkey] = React.useState<Uint8Array>()
   const [securityPassword, setSecurityPassword] = React.useState('')
   const [error, setError] = React.useState('')
 
   const createWallet = React.useCallback(async () => {
     const wallet = await Secp256k1HdWallet.generate(24)
-    setPubkey((wallet as any).pubkey)
     setMnemonic(wallet.mnemonic)
     setStage(CommonStage.CreateWalletStage)
   }, [setMnemonic])
@@ -66,7 +64,6 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
     async (input) => {
       try {
         const wallet = await Secp256k1HdWallet.fromMnemonic(input)
-        setPubkey((wallet as any).pubkey)
         setMnemonic(wallet.mnemonic)
         setStage(CommonStage.SetSecurityPasswordStage)
       } catch (err) {
@@ -84,7 +81,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
         setError(t('invalid mnemonic'))
       }
     },
-    [mnemonic, setStage, setError, pubkey]
+    [mnemonic, setStage, setError]
   )
 
   const confirmSecurityPassword = React.useCallback(
@@ -96,16 +93,16 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
   )
 
   const saveWallet = React.useCallback(
-    async (name: string) => {
+    async (name: string, cryptos: string[]) => {
       await addWallet({
         name,
-        pubkey,
+        cryptos,
         mnemonic,
         securityPassword,
       })
       onClose()
     },
-    [addWallet, pubkey, mnemonic, securityPassword, onClose]
+    [addWallet, mnemonic, securityPassword, onClose]
   )
 
   const content: Content = React.useMemo(() => {

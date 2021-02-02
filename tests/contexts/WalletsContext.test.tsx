@@ -17,9 +17,8 @@ describe('context: WalletsContext', () => {
         wallets: [
           {
             name: 'test',
-            pubkey: {
-              1: 2,
-            },
+            id: '123',
+            cryptos: ['ATOM'],
           },
         ],
       })
@@ -33,9 +32,8 @@ describe('context: WalletsContext', () => {
     expect(result.current.wallets).toStrictEqual([
       {
         name: 'test',
-        pubkey: {
-          1: 2,
-        },
+        id: '123',
+        cryptos: ['ATOM'],
       },
     ])
     expect(sendMsgToChromeExt).toBeCalledWith({
@@ -54,9 +52,8 @@ describe('context: WalletsContext', () => {
         wallets: [
           {
             name: 'test',
-            pubkey: {
-              1: 2,
-            },
+            id: '123',
+            cryptos: ['ATOM'],
           },
         ],
       })
@@ -75,22 +72,26 @@ describe('context: WalletsContext', () => {
       .mockResolvedValueOnce({
         isFirstTimeUser: false,
       })
-      .mockResolvedValue({
+      .mockResolvedValueOnce({
         wallets: [
           {
             name: 'test',
-            pubkey: {
-              1: 2,
-            },
+            id: '123',
+            cryptos: ['ATOM'],
           },
         ],
       })
+      .mockResolvedValueOnce({
+        wallet: {
+          name: 'test 2',
+          id: '1234',
+          cryptos: ['ATOM'],
+        },
+      })
     const wallet = {
       name: 'test 2',
+      cryptos: ['ATOM'],
       mnemonic: 'mnemonic',
-      pubkey: {
-        1: 2,
-      } as any,
       securityPassword: 'password',
     }
 
@@ -107,13 +108,13 @@ describe('context: WalletsContext', () => {
     const wallets = [
       {
         name: wallet.name,
-        pubkey: wallet.pubkey,
+        id: '1234',
+        cryptos: ['ATOM'],
       },
       {
         name: 'test',
-        pubkey: {
-          1: 2,
-        },
+        id: '123',
+        cryptos: ['ATOM'],
       },
     ]
     expect(result.current.wallets).toStrictEqual(wallets)
@@ -134,16 +135,12 @@ describe('context: WalletsContext', () => {
         wallets: [
           {
             name: 'test',
-            pubkey: {
-              1: 2,
-            },
+            id: '123',
+            cryptos: ['ATOM'],
           },
         ],
       })
     const wrapper: React.FC = ({ children }) => <WalletsProvider>{children}</WalletsProvider>
-    const pubkey: any = {
-      1: 2,
-    }
     const { result } = renderHook(() => useWalletsContext(), {
       wrapper,
     })
@@ -151,14 +148,14 @@ describe('context: WalletsContext', () => {
       await result.current.unlockWallets(password)
     })
     await act(async () => {
-      await result.current.deleteWallet(pubkey)
+      await result.current.deleteWallet('123')
     })
     const wallets = []
     expect(result.current.wallets).toStrictEqual(wallets)
     expect(sendMsgToChromeExt).toBeCalledWith({
       event: 'deleteWallet',
       data: {
-        pubkey,
+        id: '123',
         password,
       },
     })

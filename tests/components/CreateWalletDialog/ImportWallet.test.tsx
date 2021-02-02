@@ -1,6 +1,8 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
+import last from 'lodash/last'
 import ImportWallet from '../../../components/CreateWalletDialog/ImportWallet'
+import cryptocurrencies from '../../../misc/cryptocurrencies'
 
 const onConfirm = jest.fn()
 
@@ -32,9 +34,12 @@ describe('component: CreateWalletDialog - ImportWallet', () => {
       })
     })
     renderer.act(() => {
-      component.root.findByType('button').props.onClick()
+      component.root.findAllByType('button')[0].props.onClick()
     })
-    expect(onConfirm).toBeCalledWith('wallet')
+    renderer.act(() => {
+      last(component.root.findAllByType('button')).props.onClick()
+    })
+    expect(onConfirm).toBeCalledWith('wallet', [cryptocurrencies[0].name])
   })
 })
 
