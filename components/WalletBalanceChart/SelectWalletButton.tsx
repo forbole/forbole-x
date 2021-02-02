@@ -54,11 +54,7 @@ const SelectWalletButton: React.FC<SelectWalletButtonProps> = ({
         onClose={onClose}
       >
         {wallets.map((w) => (
-          <MenuItem
-            selected={isEqual(w.pubkey, currentWallet.pubkey)}
-            key={JSON.stringify(w.pubkey)}
-            onClick={() => onItemClick(w)}
-          >
+          <MenuItem selected={w.id === currentWallet.id} key={w.id} onClick={() => onItemClick(w)}>
             {w.name}
           </MenuItem>
         ))}

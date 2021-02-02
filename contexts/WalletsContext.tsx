@@ -9,7 +9,7 @@ interface WalletsState {
   password: string
   unlockWallets?: (password: string) => void
   addWallet?: (wallet: CreateWalletParams) => void
-  deleteWallet?: (pubkey: Uint8Array) => void
+  deleteWallet?: (id: string) => void
 }
 
 const initialState: WalletsState = {
@@ -51,7 +51,7 @@ const WalletsProvider: React.FC = ({ children }) => {
 
   const addWallet = React.useCallback(
     async (wallet: CreateWalletParams) => {
-      await sendMsgToChromeExt({
+      const result = await sendMsgToChromeExt({
         event: 'addWallet',
         data: {
           wallet,
@@ -59,27 +59,21 @@ const WalletsProvider: React.FC = ({ children }) => {
         },
       })
       setIsFirstTimeUser(false)
-      setWallets((ws) => [
-        {
-          name: wallet.name,
-          pubkey: wallet.pubkey,
-        },
-        ...ws,
-      ])
+      setWallets((ws) => [result.wallet, ...ws])
     },
     [password]
   )
 
   const deleteWallet = React.useCallback(
-    async (pubkey: Uint8Array) => {
+    async (id: string) => {
       await sendMsgToChromeExt({
         event: 'deleteWallet',
         data: {
-          pubkey,
+          id,
           password,
         },
       })
-      setWallets((ws) => ws.filter((w) => !isEqual(w.pubkey, pubkey)))
+      setWallets((ws) => ws.filter((w) => w.id !== id))
     },
     [wallets, password]
   )

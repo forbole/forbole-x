@@ -2,10 +2,10 @@
 
 exports[`component: CreateWalletDialog - WhatIsMnemonic renders correctly 1`] = `
 <div
-  className="MuiDialogContent-root HookGlobalStyles-dialogContent-6"
+  className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
 >
   <div
-    className="MuiBox-root MuiBox-root-7"
+    className="MuiBox-root MuiBox-root-8"
   >
     <p
       className="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"

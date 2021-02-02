@@ -5,12 +5,13 @@ declare module '*.svg' {
 
 interface Wallet {
   name: string
-  pubkey: Uint8Array
+  cryptos: string[]
+  id: string
 }
 
 interface CreateWalletParams {
   name: string
-  pubkey: Uint8Array
+  cryptos: string[]
   mnemonic: string
   securityPassword: string
 }
@@ -29,5 +30,5 @@ type ChromeMessage =
     }
   | {
       event: 'deleteWallet'
-      data: { pubkey: Uint8Array; password: string }
+      data: { id: string; password: string }
     }

@@ -42,6 +42,18 @@ const useStyles = makeStyles(
         border: `1px solid ${theme.palette.grey[300]}`,
       },
     },
+    cryptoButton: {
+      border: `1px solid ${theme.palette.grey[200]}`,
+      borderRadius: theme.shape.borderRadius,
+      padding: theme.spacing(1, 2),
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      width: '100%',
+      '&:hover': {
+        border: `1px solid ${theme.palette.grey[300]}`,
+      },
+    },
     dialogContent: {
       overflowY: 'initial',
     },

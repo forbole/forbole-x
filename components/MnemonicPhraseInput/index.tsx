@@ -35,7 +35,7 @@ const MnemonicPhraseInput: React.FC<MnemonicPhraseInputProps> = ({
         <Grid item xs={3} key={`mnemonic-${i}`}>
           <Box position="relative">
             {disabled ? (
-              <Typography className={classes.input}>{mnemonicArr[i]}</Typography>
+              <Typography className={`${classes.input} mnemonic`}>{mnemonicArr[i]}</Typography>
             ) : (
               <input
                 id={`mnemonic-${i}`}
