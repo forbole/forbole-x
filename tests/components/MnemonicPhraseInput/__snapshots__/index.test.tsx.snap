@@ -498,7 +498,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-51"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         guide
       </p>
@@ -516,7 +516,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-52"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         check
       </p>
@@ -534,7 +534,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-53"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         kick
       </p>
@@ -552,7 +552,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-54"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         present
       </p>
@@ -570,7 +570,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-55"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         flash
       </p>
@@ -588,7 +588,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-56"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         casual
       </p>
@@ -606,7 +606,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-57"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         history
       </p>
@@ -624,7 +624,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-58"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         auto
       </p>
@@ -642,7 +642,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-59"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         agree
       </p>
@@ -660,7 +660,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-60"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         help
       </p>
@@ -678,7 +678,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-61"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         actor
       </p>
@@ -696,7 +696,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-62"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         swarm
       </p>
@@ -714,7 +714,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-63"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         battle
       </p>
@@ -732,7 +732,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-64"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         decline
       </p>
@@ -750,7 +750,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-65"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         canyon
       </p>
@@ -768,7 +768,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-66"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         magnet
       </p>
@@ -786,7 +786,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-67"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         novel
       </p>
@@ -804,7 +804,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-68"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         curve
       </p>
@@ -822,7 +822,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-69"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         dad
       </p>
@@ -840,7 +840,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-70"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         guilt
       </p>
@@ -858,7 +858,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-71"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         web
       </p>
@@ -876,7 +876,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-72"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         actor
       </p>
@@ -894,7 +894,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-73"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         weekend
       </p>
@@ -912,7 +912,7 @@ exports[`component: MnemonicPhraseInput renders disabled state correctly 1`] = `
       className="MuiBox-root MuiBox-root-74"
     >
       <p
-        className="MuiTypography-root HookGlobalStyles-input-1 MuiTypography-body1"
+        className="MuiTypography-root HookGlobalStyles-input-1 mnemonic MuiTypography-body1"
       >
         uncover
       </p>
