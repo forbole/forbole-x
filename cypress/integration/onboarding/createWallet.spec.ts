@@ -1,4 +1,9 @@
 /* eslint-disable no-param-reassign */
+const testWallet = {
+  id: '123',
+  name: 'test wallet name',
+  cryptos: ['ATOM'],
+}
 describe('Create wallet on first visit', () => {
   it('successfully loads and click Get Started', () => {
     cy.visit('http://localhost:3000', {
@@ -6,7 +11,7 @@ describe('Create wallet on first visit', () => {
         win.chrome = win.chrome || {}
         win.chrome.runtime = {
           sendMessage(_id, msg, callback) {
-            callback({ isFirstTimeUser: true })
+            callback(msg.event === 'ping' ? { isFirstTimeUser: true } : { wallet: testWallet })
           },
         }
       },
@@ -27,8 +32,8 @@ describe('Create wallet on first visit', () => {
   })
   it('create and confirm mnemonic phrase', () => {
     cy.contains('have any mnemonic phrase').click()
-    cy.get('.jss25').should('be.visible')
-    cy.get('.jss25').then((e) => {
+    cy.get('.mnemonic').should('be.visible')
+    cy.get('.mnemonic').then((e) => {
       const mnemonic = []
       for (let i = 0; i < e.length; i += 1) {
         mnemonic.push(e[i].innerText)
@@ -43,9 +48,10 @@ describe('Create wallet on first visit', () => {
     cy.contains('Strong').should('be.visible')
     cy.get('button').contains('Next').click()
   })
-  it('sets wallet name', () => {
-    cy.get('input').type('test wallet name').should('have.value', 'test wallet name')
+  it('sets wallet name and select cryptos', () => {
+    cy.get('input').type('test wallet name').should('have.value', testWallet.name)
+    cy.get('button').contains(testWallet.cryptos[0]).click()
     cy.get('button').contains('Import').click()
-    cy.contains('test wallet name').should('be.visible')
+    cy.contains(testWallet.name).should('be.visible')
   })
 })

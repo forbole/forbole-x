@@ -8,6 +8,7 @@ const useStyles = makeStyles(
       width: '100%',
       borderRadius: theme.shape.borderRadius,
       backgroundColor: theme.palette.background.paper,
+      color: theme.palette.text.primary,
       ...theme.typography.body1,
       '&:hover': {
         border: `1px solid ${theme.palette.text.primary}`,
