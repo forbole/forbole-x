@@ -6,6 +6,8 @@ describe('Create wallet on first visit', () => {
     name: 'test wallet name',
     cryptos: ['ATOM'],
   }
+  const mnemonic =
+    'scan surprise tide guilt industry antenna legal bulb transfer tonight topple start file lumber shift museum humble hawk ivory horse embrace cheese spend raise'
   it('successfully loads and click Get Started', () => {
     cy.visit('http://localhost:3000', {
       onBeforeLoad(win: any) {
@@ -31,18 +33,11 @@ describe('Create wallet on first visit', () => {
     cy.get('input').type('123123').should('have.value', '123123')
     cy.get('button').contains('Confirm').click()
   })
-  it('create and confirm mnemonic phrase', () => {
-    cy.contains('have any mnemonic phrase').click()
-    cy.get('.mnemonic').should('be.visible')
-    cy.get('.mnemonic').then((e) => {
-      const mnemonic = []
-      for (let i = 0; i < e.length; i += 1) {
-        mnemonic.push(e[i].innerText)
-      }
-      cy.contains('I have written it down').click()
-      cy.get('#mnemonic-0').type(mnemonic.join(' '))
-      cy.contains('Next').click()
-    })
+  it('import mnemonic phrase', () => {
+    cy.contains('12 / 24 word mnemonic phrase').click()
+    cy.contains('Import Mnemonic Phrase').click()
+    cy.get('#mnemonic-0').type(mnemonic)
+    cy.contains('Next').click()
   })
   it('sets a secure security password', () => {
     cy.get('input').type('123qweASD!@#').should('have.value', '123qweASD!@#')
