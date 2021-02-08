@@ -32,3 +32,19 @@ type ChromeMessage =
       event: 'deleteWallet'
       data: { id: string; password: string }
     }
+  | {
+      event: 'generateMnemonic'
+    }
+  | {
+      event: 'verifyMnemonic'
+      data: {
+        mnemonic: string
+      }
+    }
+  | {
+      event: 'verifyMnemonicBackup'
+      data: {
+        backupPhrase: string
+        password: string
+      }
+    }
