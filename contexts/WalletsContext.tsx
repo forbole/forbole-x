@@ -1,4 +1,3 @@
-import isEqual from 'lodash/isEqual'
 import React from 'react'
 import sendMsgToChromeExt from '../misc/sendMsgToChromeExt'
 
@@ -6,6 +5,7 @@ interface WalletsState {
   isFirstTimeUser: boolean
   isUnlocked: boolean
   wallets: Wallet[]
+  accounts: Account[]
   password: string
   unlockWallets?: (password: string) => void
   addWallet?: (wallet: CreateWalletParams) => void
@@ -16,6 +16,7 @@ const initialState: WalletsState = {
   isFirstTimeUser: false,
   isUnlocked: false,
   wallets: [],
+  accounts: [],
   password: '',
 }
 
@@ -23,6 +24,7 @@ const WalletsContext = React.createContext<WalletsState>(initialState)
 
 const WalletsProvider: React.FC = ({ children }) => {
   const [wallets, setWallets] = React.useState<Wallet[]>([])
+  const [accounts, setAccounts] = React.useState<Account[]>([])
   const [isFirstTimeUser, setIsFirstTimeUser] = React.useState(false)
   const [password, setPassword] = React.useState('')
 
@@ -43,6 +45,7 @@ const WalletsProvider: React.FC = ({ children }) => {
           },
         })
         setWallets(response.wallets)
+        setAccounts(response.accounts)
       }
       setPassword(pw)
     },
@@ -60,6 +63,7 @@ const WalletsProvider: React.FC = ({ children }) => {
       })
       setIsFirstTimeUser(false)
       setWallets((ws) => [result.wallet, ...ws])
+      setAccounts((acs) => [result.accounts, ...acs])
     },
     [password]
   )
@@ -88,6 +92,7 @@ const WalletsProvider: React.FC = ({ children }) => {
         isFirstTimeUser,
         isUnlocked: !!wallets.length,
         wallets,
+        accounts,
         password,
         unlockWallets,
         addWallet,
@@ -99,6 +104,6 @@ const WalletsProvider: React.FC = ({ children }) => {
   )
 }
 
-const useWalletsContext = () => React.useContext(WalletsContext)
+const useWalletsContext = (): WalletsState => React.useContext(WalletsContext)
 
 export { WalletsProvider, useWalletsContext }

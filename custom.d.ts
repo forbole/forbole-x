@@ -3,10 +3,24 @@ declare module '*.svg' {
   export default content
 }
 
+interface Account {
+  walletId: string
+  address: string
+  crypto: string
+  index: number
+  name: string
+  fav: boolean
+}
+
 interface Wallet {
   name: string
-  cryptos: string[]
   id: string
+  createdAt: number
+}
+
+interface Crypto {
+  name: string
+  coinType: number
 }
 
 interface CreateWalletParams {

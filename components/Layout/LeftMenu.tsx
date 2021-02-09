@@ -1,6 +1,6 @@
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
-import { List, ListItem, ListItemIcon, ListItemText, Paper, useTheme } from '@material-ui/core'
+import { Box, List, ListItem, ListItemIcon, ListItemText, Paper, useTheme } from '@material-ui/core'
 import Link from 'next/link'
 import OverviewIcon from '../../assets/images/icons/icon_overview.svg'
 import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg'
@@ -12,12 +12,15 @@ import ExplorerIcon from '../../assets/images/icons/icon_explorer.svg'
 import Logo from '../../assets/images/logo.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
+import { MenuWidth } from '.'
 
 interface LeftMenuProps {
   activeItem: string
+  isMenuExpanded: boolean
+  setIsMenuExpanded: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem }) => {
+const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMenuExpanded }) => {
   const { t } = useTranslation('common')
   const theme = useTheme()
   const iconProps = useIconProps(3)
@@ -30,7 +33,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem }) => {
         href: '/',
       },
       {
-        title: t('walletManage'),
+        title: t('wallet manage'),
         icon: <WalletManageIcon {...iconProps} />,
         href: '/wallets',
       },
@@ -50,7 +53,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem }) => {
         href: '/proposals',
       },
       {
-        title: t('addressBook'),
+        title: t('address book'),
         icon: <AddressBookIcon {...iconProps} />,
         href: '/address-book',
       },
@@ -64,15 +67,20 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem }) => {
   )
 
   return (
-    <Paper elevation={0} className={classes.leftMenuContainer}>
+    <Paper
+      style={{ width: theme.spacing(isMenuExpanded ? MenuWidth.Expanded : MenuWidth.Collapsed) }}
+      className={classes.leftMenuContainer}
+    >
       <List className={classes.menu}>
-        <ListItem className={classes.menuItem} button>
+        <ListItem className={classes.menuItem} button onClick={() => setIsMenuExpanded((e) => !e)}>
           <ListItemIcon>
-            <Logo
-              width={theme.spacing(5)}
-              height={theme.spacing(5)}
-              fill={theme.palette.primary.main}
-            />
+            <Box ml={-1}>
+              <Logo
+                width={theme.spacing(5)}
+                height={theme.spacing(5)}
+                fill={theme.palette.primary.main}
+              />
+            </Box>
           </ListItemIcon>
           <ListItemText
             primary="PORTAL"

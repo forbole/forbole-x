@@ -5,6 +5,9 @@ const useStyles = makeStyles(
     container: {
       padding: theme.spacing(2),
     },
+    name: {
+      marginLeft: theme.spacing(1),
+    },
   }),
   {
     name: 'HookGlobalStyles',

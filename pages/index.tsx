@@ -4,9 +4,9 @@ import useTranslation from 'next-translate/useTranslation'
 import Layout from '../components/Layout'
 import WalletBalanceChart from '../components/WalletBalanceChart'
 import AssetDistributionChart from '../components/AssetDistributionChart'
-import AccountCard from '../components/AccountCard'
+import AccountStatCard from '../components/AccountStatCard'
 
-export default function Home() {
+const Home: React.FC = () => {
   const { t } = useTranslation('common')
   return (
     <Layout passwordRequired activeItem="/">
@@ -25,15 +25,17 @@ export default function Home() {
       </Box>
       <Grid container spacing={3}>
         <Grid item lg={4} md={6}>
-          <AccountCard />
+          <AccountStatCard />
         </Grid>
         <Grid item lg={4} md={6}>
-          <AccountCard />
+          <AccountStatCard />
         </Grid>
         <Grid item lg={4} md={6}>
-          <AccountCard />
+          <AccountStatCard />
         </Grid>
       </Grid>
     </Layout>
   )
 }
+
+export default Home
