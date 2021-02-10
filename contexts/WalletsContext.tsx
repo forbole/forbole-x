@@ -28,6 +28,8 @@ const WalletsProvider: React.FC = ({ children }) => {
   const [isFirstTimeUser, setIsFirstTimeUser] = React.useState(false)
   const [password, setPassword] = React.useState('')
 
+  console.log({ wallets, accounts })
+
   const checkIsFirstTimeUser = React.useCallback(async () => {
     const response = await sendMsgToChromeExt({
       event: 'ping',
@@ -38,14 +40,20 @@ const WalletsProvider: React.FC = ({ children }) => {
   const unlockWallets = React.useCallback(
     async (pw: string) => {
       if (!isFirstTimeUser) {
-        const response = await sendMsgToChromeExt({
+        const walletaResponse = await sendMsgToChromeExt({
           event: 'getWallets',
           data: {
             password: pw,
           },
         })
-        setWallets(response.wallets)
-        setAccounts(response.accounts)
+        const accountsResponse = await sendMsgToChromeExt({
+          event: 'getAccounts',
+          data: {
+            password: pw,
+          },
+        })
+        setWallets(walletaResponse.wallets)
+        setAccounts(accountsResponse.accounts)
       }
       setPassword(pw)
     },
@@ -63,7 +71,7 @@ const WalletsProvider: React.FC = ({ children }) => {
       })
       setIsFirstTimeUser(false)
       setWallets((ws) => [result.wallet, ...ws])
-      setAccounts((acs) => [result.accounts, ...acs])
+      setAccounts((acs) => [...result.accounts, ...acs])
     },
     [password]
   )

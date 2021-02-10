@@ -41,7 +41,7 @@ const Wallets: React.FC = () => {
             </IconButton>
           </Box>
           <Grid container spacing={3}>
-            {accountsMap[w.id].map((a) => (
+            {(accountsMap[w.id] || []).map((a) => (
               <Grid key={a.address} item xl={4} lg={6}>
                 <AccountCard account={a} />
               </Grid>

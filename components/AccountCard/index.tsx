@@ -17,18 +17,19 @@ import CopyIcon from '../../assets/images/icons/icon_copy.svg'
 import useStyles from './styles'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 import useIconProps from '../../misc/useIconProps'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 interface AccountCardProps {
   account: Account
 }
 
-const AccountCard: React.FC<AccountCardProps> = () => {
+const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
+  const crypto = cryptocurrencies[account.crypto]
   const classes = useStyles()
   const iconProps = useIconProps()
   const { lang } = useTranslation()
   const { currency } = useSettingsContext()
   // TODO: fetch data from backend
-  const now = Date.now()
   const balance = 104387.26
   const usdBalance = 626323.54
 
@@ -36,14 +37,16 @@ const AccountCard: React.FC<AccountCardProps> = () => {
     <Card className={classes.container}>
       <Box mb={5} display="flex" alignItems="flex-start" justifyContent="space-between">
         <Box display="flex" alignItems="center">
-          <Avatar
-            alt="ATOM"
-            src="https://research.binance.com/static/images/projects/cosmos-network/cosmoslogo.png"
-          />
+          <Avatar alt={crypto.name} src={crypto.image} />
           <Box ml={1}>
-            <Typography variant="h5">Account 12</Typography>
-            <Link component="button" variant="body2" color="textSecondary">
-              cosmos14kn0kk33szpwus9nh8n87fjel8djx0y0mmswhp
+            <Typography variant="h5">{account.name}</Typography>
+            <Link
+              component="button"
+              variant="body2"
+              color="textSecondary"
+              onClick={() => navigator.clipboard.writeText(account.address)}
+            >
+              {account.address}
               <Box display="inline" ml={1}>
                 <CopyIcon {...iconProps} />
               </Box>
@@ -71,7 +74,7 @@ const AccountCard: React.FC<AccountCardProps> = () => {
           </Typography>
         </Box>
         <IconButton>
-          <StarIcon {...iconProps} />
+          {account.fav ? <StarFilledIcon {...iconProps} /> : <StarIcon {...iconProps} />}
         </IconButton>
       </Box>
     </Card>

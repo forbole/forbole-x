@@ -10,6 +10,7 @@ interface Account {
   index: number
   name: string
   fav: boolean
+  createdAt: number
 }
 
 interface Wallet {
@@ -36,6 +37,10 @@ type ChromeMessage =
     }
   | {
       event: 'getWallets'
+      data: { password: string }
+    }
+  | {
+      event: 'getAccounts'
       data: { password: string }
     }
   | {
