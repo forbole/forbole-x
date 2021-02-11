@@ -68,5 +68,10 @@
   "month": "Month",
   "asset distribution": "Asset Distribution",
   "by validators": "by validators",
-  "accounts": "Accounts"
+  "accounts": "Accounts",
+  "change wallet moniker": "Change wallet moniker",
+  "change security password": "Change security password",
+  "view mnemonic phrase": "View mnemonic phrase",
+  "add account to wallet": "Add account to wallet",
+  "delete wallet": "Delete Wallet"
 }

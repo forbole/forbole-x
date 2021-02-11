@@ -9,7 +9,11 @@ interface WalletsState {
   password: string
   unlockWallets?: (password: string) => void
   addWallet?: (wallet: CreateWalletParams) => void
+  updateWallet?: (id: string, wallet: UpdateWalletParams) => void
   deleteWallet?: (id: string) => void
+  addAccount?: (account: CreateAccountParams) => void
+  updateAccount?: (address: string, account: UpdateAccountParams) => void
+  deleteAccount?: (address: string) => void
 }
 
 const initialState: WalletsState = {
@@ -27,8 +31,6 @@ const WalletsProvider: React.FC = ({ children }) => {
   const [accounts, setAccounts] = React.useState<Account[]>([])
   const [isFirstTimeUser, setIsFirstTimeUser] = React.useState(false)
   const [password, setPassword] = React.useState('')
-
-  console.log({ wallets, accounts })
 
   const checkIsFirstTimeUser = React.useCallback(async () => {
     const response = await sendMsgToChromeExt({
@@ -76,6 +78,21 @@ const WalletsProvider: React.FC = ({ children }) => {
     [password]
   )
 
+  const updateWallet = React.useCallback(
+    async (id: string, wallet: UpdateWalletParams) => {
+      const result = await sendMsgToChromeExt({
+        event: 'updateWallet',
+        data: {
+          wallet,
+          id,
+          password,
+        },
+      })
+      setWallets((ws) => ws.map((w) => (w.id === id ? result.wallet : w)))
+    },
+    [password]
+  )
+
   const deleteWallet = React.useCallback(
     async (id: string) => {
       await sendMsgToChromeExt({
@@ -87,7 +104,50 @@ const WalletsProvider: React.FC = ({ children }) => {
       })
       setWallets((ws) => ws.filter((w) => w.id !== id))
     },
-    [wallets, password]
+    [password]
+  )
+
+  const addAccount = React.useCallback(
+    async (account: CreateAccountParams) => {
+      const result = await sendMsgToChromeExt({
+        event: 'addAccount',
+        data: {
+          account,
+          password,
+        },
+      })
+      setAccounts((acs) => [result.account, ...acs])
+    },
+    [password]
+  )
+
+  const updateAccount = React.useCallback(
+    async (address: string, account: UpdateAccountParams) => {
+      const result = await sendMsgToChromeExt({
+        event: 'updateAccount',
+        data: {
+          account,
+          address,
+          password,
+        },
+      })
+      setAccounts((acs) => acs.map((a) => (a.address === address ? result.account : a)))
+    },
+    [password]
+  )
+
+  const deleteAccount = React.useCallback(
+    async (address: string) => {
+      await sendMsgToChromeExt({
+        event: 'deleteAccount',
+        data: {
+          address,
+          password,
+        },
+      })
+      setAccounts((acs) => acs.filter((a) => a.address !== address))
+    },
+    [password]
   )
 
   React.useEffect(() => {
@@ -104,7 +164,11 @@ const WalletsProvider: React.FC = ({ children }) => {
         password,
         unlockWallets,
         addWallet,
+        updateWallet,
         deleteWallet,
+        addAccount,
+        updateAccount,
+        deleteAccount,
       }}
     >
       {children}

@@ -13,6 +13,17 @@ interface Account {
   createdAt: number
 }
 
+interface CreateAccountParams {
+  walletId: string
+  crypto: string
+  name: string
+}
+
+interface UpdateAccountParams {
+  name: string
+  fav: boolean
+}
+
 interface Wallet {
   name: string
   id: string
@@ -31,6 +42,8 @@ interface CreateWalletParams {
   securityPassword: string
 }
 
+type UpdateWalletParams = Partial<Omit<CreateWalletParams, 'cryptos'>>
+
 type ChromeMessage =
   | {
       event: 'ping'
@@ -48,8 +61,24 @@ type ChromeMessage =
       data: { wallet: CreateWalletParams; password: string }
     }
   | {
+      event: 'updateWallet'
+      data: { wallet: UpdateWalletParams; id: string; password: string }
+    }
+  | {
       event: 'deleteWallet'
       data: { id: string; password: string }
+    }
+  | {
+      event: 'addAccount'
+      data: { account: CreateAccountParams; password: string }
+    }
+  | {
+      event: 'updateAccount'
+      data: { account: UpdateAccountParams; address: string; password: string }
+    }
+  | {
+      event: 'deleteAccount'
+      data: { address: string; password: string }
     }
   | {
       event: 'generateMnemonic'

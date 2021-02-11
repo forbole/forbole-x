@@ -64,5 +64,10 @@
   "month": "[zh] Month",
   "asset distribution": "[zh] Asset Distribution",
   "by validators": "[zh] by validators",
-  "accounts": "[zh] Accounts"
+  "accounts": "[zh] Accounts",
+  "change wallet moniker": "[zh] Change wallet moniker",
+  "change security password": "[zh] Change security password",
+  "view mnemonic phrase": "[zh] View mnemonic phrase",
+  "add account to wallet": "[zh] Add account to wallet",
+  "delete wallet": "[zh] Delete Wallet"
 }
