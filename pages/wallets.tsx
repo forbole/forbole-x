@@ -21,11 +21,11 @@ const Wallets: React.FC = () => {
         <Box key={w.id} mt={2}>
           <Box display="flex" alignItems="center" mb={1}>
             <Typography variant="h4">{w.name}</Typography>
-            <WalletMenuButton />
+            <WalletMenuButton walletId={w.id} />
           </Box>
           <Grid container spacing={3}>
             {(accountsMap[w.id] || []).map((a) => (
-              <Grid key={a.address} item xl={4} lg={6}>
+              <Grid key={a.address} item xl={4} lg={6} xs={12}>
                 <AccountCard account={a} />
               </Grid>
             ))}

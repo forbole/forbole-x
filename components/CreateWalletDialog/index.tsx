@@ -1,7 +1,7 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import ClossIcon from '../../assets/images/icons/icon_cross.svg'
+import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
@@ -209,7 +209,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
         </IconButton>
       ) : null}
       <IconButton className={classes.closeButton} onClick={onClose}>
-        <ClossIcon {...iconProps} />
+        <CloseIcon {...iconProps} />
       </IconButton>
       <DialogTitle>{content.title}</DialogTitle>
       {content.content}

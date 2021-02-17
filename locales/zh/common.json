@@ -69,5 +69,10 @@
   "change security password": "[zh] Change security password",
   "view mnemonic phrase": "[zh] View mnemonic phrase",
   "add account to wallet": "[zh] Add account to wallet",
-  "delete wallet": "[zh] Delete Wallet"
+  "delete wallet": "[zh] Delete Wallet",
+  "wallet moniker": "[zh] Wallet Moniker",
+  "current password": "[zh] Current Password",
+  "new password": "[zh] New Password",
+  "save": "[zh] Save",
+  "enter security password": "[zh] Please enter security password"
 }

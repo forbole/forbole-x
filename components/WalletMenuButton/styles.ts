@@ -5,6 +5,23 @@ const useStyles = makeStyles(
     iconButton: {
       marginLeft: theme.spacing(1),
     },
+    menuItem: {
+      padding: theme.spacing(1, 3),
+      borderBottom: `1px solid ${theme.palette.grey[100]}`,
+    },
+    dialogButton: {
+      flex: 1,
+      margin: theme.spacing(4, 2),
+      marginTop: theme.spacing(20),
+    },
+    closeButton: {
+      position: 'absolute',
+      top: theme.spacing(2),
+      right: theme.spacing(2),
+    },
+    passwordRequirement: {
+      marginTop: theme.spacing(1),
+    },
   }),
   {
     name: 'HookGlobalStyles',

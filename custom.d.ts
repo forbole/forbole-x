@@ -96,3 +96,11 @@ type ChromeMessage =
         password: string
       }
     }
+  | {
+      event: 'viewMnemonicPhrase'
+      data: {
+        id: string
+        securityPassword: string
+        password: string
+      }
+    }

@@ -23,7 +23,6 @@ const Layout: React.FC<LayoutProps> = ({ activeItem, passwordRequired, children 
   const classes = useStyles()
   const theme = useTheme()
   const [isMenuExpanded, setIsMenuExpanded] = usePersistedState('isMenuExpanded', true)
-  console.log(isMenuExpanded)
   const { isFirstTimeUser, isUnlocked } = useWalletsContext()
   return (
     <>

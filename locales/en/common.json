@@ -73,5 +73,10 @@
   "change security password": "Change security password",
   "view mnemonic phrase": "View mnemonic phrase",
   "add account to wallet": "Add account to wallet",
-  "delete wallet": "Delete Wallet"
+  "delete wallet": "Delete Wallet",
+  "wallet moniker": "Wallet Moniker",
+  "current password": "Current Password",
+  "new password": "New Password",
+  "save": "Save",
+  "enter security password": "Please enter security password"
 }
