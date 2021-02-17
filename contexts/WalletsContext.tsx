@@ -59,7 +59,7 @@ const WalletsProvider: React.FC = ({ children }) => {
       }
       setPassword(pw)
     },
-    [isFirstTimeUser]
+    [isFirstTimeUser, setPassword, setWallets, setAccounts]
   )
 
   const addWallet = React.useCallback(
@@ -75,7 +75,7 @@ const WalletsProvider: React.FC = ({ children }) => {
       setWallets((ws) => [result.wallet, ...ws])
       setAccounts((acs) => [...result.accounts, ...acs])
     },
-    [password]
+    [password, setIsFirstTimeUser, setWallets, setAccounts]
   )
 
   const updateWallet = React.useCallback(
@@ -90,7 +90,7 @@ const WalletsProvider: React.FC = ({ children }) => {
       })
       setWallets((ws) => ws.map((w) => (w.id === id ? result.wallet : w)))
     },
-    [password]
+    [password, setWallets]
   )
 
   const deleteWallet = React.useCallback(
@@ -104,7 +104,7 @@ const WalletsProvider: React.FC = ({ children }) => {
       })
       setWallets((ws) => ws.filter((w) => w.id !== id))
     },
-    [password]
+    [password, setWallets]
   )
 
   const addAccount = React.useCallback(
@@ -118,7 +118,7 @@ const WalletsProvider: React.FC = ({ children }) => {
       })
       setAccounts((acs) => [result.account, ...acs])
     },
-    [password]
+    [password, setAccounts]
   )
 
   const updateAccount = React.useCallback(
@@ -133,7 +133,7 @@ const WalletsProvider: React.FC = ({ children }) => {
       })
       setAccounts((acs) => acs.map((a) => (a.address === address ? result.account : a)))
     },
-    [password]
+    [password, setAccounts]
   )
 
   const deleteAccount = React.useCallback(
@@ -147,7 +147,7 @@ const WalletsProvider: React.FC = ({ children }) => {
       })
       setAccounts((acs) => acs.filter((a) => a.address !== address))
     },
-    [password]
+    [password, setAccounts]
   )
 
   React.useEffect(() => {

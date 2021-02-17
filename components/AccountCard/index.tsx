@@ -18,6 +18,7 @@ import useStyles from './styles'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 import useIconProps from '../../misc/useIconProps'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface AccountCardProps {
   account: Account
@@ -26,12 +27,18 @@ interface AccountCardProps {
 const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
   const crypto = cryptocurrencies[account.crypto]
   const classes = useStyles()
+  const theme = useTheme()
   const iconProps = useIconProps()
   const { lang } = useTranslation()
   const { currency } = useSettingsContext()
+  const { updateAccount } = useWalletsContext()
   // TODO: fetch data from backend
   const balance = 104387.26
   const usdBalance = 626323.54
+
+  const toggleFav = React.useCallback(() => {
+    updateAccount(account.address, { fav: !account.fav })
+  }, [account.address, account.fav, updateAccount])
 
   return (
     <Card className={classes.container}>
@@ -73,8 +80,12 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
             {currency}
           </Typography>
         </Box>
-        <IconButton>
-          {account.fav ? <StarFilledIcon {...iconProps} /> : <StarIcon {...iconProps} />}
+        <IconButton onClick={toggleFav}>
+          {account.fav ? (
+            <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
+          ) : (
+            <StarIcon {...iconProps} />
+          )}
         </IconButton>
       </Box>
     </Card>

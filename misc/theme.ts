@@ -81,6 +81,7 @@ const lightTheme = {
     },
     warning: {
       main: '#E0A111',
+      light: '#FCD32A',
     },
     error: {
       main: '#FD565F',

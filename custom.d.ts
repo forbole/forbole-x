@@ -20,8 +20,8 @@ interface CreateAccountParams {
 }
 
 interface UpdateAccountParams {
-  name: string
-  fav: boolean
+  name?: string
+  fav?: boolean
 }
 
 interface Wallet {
