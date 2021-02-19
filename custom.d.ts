@@ -42,7 +42,11 @@ interface CreateWalletParams {
   securityPassword: string
 }
 
-type UpdateWalletParams = Partial<Omit<CreateWalletParams, 'cryptos'>>
+interface UpdateWalletParams {
+  name?: string
+  securityPassword?: string
+  newSecurityPassword?: string
+}
 
 type ChromeMessage =
   | {
@@ -97,10 +101,19 @@ type ChromeMessage =
       }
     }
   | {
+      event: 'verifySecurityPassword'
+      data: {
+        id: string
+        securityPassword: string
+        password: string
+      }
+    }
+  | {
       event: 'viewMnemonicPhrase'
       data: {
         id: string
         securityPassword: string
+        backupPassword: string
         password: string
       }
     }

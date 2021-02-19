@@ -30,30 +30,39 @@ const ChangeSecurityPasswordDialog: React.FC<ChangeSecurityPasswordDialogProps> 
   const classes = useStyles()
   const iconProps = useIconProps()
   const [error, setError] = React.useState('')
-  const [password, setPassword] = React.useState('')
-  const [mnemonic, setMnemonic] = React.useState('')
-  const { updateWallet, viewMnemonicPhrase } = useWalletsContext()
+  const [isSettingNewPassword, setIsSettingNewPassword] = React.useState(false)
+  const [securityPassword, setSecurityPassword] = React.useState('')
+  const [newSecurityPassword, setNewSecurityPassword] = React.useState('')
+  const { updateWallet, verifySecurityPassword } = useWalletsContext()
 
   const onButtonClick = React.useCallback(async () => {
     try {
       setError('')
-      if (mnemonic) {
-        await updateWallet(walletId, { mnemonic, securityPassword: password })
+      if (isSettingNewPassword) {
+        await updateWallet(walletId, { newSecurityPassword, securityPassword })
         onClose()
       } else {
-        const result = await viewMnemonicPhrase(walletId, password)
-        setMnemonic(result)
-        setPassword('')
+        const result = await verifySecurityPassword(walletId, securityPassword)
+        console.log(result)
+        setIsSettingNewPassword(true)
       }
     } catch (err) {
       setError(err.message)
     }
-  }, [mnemonic, setMnemonic, password, walletId, setError])
+  }, [
+    isSettingNewPassword,
+    setIsSettingNewPassword,
+    securityPassword,
+    newSecurityPassword,
+    walletId,
+    setError,
+  ])
 
   React.useEffect(() => {
     setError('')
-    setMnemonic('')
-    setPassword('')
+    setSecurityPassword('')
+    setNewSecurityPassword('')
+    setIsSettingNewPassword(false)
   }, [open])
 
   return (
@@ -63,14 +72,18 @@ const ChangeSecurityPasswordDialog: React.FC<ChangeSecurityPasswordDialogProps> 
       </IconButton>
       <DialogTitle>{t('change security password')}</DialogTitle>
       <DialogContent>
-        <Typography gutterBottom>{t(mnemonic ? 'new password' : 'current password')}</Typography>
+        <Typography gutterBottom>
+          {t(isSettingNewPassword ? 'new password' : 'current password')}
+        </Typography>
         <PasswordInput
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={isSettingNewPassword ? newSecurityPassword : securityPassword}
+          onChange={(e) =>
+            (isSettingNewPassword ? setNewSecurityPassword : setSecurityPassword)(e.target.value)
+          }
           placeholder={t('password')}
           error={!!error}
           helperText={error}
-          withSecurityLevel={!!mnemonic}
+          withSecurityLevel={isSettingNewPassword}
         />
       </DialogContent>
       <DialogActions>
@@ -80,7 +93,7 @@ const ChangeSecurityPasswordDialog: React.FC<ChangeSecurityPasswordDialogProps> 
           color="primary"
           onClick={onButtonClick}
         >
-          {t(mnemonic ? 'save' : 'next')}
+          {t(isSettingNewPassword ? 'save' : 'next')}
         </Button>
       </DialogActions>
     </Dialog>
