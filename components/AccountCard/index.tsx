@@ -69,8 +69,8 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
           <Typography variant="h4">
             {new Intl.NumberFormat(lang, {
               signDisplay: 'never',
-            }).format(balance)}
-            {' ATOM'}
+            }).format(balance)}{' '}
+            {crypto.name}
           </Typography>
           <Typography variant="h6">
             {new Intl.NumberFormat(lang, {

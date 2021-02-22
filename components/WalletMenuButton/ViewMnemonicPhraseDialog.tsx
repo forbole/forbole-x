@@ -134,7 +134,10 @@ const ViewMnemonicPhraseDialog: React.FC<ViewMnemonicPhraseDialogProps> = ({
               onChange={() => null}
               multiline
               rows={5}
-              onFocus={(e: any) => e.target.select()}
+              onFocus={(e: any) => {
+                e.target.select()
+                navigator.clipboard.writeText(encryptionPhrase)
+              }}
             />
           </Box>
         ) : null}

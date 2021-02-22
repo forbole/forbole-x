@@ -6,8 +6,14 @@ import DownIcon from '@material-ui/icons/ArrowDropDown'
 import useTranslation from 'next-translate/useTranslation'
 import useStyles from './styles'
 import { useSettingsContext } from '../../contexts/SettingsContext'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
-const AccountStatCard: React.FC = () => {
+interface AccountStatCardProps {
+  account: Account
+}
+
+const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
+  const crypto = cryptocurrencies[account.crypto]
   const classes = useStyles()
   const theme = useTheme()
   const { lang } = useTranslation()
@@ -33,12 +39,9 @@ const AccountStatCard: React.FC = () => {
     <Card className={classes.container}>
       <Box mb={7} display="flex" alignItems="center" justifyContent="space-between">
         <Box display="flex" alignItems="center">
-          <Avatar
-            alt="ATOM"
-            src="https://research.binance.com/static/images/projects/cosmos-network/cosmoslogo.png"
-          />
+          <Avatar alt={crypto.name} src={crypto.image} />
           <Typography className={classes.name} variant="h5">
-            Account 12
+            {account.name}
           </Typography>
         </Box>
         <Button variant="outlined">Delegate</Button>
@@ -77,8 +80,8 @@ const AccountStatCard: React.FC = () => {
           <Typography variant="h4" align="right">
             {new Intl.NumberFormat(lang, {
               signDisplay: 'never',
-            }).format(balance)}
-            {' ATOM'}
+            }).format(balance)}{' '}
+            {crypto.name}
           </Typography>
           <Typography variant="h6" align="right">
             {new Intl.NumberFormat(lang, {
