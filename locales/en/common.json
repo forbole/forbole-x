@@ -78,5 +78,9 @@
   "current password": "Current Password",
   "new password": "New Password",
   "save": "Save",
-  "enter security password": "Please enter security password"
+  "enter security password": "Please enter security password",
+  "backup password title": "Export Mnemonic",
+  "export mnemonic title": "Export Mnemonic",
+  "backup password description": "In oder to export your mnemonic properly, we need a password with it will be encrypted for security reasons. Please insert below passwords that you will also be required later when importing it.",
+  "export mnemonic description": "You can export this data whenever you want, even sending it to a friend of yours for backup, if you have used a strong enough password."
 }

@@ -6,6 +6,7 @@ import EditIcon from '../../assets/images/icons/icon_edit.svg'
 import useIconProps from '../../misc/useIconProps'
 import ChangeWalletMonikerDialog from './ChangeWalletMonikerDialog'
 import ChangeSecurityPasswordDialog from './ChangeSecurityPasswordDialog'
+import ViewMnemonicPhraseDialog from './ViewMnemonicPhraseDialog'
 
 const WalletMenuButton: React.FC<{ walletId: string }> = ({ walletId }) => {
   const { t } = useTranslation('common')
@@ -15,6 +16,7 @@ const WalletMenuButton: React.FC<{ walletId: string }> = ({ walletId }) => {
 
   const [changeWalletNameOpen, setChangeWalletNameOpen] = React.useState(false)
   const [changeSecurityPasswordOpen, setChangeSecurityPasswordOpen] = React.useState(false)
+  const [viewMnemonicPhraseOpen, setViewMnemonicPhraseOpen] = React.useState(false)
 
   const onClose = React.useCallback(() => setAnchor(undefined), [setAnchor])
 
@@ -58,7 +60,14 @@ const WalletMenuButton: React.FC<{ walletId: string }> = ({ walletId }) => {
         >
           {t('change security password')}
         </MenuItem>
-        <MenuItem className={classes.menuItem} button>
+        <MenuItem
+          className={classes.menuItem}
+          button
+          onClick={() => {
+            setViewMnemonicPhraseOpen(true)
+            onClose()
+          }}
+        >
           {t('view mnemonic phrase')}
         </MenuItem>
         <MenuItem className={classes.menuItem} button>
@@ -78,6 +87,11 @@ const WalletMenuButton: React.FC<{ walletId: string }> = ({ walletId }) => {
       <ChangeSecurityPasswordDialog
         open={changeSecurityPasswordOpen}
         onClose={() => setChangeSecurityPasswordOpen(false)}
+        walletId={walletId}
+      />
+      <ViewMnemonicPhraseDialog
+        open={viewMnemonicPhraseOpen}
+        onClose={() => setViewMnemonicPhraseOpen(false)}
         walletId={walletId}
       />
     </>

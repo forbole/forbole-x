@@ -2,11 +2,13 @@ import React from 'react'
 import dropRight from 'lodash/dropRight'
 import last from 'lodash/last'
 
-const useStateHistory = <P>(initialState: P): [P, (state: P) => void, () => void, boolean] => {
+const useStateHistory = <P>(
+  initialState: P
+): [P, (state: P, resetHistory?: boolean) => void, () => void, boolean] => {
   const [states, setStates] = React.useState([initialState])
   const setNextState = React.useCallback(
-    (state: P) => {
-      setStates((s) => [...s, state])
+    (state: P, resetHistory?: boolean) => {
+      setStates((s) => (resetHistory ? [state] : [...s, state]))
     },
     [setStates]
   )

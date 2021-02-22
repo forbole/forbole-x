@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -49,17 +50,19 @@ const ChangeWalletMonikerDialog: React.FC<ChangeWalletMonikerDialogProps> = ({
       </IconButton>
       <DialogTitle>{t('change wallet moniker')}</DialogTitle>
       <DialogContent>
-        <Typography gutterBottom>{t('wallet moniker')}</Typography>
-        <TextField
-          fullWidth
-          variant="filled"
-          InputProps={{
-            disableUnderline: true,
-          }}
-          placeholder={t('wallet moniker')}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <Box mb={18}>
+          <Typography gutterBottom>{t('wallet moniker')}</Typography>
+          <TextField
+            fullWidth
+            variant="filled"
+            InputProps={{
+              disableUnderline: true,
+            }}
+            placeholder={t('wallet moniker')}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button

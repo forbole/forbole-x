@@ -6,6 +6,7 @@ import {
   DialogTitle,
   IconButton,
   Typography,
+  Box,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -72,19 +73,21 @@ const ChangeSecurityPasswordDialog: React.FC<ChangeSecurityPasswordDialogProps> 
       </IconButton>
       <DialogTitle>{t('change security password')}</DialogTitle>
       <DialogContent>
-        <Typography gutterBottom>
-          {t(isSettingNewPassword ? 'new password' : 'current password')}
-        </Typography>
-        <PasswordInput
-          value={isSettingNewPassword ? newSecurityPassword : securityPassword}
-          onChange={(e) =>
-            (isSettingNewPassword ? setNewSecurityPassword : setSecurityPassword)(e.target.value)
-          }
-          placeholder={t('password')}
-          error={!!error}
-          helperText={error}
-          withSecurityLevel={isSettingNewPassword}
-        />
+        <Box mb={18}>
+          <Typography gutterBottom>
+            {t(isSettingNewPassword ? 'new password' : 'current password')}
+          </Typography>
+          <PasswordInput
+            value={isSettingNewPassword ? newSecurityPassword : securityPassword}
+            onChange={(e) =>
+              (isSettingNewPassword ? setNewSecurityPassword : setSecurityPassword)(e.target.value)
+            }
+            placeholder={t('password')}
+            error={!!error}
+            helperText={error}
+            withSecurityLevel={isSettingNewPassword}
+          />
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button

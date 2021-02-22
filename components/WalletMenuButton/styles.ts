@@ -12,15 +12,22 @@ const useStyles = makeStyles(
     dialogButton: {
       flex: 1,
       margin: theme.spacing(4, 2),
-      marginTop: theme.spacing(20),
     },
     closeButton: {
       position: 'absolute',
       top: theme.spacing(2),
       right: theme.spacing(2),
     },
+    backButton: {
+      position: 'absolute',
+      top: theme.spacing(2),
+      left: theme.spacing(2),
+    },
     passwordRequirement: {
       marginTop: theme.spacing(1),
+    },
+    stageDescription: {
+      marginBottom: theme.spacing(4),
     },
   }),
   {
