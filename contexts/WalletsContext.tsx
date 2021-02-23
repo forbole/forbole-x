@@ -108,9 +108,29 @@ const WalletsProvider: React.FC = ({ children }) => {
           password,
         },
       })
-      setWallets((ws) => ws.filter((w) => w.id !== id))
+      await Promise.all(
+        accounts
+          .filter((a) => a.walletId === id)
+          .map((a) =>
+            sendMsgToChromeExt({
+              event: 'deleteAccount',
+              data: {
+                address: a.address,
+                password,
+              },
+            })
+          )
+      )
+      setWallets((ws) => {
+        const newWallets = ws.filter((w) => w.id !== id)
+        if (!newWallets.length) {
+          setIsFirstTimeUser(true)
+        }
+        return newWallets
+      })
+      setAccounts((acs) => acs.filter((a) => a.walletId !== id))
     },
-    [password, setWallets]
+    [password, accounts, setWallets, setIsFirstTimeUser, setAccounts]
   )
 
   const addAccount = React.useCallback(

@@ -7,6 +7,7 @@ import useIconProps from '../../misc/useIconProps'
 import ChangeWalletMonikerDialog from './ChangeWalletMonikerDialog'
 import ChangeSecurityPasswordDialog from './ChangeSecurityPasswordDialog'
 import ViewMnemonicPhraseDialog from './ViewMnemonicPhraseDialog'
+import DeleteWalletDialog from './DeleteWalletDialog'
 
 const WalletMenuButton: React.FC<{ walletId: string }> = ({ walletId }) => {
   const { t } = useTranslation('common')
@@ -17,6 +18,7 @@ const WalletMenuButton: React.FC<{ walletId: string }> = ({ walletId }) => {
   const [changeWalletNameOpen, setChangeWalletNameOpen] = React.useState(false)
   const [changeSecurityPasswordOpen, setChangeSecurityPasswordOpen] = React.useState(false)
   const [viewMnemonicPhraseOpen, setViewMnemonicPhraseOpen] = React.useState(false)
+  const [deleteWalletOpen, setDeleteWalletOpen] = React.useState(false)
 
   const onClose = React.useCallback(() => setAnchor(undefined), [setAnchor])
 
@@ -74,7 +76,15 @@ const WalletMenuButton: React.FC<{ walletId: string }> = ({ walletId }) => {
           {t('add account to wallet')}
         </MenuItem>
         <Box m={2}>
-          <Button fullWidth variant="contained" color="primary">
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setDeleteWalletOpen(true)
+              onClose()
+            }}
+          >
             {t('delete wallet')}
           </Button>
         </Box>
@@ -92,6 +102,11 @@ const WalletMenuButton: React.FC<{ walletId: string }> = ({ walletId }) => {
       <ViewMnemonicPhraseDialog
         open={viewMnemonicPhraseOpen}
         onClose={() => setViewMnemonicPhraseOpen(false)}
+        walletId={walletId}
+      />
+      <DeleteWalletDialog
+        open={deleteWalletOpen}
+        onClose={() => setDeleteWalletOpen(false)}
         walletId={walletId}
       />
     </>

@@ -78,5 +78,8 @@
   "export password title": "[zh] Export Mnemonic",
   "export mnemonic title": "[zh] Export Mnemonic",
   "export password description": "[zh] In oder to export your mnemonic properly, we need a password with it will be encrypted for security reasons. Please insert below passwords that you will also be required later when importing it.",
-  "export mnemonic description": "[zh] You can export this data whenever you want, even sending it to a friend of yours for backup, if you have used a strong enough password."
+  "export mnemonic description": "[zh] You can export this data whenever you want, even sending it to a friend of yours for backup, if you have used a strong enough password.",
+  "delete wallet warning": "[zh] Are you sure you would like to delete this wallet?",
+  "delete": "[zh] Delete",
+  "cancel": "[zh] Cancel"
 }
