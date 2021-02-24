@@ -36,12 +36,17 @@ const ChangeWalletMonikerDialog: React.FC<ChangeWalletMonikerDialogProps> = ({
   const onButtonClick = React.useCallback(async () => {
     try {
       await updateWallet(walletId, { name })
-      setName('')
       onClose()
     } catch (err) {
       console.log(err)
     }
   }, [name, updateWallet, walletId])
+
+  React.useEffect(() => {
+    if (open) {
+      setName('')
+    }
+  }, [open])
 
   return (
     <Dialog fullWidth open={open} onClose={onClose}>

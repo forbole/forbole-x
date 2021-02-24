@@ -45,6 +45,10 @@ const GlobalCss = withStyles(
       '.MuiFilledInput-multiline': {
         padding: 0,
       },
+      '.MuiSelect-select': {
+        display: 'flex',
+        alignItems: 'center',
+      },
     },
   }),
   {

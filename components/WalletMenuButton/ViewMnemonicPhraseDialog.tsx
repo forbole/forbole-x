@@ -76,11 +76,13 @@ const ViewMnemonicPhraseDialog: React.FC<ViewMnemonicPhraseDialogProps> = ({
   ])
 
   React.useEffect(() => {
-    setError('')
-    setSecurityPassword('')
-    setBackupPassword('')
-    setStage(Stage.SecurityPassword, true)
-    setEncryptionPhrase('')
+    if (open) {
+      setError('')
+      setSecurityPassword('')
+      setBackupPassword('')
+      setStage(Stage.SecurityPassword, true)
+      setEncryptionPhrase('')
+    }
   }, [open])
 
   return (

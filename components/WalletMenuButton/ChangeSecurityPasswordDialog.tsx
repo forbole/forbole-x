@@ -60,10 +60,12 @@ const ChangeSecurityPasswordDialog: React.FC<ChangeSecurityPasswordDialogProps> 
   ])
 
   React.useEffect(() => {
-    setError('')
-    setSecurityPassword('')
-    setNewSecurityPassword('')
-    setIsSettingNewPassword(false)
+    if (open) {
+      setError('')
+      setSecurityPassword('')
+      setNewSecurityPassword('')
+      setIsSettingNewPassword(false)
+    }
   }, [open])
 
   return (

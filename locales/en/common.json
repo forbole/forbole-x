@@ -85,5 +85,8 @@
   "export mnemonic description": "You can export this data whenever you want, even sending it to a friend of yours for backup, if you have used a strong enough password.",
   "delete wallet warning": "Are you sure you would like to delete this wallet?",
   "delete": "Delete",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "create account": "Create Account",
+  "network": "Network",
+  "account moniker": "Account Moniker"
 }

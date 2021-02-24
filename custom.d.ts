@@ -74,7 +74,7 @@ type ChromeMessage =
     }
   | {
       event: 'addAccount'
-      data: { account: CreateAccountParams; password: string }
+      data: { account: CreateAccountParams; password: string; securityPassword: string }
     }
   | {
       event: 'updateAccount'

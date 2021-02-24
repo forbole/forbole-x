@@ -11,7 +11,7 @@ interface WalletsState {
   addWallet?: (wallet: CreateWalletParams) => void
   updateWallet?: (id: string, wallet: UpdateWalletParams) => void
   deleteWallet?: (id: string) => void
-  addAccount?: (account: CreateAccountParams) => void
+  addAccount?: (account: CreateAccountParams, securityPassword: string) => void
   updateAccount?: (address: string, account: UpdateAccountParams) => void
   deleteAccount?: (address: string) => void
   verifySecurityPassword?: (id: string, securityPassword: string) => Promise<{ success: boolean }>
@@ -134,11 +134,12 @@ const WalletsProvider: React.FC = ({ children }) => {
   )
 
   const addAccount = React.useCallback(
-    async (account: CreateAccountParams) => {
+    async (account: CreateAccountParams, securityPassword: string) => {
       const result = await sendMsgToChromeExt({
         event: 'addAccount',
         data: {
           account,
+          securityPassword,
           password,
         },
       })

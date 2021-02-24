@@ -29,6 +29,13 @@ const useStyles = makeStyles(
     stageDescription: {
       marginBottom: theme.spacing(4),
     },
+    smallAvatar: {
+      width: theme.spacing(3),
+      height: theme.spacing(3),
+    },
+    cryptoMenuItemAvatar: {
+      minWidth: theme.spacing(4),
+    },
   }),
   {
     name: 'HookGlobalStyles',
