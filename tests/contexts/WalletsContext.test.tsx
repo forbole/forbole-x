@@ -13,7 +13,7 @@ describe('context: WalletsContext', () => {
       .mockResolvedValueOnce({
         isFirstTimeUser: false,
       })
-      .mockResolvedValue({
+      .mockResolvedValueOnce({
         wallets: [
           {
             name: 'test',
@@ -21,6 +21,9 @@ describe('context: WalletsContext', () => {
             cryptos: ['ATOM'],
           },
         ],
+      })
+      .mockResolvedValueOnce({
+        accounts: [],
       })
     const wrapper: React.FC = ({ children }) => <WalletsProvider>{children}</WalletsProvider>
     const { result } = renderHook(() => useWalletsContext(), {
@@ -36,6 +39,7 @@ describe('context: WalletsContext', () => {
         cryptos: ['ATOM'],
       },
     ])
+    expect(sendMsgToChromeExt).toBeCalledTimes(3)
     expect(sendMsgToChromeExt).toBeCalledWith({
       event: 'getWallets',
       data: {
@@ -44,19 +48,9 @@ describe('context: WalletsContext', () => {
     })
   })
   it('returns empty wallet on initial state for first time user', async () => {
-    ;(sendMsgToChromeExt as jest.Mock)
-      .mockResolvedValueOnce({
-        isFirstTimeUser: true,
-      })
-      .mockResolvedValue({
-        wallets: [
-          {
-            name: 'test',
-            id: '123',
-            cryptos: ['ATOM'],
-          },
-        ],
-      })
+    ;(sendMsgToChromeExt as jest.Mock).mockResolvedValueOnce({
+      isFirstTimeUser: true,
+    })
     const wrapper: React.FC = ({ children }) => <WalletsProvider>{children}</WalletsProvider>
     const { result, waitForNextUpdate } = renderHook(() => useWalletsContext(), {
       wrapper,
@@ -65,6 +59,7 @@ describe('context: WalletsContext', () => {
     await act(async () => {
       await result.current.unlockWallets(password)
     })
+    expect(sendMsgToChromeExt).toBeCalledTimes(1)
     expect(result.current.wallets).toStrictEqual([])
   })
   it('adds a new wallet and store in chrome extension', async () => {
@@ -82,11 +77,15 @@ describe('context: WalletsContext', () => {
         ],
       })
       .mockResolvedValueOnce({
+        accounts: [],
+      })
+      .mockResolvedValueOnce({
         wallet: {
           name: 'test 2',
           id: '1234',
           cryptos: ['ATOM'],
         },
+        accounts: [],
       })
     const wallet = {
       name: 'test 2',
@@ -131,7 +130,7 @@ describe('context: WalletsContext', () => {
       .mockResolvedValueOnce({
         isFirstTimeUser: false,
       })
-      .mockResolvedValue({
+      .mockResolvedValueOnce({
         wallets: [
           {
             name: 'test',
@@ -139,6 +138,9 @@ describe('context: WalletsContext', () => {
             cryptos: ['ATOM'],
           },
         ],
+      })
+      .mockResolvedValueOnce({
+        accounts: [],
       })
     const wrapper: React.FC = ({ children }) => <WalletsProvider>{children}</WalletsProvider>
     const { result } = renderHook(() => useWalletsContext(), {

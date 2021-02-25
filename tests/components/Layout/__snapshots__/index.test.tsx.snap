@@ -5,9 +5,16 @@ Array [
   <NavBar />,
   <LeftMenu
     activeItem=""
+    isMenuExpanded={true}
+    setIsMenuExpanded={[Function]}
   />,
   <div
     className="MuiBox-root MuiBox-root-7 HookGlobalStyles-main-6"
+    style={
+      Object {
+        "marginLeft": 256,
+      }
+    }
   >
     <div />
   </div>,
@@ -19,9 +26,16 @@ Array [
   <NavBar />,
   <LeftMenu
     activeItem=""
+    isMenuExpanded={true}
+    setIsMenuExpanded={[Function]}
   />,
   <div
     className="MuiBox-root MuiBox-root-9 HookGlobalStyles-main-6"
+    style={
+      Object {
+        "marginLeft": 256,
+      }
+    }
   >
     <div />
   </div>,
@@ -33,9 +47,16 @@ Array [
   <NavBar />,
   <LeftMenu
     activeItem=""
+    isMenuExpanded={true}
+    setIsMenuExpanded={[Function]}
   />,
   <div
     className="MuiBox-root MuiBox-root-8 HookGlobalStyles-main-6"
+    style={
+      Object {
+        "marginLeft": 256,
+      }
+    }
   >
     <GetStarted />
   </div>,
@@ -47,9 +68,16 @@ Array [
   <NavBar />,
   <LeftMenu
     activeItem=""
+    isMenuExpanded={true}
+    setIsMenuExpanded={[Function]}
   />,
   <div
     className="MuiBox-root MuiBox-root-10 HookGlobalStyles-main-6"
+    style={
+      Object {
+        "marginLeft": 256,
+      }
+    }
   />,
   <UnlockPasswordDialog />,
 ]

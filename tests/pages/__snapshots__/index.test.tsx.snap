@@ -30,22 +30,6 @@ exports[`page: Home renders correctly 1`] = `
   </div>
   <div
     className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
-  >
-    <div
-      className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 MuiGrid-grid-lg-4"
-    >
-      <AccountCard />
-    </div>
-    <div
-      className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 MuiGrid-grid-lg-4"
-    >
-      <AccountCard />
-    </div>
-    <div
-      className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 MuiGrid-grid-lg-4"
-    >
-      <AccountCard />
-    </div>
-  </div>
+  />
 </Layout>
 `;

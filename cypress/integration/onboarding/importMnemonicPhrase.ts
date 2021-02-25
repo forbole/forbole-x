@@ -1,10 +1,16 @@
 /* eslint-disable no-param-reassign */
 
-describe('Create wallet on first visit', () => {
+describe('Create wallet by importing mnemonic phrase on first visit', () => {
   const testWallet = {
     id: '123',
     name: 'test wallet name',
     cryptos: ['ATOM'],
+  }
+  const testAccount = {
+    walletId: '123',
+    address: 'address',
+    crypto: 'ATOM',
+    index: 0,
   }
   const mnemonic =
     'scan surprise tide guilt industry antenna legal bulb transfer tonight topple start file lumber shift museum humble hawk ivory horse embrace cheese spend raise'
@@ -14,7 +20,13 @@ describe('Create wallet on first visit', () => {
         win.chrome = win.chrome || {}
         win.chrome.runtime = {
           sendMessage(_id, msg, callback) {
-            callback(msg.event === 'ping' ? { isFirstTimeUser: true } : { wallet: testWallet })
+            if (msg.event === 'ping') {
+              callback({ isFirstTimeUser: true })
+            } else if (msg.event === 'addWallet') {
+              callback({ wallet: testWallet, accounts: [testAccount] })
+            } else if (msg.event === 'verifyMnemonic') {
+              callback({ mnemonic })
+            }
           },
         }
       },

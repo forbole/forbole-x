@@ -2,7 +2,12 @@
 
 exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
 <div
-  className="MuiPaper-root HookGlobalStyles-leftMenuContainer-1 MuiPaper-elevation0 MuiPaper-rounded"
+  className="MuiPaper-root HookGlobalStyles-leftMenuContainer-1 MuiPaper-elevation1 MuiPaper-rounded"
+  style={
+    Object {
+      "width": 92,
+    }
+  }
 >
   <ul
     className="MuiList-root HookGlobalStyles-menu-2 MuiList-padding"
@@ -11,6 +16,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       aria-disabled={false}
       className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       onBlur={[Function]}
+      onClick={[Function]}
       onDragLeave={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
@@ -27,12 +33,16 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       <div
         className="MuiListItemIcon-root"
       >
-        <svg
-          data-file-name="SvgLogo"
-          fill="#3f51b5"
-          height={40}
-          width={40}
-        />
+        <div
+          className="MuiBox-root MuiBox-root-8"
+        >
+          <svg
+            data-file-name="SvgLogo"
+            fill="#3f51b5"
+            height={40}
+            width={40}
+          />
+        </div>
       </div>
       <div
         className="MuiListItemText-root"
@@ -124,7 +134,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         <span
           className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
         >
-          common:walletManage
+          common:wallet manage
         </span>
       </div>
       <span
@@ -292,7 +302,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         <span
           className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
         >
-          common:addressBook
+          common:address book
         </span>
       </div>
       <span
@@ -347,7 +357,12 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
 
 exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1`] = `
 <div
-  className="MuiPaper-root HookGlobalStyles-leftMenuContainer-1 MuiPaper-elevation0 MuiPaper-rounded"
+  className="MuiPaper-root HookGlobalStyles-leftMenuContainer-1 MuiPaper-elevation1 MuiPaper-rounded"
+  style={
+    Object {
+      "width": 92,
+    }
+  }
 >
   <ul
     className="MuiList-root HookGlobalStyles-menu-2 MuiList-padding"
@@ -356,6 +371,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
       aria-disabled={false}
       className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
       onBlur={[Function]}
+      onClick={[Function]}
       onDragLeave={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
@@ -372,12 +388,16 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
       <div
         className="MuiListItemIcon-root"
       >
-        <svg
-          data-file-name="SvgLogo"
-          fill="#3f51b5"
-          height={40}
-          width={40}
-        />
+        <div
+          className="MuiBox-root MuiBox-root-7"
+        >
+          <svg
+            data-file-name="SvgLogo"
+            fill="#3f51b5"
+            height={40}
+            width={40}
+          />
+        </div>
       </div>
       <div
         className="MuiListItemText-root"
@@ -463,7 +483,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         <span
           className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
         >
-          common:walletManage
+          common:wallet manage
         </span>
       </div>
     </a>
@@ -619,7 +639,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         <span
           className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
         >
-          common:addressBook
+          common:address book
         </span>
       </div>
     </a>
