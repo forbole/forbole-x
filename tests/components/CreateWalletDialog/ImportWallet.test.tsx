@@ -39,7 +39,7 @@ describe('component: CreateWalletDialog - ImportWallet', () => {
     renderer.act(() => {
       last(component.root.findAllByType('button')).props.onClick()
     })
-    expect(onConfirm).toBeCalledWith('wallet', [cryptocurrencies[0].name])
+    expect(onConfirm).toBeCalledWith('wallet', [Object.values(cryptocurrencies)[0].name])
   })
 })
 

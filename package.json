@@ -12,7 +12,6 @@
     "e2e": "cypress run"
   },
   "dependencies": {
-    "@cosmjs/launchpad": "^0.23.2",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
     "check-password-strength": "^1.0.15",

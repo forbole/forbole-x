@@ -77,11 +77,13 @@ exports[`component: CreateWalletDialog calls Secp256k1HdWallet.fromMnemonic and 
     <h2
       className="MuiTypography-root MuiTypography-h6"
     >
-      common:security password title
+      common:mnemonic
     </h2>
   </div>
   <div
-    id="SecurityPassword"
+    description="common:mnemonic description"
+    error="common:Cannot read property 'mnemonic' of undefined"
+    id="ConfirmMnemonic"
     onConfirm={[Function]}
   />
 </div>
@@ -169,7 +171,7 @@ exports[`component: CreateWalletDialog calls Secp256k1HdWallet.generate(24) and 
   </div>
   <div
     id="CreateWallet"
-    mnemonic="guide check kick present flash casual"
+    mnemonic="mnemonic"
     onConfirm={[Function]}
   />
 </div>
