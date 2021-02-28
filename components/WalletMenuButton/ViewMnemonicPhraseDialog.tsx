@@ -46,16 +46,16 @@ const ViewMnemonicPhraseDialog: React.FC<ViewMnemonicPhraseDialogProps> = ({
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
     Stage.SecurityPassword
   )
-  const { viewMnemonicPhrase, verifySecurityPassword } = useWalletsContext()
+  const { viewMnemonicPhrase, viewMnemonicPhraseBackup } = useWalletsContext()
 
   const onButtonClick = React.useCallback(async () => {
     try {
       setError('')
       if (stage === Stage.SecurityPassword) {
-        await verifySecurityPassword(walletId, securityPassword)
+        await viewMnemonicPhrase(walletId, securityPassword)
         setStage(Stage.BackupPassword)
       } else if (stage === Stage.BackupPassword) {
-        const result = await viewMnemonicPhrase(walletId, securityPassword, backupPassword)
+        const result = await viewMnemonicPhraseBackup(walletId, securityPassword, backupPassword)
         setEncryptionPhrase(result)
         setStage(Stage.ExportMnemonic)
       } else if (stage === Stage.ExportMnemonic) {
@@ -71,7 +71,7 @@ const ViewMnemonicPhraseDialog: React.FC<ViewMnemonicPhraseDialogProps> = ({
     stage,
     setError,
     setStage,
-    verifySecurityPassword,
+    viewMnemonicPhraseBackup,
     viewMnemonicPhrase,
   ])
 

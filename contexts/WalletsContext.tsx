@@ -14,8 +14,8 @@ interface WalletsState {
   addAccount?: (account: CreateAccountParams, securityPassword: string) => void
   updateAccount?: (address: string, account: UpdateAccountParams) => void
   deleteAccount?: (address: string) => void
-  verifySecurityPassword?: (id: string, securityPassword: string) => Promise<{ success: boolean }>
-  viewMnemonicPhrase?: (
+  viewMnemonicPhrase?: (id: string, securityPassword: string) => Promise<{ success: boolean }>
+  viewMnemonicPhraseBackup?: (
     id: string,
     securityPassword: string,
     backupPassword: string
@@ -177,10 +177,11 @@ const WalletsProvider: React.FC = ({ children }) => {
     [password, setAccounts]
   )
 
-  const verifySecurityPassword = React.useCallback(
+  // Can be used to verify security password
+  const viewMnemonicPhrase = React.useCallback(
     async (id: string, securityPassword: string) => {
       const result = await sendMsgToChromeExt({
-        event: 'verifySecurityPassword',
+        event: 'viewMnemonicPhrase',
         data: {
           id,
           securityPassword,
@@ -192,10 +193,10 @@ const WalletsProvider: React.FC = ({ children }) => {
     [password]
   )
 
-  const viewMnemonicPhrase = React.useCallback(
+  const viewMnemonicPhraseBackup = React.useCallback(
     async (id: string, securityPassword: string, backupPassword: string) => {
       const { mnemonic } = await sendMsgToChromeExt({
-        event: 'viewMnemonicPhrase',
+        event: 'viewMnemonicPhraseBackup',
         data: {
           id,
           securityPassword,
@@ -227,7 +228,7 @@ const WalletsProvider: React.FC = ({ children }) => {
         addAccount,
         updateAccount,
         deleteAccount,
-        verifySecurityPassword,
+        viewMnemonicPhraseBackup,
         viewMnemonicPhrase,
       }}
     >
