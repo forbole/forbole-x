@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer'
 import Home from '../../pages/index'
 
 jest.mock('../../components/Layout', () => 'Layout')
-jest.mock('../../components/AccountCard', () => 'AccountCard')
+jest.mock('../../components/AccountStatCard', () => 'AccountStatCard')
 jest.mock('../../components/AssetDistributionChart', () => 'AssetDistributionChart')
 jest.mock('../../components/WalletBalanceChart', () => 'WalletBalanceChart')
 

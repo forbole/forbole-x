@@ -7,6 +7,22 @@ jest.mock('../../misc/sendMsgToChromeExt')
 
 const password = 'unlock password'
 
+const wallet = {
+  name: 'test',
+  id: '123',
+  cryptos: ['ATOM'],
+}
+
+const account = {
+  walletId: '123123',
+  address: 'address',
+  crypto: 'ATOM',
+  index: 0,
+  name: 'name',
+  fav: false,
+  createdAt: 0,
+}
+
 describe('context: WalletsContext', () => {
   it('returns wallets stored in chrome extension on unlockWallets', async () => {
     ;(sendMsgToChromeExt as jest.Mock)
@@ -14,13 +30,7 @@ describe('context: WalletsContext', () => {
         isFirstTimeUser: false,
       })
       .mockResolvedValueOnce({
-        wallets: [
-          {
-            name: 'test',
-            id: '123',
-            cryptos: ['ATOM'],
-          },
-        ],
+        wallets: [wallet],
       })
       .mockResolvedValueOnce({
         accounts: [],
@@ -32,13 +42,7 @@ describe('context: WalletsContext', () => {
     await act(async () => {
       await result.current.unlockWallets(password)
     })
-    expect(result.current.wallets).toStrictEqual([
-      {
-        name: 'test',
-        id: '123',
-        cryptos: ['ATOM'],
-      },
-    ])
+    expect(result.current.wallets).toStrictEqual([wallet])
     expect(sendMsgToChromeExt).toBeCalledTimes(3)
     expect(sendMsgToChromeExt).toBeCalledWith({
       event: 'getWallets',
@@ -68,13 +72,7 @@ describe('context: WalletsContext', () => {
         isFirstTimeUser: false,
       })
       .mockResolvedValueOnce({
-        wallets: [
-          {
-            name: 'test',
-            id: '123',
-            cryptos: ['ATOM'],
-          },
-        ],
+        wallets: [wallet],
       })
       .mockResolvedValueOnce({
         accounts: [],
@@ -87,7 +85,7 @@ describe('context: WalletsContext', () => {
         },
         accounts: [],
       })
-    const wallet = {
+    const wallet2 = {
       name: 'test 2',
       cryptos: ['ATOM'],
       mnemonic: 'mnemonic',
@@ -102,25 +100,21 @@ describe('context: WalletsContext', () => {
       await result.current.unlockWallets(password)
     })
     await act(async () => {
-      await result.current.addWallet(wallet)
+      await result.current.addWallet(wallet2)
     })
     const wallets = [
       {
-        name: wallet.name,
+        name: wallet2.name,
         id: '1234',
         cryptos: ['ATOM'],
       },
-      {
-        name: 'test',
-        id: '123',
-        cryptos: ['ATOM'],
-      },
+      wallet,
     ]
     expect(result.current.wallets).toStrictEqual(wallets)
     expect(sendMsgToChromeExt).toBeCalledWith({
       event: 'addWallet',
       data: {
-        wallet,
+        wallet: wallet2,
         password,
       },
     })
@@ -131,13 +125,7 @@ describe('context: WalletsContext', () => {
         isFirstTimeUser: false,
       })
       .mockResolvedValueOnce({
-        wallets: [
-          {
-            name: 'test',
-            id: '123',
-            cryptos: ['ATOM'],
-          },
-        ],
+        wallets: [wallet],
       })
       .mockResolvedValueOnce({
         accounts: [],
@@ -150,14 +138,57 @@ describe('context: WalletsContext', () => {
       await result.current.unlockWallets(password)
     })
     await act(async () => {
-      await result.current.deleteWallet('123')
+      await result.current.deleteWallet(wallet.id)
     })
     const wallets = []
     expect(result.current.wallets).toStrictEqual(wallets)
     expect(sendMsgToChromeExt).toBeCalledWith({
       event: 'deleteWallet',
       data: {
-        id: '123',
+        id: wallet.id,
+        password,
+      },
+    })
+  })
+  it('updates a new wallet and store in chrome extension', async () => {
+    ;(sendMsgToChromeExt as jest.Mock)
+      .mockResolvedValueOnce({
+        isFirstTimeUser: false,
+      })
+      .mockResolvedValueOnce({
+        wallets: [wallet],
+      })
+      .mockResolvedValueOnce({
+        accounts: [],
+      })
+      .mockResolvedValueOnce({
+        wallet: {
+          ...wallet,
+          name: 'test 2',
+        },
+      })
+    const wrapper: React.FC = ({ children }) => <WalletsProvider>{children}</WalletsProvider>
+    const { result } = renderHook(() => useWalletsContext(), {
+      wrapper,
+    })
+    await act(async () => {
+      await result.current.unlockWallets(password)
+    })
+    await act(async () => {
+      await result.current.updateWallet(wallet.id, { name: 'test 2' })
+    })
+    const wallets = [
+      {
+        ...wallet,
+        name: 'test 2',
+      },
+    ]
+    expect(result.current.wallets).toStrictEqual(wallets)
+    expect(sendMsgToChromeExt).toBeCalledWith({
+      event: 'updateWallet',
+      data: {
+        id: wallet.id,
+        wallet: { name: 'test 2' },
         password,
       },
     })
