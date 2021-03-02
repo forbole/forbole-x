@@ -17,7 +17,7 @@ import { MenuWidth } from '.'
 interface LeftMenuProps {
   activeItem: string
   isMenuExpanded: boolean
-  setIsMenuExpanded: React.Dispatch<React.SetStateAction<boolean>>
+  setIsMenuExpanded(isExpanded: boolean): void
 }
 
 const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMenuExpanded }) => {
@@ -72,7 +72,11 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
       className={classes.leftMenuContainer}
     >
       <List className={classes.menu}>
-        <ListItem className={classes.menuItem} button onClick={() => setIsMenuExpanded((e) => !e)}>
+        <ListItem
+          className={classes.menuItem}
+          button
+          onClick={() => setIsMenuExpanded(!isMenuExpanded)}
+        >
           <ListItemIcon>
             <Box ml={-1}>
               <Logo

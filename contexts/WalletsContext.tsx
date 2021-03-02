@@ -180,7 +180,7 @@ const WalletsProvider: React.FC = ({ children }) => {
   // Can be used to verify security password
   const viewMnemonicPhrase = React.useCallback(
     async (id: string, securityPassword: string) => {
-      const result = await sendMsgToChromeExt({
+      const { mnemonic } = await sendMsgToChromeExt({
         event: 'viewMnemonicPhrase',
         data: {
           id,
@@ -188,7 +188,7 @@ const WalletsProvider: React.FC = ({ children }) => {
           password,
         },
       })
-      return result
+      return mnemonic
     },
     [password]
   )

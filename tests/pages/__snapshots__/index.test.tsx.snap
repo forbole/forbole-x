@@ -30,6 +30,24 @@ exports[`page: Home renders correctly 1`] = `
   </div>
   <div
     className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
-  />
+  >
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-4"
+    >
+      <AccountStatCard
+        account={
+          Object {
+            "address": "address",
+            "createdAt": 0,
+            "crypto": "ATOM",
+            "fav": false,
+            "index": 0,
+            "name": "name",
+            "walletId": "123",
+          }
+        }
+      />
+    </div>
+  </div>
 </Layout>
 `;

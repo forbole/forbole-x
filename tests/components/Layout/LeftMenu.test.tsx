@@ -35,7 +35,7 @@ describe('component: Layout - LeftMenu', () => {
         .findAllByProps({ className: 'MuiListItemIcon-root' })[0]
         .parent.parent.parent.props.onClick()
     })
-    expect(setIsMenuExpanded).toBeCalled()
+    expect(setIsMenuExpanded).toBeCalledWith(true)
   })
 })
 
