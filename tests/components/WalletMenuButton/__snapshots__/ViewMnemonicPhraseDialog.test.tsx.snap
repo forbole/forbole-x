@@ -1,0 +1,567 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component: ViewMnemonicPhraseDialog calls viewMnemonicPhrase on next button click, then calls viewMnemonicPhraseBackup on next button click, then calls onClose on next button click 1`] = `
+<div
+  fullWidth={true}
+  id="dialog"
+  onClose={[MockFunction]}
+  open={true}
+>
+  <button
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-5"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label"
+    >
+      <svg
+        data-file-name="SvgIcon_back"
+        fill="#e0e0e0"
+        height={16}
+        width={16}
+      />
+    </span>
+    <span
+      className="MuiTouchRipple-root"
+    />
+  </button>
+  <button
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-4"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[MockFunction]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label"
+    >
+      <svg
+        data-file-name="SvgIcon_cross"
+        fill="#e0e0e0"
+        height={16}
+        width={16}
+      />
+    </span>
+    <span
+      className="MuiTouchRipple-root"
+    />
+  </button>
+  <div
+    className="MuiDialogTitle-root"
+  >
+    <h2
+      className="MuiTypography-root MuiTypography-h6"
+    >
+      common:export mnemonic title
+    </h2>
+  </div>
+  <div
+    className="MuiDialogContent-root"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-18"
+    >
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
+        <div
+          className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-multiline MuiFilledInput-multiline"
+          onClick={[Function]}
+        >
+          <textarea
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiFilledInput-input MuiInputBase-inputMultiline MuiFilledInput-inputMultiline"
+            disabled={false}
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            rows={5}
+            value="encrypted mnemonic"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-3 MuiButton-containedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:confirm
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component: ViewMnemonicPhraseDialog calls viewMnemonicPhrase on next button click, then goes back on back button click 1`] = `
+<div
+  fullWidth={true}
+  id="dialog"
+  onClose={[MockFunction]}
+  open={true}
+>
+  <button
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-4"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[MockFunction]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label"
+    >
+      <svg
+        data-file-name="SvgIcon_cross"
+        fill="#e0e0e0"
+        height={16}
+        width={16}
+      />
+    </span>
+    <span
+      className="MuiTouchRipple-root"
+    />
+  </button>
+  <div
+    className="MuiDialogTitle-root"
+  >
+    <h2
+      className="MuiTypography-root MuiTypography-h6"
+    >
+      common:security password title
+    </h2>
+  </div>
+  <div
+    className="MuiDialogContent-root"
+  >
+    <p
+      className="MuiTypography-root HookGlobalStyles-stageDescription-7 MuiTypography-body1 MuiTypography-gutterBottom"
+    >
+      common:security password description
+    </p>
+    <div
+      className="MuiBox-root MuiBox-root-15"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
+      >
+        common:enter security password
+      </p>
+      <input
+        error={false}
+        helperText=""
+        onChange={[Function]}
+        placeholder="common:password"
+        value="password"
+      />
+    </div>
+  </div>
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-3 MuiButton-containedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:next
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component: ViewMnemonicPhraseDialog handles error on next button click 1`] = `
+<div
+  fullWidth={true}
+  id="dialog"
+  onClose={[MockFunction]}
+  open={true}
+>
+  <button
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-4"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[MockFunction]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label"
+    >
+      <svg
+        data-file-name="SvgIcon_cross"
+        fill="#e0e0e0"
+        height={16}
+        width={16}
+      />
+    </span>
+    <span
+      className="MuiTouchRipple-root"
+    />
+  </button>
+  <div
+    className="MuiDialogTitle-root"
+  >
+    <h2
+      className="MuiTypography-root MuiTypography-h6"
+    >
+      common:security password title
+    </h2>
+  </div>
+  <div
+    className="MuiDialogContent-root"
+  >
+    <p
+      className="MuiTypography-root HookGlobalStyles-stageDescription-7 MuiTypography-body1 MuiTypography-gutterBottom"
+    >
+      common:security password description
+    </p>
+    <div
+      className="MuiBox-root MuiBox-root-19"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
+      >
+        common:enter security password
+      </p>
+      <input
+        error={true}
+        helperText="error"
+        onChange={[Function]}
+        placeholder="common:password"
+        value="password"
+      />
+    </div>
+  </div>
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-3 MuiButton-containedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:next
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component: ViewMnemonicPhraseDialog renders closed state correctly 1`] = `
+<div
+  fullWidth={true}
+  id="dialog"
+  onClose={[MockFunction]}
+  open={false}
+>
+  <button
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-4"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[MockFunction]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label"
+    >
+      <svg
+        data-file-name="SvgIcon_cross"
+        fill="#e0e0e0"
+        height={16}
+        width={16}
+      />
+    </span>
+    <span
+      className="MuiTouchRipple-root"
+    />
+  </button>
+  <div
+    className="MuiDialogTitle-root"
+  >
+    <h2
+      className="MuiTypography-root MuiTypography-h6"
+    >
+      common:security password title
+    </h2>
+  </div>
+  <div
+    className="MuiDialogContent-root"
+  >
+    <p
+      className="MuiTypography-root HookGlobalStyles-stageDescription-7 MuiTypography-body1 MuiTypography-gutterBottom"
+    >
+      common:security password description
+    </p>
+    <div
+      className="MuiBox-root MuiBox-root-11"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
+      >
+        common:enter security password
+      </p>
+      <input
+        error={false}
+        helperText=""
+        onChange={[Function]}
+        placeholder="common:password"
+        value=""
+      />
+    </div>
+  </div>
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-3 MuiButton-containedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:next
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component: ViewMnemonicPhraseDialog renders opened state correctly 1`] = `
+<div
+  fullWidth={true}
+  id="dialog"
+  onClose={[MockFunction]}
+  open={true}
+>
+  <button
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-4"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[MockFunction]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label"
+    >
+      <svg
+        data-file-name="SvgIcon_cross"
+        fill="#e0e0e0"
+        height={16}
+        width={16}
+      />
+    </span>
+  </button>
+  <div
+    className="MuiDialogTitle-root"
+  >
+    <h2
+      className="MuiTypography-root MuiTypography-h6"
+    >
+      common:security password title
+    </h2>
+  </div>
+  <div
+    className="MuiDialogContent-root"
+  >
+    <p
+      className="MuiTypography-root HookGlobalStyles-stageDescription-7 MuiTypography-body1 MuiTypography-gutterBottom"
+    >
+      common:security password description
+    </p>
+    <div
+      className="MuiBox-root MuiBox-root-10"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
+      >
+        common:enter security password
+      </p>
+      <input
+        error={false}
+        helperText=""
+        onChange={[Function]}
+        placeholder="common:password"
+        value=""
+      />
+    </div>
+  </div>
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-3 MuiButton-containedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:next
+      </span>
+    </button>
+  </div>
+</div>
+`;

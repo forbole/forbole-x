@@ -58,7 +58,7 @@ const ViewMnemonicPhraseDialog: React.FC<ViewMnemonicPhraseDialogProps> = ({
         const result = await viewMnemonicPhraseBackup(walletId, securityPassword, backupPassword)
         setEncryptionPhrase(result)
         setStage(Stage.ExportMnemonic)
-      } else if (stage === Stage.ExportMnemonic) {
+      } else {
         onClose()
       }
     } catch (err) {
@@ -97,22 +97,22 @@ const ViewMnemonicPhraseDialog: React.FC<ViewMnemonicPhraseDialogProps> = ({
       </IconButton>
       <DialogTitle>{t(`${stage} title`)}</DialogTitle>
       <DialogContent>
-        {stage === Stage.SecurityPassword ? null : (
-          <Typography className={classes.stageDescription} gutterBottom>
-            {t(`${stage} description`)}
-          </Typography>
-        )}
         {stage === Stage.SecurityPassword ? (
-          <Box mb={18}>
-            <Typography gutterBottom>{t('enter security password')}</Typography>
-            <PasswordInput
-              value={securityPassword}
-              onChange={(e) => setSecurityPassword(e.target.value)}
-              placeholder={t('password')}
-              error={!!error}
-              helperText={error}
-            />
-          </Box>
+          <>
+            <Typography className={classes.stageDescription} gutterBottom>
+              {t(`${stage} description`)}
+            </Typography>
+            <Box mb={18}>
+              <Typography gutterBottom>{t('enter security password')}</Typography>
+              <PasswordInput
+                value={securityPassword}
+                onChange={(e) => setSecurityPassword(e.target.value)}
+                placeholder={t('password')}
+                error={!!error}
+                helperText={error}
+              />
+            </Box>
+          </>
         ) : null}
         {stage === Stage.BackupPassword ? (
           <Box mb={6}>
@@ -133,7 +133,6 @@ const ViewMnemonicPhraseDialog: React.FC<ViewMnemonicPhraseDialogProps> = ({
               InputProps={{ disableUnderline: true }}
               fullWidth
               value={encryptionPhrase}
-              onChange={() => null}
               multiline
               rows={5}
               onFocus={(e: any) => {
