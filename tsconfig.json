@@ -15,5 +15,5 @@
     "jsx": "preserve"
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "setupTests.js", "jest.config.js"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "cypress", "tests"]
 }

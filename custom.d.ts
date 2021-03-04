@@ -101,7 +101,7 @@ type ChromeMessage =
       }
     }
   | {
-      event: 'verifySecurityPassword'
+      event: 'viewMnemonicPhrase'
       data: {
         id: string
         securityPassword: string
@@ -109,7 +109,7 @@ type ChromeMessage =
       }
     }
   | {
-      event: 'viewMnemonicPhrase'
+      event: 'viewMnemonicPhraseBackup'
       data: {
         id: string
         securityPassword: string

@@ -33,6 +33,9 @@ jest.mock('../../../components/CreateWalletDialog/ImportWallet', () => (props) =
 jest.mock('../../../components/CreateWalletDialog/AccessMyWallet', () => (props) => (
   <div id="AccessMyWallet" {...props} />
 ))
+jest.mock('../../../components/CreateWalletDialog/ImportMnemonicBackup', () => (props) => (
+  <div id="ImportMnemonicBackup" {...props} />
+))
 jest.mock('../../../components/CreateWalletDialog/WhatIsMnemonic', () => (props) => (
   <div id="WhatIsMnemonic" {...props} />
 ))
@@ -303,7 +306,8 @@ describe('component: CreateWalletDialog', () => {
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
-  it('calls Secp256k1HdWallet.fromMnemonic and renders set security password stage correctly when onConfirm is called from ConfirmMnemonic', async () => {
+  it('calls verify mnemonic and renders set security password stage correctly when onConfirm is called from ConfirmMnemonic', async () => {
+    ;(sendMsgToChromeExt as jest.Mock).mockResolvedValueOnce({ mnemonic: 'mnemonic' })
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
     await renderer.act(async () => {
       await component.root
@@ -360,6 +364,85 @@ describe('component: CreateWalletDialog', () => {
     expect(sendMsgToChromeExt).toBeCalledWith({
       event: 'verifyMnemonic',
       data: { mnemonic: 'mnemonic' },
+    })
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+  it('renders mnemonic phrase backup stage correctly when onConfirm is called from AccessMyWallet', async () => {
+    const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
+    await renderer.act(async () => {
+      await component.root
+        .findByProps({
+          id: 'Start',
+        })
+        .props.onImportWalletClick()
+    })
+    renderer.act(() => {
+      component.root
+        .findByProps({
+          id: 'AccessMyWallet',
+        })
+        .props.onConfirm(ImportStage.MnemonicPhraseBackupStage)
+    })
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+  it('calls verify mnemonic backup and renders set security password stage correctly when onConfirm is called from ImportMnemonicBackup', async () => {
+    ;(sendMsgToChromeExt as jest.Mock).mockResolvedValueOnce({ mnemonic: 'mnemonic' })
+    const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
+    await renderer.act(async () => {
+      await component.root
+        .findByProps({
+          id: 'Start',
+        })
+        .props.onImportWalletClick()
+    })
+    renderer.act(() => {
+      component.root
+        .findByProps({
+          id: 'AccessMyWallet',
+        })
+        .props.onConfirm(ImportStage.MnemonicPhraseBackupStage)
+    })
+    await renderer.act(async () => {
+      await component.root
+        .findByProps({
+          id: 'ImportMnemonicBackup',
+        })
+        .props.onConfirm({
+          password: 'password',
+          backupPhrase: 'backup phrase',
+        })
+    })
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+  it('renders error state when invalid mnemonic phrase backup is imported', async () => {
+    ;(sendMsgToChromeExt as jest.Mock).mockRejectedValueOnce(new Error('invalid mnemonic'))
+    const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
+    await renderer.act(async () => {
+      await component.root
+        .findByProps({
+          id: 'Start',
+        })
+        .props.onImportWalletClick()
+    })
+    renderer.act(() => {
+      component.root
+        .findByProps({
+          id: 'AccessMyWallet',
+        })
+        .props.onConfirm(ImportStage.MnemonicPhraseBackupStage)
+    })
+    await renderer.act(async () => {
+      await component.root
+        .findByProps({
+          id: 'ImportMnemonicBackup',
+        })
+        .props.onConfirm({
+          password: 'password',
+          backupPhrase: 'backup phrase',
+        })
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

@@ -3,8 +3,9 @@
 exports[`component: Layout renders default state for first time user correctly 1`] = `
 Array [
   <NavBar />,
-  <LeftMenu
+  <div
     activeItem=""
+    id="LeftMenu"
     isMenuExpanded={true}
     setIsMenuExpanded={[Function]}
   />,
@@ -24,8 +25,9 @@ Array [
 exports[`component: Layout renders default state for non first time user correctly 1`] = `
 Array [
   <NavBar />,
-  <LeftMenu
+  <div
     activeItem=""
+    id="LeftMenu"
     isMenuExpanded={true}
     setIsMenuExpanded={[Function]}
   />,
@@ -42,11 +44,33 @@ Array [
 ]
 `;
 
+exports[`component: Layout renders menu collapsed state 1`] = `
+Array [
+  <NavBar />,
+  <div
+    activeItem=""
+    id="LeftMenu"
+    isMenuExpanded={false}
+    setIsMenuExpanded={[Function]}
+  />,
+  <div
+    className="MuiBox-root MuiBox-root-11 HookGlobalStyles-main-6"
+    style={
+      Object {
+        "marginLeft": 92,
+      }
+    }
+  />,
+  <UnlockPasswordDialog />,
+]
+`;
+
 exports[`component: Layout renders passwordRequired state for first time user correctly 1`] = `
 Array [
   <NavBar />,
-  <LeftMenu
+  <div
     activeItem=""
+    id="LeftMenu"
     isMenuExpanded={true}
     setIsMenuExpanded={[Function]}
   />,
@@ -66,8 +90,9 @@ Array [
 exports[`component: Layout renders passwordRequired state for non first time user correctly 1`] = `
 Array [
   <NavBar />,
-  <LeftMenu
+  <div
     activeItem=""
+    id="LeftMenu"
     isMenuExpanded={true}
     setIsMenuExpanded={[Function]}
   />,

@@ -53,7 +53,6 @@ const CreateAccountDialog: React.FC<CreateAccountDialogProps> = ({ walletId, ope
       onClose()
     } catch (err) {
       setError(err.message)
-      console.log(err)
     }
   }, [name, addAccount, walletId, crypto, securityPassword, onClose, setError])
 

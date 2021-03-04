@@ -33,8 +33,17 @@ describe('component: CreateWalletDialog - ImportWallet', () => {
         },
       })
     })
+    // Click first crypto
     renderer.act(() => {
       component.root.findAllByType('button')[0].props.onClick()
+    })
+    // Click second crypto
+    renderer.act(() => {
+      component.root.findAllByType('button')[1].props.onClick()
+    })
+    // Click second crypto again
+    renderer.act(() => {
+      component.root.findAllByType('button')[1].props.onClick()
     })
     renderer.act(() => {
       last(component.root.findAllByType('button')).props.onClick()

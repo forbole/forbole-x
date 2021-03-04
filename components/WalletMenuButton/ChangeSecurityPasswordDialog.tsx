@@ -34,7 +34,7 @@ const ChangeSecurityPasswordDialog: React.FC<ChangeSecurityPasswordDialogProps> 
   const [isSettingNewPassword, setIsSettingNewPassword] = React.useState(false)
   const [securityPassword, setSecurityPassword] = React.useState('')
   const [newSecurityPassword, setNewSecurityPassword] = React.useState('')
-  const { updateWallet, verifySecurityPassword } = useWalletsContext()
+  const { updateWallet, viewMnemonicPhrase } = useWalletsContext()
 
   const onButtonClick = React.useCallback(async () => {
     try {
@@ -43,8 +43,7 @@ const ChangeSecurityPasswordDialog: React.FC<ChangeSecurityPasswordDialogProps> 
         await updateWallet(walletId, { newSecurityPassword, securityPassword })
         onClose()
       } else {
-        const result = await verifySecurityPassword(walletId, securityPassword)
-        console.log(result)
+        await viewMnemonicPhrase(walletId, securityPassword)
         setIsSettingNewPassword(true)
       }
     } catch (err) {
