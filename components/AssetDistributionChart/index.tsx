@@ -5,6 +5,7 @@ import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import useStyles from './styles'
 import SectoredByButton from './SectoredByButton'
 import { SectoredBy, sectoredByTypes } from './types'
+import { useAssetDistributionChart } from './hooks'
 
 const AssetDistributionChart: React.FC = () => {
   const classes = useStyles()
@@ -43,6 +44,12 @@ const AssetDistributionChart: React.FC = () => {
       value: 7,
     },
   ]
+
+  const { delegationInfo } = useAssetDistributionChart(
+    'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d'
+  )
+  console.log('delegationInfo', delegationInfo)
+
   const COLORS = [
     theme.palette.error,
     theme.palette.warning,
@@ -51,10 +58,22 @@ const AssetDistributionChart: React.FC = () => {
   ]
 
   const data = []
-  rawData.forEach((d, i) => {
+  // rawData.forEach((d, i) => {
+  //   const startAngle = i === 0 ? 0 : data[i - 1].endAngle
+  //   const endAngle = startAngle + (360 * d.value) / 100
+  //   const outerRadius = `${100 * (1 - 0.6 * (i / rawData.length))}%`
+  //   data.push({
+  //     ...d,
+  //     startAngle,
+  //     endAngle,
+  //     outerRadius,
+  //   })
+  // })
+
+  delegationInfo.delegation.forEach((d, i) => {
     const startAngle = i === 0 ? 0 : data[i - 1].endAngle
-    const endAngle = startAngle + (360 * d.value) / 100
-    const outerRadius = `${100 * (1 - 0.6 * (i / rawData.length))}%`
+    const endAngle = startAngle + (360 * d.amount) / 100
+    const outerRadius = `${100 * (1 - 0.6 * (i / delegationInfo.delegation.length))}%`
     data.push({
       ...d,
       startAngle,
@@ -62,6 +81,9 @@ const AssetDistributionChart: React.FC = () => {
       outerRadius,
     })
   })
+
+  console.log('rawData.length', rawData.length)
+  console.log('delegationInfo.delegation.length', delegationInfo.delegation.length)
 
   const { top, left } = React.useMemo(() => {
     const midAngle =
@@ -72,6 +94,8 @@ const AssetDistributionChart: React.FC = () => {
       left: `calc(30% + ${Math.cos(midAngle) * radius}px)`,
     }
   }, [activeIndex, data])
+
+  console.log('data', data)
 
   return (
     <Card className={classes.container}>
@@ -84,13 +108,14 @@ const AssetDistributionChart: React.FC = () => {
           <PieChart>
             {data.map((d, i) => (
               <Pie
-                key={d.name}
+                key={d.validatorAddress}
                 cx="30%"
                 outerRadius={d.outerRadius}
                 data={[d]}
                 startAngle={d.startAngle}
                 endAngle={d.endAngle}
-                dataKey="value"
+                // dataKey="value"
+                dataKey="amount"
                 animationBegin={200 * i}
                 animationDuration={200}
                 animationEasing="linear"
@@ -111,9 +136,10 @@ const AssetDistributionChart: React.FC = () => {
           }}
         >
           <Typography className={classes.percentText} variant="h2" gutterBottom>
-            {data[activeIndex].value}%
+            {/* {data[activeIndex].value}% */}
+            {data[activeIndex].value}
           </Typography>
-          <Typography>{data[activeIndex].name}</Typography>
+          <Typography>{data[activeIndex].validatorMoniker}</Typography>
         </Box>
       </Box>
     </Card>

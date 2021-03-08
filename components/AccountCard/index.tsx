@@ -6,6 +6,7 @@ import DownIcon from '@material-ui/icons/ArrowDropDown'
 import useTranslation from 'next-translate/useTranslation'
 import useStyles from './styles'
 import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useAccountCardHook } from './hooks'
 
 const AccountCard: React.FC = () => {
   const classes = useStyles()
@@ -14,7 +15,7 @@ const AccountCard: React.FC = () => {
   const { currency } = useSettingsContext()
   // TODO: fetch data from backend
   const now = Date.now()
-  const balance = 104387.26
+  // const balance = 104387.26485903
   const usdBalance = 626323.54
   const delta = new Array(24).fill(null).map(() => (Math.random() - 0.5) / 10)
   const data = []
@@ -29,6 +30,12 @@ const AccountCard: React.FC = () => {
   const diff = Math.abs(lastBalance - firstBalance)
   const percentageChange = Math.round((10000 * diff) / firstBalance) / 100
   const increasing = lastBalance - firstBalance > 0
+
+  // const denom = chainConfig.display.toUpperCase();
+
+  const { accountInfo } = useAccountCardHook('desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d')
+  // console.log('accountInfo', accountInfo)
+
   return (
     <Card className={classes.container}>
       <Box mb={7} display="flex" alignItems="center" justifyContent="space-between">
@@ -75,10 +82,10 @@ const AccountCard: React.FC = () => {
         </Box>
         <Box display="flex" flexDirection="column" alignItems="flex-end">
           <Typography variant="h4" align="right">
-            {new Intl.NumberFormat(lang, {
+            {/* {new Intl.NumberFormat(lang, {
               signDisplay: 'never',
-            }).format(balance)}
-            {' ATOM'}
+            }).format(accountInfo.total.raw)} */}
+            {accountInfo.total.display ? accountInfo.total.display : ''}
           </Typography>
           <Typography variant="h6" align="right">
             {new Intl.NumberFormat(lang, {

@@ -12,18 +12,24 @@
     "e2e": "cypress run"
   },
   "dependencies": {
+    "@apollo/client": "^3.3.11",
     "@cosmjs/launchpad": "^0.23.2",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
     "check-password-strength": "^1.0.15",
     "crypto-js": "^4.0.0",
     "date-fns": "^2.16.1",
+    "isomorphic-ws": "^4.0.1",
     "lodash": "^4.17.20",
+    "moment": "^2.29.1",
     "next": "10.0.4",
     "next-translate": "^1.0.1",
+    "numeral": "^2.0.6",
+    "ramda": "^0.26.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "recharts": "^2.0.3"
+    "recharts": "^2.0.3",
+    "subscriptions-transport-ws": "^0.9.18"
   },
   "devDependencies": {
     "@svgr/webpack": "^5.5.0",

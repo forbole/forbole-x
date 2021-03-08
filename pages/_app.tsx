@@ -1,9 +1,11 @@
 import React from 'react'
 import Head from 'next/head'
 import { AppProps } from 'next/app'
+import { ApolloProvider } from '@apollo/client';
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import useTranslation from 'next-translate/useTranslation'
+import { useApollo } from '../graphql/client'
 import { lightTheme, darkTheme } from '../misc/theme'
 import GlobalCss from '../misc/globalCss'
 import { SettingsProvider, useSettingsContext } from '../contexts/SettingsContext'
@@ -20,16 +22,20 @@ function InnerApp({ Component, pageProps }: AppProps) {
     return createMuiTheme(lightTheme)
   }, [theme])
 
+  const apolloClient = useApollo(pageProps.initialApolloState)
+
   React.useEffect(() => {
     document.cookie = `NEXT_LOCALE=${lang}`
   }, [lang])
 
   return (
-    <ThemeProvider theme={muiTheme}>
-      <CssBaseline />
-      <GlobalCss />
-      <Component {...pageProps} />
-    </ThemeProvider>
+    <ApolloProvider client={apolloClient}>
+      <ThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        <GlobalCss />
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </ApolloProvider>
   )
 }
 
@@ -41,6 +47,7 @@ export default function App(props: AppProps) {
       jssStyles.parentElement.removeChild(jssStyles)
     }
   }, [])
+
   return (
     <>
       <Head>
