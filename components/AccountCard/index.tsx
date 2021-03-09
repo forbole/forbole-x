@@ -1,7 +1,6 @@
 import { Box, Card, Avatar, Typography, useTheme, IconButton, Link } from '@material-ui/core'
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
-import MoreIcon from '../../assets/images/icons/icon_more.svg'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import CopyIcon from '../../assets/images/icons/icon_copy.svg'
