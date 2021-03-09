@@ -1,17 +1,30 @@
 /* eslint-disable no-param-reassign */
-const testWallet = {
-  id: '123',
-  name: 'test wallet name',
-  cryptos: ['ATOM'],
-}
+
 describe('Create wallet on first visit', () => {
+  const testWallet = {
+    id: '123',
+    name: 'test wallet name',
+    cryptos: ['ATOM'],
+  }
+  const testAccount = {
+    walletId: '123',
+    address: 'address',
+    crypto: 'ATOM',
+    index: 0,
+  }
   it('successfully loads and click Get Started', () => {
     cy.visit('http://localhost:3000', {
       onBeforeLoad(win: any) {
         win.chrome = win.chrome || {}
         win.chrome.runtime = {
           sendMessage(_id, msg, callback) {
-            callback(msg.event === 'ping' ? { isFirstTimeUser: true } : { wallet: testWallet })
+            if (msg.event === 'ping') {
+              callback({ isFirstTimeUser: true })
+            } else if (msg.event === 'addWallet') {
+              callback({ wallet: testWallet, accounts: [testAccount] })
+            } else if (msg.event === 'generateMnemonic') {
+              callback({ mnemonic: 'mnemonic mnemonic mnemonic' })
+            }
           },
         }
       },

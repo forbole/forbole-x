@@ -116,3 +116,285 @@ exports[`component: PasswordInput renders correctly when password is shown 1`] =
   </div>
 </div>
 `;
+
+exports[`component: PasswordInput renders correctly with high security level 1`] = `
+Array [
+  <div
+    className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+  >
+    <div
+      className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiFilledInput-adornedEnd"
+      onClick={[Function]}
+    >
+      <input
+        aria-invalid={false}
+        autoFocus={false}
+        className="MuiInputBase-input MuiFilledInput-input MuiInputBase-inputAdornedEnd MuiFilledInput-inputAdornedEnd"
+        disabled={false}
+        onAnimationStart={[Function]}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        required={false}
+        type="password"
+        value="123qweQWE!@#"
+      />
+      <div
+        className="MuiInputAdornment-root MuiInputAdornment-filled MuiInputAdornment-positionEnd"
+      >
+        <button
+          className="MuiButtonBase-root MuiIconButton-root"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <span
+            className="MuiIconButton-label"
+          >
+            <svg
+              data-file-name="SvgIcon_hide"
+              fill="#e0e0e0"
+              height={16}
+              width={16}
+            />
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiBox-root MuiBox-root-11"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-12"
+    >
+      <div
+        className="MuiBox-root MuiBox-root-13"
+      />
+      <div
+        className="MuiBox-root MuiBox-root-14"
+      />
+      <div
+        className="MuiBox-root MuiBox-root-15"
+      />
+      <p
+        className="MuiTypography-root MuiTypography-body2"
+        style={
+          Object {
+            "color": "#4caf50",
+            "margin": "0px 8px",
+          }
+        }
+      >
+        common:password security level 2
+      </p>
+    </div>
+    <p
+      className="MuiTypography-root MuiTypography-body2"
+    >
+      common:password caption
+    </p>
+  </div>,
+]
+`;
+
+exports[`component: PasswordInput renders correctly with low security level 1`] = `
+Array [
+  <div
+    className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+  >
+    <div
+      className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiFilledInput-adornedEnd"
+      onClick={[Function]}
+    >
+      <input
+        aria-invalid={false}
+        autoFocus={false}
+        className="MuiInputBase-input MuiFilledInput-input MuiInputBase-inputAdornedEnd MuiFilledInput-inputAdornedEnd"
+        disabled={false}
+        onAnimationStart={[Function]}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        required={false}
+        type="password"
+        value="123"
+      />
+      <div
+        className="MuiInputAdornment-root MuiInputAdornment-filled MuiInputAdornment-positionEnd"
+      >
+        <button
+          className="MuiButtonBase-root MuiIconButton-root"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <span
+            className="MuiIconButton-label"
+          >
+            <svg
+              data-file-name="SvgIcon_hide"
+              fill="#e0e0e0"
+              height={16}
+              width={16}
+            />
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiBox-root MuiBox-root-1"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-2"
+    >
+      <div
+        className="MuiBox-root MuiBox-root-3"
+      />
+      <div
+        className="MuiBox-root MuiBox-root-4"
+      />
+      <div
+        className="MuiBox-root MuiBox-root-5"
+      />
+      <p
+        className="MuiTypography-root MuiTypography-body2"
+        style={
+          Object {
+            "color": "#f44336",
+            "margin": "0px 8px",
+          }
+        }
+      >
+        common:password security level 0
+      </p>
+    </div>
+    <p
+      className="MuiTypography-root MuiTypography-body2"
+    >
+      common:password caption
+    </p>
+  </div>,
+]
+`;
+
+exports[`component: PasswordInput renders correctly with medium security level 1`] = `
+Array [
+  <div
+    className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+  >
+    <div
+      className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiFilledInput-adornedEnd"
+      onClick={[Function]}
+    >
+      <input
+        aria-invalid={false}
+        autoFocus={false}
+        className="MuiInputBase-input MuiFilledInput-input MuiInputBase-inputAdornedEnd MuiFilledInput-inputAdornedEnd"
+        disabled={false}
+        onAnimationStart={[Function]}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        required={false}
+        type="password"
+        value="123qweQWE"
+      />
+      <div
+        className="MuiInputAdornment-root MuiInputAdornment-filled MuiInputAdornment-positionEnd"
+      >
+        <button
+          className="MuiButtonBase-root MuiIconButton-root"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <span
+            className="MuiIconButton-label"
+          >
+            <svg
+              data-file-name="SvgIcon_hide"
+              fill="#e0e0e0"
+              height={16}
+              width={16}
+            />
+          </span>
+          <span
+            className="MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiBox-root MuiBox-root-6"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-7"
+    >
+      <div
+        className="MuiBox-root MuiBox-root-8"
+      />
+      <div
+        className="MuiBox-root MuiBox-root-9"
+      />
+      <div
+        className="MuiBox-root MuiBox-root-10"
+      />
+      <p
+        className="MuiTypography-root MuiTypography-body2"
+        style={
+          Object {
+            "color": "#ff9800",
+            "margin": "0px 8px",
+          }
+        }
+      >
+        common:password security level 1
+      </p>
+    </div>
+    <p
+      className="MuiTypography-root MuiTypography-body2"
+    >
+      common:password caption
+    </p>
+  </div>,
+]
+`;

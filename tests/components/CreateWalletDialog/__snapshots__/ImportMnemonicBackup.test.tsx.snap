@@ -1,0 +1,177 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 1`] = `
+Array [
+  <div
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+    >
+      common:mnemonic phrase backup
+    </p>
+    <div
+      className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+    >
+      <div
+        className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-multiline MuiFilledInput-multiline"
+        onClick={[Function]}
+      >
+        <textarea
+          aria-invalid={false}
+          autoFocus={false}
+          className="MuiInputBase-input MuiFilledInput-input MuiInputBase-inputMultiline MuiFilledInput-inputMultiline"
+          disabled={false}
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          placeholder="common:mnemonic phrase backup"
+          required={false}
+          rows={8}
+          value=""
+        />
+      </div>
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-8"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1"
+      >
+        common:encryption password
+      </p>
+      <input
+        onChange={[Function]}
+        placeholder="common:encryption password"
+        value=""
+      />
+      <p
+        className="MuiTypography-root MuiTypography-body2 MuiTypography-colorError"
+      >
+        
+      </p>
+    </div>
+  </div>,
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-9"
+    >
+      <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary Mui-disabled Mui-disabled"
+        disabled={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={-1}
+        type="button"
+      >
+        <span
+          className="MuiButton-label"
+        >
+          common:next
+        </span>
+      </button>
+    </div>
+  </div>,
+]
+`;
+
+exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly with error 1`] = `
+Array [
+  <div
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+    >
+      common:mnemonic phrase backup
+    </p>
+    <div
+      className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+    >
+      <div
+        className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-multiline MuiFilledInput-multiline"
+        onClick={[Function]}
+      >
+        <textarea
+          aria-invalid={false}
+          autoFocus={false}
+          className="MuiInputBase-input MuiFilledInput-input MuiInputBase-inputMultiline MuiFilledInput-inputMultiline"
+          disabled={false}
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          placeholder="common:mnemonic phrase backup"
+          required={false}
+          rows={8}
+          value=""
+        />
+      </div>
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-10"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1"
+      >
+        common:encryption password
+      </p>
+      <input
+        onChange={[Function]}
+        placeholder="common:encryption password"
+        value=""
+      />
+      <p
+        className="MuiTypography-root MuiTypography-body2 MuiTypography-colorError"
+      >
+        error
+      </p>
+    </div>
+  </div>,
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-11"
+    >
+      <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary Mui-disabled Mui-disabled"
+        disabled={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={-1}
+        type="button"
+      >
+        <span
+          className="MuiButton-label"
+        >
+          common:next
+        </span>
+      </button>
+    </div>
+  </div>,
+]
+`;

@@ -1,6 +1,6 @@
-import * as R from 'ramda';
-import numeral from 'numeral';
-import { chainConfig } from '../config/chain_config';
+import * as R from 'ramda'
+import numeral from 'numeral'
+import { chainConfig } from '../config/chain_config'
 
 class DelegationInfo {
   public address: string
@@ -24,7 +24,7 @@ class DelegationInfo {
         .filter((x) => x?.amount?.denom === chainConfig.base)
         .reduce((a, b) => {
           return a + numeral(b?.amount?.amount).value()
-      }, 0),
+        }, 0),
       delegation: R.pathOr(
         [{ validatorAddress: '', validatorMoniker: '', amount: 0 }],
         ['account', 0, 'delegations'],

@@ -42,6 +42,13 @@ const GlobalCss = withStyles(
       '.MuiFilledInput-input': {
         padding: theme.spacing(1.5),
       },
+      '.MuiFilledInput-multiline': {
+        padding: 0,
+      },
+      '.MuiSelect-select': {
+        display: 'flex',
+        alignItems: 'center',
+      },
     },
   }),
   {

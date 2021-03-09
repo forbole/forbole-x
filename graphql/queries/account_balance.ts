@@ -1,5 +1,5 @@
-export const USER_INFO = `
-query UserInfo($address: String, $height: bigint) {
+export const ACCOUNT_BALANCE = `
+query AccountBalance($address: String, $height: bigint) {
   account(where: {address: {_eq: $address}}, limit: 1) {
     address
     available: account_balances(where: {height: {_eq: $height}}) {

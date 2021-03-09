@@ -61,7 +61,7 @@ const common = {
       textTransform: 'none',
     },
   },
-  shadows: Array(25).fill('none'),
+  shadows: [...Array(7).fill('none'), ...Array(18).fill('0px 3px 16px #00000029')],
 }
 
 const lightTheme = {
@@ -81,6 +81,7 @@ const lightTheme = {
     },
     warning: {
       main: '#E0A111',
+      light: '#FCD32A',
     },
     error: {
       main: '#FD565F',

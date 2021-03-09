@@ -1,8 +1,7 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { Secp256k1HdWallet } from '@cosmjs/launchpad'
-import ClossIcon from '../../assets/images/icons/icon_cross.svg'
+import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
@@ -14,6 +13,9 @@ import SecurityPassword from './SecurityPassword'
 import ImportWallet from './ImportWallet'
 import AccessMyWallet from './AccessMyWallet'
 import WhatIsMnemonic from './WhatIsMnemonic'
+import ImportMnemonicBackup from './ImportMnemonicBackup'
+import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
+import useStateHistory from '../../misc/useStateHistory'
 
 export enum ImportStage {
   ImportMnemonicPhraseStage = 'import mnemonic phrase',
@@ -41,7 +43,6 @@ interface CreateWalletDialogProps {
 interface Content {
   title: string
   content: React.ReactNode
-  prevStage?: Stage
 }
 
 const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }) => {
@@ -49,13 +50,15 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
   const classes = useStyles()
   const iconProps = useIconProps()
   const { addWallet } = useWalletsContext()
-  const [stage, setStage] = React.useState<Stage>(CommonStage.StartStage)
+  const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
+    CommonStage.StartStage
+  )
   const [mnemonic, setMnemonic] = React.useState('')
   const [securityPassword, setSecurityPassword] = React.useState('')
   const [error, setError] = React.useState('')
 
   const createWallet = React.useCallback(async () => {
-    const wallet = await Secp256k1HdWallet.generate(24)
+    const wallet = await sendMsgToChromeExt({ event: 'generateMnemonic' })
     setMnemonic(wallet.mnemonic)
     setStage(CommonStage.CreateWalletStage)
   }, [setMnemonic])
@@ -63,14 +66,33 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
   const importMnemonic = React.useCallback(
     async (input) => {
       try {
-        const wallet = await Secp256k1HdWallet.fromMnemonic(input)
+        const wallet = await sendMsgToChromeExt({
+          event: 'verifyMnemonic',
+          data: { mnemonic: input },
+        })
         setMnemonic(wallet.mnemonic)
         setStage(CommonStage.SetSecurityPasswordStage)
       } catch (err) {
-        setError(t('invalid mnemonic'))
+        setError(t(err.message))
       }
     },
-    [setMnemonic]
+    [setMnemonic, setStage, setError]
+  )
+
+  const importMnemonicBackup = React.useCallback(
+    async (data) => {
+      try {
+        const wallet = await sendMsgToChromeExt({
+          event: 'verifyMnemonicBackup',
+          data,
+        })
+        setMnemonic(wallet.mnemonic)
+        setStage(CommonStage.SetSecurityPasswordStage)
+      } catch (err) {
+        setError(t(err.message))
+      }
+    },
+    [setMnemonic, setStage, setError]
   )
 
   const confirmMnemonic = React.useCallback(
@@ -111,7 +133,6 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
         return {
           title: t('access my wallet title'),
           content: <AccessMyWallet onConfirm={setStage} onCreateWallet={createWallet} />,
-          prevStage: CommonStage.StartStage,
         }
       case ImportStage.ImportMnemonicPhraseStage:
         return {
@@ -123,7 +144,11 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
               error={error}
             />
           ),
-          prevStage: CommonStage.AccessMyWalletStage,
+        }
+      case ImportStage.MnemonicPhraseBackupStage:
+        return {
+          title: t('mnemonic phrase backup title'),
+          content: <ImportMnemonicBackup onConfirm={importMnemonicBackup} error={error} />,
         }
       case CommonStage.CreateWalletStage:
         return {
@@ -134,7 +159,6 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
               onConfirm={() => setStage(CommonStage.ConfirmMnemonicStage)}
             />
           ),
-          prevStage: CommonStage.StartStage,
         }
       case CommonStage.ConfirmMnemonicStage:
         return {
@@ -146,25 +170,21 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
               error={error}
             />
           ),
-          prevStage: CommonStage.CreateWalletStage,
         }
       case CommonStage.SetSecurityPasswordStage:
         return {
           title: t('security password title'),
           content: <SecurityPassword onConfirm={confirmSecurityPassword} />,
-          prevStage: CommonStage.ConfirmMnemonicStage,
         }
       case CommonStage.ImportWalletStage:
         return {
           title: t('import wallet title'),
           content: <ImportWallet onConfirm={saveWallet} />,
-          prevStage: CommonStage.SetSecurityPasswordStage,
         }
       case CommonStage.WhatIsMnemonicStage:
         return {
           title: t('what is mnemonic phrase'),
           content: <WhatIsMnemonic />,
-          prevStage: CommonStage.StartStage,
         }
       case CommonStage.StartStage:
       default:
@@ -183,13 +203,13 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
 
   return (
     <Dialog fullWidth open={open} onClose={onClose}>
-      {content.prevStage ? (
-        <IconButton className={classes.backButton} onClick={() => setStage(content.prevStage)}>
+      {isPrevStageAvailable ? (
+        <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />
         </IconButton>
       ) : null}
       <IconButton className={classes.closeButton} onClick={onClose}>
-        <ClossIcon {...iconProps} />
+        <CloseIcon {...iconProps} />
       </IconButton>
       <DialogTitle>{content.title}</DialogTitle>
       {content.content}

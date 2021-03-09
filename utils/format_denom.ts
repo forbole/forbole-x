@@ -19,7 +19,7 @@ export const formatDenom = (
     display,
   };
 
-  const [selectedDenom] = chainConfig.denomUnits.filter((x) => x.denom === denom);
+  const [selectedDenom] = chainConfig.denomUnits.filter((x) => x.denom === denom)
   if (!selectedDenom) {
     return results;
   }

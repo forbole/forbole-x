@@ -10,7 +10,7 @@ jest.mock('../../../contexts/WalletsContext', () => ({
   useWalletsContext: () => mockWalletsContext,
 }))
 jest.mock('../../../components/Layout/NavBar', () => 'NavBar')
-jest.mock('../../../components/Layout/LeftMenu', () => 'LeftMenu')
+jest.mock('../../../components/Layout/LeftMenu', () => (props) => <div id="LeftMenu" {...props} />)
 jest.mock('../../../components/GetStarted', () => 'GetStarted')
 jest.mock('../../../components/UnlockPasswordDialog', () => 'UnlockPasswordDialog')
 
@@ -52,6 +52,18 @@ describe('component: Layout', () => {
         <div />
       </Layout>
     )
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+  it('renders menu collapsed state', () => {
+    const component = renderer.create(
+      <Layout activeItem="" passwordRequired>
+        <div />
+      </Layout>
+    )
+    renderer.act(() => {
+      component.root.findByProps({ id: 'LeftMenu' }).props.setIsMenuExpanded(false)
+    })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { Secp256k1HdWallet } from '@cosmjs/launchpad'
 import CreateWalletDialog, { ImportStage } from '../../../components/CreateWalletDialog'
+import sendMsgToChromeExt from '../../../misc/sendMsgToChromeExt'
 
 const mockWalletsContext = {
   addWallet: jest.fn(),
@@ -12,6 +12,8 @@ const onClose = jest.fn()
 jest.mock('../../../contexts/WalletsContext', () => ({
   useWalletsContext: () => mockWalletsContext,
 }))
+
+jest.mock('../../../misc/sendMsgToChromeExt', () => jest.fn())
 
 jest.mock('../../../components/CreateWalletDialog/Start', () => (props) => (
   <div id="Start" {...props} />
@@ -31,20 +33,13 @@ jest.mock('../../../components/CreateWalletDialog/ImportWallet', () => (props) =
 jest.mock('../../../components/CreateWalletDialog/AccessMyWallet', () => (props) => (
   <div id="AccessMyWallet" {...props} />
 ))
+jest.mock('../../../components/CreateWalletDialog/ImportMnemonicBackup', () => (props) => (
+  <div id="ImportMnemonicBackup" {...props} />
+))
 jest.mock('../../../components/CreateWalletDialog/WhatIsMnemonic', () => (props) => (
   <div id="WhatIsMnemonic" {...props} />
 ))
 jest.mock('@material-ui/core/Dialog', () => (props) => <div id="dialog" {...props} />)
-jest.mock('@cosmjs/launchpad', () => ({
-  Secp256k1HdWallet: {
-    generate: jest.fn().mockResolvedValue({
-      mnemonic: 'guide check kick present flash casual',
-    }),
-    fromMnemonic: jest.fn().mockResolvedValue({
-      mnemonic: 'guide check kick present flash casual',
-    }),
-  },
-}))
 
 describe('component: CreateWalletDialog', () => {
   it('renders open state correctly', () => {
@@ -112,6 +107,7 @@ describe('component: CreateWalletDialog', () => {
     expect(onClose).toBeCalled()
   })
   it('calls Secp256k1HdWallet.generate(24) and renders create wallet stage correctly when onCreateWalletClick is called', async () => {
+    ;(sendMsgToChromeExt as jest.Mock).mockResolvedValueOnce({ mnemonic: 'mnemonic' })
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
     await renderer.act(async () => {
       await component.root
@@ -120,11 +116,12 @@ describe('component: CreateWalletDialog', () => {
         })
         .props.onCreateWalletClick()
     })
-    expect(Secp256k1HdWallet.generate).toBeCalledWith(24)
+    expect(sendMsgToChromeExt).toBeCalledWith({ event: 'generateMnemonic' })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders confirm mnemonic stage correctly when onConfirm is called from CreateWallet', async () => {
+    ;(sendMsgToChromeExt as jest.Mock).mockResolvedValueOnce({ mnemonic: 'mnemonic' })
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
     await renderer.act(async () => {
       await component.root
@@ -144,8 +141,8 @@ describe('component: CreateWalletDialog', () => {
     expect(tree).toMatchSnapshot()
   })
   it('renders set security password stage correctly when mnemonic is confirmed to be correct', async () => {
+    ;(sendMsgToChromeExt as jest.Mock).mockResolvedValueOnce({ mnemonic: 'mnemonic' })
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
-    const { mnemonic: mockMnemonic } = await Secp256k1HdWallet.generate()
     await renderer.act(async () => {
       await component.root
         .findByProps({
@@ -165,12 +162,13 @@ describe('component: CreateWalletDialog', () => {
         .findByProps({
           id: 'ConfirmMnemonic',
         })
-        .props.onConfirm(mockMnemonic)
+        .props.onConfirm('mnemonic')
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders correctly when confirm mnemonic is invalid', async () => {
+    ;(sendMsgToChromeExt as jest.Mock).mockResolvedValueOnce({ mnemonic: 'mnemonic' })
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
     await renderer.act(async () => {
       await component.root
@@ -197,8 +195,8 @@ describe('component: CreateWalletDialog', () => {
     expect(tree).toMatchSnapshot()
   })
   it('renders import wallet stage correctly when security password is set', async () => {
+    ;(sendMsgToChromeExt as jest.Mock).mockResolvedValueOnce({ mnemonic: 'mnemonic' })
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
-    const { mnemonic: mockMnemonic } = await Secp256k1HdWallet.generate()
     await renderer.act(async () => {
       await component.root
         .findByProps({
@@ -218,7 +216,7 @@ describe('component: CreateWalletDialog', () => {
         .findByProps({
           id: 'ConfirmMnemonic',
         })
-        .props.onConfirm(mockMnemonic)
+        .props.onConfirm('mnemonic')
     })
     renderer.act(() => {
       component.root
@@ -231,8 +229,8 @@ describe('component: CreateWalletDialog', () => {
     expect(tree).toMatchSnapshot()
   })
   it('calls addWallet and onClose when wallet name is set', async () => {
+    ;(sendMsgToChromeExt as jest.Mock).mockResolvedValueOnce({ mnemonic: 'mnemonic' })
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
-    const { mnemonic: mockMnemonic }: any = await Secp256k1HdWallet.generate()
     await renderer.act(async () => {
       await component.root
         .findByProps({
@@ -252,7 +250,7 @@ describe('component: CreateWalletDialog', () => {
         .findByProps({
           id: 'ConfirmMnemonic',
         })
-        .props.onConfirm(mockMnemonic)
+        .props.onConfirm('mnemonic')
     })
     renderer.act(() => {
       component.root
@@ -271,7 +269,7 @@ describe('component: CreateWalletDialog', () => {
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
     expect(mockWalletsContext.addWallet).toBeCalledWith({
-      mnemonic: mockMnemonic,
+      mnemonic: 'mnemonic',
       name: 'wallet name',
       securityPassword: '123123',
     })
@@ -308,7 +306,8 @@ describe('component: CreateWalletDialog', () => {
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
-  it('calls Secp256k1HdWallet.fromMnemonic and renders set security password stage correctly when onConfirm is called from ConfirmMnemonic', async () => {
+  it('calls verify mnemonic and renders set security password stage correctly when onConfirm is called from ConfirmMnemonic', async () => {
+    ;(sendMsgToChromeExt as jest.Mock).mockResolvedValueOnce({ mnemonic: 'mnemonic' })
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
     await renderer.act(async () => {
       await component.root
@@ -331,11 +330,15 @@ describe('component: CreateWalletDialog', () => {
         })
         .props.onConfirm('mnemonic')
     })
-    expect(Secp256k1HdWallet.fromMnemonic).toBeCalledWith('mnemonic')
+    expect(sendMsgToChromeExt).toBeCalledWith({
+      event: 'verifyMnemonic',
+      data: { mnemonic: 'mnemonic' },
+    })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders error state when invalid mnemonic phrase is imported', async () => {
+    ;(sendMsgToChromeExt as jest.Mock).mockRejectedValueOnce(new Error('invalid mnemonic'))
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
     await renderer.act(async () => {
       await component.root
@@ -351,7 +354,6 @@ describe('component: CreateWalletDialog', () => {
         })
         .props.onConfirm(ImportStage.ImportMnemonicPhraseStage)
     })
-    ;(Secp256k1HdWallet.fromMnemonic as jest.Mock).mockRejectedValueOnce('invalid')
     await renderer.act(async () => {
       await component.root
         .findByProps({
@@ -359,7 +361,89 @@ describe('component: CreateWalletDialog', () => {
         })
         .props.onConfirm('mnemonic')
     })
-    expect(Secp256k1HdWallet.fromMnemonic).toBeCalledWith('mnemonic')
+    expect(sendMsgToChromeExt).toBeCalledWith({
+      event: 'verifyMnemonic',
+      data: { mnemonic: 'mnemonic' },
+    })
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+  it('renders mnemonic phrase backup stage correctly when onConfirm is called from AccessMyWallet', async () => {
+    const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
+    await renderer.act(async () => {
+      await component.root
+        .findByProps({
+          id: 'Start',
+        })
+        .props.onImportWalletClick()
+    })
+    renderer.act(() => {
+      component.root
+        .findByProps({
+          id: 'AccessMyWallet',
+        })
+        .props.onConfirm(ImportStage.MnemonicPhraseBackupStage)
+    })
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+  it('calls verify mnemonic backup and renders set security password stage correctly when onConfirm is called from ImportMnemonicBackup', async () => {
+    ;(sendMsgToChromeExt as jest.Mock).mockResolvedValueOnce({ mnemonic: 'mnemonic' })
+    const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
+    await renderer.act(async () => {
+      await component.root
+        .findByProps({
+          id: 'Start',
+        })
+        .props.onImportWalletClick()
+    })
+    renderer.act(() => {
+      component.root
+        .findByProps({
+          id: 'AccessMyWallet',
+        })
+        .props.onConfirm(ImportStage.MnemonicPhraseBackupStage)
+    })
+    await renderer.act(async () => {
+      await component.root
+        .findByProps({
+          id: 'ImportMnemonicBackup',
+        })
+        .props.onConfirm({
+          password: 'password',
+          backupPhrase: 'backup phrase',
+        })
+    })
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+  it('renders error state when invalid mnemonic phrase backup is imported', async () => {
+    ;(sendMsgToChromeExt as jest.Mock).mockRejectedValueOnce(new Error('invalid mnemonic'))
+    const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
+    await renderer.act(async () => {
+      await component.root
+        .findByProps({
+          id: 'Start',
+        })
+        .props.onImportWalletClick()
+    })
+    renderer.act(() => {
+      component.root
+        .findByProps({
+          id: 'AccessMyWallet',
+        })
+        .props.onConfirm(ImportStage.MnemonicPhraseBackupStage)
+    })
+    await renderer.act(async () => {
+      await component.root
+        .findByProps({
+          id: 'ImportMnemonicBackup',
+        })
+        .props.onConfirm({
+          password: 'password',
+          backupPhrase: 'backup phrase',
+        })
+    })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

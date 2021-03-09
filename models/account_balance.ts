@@ -2,7 +2,7 @@ import * as R from 'ramda';
 import numeral from 'numeral';
 import { chainConfig } from '../config/chain_config';
 
-class UserInfo {
+class AccountBalance {
   public address: string;
   public rewardAddress: string;
   public price: number;
@@ -29,42 +29,48 @@ class UserInfo {
     // ==========================
     // base
     // ==========================
-    const account = R.pathOr({
-    }, ['account', 0], data);
+    const account = R.pathOr({}, ['account', 0], data)
 
     // ==========================
     // available
     // ==========================
-    const available = R.pathOr(0, [0, 'amount'],
+    const available = R.pathOr(
+      0,
+      [0, 'amount'],
       R.pathOr([], ['available', 0, 'coins'], account).filter((x) => x.denom === chainConfig.base));
 
     // ==========================
     // delegate
     // ==========================
-    const delegate = R.pathOr([], ['delegations'], account).filter((x) => x?.amount?.denom === chainConfig.base).reduce((a, b) => {
-      return a + numeral(b?.amount?.amount).value();
-    }, 0);
+    const delegate = R.pathOr([], ['delegations'], account)
+      .filter((x) => x?.amount?.denom === chainConfig.base)
+      .reduce((a, b) => {
+        return a + numeral(b?.amount?.amount).value()
+      }, 0)
 
     // ==========================
     // unbonding
     // ==========================
-    const unbonding = R.pathOr([], ['unbonding'], account).filter((x) => x?.amount?.denom === chainConfig.base).reduce((a, b) => {
-      return a + numeral(b?.amount?.amount).value();
-    }, 0);
+    const unbonding = R.pathOr([], ['unbonding'], account)
+      .filter((x) => x?.amount?.denom === chainConfig.base)
+      .reduce((a, b) => {
+        return a + numeral(b?.amount?.amount).value()
+      }, 0)
 
     // ==========================
     // rewards
     // ==========================
     const reward = R.pathOr([], ['rewards'], account).map((x) => {
-      return x?.amount?.filter((y) => {
-        return y?.denom === chainConfig.base;
-      });
-    }).reduce((a, b) => {
-      const amount = b.reduce((c, d) => {
-        return c + numeral(d?.amount).value();
-      }, 0);
-      return a + numeral(amount).value();
-    }, 0);
+        return x?.amount?.filter((y) => {
+          return y?.denom === chainConfig.base
+        })
+      })
+      .reduce((a, b) => {
+        const amount = b.reduce((c, d) => {
+          return c + numeral(d?.amount).value()
+        }, 0)
+        return a + numeral(amount).value()
+      }, 0)
     // ==========================
     // address
     // ==========================
@@ -79,7 +85,7 @@ class UserInfo {
         .filter((x) => x?.denom === chainConfig.base))).value();
 
     const total = available + delegate + unbonding + reward + commission;
-    return new UserInfo({
+    return new AccountBalance({
       rewardAddress,
       address,
       available,
@@ -90,8 +96,8 @@ class UserInfo {
       total,
       price: 0,
       // price: R.pathOr(0, ['token_price', 0, 'price'], data),
-    });
+    })
   }
 }
 
-export default UserInfo;
+export default AccountBalance;

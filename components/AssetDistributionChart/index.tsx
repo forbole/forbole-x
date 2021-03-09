@@ -7,48 +7,19 @@ import SectoredByButton from './SectoredByButton'
 import { SectoredBy, sectoredByTypes } from './types'
 import { useAssetDistributionChart } from './hooks'
 
-const AssetDistributionChart: React.FC = () => {
+interface AssetDistributionChartProps {
+  accounts: Account[]
+}
+
+const AssetDistributionChart: React.FC<AssetDistributionChartProps> = ({ accounts }) => {
   const classes = useStyles()
   const { t } = useTranslation('common')
   const theme = useTheme()
   const [sectoredBy, setSectoredBy] = React.useState<SectoredBy>(sectoredByTypes[0])
   const [activeIndex, setActiveIndex] = React.useState(0)
   // TODO: fetch data from backend
-  const rawData = [
-    {
-      name: 'Forbole',
-      value: 35,
-    },
-    {
-      name: 'Binance Staking',
-      value: 18,
-    },
-    {
-      name: 'DokiaCapital',
-      value: 12,
-    },
-    {
-      name: '🐠stake.fish',
-      value: 10,
-    },
-    {
-      name: 'CCN',
-      value: 10,
-    },
-    {
-      name: 'Sikka',
-      value: 8,
-    },
-    {
-      name: 'Zero Knowledge Validator (ZKV)',
-      value: 7,
-    },
-  ]
 
-  const { delegationInfo } = useAssetDistributionChart(
-    'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d'
-  )
-  console.log('delegationInfo', delegationInfo)
+  const { assetInfo } = useAssetDistributionChart(accounts)
 
   const COLORS = [
     theme.palette.error,
@@ -58,22 +29,11 @@ const AssetDistributionChart: React.FC = () => {
   ]
 
   const data = []
-  // rawData.forEach((d, i) => {
-  //   const startAngle = i === 0 ? 0 : data[i - 1].endAngle
-  //   const endAngle = startAngle + (360 * d.value) / 100
-  //   const outerRadius = `${100 * (1 - 0.6 * (i / rawData.length))}%`
-  //   data.push({
-  //     ...d,
-  //     startAngle,
-  //     endAngle,
-  //     outerRadius,
-  //   })
-  // })
 
-  delegationInfo.delegation.forEach((d, i) => {
+  assetInfo.delegation.forEach((d, i) => {
     const startAngle = i === 0 ? 0 : data[i - 1].endAngle
     const endAngle = startAngle + (360 * d.amount) / 100
-    const outerRadius = `${100 * (1 - 0.6 * (i / delegationInfo.delegation.length))}%`
+    const outerRadius = `${100 * (1 - 0.6 * (i / assetInfo.delegation.length))}%`
     data.push({
       ...d,
       startAngle,
@@ -81,9 +41,6 @@ const AssetDistributionChart: React.FC = () => {
       outerRadius,
     })
   })
-
-  console.log('rawData.length', rawData.length)
-  console.log('delegationInfo.delegation.length', delegationInfo.delegation.length)
 
   const { top, left } = React.useMemo(() => {
     const midAngle =
@@ -94,8 +51,6 @@ const AssetDistributionChart: React.FC = () => {
       left: `calc(30% + ${Math.cos(midAngle) * radius}px)`,
     }
   }, [activeIndex, data])
-
-  console.log('data', data)
 
   return (
     <Card className={classes.container}>
@@ -114,7 +69,6 @@ const AssetDistributionChart: React.FC = () => {
                 data={[d]}
                 startAngle={d.startAngle}
                 endAngle={d.endAngle}
-                // dataKey="value"
                 dataKey="amount"
                 animationBegin={200 * i}
                 animationDuration={200}
@@ -136,7 +90,6 @@ const AssetDistributionChart: React.FC = () => {
           }}
         >
           <Typography className={classes.percentText} variant="h2" gutterBottom>
-            {/* {data[activeIndex].value}% */}
             {data[activeIndex].value}
           </Typography>
           <Typography>{data[activeIndex].validatorMoniker}</Typography>
