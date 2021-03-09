@@ -10,6 +10,7 @@ import { useSettingsContext } from '../../contexts/SettingsContext'
 import useIconProps from '../../misc/useIconProps'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { useWalletsContext } from '../../contexts/WalletsContext'
+import AccountMenuButton from '../AccountMenuButton'
 
 interface AccountCardProps {
   account: Account
@@ -51,9 +52,7 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
             </Link>
           </Box>
         </Box>
-        <IconButton>
-          <MoreIcon {...iconProps} />
-        </IconButton>
+        <AccountMenuButton accountAddress={account.address} />
       </Box>
       <Box display="flex" alignItems="flex-end" justifyContent="space-between">
         <Box>

@@ -84,5 +84,9 @@
   "cancel": "[zh] Cancel",
   "create account": "[zh] Create Account",
   "network": "[zh] Network",
-  "account moniker": "[zh] Account Moniker"
+  "account moniker": "[zh] Account Moniker",
+  "add wallet": "[zh] Add Wallet",
+  "delete account": "[zh] Delete Account",
+  "change account moniker": "[zh] Change Account Moniker",
+  "delete account warning": "[zh] Are you sure you would like to delete this account?"
 }
