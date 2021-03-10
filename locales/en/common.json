@@ -88,5 +88,9 @@
   "cancel": "Cancel",
   "create account": "Create Account",
   "network": "Network",
-  "account moniker": "Account Moniker"
+  "account moniker": "Account Moniker",
+  "add wallet": "Add Wallet",
+  "delete account": "Delete Account",
+  "change account moniker": "Change Account Moniker",
+  "delete account warning": "Are you sure you would like to delete this account?"
 }

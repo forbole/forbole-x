@@ -5,16 +5,44 @@ exports[`page: Wallets renders correctly 1`] = `
   activeItem="/wallets"
   passwordRequired={true}
 >
-  <h1
-    className="MuiTypography-root MuiTypography-h1 MuiTypography-gutterBottom"
-  >
-    common:wallet manage
-  </h1>
   <div
     className="MuiBox-root MuiBox-root-1"
   >
+    <h1
+      className="MuiTypography-root MuiTypography-h1 MuiTypography-gutterBottom"
+    >
+      common:wallet manage
+    </h1>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:add wallet
+      </span>
+    </button>
+  </div>
+  <div
+    className="MuiBox-root MuiBox-root-2"
+  >
     <div
-      className="MuiBox-root MuiBox-root-2"
+      className="MuiBox-root MuiBox-root-3"
     >
       <h4
         className="MuiTypography-root MuiTypography-h4"
@@ -47,6 +75,10 @@ exports[`page: Wallets renders correctly 1`] = `
       </div>
     </div>
   </div>
+  <CreateWalletDialog
+    onClose={[Function]}
+    open={false}
+  />
 </Layout>
 `;
 
@@ -55,16 +87,47 @@ exports[`page: Wallets renders correctly with missing wallet id 1`] = `
   activeItem="/wallets"
   passwordRequired={true}
 >
-  <h1
-    className="MuiTypography-root MuiTypography-h1 MuiTypography-gutterBottom"
-  >
-    common:wallet manage
-  </h1>
   <div
-    className="MuiBox-root MuiBox-root-3"
+    className="MuiBox-root MuiBox-root-4"
+  >
+    <h1
+      className="MuiTypography-root MuiTypography-h1 MuiTypography-gutterBottom"
+    >
+      common:wallet manage
+    </h1>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:add wallet
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+  <div
+    className="MuiBox-root MuiBox-root-5"
   >
     <div
-      className="MuiBox-root MuiBox-root-4"
+      className="MuiBox-root MuiBox-root-6"
     >
       <h4
         className="MuiTypography-root MuiTypography-h4"
@@ -79,5 +142,9 @@ exports[`page: Wallets renders correctly with missing wallet id 1`] = `
       className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
     />
   </div>
+  <CreateWalletDialog
+    onClose={[Function]}
+    open={false}
+  />
 </Layout>
 `;
