@@ -1,0 +1,231 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component: ChangeAccountMonikerDialog renders closed state correctly 1`] = `
+<div
+  fullWidth={true}
+  id="dialog"
+  onClose={[MockFunction]}
+  open={false}
+>
+  <button
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-3"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[MockFunction]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label"
+    >
+      <svg
+        data-file-name="SvgIcon_cross"
+        fill="#e0e0e0"
+        height={16}
+        width={16}
+      />
+    </span>
+    <span
+      className="MuiTouchRipple-root"
+    />
+  </button>
+  <div
+    className="MuiDialogTitle-root"
+  >
+    <h2
+      className="MuiTypography-root MuiTypography-h6"
+    >
+      common:change account moniker
+    </h2>
+  </div>
+  <div
+    className="MuiDialogContent-root"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-10"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
+      >
+        common:account moniker
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
+        <div
+          className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiFilledInput-input"
+            disabled={false}
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="common:account moniker"
+            required={false}
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-2 MuiButton-containedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:next
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`component: ChangeAccountMonikerDialog renders opened state correctly 1`] = `
+<div
+  fullWidth={true}
+  id="dialog"
+  onClose={[MockFunction]}
+  open={true}
+>
+  <button
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-3"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[MockFunction]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label"
+    >
+      <svg
+        data-file-name="SvgIcon_cross"
+        fill="#e0e0e0"
+        height={16}
+        width={16}
+      />
+    </span>
+  </button>
+  <div
+    className="MuiDialogTitle-root"
+  >
+    <h2
+      className="MuiTypography-root MuiTypography-h6"
+    >
+      common:change account moniker
+    </h2>
+  </div>
+  <div
+    className="MuiDialogContent-root"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-9"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
+      >
+        common:account moniker
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
+        <div
+          className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiFilledInput-input"
+            disabled={false}
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="common:account moniker"
+            required={false}
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-2 MuiButton-containedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:next
+      </span>
+    </button>
+  </div>
+</div>
+`;
