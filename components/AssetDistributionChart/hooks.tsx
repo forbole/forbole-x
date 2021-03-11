@@ -15,34 +15,34 @@ export const useAssetDistributionChart = (accounts: Account[]) => {
   const validatorData = []
 
   // fake accounts for testing, becuz desmos does not have the latest data now
-  const fakeAccounts: Account[] = [
-    {
-      walletId: 'f149b58827224d515a0025f991b240749b4e7927f47c55c7aee0da2d953e9312',
-      address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
-      createdAt: 1614826912972,
-      crypto: 'DSM',
-      fav: false,
-      index: 0,
-      name: 'DSM',
-      displayName: '',
-      rpDisplayName: '',
-      id: '',
-    },
-    {
-      walletId: 'f149b58827224d515a0025f991b240749b4e7927f47c55c7aee0da2d953e9312',
-      address: 'cosmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
-      createdAt: 1614826912972,
-      crypto: 'ATOM',
-      fav: false,
-      index: 0,
-      name: 'ATOM',
-      displayName: '',
-      rpDisplayName: '',
-      id: '',
-    },
-  ]
+  // const fakeAccounts: Account[] = [
+  //   {
+  //     walletId: 'f149b58827224d515a0025f991b240749b4e7927f47c55c7aee0da2d953e9312',
+  //     address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
+  //     createdAt: 1614826912972,
+  //     crypto: 'DSM',
+  //     fav: false,
+  //     index: 0,
+  //     name: 'DSM',
+  //     displayName: '',
+  //     rpDisplayName: '',
+  //     id: '',
+  //   },
+  //   {
+  //     walletId: 'f149b58827224d515a0025f991b240749b4e7927f47c55c7aee0da2d953e9312',
+  //     address: 'cosmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
+  //     createdAt: 1614826912972,
+  //     crypto: 'ATOM',
+  //     fav: false,
+  //     index: 0,
+  //     name: 'ATOM',
+  //     displayName: '',
+  //     rpDisplayName: '',
+  //     id: '',
+  //   },
+  // ]
 
-  fakeAccounts?.forEach((account) => {
+  accounts?.forEach((account) => {
     if (account.address.substr(0, 6) === 'desmos') {
       const [getDelegationInfo] = useLazyQuery(
         gql`
