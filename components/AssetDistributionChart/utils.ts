@@ -41,25 +41,38 @@ export const summarizedData = (dataList: FormatData[]) => {
     totalAmount: 0,
     delegation: [],
   }
-  dataList.forEach((data) => {
-    summery.totalAmount += data.delegationTotal
-    data.delegation.forEach((validator) => {
-      const index = summery.delegation.findIndex(
-        (x) => x.validatorMoniker === validator.validatorMoniker
-      )
-      if (index !== -1) {
-        summery.delegation[index].amount += validator.amount
-      } else {
-        summery.delegation.push({
-          validatorMoniker: validator.validatorMoniker,
-          amount: validator.amount,
-        })
-      }
+
+  if (dataList.length !== 0) {
+    dataList.forEach((data) => {
+      summery.totalAmount += data.delegationTotal
+      data.delegation.forEach((validator) => {
+        const index = summery.delegation.findIndex(
+          (x) => x.validatorMoniker === validator.validatorMoniker
+        )
+        if (index !== -1) {
+          summery.delegation[index].amount += validator.amount
+        } else {
+          summery.delegation.push({
+            validatorMoniker: validator.validatorMoniker,
+            amount: validator.amount,
+          })
+        }
+      })
     })
-  })
-  summery.delegation.forEach((x) => {
-    // eslint-disable-next-line no-param-reassign
-    x.value = numeral(x.amount / summery.totalAmount).format('0.00%')
-  })
-  return summery
+    summery.delegation.forEach((x) => {
+      // eslint-disable-next-line no-param-reassign
+      x.value = numeral(x.amount / summery.totalAmount).format('0.00%')
+    })
+    return summery
+  }
+  return {
+    totalAmount: 0,
+    delegation: [
+      {
+        validatorMoniker: '',
+        amount: 0,
+        value: '0%',
+      },
+    ],
+  }
 }

@@ -18,8 +18,9 @@ const AssetDistributionChart: React.FC<AssetDistributionChartProps> = ({ account
   const [sectoredBy, setSectoredBy] = React.useState<SectoredBy>(sectoredByTypes[0])
   const [activeIndex, setActiveIndex] = React.useState(0)
   // TODO: fetch data from backend
+  console.log('accounts', accounts)
 
-  const { assetInfo } = useAssetDistributionChart(accounts)
+  const { delegationInfo } = useAssetDistributionChart(accounts)
 
   const COLORS = [
     theme.palette.error,
@@ -30,10 +31,10 @@ const AssetDistributionChart: React.FC<AssetDistributionChartProps> = ({ account
 
   const data = []
 
-  assetInfo.delegation.forEach((d, i) => {
+  delegationInfo.delegation.forEach((d, i) => {
     const startAngle = i === 0 ? 0 : data[i - 1].endAngle
     const endAngle = startAngle + (360 * d.amount) / 100
-    const outerRadius = `${100 * (1 - 0.6 * (i / assetInfo.delegation.length))}%`
+    const outerRadius = `${100 * (1 - 0.6 * (i / delegationInfo.delegation.length))}%`
     data.push({
       ...d,
       startAngle,
@@ -41,6 +42,7 @@ const AssetDistributionChart: React.FC<AssetDistributionChartProps> = ({ account
       outerRadius,
     })
   })
+  console.log('delegationInfo.delegation', delegationInfo.delegation)
 
   const { top, left } = React.useMemo(() => {
     const midAngle =

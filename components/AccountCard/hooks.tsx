@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useRouter } from 'next/router'
 import { useLazyQuery, useQuery, gql } from '@apollo/client'
 import { accountBalanceParser, latestBlockHeightParser } from '../../graphql/parsers/queries'
 import { AccountBalance } from '../../models'
@@ -8,7 +7,6 @@ import { formatData } from './utils'
 
 export const useAccountCardHook = (address: string) => {
   const [accountInfo, setAccountInfo] = useState<AccountBalance>(AccountBalance.fromJson({}))
-  const router = useRouter()
 
   // ===============================
   // get Desmos data
@@ -23,7 +21,7 @@ export const useAccountCardHook = (address: string) => {
         onCompleted: (data) => {
           const parsedData = accountBalanceParser(data)
           if (!parsedData) {
-            router.push('/404')
+            setAccountInfo(AccountBalance.fromJson({}))
           } else {
             setAccountInfo(parsedData)
           }
@@ -40,8 +38,6 @@ export const useAccountCardHook = (address: string) => {
           if (height) {
             getAccountBalance({
               variables: {
-                // for testing
-                // address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
                 address,
                 height,
               },
