@@ -6,6 +6,10 @@ const useStyles = makeStyles(
       width: theme.spacing(3.5),
       height: theme.spacing(3.5),
     },
+    largeAvatar: {
+      width: theme.spacing(7),
+      height: theme.spacing(7),
+    },
   }),
   {
     name: 'HookGlobalStyles',

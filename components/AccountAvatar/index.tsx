@@ -8,7 +8,7 @@ import useStyles from './styles'
 interface AccountAvatarProps {
   account: Account
   hideAddress?: boolean
-  size?: 'small' | 'base'
+  size?: 'small' | 'base' | 'large'
 }
 
 const AccountAvatar: React.FC<AccountAvatarProps> = ({ account, hideAddress, size = 'base' }) => {
@@ -16,15 +16,23 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({ account, hideAddress, siz
   const iconProps = useIconProps()
   const classes = useStyles()
 
+  let avatarClass = ''
+  let titleVariant: 'h3' | 'h5' | 'body1' = 'h5'
+  if (size === 'small') {
+    avatarClass = classes.smallAvatar
+    titleVariant = 'body1'
+  } else if (size === 'large') {
+    avatarClass = classes.largeAvatar
+    titleVariant = 'h3'
+  }
+
   return (
     <Box display="flex" alignItems="center">
-      <Avatar
-        className={size === 'small' ? classes.smallAvatar : ''}
-        alt={crypto.name}
-        src={crypto.image}
-      />
+      <Avatar className={avatarClass} alt={crypto.name} src={crypto.image} />
       <Box ml={1}>
-        <Typography variant={size === 'small' ? 'body1' : 'h5'}>{account.name}</Typography>
+        <Typography color="textPrimary" variant={titleVariant}>
+          {account.name}
+        </Typography>
         {hideAddress ? null : (
           <Link
             component="button"

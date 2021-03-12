@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(
   (theme) => ({
     sendButton: {
-      width: theme.spacing(13),
+      width: theme.spacing(18),
       marginLeft: theme.spacing(2),
       backgroundColor: theme.palette.warning.main,
       '&:hover': {
@@ -11,13 +11,13 @@ const useStyles = makeStyles(
       },
     },
     fixedWidthButton: {
-      width: theme.spacing(13),
+      width: theme.spacing(18),
       marginLeft: theme.spacing(2),
     },
     iconButton: {
       minWidth: 0,
       marginLeft: theme.spacing(2),
-      width: theme.spacing(4),
+      width: theme.spacing(6),
       padding: 0,
     },
   }),

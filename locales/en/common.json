@@ -92,5 +92,10 @@
   "add wallet": "Add Wallet",
   "delete account": "Delete Account",
   "change account moniker": "Change Account Moniker",
-  "delete account warning": "Are you sure you would like to delete this account?"
+  "delete account warning": "Are you sure you would like to delete this account?",
+  "available": "Available",
+  "delegated": "Delegated",
+  "unbonding": "Unbonding",
+  "reward": "Reward",
+  "commission": "Commission"
 }

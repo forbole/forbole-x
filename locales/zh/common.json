@@ -88,5 +88,10 @@
   "add wallet": "[zh] Add Wallet",
   "delete account": "[zh] Delete Account",
   "change account moniker": "[zh] Change Account Moniker",
-  "delete account warning": "[zh] Are you sure you would like to delete this account?"
+  "delete account warning": "[zh] Are you sure you would like to delete this account?",
+  "available": "[zh] Available",
+  "delegated": "[zh] Delegated",
+  "unbonding": "[zh] Unbonding",
+  "reward": "[zh] Reward",
+  "commission": "[zh] Commission"
 }
