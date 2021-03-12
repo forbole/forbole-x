@@ -17,16 +17,25 @@ interface LayoutProps {
   activeItem: string
   passwordRequired?: boolean
   children: React.ReactNode
+  HeaderLeftComponent?: React.ReactNode
 }
 
-const Layout: React.FC<LayoutProps> = ({ activeItem, passwordRequired, children }) => {
+const Layout: React.FC<LayoutProps> = ({
+  activeItem,
+  passwordRequired,
+  HeaderLeftComponent,
+  children,
+}) => {
   const classes = useStyles()
   const theme = useTheme()
   const [isMenuExpanded, setIsMenuExpanded] = usePersistedState('isMenuExpanded', true)
   const { isFirstTimeUser, isUnlocked } = useWalletsContext()
   return (
     <>
-      <NavBar />
+      <NavBar
+        HeaderLeftComponent={HeaderLeftComponent}
+        menuWidth={isMenuExpanded ? MenuWidth.Expanded : MenuWidth.Collapsed}
+      />
       <LeftMenu
         activeItem={activeItem}
         isMenuExpanded={isMenuExpanded}

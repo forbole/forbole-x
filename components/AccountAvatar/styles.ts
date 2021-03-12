@@ -2,9 +2,9 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(
   (theme) => ({
-    container: {
-      padding: theme.spacing(2),
-      cursor: 'pointer',
+    smallAvatar: {
+      width: theme.spacing(3.5),
+      height: theme.spacing(3.5),
     },
   }),
   {

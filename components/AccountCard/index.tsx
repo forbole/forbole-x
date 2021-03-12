@@ -1,6 +1,7 @@
 import { Box, Card, Typography, useTheme, IconButton } from '@material-ui/core'
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
+import { useRouter } from 'next/router'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import useStyles from './styles'
@@ -23,6 +24,7 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
   const { lang } = useTranslation()
   const { currency } = useSettingsContext()
   const { updateAccount } = useWalletsContext()
+  const router = useRouter()
   // TODO: fetch data from backend
   const balance = 104387.26
   const usdBalance = 626323.54
@@ -32,8 +34,16 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
   }, [account.address, account.fav, updateAccount])
 
   return (
-    <Card className={classes.container}>
-      <Box mb={5} display="flex" alignItems="flex-start" justifyContent="space-between">
+    <Card
+      className={classes.container}
+      onClick={(e) => {
+        const targetClassName = String((e.target as any).className)
+        if (targetClassName.includes('MuiBox-root') || targetClassName.includes('MuiCard-root')) {
+          router.push(`/account/${account.address}`)
+        }
+      }}
+    >
+      <Box id="" mb={5} display="flex" alignItems="flex-start" justifyContent="space-between">
         <AccountAvatar account={account} />
         <AccountMenuButton accountAddress={account.address} />
       </Box>
