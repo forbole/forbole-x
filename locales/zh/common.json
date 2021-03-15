@@ -93,5 +93,11 @@
   "delegated": "[zh] Delegated",
   "unbonding": "[zh] Unbonding",
   "reward": "[zh] Reward",
-  "commission": "[zh] Commission"
+  "commission": "[zh] Commission",
+  "validator": "[zh] Validator",
+  "vp ratios": "[zh] VP Ratios",
+  "delegated amount": "[zh] Delegated Amount",
+  "amt ratio": "[zh] Amt. Ratio",
+  "last 7 days": "[zh] Last 7 days",
+  "manage": "[zh] Manage"
 }

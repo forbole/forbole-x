@@ -97,5 +97,11 @@
   "delegated": "Delegated",
   "unbonding": "Unbonding",
   "reward": "Reward",
-  "commission": "Commission"
+  "commission": "Commission",
+  "validator": "Validator",
+  "vp ratios": "VP Ratios",
+  "delegated amount": "Delegated Amount",
+  "amt ratio": "Amt. Ratio",
+  "last 7 days": "Last 7 days",
+  "manage": "Manage"
 }
