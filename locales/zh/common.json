@@ -24,7 +24,7 @@
   "invalid password": "[zh] Please enter a password with at least 6 characters",
   "invalid confirm password": "[zh] Confirm password does not match",
   "create wallet title": "[zh] Getting Started",
-  "create wallet description": "[zh] create wallet description description",
+  "create wallet description": "[zh] Select one of method that can describe you",
   "i have mnemonic phrase": "[zh] I have 12 / 24 word mnemonic phrase",
   "i dont have mnemonic phrase": "[zh] I don’t have any mnemonic phrase",
   "what is mnemonic phrase": "[zh] What is mnemonic phrase?",

@@ -24,7 +24,7 @@
   "invalid password": "Please enter a password with at least 6 characters",
   "invalid confirm password": "Confirm password does not match",
   "create wallet title": "Getting Started",
-  "create wallet description": "create wallet description description",
+  "create wallet description": "Select one of method that can describe you",
   "i have mnemonic phrase": "I have 12 / 24 word mnemonic phrase",
   "i dont have mnemonic phrase": "I don’t have any mnemonic phrase",
   "what is mnemonic phrase": "What is mnemonic phrase?",
