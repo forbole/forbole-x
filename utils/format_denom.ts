@@ -1,5 +1,5 @@
-import numeral from 'numeral';
-import { chainConfig } from '../config/chain_config';
+import numeral from 'numeral'
+import { chainConfig } from '../config/chain_config'
 
 /**
  * Helper Function to converts Denom to display depending on the exponent given
@@ -17,24 +17,25 @@ export const formatDenom = (
     format: '-',
     denom,
     display,
-  };
+  }
 
   const [selectedDenom] = chainConfig.denomUnits.filter((x) => x.denom === denom)
   if (!selectedDenom) {
-    return results;
+    return results
   }
-  const ratio = 10 ** selectedDenom.exponent;
+  const ratio = 10 ** selectedDenom.exponent
 
   if (typeof value === 'string') {
-    value = numeral(value).value() as number;
+    // eslint-disable-next-line no-param-reassign
+    value = numeral(value).value() as number
   }
 
-  results.raw = value / ratio;
-  results.format = numeral(value / ratio).format(format);
+  results.raw = value / ratio
+  results.format = numeral(value / ratio).format(format)
   if (results.format === 'NaN') {
-    results.format = numeral(0).format(format);
+    results.format = numeral(0).format(format)
   }
   results.display = [results.format, results.denom.toUpperCase()].join(' ')
 
-  return results;
-};
+  return results
+}

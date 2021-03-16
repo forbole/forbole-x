@@ -66,8 +66,10 @@ describe('AccountCard', () => {
     const mockFormatExpression = {
       format: (value) => value.toString(),
     }
-    let mockNumberFormatFunction = Intl.NumberFormat = jest.fn()
-      .mockImplementation(() => mockFormatExpression);
+    // eslint-disable-next-line no-multi-assign
+    const mockNumberFormatFunction = (Intl.NumberFormat = jest
+      .fn()
+      .mockImplementation(() => mockFormatExpression))
 
     renderer.act(() => {
       component = renderer.create(

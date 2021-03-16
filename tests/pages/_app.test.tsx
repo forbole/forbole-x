@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { createMockClient } from 'mock-apollo-client';
+import { createMockClient } from 'mock-apollo-client'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { lightTheme, darkTheme } from '../../misc/theme'
 import App from '../../pages/_app'

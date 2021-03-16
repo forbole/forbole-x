@@ -63,11 +63,11 @@ function createApolloClient() {
         },
       },
     }),
-  });
+  })
 
-  client.defaultOptions = defaultOptions;
+  client.defaultOptions = defaultOptions
 
-  return client;
+  return client
 }
 
 export function initializeApollo(initialState = null) {
@@ -78,7 +78,7 @@ export function initializeApollo(initialState = null) {
   // gets hydrated here
   if (initialState) {
     // Get existing cache, loaded during client side data fetching
-    const existingCache = _apolloClient.extract();
+    const existingCache = _apolloClient.extract()
     // Restore the cache using the data passed from getStaticProps/getServerSideProps
     // combined with the existing cached data
     _apolloClient.cache.restore({
@@ -95,6 +95,6 @@ export function initializeApollo(initialState = null) {
 }
 
 export function useApollo(initialState) {
-  const store = useMemo(() => initializeApollo(initialState), [initialState]);
+  const store = useMemo(() => initializeApollo(initialState), [initialState])
   return store
 }

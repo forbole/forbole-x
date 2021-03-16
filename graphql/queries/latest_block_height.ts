@@ -4,4 +4,4 @@ query LatestBlockHeight{
     height
   }
 }
-`;
+`

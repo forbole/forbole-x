@@ -1,4 +1,4 @@
-import renderer from 'react-test-renderer';
+import renderer from 'react-test-renderer'
 
 /**
  * helper test util to wait for the dom to update

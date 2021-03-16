@@ -1,7 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import { AppProps } from 'next/app'
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import useTranslation from 'next-translate/useTranslation'

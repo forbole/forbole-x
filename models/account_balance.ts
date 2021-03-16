@@ -23,7 +23,8 @@ class AccountBalance {
     const available = R.pathOr(
       0,
       [0, 'amount'],
-      R.pathOr([], ['available', 0, 'coins'], account).filter((x) => x.denom === chainConfig.base));
+      R.pathOr([], ['available', 0, 'coins'], account).filter((x) => x.denom === chainConfig.base)
+    )
 
     // ==========================
     // delegate
@@ -76,7 +77,7 @@ class AccountBalance {
       )
     ).value()
 
-    const total = available + delegate + unbonding + reward + commission;
+    const total = available + delegate + unbonding + reward + commission
     return new AccountBalance({
       address,
       total,

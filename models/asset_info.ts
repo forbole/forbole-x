@@ -20,7 +20,6 @@ class AssetInfo {
   }
 
   static fromJson(data: any) {
-
     const address = R.pathOr('', ['account', 0, 'address'], data)
 
     const account = R.pathOr({}, ['account', 0], data)
@@ -28,7 +27,8 @@ class AssetInfo {
     const available = R.pathOr(
       0,
       [0, 'amount'],
-      R.pathOr([], ['available', 0, 'coins'], account).filter((x) => x.denom === chainConfig.base))
+      R.pathOr([], ['available', 0, 'coins'], account).filter((x) => x.denom === chainConfig.base)
+    )
 
     const delegate = R.pathOr([], ['delegations'], account)
       .filter((x) => x?.amount?.denom === chainConfig.base)

@@ -77,7 +77,6 @@ export const summarizedData = (dataList: FormatData[]) => {
           amount: data.total,
         })
       }
-
     })
     summery.delegation.forEach((x) => {
       // eslint-disable-next-line no-param-reassign
