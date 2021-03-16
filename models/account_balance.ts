@@ -1,28 +1,28 @@
-import * as R from 'ramda';
-import numeral from 'numeral';
-import { chainConfig } from '../config/chain_config';
+import * as R from 'ramda'
+import numeral from 'numeral'
+import { chainConfig } from '../config/chain_config'
 
 class AccountBalance {
-  public address: string;
-  public rewardAddress: string;
-  public price: number;
-  public available: number;
-  public delegate: number;
-  public unbonding: number;
-  public reward: number;
-  public commission: number;
-  public total: number;
+  public address: string
+  public rewardAddress: string
+  public price: number
+  public available: number
+  public delegate: number
+  public unbonding: number
+  public reward: number
+  public commission: number
+  public total: number
 
   constructor(payload: any) {
-    this.address = payload.address;
-    this.rewardAddress = payload.rewardAddress;
-    this.price = payload.price;
-    this.available = payload.available;
-    this.delegate = payload.delegate;
-    this.unbonding = payload.unbonding;
-    this.reward = payload.reward;
-    this.commission = payload.commission;
-    this.total = payload.total;
+    this.address = payload.address
+    this.rewardAddress = payload.rewardAddress
+    this.price = payload.price
+    this.available = payload.available
+    this.delegate = payload.delegate
+    this.unbonding = payload.unbonding
+    this.reward = payload.reward
+    this.commission = payload.commission
+    this.total = payload.total
   }
 
   static fromJson(data: any) {
@@ -80,9 +80,15 @@ class AccountBalance {
     // ==========================
     // commissions
     // ==========================
-    const commission = numeral(R.pathOr(0, [0, 'amount'],
-      R.pathOr([], ['validator', 0, 'commissions', 0, 'amount'], data)
-        .filter((x) => x?.denom === chainConfig.base))).value();
+    const commission = numeral(
+      R.pathOr(
+        0,
+        [0, 'amount'],
+        R.pathOr([], ['validator', 0, 'commissions', 0, 'amount'], data).filter(
+          (x: { denom: string }) => x?.denom === chainConfig.base
+        )
+      )
+    ).value()
 
     const total = available + delegate + unbonding + reward + commission;
     return new AccountBalance({

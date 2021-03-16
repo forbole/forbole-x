@@ -16,7 +16,21 @@ exports[`page: Home renders correctly 1`] = `
     <div
       className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6"
     >
-      <AssetDistributionChart />
+      <AssetDistributionChart
+        accounts={
+          Array [
+            Object {
+              "address": "address",
+              "createdAt": 0,
+              "crypto": "ATOM",
+              "fav": false,
+              "index": 0,
+              "name": "name",
+              "walletId": "123",
+            },
+          ]
+        }
+      />
     </div>
   </div>
   <div

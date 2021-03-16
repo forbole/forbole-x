@@ -53,7 +53,7 @@
   dependencies:
     "cross-fetch" "3.0.6"
 
-"@apollo/client@^3.3.11":
+"@apollo/client@^3.0.0", "@apollo/client@^3.3.11":
   "integrity" "sha512-54+D5FB6RJlQ+g37f432gaexnyvDsG5X6L9VO5kqN54HJlbF8hCf/8CXtAQEHCWodAwZhy6kOLp2RM96829q3A=="
   "resolved" "https://registry.npmjs.org/@apollo/client/-/client-3.3.11.tgz"
   "version" "3.3.11"
@@ -6939,6 +6939,11 @@
   "version" "0.5.5"
   dependencies:
     "minimist" "^1.2.5"
+
+"mock-apollo-client@^1.0.0":
+  "integrity" "sha512-WfBEp5kPqC4XUHjWu56tJ2MoNcUdQA6MIp0fV8EQ+qqbcluUDANbTflv55x7YUYQuQxkQT9qydOmmGeceTGjyw=="
+  "resolved" "https://registry.npmjs.org/mock-apollo-client/-/mock-apollo-client-1.0.0.tgz"
+  "version" "1.0.0"
 
 "moment@^2.29.1":
   "integrity" "sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ=="

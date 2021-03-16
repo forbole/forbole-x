@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountCard it renders 1`] = `
+<div
+  className="MuiPaper-root MuiCard-root HookGlobalStyles-container-1 MuiPaper-elevation1 MuiPaper-rounded"
+>
+  <div
+    className="MuiBox-root MuiBox-root-2"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-3"
+    >
+      <div
+        className="MuiAvatar-root MuiAvatar-circle"
+      >
+        <img
+          alt="DSM"
+          className="MuiAvatar-img"
+          src="/static/images/cryptocurrencies/dsm.png"
+        />
+      </div>
+      <div
+        className="MuiBox-root MuiBox-root-4"
+      >
+        <h5
+          className="MuiTypography-root MuiTypography-h5"
+        >
+          DSM
+        </h5>
+        <button
+          className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-body2 MuiTypography-colorTextSecondary"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+        >
+          desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d
+          <div
+            className="MuiBox-root MuiBox-root-5"
+          >
+            <svg
+              data-file-name="SvgIcon_copy"
+              fill="#e0e0e0"
+              height={16}
+              width={16}
+            />
+          </div>
+        </button>
+      </div>
+    </div>
+    <button
+      className="MuiButtonBase-root MuiIconButton-root"
+      disabled={false}
+      onBlur={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiIconButton-label"
+      >
+        <svg
+          data-file-name="SvgIcon_more"
+          fill="#e0e0e0"
+          height={16}
+          width={16}
+        />
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+  <div
+    className="MuiBox-root MuiBox-root-6"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-7"
+    >
+      <h4
+        className="MuiTypography-root MuiTypography-h4"
+      >
+        0
+         
+        DSM
+      </h4>
+      <h6
+        className="MuiTypography-root MuiTypography-h6"
+      >
+        626323.54
+         
+        USD
+      </h6>
+    </div>
+    <button
+      className="MuiButtonBase-root MuiIconButton-root"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiIconButton-label"
+      >
+        <svg
+          data-file-name="SvgIcon_star"
+          fill="#e0e0e0"
+          height={16}
+          width={16}
+        />
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+</div>
+`;

@@ -1,7 +1,17 @@
-export const ACCOUNT_BALANCE = `
-query AccountBalance($address: String, $height: bigint) {
+export const ASSET_INFO = `
+query AssetInfo($address: String, $height: bigint) {
   account(where: {address: {_eq: $address}}, limit: 1) {
     address
+    delegations(where: {height: {_eq: $height}}) {
+      amount
+      validator_address
+      validator{
+        validator_descriptions{
+          moniker
+        }
+      }
+    }
+
     available: account_balances(where: {height: {_eq: $height}}) {
       coins
     }

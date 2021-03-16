@@ -11,7 +11,6 @@ const Wallets: React.FC = () => {
   const { t } = useTranslation('common')
   const { wallets, accounts } = useWalletsContext()
   const accountsMap = React.useMemo(() => groupBy(accounts, 'walletId'), [accounts])
-  console.log('walletAccount', accounts)
 
   return (
     <Layout passwordRequired activeItem="/wallets">

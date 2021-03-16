@@ -1,5 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
+import { createMockClient } from 'mock-apollo-client';
 import { createMuiTheme } from '@material-ui/core/styles'
 import { lightTheme, darkTheme } from '../../misc/theme'
 import App from '../../pages/_app'
@@ -7,6 +8,8 @@ import App from '../../pages/_app'
 const mockThemeContext = {
   theme: 'light',
 }
+
+const mockClient = createMockClient()
 
 jest.mock('../../contexts/SettingsContext', () => ({
   useSettingsContext: () => mockThemeContext,
@@ -19,6 +22,10 @@ jest.mock('@material-ui/core/styles', () => ({
 }))
 jest.mock('next-translate/useTranslation', () => () => ({
   lang: 'en',
+}))
+
+jest.mock('../../graphql/client', () => ({
+  useApollo: () => mockClient,
 }))
 
 describe('page: _app', () => {

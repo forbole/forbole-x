@@ -21,7 +21,6 @@ let apolloClient
 const httpLink = new HttpLink({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
 })
-console.log('uri', process.env.NEXT_PUBLIC_GRAPHQL_URL);
 
 const wsLink = new WebSocketLink({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_WS ?? 'wss://localhost:3000',

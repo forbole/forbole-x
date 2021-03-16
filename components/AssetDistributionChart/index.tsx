@@ -18,9 +18,47 @@ const AssetDistributionChart: React.FC<AssetDistributionChartProps> = ({ account
   const [sectoredBy, setSectoredBy] = React.useState<SectoredBy>(sectoredByTypes[0])
   const [activeIndex, setActiveIndex] = React.useState(0)
   // TODO: fetch data from backend
-  console.log('accounts', accounts)
 
-  const { delegationInfo } = useAssetDistributionChart(accounts)
+  const fakeAccounts: Account[] = [
+    {
+      walletId: 'f149b58827224d515a0025f991b240749b4e7927f47c55c7aee0da2d953e9312',
+      address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
+      createdAt: 1614826912972,
+      crypto: 'DSM',
+      fav: false,
+      index: 0,
+      name: 'DSM',
+      displayName: '',
+      rpDisplayName: '',
+      id: '',
+    },
+    {
+      walletId: 'f149b58827224d515a0025f991b240749b4e7927f47c55c7aee0da2d953e9312',
+      address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
+      createdAt: 1614826912972,
+      crypto: 'DSM',
+      fav: false,
+      index: 0,
+      name: 'DSM',
+      displayName: '',
+      rpDisplayName: '',
+      id: '',
+    },
+    {
+      walletId: 'f149b58827224d515a0025f991b240749b4e7927f47c55c7aee0da2d953e9312',
+      address: 'cosmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
+      createdAt: 1614826912972,
+      crypto: 'ATOM',
+      fav: false,
+      index: 0,
+      name: 'ATOM',
+      displayName: '',
+      rpDisplayName: '',
+      id: '',
+    },
+  ]
+
+  const { assetData } = useAssetDistributionChart(accounts)
 
   const COLORS = [
     theme.palette.error,
@@ -31,10 +69,10 @@ const AssetDistributionChart: React.FC<AssetDistributionChartProps> = ({ account
 
   const data = []
 
-  delegationInfo.delegation.forEach((d, i) => {
+  assetData.delegation.forEach((d, i) => {
     const startAngle = i === 0 ? 0 : data[i - 1].endAngle
     const endAngle = startAngle + (360 * d.amount) / 100
-    const outerRadius = `${100 * (1 - 0.6 * (i / delegationInfo.delegation.length))}%`
+    const outerRadius = `${100 * (1 - 0.6 * (i / assetData.delegation.length))}%`
     data.push({
       ...d,
       startAngle,
@@ -42,7 +80,6 @@ const AssetDistributionChart: React.FC<AssetDistributionChartProps> = ({ account
       outerRadius,
     })
   })
-  console.log('delegationInfo.delegation', delegationInfo.delegation)
 
   const { top, left } = React.useMemo(() => {
     const midAngle =
