@@ -4,24 +4,10 @@ import { chainConfig } from '../config/chain_config'
 
 class AccountBalance {
   public address: string
-  public rewardAddress: string
-  public price: number
-  public available: number
-  public delegate: number
-  public unbonding: number
-  public reward: number
-  public commission: number
   public total: number
 
   constructor(payload: any) {
     this.address = payload.address
-    this.rewardAddress = payload.rewardAddress
-    this.price = payload.price
-    this.available = payload.available
-    this.delegate = payload.delegate
-    this.unbonding = payload.unbonding
-    this.reward = payload.reward
-    this.commission = payload.commission
     this.total = payload.total
   }
 
@@ -60,7 +46,8 @@ class AccountBalance {
     // ==========================
     // rewards
     // ==========================
-    const reward = R.pathOr([], ['rewards'], account).map((x) => {
+    const reward = R.pathOr([], ['rewards'], account)
+      .map((x) => {
         return x?.amount?.filter((y) => {
           return y?.denom === chainConfig.base
         })
@@ -74,8 +61,7 @@ class AccountBalance {
     // ==========================
     // address
     // ==========================
-    const address = R.pathOr('', ['account', 0, 'address'], data);
-    const rewardAddress = R.pathOr(address, ['rewards', 0, 'withdraw_address'], data);
+    const address = R.pathOr('', ['account', 0, 'address'], data)
 
     // ==========================
     // commissions
@@ -92,18 +78,10 @@ class AccountBalance {
 
     const total = available + delegate + unbonding + reward + commission;
     return new AccountBalance({
-      rewardAddress,
       address,
-      available,
-      delegate,
-      unbonding,
-      reward,
-      commission,
       total,
-      price: 0,
-      // price: R.pathOr(0, ['token_price', 0, 'price'], data),
     })
   }
 }
 
-export default AccountBalance;
+export default AccountBalance

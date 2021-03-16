@@ -21,7 +21,6 @@
     "isomorphic-ws": "^4.0.1",
     "lodash": "^4.17.20",
     "mock-apollo-client": "^1.0.0",
-    "moment": "^2.29.1",
     "next": "10.0.4",
     "next-translate": "^1.0.1",
     "numeral": "^2.0.6",
