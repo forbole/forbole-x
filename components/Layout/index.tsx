@@ -28,9 +28,9 @@ const Layout: React.FC<LayoutProps> = ({
 }) => {
   const classes = useStyles()
   const theme = useTheme()
-  const [isMenuExpanded, setIsMenuExpanded] = usePersistedState('isMenuExpanded', true)
+  const [isMenuExpanded, setIsMenuExpanded, loaded] = usePersistedState('isMenuExpanded', true)
   const { isFirstTimeUser, isUnlocked } = useWalletsContext()
-  return (
+  return loaded ? (
     <>
       <NavBar
         HeaderLeftComponent={HeaderLeftComponent}
@@ -52,7 +52,7 @@ const Layout: React.FC<LayoutProps> = ({
       </Box>
       {passwordRequired && !isFirstTimeUser ? <UnlockPasswordDialog /> : null}
     </>
-  )
+  ) : null
 }
 
 export default React.memo(Layout)

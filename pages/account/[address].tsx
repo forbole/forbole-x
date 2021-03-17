@@ -17,7 +17,6 @@ const Account: React.FC = () => {
   const { accounts } = useWalletsContext()
   const account = accounts.find((a) => a.address === router.query.address)
   const crypto = account ? cryptocurrencies[account.crypto] : {}
-  console.log(crypto)
 
   return (
     <Layout

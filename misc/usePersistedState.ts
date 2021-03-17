@@ -1,3 +1,4 @@
+import { AirlineSeatLegroomExtraRounded } from '@material-ui/icons'
 import React from 'react'
 
 const retrievePersistedValue = <P>(key: string, initialValue: P) => {
@@ -16,13 +17,17 @@ const retrievePersistedValue = <P>(key: string, initialValue: P) => {
 const usePersistedState = <P>(
   key: string,
   initialValue: P
-): [P, React.Dispatch<React.SetStateAction<P>>] => {
+): [P, React.Dispatch<React.SetStateAction<P>>, boolean] => {
   const [value, setValue] = React.useState(retrievePersistedValue(key, initialValue))
-
+  const [loaded, setLoaded] = React.useState(false)
   React.useEffect(() => {
     localStorage.setItem(key, JSON.stringify(value))
   }, [value])
-  return [value, setValue]
+  // for conditional rendering in SSR
+  React.useEffect(() => {
+    setLoaded(true)
+  }, [])
+  return [value, setValue, loaded]
 }
 
 export default usePersistedState

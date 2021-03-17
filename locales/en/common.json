@@ -103,5 +103,9 @@
   "delegated amount": "Delegated Amount",
   "amt ratio": "Amt. Ratio",
   "last 7 days": "Last 7 days",
-  "manage": "Manage"
+  "manage": "Manage",
+  "table footer": "showing {{range}} of {{total}}",
+  "delegations": "Delegations",
+  "redelegations": "Redelegation",
+  "unbondings": "Unbondings"
 }

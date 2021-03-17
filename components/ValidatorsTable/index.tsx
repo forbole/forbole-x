@@ -8,6 +8,8 @@ import {
   Avatar,
   Typography,
   Card,
+  Tabs,
+  Tab,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -38,11 +40,27 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto })
   const { t, lang } = useTranslation('common')
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const [currentTab, setCurrentTab] = React.useState(0)
+
+  const tabs = [
+    { label: 'delegations', count: 100 },
+    { label: 'redelegations', count: 18 },
+    { label: 'unbonding', count: 8 },
+  ]
 
   return (
     <Card>
       <Box p={4}>
-        <Box className={classes.table}>
+        <Tabs
+          value={currentTab}
+          classes={{ indicator: classes.tabIndicator }}
+          onChange={(e, v) => setCurrentTab(v)}
+        >
+          {tabs.map((tab) => (
+            <Tab key={tab.label} label={`${t(tab.label)} (${tab.count})`} />
+          ))}
+        </Tabs>
+        <Box className={classes.table} mt={2}>
           <Table>
             <TableHead>
               <TableRow>

@@ -19,6 +19,9 @@ const useStyles = makeStyles(
       height: theme.spacing(3.5),
       marginRight: theme.spacing(1),
     },
+    tabIndicator: {
+      backgroundColor: theme.palette.text.primary,
+    },
   }),
   {
     name: 'HookGlobalStyles',

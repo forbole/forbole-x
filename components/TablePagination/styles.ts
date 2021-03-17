@@ -17,6 +17,12 @@ const useStyles = makeStyles(
       marginRight: theme.spacing(1),
       minWidth: 0,
     },
+    selectButton: {
+      backgroundColor: theme.palette.grey[100],
+      color: theme.palette.grey[300],
+      height: theme.spacing(4.5),
+      margin: theme.spacing(0, 2),
+    },
   }),
   {
     name: 'HookGlobalStyles',

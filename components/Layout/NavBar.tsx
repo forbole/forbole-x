@@ -18,7 +18,7 @@ const NavBar: React.FC<{ HeaderLeftComponent?: React.ReactNode; menuWidth: numbe
   return (
     <Box className={classes.navBar}>
       {HeaderLeftComponent ? (
-        <Box flex={1} ml={menuWidth}>
+        <Box className={classes.navbarLeftComponentContainer} flex={1} ml={menuWidth}>
           {HeaderLeftComponent}
         </Box>
       ) : null}

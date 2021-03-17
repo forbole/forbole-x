@@ -22,6 +22,7 @@ describe('component: Layout', () => {
         <div />
       </Layout>
     )
+    renderer.act(() => undefined)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
@@ -32,6 +33,7 @@ describe('component: Layout', () => {
         <div />
       </Layout>
     )
+    renderer.act(() => undefined)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
@@ -42,6 +44,7 @@ describe('component: Layout', () => {
         <div />
       </Layout>
     )
+    renderer.act(() => undefined)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
@@ -52,6 +55,7 @@ describe('component: Layout', () => {
         <div />
       </Layout>
     )
+    renderer.act(() => undefined)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
@@ -61,6 +65,7 @@ describe('component: Layout', () => {
         <div />
       </Layout>
     )
+    renderer.act(() => undefined)
     renderer.act(() => {
       component.root.findByProps({ id: 'LeftMenu' }).props.setIsMenuExpanded(false)
     })
