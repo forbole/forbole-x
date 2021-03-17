@@ -2,6 +2,9 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(
   (theme) => ({
+    container: {
+      marginBottom: theme.spacing(4),
+    },
     sendButton: {
       width: theme.spacing(18),
       marginLeft: theme.spacing(2),

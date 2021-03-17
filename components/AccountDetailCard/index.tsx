@@ -42,7 +42,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
   })
 
   return (
-    <Card>
+    <Card className={classes.container}>
       <Box p={4}>
         <Box mb={4} display="flex" justifyContent="space-between" alignItems="flex-start">
           <AccountAvatar size="large" account={account} />

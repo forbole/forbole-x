@@ -7,11 +7,11 @@ import {
   Box,
   Avatar,
   Typography,
-  TableFooter,
-  TablePagination,
+  Card,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import TablePagination from '../TablePagination'
 import useStyles from './styles'
 
 interface ValidatorsTableProps {
@@ -33,58 +33,69 @@ const formatCrypto = (amount: number, unit: string, lang: string) =>
     maximumFractionDigits: 4,
   }).format(amount)} ${unit}`
 
-const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators }) => {
+const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(0)
+  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>{t('validator')}</TableCell>
-          <TableCell>{t('commission')}</TableCell>
-          <TableCell>{t('vp ratios')}</TableCell>
-          <TableCell>{t('delegated amount')}</TableCell>
-          <TableCell>{t('amt ratio')}</TableCell>
-          <TableCell>{t('reward')}</TableCell>
-          <TableCell>{t('last 7 days')}</TableCell>
-          <TableCell>{t('manage')}</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {validators.map((v) => (
-          <TableRow key={v.name} className={classes.tableRow}>
-            <TableCell>
-              <Box display="flex" alignItems="center">
-                <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
-                <Typography>{v.name}</Typography>
-              </Box>
-            </TableCell>
-            <TableCell>{formatPercentage(v.commission, lang)}</TableCell>
-            <TableCell>{formatPercentage(v.vpRatios, lang)}</TableCell>
-            <TableCell>{formatCrypto(v.delegatedAmount, crypto.name, lang)}</TableCell>
-            <TableCell>{formatPercentage(v.amtRatio, lang)}</TableCell>
-            <TableCell>{formatCrypto(v.reward, crypto.name, lang)}</TableCell>
-            <TableCell />
-            <TableCell />
-          </TableRow>
-        ))}
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              colSpan={3}
-              count={validators.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onChangePage={(e, p) => setPage(p)}
-              onChangeRowsPerPage={(e) => setRowsPerPage(Number(e.target.value))}
-            />
-          </TableRow>
-        </TableFooter>
-      </TableBody>
-    </Table>
+    <Card>
+      <Box p={4}>
+        <Box className={classes.table}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell className={classes.tableCell}>{t('validator')}</TableCell>
+                <TableCell className={classes.tableCell}>{t('commission')}</TableCell>
+                <TableCell className={classes.tableCell}>{t('vp ratios')}</TableCell>
+                <TableCell className={classes.tableCell}>{t('delegated amount')}</TableCell>
+                <TableCell className={classes.tableCell}>{t('amt ratio')}</TableCell>
+                <TableCell className={classes.tableCell}>{t('reward')}</TableCell>
+                <TableCell className={classes.tableCell}>{t('last 7 days')}</TableCell>
+                <TableCell className={classes.tableCell}>{t('manage')}</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {validators.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((v) => (
+                <TableRow key={v.name} className={classes.tableRow}>
+                  <TableCell className={classes.tableCell}>
+                    <Box display="flex" alignItems="center">
+                      <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
+                      <Typography>{v.name}</Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {formatPercentage(v.commission, lang)}
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {formatPercentage(v.vpRatios, lang)}
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {formatCrypto(v.delegatedAmount, crypto.name, lang)}
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {formatPercentage(v.amtRatio, lang)}
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {formatCrypto(v.reward, crypto.name, lang)}
+                  </TableCell>
+                  <TableCell className={classes.tableCell} />
+                  <TableCell className={classes.tableCell} />
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Box>
+        <TablePagination
+          page={page}
+          rowsPerPage={rowsPerPage}
+          rowsCount={validators.length}
+          onPageChange={setPage}
+          onRowsPerPageChange={setRowsPerPage}
+        />
+      </Box>
+    </Card>
   )
 }
 
