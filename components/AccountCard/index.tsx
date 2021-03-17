@@ -1,15 +1,16 @@
-import { Box, Card, Avatar, Typography, useTheme, IconButton, Link } from '@material-ui/core'
+import { Box, Card, Typography, useTheme, IconButton } from '@material-ui/core'
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
+import { useRouter } from 'next/router'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
-import CopyIcon from '../../assets/images/icons/icon_copy.svg'
 import useStyles from './styles'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 import useIconProps from '../../misc/useIconProps'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import AccountMenuButton from '../AccountMenuButton'
+import AccountAvatar from '../AccountAvatar'
 
 interface AccountCardProps {
   account: Account
@@ -23,6 +24,7 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
   const { lang } = useTranslation()
   const { currency } = useSettingsContext()
   const { updateAccount } = useWalletsContext()
+  const router = useRouter()
   // TODO: fetch data from backend
   const balance = 104387.26
   const usdBalance = 626323.54
@@ -32,25 +34,17 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
   }, [account.address, account.fav, updateAccount])
 
   return (
-    <Card className={classes.container}>
-      <Box mb={5} display="flex" alignItems="flex-start" justifyContent="space-between">
-        <Box display="flex" alignItems="center">
-          <Avatar alt={crypto.name} src={crypto.image} />
-          <Box ml={1}>
-            <Typography variant="h5">{account.name}</Typography>
-            <Link
-              component="button"
-              variant="body2"
-              color="textSecondary"
-              onClick={() => navigator.clipboard.writeText(account.address)}
-            >
-              {account.address}
-              <Box display="inline" ml={1}>
-                <CopyIcon {...iconProps} />
-              </Box>
-            </Link>
-          </Box>
-        </Box>
+    <Card
+      className={classes.container}
+      onClick={(e) => {
+        const targetClassName = String((e.target as any).className)
+        if (targetClassName.includes('MuiBox-root') || targetClassName.includes('MuiCard-root')) {
+          router.push(`/account/${account.address}`)
+        }
+      }}
+    >
+      <Box id="" mb={5} display="flex" alignItems="flex-start" justifyContent="space-between">
+        <AccountAvatar account={account} />
         <AccountMenuButton accountAddress={account.address} />
       </Box>
       <Box display="flex" alignItems="flex-end" justifyContent="space-between">

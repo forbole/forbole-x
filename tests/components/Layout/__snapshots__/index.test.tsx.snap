@@ -2,7 +2,9 @@
 
 exports[`component: Layout renders default state for first time user correctly 1`] = `
 Array [
-  <NavBar />,
+  <NavBar
+    menuWidth={32}
+  />,
   <div
     activeItem=""
     id="LeftMenu"
@@ -10,7 +12,7 @@ Array [
     setIsMenuExpanded={[Function]}
   />,
   <div
-    className="MuiBox-root MuiBox-root-7 HookGlobalStyles-main-6"
+    className="MuiBox-root MuiBox-root-8 HookGlobalStyles-main-7"
     style={
       Object {
         "marginLeft": 256,
@@ -24,7 +26,9 @@ Array [
 
 exports[`component: Layout renders default state for non first time user correctly 1`] = `
 Array [
-  <NavBar />,
+  <NavBar
+    menuWidth={32}
+  />,
   <div
     activeItem=""
     id="LeftMenu"
@@ -32,7 +36,7 @@ Array [
     setIsMenuExpanded={[Function]}
   />,
   <div
-    className="MuiBox-root MuiBox-root-9 HookGlobalStyles-main-6"
+    className="MuiBox-root MuiBox-root-10 HookGlobalStyles-main-7"
     style={
       Object {
         "marginLeft": 256,
@@ -46,7 +50,9 @@ Array [
 
 exports[`component: Layout renders menu collapsed state 1`] = `
 Array [
-  <NavBar />,
+  <NavBar
+    menuWidth={11.5}
+  />,
   <div
     activeItem=""
     id="LeftMenu"
@@ -54,7 +60,7 @@ Array [
     setIsMenuExpanded={[Function]}
   />,
   <div
-    className="MuiBox-root MuiBox-root-11 HookGlobalStyles-main-6"
+    className="MuiBox-root MuiBox-root-12 HookGlobalStyles-main-7"
     style={
       Object {
         "marginLeft": 92,
@@ -67,7 +73,9 @@ Array [
 
 exports[`component: Layout renders passwordRequired state for first time user correctly 1`] = `
 Array [
-  <NavBar />,
+  <NavBar
+    menuWidth={32}
+  />,
   <div
     activeItem=""
     id="LeftMenu"
@@ -75,7 +83,7 @@ Array [
     setIsMenuExpanded={[Function]}
   />,
   <div
-    className="MuiBox-root MuiBox-root-8 HookGlobalStyles-main-6"
+    className="MuiBox-root MuiBox-root-9 HookGlobalStyles-main-7"
     style={
       Object {
         "marginLeft": 256,
@@ -89,7 +97,9 @@ Array [
 
 exports[`component: Layout renders passwordRequired state for non first time user correctly 1`] = `
 Array [
-  <NavBar />,
+  <NavBar
+    menuWidth={32}
+  />,
   <div
     activeItem=""
     id="LeftMenu"
@@ -97,7 +107,7 @@ Array [
     setIsMenuExpanded={[Function]}
   />,
   <div
-    className="MuiBox-root MuiBox-root-10 HookGlobalStyles-main-6"
+    className="MuiBox-root MuiBox-root-11 HookGlobalStyles-main-7"
     style={
       Object {
         "marginLeft": 256,

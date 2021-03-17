@@ -75,6 +75,7 @@ const ChangeAccountMonikerDialog: React.FC<ChangeAccountMonikerDialogProps> = ({
           variant="contained"
           color="primary"
           onClick={onButtonClick}
+          disabled={!name}
         >
           {t('next')}
         </Button>

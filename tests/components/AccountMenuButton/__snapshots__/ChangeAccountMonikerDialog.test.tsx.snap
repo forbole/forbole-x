@@ -88,8 +88,8 @@ exports[`component: ChangeAccountMonikerDialog renders closed state correctly 1`
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-2 MuiButton-containedPrimary"
-      disabled={false}
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-2 MuiButton-containedPrimary Mui-disabled Mui-disabled"
+      disabled={true}
       onBlur={[Function]}
       onClick={[Function]}
       onDragLeave={[Function]}
@@ -102,7 +102,7 @@ exports[`component: ChangeAccountMonikerDialog renders closed state correctly 1`
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
-      tabIndex={0}
+      tabIndex={-1}
       type="button"
     >
       <span
@@ -110,9 +110,6 @@ exports[`component: ChangeAccountMonikerDialog renders closed state correctly 1`
       >
         common:next
       </span>
-      <span
-        className="MuiTouchRipple-root"
-      />
     </button>
   </div>
 </div>
@@ -203,8 +200,8 @@ exports[`component: ChangeAccountMonikerDialog renders opened state correctly 1`
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-2 MuiButton-containedPrimary"
-      disabled={false}
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-2 MuiButton-containedPrimary Mui-disabled Mui-disabled"
+      disabled={true}
       onBlur={[Function]}
       onClick={[Function]}
       onDragLeave={[Function]}
@@ -217,7 +214,7 @@ exports[`component: ChangeAccountMonikerDialog renders opened state correctly 1`
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
-      tabIndex={0}
+      tabIndex={-1}
       type="button"
     >
       <span
