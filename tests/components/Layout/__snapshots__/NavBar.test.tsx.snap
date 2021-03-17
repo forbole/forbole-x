@@ -2,12 +2,12 @@
 
 exports[`component: Layout - NavBar renders correctly 1`] = `
 <div
-  className="MuiBox-root MuiBox-root-7 HookGlobalStyles-navBar-4"
+  className="MuiBox-root MuiBox-root-8 HookGlobalStyles-navBar-5"
 >
   <CurrencyMenuButton />
   <CurrencyMenuButton />
   <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-navBarButton-5"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-navBarButton-6"
     disabled={false}
     onBlur={[Function]}
     onDragLeave={[Function]}
@@ -36,7 +36,7 @@ exports[`component: Layout - NavBar renders correctly 1`] = `
   </button>
   <CurrencyMenuButton />
   <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-navBarButton-5"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-navBarButton-6"
     disabled={false}
     onBlur={[Function]}
     onDragLeave={[Function]}

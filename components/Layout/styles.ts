@@ -11,6 +11,9 @@ const useStyles = makeStyles(
       zIndex: 2,
       transition: 'width 0.2s ease-in-out',
     },
+    navbarLeftComponentContainer: {
+      transition: 'margin-left 0.2s ease-in-out',
+    },
     menu: {
       margin: theme.spacing(2, 2.5),
     },

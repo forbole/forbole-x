@@ -8,12 +8,20 @@ import LangMenuButton from './LangMenuButton'
 import ThemeModeButton from './ThemeModeButton'
 import useIconProps from '../../misc/useIconProps'
 
-const NavBar: React.FC = () => {
+const NavBar: React.FC<{ HeaderLeftComponent?: React.ReactNode; menuWidth: number }> = ({
+  HeaderLeftComponent,
+  menuWidth,
+}) => {
   const iconProps = useIconProps(3)
   const classes = useStyles()
 
   return (
     <Box className={classes.navBar}>
+      {HeaderLeftComponent ? (
+        <Box className={classes.navbarLeftComponentContainer} flex={1} ml={menuWidth}>
+          {HeaderLeftComponent}
+        </Box>
+      ) : null}
       <CurrencyMenuButton />
       <LangMenuButton />
       <IconButton className={classes.navBarButton}>

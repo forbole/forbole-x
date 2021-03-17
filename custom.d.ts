@@ -35,6 +35,16 @@ interface Crypto {
   coinType: number
 }
 
+interface Validator {
+  image: string
+  name: string
+  commission: number
+  vpRatios: number
+  delegatedAmount: number
+  amtRatio: number
+  reward: number
+}
+
 interface CreateWalletParams {
   name: string
   cryptos: string[]

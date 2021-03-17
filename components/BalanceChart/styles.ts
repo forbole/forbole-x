@@ -2,9 +2,8 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(
   (theme) => ({
-    container: {
-      padding: theme.spacing(2),
-      cursor: 'pointer',
+    timeRangeButton: {
+      margin: theme.spacing(0, 1),
     },
   }),
   {

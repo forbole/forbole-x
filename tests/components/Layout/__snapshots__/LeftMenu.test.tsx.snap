@@ -10,11 +10,11 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
   }
 >
   <ul
-    className="MuiList-root HookGlobalStyles-menu-2 MuiList-padding"
+    className="MuiList-root HookGlobalStyles-menu-3 MuiList-padding"
   >
     <div
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       onBlur={[Function]}
       onClick={[Function]}
       onDragLeave={[Function]}
@@ -34,7 +34,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         className="MuiListItemIcon-root"
       >
         <div
-          className="MuiBox-root MuiBox-root-8"
+          className="MuiBox-root MuiBox-root-9"
         >
           <svg
             data-file-name="SvgLogo"
@@ -59,7 +59,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
     </div>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button Mui-selected"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button Mui-selected"
       href="/"
       onBlur={[Function]}
       onClick={[Function]}
@@ -101,7 +101,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/wallets"
       onBlur={[Function]}
       onClick={[Function]}
@@ -143,7 +143,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/delegate"
       onBlur={[Function]}
       onClick={[Function]}
@@ -185,7 +185,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/market"
       onBlur={[Function]}
       onClick={[Function]}
@@ -227,7 +227,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/proposals"
       onBlur={[Function]}
       onClick={[Function]}
@@ -269,7 +269,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/address-book"
       onBlur={[Function]}
       onClick={[Function]}
@@ -311,7 +311,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/explorer"
       onBlur={[Function]}
       onClick={[Function]}
@@ -365,11 +365,11 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
   }
 >
   <ul
-    className="MuiList-root HookGlobalStyles-menu-2 MuiList-padding"
+    className="MuiList-root HookGlobalStyles-menu-3 MuiList-padding"
   >
     <div
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       onBlur={[Function]}
       onClick={[Function]}
       onDragLeave={[Function]}
@@ -389,7 +389,7 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
         className="MuiListItemIcon-root"
       >
         <div
-          className="MuiBox-root MuiBox-root-9"
+          className="MuiBox-root MuiBox-root-10"
         >
           <svg
             data-file-name="SvgLogo"
@@ -411,7 +411,7 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
     </div>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button Mui-selected"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button Mui-selected"
       href="/"
       onBlur={[Function]}
       onClick={[Function]}
@@ -450,7 +450,7 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/wallets"
       onBlur={[Function]}
       onClick={[Function]}
@@ -489,7 +489,7 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/delegate"
       onBlur={[Function]}
       onClick={[Function]}
@@ -528,7 +528,7 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/market"
       onBlur={[Function]}
       onClick={[Function]}
@@ -567,7 +567,7 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/proposals"
       onBlur={[Function]}
       onClick={[Function]}
@@ -606,7 +606,7 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/address-book"
       onBlur={[Function]}
       onClick={[Function]}
@@ -645,7 +645,7 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/explorer"
       onBlur={[Function]}
       onClick={[Function]}
@@ -696,11 +696,11 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
   }
 >
   <ul
-    className="MuiList-root HookGlobalStyles-menu-2 MuiList-padding"
+    className="MuiList-root HookGlobalStyles-menu-3 MuiList-padding"
   >
     <div
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       onBlur={[Function]}
       onClick={[Function]}
       onDragLeave={[Function]}
@@ -720,7 +720,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         className="MuiListItemIcon-root"
       >
         <div
-          className="MuiBox-root MuiBox-root-7"
+          className="MuiBox-root MuiBox-root-8"
         >
           <svg
             data-file-name="SvgLogo"
@@ -742,7 +742,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
     </div>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/"
       onBlur={[Function]}
       onClick={[Function]}
@@ -781,7 +781,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/wallets"
       onBlur={[Function]}
       onClick={[Function]}
@@ -820,7 +820,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/delegate"
       onBlur={[Function]}
       onClick={[Function]}
@@ -859,7 +859,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/market"
       onBlur={[Function]}
       onClick={[Function]}
@@ -898,7 +898,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/proposals"
       onBlur={[Function]}
       onClick={[Function]}
@@ -937,7 +937,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/address-book"
       onBlur={[Function]}
       onClick={[Function]}
@@ -976,7 +976,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
     </a>
     <a
       aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-3 MuiListItem-gutters MuiListItem-button"
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
       href="/explorer"
       onBlur={[Function]}
       onClick={[Function]}

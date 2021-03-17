@@ -1,6 +1,5 @@
 import { Button, Menu, MenuItem } from '@material-ui/core'
 import React from 'react'
-import isEqual from 'lodash/isEqual'
 import WalletIcon from '../../assets/images/icons/icon_wallet_manage.svg'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import useIconProps from '../../misc/useIconProps'
