@@ -51,8 +51,10 @@ export const useAssetDistributionChart = (accounts: Account[]) => {
       assetData.push(formatData(assetInfo, account.crypto))
     }
   })
+
   console.log('summarizedData(assetData)', summarizedData(assetData))
   return {
+    // accountBalance: assetData,
     assetData: summarizedData(assetData),
   }
 }

@@ -6,11 +6,14 @@ import Layout from '../components/Layout'
 import AccountCard from '../components/AccountCard'
 import { useWalletsContext } from '../contexts/WalletsContext'
 import WalletMenuButton from '../components/WalletMenuButton'
+import { useAccountInfo } from './hooks'
 
 const Wallets: React.FC = () => {
   const { t } = useTranslation('common')
   const { wallets, accounts } = useWalletsContext()
   const accountsMap = React.useMemo(() => groupBy(accounts, 'walletId'), [accounts])
+
+  const { accountBalance } = useAccountInfo()
 
   return (
     <Layout passwordRequired activeItem="/wallets">
@@ -24,9 +27,9 @@ const Wallets: React.FC = () => {
             <WalletMenuButton walletId={w.id} />
           </Box>
           <Grid container spacing={3}>
-            {(accountsMap[w.id] || []).map((a) => (
+            {(accountBalance || []).map((a) => (
               <Grid key={a.address} item xl={4} lg={6} xs={12}>
-                <AccountCard account={a} />
+                <AccountCard accountInfo={a} />
               </Grid>
             ))}
           </Grid>

@@ -7,17 +7,20 @@ import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import CopyIcon from '../../assets/images/icons/icon_copy.svg'
 import useStyles from './styles'
 import { useSettingsContext } from '../../contexts/SettingsContext'
-import { useAccountCardHook } from './hooks'
+// import { useAccountCardHook } from './hooks'
 import useIconProps from '../../misc/useIconProps'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface AccountCardProps {
-  account: Account
+  // account: Account
+  accountInfo?: any
 }
 
-const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
-  const crypto = cryptocurrencies[account.crypto]
+const AccountCard: React.FC<AccountCardProps> = ({ accountInfo }) => {
+  console.log('accountInfo', accountInfo)
+  // console.log('const crypto', cryptocurrencies["SOL"])
+  const crypto = cryptocurrencies[accountInfo.crypto]
   const classes = useStyles()
   const theme = useTheme()
   const iconProps = useIconProps()
@@ -36,25 +39,25 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
     })
   })
 
-  const { accountInfo } = useAccountCardHook(account.address)
+  // const { accountInfo } = useAccountCardHook(account.address)
 
   const toggleFav = React.useCallback(() => {
-    updateAccount(account.address, { fav: !account.fav })
-  }, [account.address, account.fav, updateAccount])
+    updateAccount(accountInfo.address, { fav: !accountInfo.fav })
+  }, [accountInfo.address, accountInfo.fav, updateAccount])
   return (
     <Card className={classes.container}>
       <Box mb={5} display="flex" alignItems="flex-start" justifyContent="space-between">
         <Box display="flex" alignItems="center">
           <Avatar alt={crypto.name} src={crypto.image} />
           <Box ml={1}>
-            <Typography variant="h5">{account.name}</Typography>
+            <Typography variant="h5">{accountInfo.name}</Typography>
             <Link
               component="button"
               variant="body2"
               color="textSecondary"
-              onClick={() => navigator.clipboard.writeText(account.address)}
+              onClick={() => navigator.clipboard.writeText(accountInfo.address)}
             >
-              {account.address}
+              {accountInfo.address}
               <Box display="inline" ml={1}>
                 <CopyIcon {...iconProps} />
               </Box>
@@ -70,7 +73,7 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
           <Typography variant="h4">
             {new Intl.NumberFormat(lang, {
               signDisplay: 'never',
-            }).format(accountInfo?.total?.raw ? accountInfo.total.raw : 0)}{' '}
+            }).format(accountInfo?.total ? accountInfo.total : 0)}{' '}
             {crypto.name}
           </Typography>
           <Typography variant="h6">
@@ -82,7 +85,7 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
           </Typography>
         </Box>
         <IconButton onClick={toggleFav}>
-          {account.fav ? (
+          {accountInfo.fav ? (
             <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
           ) : (
             <StarIcon {...iconProps} />
