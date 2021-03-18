@@ -44,7 +44,7 @@ const ImportWallet: React.FC<ImportWalletProps> = ({ onConfirm }) => {
           <Typography>{t('select currencies')}</Typography>
           <br />
           <Grid container spacing={2}>
-            {cryptocurrencies.map((c) => {
+            {Object.values(cryptocurrencies).map((c) => {
               const isSelected = selectedCryptos.includes(c.name)
               return (
                 <Grid key={c.name} item md={4}>

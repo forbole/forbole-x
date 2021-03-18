@@ -127,6 +127,47 @@ Array [
             </p>
           </button>
         </div>
+        <div
+          className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-4"
+        >
+          <button
+            className="MuiButtonBase-root HookGlobalStyles-cryptoButton-6"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            style={Object {}}
+            tabIndex={0}
+            type="button"
+          >
+            <div
+              className="MuiBox-root MuiBox-root-11"
+            >
+              <div
+                className="MuiAvatar-root MuiAvatar-circle"
+              >
+                <img
+                  className="MuiAvatar-img"
+                  src="/static/images/cryptocurrencies/sol.png"
+                />
+              </div>
+            </div>
+            <p
+              className="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+            >
+              SOL
+            </p>
+          </button>
+        </div>
       </div>
     </div>
   </div>,
@@ -134,7 +175,7 @@ Array [
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-11"
+      className="MuiBox-root MuiBox-root-12"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary Mui-disabled Mui-disabled"
@@ -199,7 +240,7 @@ Array [
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-12"
+      className="MuiBox-root MuiBox-root-13"
     >
       <p
         className="MuiTypography-root MuiTypography-body1"
@@ -233,7 +274,7 @@ Array [
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-13"
+              className="MuiBox-root MuiBox-root-14"
             >
               <div
                 className="MuiAvatar-root MuiAvatar-circle"
@@ -277,7 +318,7 @@ Array [
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-14"
+              className="MuiBox-root MuiBox-root-15"
             >
               <div
                 className="MuiAvatar-root MuiAvatar-circle"
@@ -298,6 +339,50 @@ Array [
             />
           </button>
         </div>
+        <div
+          className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-4"
+        >
+          <button
+            className="MuiButtonBase-root HookGlobalStyles-cryptoButton-6"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            style={Object {}}
+            tabIndex={0}
+            type="button"
+          >
+            <div
+              className="MuiBox-root MuiBox-root-16"
+            >
+              <div
+                className="MuiAvatar-root MuiAvatar-circle"
+              >
+                <img
+                  className="MuiAvatar-img"
+                  src="/static/images/cryptocurrencies/sol.png"
+                />
+              </div>
+            </div>
+            <p
+              className="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+            >
+              SOL
+            </p>
+            <span
+              className="MuiTouchRipple-root"
+            />
+          </button>
+        </div>
       </div>
     </div>
   </div>,
@@ -305,7 +390,7 @@ Array [
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-15"
+      className="MuiBox-root MuiBox-root-17"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary Mui-disabled Mui-disabled"

@@ -3,10 +3,46 @@ declare module '*.svg' {
   export default content
 }
 
+interface Account {
+  walletId: string
+  address: string
+  crypto: string
+  index: number
+  name: string
+  fav: boolean
+  createdAt: number
+}
+
+interface CreateAccountParams {
+  walletId: string
+  crypto: string
+  name: string
+}
+
+interface UpdateAccountParams {
+  name?: string
+  fav?: boolean
+}
+
 interface Wallet {
   name: string
-  cryptos: string[]
   id: string
+  createdAt: number
+}
+
+interface Crypto {
+  name: string
+  coinType: number
+}
+
+interface Validator {
+  image: string
+  name: string
+  commission: number
+  vpRatios: number
+  delegatedAmount: number
+  amtRatio: number
+  reward: number
 }
 
 interface CreateWalletParams {
@@ -14,6 +50,12 @@ interface CreateWalletParams {
   cryptos: string[]
   mnemonic: string
   securityPassword: string
+}
+
+interface UpdateWalletParams {
+  name?: string
+  securityPassword?: string
+  newSecurityPassword?: string
 }
 
 type ChromeMessage =
@@ -25,10 +67,63 @@ type ChromeMessage =
       data: { password: string }
     }
   | {
+      event: 'getAccounts'
+      data: { password: string }
+    }
+  | {
       event: 'addWallet'
       data: { wallet: CreateWalletParams; password: string }
     }
   | {
+      event: 'updateWallet'
+      data: { wallet: UpdateWalletParams; id: string; password: string }
+    }
+  | {
       event: 'deleteWallet'
       data: { id: string; password: string }
+    }
+  | {
+      event: 'addAccount'
+      data: { account: CreateAccountParams; password: string; securityPassword: string }
+    }
+  | {
+      event: 'updateAccount'
+      data: { account: UpdateAccountParams; address: string; password: string }
+    }
+  | {
+      event: 'deleteAccount'
+      data: { address: string; password: string }
+    }
+  | {
+      event: 'generateMnemonic'
+    }
+  | {
+      event: 'verifyMnemonic'
+      data: {
+        mnemonic: string
+      }
+    }
+  | {
+      event: 'verifyMnemonicBackup'
+      data: {
+        backupPhrase: string
+        password: string
+      }
+    }
+  | {
+      event: 'viewMnemonicPhrase'
+      data: {
+        id: string
+        securityPassword: string
+        password: string
+      }
+    }
+  | {
+      event: 'viewMnemonicPhraseBackup'
+      data: {
+        id: string
+        securityPassword: string
+        backupPassword: string
+        password: string
+      }
     }

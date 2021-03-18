@@ -3,13 +3,16 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(
   (theme) => ({
     leftMenuContainer: {
-      width: theme.spacing(32),
       position: 'fixed',
       top: 0,
       bottom: 0,
       left: 0,
       overflow: 'auto',
       zIndex: 2,
+      transition: 'width 0.2s ease-in-out',
+    },
+    navbarLeftComponentContainer: {
+      transition: 'margin-left 0.2s ease-in-out',
     },
     menu: {
       margin: theme.spacing(2, 2.5),
@@ -18,6 +21,7 @@ const useStyles = makeStyles(
       height: theme.spacing(6),
       marginBottom: theme.spacing(3),
       borderRadius: theme.spacing(1),
+      whiteSpace: 'nowrap',
     },
     navBar: {
       position: 'fixed',
@@ -38,10 +42,10 @@ const useStyles = makeStyles(
     main: {
       padding: theme.spacing(3),
       paddingTop: 0,
-      marginLeft: theme.spacing(32),
       marginTop: theme.spacing(11),
       display: 'flex',
       flexDirection: 'column',
+      transition: 'margin-left 0.2s ease-in-out',
     },
   }),
   {

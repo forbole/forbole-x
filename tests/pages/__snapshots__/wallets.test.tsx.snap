@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`page: Wallets renders correctly 1`] = `
+<Layout
+  activeItem="/wallets"
+  passwordRequired={true}
+>
+  <div
+    className="MuiBox-root MuiBox-root-1"
+  >
+    <h1
+      className="MuiTypography-root MuiTypography-h1 MuiTypography-gutterBottom"
+    >
+      common:wallet manage
+    </h1>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:add wallet
+      </span>
+    </button>
+  </div>
+  <div
+    className="MuiBox-root MuiBox-root-2"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-3"
+    >
+      <h4
+        className="MuiTypography-root MuiTypography-h4"
+      >
+        test
+      </h4>
+      <WalletMenuButton
+        walletId="123"
+      />
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+    >
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-6 MuiGrid-grid-xl-4"
+      >
+        <AccountCard
+          account={
+            Object {
+              "address": "address",
+              "createdAt": 0,
+              "crypto": "ATOM",
+              "fav": false,
+              "index": 0,
+              "name": "name",
+              "walletId": "123",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+  <CreateWalletDialog
+    onClose={[Function]}
+    open={false}
+  />
+</Layout>
+`;
+
+exports[`page: Wallets renders correctly with missing wallet id 1`] = `
+<Layout
+  activeItem="/wallets"
+  passwordRequired={true}
+>
+  <div
+    className="MuiBox-root MuiBox-root-4"
+  >
+    <h1
+      className="MuiTypography-root MuiTypography-h1 MuiTypography-gutterBottom"
+    >
+      common:wallet manage
+    </h1>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:add wallet
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+  <div
+    className="MuiBox-root MuiBox-root-5"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-6"
+    >
+      <h4
+        className="MuiTypography-root MuiTypography-h4"
+      >
+        test
+      </h4>
+      <WalletMenuButton
+        walletId="123"
+      />
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+    />
+  </div>
+  <CreateWalletDialog
+    onClose={[Function]}
+    open={false}
+  />
+</Layout>
+`;

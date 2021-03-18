@@ -1,30 +1,33 @@
+import { AirlineSeatLegroomExtraRounded } from '@material-ui/icons'
 import React from 'react'
+
+const retrievePersistedValue = <P>(key: string, initialValue: P) => {
+  try {
+    const persistedString = localStorage.getItem(key)
+    if (!persistedString) {
+      return initialValue
+    }
+    const persistedValue = JSON.parse(persistedString)
+    return persistedValue
+  } catch (err) {
+    return initialValue
+  }
+}
 
 const usePersistedState = <P>(
   key: string,
   initialValue: P
-): [P, React.Dispatch<React.SetStateAction<P>>] => {
-  const [value, setValue] = React.useState(initialValue)
-  const retrievePersistedValue = React.useCallback(() => {
-    try {
-      const persistedString = localStorage.getItem(key)
-      if (!persistedString) {
-        return
-      }
-      const persistedValue = JSON.parse(persistedString)
-      setValue(persistedValue)
-    } catch (err) {
-      // Does nothing
-    }
-  }, [])
-  React.useEffect(() => {
-    retrievePersistedValue()
-  }, [])
-
+): [P, React.Dispatch<React.SetStateAction<P>>, boolean] => {
+  const [value, setValue] = React.useState(retrievePersistedValue(key, initialValue))
+  const [loaded, setLoaded] = React.useState(false)
   React.useEffect(() => {
     localStorage.setItem(key, JSON.stringify(value))
   }, [value])
-  return [value, setValue]
+  // for conditional rendering in SSR
+  React.useEffect(() => {
+    setLoaded(true)
+  }, [])
+  return [value, setValue, loaded]
 }
 
 export default usePersistedState
