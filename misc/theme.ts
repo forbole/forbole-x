@@ -142,6 +142,9 @@ const darkTheme = {
       200: '#3D4047',
       300: '#AFAFAF', // icon
     },
+    green: {
+      main: '#34A353',
+    },
     action: {
       hover: '#1D1E22',
       selected: '#1D1E22',
