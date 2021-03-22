@@ -107,5 +107,8 @@
   "table footer": "showing {{range}} of {{total}}",
   "delegations": "Delegations",
   "redelegations": "Redelegation",
-  "unbondings": "Unbondings"
+  "unbondings": "Unbondings",
+  "available amount": "Available amount",
+  "total delegated amount": "Total Delegated Amount",
+  "delegate to": "Delegate to"
 }

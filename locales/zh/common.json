@@ -103,5 +103,8 @@
   "table footer": "[zh] showing {range} of {total}",
   "delegations": "[zh] Delegations",
   "redelegations": "[zh] Redelegation",
-  "unbondings": "[zh] Unbondings"
+  "unbondings": "[zh] Unbondings",
+  "available amount": "[zh] Available amount",
+  "total delegated amount": "[zh] Total Delegated Amount",
+  "delegate to": "[zh] Delegate to"
 }
