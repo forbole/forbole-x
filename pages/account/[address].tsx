@@ -18,7 +18,6 @@ const Account: React.FC = () => {
   const { accounts } = useWalletsContext()
   const account = accounts.find((a) => a.address === router.query.address)
   const crypto = account ? cryptocurrencies[account.crypto] : {}
-  console.log('account', account)
 
   return (
     <Layout
@@ -52,45 +51,184 @@ const Account: React.FC = () => {
       <ActivitiesTable
         account={{
           name: 'Chan',
-          image:
+          imageURL:
             'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
         }}
-        activities={
-          times(100).map(() => ({
+        activities={[
+          {
             ref: '#dhags3950wd05058235540fjikof',
             date: '10 Dec 2021 18:12 UTC',
+            tab: 'transfer',
             tag: 'delegate',
-            // src: {
-            //   name: 'forbole',
-            //   image:
-            //     'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-            // },
-            dst: {
+            detail: {
               name: 'Figmant',
               image:
                 'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
             },
-            accountName: 'Chan',
-            delegatedAmount: 11887597,
-          }))
-          // {
-          //   ref: '#dhags3950wd05058235540fjikof',
-          //   date: '10 Dec 2021 18:12 UTC',
-          //   tag: 'redelegate',
-          //   src: {
-          //     name: 'forbole',
-          //     image:
-          //       'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-          //   },
-          //   dst: {
-          //     name: 'Figmant',
-          //     image:
-          //       'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-          //   },
-          //   accountName: 'Chan',
-          //   delegatedAmount: 11887597,
-          // }
-        }
+            amount: 11887597,
+          },
+          {
+            ref: '#dhags3950wd05058235540fjikof',
+            date: '10 Dec 2021 18:12 UTC',
+            tab: 'transfer',
+            tag: 'undelegate',
+            detail: {
+              name: 'Figmant',
+              image:
+                'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
+            },
+            amount: 11887597,
+          },
+          {
+            ref: '#dhags3950wd05058235540fjikof',
+            date: '10 Dec 2021 18:12 UTC',
+            tab: 'transfer',
+            tag: 'redelegate',
+            detail: {
+              src: {
+                name: 'Forbole',
+                image:
+                  'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
+              },
+              dst: {
+                name: 'Figmant',
+                image:
+                  'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
+              },
+            },
+            amount: 11887597,
+          },
+          {
+            ref: '#dhags3950wd05058235540fjikof',
+            date: '10 Dec 2021 18:12 UTC',
+            tab: 'transfer',
+            tag: 'deposit',
+            detail: {
+              name: '# proposal 18',
+              url:
+                'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
+            },
+            amount: 11887597,
+          },
+          {
+            ref: '#dhags3950wd05058235540fjikof',
+            date: '10 Dec 2021 18:12 UTC',
+            tab: 'transfer',
+            tag: 'withdrawReward',
+            detail: {
+              name: 'forbole',
+              image:
+                'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
+            },
+            amount: 11887597,
+          },
+          {
+            ref: '#dhags3950wd05058235540fjikof',
+            date: '10 Dec 2021 18:12 UTC',
+            tab: 'transfer',
+            tag: 'multisend',
+            detail: [
+              {
+                address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
+                amount: 50,
+              },
+              {
+                address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
+                amount: 50,
+              },
+              {
+                address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
+                amount: 50,
+              },
+              {
+                address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
+                amount: 50,
+              },
+            ],
+            amount: 200,
+          },
+          {
+            ref: '#dhags3950wd05058235540fjikof',
+            date: '10 Dec 2021 18:12 UTC',
+            tab: 'transfer',
+            tag: 'createValidator',
+            detail: {
+              name: 'Figmant',
+              image:
+                'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
+            },
+          },
+          {
+            ref: '#dhags3950wd05058235540fjikof',
+            date: '10 Dec 2021 18:12 UTC',
+            tab: 'transfer',
+            tag: 'fund',
+            amount: 20000,
+          },
+          {
+            ref: '#dhags3950wd05058235540fjikof',
+            date: '10 Dec 2021 18:12 UTC',
+            tab: 'transfer',
+            tag: 'verifyInvariant',
+          },
+          {
+            ref: '#dhags3950wd05058235540fjikof',
+            date: '10 Dec 2021 18:12 UTC',
+            tab: 'transfer',
+            tag: 'vote',
+            detail: {
+              name: '# proposal 18',
+              url: '',
+              ans: 'yes',
+            },
+          },
+          {
+            ref: '#dhags3950wd05058235540fjikof',
+            date: '10 Dec 2021 18:12 UTC',
+            tab: 'transfer',
+            tag: 'unjail',
+          },
+          {
+            ref: '#dhags3950wd05058235540fjikof',
+            date: '10 Dec 2021 18:12 UTC',
+            tab: 'staking',
+            tag: 'submitProposal',
+            detail: {
+              name: '# proposal 18',
+              url: '',
+            },
+          },
+          {
+            ref: '#dhags3950wd05058235540fjikof',
+            date: '10 Dec 2021 18:12 UTC',
+            tab: 'governance',
+            tag: 'editValidator',
+            detail: {
+              name: 'moniker',
+            },
+          },
+          {
+            ref: '#dhags3950wd05058235540fjikof',
+            date: '10 Dec 2021 18:12 UTC',
+            tab: 'distribution',
+            tag: 'send',
+            detail: {
+              address: 'cosmos384erfel29482394jfswe234',
+            },
+            amount: 20000,
+          },
+          {
+            ref: '#dhags3950wd05058235540fjikof',
+            date: '10 Dec 2021 18:12 UTC',
+            tab: 'slashing',
+            tag: 'setRewardAddress',
+            detail: {
+              srcAddress: 'cosmos384erfel29482394jfswe234',
+              dstAddress: 'cosmos384erfel29482394jfswe234',
+            },
+            amount: 20000,
+          },
+        ]}
         crypto={crypto}
       />
     </Layout>

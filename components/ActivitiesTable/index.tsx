@@ -1,16 +1,4 @@
-import {
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Box,
-  Avatar,
-  Typography,
-  Card,
-  Tabs,
-  Tab,
-} from '@material-ui/core'
+import { Box, Card, Tabs, Tab } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
@@ -19,8 +7,10 @@ import useStyles from './styles'
 import {
   Delegate,
   Redelegate,
-  CreatValidator,
+  CreateValidator,
   Deposit,
+  Unjail,
+  Fund,
   EditValidator,
   Multisend,
   Send,
@@ -28,44 +18,142 @@ import {
   SubmitProposal,
   VerifyInvariant,
   Vote,
-  Withdraw,
+  Undelegate,
   WithdrawReward,
 } from './components'
-import Undelegate from './components/Un\bdelegate'
+
+export interface Activity {
+  ref: string
+  date: string
+  tab: string
+  tag: string
+  detail?: any
+  amount?: number
+}
+
+export interface Account {
+  name: string
+  imageURL: string
+}
 
 interface ActivitiesTableProps {
-  activities: any
-  account: any
+  activities?: Activity[]
+  account: Account
   crypto: Crypto
 }
 
-const formatPercentage = (percent: number, lang: string) =>
-  new Intl.NumberFormat(lang, {
-    style: 'percent',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(percent)
+interface ActivityProps {
+  activity?: Activity
+  account: Account
+  crypto: Crypto
+}
 
-const formatCrypto = (amount: number, unit: string, lang: string) =>
+export const formatCrypto = (amount: number, unit: string, lang: string) =>
   `${new Intl.NumberFormat(lang, {
     signDisplay: 'never',
     minimumFractionDigits: 4,
     maximumFractionDigits: 4,
   }).format(amount)} ${unit}`
 
+export const Activity: React.FC<ActivityProps> = (activity) => {
+  const { tag } = activity.activity
+  if (tag === 'delegate') {
+    return (
+      <Delegate account={activity.account} activity={activity.activity} crypto={activity.crypto} />
+    )
+  }
+  if (tag === 'undelegate') {
+    return (
+      <Undelegate
+        account={activity.account}
+        activity={activity.activity}
+        crypto={activity.crypto}
+      />
+    )
+  }
+  if (tag === 'redelegate') {
+    return (
+      <Redelegate
+        account={activity.account}
+        activity={activity.activity}
+        crypto={activity.crypto}
+      />
+    )
+  }
+  if (tag === 'deposit') {
+    return (
+      <Deposit account={activity.account} activity={activity.activity} crypto={activity.crypto} />
+    )
+  }
+  if (tag === 'withdrawReward') {
+    return (
+      <WithdrawReward
+        account={activity.account}
+        activity={activity.activity}
+        crypto={activity.crypto}
+      />
+    )
+  }
+  if (tag === 'multisend') {
+    return (
+      <Multisend account={activity.account} activity={activity.activity} crypto={activity.crypto} />
+    )
+  }
+  if (tag === 'createValidator') {
+    return <CreateValidator account={activity.account} activity={activity.activity} />
+  }
+  if (tag === 'fund') {
+    return <Fund account={activity.account} activity={activity.activity} crypto={activity.crypto} />
+  }
+  if (tag === 'verifyInvariant') {
+    return <VerifyInvariant account={activity.account} activity={activity.activity} />
+  }
+  if (tag === 'vote') {
+    return <Vote account={activity.account} activity={activity.activity} />
+  }
+  if (tag === 'unjail') {
+    return <Unjail account={activity.account} activity={activity.activity} />
+  }
+  if (tag === 'submitProposal') {
+    return <SubmitProposal account={activity.account} activity={activity.activity} />
+  }
+  if (tag === 'editValidator') {
+    return <EditValidator account={activity.account} activity={activity.activity} />
+  }
+  if (tag === 'send') {
+    return <Send account={activity.account} activity={activity.activity} crypto={activity.crypto} />
+  }
+  if (tag === 'setRewardAddress') {
+    return <SetRewardAddress activity={activity.activity} />
+  }
+  return null
+}
+
 const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, account }) => {
   const classes = useStyles()
-  const { t, lang } = useTranslation('common')
+  const { t } = useTranslation('common')
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [currentTab, setCurrentTab] = React.useState(0)
-  console.log('activities', activities)
+  const [activitiesCollection, setActivitiesCollection] = React.useState(activities)
 
   const tabs = [
-    { label: 'delegations', count: 100 },
-    { label: 'redelegations', count: 18 },
-    { label: 'unbonding', count: 8 },
+    { label: 'all', count: activities.length },
+    { label: 'transfer', count: activities.filter((x) => x.tab === 'transfer').length },
+    { label: 'staking', count: activities.filter((x) => x.tab === 'staking').length },
+    { label: 'distribution', count: activities.filter((x) => x.tab === 'distribution').length },
+    { label: 'governance', count: activities.filter((x) => x.tab === 'governance').length },
+    { label: 'slashing', count: activities.filter((x) => x.tab === 'slashing').length },
   ]
+
+  const setTabContent = (v) => {
+    setCurrentTab(v)
+    if (v === 0) {
+      setActivitiesCollection(activities)
+    } else {
+      setActivitiesCollection(activities.filter((x) => x.tab === tabs[v].label))
+    }
+  }
 
   return (
     <Card>
@@ -73,15 +161,14 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, a
         <Tabs
           value={currentTab}
           classes={{ indicator: classes.tabIndicator }}
-          onChange={(e, v) => setCurrentTab(v)}
+          onChange={(e, v) => setTabContent(v)}
         >
           {tabs.map((tab) => (
             <Tab key={tab.label} label={`${t(tab.label)} (${tab.count})`} />
           ))}
         </Tabs>
         <Box className={classes.table} mt={2}>
-          {/* <div key={`${date}-${i}`}> */}
-          {activities.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((a, i) => (
+          {activitiesCollection.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((a, i) => (
             <div key={`${a.ref}-${i}`}>
               <div className={classes.event__header}>
                 <span>{a.ref}</span>
@@ -92,11 +179,7 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, a
               </div>
               <div className={classes.event__body_container}>
                 <div className={classes.body_container__info}>
-                  {a.tag === 'delegate' ? (
-                    <Delegate account={account} activity={a} />
-                  ) : (
-                    <Redelegate account={account} activity={a} />
-                  )}
+                  <Activity activity={a} account={account} crypto={crypto} />
                 </div>
               </div>
             </div>
@@ -105,7 +188,7 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, a
         <TablePagination
           page={page}
           rowsPerPage={rowsPerPage}
-          rowsCount={activities.length}
+          rowsCount={activitiesCollection.length}
           onPageChange={setPage}
           onRowsPerPageChange={setRowsPerPage}
         />

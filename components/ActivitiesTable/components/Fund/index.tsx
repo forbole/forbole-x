@@ -2,7 +2,7 @@ import { Box, Avatar, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
-import { Activity, Account } from '../../index'
+import { Activity, Account, formatCrypto } from '../../index'
 
 interface ActivitiesTableProps {
   activity: Activity
@@ -10,16 +10,10 @@ interface ActivitiesTableProps {
   crypto: Crypto
 }
 
-const formatCrypto = (amount: number, unit: string, lang: string) =>
-  `${new Intl.NumberFormat(lang, {
-    signDisplay: 'never',
-    minimumFractionDigits: 4,
-    maximumFractionDigits: 4,
-  }).format(amount)} ${unit}`
-
-const WithdrawReward: React.FC<ActivitiesTableProps> = ({ activity, account, crypto }) => {
+const Fund: React.FC<ActivitiesTableProps> = ({ activity, account, crypto }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
+
   return (
     <div className={classes.info__footer}>
       <div className={classes.footer__container}>
@@ -30,16 +24,10 @@ const WithdrawReward: React.FC<ActivitiesTableProps> = ({ activity, account, cry
         <Typography className={classes.validatorTypography}>{account.name}</Typography>
         {t(`${activity.tag}Activity`)}
         <span className={classes.amount}>{formatCrypto(activity.amount, crypto.name, lang)}</span>
-        {t('from')}
-        <Avatar
-          className={classes.validatorAvatar}
-          alt={activity.detail.name}
-          src={activity.detail.image}
-        />
-        <Typography className={classes.validatorTypography}>{activity.detail.name}</Typography>
+        {t('toCommunityPool')}
       </Box>
     </div>
   )
 }
 
-export default WithdrawReward
+export default Fund

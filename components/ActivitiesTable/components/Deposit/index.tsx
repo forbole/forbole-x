@@ -2,55 +2,32 @@ import { Box, Avatar, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
+import { Activity, Account, formatCrypto } from '../../index'
 
 interface ActivitiesTableProps {
-  activity: any
-  account: any
+  activity: Activity
+  account: Account
+  crypto: Crypto
 }
 
-// const formatPercentage = (percent: number, lang: string) =>
-//   new Intl.NumberFormat(lang, {
-//     style: 'percent',
-//     minimumFractionDigits: 2,
-//     maximumFractionDigits: 2,
-// }).format(percent)
-
-const formatCrypto = (amount: number, unit: string, lang: string) =>
-  `${new Intl.NumberFormat(lang, {
-    signDisplay: 'never',
-    minimumFractionDigits: 4,
-    maximumFractionDigits: 4,
-  }).format(amount)} ${unit}`
-
-const Deposit: React.FC<ActivitiesTableProps> = ({ activity, account }) => {
+const Deposit: React.FC<ActivitiesTableProps> = ({ activity, account, crypto }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
-//   const [page, setPage] = React.useState(0)
-//   const [rowsPerPage, setRowsPerPage] = React.useState(10)
-//   const [currentTab, setCurrentTab] = React.useState(0)
-//   console.log('activities', activities)
-
 
   return (
-    <Box display="flex" alignItems="center">
-      <Avatar className={classes.validatorAvatar} alt={account.name} src={account.image} />
-      <Typography className={classes.validatorTypography}>{account.name}</Typography>
-      {activity.tag}d
-      <span className={classes.amount}>{formatCrypto(activity.delegatedAmount, 'ATOM', 'en')}</span>
-      {activity.tag === 'delegate' ? '' : 'from'}
-      <Avatar
-        className={classes.validatorAvatar}
-        alt={activity?.src?.name}
-        src={activity?.src?.image}
-      />
-      <Typography className={classes.validatorTypography}>{activity?.src?.name}</Typography>to
-      <Avatar
-        className={classes.validatorAvatar}
-        alt={activity.dst.name}
-        src={activity.dst.image}
-      />
-      <Typography className={classes.validatorTypography}>{account.name}</Typography>
-    </Box>
+    <div className={classes.info__footer}>
+      <div className={classes.footer__container}>
+        <p className={classes.footer__type}>{t(activity.tag)}</p>
+      </div>
+      <Box display="flex" alignItems="center">
+        <Avatar className={classes.validatorAvatar} alt={account.name} src={account.imageURL} />
+        <Typography className={classes.validatorTypography}>{account.name}</Typography>
+        {t(`${activity.tag}Activity`)}
+        <span className={classes.amount}>{formatCrypto(activity.amount, crypto.name, lang)}</span>
+        {t('to')}
+        <Typography className={classes.receiverTypography}>{activity.detail.name}</Typography>
+      </Box>
+    </div>
   )
 }
 

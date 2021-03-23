@@ -26,9 +26,6 @@ const useStyles = makeStyles((theme) => ({
   validatorTypography: {
     marginRight: theme.spacing(1),
   },
-  proposalTypography: {
-    marginLeft: theme.spacing(1),
-  },
   amount: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),

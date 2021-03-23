@@ -2,57 +2,42 @@ import { Box, Avatar, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
+import { Activity, Account, formatCrypto } from '../../index'
 
 interface ActivitiesTableProps {
-  activity: any
-  account: any
+  activity: Activity
+  account: Account
+  crypto: Crypto
 }
 
-// const formatPercentage = (percent: number, lang: string) =>
-//   new Intl.NumberFormat(lang, {
-//     style: 'percent',
-//     minimumFractionDigits: 2,
-//     maximumFractionDigits: 2,
-// }).format(percent)
-
-const formatCrypto = (amount: number, unit: string, lang: string) =>
-  `${new Intl.NumberFormat(lang, {
-    signDisplay: 'never',
-    minimumFractionDigits: 4,
-    maximumFractionDigits: 4,
-  }).format(amount)} ${unit}`
-
-const Redelegate: React.FC<ActivitiesTableProps> = ({ activity, account }) => {
+const Redelegate: React.FC<ActivitiesTableProps> = ({ activity, account, crypto }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
 
   return (
     <div className={classes.info__footer}>
       <div className={classes.footer__container}>
-        <p className={classes.footer__type}>
-          {activity.tag.charAt(0).toUpperCase() + activity.tag.slice(1)}
-        </p>
+        <p className={classes.footer__type}>{t(activity.tag)}</p>
       </div>
       <Box display="flex" alignItems="center">
-        <Avatar className={classes.validatorAvatar} alt={account.name} src={account.image} />
+        <Avatar className={classes.validatorAvatar} alt={account.name} src={account.imageURL} />
         <Typography className={classes.validatorTypography}>{account.name}</Typography>
-        {activity.tag}d
-        <span className={classes.amount}>
-          {formatCrypto(activity.delegatedAmount, 'ATOM', 'en')}
-        </span>
-        from
+        {t(`${activity.tag}Activity`)}
+        <span className={classes.amount}>{formatCrypto(activity.amount, crypto.name, lang)}</span>
+        {t('from')}
         <Avatar
           className={classes.validatorAvatar}
-          alt={activity?.src?.name}
-          src={activity?.src?.image}
+          alt={activity.detail.src.name}
+          src={activity.detail.src.image}
         />
-        <Typography className={classes.validatorTypography}>{activity?.src?.name}</Typography>to
+        <Typography className={classes.validatorTypography}>{activity.detail.src.name}</Typography>
+        {t('to')}
         <Avatar
           className={classes.validatorAvatar}
-          alt={activity.dst.name}
-          src={activity.dst.image}
+          alt={activity.detail.dst.name}
+          src={activity.detail.dst.image}
         />
-        <Typography className={classes.validatorTypography}>{account.name}</Typography>
+        <Typography className={classes.validatorTypography}>{activity.detail.dst.name}</Typography>
       </Box>
     </div>
   )

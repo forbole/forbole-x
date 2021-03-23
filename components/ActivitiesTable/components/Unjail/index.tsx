@@ -7,19 +7,12 @@ import { Activity, Account } from '../../index'
 interface ActivitiesTableProps {
   activity: Activity
   account: Account
-  crypto: Crypto
 }
 
-const formatCrypto = (amount: number, unit: string, lang: string) =>
-  `${new Intl.NumberFormat(lang, {
-    signDisplay: 'never',
-    minimumFractionDigits: 4,
-    maximumFractionDigits: 4,
-  }).format(amount)} ${unit}`
-
-const WithdrawReward: React.FC<ActivitiesTableProps> = ({ activity, account, crypto }) => {
+const Unjail: React.FC<ActivitiesTableProps> = ({ activity, account }) => {
   const classes = useStyles()
-  const { t, lang } = useTranslation('common')
+  const { t } = useTranslation('common')
+
   return (
     <div className={classes.info__footer}>
       <div className={classes.footer__container}>
@@ -29,17 +22,9 @@ const WithdrawReward: React.FC<ActivitiesTableProps> = ({ activity, account, cry
         <Avatar className={classes.validatorAvatar} alt={account.name} src={account.imageURL} />
         <Typography className={classes.validatorTypography}>{account.name}</Typography>
         {t(`${activity.tag}Activity`)}
-        <span className={classes.amount}>{formatCrypto(activity.amount, crypto.name, lang)}</span>
-        {t('from')}
-        <Avatar
-          className={classes.validatorAvatar}
-          alt={activity.detail.name}
-          src={activity.detail.image}
-        />
-        <Typography className={classes.validatorTypography}>{activity.detail.name}</Typography>
       </Box>
     </div>
   )
 }
 
-export default WithdrawReward
+export default Unjail

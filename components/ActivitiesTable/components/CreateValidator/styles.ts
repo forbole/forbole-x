@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '14px',
   },
   footer__type: {
-    background: '#497BFF',
+    background: '#1EC490',
     width: 'fit-content',
     borderRadius: '4px',
     padding: '0.3rem 0.875rem',
@@ -25,9 +25,6 @@ const useStyles = makeStyles((theme) => ({
   },
   validatorTypography: {
     marginRight: theme.spacing(1),
-  },
-  proposalTypography: {
-    marginLeft: theme.spacing(1),
   },
   amount: {
     marginLeft: theme.spacing(1),

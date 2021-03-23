@@ -1,6 +1,6 @@
 import Delegate from './Delegate'
 import Redelegate from './Redelegate'
-import CreatValidator from './CreatValidator'
+import CreateValidator from './CreateValidator'
 import Deposit from './Deposit'
 import EditValidator from './EditValidator'
 import Multisend from './Multisend'
@@ -9,13 +9,15 @@ import SetRewardAddress from './SetRewardAddress'
 import SubmitProposal from './SubmitProposal'
 import VerifyInvariant from './VerifyInvariant'
 import Vote from './Vote'
-import Withdraw from './Withdraw'
 import WithdrawReward from './WithdrawReward'
+import Fund from './Fund'
+import Unjail from './Unjail'
+import Undelegate from './Undelegate'
 
 export {
   Delegate,
   Redelegate,
-  CreatValidator,
+  CreateValidator,
   Deposit,
   EditValidator,
   Multisend,
@@ -24,6 +26,8 @@ export {
   SubmitProposal,
   VerifyInvariant,
   Vote,
-  Withdraw,
   WithdrawReward,
+  Fund,
+  Unjail,
+  Undelegate,
 }

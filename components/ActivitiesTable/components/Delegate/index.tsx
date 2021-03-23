@@ -2,44 +2,35 @@ import { Box, Avatar, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
+import { Activity, Account, formatCrypto } from '../../index'
 
 interface ActivitiesTableProps {
-  activity: any
-  account: any
+  activity: Activity
+  account: Account
+  crypto: Crypto
 }
 
-const formatCrypto = (amount: number, unit: string, lang: string) =>
-  `${new Intl.NumberFormat(lang, {
-    signDisplay: 'never',
-    minimumFractionDigits: 4,
-    maximumFractionDigits: 4,
-  }).format(amount)} ${unit}`
-
-const Delegate: React.FC<ActivitiesTableProps> = ({ activity, account }) => {
+const Delegate: React.FC<ActivitiesTableProps> = ({ activity, account, crypto }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
 
   return (
     <div className={classes.info__footer}>
       <div className={classes.footer__container}>
-        <p className={classes.footer__type}>
-          {activity.tag.charAt(0).toUpperCase() + activity.tag.slice(1)}
-        </p>
+        <p className={classes.footer__type}>{t(activity.tag)}</p>
       </div>
       <Box display="flex" alignItems="center">
-        <Avatar className={classes.validatorAvatar} alt={account.name} src={account.image} />
+        <Avatar className={classes.validatorAvatar} alt={account.name} src={account.imageURL} />
         <Typography className={classes.validatorTypography}>{account.name}</Typography>
-        {activity.tag}d
-        <span className={classes.amount}>
-          {formatCrypto(activity.delegatedAmount, 'ATOM', 'en')}
-        </span>
+        {t(`${activity.tag}Activity`)}
+        <span className={classes.amount}>{formatCrypto(activity.amount, crypto.name, lang)}</span>
         to
         <Avatar
           className={classes.validatorAvatar}
-          alt={activity.dst.name}
-          src={activity.dst.image}
+          alt={activity.detail.name}
+          src={activity.detail.image}
         />
-        <Typography className={classes.validatorTypography}>{account.name}</Typography>
+        <Typography className={classes.validatorTypography}>{activity.detail.name}</Typography>
       </Box>
     </div>
   )
