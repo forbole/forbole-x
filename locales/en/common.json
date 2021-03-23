@@ -110,5 +110,10 @@
   "unbondings": "Unbondings",
   "available amount": "Available amount",
   "total delegated amount": "Total Delegated Amount",
-  "delegate to": "Delegate to"
+  "delegate to": "Delegate to",
+  "select validator": "Select validator",
+  "amount": "Amount",
+  "add validator": "Add Validator",
+  "memo": "Memo",
+  "description optional": "Description (optional)"
 }

@@ -16,7 +16,7 @@ const useStyles = makeStyles(
       left: theme.spacing(2),
     },
     dialogContent: {
-      overflowY: 'initial',
+      overflowY: 'auto',
     },
     marginLeft: {
       marginLeft: theme.spacing(1),
@@ -28,6 +28,14 @@ const useStyles = makeStyles(
       width: theme.spacing(3.5),
       height: theme.spacing(3.5),
       marginRight: theme.spacing(1),
+    },
+    percentageTextField: {
+      width: theme.spacing(16),
+      marginLeft: theme.spacing(2),
+    },
+    numberInput: {
+      paddingRight: 0,
+      marginRight: theme.spacing(-1),
     },
   }),
   {

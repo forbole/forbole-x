@@ -51,7 +51,11 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({ account, open, onCl
         return {
           title: t('delegate'),
           content: (
-            <SelectValidators account={account} amount={amount} onConfirm={(a) => console.log(a)} />
+            <SelectValidators
+              account={account}
+              amount={amount}
+              onConfirm={(a, b) => console.log(a, b)}
+            />
           ),
         }
       case DelegationStage.ConfirmDelegationStage:
@@ -69,7 +73,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({ account, open, onCl
   }, [stage, t])
 
   return (
-    <Dialog fullWidth open={open} onClose={onClose}>
+    <Dialog fullWidth maxWidth="md" open={open} onClose={onClose}>
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

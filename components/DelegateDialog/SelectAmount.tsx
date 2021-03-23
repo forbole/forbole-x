@@ -23,7 +23,7 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm }) => {
   return (
     <>
       <DialogContent className={classes.dialogContent}>
-        <Box mb={24}>
+        <Box mb={32}>
           <Typography className={classes.marginBottom}>
             {t('available amount')} <b className={classes.marginLeft}>1.1107 {account.crypto}</b>
           </Typography>

@@ -49,6 +49,9 @@ const GlobalCss = withStyles(
         display: 'flex',
         alignItems: 'center',
       },
+      '.MuiAutocomplete-popper': {
+        boxShadow: theme.shadows[7],
+      },
     },
   }),
   {
