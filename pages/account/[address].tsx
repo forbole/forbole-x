@@ -58,7 +58,7 @@ const Account: React.FC = () => {
           {
             ref: '#dhags3950wd05058235540fjikof',
             date: '10 Dec 2021 18:12 UTC',
-            tab: 'transfer',
+            tab: 'staking',
             tag: 'delegate',
             detail: {
               name: 'Figmant',
@@ -70,7 +70,7 @@ const Account: React.FC = () => {
           {
             ref: '#dhags3950wd05058235540fjikof',
             date: '10 Dec 2021 18:12 UTC',
-            tab: 'transfer',
+            tab: 'staking',
             tag: 'undelegate',
             detail: {
               name: 'Figmant',
@@ -82,7 +82,7 @@ const Account: React.FC = () => {
           {
             ref: '#dhags3950wd05058235540fjikof',
             date: '10 Dec 2021 18:12 UTC',
-            tab: 'transfer',
+            tab: 'staking',
             tag: 'redelegate',
             detail: {
               src: {
@@ -101,7 +101,7 @@ const Account: React.FC = () => {
           {
             ref: '#dhags3950wd05058235540fjikof',
             date: '10 Dec 2021 18:12 UTC',
-            tab: 'transfer',
+            tab: 'governance',
             tag: 'deposit',
             detail: {
               name: '# proposal 18',
@@ -168,13 +168,13 @@ const Account: React.FC = () => {
           {
             ref: '#dhags3950wd05058235540fjikof',
             date: '10 Dec 2021 18:12 UTC',
-            tab: 'transfer',
+            tab: 'governance',
             tag: 'verifyInvariant',
           },
           {
             ref: '#dhags3950wd05058235540fjikof',
             date: '10 Dec 2021 18:12 UTC',
-            tab: 'transfer',
+            tab: 'governance',
             tag: 'vote',
             detail: {
               name: '# proposal 18',
@@ -185,13 +185,13 @@ const Account: React.FC = () => {
           {
             ref: '#dhags3950wd05058235540fjikof',
             date: '10 Dec 2021 18:12 UTC',
-            tab: 'transfer',
+            tab: 'governance',
             tag: 'unjail',
           },
           {
             ref: '#dhags3950wd05058235540fjikof',
             date: '10 Dec 2021 18:12 UTC',
-            tab: 'staking',
+            tab: 'governance',
             tag: 'submitProposal',
             detail: {
               name: '# proposal 18',
@@ -201,7 +201,7 @@ const Account: React.FC = () => {
           {
             ref: '#dhags3950wd05058235540fjikof',
             date: '10 Dec 2021 18:12 UTC',
-            tab: 'governance',
+            tab: 'slashing',
             tag: 'editValidator',
             detail: {
               name: 'moniker',
@@ -210,7 +210,7 @@ const Account: React.FC = () => {
           {
             ref: '#dhags3950wd05058235540fjikof',
             date: '10 Dec 2021 18:12 UTC',
-            tab: 'distribution',
+            tab: 'transfer',
             tag: 'send',
             detail: {
               address: 'cosmos384erfel29482394jfswe234',
