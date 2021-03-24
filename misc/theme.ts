@@ -99,6 +99,7 @@ const lightTheme = {
       100: '#F2F2F2',
       200: '#DDDDDD',
       300: '#8B8B8B', // icon
+      400: '#F7F7F7', // table
     },
     action: {
       hover: '#F7F7F7',
@@ -142,6 +143,7 @@ const darkTheme = {
       100: '#34383E',
       200: '#3D4047',
       300: '#AFAFAF', // icon
+      400: '#2B2F35', // table
     },
     action: {
       hover: '#1D1E22',

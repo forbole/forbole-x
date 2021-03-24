@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   event__header: {
-    background: theme.palette.action.table,
+    background: theme.palette.grey[900],
     padding: '0 1rem',
     color: '#777777',
     display: 'flex',
