@@ -104,7 +104,6 @@ const lightTheme = {
     action: {
       hover: '#F7F7F7',
       selected: '#F7F7F7',
-      table: '#F7F7F7',
     },
   },
 } as ThemeOptions
@@ -148,7 +147,6 @@ const darkTheme = {
     action: {
       hover: '#1D1E22',
       selected: '#1D1E22',
-      table: '#2B2F35',
     },
   },
 } as ThemeOptions
