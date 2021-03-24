@@ -115,5 +115,9 @@
   "amount": "Amount",
   "add validator": "Add Validator",
   "memo": "Memo",
-  "description optional": "Description (optional)"
+  "description optional": "Description (optional)",
+  "from": "From",
+  "NA": "N/A",
+  "fee": "Fee",
+  "view data": "View Data"
 }

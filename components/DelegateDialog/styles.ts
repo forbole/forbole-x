@@ -37,6 +37,10 @@ const useStyles = makeStyles(
       paddingRight: 0,
       marginRight: theme.spacing(-1),
     },
+    fullWidthButton: {
+      flex: 1,
+      margin: theme.spacing(2, 1),
+    },
   }),
   {
     name: 'HookGlobalStyles',

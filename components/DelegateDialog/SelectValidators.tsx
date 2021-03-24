@@ -19,7 +19,10 @@ import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 
 interface SelectValidatorsProps {
-  onConfirm(delegations: Array<{ amount: number; validator: string }>, memo: string): void
+  onConfirm(
+    delegations: Array<{ amount: number; validator: { name: string; image: string } }>,
+    memo: string
+  ): void
   account: Account
   amount: number
 }
@@ -48,7 +51,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, on
   const iconProps = useIconProps()
   const [delegations, setDelegations] = React.useState<
     Array<{ amount: string; validator: string; percentage: string }>
-  >([{ amount: '', validator: '', percentage: '' }])
+  >([{ amount: amount.toString(), validator: '', percentage: '100' }])
   const [memo, setMemo] = React.useState('')
   return (
     <>
@@ -117,15 +120,17 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, on
                   />
                 </Box>
               ))}
-              <Button
-                variant="text"
-                color="secondary"
-                onClick={() =>
-                  setDelegations((d) => [...d, { validator: '', amount: '', percentage: '' }])
-                }
-              >
-                {t('add validator')}
-              </Button>
+              <Box mt={1}>
+                <Button
+                  variant="text"
+                  color="secondary"
+                  onClick={() =>
+                    setDelegations((d) => [...d, { validator: '', amount: '', percentage: '' }])
+                  }
+                >
+                  {t('add validator')}
+                </Button>
+              </Box>
               <Box mt={2}>
                 <Typography gutterBottom>{t('memo')}</Typography>
                 <TextField
@@ -230,7 +235,10 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, on
               onConfirm(
                 delegations
                   .filter((v) => v.validator && Number(v.amount))
-                  .map((v) => ({ ...v, amount: Number(v.amount) })),
+                  .map((v) => ({
+                    validator: mockValidators[v.validator],
+                    amount: Number(v.amount),
+                  })),
                 memo
               )
             }

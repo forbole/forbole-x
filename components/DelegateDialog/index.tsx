@@ -25,6 +25,7 @@ interface DelegationDialogProps {
 interface Content {
   title: string
   content: React.ReactNode
+  dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
 const DelegationDialog: React.FC<DelegationDialogProps> = ({ account, open, onClose }) => {
@@ -32,6 +33,10 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({ account, open, onCl
   const classes = useStyles()
   const iconProps = useIconProps()
   const [amount, setAmount] = React.useState(0)
+  const [delegations, setDelegations] = React.useState<
+    Array<{ amount: number; validator: { name: string; image: string } }>
+  >([])
+  const [memo, setMemo] = React.useState('')
 
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<DelegationStage>(
     DelegationStage.SelectAmountStage
@@ -45,23 +50,39 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({ account, open, onCl
     [setAmount, setStage]
   )
 
+  const confirmDelegations = React.useCallback(
+    (d: Array<{ amount: number; validator: { name: string; image: string } }>, m: string) => {
+      setDelegations(d)
+      setMemo(m)
+      // TODO: sign transactions
+      console.log(delegations, memo)
+      setStage(DelegationStage.ConfirmDelegationStage)
+    },
+    [setStage]
+  )
+
   const content: Content = React.useMemo(() => {
     switch (stage) {
       case DelegationStage.SelectValidatorsStage:
         return {
           title: t('delegate'),
           content: (
-            <SelectValidators
-              account={account}
-              amount={amount}
-              onConfirm={(a, b) => console.log(a, b)}
-            />
+            <SelectValidators account={account} amount={amount} onConfirm={confirmDelegations} />
           ),
         }
       case DelegationStage.ConfirmDelegationStage:
         return {
           title: '',
-          content: <ConfirmDelegation />,
+          dialogWidth: 'xs',
+          content: (
+            <ConfirmDelegation
+              account={account}
+              amount={amount}
+              delegations={delegations}
+              memo={memo}
+              onConfirm={onClose}
+            />
+          ),
         }
       case DelegationStage.SelectAmountStage:
       default:
@@ -73,7 +94,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({ account, open, onCl
   }, [stage, t])
 
   return (
-    <Dialog fullWidth maxWidth="md" open={open} onClose={onClose}>
+    <Dialog fullWidth maxWidth={content.dialogWidth || 'md'} open={open} onClose={onClose}>
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />
@@ -82,7 +103,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({ account, open, onCl
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
-      <DialogTitle>{content.title}</DialogTitle>
+      {content.title ? <DialogTitle>{content.title}</DialogTitle> : null}
       {content.content}
     </Dialog>
   )
