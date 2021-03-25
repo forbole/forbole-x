@@ -20,25 +20,12 @@ import MoreIcon from '../../assets/images/icons/icon_more.svg'
 import TablePagination from '../TablePagination'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
+import { formatPercentage, formatCrypto } from '../../misc/utils'
 
 interface ValidatorsTableProps {
   validators: Validator[]
   crypto: Crypto
 }
-
-const formatPercentage = (percent: number, lang: string) =>
-  new Intl.NumberFormat(lang, {
-    style: 'percent',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(percent)
-
-const formatCrypto = (amount: number, unit: string, lang: string) =>
-  `${new Intl.NumberFormat(lang, {
-    signDisplay: 'never',
-    minimumFractionDigits: 4,
-    maximumFractionDigits: 4,
-  }).format(amount)} ${unit}`
 
 const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto }) => {
   const classes = useStyles()

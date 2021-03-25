@@ -13,6 +13,7 @@ import {
 } from 'recharts'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 import useStyles from './styles'
+import { formatCrypto, formatCurrency } from '../../misc/utils'
 
 interface BalanceChartProps {
   title: string
@@ -64,19 +65,10 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ title, subtitle, data, tick
             <YAxis
               axisLine={false}
               tickLine={false}
-              tickFormatter={(v) =>
-                new Intl.NumberFormat(lang, {
-                  signDisplay: 'never',
-                }).format(v)
-              }
+              tickFormatter={(v) => formatCrypto(v, '', lang, true)}
             />
             <Tooltip
-              formatter={(v) => [
-                new Intl.NumberFormat(lang, {
-                  style: 'currency',
-                  currency,
-                }).format(v),
-              ]}
+              formatter={(v) => [formatCurrency(v, currency, lang, true)]}
               labelFormatter={(v) => format(v, 'd MMM h:ma')}
             />
             <Line

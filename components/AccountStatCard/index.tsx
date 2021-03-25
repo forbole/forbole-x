@@ -7,6 +7,7 @@ import useTranslation from 'next-translate/useTranslation'
 import useStyles from './styles'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import { formatCrypto, formatCurrency, formatPercentage } from '../../misc/utils'
 
 interface AccountStatCardProps {
   account: Account
@@ -65,30 +66,19 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
               <DownIcon htmlColor={theme.palette.error.main} />
             )}
             <Box mr={2}>
-              <Typography color="textSecondary">{percentageChange}% (24h)</Typography>
+              <Typography color="textSecondary">
+                {formatPercentage(percentageChange, lang)} (24h)
+              </Typography>
             </Box>
-            <Typography>
-              {new Intl.NumberFormat(lang, {
-                style: 'currency',
-                currency,
-              }).format(diff)}{' '}
-              {currency}
-            </Typography>
+            <Typography>{formatCurrency(diff, currency, lang)}</Typography>
           </Box>
         </Box>
         <Box display="flex" flexDirection="column" alignItems="flex-end">
           <Typography variant="h4" align="right">
-            {new Intl.NumberFormat(lang, {
-              signDisplay: 'never',
-            }).format(balance)}{' '}
-            {crypto.name}
+            {formatCrypto(balance, crypto.name, lang)}
           </Typography>
           <Typography variant="h6" align="right">
-            {new Intl.NumberFormat(lang, {
-              style: 'currency',
-              currency,
-            }).format(usdBalance)}{' '}
-            {currency}
+            {formatCurrency(usdBalance, currency, lang)}
           </Typography>
         </Box>
       </Box>

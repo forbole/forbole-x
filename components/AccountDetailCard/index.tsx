@@ -12,6 +12,7 @@ import useIconProps from '../../misc/useIconProps'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import StatBox from './StatBox'
 import DelegationDialog from '../DelegateDialog'
+import { formatCrypto, formatCurrency } from '../../misc/utils'
 
 interface AccountDetailCardProps {
   account: Account
@@ -83,65 +84,35 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
           <BalanceChart
             data={data}
             ticks={new Array(7).fill(null).map((_a, i) => now - (6 - i) * 24 * 3600000)}
-            title={`${new Intl.NumberFormat(lang, {
-              signDisplay: 'never',
-            }).format(btcBalance)} ${account.crypto}`}
-            subtitle={`${new Intl.NumberFormat(lang, {
-              style: 'currency',
-              currency,
-            }).format(balance)} ${currency}`}
+            title={formatCrypto(btcBalance, account.crypto, lang)}
+            subtitle={formatCurrency(balance, currency, lang)}
           />
           <Box mt={10}>
             <Grid container spacing={4}>
               <StatBox
                 title={t('available')}
-                value={`${new Intl.NumberFormat(lang, {
-                  signDisplay: 'never',
-                }).format(btcBalance)} ${account.crypto}`}
-                subtitle={`${new Intl.NumberFormat(lang, {
-                  style: 'currency',
-                  currency,
-                }).format(balance)} ${currency}`}
+                value={formatCrypto(btcBalance, account.crypto, lang)}
+                subtitle={formatCurrency(balance, currency, lang)}
               />
               <StatBox
                 title={t('delegated')}
-                value={`${new Intl.NumberFormat(lang, {
-                  signDisplay: 'never',
-                }).format(btcBalance)} ${account.crypto}`}
-                subtitle={`${new Intl.NumberFormat(lang, {
-                  style: 'currency',
-                  currency,
-                }).format(balance)} ${currency}`}
+                value={formatCrypto(btcBalance, account.crypto, lang)}
+                subtitle={formatCurrency(balance, currency, lang)}
               />
               <StatBox
                 title={t('unbonding')}
-                value={`${new Intl.NumberFormat(lang, {
-                  signDisplay: 'never',
-                }).format(btcBalance)} ${account.crypto}`}
-                subtitle={`${new Intl.NumberFormat(lang, {
-                  style: 'currency',
-                  currency,
-                }).format(balance)} ${currency}`}
+                value={formatCrypto(btcBalance, account.crypto, lang)}
+                subtitle={formatCurrency(balance, currency, lang)}
               />
               <StatBox
                 title={t('reward')}
-                value={`${new Intl.NumberFormat(lang, {
-                  signDisplay: 'never',
-                }).format(btcBalance)} ${account.crypto}`}
-                subtitle={`${new Intl.NumberFormat(lang, {
-                  style: 'currency',
-                  currency,
-                }).format(balance)} ${currency}`}
+                value={formatCrypto(btcBalance, account.crypto, lang)}
+                subtitle={formatCurrency(balance, currency, lang)}
               />
               <StatBox
                 title={t('commission')}
-                value={`${new Intl.NumberFormat(lang, {
-                  signDisplay: 'never',
-                }).format(btcBalance)} ${account.crypto}`}
-                subtitle={`${new Intl.NumberFormat(lang, {
-                  style: 'currency',
-                  currency,
-                }).format(balance)} ${currency}`}
+                value={formatCrypto(btcBalance, account.crypto, lang)}
+                subtitle={formatCurrency(balance, currency, lang)}
               />
             </Grid>
           </Box>
