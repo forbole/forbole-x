@@ -1,26 +1,10 @@
-import { Box, Card, Tabs, Tab } from '@material-ui/core'
+import { Box, Card, Tabs, Tab, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import TablePagination from '../TablePagination'
 import useStyles from './styles'
-import {
-  Delegate,
-  Redelegate,
-  CreateValidator,
-  Deposit,
-  Unjail,
-  Fund,
-  EditValidator,
-  Multisend,
-  Send,
-  SetRewardAddress,
-  SubmitProposal,
-  VerifyInvariant,
-  Vote,
-  Undelegate,
-  WithdrawReward,
-} from './components'
+import Row from './components/Row'
 
 export interface Activity {
   ref: string
@@ -42,92 +26,12 @@ interface ActivitiesTableProps {
   crypto: Crypto
 }
 
-interface ActivityProps {
-  activity?: Activity
-  account: Account
-  crypto: Crypto
-}
-
 export const formatCrypto = (amount: number, unit: string, lang: string) =>
   `${new Intl.NumberFormat(lang, {
     signDisplay: 'never',
     minimumFractionDigits: 4,
     maximumFractionDigits: 4,
   }).format(amount)} ${unit}`
-
-export const Activity: React.FC<ActivityProps> = (activity) => {
-  const { tag } = activity.activity
-  if (tag === 'delegate') {
-    return (
-      <Delegate account={activity.account} activity={activity.activity} crypto={activity.crypto} />
-    )
-  }
-  if (tag === 'undelegate') {
-    return (
-      <Undelegate
-        account={activity.account}
-        activity={activity.activity}
-        crypto={activity.crypto}
-      />
-    )
-  }
-  if (tag === 'redelegate') {
-    return (
-      <Redelegate
-        account={activity.account}
-        activity={activity.activity}
-        crypto={activity.crypto}
-      />
-    )
-  }
-  if (tag === 'deposit') {
-    return (
-      <Deposit account={activity.account} activity={activity.activity} crypto={activity.crypto} />
-    )
-  }
-  if (tag === 'withdrawReward') {
-    return (
-      <WithdrawReward
-        account={activity.account}
-        activity={activity.activity}
-        crypto={activity.crypto}
-      />
-    )
-  }
-  if (tag === 'multisend') {
-    return (
-      <Multisend account={activity.account} activity={activity.activity} crypto={activity.crypto} />
-    )
-  }
-  if (tag === 'createValidator') {
-    return <CreateValidator account={activity.account} activity={activity.activity} />
-  }
-  if (tag === 'fund') {
-    return <Fund account={activity.account} activity={activity.activity} crypto={activity.crypto} />
-  }
-  if (tag === 'verifyInvariant') {
-    return <VerifyInvariant account={activity.account} activity={activity.activity} />
-  }
-  if (tag === 'vote') {
-    return <Vote account={activity.account} activity={activity.activity} />
-  }
-  if (tag === 'unjail') {
-    return <Unjail account={activity.account} activity={activity.activity} />
-  }
-  if (tag === 'submitProposal') {
-    return <SubmitProposal account={activity.account} activity={activity.activity} />
-  }
-  if (tag === 'editValidator') {
-    return <EditValidator account={activity.account} activity={activity.activity} />
-  }
-  if (tag === 'send') {
-    return <Send account={activity.account} activity={activity.activity} crypto={activity.crypto} />
-  }
-  if (tag === 'setRewardAddress') {
-    return <SetRewardAddress activity={activity.activity} />
-  }
-  return null
-}
 
 const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, account }) => {
   const classes = useStyles()
@@ -169,20 +73,18 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, a
         </Tabs>
         <Box className={classes.table} mt={2}>
           {activitiesCollection.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((a, i) => (
-            <div key={`${a.ref}-${i}`}>
-              <div className={classes.event__header}>
+            <Box key={`${a.ref}-${i}`}>
+              <Box className={classes.rowHeader}>
                 <span>{a.ref}</span>
-                <p>
+                <Typography className={classes.typograph}>
                   {a.date}
                   <CheckCircleIcon className={classes.checkIcon} />
-                </p>
-              </div>
-              <div className={classes.event__body_container}>
-                <div className={classes.body_container__info}>
-                  <Activity activity={a} account={account} crypto={crypto} />
-                </div>
-              </div>
-            </div>
+                </Typography>
+              </Box>
+              <Box className={classes.rowContainer}>
+                <Row activity={a} account={account} crypto={crypto} />
+              </Box>
+            </Box>
           ))}
         </Box>
         <TablePagination
