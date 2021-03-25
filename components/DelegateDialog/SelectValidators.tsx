@@ -17,6 +17,8 @@ import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
+import { formatCrypto, formatCurrency } from '../../misc/utils'
+import { useSettingsContext } from '../../contexts/SettingsContext'
 
 interface SelectValidatorsProps {
   onConfirm(
@@ -46,9 +48,10 @@ const mockValidators = {
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, onConfirm }) => {
-  const { t } = useTranslation('common')
+  const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
+  const { currency } = useSettingsContext()
   const [delegations, setDelegations] = React.useState<
     Array<{ amount: string; validator: string; percentage: string }>
   >([{ amount: amount.toString(), validator: '', percentage: '100' }])
@@ -59,9 +62,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, on
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
             {t('total delegated amount')}{' '}
-            <b className={classes.marginLeft}>
-              {amount} {account.crypto}
-            </b>
+            <b className={classes.marginLeft}>{formatCrypto(amount, account.crypto, lang)}</b>
           </Typography>
           <Grid container spacing={4}>
             <Grid item xs={6}>
@@ -71,15 +72,14 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, on
                   key={i.toString()}
                   display="flex"
                   alignItems="center"
-                  ml={-5}
+                  ml={delegations.length <= 1 ? 0 : -5}
                   mt={i === 0 ? 0 : 1}
                 >
-                  <IconButton
-                    disabled={delegations.length <= 1}
-                    onClick={() => setDelegations((d) => d.filter((a, j) => j !== i))}
-                  >
-                    <RemoveIcon {...iconProps} />
-                  </IconButton>
+                  {delegations.length <= 1 ? null : (
+                    <IconButton onClick={() => setDelegations((d) => d.filter((a, j) => j !== i))}>
+                      <RemoveIcon {...iconProps} />
+                    </IconButton>
+                  )}
                   <Autocomplete
                     options={Object.keys(mockValidators)}
                     openOnFocus
@@ -221,10 +221,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, on
           mx={2}
         >
           <Box>
-            <Typography variant="h5">
-              {amount} {account.crypto}
-            </Typography>
-            <Typography>${amount} USD</Typography>
+            <Typography variant="h5">{formatCrypto(amount, account.crypto, lang)}</Typography>
+            <Typography>{formatCurrency(amount, currency, lang)}</Typography>
           </Box>
           <Button
             variant="contained"

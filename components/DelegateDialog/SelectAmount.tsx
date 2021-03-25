@@ -9,6 +9,8 @@ import {
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import { useSettingsContext } from '../../contexts/SettingsContext'
+import { formatCrypto, formatCurrency } from '../../misc/utils'
 import useStyles from './styles'
 
 interface SelectAmountProps {
@@ -17,15 +19,18 @@ interface SelectAmountProps {
 }
 
 const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm }) => {
-  const { t } = useTranslation('common')
+  const { t, lang } = useTranslation('common')
   const classes = useStyles()
+  const { currency } = useSettingsContext()
   const [amount, setAmount] = React.useState('')
+
   return (
     <>
       <DialogContent className={classes.dialogContent}>
         <Box mb={32}>
           <Typography className={classes.marginBottom}>
-            {t('available amount')} <b className={classes.marginLeft}>1.1107 {account.crypto}</b>
+            {t('available amount')}{' '}
+            <b className={classes.marginLeft}>{formatCrypto(123.123, account.crypto, lang)}</b>
           </Typography>
           <Typography>{t('total delegated amount')}</Typography>
           <TextField
@@ -52,8 +57,8 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm }) => {
           mx={2}
         >
           <Box>
-            <Typography variant="h5">0.00 {account.crypto}</Typography>
-            <Typography>$0.00 USD</Typography>
+            <Typography variant="h5">{formatCrypto(0, account.crypto, lang)}</Typography>
+            <Typography>{formatCurrency(0, currency, lang)}</Typography>
           </Box>
           <Button
             variant="contained"
