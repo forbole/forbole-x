@@ -6,6 +6,7 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import SelectWalletButton from './SelectWalletButton'
 import useStyles from './styles'
 import BalanceChart from '../BalanceChart'
+import { formatCrypto, formatCurrency } from '../../misc/utils'
 
 const WalletBalanceChart: React.FC = () => {
   const { wallets } = useWalletsContext()
@@ -36,13 +37,8 @@ const WalletBalanceChart: React.FC = () => {
       <BalanceChart
         data={data}
         ticks={new Array(7).fill(null).map((_a, i) => now - (6 - i) * 24 * 3600000)}
-        title={`${new Intl.NumberFormat(lang, {
-          style: 'currency',
-          currency,
-        }).format(balance)} ${currency}`}
-        subtitle={`${new Intl.NumberFormat(lang, {
-          signDisplay: 'never',
-        }).format(btcBalance)} ฿`}
+        title={formatCurrency(balance, currency, lang)}
+        subtitle={formatCrypto(btcBalance, '฿', lang)}
       />
     </Card>
   )
