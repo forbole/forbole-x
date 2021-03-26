@@ -3,8 +3,10 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import TablePagination from '../TablePagination'
-import useStyles from './styles'
-import Row from './components/Row'
+// import useStyles from './styles'
+import { useGetStyles } from './styles'
+// import Row from './components/Row'
+import Row from './row'
 
 export interface Activity {
   ref: string
@@ -34,7 +36,8 @@ export const formatCrypto = (amount: number, unit: string, lang: string) =>
   }).format(amount)} ${unit}`
 
 const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, account }) => {
-  const classes = useStyles()
+  // const classes = useStyles()
+  const { classes } = useGetStyles()
   const { t } = useTranslation('common')
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
@@ -81,7 +84,7 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, a
                   <CheckCircleIcon className={classes.checkIcon} />
                 </Typography>
               </Box>
-              <Box className={classes.rowContainer}>
+              <Box className={classes.row}>
                 <Row activity={a} account={account} crypto={crypto} />
               </Box>
             </Box>
