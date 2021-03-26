@@ -137,7 +137,7 @@
   "editValidator": "Edit Validator",
   "editValidatorActivity": "updated",
   "with": "with",
-  "from": "from",
+  "from": "From",
   "to": "to",
   "send": "Send",
   "sendActivity": "Sent",
@@ -150,6 +150,17 @@
   "undelegateActivity": "undelegated",
   "slashing": "Slashing",
   "fundActivity": "funded",
-  "toCommunityPool": "to community pool"
-
+  "toCommunityPool": "to community pool",
+  "available amount": "Available amount",
+  "total delegated amount": "Total Delegated Amount",
+  "delegate to": "Delegate to",
+  "select validator": "Select validator",
+  "amount": "Amount",
+  "add validator": "Add Validator",
+  "memo": "Memo",
+  "description optional": "Description (optional)",
+  "NA": "N/A",
+  "fee": "Fee",
+  "view data": "View Data",
+  "claim rewards": "Claim Rewards"
 }

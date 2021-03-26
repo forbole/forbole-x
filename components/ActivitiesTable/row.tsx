@@ -2,7 +2,8 @@ import { Box, Avatar, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { useGetStyles } from './styles'
-import { Activity, Account, formatCrypto } from './index'
+import { Activity, Account } from './index'
+import { formatCrypto } from '../../misc/utils'
 
 interface RowProps {
   activity: Activity
@@ -46,7 +47,7 @@ const Row: React.FC<RowProps> = ({ activity, account }) => {
             <span className={classes.amount}>
               {formatCrypto(activity.amount, crypto.name, lang)}
             </span>
-            {t('from')}
+            {t('from').toLocaleLowerCase()}
           </Typography>
           <Avatar
             className={classes.validatorAvatar}
@@ -78,7 +79,7 @@ const Row: React.FC<RowProps> = ({ activity, account }) => {
             <span className={classes.amount}>
               {formatCrypto(activity.amount, crypto.name, lang)}
             </span>
-            {t('from')}
+            {t('from').toLocaleLowerCase()}
           </Typography>
           <Avatar
             className={classes.validatorAvatar}
@@ -115,7 +116,7 @@ const Row: React.FC<RowProps> = ({ activity, account }) => {
             <span className={classes.amount}>
               {formatCrypto(activity.amount, crypto.name, lang)}
             </span>
-            {t('from')}
+            {t('from').toLocaleLowerCase()}
           </Typography>
           <Avatar
             className={classes.validatorAvatar}
