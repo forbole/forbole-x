@@ -4,8 +4,8 @@ import React from 'react'
 import useStyles from './styles'
 import SectoredByButton from './SectoredByButton'
 import { SectoredBy, sectoredByTypes } from './types'
-import Chart from './chart'
-import EmptyState from './emptyState'
+import Chart from './Chart'
+import EmptyState from './EmpthState'
 
 const AssetDistributionChart: React.FC = () => {
   const classes = useStyles()

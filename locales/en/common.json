@@ -108,7 +108,7 @@
   "delegations": "Delegations",
   "redelegations": "Redelegation",
   "unbondings": "Unbondings",
-  "noAsset": "No asset",
+  "no asset": "No asset",
   "delegateActivity": "delegated",
   "deposit": "Deposit",
   "depositActivity": "deposited",

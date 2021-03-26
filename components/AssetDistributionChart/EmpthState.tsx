@@ -16,7 +16,7 @@ const EmptyState: React.FC = () => {
           marginTop: '1rem',
         }}
       />
-      <Typography className={classes.noAsset}>{t('noAsset')}</Typography>
+      <Typography className={classes.noAsset}>{t('no asset')}</Typography>
     </Box>
   )
 }
