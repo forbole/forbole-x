@@ -70,6 +70,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ title, subtitle, data, tick
             <Tooltip
               formatter={(v) => [formatCurrency(v, currency, lang, true)]}
               labelFormatter={(v) => format(v, 'd MMM h:ma')}
+              contentStyle={{ backgroundColor: theme.palette.background.paper }}
             />
             <Line
               type="monotone"

@@ -119,5 +119,7 @@
   "from": "From",
   "NA": "N/A",
   "fee": "Fee",
-  "view data": "View Data"
+  "view data": "View Data",
+  "claim rewards": "Claim Rewards",
+  "send": "Send"
 }

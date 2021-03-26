@@ -1,4 +1,4 @@
-import { Box, Button, Card, Grid, Typography, useTheme } from '@material-ui/core'
+import { Box, Button, Card, Grid, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
@@ -57,17 +57,17 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
                 color="primary"
                 onClick={() => setDelegateDialogOpen(true)}
               >
-                Delegate
+                {t('delegate')}
               </Button>
               <Button
                 classes={{ root: classes.fixedWidthButton }}
                 variant="contained"
                 color="secondary"
               >
-                Claim Rewards
+                {t('claim rewards')}
               </Button>
               <Button classes={{ root: classes.sendButton }} variant="contained" color="secondary">
-                Send
+                {t('send')}
               </Button>
               <Button classes={{ root: classes.iconButton }} variant="outlined" onClick={toggleFav}>
                 {account.fav ? (

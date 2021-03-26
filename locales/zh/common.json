@@ -115,5 +115,7 @@
   "from": "[zh] From",
   "NA": "[zh] N/A",
   "fee": "[zh] Fee",
-  "view data": "[zh] View Data"
+  "view data": "[zh] View Data",
+  "claim rewards": "[zh] Claim Rewards",
+  "send": "[zh] Send"
 }
