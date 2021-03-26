@@ -5,6 +5,7 @@ import useStyles from './styles'
 import SectoredByButton from './SectoredByButton'
 import { SectoredBy, sectoredByTypes } from './types'
 import Chart from './chart'
+import EmptyState from './emptyState'
 
 const AssetDistributionChart: React.FC = () => {
   const classes = useStyles()
@@ -41,14 +42,13 @@ const AssetDistributionChart: React.FC = () => {
       value: 7,
     },
   ]
-
   return (
     <Card className={classes.container}>
       <Box display="flex" flexDirection="column" alignItems="center" my={2}>
         <Typography variant="h1">{t('asset distribution')}</Typography>
         <SectoredByButton sectoredBy={sectoredBy} onChange={setSectoredBy} />
       </Box>
-      <Chart rawData={rawData} />
+      {rawData.length > 0 ? <Chart rawData={rawData} /> : <EmptyState />}
     </Card>
   )
 }

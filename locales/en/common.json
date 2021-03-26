@@ -107,5 +107,6 @@
   "table footer": "showing {{range}} of {{total}}",
   "delegations": "Delegations",
   "redelegations": "Redelegation",
-  "unbondings": "Unbondings"
+  "unbondings": "Unbondings",
+  "noAsset": "No asset"
 }
