@@ -34,7 +34,7 @@ export const useGetStyles = (tag?: string) => {
       },
       rowContainer: {
         display: 'flex',
-        alignItems: 'center',
+        // alignItems: 'center',
       },
       tagContainer: {
         width: theme.spacing(24),

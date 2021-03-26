@@ -4,7 +4,7 @@ import React from 'react'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import TablePagination from '../TablePagination'
 import { useGetStyles } from './styles'
-import Row from './row'
+import Row from './Row'
 
 export interface Activity {
   ref: string

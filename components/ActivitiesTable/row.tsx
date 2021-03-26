@@ -11,7 +11,7 @@ interface RowProps {
   crypto: Crypto
 }
 
-const Row: React.FC<RowProps> = ({ activity, account }) => {
+const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
   const { classes } = useGetStyles(activity.tag)
   const { t, lang } = useTranslation('common')
 
@@ -144,7 +144,8 @@ const Row: React.FC<RowProps> = ({ activity, account }) => {
           <Box className={classes.detail}>
             {activity.detail.map((x) => (
               <Typography>
-                {x.address} {t('received')} {x.amount}
+                {x.address} {t('received')}{' '}
+                <span className={classes.amount}>{formatCrypto(x.amount, crypto.name, lang)}</span>
               </Typography>
             ))}
           </Box>

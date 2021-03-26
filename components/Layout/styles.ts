@@ -8,6 +8,7 @@ const useStyles = makeStyles(
       bottom: 0,
       left: 0,
       overflow: 'auto',
+      overflowX: 'hidden',
       zIndex: 2,
       transition: 'width 0.2s ease-in-out',
     },
