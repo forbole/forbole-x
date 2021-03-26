@@ -103,5 +103,19 @@
   "table footer": "[zh] showing {range} of {total}",
   "delegations": "[zh] Delegations",
   "redelegations": "[zh] Redelegation",
-  "unbondings": "[zh] Unbondings"
+  "unbondings": "[zh] Unbondings",
+  "available amount": "[zh] Available amount",
+  "total delegated amount": "[zh] Total Delegated Amount",
+  "delegate to": "[zh] Delegate to",
+  "select validator": "[zh] Select validator",
+  "amount": "[zh] Amount",
+  "add validator": "[zh] Add Validator",
+  "memo": "[zh] Memo",
+  "description optional": "[zh] Description (optional)",
+  "from": "[zh] From",
+  "NA": "[zh] N/A",
+  "fee": "[zh] Fee",
+  "view data": "[zh] View Data",
+  "claim rewards": "[zh] Claim Rewards",
+  "send": "[zh] Send"
 }

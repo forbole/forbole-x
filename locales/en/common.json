@@ -107,5 +107,19 @@
   "table footer": "showing {{range}} of {{total}}",
   "delegations": "Delegations",
   "redelegations": "Redelegation",
-  "unbondings": "Unbondings"
+  "unbondings": "Unbondings",
+  "available amount": "Available amount",
+  "total delegated amount": "Total Delegated Amount",
+  "delegate to": "Delegate to",
+  "select validator": "Select validator",
+  "amount": "Amount",
+  "add validator": "Add Validator",
+  "memo": "Memo",
+  "description optional": "Description (optional)",
+  "from": "From",
+  "NA": "N/A",
+  "fee": "Fee",
+  "view data": "View Data",
+  "claim rewards": "Claim Rewards",
+  "send": "Send"
 }

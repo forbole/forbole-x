@@ -11,6 +11,7 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import AccountMenuButton from '../AccountMenuButton'
 import AccountAvatar from '../AccountAvatar'
+import { formatCrypto, formatCurrency } from '../../misc/utils'
 
 interface AccountCardProps {
   account: Account
@@ -49,19 +50,8 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
       </Box>
       <Box display="flex" alignItems="flex-end" justifyContent="space-between">
         <Box>
-          <Typography variant="h4">
-            {new Intl.NumberFormat(lang, {
-              signDisplay: 'never',
-            }).format(balance)}{' '}
-            {crypto.name}
-          </Typography>
-          <Typography variant="h6">
-            {new Intl.NumberFormat(lang, {
-              style: 'currency',
-              currency,
-            }).format(usdBalance)}{' '}
-            {currency}
-          </Typography>
+          <Typography variant="h4">{formatCrypto(balance, crypto.name, lang)}</Typography>
+          <Typography variant="h6">{formatCurrency(usdBalance, currency, lang)}</Typography>
         </Box>
         <IconButton onClick={toggleFav}>
           {account.fav ? (
