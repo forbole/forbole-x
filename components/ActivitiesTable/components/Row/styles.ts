@@ -1,7 +1,8 @@
 import { makeStyles, createStyles } from '@material-ui/core/styles'
+import { CustomTheme } from '../../../../misc/theme'
 
 export const useGetStyles = (tag: string) => {
-  const useStyles = makeStyles((theme) =>
+  const useStyles = makeStyles((theme: CustomTheme) =>
     createStyles({
       rowContainer: {
         display: 'flex',

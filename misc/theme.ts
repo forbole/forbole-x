@@ -1,4 +1,13 @@
-import { ThemeOptions } from '@material-ui/core'
+import { ThemeOptions, Theme } from '@material-ui/core'
+import { Palette } from '@material-ui/core/styles/createPalette'
+
+interface CustomPalette extends Palette {
+  tagColor: { [key: string]: string }
+}
+
+export interface CustomTheme extends Theme {
+  palette: CustomPalette
+}
 
 const common = {
   typography: {
