@@ -20,6 +20,9 @@ const useStyles = makeStyles(
     percentText: {
       marginTop: theme.spacing(-5),
     },
+    noAsset: {
+      marginTop: theme.spacing(6),
+    },
   }),
   {
     name: 'HookGlobalStyles',
