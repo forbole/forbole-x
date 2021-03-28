@@ -5,7 +5,7 @@ import useStyles from './styles'
 import SectoredByButton from './SectoredByButton'
 import { SectoredBy, sectoredByTypes } from './types'
 import Chart from './Chart'
-import EmptyState from './EmpthState'
+import EmptyState from './EmptyState'
 
 const AssetDistributionChart: React.FC = () => {
   const classes = useStyles()
