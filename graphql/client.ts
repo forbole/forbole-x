@@ -4,43 +4,49 @@ import { getMainDefinition, concatPagination } from '@apollo/client/utilities'
 import { WebSocketLink } from '@apollo/client/link/ws'
 
 import { useMemo } from 'react'
+import cryptocurrencies from '../misc/cryptocurrencies'
 
 const defaultOptions: any = {
   watchQuery: {
-    // fetchPolicy: 'no-cache',
-    // errorPolicy: 'ignore',
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'ignore',
   },
   query: {
-    // fetchPolicy: 'no-cache',
-    // errorPolicy: 'all',
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'all',
   },
 }
 
 let apolloClient
 
-const httpLink = new HttpLink({
-  uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
-})
+const links = {}
+Object.keys(cryptocurrencies).forEach((crypto) => {
+  const httpLink = new HttpLink({
+    uri: cryptocurrencies[crypto].graphqHttpUrl,
+  })
 
-const wsLink = new WebSocketLink({
-  uri: process.env.NEXT_PUBLIC_GRAPHQL_WS ?? 'wss://localhost:3000',
-  options: {
-    reconnect: true,
-  },
-  webSocketImpl: WebSocket,
-})
+  const wsLink = new WebSocketLink({
+    uri: cryptocurrencies[crypto].graphqlWsUrl,
+    options: {
+      reconnect: true,
+    },
+    webSocketImpl: WebSocket,
+  })
 
-const link =
-  typeof window !== 'undefined'
-    ? split(
-        ({ query }) => {
-          const { kind, operation }: any = getMainDefinition(query)
-          return kind === 'OperationDefinition' && operation === 'subscription'
-        },
-        wsLink,
-        httpLink
-      )
-    : httpLink
+  const link =
+    typeof window !== 'undefined'
+      ? split(
+          ({ query }) => {
+            const { kind, operation }: any = getMainDefinition(query)
+            return kind === 'OperationDefinition' && operation === 'subscription'
+          },
+          wsLink,
+          httpLink
+        )
+      : httpLink
+
+  links[crypto] = link
+})
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext({
@@ -50,10 +56,23 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation)
 })
 
+const directiveMiddleware = new ApolloLink((operation) => {
+  const { query } = operation
+
+  const definition = getMainDefinition(query)
+
+  const foundDirective =
+    'operation' in definition &&
+    definition.directives?.find((item) => Object.keys(cryptocurrencies).includes(item.name.value))
+  const directive = foundDirective ? foundDirective.name.value : 'default'
+
+  return links[directive].request(operation)
+})
+
 function createApolloClient() {
   const client = new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: concat(authMiddleware, link),
+    link: concat(authMiddleware, directiveMiddleware),
     cache: new InMemoryCache({
       typePolicies: {
         Query: {

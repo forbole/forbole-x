@@ -1,3 +1,4 @@
+declare module 'apollo-multi-endpoint-link'
 declare module '*.svg' {
   const content: any
   export default content
