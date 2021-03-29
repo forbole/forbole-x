@@ -5,25 +5,32 @@ import uniq from 'lodash/uniq'
 import keyBy from 'lodash/keyBy'
 import { getAccountBalances } from '../queries/accountBalances'
 import { getBlocks, getBlocksByPeriod } from '../queries/blocks'
+import { getTokenAmountFromDenoms } from '../../misc/utils'
 
-const useAccountBalancesWithinPeriod = (from: Date, to: Date) => {
-  const { data: blockPeriod } = useQuery(getBlocksByPeriod('DSM'), {
+const useAccountBalancesWithinPeriod = (
+  crypto: string,
+  addresses: string[],
+  from: Date,
+  to: Date
+): Array<{ address: string; available: Array<{ balance: number; timestamp: string }> }> => {
+  const { data: blockPeriod } = useQuery(getBlocksByPeriod(crypto), {
     variables: {
       from,
       to,
     },
   })
-  const { data: balances } = useQuery(getAccountBalances('DSM'), {
+  const { data: balances } = useQuery(getAccountBalances(crypto), {
     variables: {
-      addresses: ['desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6'],
+      addresses,
       minHeight: get(blockPeriod, 'fromBlock[0].height', 0),
       maxHeight: get(blockPeriod, 'toBlock[0].height', 0),
     },
   })
+
   const blockHeights = uniq(
     flatten(get(balances, 'account', []).map((b) => b.available.map((a) => a.height)))
   )
-  const { data: blocks } = useQuery(getBlocks('DSM'), {
+  const { data: blocks } = useQuery(getBlocks(crypto), {
     variables: {
       heights: blockHeights,
     },
@@ -32,7 +39,7 @@ const useAccountBalancesWithinPeriod = (from: Date, to: Date) => {
   const result = get(balances, 'account', []).map((a) => ({
     ...a,
     available: a.available.map((av) => ({
-      ...av,
+      balance: getTokenAmountFromDenoms(av.coins, crypto),
       timestamp: get(blockMap, `[${av.height}].timestamp`),
     })),
   }))

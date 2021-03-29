@@ -14,7 +14,15 @@ const now = new Date()
 const Home: React.FC = () => {
   const { t } = useTranslation('common')
   const { accounts } = useWalletsContext()
-  const result = useAccountBalancesWithinPeriod(addDays(now, -7), now)
+  const result = useAccountBalancesWithinPeriod(
+    'DSM',
+    [
+      'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6',
+      'desmos1dzn2s7l0wm9kekyazcnhapu8j95n90efmcmrad',
+    ],
+    addDays(now, -7),
+    now
+  )
   console.log(result)
   return (
     <Layout passwordRequired activeItem="/">
