@@ -43,7 +43,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto })
   ]
 
   return (
-    <Card>
+    <Card className={classes.container}>
       <Box p={4}>
         <Tabs
           value={currentTab}

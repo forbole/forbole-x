@@ -1,4 +1,13 @@
-import { ThemeOptions } from '@material-ui/core'
+import { ThemeOptions, Theme } from '@material-ui/core'
+import { Palette } from '@material-ui/core/styles/createPalette'
+
+interface CustomPalette extends Palette {
+  tagColor: { [key: string]: string }
+}
+
+export interface CustomTheme extends Theme {
+  palette: CustomPalette
+}
 
 const common = {
   typography: {
@@ -64,7 +73,7 @@ const common = {
   shadows: [...Array(7).fill('none'), ...Array(18).fill('0px 3px 16px #00000029')],
 }
 
-const lightTheme = {
+const lightTheme = ({
   ...common,
   palette: {
     primary: {
@@ -98,16 +107,35 @@ const lightTheme = {
       50: '#F7F7F7',
       100: '#F2F2F2',
       200: '#DDDDDD',
-      300: '#8B8B8B', // icon
+      300: '#8B8B8B',
+      400: '#F7F7F7',
+      500: '#777777',
     },
     action: {
       hover: '#F7F7F7',
       selected: '#F7F7F7',
     },
+    tagColor: {
+      delegate: '#1EC490',
+      redelegate: '#FF961B',
+      undelegate: '#FC6A8A',
+      deposit: '#FF7549',
+      withdrawReward: '#243059',
+      multisend: '#9F46EC',
+      createValidator: '#1EC490',
+      fund: '#497BFF',
+      verifyInvariant: '#2FA8CE',
+      vote: '#FF7549',
+      unjail: '#EB3AA4',
+      submitProposal: '#FF7549',
+      editValidator: '#1EC490',
+      send: '#9F46EC',
+      setRewardAddress: '#497BFF',
+    },
   },
-} as ThemeOptions
+} as unknown) as ThemeOptions
 
-const darkTheme = {
+const darkTheme = ({
   ...common,
   palette: {
     primary: {
@@ -140,13 +168,32 @@ const darkTheme = {
       50: '#272A2F',
       100: '#34383E',
       200: '#3D4047',
-      300: '#AFAFAF', // icon
+      300: '#AFAFAF',
+      400: '#2B2F35',
+      500: '#777777',
     },
     action: {
       hover: '#1D1E22',
       selected: '#1D1E22',
     },
+    tagColor: {
+      delegate: '#1EC490',
+      redelegate: '#FF961B',
+      undelegate: '#FC6A8A',
+      deposit: '#FF7549',
+      withdrawReward: '#3961FE',
+      multisend: '#9F46EC',
+      createValidator: '#1EC490',
+      fund: '#497BFF',
+      verifyInvariant: '#2FA8CE',
+      vote: '#FF7549',
+      unjail: '#EB3AA4',
+      submitProposal: '#FF7549',
+      editValidator: '#1EC490',
+      send: '#9F46EC',
+      setRewardAddress: '#497BFF',
+    },
   },
-} as ThemeOptions
+} as unknown) as ThemeOptions
 
 export { lightTheme, darkTheme }
