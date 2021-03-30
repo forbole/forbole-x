@@ -7,6 +7,7 @@ import useTranslation from 'next-translate/useTranslation'
 import last from 'lodash/last'
 import get from 'lodash/get'
 import { useRouter } from 'next/router'
+import { addDays } from 'date-fns'
 import useStyles from './styles'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
@@ -32,13 +33,18 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const balance = get(last(account.balances), 'balance', 0)
   const usdBalance = get(last(account.balances), 'price', 0) * balance
 
+  const now = Date.now()
+  const lastWeek = addDays(now, -7).getTime()
+
   const data = createEmptyChartData(
-    account.balances.map((b) => ({
-      balance: b.balance * b.price,
-      time: b.timestamp,
-    })),
-    0,
-    1
+    account.balances
+      .filter((b) => b.timestamp > lastWeek)
+      .map((b) => ({
+        balance: b.balance * b.price,
+        time: b.timestamp,
+      })),
+    lastWeek,
+    now
   )
 
   const firstBalance = get(data, '[0].balance', 0)

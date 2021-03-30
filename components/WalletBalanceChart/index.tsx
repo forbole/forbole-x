@@ -19,7 +19,9 @@ const WalletBalanceChart: React.FC<WalletBalanceChartProps> = ({ walletsWithBala
   const { currency } = useSettingsContext()
   const [currentWallet, setCurrentWallet] = React.useState(walletsWithBalance[0])
   const balance = get(last(currentWallet.balances), 'balance', 0)
+  // TODO: calculate BTC value
   const btcBalance = 57.987519
+  // TODO: handle date range change
   const data = createEmptyChartData(
     currentWallet.balances.map((b) => ({ time: b.timestamp, balance: b.balance })),
     0,
