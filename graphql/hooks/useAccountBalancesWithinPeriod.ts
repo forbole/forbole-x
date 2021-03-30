@@ -9,7 +9,7 @@ import { getTokenAmountFromDenoms } from '../../misc/utils'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 
-const useAccountBalancesWithinPeriodForSingleCrypto = (
+export const useAccountBalancesWithinPeriodForSingleCrypto = (
   crypto: string,
   addresses: string[],
   from: Date,
