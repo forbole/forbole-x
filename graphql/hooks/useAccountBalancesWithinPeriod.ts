@@ -57,7 +57,9 @@ const useAccountBalancesWithinPeriod = (
     Object.keys(cryptocurrencies).map((crypto) =>
       useAccountBalancesWithinPeriodForSingleCrypto(
         crypto,
-        get(accountsByCrypto, crypto, []).map((a) => a.address),
+        get<{ [key: string]: Account[] }, string, Account[]>(accountsByCrypto, crypto, []).map(
+          (a) => a.address
+        ),
         from,
         to
       )
