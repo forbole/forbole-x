@@ -38,7 +38,7 @@ describe('component: CreateAccountDialog', () => {
     const component = renderer.create(<CreateAccountDialog walletId="123" open onClose={onClose} />)
     renderer.act(() => undefined)
     renderer.act(() => {
-      component.root.findAllByType('input')[0].props.onChange({ target: { value: 'ATOM' } })
+      component.root.findAllByType('input')[0].props.onChange({ target: { value: 'DSM' } })
       component.root.findAllByType('input')[1].props.onChange({ target: { value: 'name' } })
     })
     await renderer.act(async () => {
@@ -56,7 +56,7 @@ describe('component: CreateAccountDialog', () => {
     const component = renderer.create(<CreateAccountDialog walletId="123" open onClose={onClose} />)
     renderer.act(() => undefined)
     renderer.act(() => {
-      component.root.findAllByType('input')[0].props.onChange({ target: { value: 'ATOM' } })
+      component.root.findAllByType('input')[0].props.onChange({ target: { value: 'DSM' } })
       component.root.findAllByType('input')[1].props.onChange({ target: { value: 'name' } })
     })
     await renderer.act(async () => {
@@ -68,7 +68,7 @@ describe('component: CreateAccountDialog', () => {
     await renderer.act(async () => {
       await last(component.root.findAllByType('button')).props.onClick()
     })
-    expect(addAccount).toBeCalledWith({ walletId: '123', crypto: 'ATOM', name: 'name' }, 'password')
+    expect(addAccount).toBeCalledWith({ walletId: '123', crypto: 'DSM', name: 'name' }, 'password')
     expect(onClose).toBeCalled()
   })
   it('handles error on next button click', async () => {
@@ -76,7 +76,7 @@ describe('component: CreateAccountDialog', () => {
     const component = renderer.create(<CreateAccountDialog walletId="123" open onClose={onClose} />)
     renderer.act(() => undefined)
     renderer.act(() => {
-      component.root.findAllByType('input')[0].props.onChange({ target: { value: 'ATOM' } })
+      component.root.findAllByType('input')[0].props.onChange({ target: { value: 'DSM' } })
       component.root.findAllByType('input')[1].props.onChange({ target: { value: 'name' } })
     })
     await renderer.act(async () => {

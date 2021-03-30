@@ -351,16 +351,16 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
                 className="MuiAvatar-root MuiAvatar-circle HookGlobalStyles-smallAvatar-8"
               >
                 <img
-                  alt="ATOM"
+                  alt="DSM"
                   className="MuiAvatar-img"
-                  src="/static/images/cryptocurrencies/atom.png"
+                  src="/static/images/cryptocurrencies/dsm.png"
                 />
               </div>
             </div>
             <p
               className="MuiTypography-root MuiTypography-body1"
             >
-              ATOM
+              DSM
             </p>
           </div>
           <input
@@ -371,7 +371,7 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
             onChange={[Function]}
             required={false}
             tabIndex={-1}
-            value="ATOM"
+            value="DSM"
           />
           <svg
             aria-hidden={true}

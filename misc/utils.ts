@@ -1,5 +1,6 @@
 import get from 'lodash/get'
 import keyBy from 'lodash/keyBy'
+import cloneDeep from 'lodash/cloneDeep'
 import cryptocurrencies from './cryptocurrencies'
 
 export const formatPercentage = (percent: number, lang: string): string =>
@@ -46,4 +47,31 @@ export const getTokenAmountFromDenoms = (
       .reduce((a, b) => a + b, 0) *
     10 ** (get(units[base], 'exponent', 0) - get(units[display], 'exponent', 0))
   )
+}
+
+export const createEmptyChartData = (
+  rawData: Array<{
+    balance: number
+    time: number
+  }>,
+  from: number,
+  to: number
+): Array<{ balance: number; time: number }> => {
+  // Create a straight line
+  const data = cloneDeep(rawData)
+  if (data.length === 0) {
+    data.unshift(
+      {
+        balance: 0,
+        time: from,
+      },
+      {
+        balance: 0,
+        time: to,
+      }
+    )
+  } else if (data.length === 1) {
+    data.unshift({ balance: data[0].balance, time: from })
+  }
+  return data
 }

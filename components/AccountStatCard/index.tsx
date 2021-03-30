@@ -4,13 +4,21 @@ import { LineChart, Line, YAxis } from 'recharts'
 import UpIcon from '@material-ui/icons/ArrowDropUp'
 import DownIcon from '@material-ui/icons/ArrowDropDown'
 import useTranslation from 'next-translate/useTranslation'
+import last from 'lodash/last'
+import get from 'lodash/get'
+import { useRouter } from 'next/router'
 import useStyles from './styles'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import { formatCrypto, formatCurrency, formatPercentage } from '../../misc/utils'
+import {
+  createEmptyChartData,
+  formatCrypto,
+  formatCurrency,
+  formatPercentage,
+} from '../../misc/utils'
 
 interface AccountStatCardProps {
-  account: Account
+  account: AccountWithBalance
 }
 
 const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
@@ -19,25 +27,34 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const theme = useTheme()
   const { lang } = useTranslation()
   const { currency } = useSettingsContext()
-  // TODO: fetch data from backend
-  const now = Date.now()
-  const balance = 104387.26
-  const usdBalance = 626323.54
-  const delta = new Array(24).fill(null).map(() => (Math.random() - 0.5) / 10)
-  const data = []
-  delta.forEach((d, i) => {
-    data.unshift({
-      time: now - i * 3600000,
-      balance: i === 0 ? usdBalance : data[0].balance * (1 + d),
-    })
-  })
-  const lastBalance = data[23].balance
-  const firstBalance = data[0].balance
-  const diff = Math.abs(lastBalance - firstBalance)
-  const percentageChange = Math.round((10000 * diff) / firstBalance) / 100
-  const increasing = lastBalance - firstBalance > 0
+  const router = useRouter()
+
+  const balance = get(last(account.balances), 'balance', 0)
+  const usdBalance = get(last(account.balances), 'price', 0) * balance
+
+  const data = createEmptyChartData(
+    account.balances.map((b) => ({
+      balance: b.balance * b.price,
+      time: b.timestamp,
+    })),
+    0,
+    1
+  )
+
+  const firstBalance = get(data, '[0].balance', 0)
+  const diff = Math.abs(usdBalance - firstBalance)
+  const percentageChange = Math.round((100 * diff) / firstBalance) / 100 || 0
+  const increasing = usdBalance - firstBalance > 0
   return (
-    <Card className={classes.container}>
+    <Card
+      className={classes.container}
+      onClick={(e) => {
+        const targetClassName = String((e.target as any).className)
+        if (targetClassName.includes('MuiBox-root') || targetClassName.includes('MuiCard-root')) {
+          router.push(`/account/${account.address}`)
+        }
+      }}
+    >
       <Box mb={7} display="flex" alignItems="center" justifyContent="space-between">
         <Box display="flex" alignItems="center">
           <Avatar alt={crypto.name} src={crypto.image} />

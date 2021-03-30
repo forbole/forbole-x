@@ -13,13 +13,14 @@ interface Account {
   createdAt: number
 }
 
-interface Balance {
-  balance: number
+interface AccountBalance {
+  balance: number // in coin
+  price: number // USD price of coin
   timestamp: number
 }
 
 interface AccountWithBalance extends Account {
-  balances: Balance[]
+  balances: AccountBalance[]
 }
 
 interface CreateAccountParams {
@@ -39,8 +40,13 @@ interface Wallet {
   createdAt: number
 }
 
+interface WalletBalance {
+  balance: number // in USD
+  timestamp: number
+}
+
 interface WalletWithBalance extends Wallet {
-  balances: Balance[]
+  balances: WalletBalance[]
 }
 
 interface Crypto {

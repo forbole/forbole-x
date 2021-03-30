@@ -7,7 +7,7 @@ import { useSettingsContext } from '../../contexts/SettingsContext'
 import SelectWalletButton from './SelectWalletButton'
 import useStyles from './styles'
 import BalanceChart from '../BalanceChart'
-import { formatCrypto, formatCurrency } from '../../misc/utils'
+import { createEmptyChartData, formatCrypto, formatCurrency } from '../../misc/utils'
 
 interface WalletBalanceChartProps {
   walletsWithBalance: WalletWithBalance[]
@@ -20,7 +20,11 @@ const WalletBalanceChart: React.FC<WalletBalanceChartProps> = ({ walletsWithBala
   const [currentWallet, setCurrentWallet] = React.useState(walletsWithBalance[0])
   const balance = get(last(currentWallet.balances), 'balance', 0)
   const btcBalance = 57.987519
-  const data = currentWallet.balances.map((b) => ({ time: b.timestamp, balance: b.balance }))
+  const data = createEmptyChartData(
+    currentWallet.balances.map((b) => ({ time: b.timestamp, balance: b.balance })),
+    0,
+    1
+  )
   const ticks = React.useMemo(() => {
     const min = get(data, '[0].time', 0)
     const max = get(last(data), 'time', 0)

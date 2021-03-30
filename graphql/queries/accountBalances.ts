@@ -8,6 +8,11 @@ export const getAccountBalances = (crypto: string) => gql`
         coins
         height
         block { timestamp }
+        token_price {
+          denom
+          price
+          timestamp
+        }
       }
     }
   }
