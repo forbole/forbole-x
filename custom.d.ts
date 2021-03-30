@@ -14,6 +14,15 @@ interface Account {
   createdAt: number
 }
 
+interface Balance {
+  balance: number
+  timestamp: number
+}
+
+interface AccountWithBalance extends Account {
+  balances: Balance[]
+}
+
 interface CreateAccountParams {
   walletId: string
   crypto: string
@@ -29,6 +38,10 @@ interface Wallet {
   name: string
   id: string
   createdAt: number
+}
+
+interface WalletWithBalance extends Wallet {
+  balances: Balance[]
 }
 
 interface Crypto {

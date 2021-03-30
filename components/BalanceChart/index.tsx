@@ -65,7 +65,9 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ title, subtitle, data, tick
             <YAxis
               axisLine={false}
               tickLine={false}
-              tickFormatter={(v) => formatCrypto(v, '', lang, true)}
+              tickFormatter={(v) => formatCurrency(v, currency, lang, true, true)}
+              type="number"
+              domain={['dataMin', 'dataMax']}
             />
             <Tooltip
               formatter={(v) => [formatCurrency(v, currency, lang, true)]}

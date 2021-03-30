@@ -24,11 +24,13 @@ export const formatCurrency = (
   amount: number,
   currency: string,
   lang: string,
-  hideUnit?: boolean
+  hideUnit?: boolean,
+  compact?: boolean
 ): string =>
   `${new Intl.NumberFormat(lang, {
     style: 'currency',
     currency,
+    notation: compact ? 'compact' : undefined,
   }).format(amount)}${hideUnit ? '' : ` ${currency}`}`
 
 export const getTokenAmountFromDenoms = (

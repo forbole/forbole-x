@@ -6,29 +6,19 @@ import Layout from '../components/Layout'
 import WalletBalanceChart from '../components/WalletBalanceChart'
 import AssetDistributionChart from '../components/AssetDistributionChart'
 import AccountStatCard from '../components/AccountStatCard'
-import { useWalletsContext } from '../contexts/WalletsContext'
 import useAccountBalancesWithinPeriod from '../graphql/hooks/useAccountBalancesWithinPeriod'
 
 const now = new Date()
 
 const Home: React.FC = () => {
   const { t } = useTranslation('common')
-  const { accounts } = useWalletsContext()
-  const result = useAccountBalancesWithinPeriod(
-    'DSM',
-    [
-      'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6',
-      'desmos1dzn2s7l0wm9kekyazcnhapu8j95n90efmcmrad',
-    ],
-    addDays(now, -7),
-    now
-  )
-  console.log(result)
+  const { accounts, wallets } = useAccountBalancesWithinPeriod(addDays(now, -7), now)
+
   return (
     <Layout passwordRequired activeItem="/">
       <Grid container spacing={3}>
         <Grid item md={6}>
-          <WalletBalanceChart />
+          <WalletBalanceChart walletsWithBalance={wallets} />
         </Grid>
         <Grid item md={6}>
           <AssetDistributionChart />
