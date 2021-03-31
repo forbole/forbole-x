@@ -3,6 +3,7 @@ import { Palette } from '@material-ui/core/styles/createPalette'
 
 interface CustomPalette extends Palette {
   tagColor: { [key: string]: string }
+  statusColor: { [key: string]: string }
 }
 
 export interface CustomTheme extends Theme {
@@ -132,6 +133,11 @@ const lightTheme = ({
       send: '#9F46EC',
       setRewardAddress: '#497BFF',
     },
+    statusColor: {
+      candidate: '#1EC490',
+      unjail: '#FD565F',
+      tombstone: '#E0A111',
+    },
   },
 } as unknown) as ThemeOptions
 
@@ -192,6 +198,11 @@ const darkTheme = ({
       editValidator: '#1EC490',
       send: '#9F46EC',
       setRewardAddress: '#497BFF',
+    },
+    statusColor: {
+      candidate: '#1EC490',
+      unjail: '#FD565F',
+      tombstone: '#E0A111',
     },
   },
 } as unknown) as ThemeOptions

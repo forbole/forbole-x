@@ -163,5 +163,14 @@
   "NA": "N/A",
   "fee": "Fee",
   "view data": "View Data",
-  "claim rewards": "Claim Rewards"
+  "claim rewards": "Claim Rewards",
+
+  "active validators": "Active Validators",
+  "inactive validators": "Inactive Validators",
+  "favourite": "Favourite",
+  "rank": "Rank",
+  "location": "Location",
+  "voting power": "Voting Power",
+  "self ratio": "Self%",
+  "status": "Status"
 }
