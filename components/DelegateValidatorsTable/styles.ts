@@ -135,7 +135,6 @@ export const useGetStyles = (status?: string, align?: string) => {
           color: '#FFFFFF',
           textDecoration: 'none',
           marginLeft: theme.spacing(9),
-          // marginLeft: theme.spacing(5),
         },
         table__label: {
           borderBottom: 'none',

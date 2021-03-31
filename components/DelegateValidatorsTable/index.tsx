@@ -16,6 +16,8 @@ import {
   TableSortLabel,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
+import { ArrowDropDown } from '@material-ui/icons'
+import { useRouter } from 'next/router'
 import TablePagination from '../TablePagination'
 import ActiveStatus from './Active'
 import InActiveStatus from './InActive'
@@ -26,7 +28,6 @@ import StarIcon from '../../assets/images/icons/icon_star.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import { useTableDefaultHook } from './hooks'
-import { ArrowDropDown } from '@material-ui/icons'
 
 interface ValidatorInfo extends Validator {
   location: {
@@ -36,18 +37,21 @@ interface ValidatorInfo extends Validator {
   selfRatio: number
   status: string
   isActive: boolean
+  address: string
 }
 
 interface ValidatorsTableProps {
   validators: ValidatorInfo[]
   crypto: any
   account: Account
+  onRowClick?: (validatorInfo: ValidatorInfo) => void
 }
 
 const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
   validators,
   crypto,
   account,
+  onRowClick,
 }) => {
   // const crypto = cryptocurrencies[account.crypto]
   const { classes } = useGetStyles()
@@ -58,41 +62,33 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [currentTab, setCurrentTab] = React.useState(0)
   const { updateAccount } = useWalletsContext()
-  const [data, setData] = React.useState(validators.filter((x) => x.isActive === true))
+  const [validatorData, setvalidatorData] = React.useState(
+    validators.filter((x) => x.isActive === true)
+  )
+  const router = useRouter()
 
   const [align, setAlign] = React.useState('inherit')
 
   const setTabContent = (v) => {
     setCurrentTab(v)
     if (v === 0) {
-      setData(validators.filter((x) => x.isActive === true))
+      setvalidatorData(validators.filter((x) => x.isActive === true))
     }
     if (v === 2) {
       setAlign('right')
-      // setData(validators.filter((x) => x.isActive === false))
-      setData(validators)
+      setvalidatorData(validators)
     } else {
       setAlign('inherit')
     }
     if (v === 1) {
-      setData(validators.filter((x) => x.isActive === false))
+      setvalidatorData(validators.filter((x) => x.isActive === false))
     }
   }
 
-  const {
-    // handleChangePage,
-    // handleChangeRowsPerPage,
-    // handleRowClick,
-    handleSort,
-    state,
-  } = useTableDefaultHook({
-    rowsPerPageCount: rowsPerPage,
-    // onRowClick,
-    // initialActiveSort,
-    data,
+  const { handleSort, state, handleRowClick } = useTableDefaultHook({
+    data: validatorData,
+    onRowClick,
   })
-
-  console.log('data', data)
 
   const tabs = [
     { label: 'active validators', count: 100 },
@@ -115,12 +111,12 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
       display: 'location',
     },
     {
-      label: 'voting power',
+      label: 'votingPower',
       display: 'voting power',
       sort: true,
     },
     {
-      label: 'self ratio',
+      label: 'selfRatio',
       display: 'self ratio',
       sort: true,
     },
@@ -153,17 +149,6 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
         <Box className={classes.table} mt={2}>
           <Table>
             <TableHead>
-              {/* <TableRow>
-                <TableCell className={classes.tableCell}>{t('rank')}</TableCell>
-                <TableCell className={classes.tableCell}>{t('moniker')}</TableCell>
-                <TableCell className={classes.tableCell}>{t('location')}</TableCell>
-                <TableCell className={classes.tableCell}>{t('voting power')}</TableCell>
-                <TableCell className={classes.tableCell}>{t('self ratio')}</TableCell>
-                <TableCell className={classes.tableCell}>{t('commission')}</TableCell>
-                <TableCell align={align} className={classes.tableCell}>
-                  <Typography className={classes.status}>{t('status')}</Typography>
-                </TableCell>
-                </TableRow> */}
               <TableRow>
                 {columns.map((column) => {
                   if (column.sort) {
@@ -175,10 +160,10 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
                           direction={
                             state.activeSort === column.label ? state.sortDirection : 'asc'
                           }
-                          onClick={handleSort('self ratio')}
+                          onClick={handleSort(column.label)}
                           IconComponent={ArrowDropDown}
                         >
-                          {column.display}
+                          {t(column.display)}
                         </TableSortLabel>
                       </TableCell>
                     )
@@ -189,33 +174,27 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
                       className={classes.table__label}
                       // align={column.align as any}
                     >
-                      {column.display}
+                      {t(column.display)}
                     </TableCell>
                   )
                 })}
               </TableRow>
             </TableHead>
             <TableBody>
-              {/* {data.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((v) => { */}
-              {data
+              {validatorData
                 .slice(
                   state.page * state.rowsPerPage,
                   state.page * state.rowsPerPage + state.rowsPerPage
                 )
                 .map((v, i) => {
-                  // TODO: fetch data from backend
-                  // const now = Date.now()
-                  // const usdBalance = 626323.54
-                  // const delta = new Array(7).fill(null).map(() => (Math.random() - 0.5) / 10)
-                  // const data = []
-                  // delta.forEach((d, i) => {
-                  //   data.unshift({
-                  //     time: now - i * 3600000 * 24,
-                  //     balance: i === 0 ? usdBalance : data[0].balance * (1 + d),
-                  //   })
-                  // })
                   return (
-                    <TableRow key={v.name} className={classes.tableRow}>
+                    <TableRow
+                      key={v.name}
+                      className={classes.tableRow}
+                      onClick={() => {
+                        router.push(`/validator/${v.address}`)
+                      }}
+                    >
                       <TableCell className={classes.tableCell}>
                         1
                         <IconButton onClick={toggleFav} className={classes.star}>
@@ -260,11 +239,6 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
                         ) : (
                           <InActiveStatus status={v.status} align={align} />
                         )}
-                        {/* <Box mx={-20} className={classes.activeStatus}>
-                        <Typography>
-                          <a className={classes.button}>{t('delegate')}</a>
-                        </Typography>
-                      </Box> */}
                       </TableCell>
                     </TableRow>
                   )

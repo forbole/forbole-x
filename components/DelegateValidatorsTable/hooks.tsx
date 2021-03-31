@@ -76,11 +76,15 @@ export const useTableDefaultHook = (options: useTableDefaultHookProps) => {
   //   })
   // }
 
-  // const handleRowClick = (selectedData: Data) => {
-  //   if (onRowClick) {
-  //     onRowClick(selectedData)
-  //   }
-  // }
+  const handleRowClick = (selectedData: ValidatorInfo) => {
+    console.log('click', selectedData)
+    console.log('onRowClick', onRowClick)
+
+    if (onRowClick) {
+      console.log('click', selectedData)
+      onRowClick(selectedData)
+    }
+  }
 
   const handleSort = (key: string) => () => {
     console.log('key', key)
@@ -117,6 +121,6 @@ export const useTableDefaultHook = (options: useTableDefaultHookProps) => {
     // handleChangeRowsPerPage,
     state,
     handleSort,
-    // handleRowClick,
+    handleRowClick,
   }
 }

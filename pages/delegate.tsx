@@ -51,6 +51,7 @@ const Delegate: React.FC = () => {
               selfRatio: 0.1,
               status: 'unjail',
               isActive: false,
+              address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6',
             },
             {
               image:
@@ -69,6 +70,7 @@ const Delegate: React.FC = () => {
               selfRatio: 0.2,
               status: 'tombstone',
               isActive: false,
+              address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6',
             },
             {
               image:
@@ -87,6 +89,7 @@ const Delegate: React.FC = () => {
               selfRatio: 0.11,
               status: 'candidate',
               isActive: true,
+              address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6',
             },
           ]
           //   times(100).map(() => ({
