@@ -14,9 +14,21 @@ interface Account {
   createdAt: number
 }
 
+type TokenAmount = {
+  [unit: string]: {
+    amount: number
+    price: number
+  }
+}
+
 interface AccountBalance {
-  balance: number // in coin
-  price: number // USD price of coin
+  balance: {
+    available: TokenAmount
+    delegated: TokenAmount
+    rewards: TokenAmount
+    commissions: TokenAmount
+    unbonding: TokenAmount
+  }
   timestamp: number
 }
 

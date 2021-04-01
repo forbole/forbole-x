@@ -7,7 +7,6 @@ import useTranslation from 'next-translate/useTranslation'
 import last from 'lodash/last'
 import get from 'lodash/get'
 import { useRouter } from 'next/router'
-import { addDays } from 'date-fns'
 import useStyles from './styles'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
@@ -16,6 +15,8 @@ import {
   formatCrypto,
   formatCurrency,
   formatPercentage,
+  getTotalBalance,
+  getTotalTokenAmount,
 } from '../../misc/utils'
 
 interface AccountStatCardProps {
@@ -26,25 +27,17 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const crypto = cryptocurrencies[account.crypto]
   const classes = useStyles()
   const theme = useTheme()
-  const { lang } = useTranslation()
+  const { t, lang } = useTranslation('common')
   const { currency } = useSettingsContext()
   const router = useRouter()
 
-  const balance = get(last(account.balances), 'balance', 0)
-  const usdBalance = get(last(account.balances), 'price', 0) * balance
-
-  const now = Date.now()
-  const lastWeek = addDays(now, -7).getTime()
+  const tokenAmounts = getTotalTokenAmount(last(account.balances)).amount
+  const usdBalance = getTotalBalance(last(account.balances)).balance
 
   const data = createEmptyChartData(
-    account.balances
-      .filter((b) => b.timestamp > lastWeek)
-      .map((b) => ({
-        balance: b.balance * b.price,
-        time: b.timestamp,
-      })),
-    lastWeek,
-    now
+    account.balances.map((b) => getTotalBalance(b)),
+    0,
+    1
   )
 
   const firstBalance = get(data, '[0].balance', 0)
@@ -68,7 +61,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
             {account.name}
           </Typography>
         </Box>
-        <Button variant="outlined">Delegate</Button>
+        <Button variant="outlined">{t('delegate')}</Button>
       </Box>
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Box>
@@ -90,16 +83,24 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
             )}
             <Box mr={2}>
               <Typography color="textSecondary">
-                {formatPercentage(percentageChange, lang)} (24h)
+                {formatPercentage(percentageChange, lang)} {t('24h')}
               </Typography>
             </Box>
             <Typography>{formatCurrency(diff, currency, lang)}</Typography>
           </Box>
         </Box>
         <Box display="flex" flexDirection="column" alignItems="flex-end">
-          <Typography variant="h4" align="right">
-            {formatCrypto(balance, crypto.name, lang)}
-          </Typography>
+          {Object.keys(tokenAmounts).length ? (
+            Object.keys(tokenAmounts).map((ta) => (
+              <Typography key={ta} variant="h4" align="right">
+                {formatCrypto(tokenAmounts[ta].amount, ta.toUpperCase(), lang)}
+              </Typography>
+            ))
+          ) : (
+            <Typography variant="h4" align="right">
+              {formatCrypto(0, crypto.name, lang)}
+            </Typography>
+          )}
           <Typography variant="h6" align="right">
             {formatCurrency(usdBalance, currency, lang)}
           </Typography>

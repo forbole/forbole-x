@@ -11,28 +11,33 @@ import { createEmptyChartData, formatCrypto, formatCurrency } from '../../misc/u
 
 interface WalletBalanceChartProps {
   walletsWithBalance: WalletWithBalance[]
+  onTimestampsChange?(timestamps: Date[]): void
 }
 
-const WalletBalanceChart: React.FC<WalletBalanceChartProps> = ({ walletsWithBalance }) => {
+const WalletBalanceChart: React.FC<WalletBalanceChartProps> = ({
+  walletsWithBalance,
+  onTimestampsChange,
+}) => {
   const classes = useStyles()
   const { lang } = useTranslation('common')
   const { currency } = useSettingsContext()
   const [currentWallet, setCurrentWallet] = React.useState(walletsWithBalance[0])
-  const balance = get(last(currentWallet.balances), 'balance', 0)
+  const [dataFrom, setDataFrom] = React.useState(0)
+  const [dataTo, setDataTo] = React.useState(1)
+  const balance = currentWallet ? get(last(currentWallet.balances), 'balance', 0) : 0
   // TODO: calculate BTC value
   const btcBalance = 57.987519
   // TODO: handle date range change
-  const data = createEmptyChartData(
-    currentWallet.balances.map((b) => ({ time: b.timestamp, balance: b.balance })),
-    0,
-    1
-  )
-  const ticks = React.useMemo(() => {
-    const min = get(data, '[0].time', 0)
-    const max = get(last(data), 'time', 0)
-    const interval = (max - min) / 7
-    return new Array(7).fill(0).map((_a, i) => min + i * interval)
-  }, [data])
+  const data = createEmptyChartData(get(currentWallet, 'balances', []), dataFrom, dataTo)
+
+  React.useEffect(() => {
+    setCurrentWallet((c) => {
+      if (c) {
+        return walletsWithBalance.find((w) => w.id === c.id)
+      }
+      return walletsWithBalance[0]
+    })
+  }, [walletsWithBalance])
 
   return (
     <Card className={classes.container}>
@@ -43,9 +48,13 @@ const WalletBalanceChart: React.FC<WalletBalanceChartProps> = ({ walletsWithBala
       />
       <BalanceChart
         data={data}
-        ticks={ticks}
         title={formatCurrency(balance, currency, lang)}
         subtitle={formatCrypto(btcBalance, '฿', lang)}
+        onDateRangeChange={(dateRange) => {
+          onTimestampsChange(dateRange.timestamps.map((t) => new Date(t)))
+          setDataFrom(dateRange.timestamps[0])
+          setDataTo(last(dateRange.timestamps))
+        }}
       />
     </Card>
   )

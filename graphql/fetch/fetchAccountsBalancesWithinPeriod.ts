@@ -3,8 +3,6 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 import { getTokenAmountFromDenoms } from '../../misc/utils'
 import { getAvailableBalance, getUnavailableBalancesByHeight } from '../queries/accountBalances'
 
-type TokenAmount = { [key: string]: { amount: number; price: number } }
-
 const fetchBalance = async (address: string, crypto: string, timestamp: Date) => {
   const availableBalance = await fetch(cryptocurrencies[crypto].graphqlHttpUrl, {
     method: 'POST',
@@ -49,12 +47,15 @@ const fetchBalance = async (address: string, crypto: string, timestamp: Date) =>
     ),
   }
   return {
-    timestamp,
+    timestamp: timestamp.getTime(),
     balance,
   }
 }
 
-const fetchAccountsBalancesWithinPeriod = async (accounts: Account[], timestamps: Date[]) => {
+const fetchAccountsBalancesWithinPeriod = async (
+  accounts: Account[],
+  timestamps: Date[]
+): Promise<AccountWithBalance[]> => {
   const results = await Promise.all(
     accounts.map((a) => Promise.all(timestamps.map((t) => fetchBalance(a.address, a.crypto, t))))
   )

@@ -1,7 +1,7 @@
 import { Box, Button, Card, Typography, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import format from 'date-fns/format'
+import { addDays, addHours, format } from 'date-fns'
 import {
   ResponsiveContainer,
   LineChart,
@@ -13,20 +13,56 @@ import {
 } from 'recharts'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 import useStyles from './styles'
-import { formatCrypto, formatCurrency } from '../../misc/utils'
+import { formatCurrency } from '../../misc/utils'
+
+const now = new Date()
+
+interface DateRange {
+  title: string
+  format: string
+  timestamps: number[]
+  isDefault?: boolean
+}
+
+export const dateRanges: DateRange[] = [
+  {
+    title: 'day',
+    format: 'HH:mm',
+    timestamps: new Array(24).fill(null).map((_a, i) => addHours(now, -1 * i).getTime()),
+  },
+  {
+    title: 'week',
+    format: 'd MMM',
+    timestamps: new Array(7).fill(null).map((_a, i) => addDays(now, -1 * i).getTime()),
+    isDefault: true,
+  },
+  {
+    title: 'month',
+    format: 'd MMM',
+    timestamps: new Array(30).fill(null).map((_a, i) => addDays(now, -1 * i).getTime()),
+  },
+]
 
 interface BalanceChartProps {
   title: string
   subtitle: string
   data: any[]
-  ticks: React.ReactText[]
+  onDateRangeChange?(dateRange: DateRange): void
 }
 
-const BalanceChart: React.FC<BalanceChartProps> = ({ title, subtitle, data, ticks }) => {
+const BalanceChart: React.FC<BalanceChartProps> = ({
+  title,
+  subtitle,
+  data,
+  onDateRangeChange,
+}) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const { currency } = useSettingsContext()
   const theme = useTheme()
+  const [currentDateRange, setCurrentDateRange] = React.useState(
+    dateRanges.find((d) => d.isDefault)
+  )
 
   return (
     <>
@@ -38,15 +74,23 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ title, subtitle, data, tick
           <Typography variant="h6">{subtitle}</Typography>
         </Box>
         <Box display="flex">
-          <Button className={classes.timeRangeButton} size="small" variant="outlined">
-            {t('day')}
-          </Button>
-          <Button className={classes.timeRangeButton} size="small" variant="outlined">
-            {t('week')}
-          </Button>
-          <Button className={classes.timeRangeButton} size="small" variant="outlined">
-            {t('month')}
-          </Button>
+          {dateRanges.map((d) => (
+            <Button
+              key={d.title}
+              className={classes.timeRangeButton}
+              size="small"
+              variant="outlined"
+              color={currentDateRange.title === d.title ? 'primary' : 'default'}
+              onClick={() => {
+                setCurrentDateRange(d)
+                if (onDateRangeChange) {
+                  onDateRangeChange(d)
+                }
+              }}
+            >
+              {t(d.title)}
+            </Button>
+          ))}
         </Box>
       </Box>
       <Box height={theme.spacing(31)}>
@@ -54,10 +98,10 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ title, subtitle, data, tick
           <LineChart data={data}>
             <CartesianGrid stroke={theme.palette.grey[100]} />
             <XAxis
-              dataKey="time"
-              tickFormatter={(v) => format(v, 'd MMM')}
+              dataKey="timestamp"
+              tickFormatter={(v) => format(v, currentDateRange.format)}
               type="number"
-              ticks={ticks}
+              ticks={currentDateRange.timestamps}
               domain={['dataMin', 'dataMax']}
               axisLine={false}
               tickLine={false}

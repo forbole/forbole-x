@@ -1,12 +1,13 @@
 import { Button, Menu, MenuItem } from '@material-ui/core'
 import React from 'react'
+import get from 'lodash/get'
 import WalletIcon from '../../assets/images/icons/icon_wallet_manage.svg'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import useIconProps from '../../misc/useIconProps'
 
 interface SelectWalletButtonProps {
   wallets: WalletWithBalance[]
-  currentWallet: WalletWithBalance
+  currentWallet?: WalletWithBalance
   onWalletChange(wallet: WalletWithBalance): void
 }
 
@@ -35,7 +36,7 @@ const SelectWalletButton: React.FC<SelectWalletButtonProps> = ({
         startIcon={<WalletIcon {...iconProps} />}
         endIcon={<DropDownIcon {...iconProps} />}
       >
-        {currentWallet.name}
+        {get(currentWallet, 'name', '')}
       </Button>
       <Menu
         anchorEl={anchor}
@@ -53,7 +54,11 @@ const SelectWalletButton: React.FC<SelectWalletButtonProps> = ({
         onClose={onClose}
       >
         {wallets.map((w) => (
-          <MenuItem selected={w.id === currentWallet.id} key={w.id} onClick={() => onItemClick(w)}>
+          <MenuItem
+            selected={w.id === get(currentWallet, 'id', '')}
+            key={w.id}
+            onClick={() => onItemClick(w)}
+          >
             {w.name}
           </MenuItem>
         ))}
