@@ -102,6 +102,7 @@ const lightTheme = ({
     background: {
       default: '#F2F2F2',
       paper: '#FFFFFF',
+      translucent: 'rgba(255, 255, 255, 0.5)',
     },
     grey: {
       50: '#F7F7F7',
@@ -163,6 +164,7 @@ const darkTheme = ({
     background: {
       default: '#1D1E22',
       paper: '#25282D',
+      translucent: 'rgba(0, 0, 0, 0.5)',
     },
     grey: {
       50: '#272A2F',

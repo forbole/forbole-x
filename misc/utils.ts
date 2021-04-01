@@ -1,7 +1,6 @@
 import get from 'lodash/get'
-import keyBy from 'lodash/keyBy'
+import last from 'lodash/last'
 import cloneDeep from 'lodash/cloneDeep'
-import cryptocurrencies from './cryptocurrencies'
 
 export const formatPercentage = (percent: number, lang: string): string =>
   new Intl.NumberFormat(lang, {
@@ -58,11 +57,17 @@ export const getTokenAmountFromDenoms = (
   return result
 }
 
-export const getTotalTokenAmount = ({
-  balance,
-  timestamp,
-}: AccountBalance): { amount: TokenAmount; timestamp: number } => {
+export const getTotalTokenAmount = (
+  accountBalance?: AccountBalance
+): { amount: TokenAmount; timestamp: number } => {
+  if (!accountBalance) {
+    return {
+      amount: {},
+      timestamp: 0,
+    }
+  }
   const amount = {}
+  const { balance, timestamp } = accountBalance
   Object.values(balance).forEach((ba) => {
     Object.keys(ba).forEach((t) => {
       if (!amount[t]) {
@@ -78,19 +83,27 @@ export const getTotalTokenAmount = ({
   }
 }
 
-export const getTotalBalance = ({
-  balance,
-  timestamp,
-}: AccountBalance): { balance: number; timestamp: number } => ({
-  balance: Object.values(balance)
-    .map((ba) =>
-      Object.values(ba)
-        .map((b) => b.amount * b.price)
-        .reduce((x, y) => x + y, 0)
-    )
-    .reduce((x, y) => x + y, 0),
-  timestamp,
-})
+export const getTotalBalance = (
+  accountBalance?: AccountBalance
+): { balance: number; timestamp: number } => {
+  if (!accountBalance) {
+    return {
+      balance: 0,
+      timestamp: 0,
+    }
+  }
+  const { balance, timestamp } = accountBalance
+  return {
+    balance: Object.values(balance)
+      .map((ba) =>
+        Object.values(ba)
+          .map((b) => b.amount * b.price)
+          .reduce((x, y) => x + y, 0)
+      )
+      .reduce((x, y) => x + y, 0),
+    timestamp,
+  }
+}
 
 export const getWalletsBalancesFromAccountsBalances = (
   wallets: Wallet[],
@@ -139,3 +152,11 @@ export const createEmptyChartData = (
   }
   return data
 }
+
+export const getCoinPrice = (coin: string) =>
+  fetch(
+    `${process.env.NEXT_PUBLIC_COINGECKO_API_URL}/coins/${coin}/market_chart?vs_currency=usd&days=1&interval=daily`
+  ).then(async (result) => {
+    const data = await result.json()
+    return get(last(get(data, 'prices', [])), 1)
+  })

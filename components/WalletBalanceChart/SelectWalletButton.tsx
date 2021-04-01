@@ -6,9 +6,9 @@ import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.sv
 import useIconProps from '../../misc/useIconProps'
 
 interface SelectWalletButtonProps {
-  wallets: WalletWithBalance[]
-  currentWallet?: WalletWithBalance
-  onWalletChange(wallet: WalletWithBalance): void
+  wallets: Wallet[]
+  currentWallet?: Wallet
+  onWalletChange(wallet: Wallet): void
 }
 
 const SelectWalletButton: React.FC<SelectWalletButtonProps> = ({

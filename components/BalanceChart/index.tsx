@@ -1,4 +1,4 @@
-import { Box, Button, Card, Typography, useTheme } from '@material-ui/core'
+import { Box, Button, Card, CircularProgress, Typography, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { addDays, addHours, format } from 'date-fns'
@@ -48,6 +48,7 @@ interface BalanceChartProps {
   subtitle: string
   data: any[]
   onDateRangeChange?(dateRange: DateRange): void
+  loading?: boolean
 }
 
 const BalanceChart: React.FC<BalanceChartProps> = ({
@@ -55,6 +56,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
   subtitle,
   data,
   onDateRangeChange,
+  loading,
 }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
@@ -93,7 +95,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
           ))}
         </Box>
       </Box>
-      <Box height={theme.spacing(31)}>
+      <Box position="relative" height={theme.spacing(31)}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
             <CartesianGrid stroke={theme.palette.grey[100]} />
@@ -127,6 +129,21 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
             />
           </LineChart>
         </ResponsiveContainer>
+        {loading ? (
+          <Box
+            position="absolute"
+            top={0}
+            left={0}
+            right={0}
+            bottom={0}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            bgcolor={theme.palette.background.translucent}
+          >
+            <CircularProgress />
+          </Box>
+        ) : null}
       </Box>
     </>
   )

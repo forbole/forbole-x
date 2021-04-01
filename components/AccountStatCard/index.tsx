@@ -1,4 +1,12 @@
-import { Box, Card, Avatar, Typography, Button, useTheme } from '@material-ui/core'
+import {
+  Box,
+  Card,
+  Avatar,
+  Typography,
+  Button,
+  useTheme,
+  CircularProgress,
+} from '@material-ui/core'
 import React from 'react'
 import { LineChart, Line, YAxis } from 'recharts'
 import UpIcon from '@material-ui/icons/ArrowDropUp'
@@ -18,9 +26,11 @@ import {
   getTotalBalance,
   getTotalTokenAmount,
 } from '../../misc/utils'
+import fetchAccountsBalancesWithinPeriod from '../../graphql/fetch/fetchAccountsBalancesWithinPeriod'
+import { dateRanges } from '../BalanceChart'
 
 interface AccountStatCardProps {
-  account: AccountWithBalance
+  account: Account
 }
 
 const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
@@ -30,12 +40,14 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const { t, lang } = useTranslation('common')
   const { currency } = useSettingsContext()
   const router = useRouter()
+  const [accountWithBalance, setAccountWithBalance] = React.useState<AccountWithBalance>()
+  const [loading, setLoading] = React.useState(false)
 
-  const tokenAmounts = getTotalTokenAmount(last(account.balances)).amount
-  const usdBalance = getTotalBalance(last(account.balances)).balance
+  const tokenAmounts = getTotalTokenAmount(last(get(accountWithBalance, 'balances', []))).amount
+  const usdBalance = getTotalBalance(last(get(accountWithBalance, 'balances', []))).balance
 
   const data = createEmptyChartData(
-    account.balances.map((b) => getTotalBalance(b)),
+    get(accountWithBalance, 'balances', []).map((b) => getTotalBalance(b)),
     0,
     1
   )
@@ -44,6 +56,26 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const diff = Math.abs(usdBalance - firstBalance)
   const percentageChange = Math.round((100 * diff) / firstBalance) / 100 || 0
   const increasing = usdBalance - firstBalance > 0
+
+  const getAccountWithDailyBalances = React.useCallback(async () => {
+    try {
+      setLoading(true)
+      const result = await fetchAccountsBalancesWithinPeriod(
+        [account],
+        dateRanges.find((d) => d.title === 'day').timestamps.map((timestamp) => new Date(timestamp))
+      )
+      setAccountWithBalance(result[0])
+      setLoading(false)
+    } catch (err) {
+      setLoading(false)
+      console.log(err)
+    }
+  }, [account])
+
+  React.useEffect(() => {
+    getAccountWithDailyBalances()
+  }, [account])
+
   return (
     <Card
       className={classes.container}
@@ -65,16 +97,28 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
       </Box>
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Box>
-          <LineChart width={theme.spacing(20)} height={theme.spacing(5)} data={data}>
-            <YAxis domain={['dataMin', 'dataMax']} hide />
-            <Line
-              type="monotone"
-              dataKey="balance"
-              stroke={increasing ? theme.palette.success.main : theme.palette.error.main}
-              dot={false}
-              strokeWidth={2}
-            />
-          </LineChart>
+          {loading ? (
+            <Box
+              width={theme.spacing(20)}
+              height={theme.spacing(8)}
+              mt={-3}
+              display="flex"
+              justifyContent="center"
+            >
+              <CircularProgress />
+            </Box>
+          ) : (
+            <LineChart width={theme.spacing(20)} height={theme.spacing(5)} data={data}>
+              <YAxis domain={['dataMin', 'dataMax']} hide />
+              <Line
+                type="monotone"
+                dataKey="balance"
+                stroke={increasing ? theme.palette.success.main : theme.palette.error.main}
+                dot={false}
+                strokeWidth={2}
+              />
+            </LineChart>
+          )}
           <Box display="flex" mt={1} alignItems="center">
             {increasing ? (
               <UpIcon htmlColor={theme.palette.success.main} />

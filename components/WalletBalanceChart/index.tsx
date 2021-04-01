@@ -6,43 +6,92 @@ import get from 'lodash/get'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 import SelectWalletButton from './SelectWalletButton'
 import useStyles from './styles'
-import BalanceChart from '../BalanceChart'
-import { createEmptyChartData, formatCrypto, formatCurrency } from '../../misc/utils'
+import BalanceChart, { dateRanges } from '../BalanceChart'
+import {
+  createEmptyChartData,
+  formatCrypto,
+  formatCurrency,
+  getCoinPrice,
+  getWalletsBalancesFromAccountsBalances,
+} from '../../misc/utils'
+import { useWalletsContext } from '../../contexts/WalletsContext'
+import fetchAccountsBalancesWithinPeriod from '../../graphql/fetch/fetchAccountsBalancesWithinPeriod'
 
-interface WalletBalanceChartProps {
-  walletsWithBalance: WalletWithBalance[]
-  onTimestampsChange?(timestamps: Date[]): void
-}
+// const accounts = [
+//   { address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6', crypto: 'DSM', walletId: '123' },
+//   { address: 'desmos1dzn2s7l0wm9kekyazcnhapu8j95n90efmcmrad', crypto: 'DSM', walletId: '123' },
+// ]
+// const wallets = [{ id: '123' }]
 
-const WalletBalanceChart: React.FC<WalletBalanceChartProps> = ({
-  walletsWithBalance,
-  onTimestampsChange,
-}) => {
+const WalletBalanceChart: React.FC = () => {
   const classes = useStyles()
   const { lang } = useTranslation('common')
   const { currency } = useSettingsContext()
-  const [currentWallet, setCurrentWallet] = React.useState(walletsWithBalance[0])
-  const [dataFrom, setDataFrom] = React.useState(0)
-  const [dataTo, setDataTo] = React.useState(1)
-  const balance = currentWallet ? get(last(currentWallet.balances), 'balance', 0) : 0
-  // TODO: calculate BTC value
-  const btcBalance = 57.987519
-  // TODO: handle date range change
-  const data = createEmptyChartData(get(currentWallet, 'balances', []), dataFrom, dataTo)
+  const { accounts, wallets } = useWalletsContext()
+  const [currentWallet, setCurrentWallet] = React.useState(wallets[0])
+  const [walletWithBalance, setWalletWithBalance] = React.useState<WalletWithBalance>()
+  const [timestamps, setTimestamps] = React.useState<Date[]>(
+    dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
+  )
+  const [loading, setLoading] = React.useState(false)
+  const [btcPrice, setBtcPrice] = React.useState(0)
+
+  const balance = walletWithBalance ? get(last(walletWithBalance.balances), 'balance', 0) : 0
+  const btcBalance = btcPrice ? balance / btcPrice : 0
+
+  const data = React.useMemo(
+    () =>
+      createEmptyChartData(
+        get(walletWithBalance, 'balances', []),
+        timestamps[0].getTime(),
+        last(timestamps).getTime()
+      ),
+    [walletWithBalance, timestamps]
+  )
+
+  const getWalletsWithBalance = React.useCallback(async () => {
+    if (!currentWallet) {
+      return
+    }
+    try {
+      setLoading(true)
+      const chartResult = await fetchAccountsBalancesWithinPeriod(
+        accounts.filter((a) => a.walletId === currentWallet.id),
+        timestamps
+      )
+      setWalletWithBalance(getWalletsBalancesFromAccountsBalances([currentWallet], chartResult)[0])
+      setLoading(false)
+    } catch (err) {
+      setLoading(false)
+      console.log(err)
+    }
+  }, [accounts, currentWallet, timestamps])
+
+  const getBtcPrice = React.useCallback(async () => {
+    try {
+      const price = await getCoinPrice('bitcoin')
+      setBtcPrice(price)
+    } catch (err) {
+      console.log(err)
+    }
+  }, [])
 
   React.useEffect(() => {
-    setCurrentWallet((c) => {
-      if (c) {
-        return walletsWithBalance.find((w) => w.id === c.id)
-      }
-      return walletsWithBalance[0]
-    })
-  }, [walletsWithBalance])
+    getWalletsWithBalance()
+  }, [getWalletsWithBalance])
+
+  React.useEffect(() => {
+    setCurrentWallet((c) => c || wallets[0])
+  }, [wallets])
+
+  React.useEffect(() => {
+    getBtcPrice()
+  }, [getBtcPrice])
 
   return (
     <Card className={classes.container}>
       <SelectWalletButton
-        wallets={walletsWithBalance}
+        wallets={wallets}
         currentWallet={currentWallet}
         onWalletChange={setCurrentWallet}
       />
@@ -51,10 +100,9 @@ const WalletBalanceChart: React.FC<WalletBalanceChartProps> = ({
         title={formatCurrency(balance, currency, lang)}
         subtitle={formatCrypto(btcBalance, '฿', lang)}
         onDateRangeChange={(dateRange) => {
-          onTimestampsChange(dateRange.timestamps.map((t) => new Date(t)))
-          setDataFrom(dateRange.timestamps[0])
-          setDataTo(last(dateRange.timestamps))
+          setTimestamps(dateRange.timestamps.map((t) => new Date(t)))
         }}
+        loading={loading}
       />
     </Card>
   )
