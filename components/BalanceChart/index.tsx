@@ -11,7 +11,7 @@ import {
   Tooltip,
   Line,
 } from 'recharts'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import useStyles from './styles'
 import { formatCrypto, formatCurrency } from '../../misc/utils'
 
@@ -25,7 +25,7 @@ interface BalanceChartProps {
 const BalanceChart: React.FC<BalanceChartProps> = ({ title, subtitle, data, ticks }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
-  const { currency } = useSettingsContext()
+  const { currency } = useGeneralContext()
   const theme = useTheme()
 
   return (

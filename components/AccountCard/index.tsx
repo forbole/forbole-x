@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import useStyles from './styles'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIconProps from '../../misc/useIconProps'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { useWalletsContext } from '../../contexts/WalletsContext'
@@ -23,7 +23,7 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
   const theme = useTheme()
   const iconProps = useIconProps()
   const { lang } = useTranslation()
-  const { currency } = useSettingsContext()
+  const { currency } = useGeneralContext()
   const { updateAccount } = useWalletsContext()
   const router = useRouter()
   // TODO: fetch data from backend

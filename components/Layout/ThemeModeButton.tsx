@@ -3,11 +3,11 @@ import React from 'react'
 import useStyles from './styles'
 import DarkModeIcon from '../../assets/images/icons/icon_dark_mode.svg'
 import LightModeIcon from '../../assets/images/icons/icon_light_mode.svg'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIconProps from '../../misc/useIconProps'
 
 const ThemeModeButton: React.FC = () => {
-  const { theme, setTheme } = useSettingsContext()
+  const { theme, setTheme } = useGeneralContext()
   const iconProps = useIconProps(3)
   const classes = useStyles()
   const isDarkMode = theme === 'dark'

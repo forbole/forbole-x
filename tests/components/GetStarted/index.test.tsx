@@ -2,7 +2,7 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import GetStarted from '../../../components/GetStarted'
 
-const mockSettingsContext = {
+const mockGeneralContext = {
   theme: 'light',
   setTheme: jest.fn(),
 }
@@ -11,8 +11,8 @@ const mockWalletsContext = {
   unlockWallets: jest.fn(),
 }
 
-jest.mock('../../../contexts/SettingsContext', () => ({
-  useSettingsContext: () => mockSettingsContext,
+jest.mock('../../../contexts/GeneralContext', () => ({
+  useGeneralContext: () => mockGeneralContext,
 }))
 
 jest.mock('../../../contexts/WalletsContext', () => ({
@@ -29,7 +29,7 @@ describe('component: GetStarted', () => {
     expect(tree).toMatchSnapshot()
   })
   it('renders dark theme correctly', () => {
-    mockSettingsContext.theme = 'dark'
+    mockGeneralContext.theme = 'dark'
     const component = renderer.create(<GetStarted />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

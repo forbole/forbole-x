@@ -27,7 +27,9 @@ import { formatPercentage, formatCrypto } from '../../misc/utils'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import { useTableDefaultHook } from './hooks'
+import { String } from 'lodash'
 
 interface ValidatorInfo extends Validator {
   location: {
@@ -62,6 +64,7 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [currentTab, setCurrentTab] = React.useState(0)
   const { updateAccount } = useWalletsContext()
+  const { favValidators, addFavValidators, deleteFavValidators, currency } = useGeneralContext()
   const [validatorData, setvalidatorData] = React.useState(
     validators.filter((x) => x.isActive === true)
   )
@@ -130,9 +133,27 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
       display: 'status',
     },
   ]
-  const toggleFav = React.useCallback(() => {
-    updateAccount(account.address, { fav: !account.fav })
-  }, [account.address, account.fav, updateAccount])
+  const [error, setError] = React.useState('')
+  console.log('error', error)
+  const toggleFav = (address) =>
+    React.useCallback(async () => {
+      if (favValidators.findIndex((fav) => fav === address) !== -1) {
+        console.log('!=', favValidators.findIndex((fav) => fav === address))
+        // deleteFavValidators(address)
+        try {
+          await deleteFavValidators(address)
+        } catch (err) {
+          setError(err.message)
+        }
+      } else {
+        try {
+          await addFavValidators(address)
+        } catch (err) {
+          setError(err.message)
+        }
+      }
+    }, [addFavValidators, deleteFavValidators])
+  console.log('favValidators', favValidators)
 
   return (
     <Card className={classes.container}>
@@ -172,7 +193,7 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
                     <TableCell
                       key={column.label}
                       className={classes.table__label}
-                      // align={column.align as any}
+                    // align={column.align as any}
                     >
                       {t(column.display)}
                     </TableCell>
@@ -191,14 +212,18 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
                     <TableRow
                       key={v.name}
                       className={classes.tableRow}
-                      onClick={() => {
-                        router.push(`/validator/${v.address}`)
-                      }}
+                      // onClick={() => {
+                      //   router.push(`/validator/${v.address}`)
+                      // }}
                     >
                       <TableCell className={classes.tableCell}>
                         1
-                        <IconButton onClick={toggleFav} className={classes.star}>
-                          {account.fav ? (
+                        <IconButton
+                          onClick={toggleFav(v.address)}
+                          className={classes.star}
+                          // style={{ background: 'red' }}
+                        >
+                          {favValidators.findIndex((address) => address === v.address) !== -1 ? (
                             <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
                           ) : (
                             <StarIcon {...iconProps} />
@@ -238,7 +263,7 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
                           <ActiveStatus status={v.status} align={align} />
                         ) : (
                           <InActiveStatus status={v.status} align={align} />
-                        )}
+                          )}
                       </TableCell>
                     </TableRow>
                   )

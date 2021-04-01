@@ -6,6 +6,7 @@ import useTranslation from 'next-translate/useTranslation'
 import Layout from '../components/Layout'
 import AccountCard from '../components/AccountCard'
 import { useWalletsContext } from '../contexts/WalletsContext'
+import { useSettingsContext } from '../contexts/GeneralContext'
 import WalletMenuButton from '../components/WalletMenuButton'
 import CreateWalletDialog from '../components/CreateWalletDialog'
 import DelegateValidatorsTable from '../components/DelegateValidatorsTable'
@@ -51,7 +52,7 @@ const Delegate: React.FC = () => {
               selfRatio: 0.1,
               status: 'unjail',
               isActive: false,
-              address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6',
+              address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z2',
             },
             {
               image:
@@ -70,7 +71,7 @@ const Delegate: React.FC = () => {
               selfRatio: 0.2,
               status: 'tombstone',
               isActive: false,
-              address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6',
+              address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z5',
             },
             {
               image:

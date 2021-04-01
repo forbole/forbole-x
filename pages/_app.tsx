@@ -6,11 +6,11 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import useTranslation from 'next-translate/useTranslation'
 import { lightTheme, darkTheme } from '../misc/theme'
 import GlobalCss from '../misc/globalCss'
-import { SettingsProvider, useSettingsContext } from '../contexts/SettingsContext'
+import { GeneralProvider, useGeneralContext } from '../contexts/GeneralContext'
 import { WalletsProvider } from '../contexts/WalletsContext'
 
 function InnerApp({ Component, pageProps }: AppProps) {
-  const { theme } = useSettingsContext()
+  const { theme } = useGeneralContext()
   const { lang } = useTranslation()
 
   const muiTheme = React.useMemo(() => {
@@ -53,11 +53,11 @@ export default function App(props: AppProps) {
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
         <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
-      <SettingsProvider>
+      <GeneralProvider>
         <WalletsProvider>
           <InnerApp {...props} />
         </WalletsProvider>
-      </SettingsProvider>
+      </GeneralProvider>
     </>
   )
 }

@@ -6,7 +6,7 @@ import EditIcon from '../../assets/images/icons/icon_edit_tool.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import AccountAvatar from '../AccountAvatar'
 import BalanceChart from '../BalanceChart'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { useWalletsContext } from '../../contexts/WalletsContext'
@@ -20,7 +20,7 @@ interface AccountDetailCardProps {
 
 const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
   const { lang, t } = useTranslation('common')
-  const { currency } = useSettingsContext()
+  const { currency } = useGeneralContext()
   const classes = useStyles()
   const iconProps = useIconProps()
   const theme = useTheme()

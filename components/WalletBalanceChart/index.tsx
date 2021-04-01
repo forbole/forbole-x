@@ -1,7 +1,7 @@
 import { Card } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import SelectWalletButton from './SelectWalletButton'
 import useStyles from './styles'
@@ -12,7 +12,7 @@ const WalletBalanceChart: React.FC = () => {
   const { wallets } = useWalletsContext()
   const classes = useStyles()
   const { lang } = useTranslation('common')
-  const { currency } = useSettingsContext()
+  const { currency } = useGeneralContext()
   const [currentWallet, setCurrentWallet] = React.useState(wallets[0])
   // TODO: fetch data from backend
   const now = Date.now()

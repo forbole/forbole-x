@@ -18,7 +18,7 @@ import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.sv
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { formatCrypto, formatCurrency } from '../../misc/utils'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface SelectValidatorsProps {
   onConfirm(
@@ -51,7 +51,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, on
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
-  const { currency } = useSettingsContext()
+  const { currency } = useGeneralContext()
   const [delegations, setDelegations] = React.useState<
     Array<{ amount: string; validator: string; percentage: string }>
   >([{ amount: amount.toString(), validator: '', percentage: '100' }])

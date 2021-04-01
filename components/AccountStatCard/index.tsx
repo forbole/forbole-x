@@ -5,7 +5,7 @@ import UpIcon from '@material-ui/icons/ArrowDropUp'
 import DownIcon from '@material-ui/icons/ArrowDropDown'
 import useTranslation from 'next-translate/useTranslation'
 import useStyles from './styles'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { formatCrypto, formatCurrency, formatPercentage } from '../../misc/utils'
 
@@ -18,7 +18,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const classes = useStyles()
   const theme = useTheme()
   const { lang } = useTranslation()
-  const { currency } = useSettingsContext()
+  const { currency } = useGeneralContext()
   // TODO: fetch data from backend
   const now = Date.now()
   const balance = 104387.26
