@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 declare module '*.svg' {
   const content: any
   export default content
@@ -62,6 +63,24 @@ interface Validator {
   delegatedAmount: number
   amtRatio: number
   reward: number
+}
+
+interface TokenUnit {
+  denom: string
+  exponent: number
+  token: {
+    token_units: Array<{
+      denom: string
+      exponent: number
+    }>
+  }
+}
+
+interface TokenPrice {
+  name: string
+  price: number
+  timestamp: string
+  token_unit: TokenUnit
 }
 
 interface CreateWalletParams {

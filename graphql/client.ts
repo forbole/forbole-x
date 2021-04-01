@@ -22,7 +22,7 @@ let apolloClient
 const links = {}
 Object.keys(cryptocurrencies).forEach((crypto) => {
   const httpLink = new HttpLink({
-    uri: cryptocurrencies[crypto].graphqHttpUrl,
+    uri: cryptocurrencies[crypto].graphqlHttpUrl,
   })
 
   const wsLink = new WebSocketLink({

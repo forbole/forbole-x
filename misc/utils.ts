@@ -36,17 +36,26 @@ export const formatCurrency = (
 
 export const getTokenAmountFromDenoms = (
   coins: Array<{ denom: string; amount: string }>,
-  crypto: string
-): number => {
-  const units = keyBy(get(cryptocurrencies[crypto], 'chainConfig.denomUnits', []), 'denom')
-  const display = get(cryptocurrencies[crypto], 'chainConfig.display', '')
-  const base = get(cryptocurrencies[crypto], 'chainConfig.base', '')
-  return (
-    coins
-      .map((c) => Number(c.amount) * 10 ** (-1 * get(units[c.denom], 'exponent', 0)))
-      .reduce((a, b) => a + b, 0) *
-    10 ** (get(units[base], 'exponent', 0) - get(units[display], 'exponent', 0))
-  )
+  denoms: TokenPrice[]
+): { [key: string]: { amount: number; price: number } } => {
+  const result = {}
+  coins.forEach((coin) => {
+    denoms.forEach((d) => {
+      const unit = get(d, 'token_unit.token.token_units', []).find((t) => t.denom === coin.denom)
+      if (unit) {
+        const base = get(d, 'token_unit.token.token_units', []).find((t) => t.denom === d.name)
+        if (result[base.denom]) {
+          result[base.denom].amount += Number(coin.amount) * 10 ** (unit.exponent - base.exponent)
+        } else {
+          result[base.denom] = {
+            amount: Number(coin.amount) * 10 ** (unit.exponent - base.exponent),
+            price: d.price,
+          }
+        }
+      }
+    })
+  })
+  return result
 }
 
 export const createEmptyChartData = (

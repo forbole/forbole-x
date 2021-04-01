@@ -24,16 +24,17 @@ export const useAccountBalancesWithinPeriodForSingleCrypto = (
       to,
     },
   })
-  const { data: balances } = useQuery(getAccountBalances(crypto), {
+  const { data: balances, error } = useQuery(getAccountBalances(crypto), {
     variables: {
       addresses,
       minHeight: get(blockPeriod, 'fromBlock[0].height', 0),
       maxHeight: get(blockPeriod, 'toBlock[0].height', 0),
     },
   })
+  console.log(balances, error)
   const result = get(balances, 'account', []).map((a) => ({
     ...a,
-    balances: a.balances.map((b) => ({
+    balances: a.available.map((b) => ({
       balance: getTokenAmountFromDenoms(b.coins, crypto),
       price: get(b, 'token_price[0].price', 0),
       timestamp: new Date(get(b, 'block.timestamp')).getTime(),
@@ -46,12 +47,12 @@ const useAccountBalancesWithinPeriod = (
   from: Date,
   to: Date
 ): { accounts: AccountWithBalance[]; wallets: WalletWithBalance[] } => {
-  const { accounts, wallets } = useWalletsContext()
-  // const accounts = [
-  //   { address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6', crypto: 'DSM', walletId: '123' },
-  //   { address: 'desmos1dzn2s7l0wm9kekyazcnhapu8j95n90efmcmrad', crypto: 'DSM', walletId: '123' },
-  // ]
-  // const wallets = [{ id: '123' }]
+  // const { accounts, wallets } = useWalletsContext()
+  const accounts = [
+    { address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6', crypto: 'DSM', walletId: '123' },
+    { address: 'desmos1dzn2s7l0wm9kekyazcnhapu8j95n90efmcmrad', crypto: 'DSM', walletId: '123' },
+  ]
+  const wallets = [{ id: '123' }]
   const accountsByCrypto = groupBy(accounts, 'crypto')
   const results = flatten(
     Object.keys(cryptocurrencies).map((crypto) =>
