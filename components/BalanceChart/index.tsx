@@ -14,6 +14,7 @@ import {
 import { useSettingsContext } from '../../contexts/SettingsContext'
 import useStyles from './styles'
 import { formatCurrency } from '../../misc/utils'
+import { CustomTheme } from '../../misc/theme'
 
 const now = new Date()
 
@@ -61,7 +62,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const { currency } = useSettingsContext()
-  const theme = useTheme()
+  const theme: CustomTheme = useTheme()
   const [currentDateRange, setCurrentDateRange] = React.useState(
     dateRanges.find((d) => d.isDefault)
   )
@@ -139,7 +140,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
             display="flex"
             justifyContent="center"
             alignItems="center"
-            bgcolor={theme.palette.background.translucent}
+            bgcolor={theme.palette.translucent}
           >
             <CircularProgress />
           </Box>

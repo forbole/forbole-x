@@ -47,7 +47,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const usdBalance = getTotalBalance(last(get(accountWithBalance, 'balances', []))).balance
 
   const data = createEmptyChartData(
-    get(accountWithBalance, 'balances', []).map((b) => getTotalBalance(b)),
+    (get(accountWithBalance, 'balances', []) as AccountBalance[]).map((b) => getTotalBalance(b)),
     0,
     1
   )

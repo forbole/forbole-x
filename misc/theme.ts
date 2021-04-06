@@ -3,6 +3,7 @@ import { Palette } from '@material-ui/core/styles/createPalette'
 
 interface CustomPalette extends Palette {
   tagColor: { [key: string]: string }
+  translucent: string
 }
 
 export interface CustomTheme extends Theme {
@@ -102,7 +103,6 @@ const lightTheme = ({
     background: {
       default: '#F2F2F2',
       paper: '#FFFFFF',
-      translucent: 'rgba(255, 255, 255, 0.5)',
     },
     grey: {
       50: '#F7F7F7',
@@ -133,6 +133,7 @@ const lightTheme = ({
       send: '#9F46EC',
       setRewardAddress: '#497BFF',
     },
+    translucent: 'rgba(255, 255, 255, 0.5)',
   },
 } as unknown) as ThemeOptions
 
@@ -164,7 +165,6 @@ const darkTheme = ({
     background: {
       default: '#1D1E22',
       paper: '#25282D',
-      translucent: 'rgba(0, 0, 0, 0.5)',
     },
     grey: {
       50: '#272A2F',
@@ -195,6 +195,7 @@ const darkTheme = ({
       send: '#9F46EC',
       setRewardAddress: '#497BFF',
     },
+    translucent: 'rgba(0, 0, 0, 0.5)',
   },
 } as unknown) as ThemeOptions
 
