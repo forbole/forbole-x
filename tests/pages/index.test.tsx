@@ -10,10 +10,6 @@ jest.mock('../../components/WalletBalanceChart', () => 'WalletBalanceChart')
 jest.mock('../../contexts/WalletsContext', () => ({
   useWalletsContext: jest.fn(),
 }))
-jest.mock('../../graphql/hooks/useAccountBalancesWithinPeriod', () => () => ({
-  accounts: [],
-  wallets: [],
-}))
 
 describe('page: Home', () => {
   beforeAll(() => {
