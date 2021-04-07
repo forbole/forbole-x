@@ -15,7 +15,7 @@ import {
   getWalletsBalancesFromAccountsBalances,
 } from '../../misc/utils'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import fetchAccountsBalancesWithinPeriod from '../../graphql/fetch/fetchAccountsBalancesWithinPeriod'
+import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
 
 // const accounts = [
 //   { address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6', crypto: 'DSM', walletId: '123' },
@@ -29,11 +29,17 @@ const WalletBalanceChart: React.FC = () => {
   const { currency } = useSettingsContext()
   const { accounts, wallets } = useWalletsContext()
   const [currentWallet, setCurrentWallet] = React.useState(wallets[0])
-  const [walletWithBalance, setWalletWithBalance] = React.useState<WalletWithBalance>()
   const [timestamps, setTimestamps] = React.useState<Date[]>(
     dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
   )
-  const [loading, setLoading] = React.useState(false)
+  const { data: accountsWithBalance, loading } = useAccountsBalancesWithinPeriod(
+    accounts.filter((a) => a.walletId === get(currentWallet, 'id', '')),
+    timestamps
+  )
+  const walletWithBalance = React.useMemo(
+    () => getWalletsBalancesFromAccountsBalances([currentWallet], accountsWithBalance)[0],
+    [currentWallet, accountsWithBalance]
+  )
   const [btcPrice, setBtcPrice] = React.useState(0)
 
   const balance = walletWithBalance ? get(last(walletWithBalance.balances), 'balance', 0) : 0
@@ -49,24 +55,6 @@ const WalletBalanceChart: React.FC = () => {
     [walletWithBalance, timestamps]
   )
 
-  const getWalletsWithBalance = React.useCallback(async () => {
-    if (!currentWallet) {
-      return
-    }
-    try {
-      setLoading(true)
-      const chartResult = await fetchAccountsBalancesWithinPeriod(
-        accounts.filter((a) => a.walletId === currentWallet.id),
-        timestamps
-      )
-      setWalletWithBalance(getWalletsBalancesFromAccountsBalances([currentWallet], chartResult)[0])
-      setLoading(false)
-    } catch (err) {
-      setLoading(false)
-      console.log(err)
-    }
-  }, [accounts, currentWallet, timestamps])
-
   const getBtcPrice = React.useCallback(async () => {
     try {
       const price = await getCoinPrice('bitcoin')
@@ -75,10 +63,6 @@ const WalletBalanceChart: React.FC = () => {
       console.log(err)
     }
   }, [])
-
-  React.useEffect(() => {
-    getWalletsWithBalance()
-  }, [getWalletsWithBalance])
 
   React.useEffect(() => {
     setCurrentWallet((c) => c || wallets[0])

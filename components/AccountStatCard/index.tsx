@@ -26,8 +26,12 @@ import {
   getTotalBalance,
   getTotalTokenAmount,
 } from '../../misc/utils'
-import fetchAccountsBalancesWithinPeriod from '../../graphql/fetch/fetchAccountsBalancesWithinPeriod'
+import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
 import { dateRanges } from '../BalanceChart'
+
+const dailyTimestamps = dateRanges
+  .find((d) => d.title === 'day')
+  .timestamps.map((timestamp) => new Date(timestamp))
 
 interface AccountStatCardProps {
   account: Account
@@ -40,8 +44,10 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const { t, lang } = useTranslation('common')
   const { currency } = useSettingsContext()
   const router = useRouter()
-  const [accountWithBalance, setAccountWithBalance] = React.useState<AccountWithBalance>()
-  const [loading, setLoading] = React.useState(false)
+  const {
+    data: [accountWithBalance],
+    loading,
+  } = useAccountsBalancesWithinPeriod([account], dailyTimestamps)
 
   const tokenAmounts = getTotalTokenAmount(last(get(accountWithBalance, 'balances', []))).amount
   const usdBalance = getTotalBalance(last(get(accountWithBalance, 'balances', []))).balance
@@ -56,25 +62,6 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const diff = Math.abs(usdBalance - firstBalance)
   const percentageChange = Math.round((100 * diff) / firstBalance) / 100 || 0
   const increasing = usdBalance - firstBalance > 0
-
-  const getAccountWithDailyBalances = React.useCallback(async () => {
-    try {
-      setLoading(true)
-      const result = await fetchAccountsBalancesWithinPeriod(
-        [account],
-        dateRanges.find((d) => d.title === 'day').timestamps.map((timestamp) => new Date(timestamp))
-      )
-      setAccountWithBalance(result[0])
-      setLoading(false)
-    } catch (err) {
-      setLoading(false)
-      console.log(err)
-    }
-  }, [account])
-
-  React.useEffect(() => {
-    getAccountWithDailyBalances()
-  }, [account])
 
   return (
     <Card

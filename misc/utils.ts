@@ -83,6 +83,11 @@ export const getTotalTokenAmount = (
   }
 }
 
+export const getTokenAmoountBalance = (tokenAmount: TokenAmount): number =>
+  Object.values(tokenAmount)
+    .map((b) => b.amount * b.price)
+    .reduce((x, y) => x + y, 0)
+
 export const getTotalBalance = (
   accountBalance?: AccountBalance
 ): { balance: number; timestamp: number } => {
@@ -95,11 +100,7 @@ export const getTotalBalance = (
   const { balance, timestamp } = accountBalance
   return {
     balance: Object.values(balance)
-      .map((ba) =>
-        Object.values(ba)
-          .map((b) => b.amount * b.price)
-          .reduce((x, y) => x + y, 0)
-      )
+      .map(getTokenAmoountBalance)
       .reduce((x, y) => x + y, 0),
     timestamp,
   }
@@ -125,6 +126,24 @@ export const getWalletsBalancesFromAccountsBalances = (
       balances,
     }
   })
+
+export const transformGqlAcountBalance = (data: any, timestamp: number): AccountBalance => {
+  const denoms = get(data, 'account[0].available[0].tokens_price', [])
+  const balance = {
+    available: getTokenAmountFromDenoms(get(data, 'account[0].available[0].coins', []), denoms),
+    delegated: getTokenAmountFromDenoms([get(data, 'account[0].delegated[0].amount', {})], denoms),
+    unbonding: getTokenAmountFromDenoms([get(data, 'account[0].unbonding[0].amount', {})], denoms),
+    rewards: getTokenAmountFromDenoms([get(data, 'account[0].rewards[0].amount', {})], denoms),
+    commissions: getTokenAmountFromDenoms(
+      [get(data, 'account[0].delegated[0].commissions', {})],
+      denoms
+    ),
+  }
+  return {
+    balance,
+    timestamp,
+  }
+}
 
 export const createEmptyChartData = (
   rawData: Array<{
@@ -153,7 +172,7 @@ export const createEmptyChartData = (
   return data
 }
 
-export const getCoinPrice = (coin: string) =>
+export const getCoinPrice = (coin: string): Promise<number> =>
   fetch(
     `${process.env.NEXT_PUBLIC_COINGECKO_API_URL}/coins/${coin}/market_chart?vs_currency=usd&days=1&interval=daily`
   ).then(async (result) => {

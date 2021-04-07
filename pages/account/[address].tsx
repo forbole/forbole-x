@@ -36,10 +36,10 @@ const Account: React.FC = () => {
     >
       {account ? <AccountDetailCard account={account} /> : null}
       <ValidatorsTable
-        validators={times(100).map(() => ({
+        validators={times(100).map((i) => ({
           image:
             'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-          name: 'Forbole',
+          name: `Forbole ${i}`,
           commission: 0.015,
           vpRatios: 0.05,
           delegatedAmount: 11887597,
