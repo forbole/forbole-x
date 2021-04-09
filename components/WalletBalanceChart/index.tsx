@@ -1,31 +1,76 @@
 import { Card } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import last from 'lodash/last'
+import get from 'lodash/get'
 import { useSettingsContext } from '../../contexts/SettingsContext'
-import { useWalletsContext } from '../../contexts/WalletsContext'
 import SelectWalletButton from './SelectWalletButton'
 import useStyles from './styles'
-import BalanceChart from '../BalanceChart'
-import { formatCrypto, formatCurrency } from '../../misc/utils'
+import BalanceChart, { dateRanges } from '../BalanceChart'
+import {
+  createEmptyChartData,
+  formatCrypto,
+  formatCurrency,
+  getCoinPrice,
+  getWalletsBalancesFromAccountsBalances,
+} from '../../misc/utils'
+import { useWalletsContext } from '../../contexts/WalletsContext'
+import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
+
+// const accounts = [
+//   { address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6', crypto: 'DSM', walletId: '123' },
+//   { address: 'desmos1dzn2s7l0wm9kekyazcnhapu8j95n90efmcmrad', crypto: 'DSM', walletId: '123' },
+// ]
+// const wallets = [{ id: '123' }]
 
 const WalletBalanceChart: React.FC = () => {
-  const { wallets } = useWalletsContext()
   const classes = useStyles()
   const { lang } = useTranslation('common')
   const { currency } = useSettingsContext()
+  const { accounts, wallets } = useWalletsContext()
   const [currentWallet, setCurrentWallet] = React.useState(wallets[0])
-  // TODO: fetch data from backend
-  const now = Date.now()
-  const balance = 656333.849
-  const btcBalance = 57.987519
-  const delta = new Array(24 * 7).fill(null).map(() => (Math.random() - 0.5) / 10)
-  const data = []
-  delta.forEach((d, i) => {
-    data.unshift({
-      time: now - i * 3600000,
-      balance: i === 0 ? balance : data[0].balance * (1 + d),
-    })
-  })
+  const [timestamps, setTimestamps] = React.useState<Date[]>(
+    dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
+  )
+  const { data: accountsWithBalance, loading } = useAccountsBalancesWithinPeriod(
+    accounts.filter((a) => a.walletId === get(currentWallet, 'id', '')),
+    timestamps
+  )
+  const walletWithBalance = React.useMemo(
+    () => getWalletsBalancesFromAccountsBalances([currentWallet], accountsWithBalance)[0],
+    [currentWallet, accountsWithBalance]
+  )
+  const [btcPrice, setBtcPrice] = React.useState(0)
+
+  const balance = walletWithBalance ? get(last(walletWithBalance.balances), 'balance', 0) : 0
+  const btcBalance = btcPrice ? balance / btcPrice : 0
+
+  const data = React.useMemo(
+    () =>
+      createEmptyChartData(
+        get(walletWithBalance, 'balances', []),
+        timestamps[0].getTime(),
+        last(timestamps).getTime()
+      ),
+    [walletWithBalance, timestamps]
+  )
+
+  const getBtcPrice = React.useCallback(async () => {
+    try {
+      const price = await getCoinPrice('bitcoin')
+      setBtcPrice(price)
+    } catch (err) {
+      console.log(err)
+    }
+  }, [])
+
+  React.useEffect(() => {
+    setCurrentWallet((c) => c || wallets[0])
+  }, [wallets])
+
+  React.useEffect(() => {
+    getBtcPrice()
+  }, [getBtcPrice])
 
   return (
     <Card className={classes.container}>
@@ -36,9 +81,12 @@ const WalletBalanceChart: React.FC = () => {
       />
       <BalanceChart
         data={data}
-        ticks={new Array(7).fill(null).map((_a, i) => now - (6 - i) * 24 * 3600000)}
         title={formatCurrency(balance, currency, lang)}
         subtitle={formatCrypto(btcBalance, '฿', lang)}
+        onDateRangeChange={(dateRange) => {
+          setTimestamps(dateRange.timestamps.map((t) => new Date(t)))
+        }}
+        loading={loading}
       />
     </Card>
   )

@@ -2,6 +2,7 @@ import { Box, Card, Typography, useTheme, IconButton } from '@material-ui/core'
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
+import { gql, useSubscription } from '@apollo/client'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import useStyles from './styles'
@@ -11,7 +12,14 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import AccountMenuButton from '../AccountMenuButton'
 import AccountAvatar from '../AccountAvatar'
-import { formatCrypto, formatCurrency } from '../../misc/utils'
+import {
+  formatCrypto,
+  formatCurrency,
+  getTotalBalance,
+  getTotalTokenAmount,
+  transformGqlAcountBalance,
+} from '../../misc/utils'
+import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 
 interface AccountCardProps {
   account: Account
@@ -26,9 +34,19 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
   const { currency } = useSettingsContext()
   const { updateAccount } = useWalletsContext()
   const router = useRouter()
-  // TODO: fetch data from backend
-  const balance = 104387.26
-  const usdBalance = 626323.54
+  const { data } = useSubscription(
+    gql`
+      ${getLatestAccountBalance(account.crypto)}
+    `,
+    { variables: { address: account.address } }
+  )
+  const { tokenAmounts, usdBalance } = React.useMemo(() => {
+    const accountBalance = transformGqlAcountBalance(data, Date.now())
+    return {
+      tokenAmounts: getTotalTokenAmount(accountBalance).amount,
+      usdBalance: getTotalBalance(accountBalance).balance,
+    }
+  }, [data])
 
   const toggleFav = React.useCallback(() => {
     updateAccount(account.address, { fav: !account.fav })
@@ -50,7 +68,15 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
       </Box>
       <Box display="flex" alignItems="flex-end" justifyContent="space-between">
         <Box>
-          <Typography variant="h4">{formatCrypto(balance, crypto.name, lang)}</Typography>
+          {Object.keys(tokenAmounts).length ? (
+            Object.keys(tokenAmounts).map((ta) => (
+              <Typography key={ta} variant="h4">
+                {formatCrypto(tokenAmounts[ta].amount, ta.toUpperCase(), lang)}
+              </Typography>
+            ))
+          ) : (
+            <Typography variant="h4">{formatCrypto(0, crypto.name, lang)}</Typography>
+          )}
           <Typography variant="h6">{formatCurrency(usdBalance, currency, lang)}</Typography>
         </Box>
         <IconButton onClick={toggleFav}>
