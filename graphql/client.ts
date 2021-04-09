@@ -65,7 +65,9 @@ const directiveMiddleware = new ApolloLink((operation) => {
     'operation' in definition &&
     definition.directives?.find((item) => Object.keys(cryptocurrencies).includes(item.name.value))
   const directive = foundDirective ? foundDirective.name.value : 'default'
-
+  if (!links[directive]) {
+    return null
+  }
   return links[directive].request(operation)
 })
 

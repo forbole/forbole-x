@@ -17,17 +17,17 @@ import {
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
 
-// const accounts = [
-//   { address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6', crypto: 'DSM', walletId: '123' },
-//   { address: 'desmos1dzn2s7l0wm9kekyazcnhapu8j95n90efmcmrad', crypto: 'DSM', walletId: '123' },
-// ]
-// const wallets = [{ id: '123' }]
+const accounts = [
+  { address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6', crypto: 'DSM', walletId: '123' },
+  { address: 'desmos1dzn2s7l0wm9kekyazcnhapu8j95n90efmcmrad', crypto: 'DSM', walletId: '123' },
+]
+const wallets = [{ id: '123' }]
 
 const WalletBalanceChart: React.FC = () => {
   const classes = useStyles()
   const { lang } = useTranslation('common')
   const { currency } = useSettingsContext()
-  const { accounts, wallets } = useWalletsContext()
+  // const { accounts, wallets } = useWalletsContext()
   const [currentWallet, setCurrentWallet] = React.useState(wallets[0])
   const [timestamps, setTimestamps] = React.useState<Date[]>(
     dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
@@ -41,7 +41,7 @@ const WalletBalanceChart: React.FC = () => {
     [currentWallet, accountsWithBalance]
   )
   const [btcPrice, setBtcPrice] = React.useState(0)
-
+  console.log(walletWithBalance)
   const balance = walletWithBalance ? get(last(walletWithBalance.balances), 'balance', 0) : 0
   const btcBalance = btcPrice ? balance / btcPrice : 0
 

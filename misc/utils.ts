@@ -123,7 +123,7 @@ export const getWalletsBalancesFromAccountsBalances = (
     })
     return {
       ...w,
-      balances,
+      balances: balances.sort((a, b) => a.timestamp - b.timestamp),
     }
   })
 

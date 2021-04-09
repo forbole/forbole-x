@@ -1,4 +1,4 @@
-export const getLatestAccountBalance = (crypto: string) => `
+export const getLatestAccountBalance = (crypto: string): string => `
   subscription AccountBalance($address: String!) @${crypto} {
     account(where: { address: { _eq: $address } }) {
       address
@@ -49,7 +49,7 @@ export const getLatestAccountBalance = (crypto: string) => `
   }
 `
 
-export const getAvailableBalance = (crypto: string) => `
+export const getAvailableBalance = (crypto: string): string => `
   query AccountBalance($address: String!, $timestamp: timestamp! ) @${crypto} {
     account(where: { address: { _eq: $address } }) {
       address
@@ -77,7 +77,7 @@ export const getAvailableBalance = (crypto: string) => `
   }
 `
 
-export const getUnavailableBalancesByHeight = (crypto: string) => `
+export const getUnavailableBalancesByHeight = (crypto: string): string => `
 query AccountBalance($address: String!, $height: bigint) @${crypto} {
   account(where: { address: { _eq: $address } }) {
     address
