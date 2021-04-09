@@ -165,7 +165,6 @@ const WalletsProvider: React.FC = ({ children }) => {
 
   const deleteAccount = React.useCallback(
     async (address: string) => {
-      console.log(address)
       const result = await sendMsgToChromeExt({
         event: 'deleteAccount',
         data: {
@@ -173,7 +172,6 @@ const WalletsProvider: React.FC = ({ children }) => {
           password,
         },
       })
-      console.log(result)
       setAccounts((acs) => acs.filter((a) => a.address !== address))
     },
     [password, setAccounts]

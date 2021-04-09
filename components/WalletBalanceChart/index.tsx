@@ -41,7 +41,7 @@ const WalletBalanceChart: React.FC = () => {
     [currentWallet, accountsWithBalance]
   )
   const [btcPrice, setBtcPrice] = React.useState(0)
-  console.log(walletWithBalance)
+
   const balance = walletWithBalance ? get(last(walletWithBalance.balances), 'balance', 0) : 0
   const btcBalance = btcPrice ? balance / btcPrice : 0
 

@@ -8,6 +8,12 @@ import { useWalletsContext } from '../contexts/WalletsContext'
 import WalletMenuButton from '../components/WalletMenuButton'
 import CreateWalletDialog from '../components/CreateWalletDialog'
 
+// const accounts = [
+//   { address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6', crypto: 'DSM', walletId: '123' },
+//   { address: 'desmos1dzn2s7l0wm9kekyazcnhapu8j95n90efmcmrad', crypto: 'DSM', walletId: '123' },
+// ]
+// const wallets = [{ id: '123' }]
+
 const Wallets: React.FC = () => {
   const { t } = useTranslation('common')
   const { wallets, accounts } = useWalletsContext()

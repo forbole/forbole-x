@@ -1,6 +1,7 @@
 import get from 'lodash/get'
 import last from 'lodash/last'
 import cloneDeep from 'lodash/cloneDeep'
+import drop from 'lodash/drop'
 
 export const formatPercentage = (percent: number, lang: string): string =>
   new Intl.NumberFormat(lang, {
@@ -115,7 +116,7 @@ export const getWalletsBalancesFromAccountsBalances = (
       .filter((a) => a.walletId === w.id)
       .map((a) => a.balances.map((b) => getTotalBalance(b)))
     let balances = accBalances[0] || []
-    accBalances.forEach((ab) => {
+    drop(accBalances).forEach((ab) => {
       balances = balances.map((b, i) => ({
         balance: b.balance + ab[i].balance,
         timestamp: b.timestamp,
