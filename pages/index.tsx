@@ -7,14 +7,14 @@ import AssetDistributionChart from '../components/AssetDistributionChart'
 import AccountStatCard from '../components/AccountStatCard'
 import { useWalletsContext } from '../contexts/WalletsContext'
 
-const accounts = [
-  { address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6', crypto: 'DSM', walletId: '123' },
-  { address: 'desmos1dzn2s7l0wm9kekyazcnhapu8j95n90efmcmrad', crypto: 'DSM', walletId: '123' },
-]
+// const accounts = [
+//   { address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6', crypto: 'DSM', walletId: '123' },
+//   { address: 'desmos1dzn2s7l0wm9kekyazcnhapu8j95n90efmcmrad', crypto: 'DSM', walletId: '123' },
+// ]
 
 const Home: React.FC = () => {
   const { t } = useTranslation('common')
-  // const { accounts } = useWalletsContext()
+  const { accounts } = useWalletsContext()
 
   return (
     <Layout passwordRequired activeItem="/">
