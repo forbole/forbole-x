@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-// import { useTableDefaultHookProps, Data } from './types'
 
 export type Columns = {
   label: string
@@ -7,14 +6,6 @@ export type Columns = {
   align?: string
   sort?: boolean
 }
-
-// export type Data = {
-//   [key: string]: {
-//     className?: string
-//     rawValue: string | number
-//     display: string | React.ReactNode | number
-//   }
-// }
 
 interface ValidatorInfo extends Validator {
   location: {

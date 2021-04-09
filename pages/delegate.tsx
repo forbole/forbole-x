@@ -42,7 +42,7 @@ const Delegate: React.FC = () => {
               location: {
                 name: 'Country/Area',
                 image:
-                  'https://www.flaticon.com/svg/vstatic/svg/555/555612.svg?token=exp=1616989324~hmac=9538f28cc72d43ec0ba214526649bed9',
+                  'https://www.flaticon.com/svg/vstatic/svg/206/206626.svg?token=exp=1617955509~hmac=d580f91959bc63fbeddb9601072151b8',
               },
               commission: 0.015,
               vpRatios: 0.05,
@@ -61,7 +61,7 @@ const Delegate: React.FC = () => {
               location: {
                 name: 'Country/Area',
                 image:
-                  'https://www.flaticon.com/svg/vstatic/svg/555/555612.svg?token=exp=1616989324~hmac=9538f28cc72d43ec0ba214526649bed9',
+                  'https://www.flaticon.com/svg/vstatic/svg/206/206626.svg?token=exp=1617955509~hmac=d580f91959bc63fbeddb9601072151b8',
               },
               commission: 0.015,
               vpRatios: 0.05,
@@ -80,7 +80,7 @@ const Delegate: React.FC = () => {
               location: {
                 name: 'Country/Area',
                 image:
-                  'https://www.flaticon.com/svg/vstatic/svg/555/555612.svg?token=exp=1616989324~hmac=9538f28cc72d43ec0ba214526649bed9',
+                  'https://www.flaticon.com/svg/vstatic/svg/206/206626.svg?token=exp=1617955509~hmac=d580f91959bc63fbeddb9601072151b8',
               },
               commission: 0.015,
               vpRatios: 0.05,
@@ -88,6 +88,25 @@ const Delegate: React.FC = () => {
               amtRatio: 0.05,
               reward: 122321,
               selfRatio: 0.11,
+              status: 'candidate',
+              isActive: true,
+              address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6',
+            },
+            {
+              image:
+                'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
+              name: 'Forbole5',
+              location: {
+                name: 'Country/Area',
+                image:
+                  'https://www.flaticon.com/svg/vstatic/svg/206/206626.svg?token=exp=1617955509~hmac=d580f91959bc63fbeddb9601072151b8',
+              },
+              commission: 0.015,
+              vpRatios: 0.05,
+              delegatedAmount: 11887597,
+              amtRatio: 0.05,
+              reward: 122321,
+              selfRatio: 0.1,
               status: 'candidate',
               isActive: true,
               address: 'desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6',

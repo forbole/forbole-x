@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Table,
+  // Table,
   TableHead,
   TableRow,
   TableCell,
@@ -29,7 +29,7 @@ import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { useTableDefaultHook } from './hooks'
-import { String } from 'lodash'
+import ValidatorsTable from './table'
 
 interface ValidatorInfo extends Validator {
   location: {
@@ -49,6 +49,40 @@ interface ValidatorsTableProps {
   onRowClick?: (validatorInfo: ValidatorInfo) => void
 }
 
+export interface TabPanelProps {
+  children?: React.ReactNode
+  dir?: string
+  index: any
+  value: any
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  )
+}
+
+function a11yProps(index: any) {
+  return {
+    id: `full-width-tab-${index}`,
+    'aria-controls': `full-width-tabpanel-${index}`,
+  }
+}
+
 const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
   validators,
   crypto,
@@ -66,7 +100,8 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
   const { updateAccount } = useWalletsContext()
   const { favValidators, addFavValidators, deleteFavValidators, currency } = useGeneralContext()
   const [validatorData, setvalidatorData] = React.useState(
-    validators.filter((x) => x.isActive === true)
+    []
+    // validators.filter((x) => x.isActive === true)
   )
   const router = useRouter()
 
@@ -75,18 +110,29 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
   const setTabContent = (v) => {
     setCurrentTab(v)
     if (v === 0) {
-      setvalidatorData(validators.filter((x) => x.isActive === true))
+      // setvalidatorData(validators.filter((x) => x.isActive === true))
+      setAlign('inherit')
     }
     if (v === 2) {
       setAlign('right')
-      setvalidatorData(validators)
-    } else {
-      setAlign('inherit')
+      // setvalidatorData(validators)
     }
     if (v === 1) {
-      setvalidatorData(validators.filter((x) => x.isActive === false))
+      // setvalidatorData(validators.filter((x) => x.isActive === false))
+      setAlign('inherit')
     }
   }
+  const mapData: any = []
+  validators.forEach((x: any) => {
+    const type = x.isActive ? 'active' : 'nonActive'
+    if (mapData[type]) {
+      mapData[type].push(x)
+    } else {
+      mapData[type] = [x]
+    }
+  })
+
+  // console.log('mapData', mapData)
 
   const { handleSort, state, handleRowClick } = useTableDefaultHook({
     data: validatorData,
@@ -98,6 +144,8 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
     { label: 'inactive validators', count: 18 },
     { label: 'favourite', count: 8 },
   ]
+
+  console.log('validatorData', validatorData)
   const columns = [
     {
       label: 'rank',
@@ -134,11 +182,15 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
     },
   ]
   const [error, setError] = React.useState('')
-  console.log('error', error)
+  // console.log('error', error)
+
   const toggleFav = (address) =>
     React.useCallback(async () => {
       if (favValidators.findIndex((fav) => fav === address) !== -1) {
-        console.log('!=', favValidators.findIndex((fav) => fav === address))
+        console.log(
+          '!=',
+          favValidators.findIndex((fav) => fav === address)
+        )
         // deleteFavValidators(address)
         try {
           await deleteFavValidators(address)
@@ -153,7 +205,7 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
         }
       }
     }, [addFavValidators, deleteFavValidators])
-  console.log('favValidators', favValidators)
+  // console.log('favValidators', favValidators)
 
   return (
     <Card className={classes.container}>
@@ -167,8 +219,34 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
             <Tab key={tab.label} label={`${t(tab.label)} (${tab.count})`} />
           ))}
         </Tabs>
+
         <Box className={classes.table} mt={2}>
-          <Table>
+          <TabPanel value={currentTab} index={0}>
+            <ValidatorsTable
+              validators={mapData.active ? mapData.active : []}
+              // validators={validators}
+              crypto={crypto}
+              account={account}
+              onRowClick={onRowClick}
+            />
+          </TabPanel>
+          <TabPanel value={currentTab} index={1}>
+            <ValidatorsTable
+              validators={mapData.nonActive}
+              crypto={crypto}
+              account={account}
+              onRowClick={onRowClick}
+            />
+          </TabPanel>
+          <TabPanel value={currentTab} index={2}>
+            <ValidatorsTable
+              validators={validators}
+              crypto={crypto}
+              account={account}
+              onRowClick={onRowClick}
+            />
+          </TabPanel>
+          {/* <Table>
             <TableHead>
               <TableRow>
                 {columns.map((column) => {
@@ -251,10 +329,7 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
                         {formatCrypto(v.delegatedAmount, crypto.name, lang)}(
                         {formatPercentage(v.vpRatios, lang)})
                       </TableCell>
-                      <TableCell className={classes.tableCell}>
-                        {/* {formatPercentage(v.selfRatio, lang)} */}
-                        {v.selfRatio}
-                      </TableCell>
+                      <TableCell className={classes.tableCell}>{v.selfRatio}</TableCell>
                       <TableCell className={classes.tableCell}>
                         {formatPercentage(v.commission, lang)}
                       </TableCell>
@@ -263,13 +338,13 @@ const DelegateValidatorsTable: React.FC<ValidatorsTableProps> = ({
                           <ActiveStatus status={v.status} align={align} />
                         ) : (
                           <InActiveStatus status={v.status} align={align} />
-                          )}
+                        )}
                       </TableCell>
                     </TableRow>
                   )
                 })}
             </TableBody>
-          </Table>
+          </Table> */}
         </Box>
         <TablePagination
           page={page}
