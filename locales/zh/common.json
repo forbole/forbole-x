@@ -160,5 +160,8 @@
   "view data": "[zh] View Data",
   "claim rewards": "[zh] Claim Rewards",
   "send": "[zh] Send",
-  "24h": "[zh] 24h"
+  "24h": "[zh] 24h",
+  "insert address": "[zh] Insert address",
+  "add address": "[zh] Add address",
+  "send to": "[zh] To {{number}}"
 }

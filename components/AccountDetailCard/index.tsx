@@ -24,6 +24,7 @@ import {
 } from '../../misc/utils'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
 import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
+import SendDialog from '../SendDialog'
 
 interface AccountDetailCardProps {
   account: Account
@@ -44,6 +45,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
   const theme = useTheme()
   const { updateAccount } = useWalletsContext()
   const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
+  const [sendDialogOpen, setSendDialogOpen] = React.useState(false)
   const [timestamps, setTimestamps] = React.useState<Date[]>(
     dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
   )
@@ -97,7 +99,12 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
               >
                 {t('claim rewards')}
               </Button>
-              <Button classes={{ root: classes.sendButton }} variant="contained" color="secondary">
+              <Button
+                classes={{ root: classes.sendButton }}
+                variant="contained"
+                color="secondary"
+                onClick={() => setSendDialogOpen(true)}
+              >
                 {t('send')}
               </Button>
               <Button classes={{ root: classes.iconButton }} variant="outlined" onClick={toggleFav}>
@@ -147,6 +154,12 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
         open={delegateDialogOpen}
         onClose={() => setDelegateDialogOpen(false)}
         account={account}
+      />
+      <SendDialog
+        open={sendDialogOpen}
+        onClose={() => setSendDialogOpen(false)}
+        account={account}
+        availableAmount={100}
       />
     </>
   )
