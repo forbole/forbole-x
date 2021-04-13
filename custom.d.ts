@@ -177,3 +177,14 @@ type ChromeMessage =
         password: string
       }
     }
+  | {
+      event: 'signAndBroadcastTransaction'
+      data: {
+        address: string
+        securityPassword: string
+        password: string
+        transactionType: 'send' | 'delegate' | 'redelegate' | 'withdraw reward'
+        amount: { amount: number; denom: string }
+        toAddress: string
+      }
+    }

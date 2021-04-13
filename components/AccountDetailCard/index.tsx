@@ -68,8 +68,8 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
     const ab = transformGqlAcountBalance(data, Date.now())
     return {
       accountBalance: ab,
-      totalTokenAmount: getTotalTokenAmount(accountBalance).amount,
-      usdBalance: getTotalBalance(accountBalance).balance,
+      totalTokenAmount: getTotalTokenAmount(ab).amount,
+      usdBalance: getTotalBalance(ab).balance,
     }
   }, [data])
 
