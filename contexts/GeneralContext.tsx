@@ -1,5 +1,4 @@
 import React from 'react'
-import sendMsgToChromeExt from '../misc/sendMsgToChromeExt'
 import currencies from '../misc/currencies'
 import usePersistedState from '../misc/usePersistedState'
 
@@ -21,7 +20,7 @@ interface SettingsState {
 const initialState: SettingsState = {
   currency: 'USD',
   theme: 'light',
-  favValidators: ['desmos1s9z0nzuu23fvac8u0j4tgvhgyg83ulc4qxs6z6', '11111111111'],
+  favValidators: [],
 }
 
 const GeneralContext = React.createContext<SettingsState>(initialState)
@@ -32,38 +31,20 @@ const GeneralProvider: React.FC = ({ children }) => {
   const [favValidators, setFavValidators] = React.useState<FavValidators>(
     initialState.favValidators
   )
-
+  console.log('fav_general', favValidators)
   const addFavValidators = React.useCallback(
     async (address: string) => {
-      console.log('addFavValidators', favValidators)
-      // const result = await sendMsgToChromeExt({
-      //   event: 'addFavValidators',
-      //   data: {
-      //     address,
-      //   },
-      // })
       setFavValidators([address, ...favValidators])
-      console.log('ADDedfavValidators', favValidators)
     },
-    [setFavValidators]
+    [setFavValidators, favValidators]
   )
 
   const deleteFavValidators = React.useCallback(
     async (address: string) => {
-      console.log('deleteFavValidators', favValidators)
-      // const result = await sendMsgToChromeExt({
-      //   event: 'deleteFavValidators',
-      //   data: {
-      //     address,
-      //   },
-      // })
-      console.log('address', address)
-      setFavValidators((fav) => fav.filter((a) => a !== address, console.log('fav', fav)))
-      console.log('General_favValidators', favValidators)
+      setFavValidators((fav) => fav.filter((a) => a !== address))
     },
     [setFavValidators]
   )
-  // console.log('favValidators General', favValidators)
 
   return (
     <GeneralContext.Provider
@@ -83,6 +64,6 @@ const GeneralProvider: React.FC = ({ children }) => {
   )
 }
 
-const useGeneralContext = () => React.useContext(GeneralContext)
+const useGeneralContext = (): SettingsState => React.useContext(GeneralContext)
 
 export { GeneralProvider, useGeneralContext }

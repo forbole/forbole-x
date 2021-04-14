@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { ValidatorInfo } from './index'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 export type Columns = {
   label: string
@@ -7,22 +9,10 @@ export type Columns = {
   sort?: boolean
 }
 
-interface ValidatorInfo extends Validator {
-  location: {
-    name: string
-    image: string
-  }
-  selfRatio: number
-  status: string
-  isActive: boolean
-}
-
 export interface TableDefaultProps {
   className?: string
   columns: Columns[]
   data: ValidatorInfo[]
-  // onRowClick?: (data: Data) => void
-  // initialActiveSort?: string
   pagination?: {
     rowsPerPage: number | undefined
   }
@@ -32,12 +22,16 @@ export interface useTableDefaultHookProps {
   rowsPerPageCount?: number
   onRowClick?: (data: ValidatorInfo) => void
   initialActiveSort?: string
-  // data: Data[]
   data: ValidatorInfo[]
 }
 
+export interface useValidatorTableHookProps {
+  data?: ValidatorInfo[]
+  toggledValidator?: boolean
+}
+
 export const useTableDefaultHook = (options: useTableDefaultHookProps) => {
-  const { rowsPerPageCount = 10, onRowClick, initialActiveSort, data } = options
+  const { rowsPerPageCount = 10, initialActiveSort, data } = options
   const [state, setState] = useState<any>({
     data,
     page: 0,
@@ -45,42 +39,24 @@ export const useTableDefaultHook = (options: useTableDefaultHookProps) => {
     activeSort: initialActiveSort,
     sortDirection: 'asc',
   })
-  console.log('data')
 
-  // const handleChangePage = (
-  //   _event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
-  //   newPage: number
-  // ) => {
-  //   setState({
-  //     ...state,
-  //     page: newPage,
-  //   })
-  // }
+  const handleChangePage = (newPage: number) => {
+    setState({
+      ...state,
+      page: newPage,
+    })
+  }
 
-  // const handleChangeRowsPerPage = (
-  //   event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   setState({
-  //     ...state,
-  //     page: 0,
-  //     rowsPerPage: parseInt(event?.target?.value ?? 0, 10),
-  //   })
-  // }
-
-  const handleRowClick = (selectedData: ValidatorInfo) => {
-    console.log('click', selectedData)
-    console.log('onRowClick', onRowClick)
-
-    if (onRowClick) {
-      console.log('click', selectedData)
-      onRowClick(selectedData)
-    }
+  const handleChangeRowsPerPage = (event: number) => {
+    setState({
+      ...state,
+      page: 0,
+      rowsPerPage: event || 10,
+    })
   }
 
   const handleSort = (key: string) => () => {
-    console.log('key', key)
     const { sortDirection, activeSort: currentActiveSort, data: currentData } = state
-    console.log('currentData', currentData)
     const newSortDirection = currentActiveSort === key && sortDirection === 'asc' ? 'desc' : 'asc'
     const sortedData = currentData.sort((a: any, b: any) => {
       let compareA = a[key]
@@ -98,7 +74,6 @@ export const useTableDefaultHook = (options: useTableDefaultHookProps) => {
       }
       return compareA > compareB ? 1 : -1
     })
-    console.log('sortedData', sortedData)
     setState({
       ...state,
       sortDirection: newSortDirection,
@@ -108,10 +83,78 @@ export const useTableDefaultHook = (options: useTableDefaultHookProps) => {
   }
 
   return {
-    // handleChangePage,
-    // handleChangeRowsPerPage,
+    handleChangePage,
+    handleChangeRowsPerPage,
     state,
     handleSort,
-    handleRowClick,
+  }
+}
+
+export const useValidatorTableHook = (props: useValidatorTableHookProps) => {
+  const { favValidators } = useGeneralContext()
+  const { data } = props
+  const addFavTag = () => {
+    data.forEach((x: any) => {
+      if (favValidators.findIndex((address) => address === x.address) !== -1) {
+        x.fav = true
+      } else {
+        x.fav = false
+      }
+    })
+    return data
+  }
+
+  const [favValidatorList, setFavValidatorList] = React.useState(
+    data?.filter((x) => {
+      return x.fav === true
+    })
+  )
+  const mapFavList = async () => {
+    const newData = addFavTag()
+    setFavValidatorList(
+      newData.filter((x) => {
+        return x.fav === true
+      })
+    )
+  }
+  const mapData = () => {
+    const mappedData: any = []
+    data.forEach((x: ValidatorInfo) => {
+      const type = x.isActive ? 'active' : 'nonActive'
+      if (mappedData[type]) {
+        mappedData[type].push(x)
+      } else {
+        mappedData[type] = [x]
+      }
+    })
+    return mappedData
+  }
+
+  return {
+    favValidatorList,
+    mapData,
+    addFavTag,
+    mapFavList,
+  }
+}
+
+export const useInfoPopoverHook = () => {
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  const handlePopoverOpen = (event: any) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null)
+  }
+
+  const open = Boolean(anchorEl)
+
+  return {
+    handlePopoverOpen,
+    handlePopoverClose,
+    anchorEl,
+    open,
   }
 }

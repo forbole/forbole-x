@@ -8,9 +8,6 @@ import {
   Box,
   Avatar,
   Typography,
-  Card,
-  Tabs,
-  Tab,
   useTheme,
   IconButton,
   TableSortLabel,
@@ -26,59 +23,21 @@ import useIconProps from '../../misc/useIconProps'
 import { formatPercentage, formatCrypto } from '../../misc/utils'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
-import { useWalletsContext } from '../../contexts/WalletsContext'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { useTableDefaultHook } from './hooks'
-
-interface ValidatorInfo extends Validator {
-  location: {
-    name: string
-    image: string
-  }
-  selfRatio: number
-  status: string
-  isActive: boolean
-  address: string
-}
+import DelegationDialog from '../DelegateDialog'
+import { ValidatorInfo } from './index'
+import InfoPopover from './InfoPopover'
 
 interface ValidatorsTableProps {
   validators: ValidatorInfo[]
   crypto: any
   account: Account
-  onRowClick?: (validatorInfo: ValidatorInfo) => void
-}
-
-export interface TabPanelProps {
-  children?: React.ReactNode
-  dir?: string
-  index: any
-  value: any
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  )
-}
-
-function a11yProps(index: any) {
-  return {
-    id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`,
+  onToggle?: any
+  alignRight?: boolean
+  initialActiveSort?: string
+  pagination?: {
+    rowsPerPage: number | undefined
   }
 }
 
@@ -86,209 +45,178 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
   validators,
   crypto,
   account,
-  onRowClick,
+  alignRight,
+  pagination,
+  initialActiveSort,
+  onToggle,
 }) => {
-  // const crypto = cryptocurrencies[account.crypto]
   const { classes } = useGetStyles()
   const { t, lang } = useTranslation('common')
   const theme = useTheme()
   const iconProps = useIconProps()
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
-  const [currentTab, setCurrentTab] = React.useState(0)
-  const { updateAccount } = useWalletsContext()
-  const { favValidators, addFavValidators, deleteFavValidators, currency } = useGeneralContext()
-  const [validatorData, setvalidatorData] = React.useState(
-    validators.filter((x) => x.isActive === true)
-  )
+  const { addFavValidators, deleteFavValidators } = useGeneralContext()
+  const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
   const router = useRouter()
 
-  const [align, setAlign] = React.useState('inherit')
-
-  // const setTabContent = (v) => {
-  //   setCurrentTab(v)
-  //   if (v === 0) {
-  //     setvalidatorData(validators.filter((x) => x.isActive === true))
-  //     setAlign('inherit')
-  //   }
-  //   if (v === 2) {
-  //     setAlign('right')
-  //     setvalidatorData(validators)
-  //   }
-  //   if (v === 1) {
-  //     setvalidatorData(validators.filter((x) => x.isActive === false))
-  //     setAlign('inherit')
-  //   }
-  // }
-
-  const { handleSort, state, handleRowClick } = useTableDefaultHook({
-    data: validatorData,
-    onRowClick,
+  const { handleChangePage, handleChangeRowsPerPage, handleSort, state } = useTableDefaultHook({
+    data: validators,
+    rowsPerPageCount: pagination?.rowsPerPage,
+    initialActiveSort,
   })
 
-  const tabs = [
-    { label: 'active validators', count: 100 },
-    { label: 'inactive validators', count: 18 },
-    { label: 'favourite', count: 8 },
-  ]
+
   const columns = [
     {
       label: 'rank',
-      display: 'rank',
       sort: true,
     },
     {
       label: 'moniker',
-      display: 'moniker',
       sort: true,
     },
     {
       label: 'location',
-      display: 'location',
     },
     {
-      label: 'votingPower',
-      display: 'voting power',
+      label: 'voting power',
       sort: true,
     },
     {
-      label: 'selfRatio',
-      display: 'self ratio',
+      label: 'self ratio',
       sort: true,
     },
     {
       label: 'commission',
-      display: 'commission',
       sort: true,
     },
     {
       label: 'status',
-      display: 'status',
+      lableAlign: alignRight,
+      detail: 'status popover detail',
     },
   ]
-  const [error, setError] = React.useState('')
-  console.log('error', error)
 
-  const toggleFav = (address) =>
-    React.useCallback(async () => {
-      if (favValidators.findIndex((fav) => fav === address) !== -1) {
-        // console.log(
-        //   '!=',
-        //   favValidators.findIndex((fav) => fav === address)
-        // )
-        // deleteFavValidators(address)
-        try {
-          await deleteFavValidators(address)
-        } catch (err) {
-          setError(err.message)
-        }
-      } else {
-        try {
-          await addFavValidators(address)
-        } catch (err) {
-          setError(err.message)
-        }
-      }
-    }, [addFavValidators, deleteFavValidators])
-  // console.log('favValidators', favValidators)
-  console.log('validators', validators)
+  const toggleFav = (validator: ValidatorInfo) => {
+    if (validator.fav) {
+      deleteFavValidators(validator.address)
+      onToggle()
+    } else {
+      addFavValidators(validator.address)
+      onToggle()
+    }
+  }
 
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          {columns.map((column) => {
-            if (column.sort) {
+    <Box>
+      <Table className={classes.table}>
+        <TableHead>
+          <TableRow>
+            {columns.map((column) => {
+              if (column.sort) {
+                return (
+                  <TableCell key={column.label}>
+                    <TableSortLabel
+                      className={classes.table__label}
+                      direction={state.activeSort === column.label ? state.sortDirection : 'asc'}
+                      onClick={handleSort(column.label)}
+                      IconComponent={ArrowDropDown}
+                    >
+                      {t(column.label)}
+                    </TableSortLabel>
+                  </TableCell>
+                )
+              }
               return (
-                <TableCell key={column.label}>
-                  <TableSortLabel
-                    className={classes.table__label}
-                    // active={state.activeSort === column.label}
-                    direction={state.activeSort === column.label ? state.sortDirection : 'asc'}
-                    onClick={handleSort(column.label)}
-                    IconComponent={ArrowDropDown}
-                  >
-                    {t(column.display)}
-                  </TableSortLabel>
-                </TableCell>
-              )
-            }
-            return (
-              <TableCell
-                key={column.label}
-                className={classes.table__label}
-                // align={column.align as any}
-              >
-                {t(column.display)}
-              </TableCell>
-            )
-          })}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {validators
-          .slice(state.page * state.rowsPerPage, state.page * state.rowsPerPage + state.rowsPerPage)
-          .map((v, i) => {
-            console.log('v', v)
-            return (
-              <TableRow
-                key={v.name}
-                className={classes.tableRow}
-                // onClick={() => {
-                //   router.push(`/validator/${v.address}`)
-                // }}
-              >
-                <TableCell className={classes.tableCell}>
-                  1
-                  <IconButton
-                    onClick={toggleFav(v.address)}
-                    className={classes.star}
-                    // style={{ background: 'red' }}
-                  >
-                    {favValidators.findIndex((address) => address === v.address) !== -1 ? (
-                      <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
-                    ) : (
-                      <StarIcon {...iconProps} />
-                    )}
-                  </IconButton>
-                </TableCell>
-                <TableCell className={classes.tableCell}>
-                  <Box display="flex" alignItems="center">
-                    <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
-                    <Typography>{v.name}</Typography>
-                  </Box>
-                </TableCell>
-                <TableCell className={classes.tableCell}>
-                  <Box display="flex" alignItems="center">
-                    <Avatar
-                      className={classes.flagAvatar}
-                      variant="rounded"
-                      alt={v.location.name}
-                      src={v.location.image}
-                    />
-                    <Typography>{v.location.name}</Typography>
-                  </Box>
-                </TableCell>
-                <TableCell className={classes.tableCell}>
-                  {formatCrypto(v.delegatedAmount, crypto.name, lang)}(
-                  {formatPercentage(v.vpRatios, lang)})
-                </TableCell>
-                <TableCell className={classes.tableCell}>{v.selfRatio}</TableCell>
-                <TableCell className={classes.tableCell}>
-                  {formatPercentage(v.commission, lang)}
-                </TableCell>
-                <TableCell className={classes.tableCell}>
-                  {v.isActive ? (
-                    <ActiveStatus status={v.status} align={align} />
+                <TableCell key={column.label} className={classes.table__label}>
+                  {column.label === 'status' ? (
+                    <div className={classes.popoverLabel}>
+                      <p>{t(column.label)}</p>
+                      <InfoPopover detail={t(column.detail)} className={classes.popover} />
+                    </div>
                   ) : (
-                    <InActiveStatus status={v.status} align={align} />
+                    t(column.label)
                   )}
                 </TableCell>
-              </TableRow>
+              )
+            })}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {validators
+            .slice(
+              state.page * state.rowsPerPage,
+              state.page * state.rowsPerPage + state.rowsPerPage
             )
-          })}
-      </TableBody>
-    </Table>
+            .map((v, i) => {
+              return (
+                <TableRow key={`row-${i}`} className={classes.tableRow}>
+                  <TableCell className={classes.tableCell}>
+                    {i + 1}
+                    <IconButton onClick={() => toggleFav({ ...v })} className={classes.star}>
+                      {v.fav ? (
+                        <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
+                      ) : (
+                        <StarIcon {...iconProps} />
+                      )}
+                    </IconButton>
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    <Box
+                      className={classes.box}
+                      display="flex"
+                      alignItems="center"
+                      onClick={() => {
+                        router.push(`/validator/${v.address}`)
+                      }}
+                    >
+                      <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
+                      <Typography>{v.name}</Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    <Box display="flex" alignItems="center">
+                      <Avatar
+                        className={classes.flagAvatar}
+                        variant="rounded"
+                        alt={v.location.name}
+                        src={v.location.image}
+                      />
+                      <Typography>{v.location.name}</Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {formatCrypto(v.delegatedAmount, crypto.name, lang)}(
+                    {formatPercentage(v.vpRatios, lang)})
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>{v.selfRatio}</TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {formatPercentage(v.commission, lang)}
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {v.isActive ? (
+                      <ActiveStatus status={v.status} onClick={() => setDelegateDialogOpen(true)} />
+                    ) : (
+                      <InActiveStatus status={v.status} alignRight={alignRight} />
+                    )}
+                  </TableCell>
+                </TableRow>
+              )
+            })}
+        </TableBody>
+      </Table>
+      <TablePagination
+        page={state.page}
+        rowsPerPage={state.rowsPerPage}
+        rowsCount={validators.length}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+      <DelegationDialog
+        open={delegateDialogOpen}
+        onClose={() => setDelegateDialogOpen(false)}
+        account={account}
+      />
+    </Box>
   )
 }
 

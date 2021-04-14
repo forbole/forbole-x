@@ -5,15 +5,15 @@ import { useGetStyles } from './styles'
 
 interface ActiveProps {
   status: string
-  align: string
+  onClick: () => void
 }
 
-const Active: React.FC<ActiveProps> = ({ status, align }) => {
-  const { classes } = useGetStyles(status, align)
+const Active: React.FC<ActiveProps> = ({ status, onClick }) => {
+  const { classes } = useGetStyles(status)
   const { t, lang } = useTranslation('common')
 
   return (
-    <Box className={classes.activeStatus}>
+    <Box className={classes.activeStatus} onClick={onClick}>
       <Typography>
         <a className={classes.button}>{t('delegate')}</a>
       </Typography>

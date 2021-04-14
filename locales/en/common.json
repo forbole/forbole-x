@@ -164,7 +164,6 @@
   "fee": "Fee",
   "view data": "View Data",
   "claim rewards": "Claim Rewards",
-
   "active validators": "Active Validators",
   "inactive validators": "Inactive Validators",
   "favourite": "Favourite",
@@ -172,5 +171,6 @@
   "location": "Location",
   "voting power": "Voting Power",
   "self ratio": "Self%",
-  "status": "Status"
+  "status": "Status",
+  "status popover detail": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent urna libero, mattis nec ultrices sit amet, pharetra vitae lorem. Quisque pretium pulvinar eros"
 }

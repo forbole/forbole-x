@@ -1,16 +1,14 @@
 import { Box, Typography } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { useGetStyles } from './styles'
 
 interface InActiveProps {
   status: string
-  align: string
+  alignRight: boolean
 }
 
-const InActive: React.FC<InActiveProps> = ({ status, align }) => {
-  const { classes } = useGetStyles(status, align)
-  const { t, lang } = useTranslation('common')
+const InActive: React.FC<InActiveProps> = ({ status, alignRight }) => {
+  const { classes } = useGetStyles(status, alignRight)
 
   return (
     <Box className={classes.inActiveStatus}>

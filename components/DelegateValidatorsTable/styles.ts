@@ -1,7 +1,7 @@
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { CustomTheme } from '../../misc/theme'
 
-export const useGetStyles = (status?: string, align?: string) => {
+export const useGetStyles = (status?: string, alignRight?: boolean) => {
   const useStyles = makeStyles(
     (theme: CustomTheme) =>
       createStyles({
@@ -11,6 +11,9 @@ export const useGetStyles = (status?: string, align?: string) => {
         table: {
           border: `1px solid ${theme.palette.grey[100]}`,
           borderRadius: theme.shape.borderRadius,
+          '& .MuiTableCell-root': {
+            borderBottom: 'none',
+          },
         },
         tableRow: {
           '&:nth-of-type(odd)': {
@@ -20,6 +23,9 @@ export const useGetStyles = (status?: string, align?: string) => {
         tableCell: {
           borderBottom: 'none',
           fontSize: '1rem',
+        },
+        box: {
+          cursor: 'point',
         },
         status: {
           marginRight: '35%',
@@ -42,8 +48,6 @@ export const useGetStyles = (status?: string, align?: string) => {
           verticalAlign: 'initial',
         },
         activeStatus: {
-          // width: theme.spacing(13),
-          // width: '80%',
           height: theme.spacing(3.5),
           marginRight: theme.spacing(1),
           marginLeft: '5%',
@@ -68,7 +72,6 @@ export const useGetStyles = (status?: string, align?: string) => {
           },
         },
         inActiveStatus: {
-          // width: theme.spacing(13),
           width: '100%',
           // width: theme.spacing(7),
           height: theme.spacing(3.5),
@@ -80,7 +83,7 @@ export const useGetStyles = (status?: string, align?: string) => {
           // background: 'blue',
           display: 'flex',
           // justifyContent: 'flex-end',
-          justifyContent: align === 'right' ? 'flex-end' : 'flex-start',
+          justifyContent: alignRight ? 'flex-end' : 'flex-start',
           // flex: 1,
           // '&:before': {
           //   content: '""',
@@ -137,8 +140,30 @@ export const useGetStyles = (status?: string, align?: string) => {
           marginLeft: theme.spacing(9),
         },
         table__label: {
-          borderBottom: 'none',
           fontWeight: 500,
+          // background: 'red',
+        },
+        helpOutLintContainer: {
+          display: 'inline-flex',
+        },
+        helpOutLine: {
+          width: '0.9rem',
+          height: '0.9rem',
+          marginLeft: '0.3rem',
+        },
+        popover: {
+          pointerEvents: 'none',
+        },
+        popoverContainer: {
+          padding: '1rem',
+          maxWidth: '300px',
+        },
+        popoverLabel: {
+          height: 0,
+          display: 'flex',
+          alignItems: 'center',
+          paddingRight: alignRight ? '25%' : '0',
+          justifyContent: alignRight ? 'flex-end' : 'flex-start',
         },
       }),
     {

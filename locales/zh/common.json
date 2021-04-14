@@ -159,5 +159,14 @@
   "fee": "[zh] Fee",
   "view data": "[zh] View Data",
   "claim rewards": "[zh] Claim Rewards",
-  "send": "[zh] Send"
+  "send": "[zh] Send",
+  "active validators": "[zh] Active Validators",
+  "inactive validators": "[zh] Inactive Validators",
+  "favourite": "[zh] Favourite",
+  "rank": "[zh] Rank",
+  "location": "[zh] Location",
+  "voting power": "[zh] Voting Power",
+  "self ratio": "[zh] Self%",
+  "status": "[zh] Status",
+  "status popover detail": "[zh] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent urna libero, mattis nec ultrices sit amet, pharetra vitae lorem. Quisque pretium pulvinar eros"
 }
