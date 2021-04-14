@@ -3,7 +3,7 @@ import { Box, Typography, Card, Tabs, Tab } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import { useGetStyles } from './styles'
 import { useValidatorTableHook } from './hooks'
-import ValidatorsTable from './table'
+import ValidatorsTable from './Table'
 
 export interface ValidatorInfo extends Validator {
   location: {

@@ -4,6 +4,7 @@ const useStyles = makeStyles(
   (theme) => ({
     container: {
       padding: theme.spacing(2),
+      cursor: 'pointer',
     },
     name: {
       marginLeft: theme.spacing(1),

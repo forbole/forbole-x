@@ -4,6 +4,7 @@ import { Palette } from '@material-ui/core/styles/createPalette'
 interface CustomPalette extends Palette {
   tagColor: { [key: string]: string }
   statusColor: { [key: string]: string }
+  translucent: string
 }
 
 export interface CustomTheme extends Theme {
@@ -138,6 +139,7 @@ const lightTheme = ({
       unjail: '#FD565F',
       tombstone: '#E0A111',
     },
+    translucent: 'rgba(255, 255, 255, 0.5)',
   },
 } as unknown) as ThemeOptions
 
@@ -204,6 +206,7 @@ const darkTheme = ({
       unjail: '#FD565F',
       tombstone: '#E0A111',
     },
+    translucent: 'rgba(0, 0, 0, 0.5)',
   },
 } as unknown) as ThemeOptions
 

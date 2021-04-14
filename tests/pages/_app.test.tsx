@@ -20,6 +20,12 @@ jest.mock('@material-ui/core/styles', () => ({
 jest.mock('next-translate/useTranslation', () => () => ({
   lang: 'en',
 }))
+jest.mock('../../graphql/client', () => ({
+  useApollo: jest.fn(),
+}))
+jest.mock('@apollo/client', () => ({
+  ApolloProvider: 'ApolloProvider',
+}))
 
 describe('page: _app', () => {
   it('renders light theme correctly', () => {

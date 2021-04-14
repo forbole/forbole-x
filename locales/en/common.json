@@ -172,5 +172,6 @@
   "voting power": "Voting Power",
   "self ratio": "Self%",
   "status": "Status",
-  "status popover detail": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent urna libero, mattis nec ultrices sit amet, pharetra vitae lorem. Quisque pretium pulvinar eros"
+  "status popover detail": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent urna libero, mattis nec ultrices sit amet, pharetra vitae lorem. Quisque pretium pulvinar eros",
+  "24h": "24h"
 }

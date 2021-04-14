@@ -31,7 +31,6 @@ const GeneralProvider: React.FC = ({ children }) => {
   const [favValidators, setFavValidators] = React.useState<FavValidators>(
     initialState.favValidators
   )
-  console.log('fav_general', favValidators)
   const addFavValidators = React.useCallback(
     async (address: string) => {
       setFavValidators([address, ...favValidators])
