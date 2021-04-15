@@ -28,18 +28,16 @@ const GeneralContext = React.createContext<SettingsState>(initialState)
 const GeneralProvider: React.FC = ({ children }) => {
   const [currency, setCurrency] = usePersistedState('currency', initialState.currency)
   const [theme, setTheme] = usePersistedState('theme', initialState.theme)
-  const [favValidators, setFavValidators] = React.useState<FavValidators>(
-    initialState.favValidators
-  )
+  const [favValidators, setFavValidators] = usePersistedState('fav', initialState.favValidators)
   const addFavValidators = React.useCallback(
-    async (address: string) => {
+    (address: string) => {
       setFavValidators([address, ...favValidators])
     },
     [setFavValidators, favValidators]
   )
 
   const deleteFavValidators = React.useCallback(
-    async (address: string) => {
+    (address: string) => {
       setFavValidators((fav) => fav.filter((a) => a !== address))
     },
     [setFavValidators]

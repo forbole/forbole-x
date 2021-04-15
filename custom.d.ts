@@ -177,11 +177,3 @@ type ChromeMessage =
         password: string
       }
     }
-  | {
-      event: 'addFavValidators'
-      data: { address: string }
-    }
-  | {
-      event: 'deleteFavValidators'
-      data: { address: string }
-    }

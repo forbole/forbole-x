@@ -1,6 +1,5 @@
 const sendMsgToChromeExt = (msg: ChromeMessage) =>
   new Promise<any>((resolve, reject) => {
-    console.log('msg', msg)
     const msgT = {
       event: 'addFavValidators',
       data: {
@@ -8,7 +7,6 @@ const sendMsgToChromeExt = (msg: ChromeMessage) =>
       },
     }
     chrome.runtime.sendMessage(process.env.NEXT_PUBLIC_CHROME_EXT_ID, msg, (response) => {
-      console.log('response', response)
       if (response.err) {
         reject(new Error(response.err))
       } else {

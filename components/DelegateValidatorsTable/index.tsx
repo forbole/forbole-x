@@ -15,6 +15,7 @@ export interface ValidatorInfo extends Validator {
   isActive: boolean
   address: string
   fav?: boolean
+  rank?: number
 }
 
 interface DelegateValidatorsTableProps {
@@ -60,17 +61,28 @@ const DelegateValidatorsTable: React.FC<DelegateValidatorsTableProps> = ({
   const { t, lang } = useTranslation('common')
   const [currentTab, setCurrentTab] = React.useState(0)
 
-  const { mapData, favValidatorList, addFavTag, mapFavList } = useValidatorTableHook({
+  const { mapData, addFavTag } = useValidatorTableHook({
     data: validators,
   })
+
   addFavTag()
-  const mappedData = mapData()
+  const { mappedData, mappedFavData } = mapData()
 
   const tabs = [
-    { label: 'active validators', count: mappedData.active.length || 0 },
-    { label: 'inactive validators', count: mappedData.nonActive.length || 0 },
-    { label: 'favourite', count: favValidatorList.length || 0 },
+    { label: 'active validators', count: mappedData.active?.length || 0 },
+    { label: 'inactive validators', count: mappedData.nonActive?.length || 0 },
+    { label: 'favourite', count: mappedFavData?.length || 0 },
   ]
+
+  // add random rank
+  const addRanks = (list: ValidatorInfo[]) => {
+    let i = 1
+    list.forEach((x) => {
+      x.rank = i
+      i += 1
+    })
+    return list
+  }
 
   return (
     <Card className={classes.container}>
@@ -87,30 +99,27 @@ const DelegateValidatorsTable: React.FC<DelegateValidatorsTableProps> = ({
         <Box mt={2} ml={-3} mr={-3}>
           <TabPanel value={currentTab} index={0}>
             <ValidatorsTable
-              validators={mappedData.active}
+              validators={mappedData.active ? addRanks(mappedData.active) : []}
               crypto={crypto}
               account={account}
               initialActiveSort="moniker"
-              onToggle={mapFavList}
             />
           </TabPanel>
           <TabPanel value={currentTab} index={1}>
             <ValidatorsTable
-              validators={mappedData.nonActive}
+              validators={mappedData.nonActive ? addRanks(mappedData.nonActive) : []}
               crypto={crypto}
               account={account}
               initialActiveSort="moniker"
-              onToggle={mapFavList}
             />
           </TabPanel>
           <TabPanel value={currentTab} index={2}>
             <ValidatorsTable
-              validators={favValidatorList}
+              validators={addRanks(mappedFavData)}
               crypto={crypto}
               account={account}
               alignRight
               initialActiveSort="moniker"
-              onToggle={mapFavList}
             />
           </TabPanel>
         </Box>

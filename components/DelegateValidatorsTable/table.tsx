@@ -48,7 +48,6 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
   alignRight,
   pagination,
   initialActiveSort,
-  onToggle,
 }) => {
   const { classes } = useGetStyles()
   const { t, lang } = useTranslation('common')
@@ -64,33 +63,39 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
     initialActiveSort,
   })
 
-
   const columns = [
     {
       label: 'rank',
+      display: 'rank',
       sort: true,
     },
     {
-      label: 'moniker',
+      label: 'name',
+      display: 'moniker',
       sort: true,
     },
     {
       label: 'location',
+      display: 'location',
     },
     {
-      label: 'voting power',
+      label: 'vpRatios',
+      display: 'voting power',
       sort: true,
     },
     {
-      label: 'self ratio',
+      label: 'selfRatio',
+      display: 'self ratio',
       sort: true,
     },
     {
       label: 'commission',
+      display: 'commission',
       sort: true,
     },
     {
       label: 'status',
+      display: 'status',
       lableAlign: alignRight,
       detail: 'status popover detail',
     },
@@ -99,10 +104,8 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
   const toggleFav = (validator: ValidatorInfo) => {
     if (validator.fav) {
       deleteFavValidators(validator.address)
-      onToggle()
     } else {
       addFavValidators(validator.address)
-      onToggle()
     }
   }
 
@@ -121,7 +124,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                       onClick={handleSort(column.label)}
                       IconComponent={ArrowDropDown}
                     >
-                      {t(column.label)}
+                      {t(column.display)}
                     </TableSortLabel>
                   </TableCell>
                 )
@@ -151,7 +154,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
               return (
                 <TableRow key={`row-${i}`} className={classes.tableRow}>
                   <TableCell className={classes.tableCell}>
-                    {i + 1}
+                    {v.rank}
                     <IconButton onClick={() => toggleFav({ ...v })} className={classes.star}>
                       {v.fav ? (
                         <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />

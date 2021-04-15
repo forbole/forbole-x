@@ -7,7 +7,8 @@ import cryptocurrencies from '../misc/cryptocurrencies'
 const Delegate: React.FC = () => {
   const { wallets, accounts } = useWalletsContext()
   // not sure how user switch account, fix it later
-  const crypto = cryptocurrencies[accounts[0].crypto]
+  // const crypto = cryptocurrencies[accounts[0].crypto]
+  const crypto = 'DSM'
   const fakeValidators = [
     {
       image:
@@ -278,7 +279,7 @@ const Delegate: React.FC = () => {
   ]
   return (
     <Layout passwordRequired activeItem="/delegate">
-      <DelegateValidatorsTable account={accounts[0]} validators={fakeValidators} crypto />
+      <DelegateValidatorsTable account={accounts[0]} validators={fakeValidators} crypto={crypto} />
     </Layout>
   )
 }

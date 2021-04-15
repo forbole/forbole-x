@@ -42,7 +42,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const classes = useStyles()
   const theme = useTheme()
   const { t, lang } = useTranslation('common')
-  const { currency } = useSettingsContext()
+  const { currency } = useGeneralContext()
   const router = useRouter()
   const {
     data: [accountWithBalance],

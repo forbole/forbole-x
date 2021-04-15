@@ -40,47 +40,56 @@ export const useTableDefaultHook = (options: useTableDefaultHookProps) => {
     sortDirection: 'asc',
   })
 
-  const handleChangePage = (newPage: number) => {
-    setState({
-      ...state,
-      page: newPage,
-    })
-  }
+  const handleChangePage = React.useCallback(
+    (newPage: number) => {
+      setState({
+        ...state,
+        page: newPage,
+      })
+    },
+    [state, setState]
+  )
 
-  const handleChangeRowsPerPage = (event: number) => {
-    setState({
-      ...state,
-      page: 0,
-      rowsPerPage: event || 10,
-    })
-  }
+  const handleChangeRowsPerPage = React.useCallback(
+    (event: number) => {
+      setState({
+        ...state,
+        page: 0,
+        rowsPerPage: event || 10,
+      })
+    },
+    [state, setState]
+  )
 
-  const handleSort = (key: string) => () => {
-    const { sortDirection, activeSort: currentActiveSort, data: currentData } = state
-    const newSortDirection = currentActiveSort === key && sortDirection === 'asc' ? 'desc' : 'asc'
-    const sortedData = currentData.sort((a: any, b: any) => {
-      let compareA = a[key]
-      let compareB = b[key]
+  const handleSort = React.useCallback(
+    (key: string) => () => {
+      const { sortDirection, activeSort: currentActiveSort, data: currentData } = state
+      const newSortDirection = currentActiveSort === key && sortDirection === 'asc' ? 'desc' : 'asc'
+      const sortedData = currentData.sort((a: any, b: any) => {
+        let compareA = a[key]
+        let compareB = b[key]
 
-      if (compareA && typeof compareA === 'string') {
-        compareA = compareA?.toLowerCase() ?? ''
-        compareB = compareB?.toLowerCase() ?? ''
-      } else if (compareA && typeof compareA === 'object') {
-        compareA = compareA?.rawValue ?? null
-        compareB = compareB?.rawValue ?? null
-      }
-      if (newSortDirection === 'desc') {
-        return compareA > compareB ? -1 : 1
-      }
-      return compareA > compareB ? 1 : -1
-    })
-    setState({
-      ...state,
-      sortDirection: newSortDirection,
-      activeSort: key,
-      data: sortedData,
-    })
-  }
+        if (compareA && typeof compareA === 'string') {
+          compareA = compareA?.toLowerCase() ?? ''
+          compareB = compareB?.toLowerCase() ?? ''
+        } else if (compareA && typeof compareA === 'object') {
+          compareA = compareA?.rawValue ?? null
+          compareB = compareB?.rawValue ?? null
+        }
+        if (newSortDirection === 'desc') {
+          return compareA > compareB ? -1 : 1
+        }
+        return compareA > compareB ? 1 : -1
+      })
+      setState({
+        ...state,
+        sortDirection: newSortDirection,
+        activeSort: key,
+        data: sortedData,
+      })
+    },
+    [state, setState]
+  )
 
   return {
     handleChangePage,
@@ -104,20 +113,14 @@ export const useValidatorTableHook = (props: useValidatorTableHookProps) => {
     return data
   }
 
-  const [favValidatorList, setFavValidatorList] = React.useState(
-    data?.filter((x) => {
-      return x.fav === true
-    })
-  )
-  const mapFavList = async () => {
-    const newData = addFavTag()
-    setFavValidatorList(
-      newData.filter((x) => {
-        return x.fav === true
-      })
-    )
-  }
   const mapData = () => {
+    const mappedFavData: any = []
+    data.forEach((x: ValidatorInfo) => {
+      if (x.fav) {
+        mappedFavData.push(x)
+      }
+    })
+
     const mappedData: any = []
     data.forEach((x: ValidatorInfo) => {
       const type = x.isActive ? 'active' : 'nonActive'
@@ -127,14 +130,12 @@ export const useValidatorTableHook = (props: useValidatorTableHookProps) => {
         mappedData[type] = [x]
       }
     })
-    return mappedData
+    return { mappedData, mappedFavData }
   }
 
   return {
-    favValidatorList,
     mapData,
     addFavTag,
-    mapFavList,
   }
 }
 
