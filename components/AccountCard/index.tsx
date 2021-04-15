@@ -34,12 +34,13 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
   const { currency } = useSettingsContext()
   const { updateAccount } = useWalletsContext()
   const router = useRouter()
-  const { data } = useSubscription(
+  const { data, error } = useSubscription(
     gql`
       ${getLatestAccountBalance(account.crypto)}
     `,
     { variables: { address: account.address } }
   )
+  console.log(data, error)
   const { tokenAmounts, usdBalance } = React.useMemo(() => {
     const accountBalance = transformGqlAcountBalance(data, Date.now())
     return {

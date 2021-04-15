@@ -40,10 +40,10 @@ export const getTokenAmountFromDenoms = (
 ): { [key: string]: { amount: number; price: number } } => {
   const result = {}
   coins.forEach((coin) => {
-    denoms.forEach((d) => {
+    denoms.some((d) => {
       const unit = get(d, 'token_unit.token.token_units', []).find((t) => t.denom === coin.denom)
       if (unit) {
-        const base = get(d, 'token_unit.token.token_units', []).find((t) => t.denom === d.name)
+        const base = get(d, 'token_unit.token.token_units', []).find((t) => t.denom === d.unit_name)
         if (result[base.denom]) {
           result[base.denom].amount += Number(coin.amount) * 10 ** (unit.exponent - base.exponent)
         } else {
@@ -52,7 +52,9 @@ export const getTokenAmountFromDenoms = (
             price: d.price,
           }
         }
+        return true
       }
+      return false
     })
   })
   return result
@@ -129,7 +131,7 @@ export const getWalletsBalancesFromAccountsBalances = (
   })
 
 export const transformGqlAcountBalance = (data: any, timestamp: number): AccountBalance => {
-  const denoms = get(data, 'account[0].available[0].tokens_price', [])
+  const denoms = get(data, 'account[0].available[0].tokens_prices', [])
   const balance = {
     available: getTokenAmountFromDenoms(get(data, 'account[0].available[0].coins', []), denoms),
     delegated: getTokenAmountFromDenoms([get(data, 'account[0].delegated[0].amount', {})], denoms),

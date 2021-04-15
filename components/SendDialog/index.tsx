@@ -8,6 +8,7 @@ import useIconProps from '../../misc/useIconProps'
 import SelectRecipients from './SelectRecipients'
 import ConfirmSend from './ConfirmSend'
 import useStateHistory from '../../misc/useStateHistory'
+import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 
 enum SendStage {
   SelectRecipientsStage = 'select recipients',
@@ -42,12 +43,33 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableAmount, open,
     (r: Array<{ amount: number; address: string }>, m: string) => {
       setRecipients(r)
       setMemo(m)
-      // TODO: sign transactions
-      console.log(r, m)
       setStage(SendStage.ConfirmSendStage)
     },
     [setStage]
   )
+
+  const sendTransactionMessage = React.useCallback(async () => {
+    try {
+      await sendMsgToChromeExt({
+        event: 'signAndBroadcastTransactions',
+        data: {
+          address: account.address,
+          securityPassword: '123123',
+          password: '123123',
+          transactions: recipients.map((r) => ({
+            type: 'send',
+            from: account.address,
+            to: r.address,
+            amount: r.amount * 10 ** 6,
+            denom: 'udaric',
+          })),
+          memo,
+        },
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }, [recipients, memo, account])
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
@@ -60,7 +82,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableAmount, open,
               account={account}
               recipients={recipients}
               memo={memo}
-              onConfirm={onClose}
+              onConfirm={sendTransactionMessage}
             />
           ),
         }
