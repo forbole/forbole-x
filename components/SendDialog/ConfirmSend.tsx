@@ -10,25 +10,29 @@ import {
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import SendIcon from '../../assets/images/icons/icon_send_tx.svg'
-import { formatCrypto } from '../../misc/utils'
+import { formatCrypto, formatTokenAmount } from '../../misc/utils'
 import useStyles from './styles'
 
 interface ConfirmSendProps {
   account: Account
-  recipients: Array<{ amount: number; address: string }>
+  recipients: Array<{ amount: { amount: number; denom: string }; address: string }>
+  totalAmount: TokenAmount
+  gasFee: TokenAmount
   memo: string
   onConfirm(): void
 }
 
-const ConfirmSend: React.FC<ConfirmSendProps> = ({ account, recipients, memo, onConfirm }) => {
+const ConfirmSend: React.FC<ConfirmSendProps> = ({
+  account,
+  totalAmount,
+  recipients,
+  gasFee,
+  memo,
+  onConfirm,
+}) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const theme = useTheme()
-
-  const totalAmount = React.useMemo(
-    () => recipients.map((r) => r.amount).reduce((a, b) => a + b, 0),
-    [recipients]
-  )
 
   return (
     <>
@@ -37,16 +41,14 @@ const ConfirmSend: React.FC<ConfirmSendProps> = ({ account, recipients, memo, on
           <SendIcon width={theme.spacing(6)} height={theme.spacing(6)} />
           <Box mt={2} mb={4}>
             <Typography variant="h4">
-              {t('send')} {formatCrypto(totalAmount, account.crypto, lang)}
+              {t('send')} {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
             </Typography>
           </Box>
         </Box>
         <Divider />
         <Box my={1}>
           <Typography>{t('from')}</Typography>
-          <Typography variant="body2" color="textSecondary">
-            {account.address}
-          </Typography>
+          <Typography color="textSecondary">{account.address}</Typography>
         </Box>
         <Divider />
         {recipients.map((r, i) => (
@@ -59,7 +61,7 @@ const ConfirmSend: React.FC<ConfirmSendProps> = ({ account, recipients, memo, on
               </Typography>
               <Typography>{t('amount')}</Typography>
               <Typography color="textSecondary">
-                {formatCrypto(r.amount, account.crypto, lang)}
+                {formatCrypto(r.amount.amount, r.amount.denom, lang)}
               </Typography>
             </Box>
             <Divider />
@@ -73,7 +75,7 @@ const ConfirmSend: React.FC<ConfirmSendProps> = ({ account, recipients, memo, on
         <Box my={1}>
           <Typography gutterBottom>{t('fee')}</Typography>
           <Typography color="textSecondary">
-            {0.00001} {account.crypto}
+            {formatTokenAmount(gasFee, account.crypto, lang)}
           </Typography>
         </Box>
         <Divider />

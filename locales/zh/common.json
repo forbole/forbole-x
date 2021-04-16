@@ -163,5 +163,6 @@
   "24h": "[zh] 24h",
   "insert address": "[zh] Insert address",
   "add address": "[zh] Add address",
-  "send to": "[zh] To {{number}}"
+  "send to": "[zh] To {{number}}",
+  "recipient address": "[zh] Recipient address"
 }

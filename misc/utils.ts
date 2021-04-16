@@ -19,7 +19,7 @@ export const formatCrypto = (
   `${new Intl.NumberFormat(lang, {
     signDisplay: 'never',
     maximumFractionDigits: 4,
-  }).format(amount)}${hideUnit ? '' : ` ${unit}`}`
+  }).format(amount)}${hideUnit ? '' : ` ${(unit || '').toUpperCase()}`}`
 
 export const formatCurrency = (
   amount: number,
@@ -37,7 +37,7 @@ export const formatCurrency = (
 export const getTokenAmountFromDenoms = (
   coins: Array<{ denom: string; amount: string }>,
   denoms: TokenPrice[]
-): { [key: string]: { amount: number; price: number } } => {
+): TokenAmount => {
   const result = {}
   coins.forEach((coin) => {
     denoms.some((d) => {
@@ -59,6 +59,18 @@ export const getTokenAmountFromDenoms = (
   })
   return result
 }
+
+export const formatTokenAmount = (
+  tokenAmount: TokenAmount,
+  defaultUnit: string,
+  lang: string,
+  delimiter?: string
+): string =>
+  Object.keys(tokenAmount).length
+    ? Object.keys(tokenAmount)
+        .map((ta) => formatCrypto(tokenAmount[ta].amount, ta.toUpperCase(), lang))
+        .join(delimiter || '\n')
+    : formatCrypto(0, defaultUnit, lang)
 
 export const getTotalTokenAmount = (
   accountBalance?: AccountBalance
@@ -86,7 +98,7 @@ export const getTotalTokenAmount = (
   }
 }
 
-export const getTokenAmoountBalance = (tokenAmount: TokenAmount): number =>
+export const getTokenAmountBalance = (tokenAmount: TokenAmount): number =>
   Object.values(tokenAmount)
     .map((b) => b.amount * b.price)
     .reduce((x, y) => x + y, 0)
@@ -103,7 +115,7 @@ export const getTotalBalance = (
   const { balance, timestamp } = accountBalance
   return {
     balance: Object.values(balance)
-      .map(getTokenAmoountBalance)
+      .map(getTokenAmountBalance)
       .reduce((x, y) => x + y, 0),
     timestamp,
   }
@@ -145,6 +157,26 @@ export const transformGqlAcountBalance = (data: any, timestamp: number): Account
   return {
     balance,
     timestamp,
+  }
+}
+
+export const getEquivalentCoinToSend = (
+  amount: { amount: number; denom: string },
+  availableCoins: Array<{ amount: string; denom: string }>,
+  tokensPrices: TokenPrice[]
+): { amount: number; denom: string } => {
+  const tokenPrice = tokensPrices.find((tp) => tp.unit_name === amount.denom)
+  if (!tokenPrice) {
+    return null
+  }
+  const coinDenom: { denom: string; exponent: number } = get(
+    tokenPrice,
+    'token_unit.token.token_units',
+    []
+  ).find((unit) => !!availableCoins.find((c) => c.denom === unit.denom))
+  return {
+    amount: amount.amount * 10 ** (get(tokenPrice, 'token_unit.exponent', 0) - coinDenom.exponent),
+    denom: coinDenom.denom,
   }
 }
 

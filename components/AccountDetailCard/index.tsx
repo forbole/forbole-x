@@ -17,7 +17,8 @@ import DelegationDialog from '../DelegateDialog'
 import {
   formatCrypto,
   formatCurrency,
-  getTokenAmoountBalance,
+  formatTokenAmount,
+  getTokenAmountBalance,
   getTotalBalance,
   getTotalTokenAmount,
   transformGqlAcountBalance,
@@ -29,13 +30,6 @@ import SendDialog from '../SendDialog'
 interface AccountDetailCardProps {
   account: Account
 }
-
-const formatTokenAmount = (tokenAmount: TokenAmount, defaultUnit: string, lang: string): string =>
-  Object.keys(tokenAmount).length
-    ? Object.keys(tokenAmount)
-        .map((ta) => formatCrypto(tokenAmount[ta].amount, ta.toUpperCase(), lang))
-        .join('\n')
-    : formatCrypto(0, defaultUnit, lang)
 
 const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
   const { lang, t } = useTranslation('common')
@@ -58,15 +52,17 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
     ? accountsWithBalance[0].balances.map((b) => getTotalBalance(b))
     : []
   // Balance Data
-  const { data } = useSubscription(
+  const { data, error } = useSubscription(
     gql`
       ${getLatestAccountBalance(account.crypto)}
     `,
     { variables: { address: account.address } }
   )
-  const { totalTokenAmount, usdBalance, accountBalance } = React.useMemo(() => {
+
+  const { availableTokens, totalTokenAmount, usdBalance, accountBalance } = React.useMemo(() => {
     const ab = transformGqlAcountBalance(data, Date.now())
     return {
+      availableTokens: get(data, 'account[0].available[0]', { coins: [], tokens_prices: [] }),
       accountBalance: ab,
       totalTokenAmount: getTotalTokenAmount(ab).amount,
       usdBalance: getTotalBalance(ab).balance,
@@ -140,7 +136,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
                     lang
                   )}
                   subtitle={formatCurrency(
-                    getTokenAmoountBalance(get(accountBalance, `balance.${key}`, {})),
+                    getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})),
                     currency,
                     lang
                   )}
@@ -159,7 +155,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
         open={sendDialogOpen}
         onClose={() => setSendDialogOpen(false)}
         account={account}
-        availableAmount={100}
+        availableTokens={availableTokens}
       />
     </>
   )

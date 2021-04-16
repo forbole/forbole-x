@@ -167,5 +167,6 @@
   "24h": "24h",
   "insert address": "Insert address",
   "add address": "Add address",
-  "send to": "To {{number}}"
+  "send to": "To {{number}}",
+  "recipient address": "Recipient address"
 }

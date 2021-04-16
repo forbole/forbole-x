@@ -15,6 +15,7 @@ import AccountAvatar from '../AccountAvatar'
 import {
   formatCrypto,
   formatCurrency,
+  formatTokenAmount,
   getTotalBalance,
   getTotalTokenAmount,
   transformGqlAcountBalance,
@@ -34,13 +35,13 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
   const { currency } = useSettingsContext()
   const { updateAccount } = useWalletsContext()
   const router = useRouter()
-  const { data, error } = useSubscription(
+  const { data } = useSubscription(
     gql`
       ${getLatestAccountBalance(account.crypto)}
     `,
     { variables: { address: account.address } }
   )
-  console.log(data, error)
+
   const { tokenAmounts, usdBalance } = React.useMemo(() => {
     const accountBalance = transformGqlAcountBalance(data, Date.now())
     return {
@@ -69,15 +70,9 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
       </Box>
       <Box display="flex" alignItems="flex-end" justifyContent="space-between">
         <Box>
-          {Object.keys(tokenAmounts).length ? (
-            Object.keys(tokenAmounts).map((ta) => (
-              <Typography key={ta} variant="h4">
-                {formatCrypto(tokenAmounts[ta].amount, ta.toUpperCase(), lang)}
-              </Typography>
-            ))
-          ) : (
-            <Typography variant="h4">{formatCrypto(0, crypto.name, lang)}</Typography>
-          )}
+          <Typography variant="h4">
+            {formatTokenAmount(tokenAmounts, account.crypto, lang)}
+          </Typography>
           <Typography variant="h6">{formatCurrency(usdBalance, currency, lang)}</Typography>
         </Box>
         <IconButton onClick={toggleFav}>

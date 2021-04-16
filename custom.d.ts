@@ -220,7 +220,7 @@ type ChromeMessage =
         address: string
         securityPassword: string
         password: string
-        transactions: TransactionMsg[]
+        transactions: any[]
         memo?: string
       }
     }

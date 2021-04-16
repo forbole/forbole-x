@@ -8,18 +8,26 @@ import {
   TextField,
   Typography,
   Grid,
+  Menu,
+  MenuItem,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import get from 'lodash/get'
 import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
+import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
-import { formatCrypto, formatCurrency } from '../../misc/utils'
+import { getTokenAmountBalance, formatCurrency, formatTokenAmount } from '../../misc/utils'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 
 interface SelectRecipientsProps {
-  onConfirm(recipients: Array<{ amount: number; address: string }>, memo: string): void
-  availableAmount: number
+  onConfirm(
+    recipients: Array<{ amount: { amount: number; denom: string }; address: string }>,
+    memo: string,
+    totalAmount: TokenAmount
+  ): void
+  availableAmount: TokenAmount
   account: Account
 }
 
@@ -32,15 +40,26 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
   const classes = useStyles()
   const iconProps = useIconProps()
   const { currency } = useSettingsContext()
-  const [recipients, setRecipients] = React.useState<Array<{ amount: string; address: string }>>([
-    { amount: '', address: '' },
-  ])
+  const [denomAnchor, setDenomAnchor] = React.useState<Element>()
+  const [recipients, setRecipients] = React.useState<
+    Array<{ amount: string; denom: string; address: string }>
+  >([{ amount: '', denom: Object.keys(availableAmount)[0] || '', address: '' }])
   const [memo, setMemo] = React.useState('')
 
-  const totalAmount = React.useMemo(
-    () => recipients.map((r) => Number(r.amount) || 0).reduce((a, b) => a + b, 0),
-    [recipients]
-  )
+  const totalAmount = React.useMemo(() => {
+    const tokenAmount = {}
+    recipients.forEach((r) => {
+      if (tokenAmount[r.denom]) {
+        tokenAmount[r.denom].amount += Number(r.amount)
+      } else {
+        tokenAmount[r.denom] = {
+          amount: Number(r.amount),
+          price: get(availableAmount, `${r.denom}.price`, ''),
+        }
+      }
+    })
+    return tokenAmount
+  }, [recipients, availableAmount])
 
   return (
     <>
@@ -49,12 +68,12 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
           <Typography className={classes.marginBottom}>
             {t('available amount')}{' '}
             <b className={classes.marginLeft}>
-              {formatCrypto(availableAmount, account.crypto, lang)}
+              {formatTokenAmount(availableAmount, account.crypto, lang)}
             </b>
           </Typography>
           <Grid container spacing={4}>
             <Grid item xs={6}>
-              <Typography gutterBottom>{t('delegate to')}</Typography>
+              <Typography gutterBottom>{t('recipient address')}</Typography>
               {recipients.map((v, i) => (
                 <Box
                   key={i.toString()}
@@ -89,7 +108,12 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                 <Button
                   variant="text"
                   color="secondary"
-                  onClick={() => setRecipients((d) => [...d, { address: '', amount: '' }])}
+                  onClick={() =>
+                    setRecipients((d) => [
+                      ...d,
+                      { address: '', amount: '', denom: Object.keys(availableAmount)[0] },
+                    ])
+                  }
                 >
                   {t('add address')}
                 </Button>
@@ -114,7 +138,6 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
               <Typography gutterBottom>{t('amount')}</Typography>
               {recipients.map((v, i) => (
                 <Box key={i.toString()} mt={i === 0 ? 0 : 1}>
-                  {/* TODO: select tokens from token_unit */}
                   <TextField
                     fullWidth
                     variant="filled"
@@ -123,7 +146,46 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                     InputProps={{
                       disableUnderline: true,
                       endAdornment: (
-                        <InputAdornment position="end">{account.crypto}</InputAdornment>
+                        <InputAdornment position="end">
+                          <Button
+                            variant="text"
+                            size="small"
+                            endIcon={<DropDownIcon {...iconProps} />}
+                            onClick={(e) => setDenomAnchor(e.currentTarget)}
+                          >
+                            {v.denom.toUpperCase()}
+                          </Button>
+                          <Menu
+                            anchorEl={denomAnchor}
+                            getContentAnchorEl={null}
+                            anchorOrigin={{
+                              vertical: 'bottom',
+                              horizontal: 'center',
+                            }}
+                            transformOrigin={{
+                              vertical: 'top',
+                              horizontal: 'center',
+                            }}
+                            keepMounted
+                            open={!!denomAnchor}
+                            onClose={() => setDenomAnchor(undefined)}
+                          >
+                            {Object.keys(availableAmount).map((denom) => (
+                              <MenuItem
+                                button
+                                key={denom}
+                                onClick={() => {
+                                  setRecipients((d) =>
+                                    d.map((a, j) => (j === i ? { ...a, denom } : a))
+                                  )
+                                  setDenomAnchor(undefined)
+                                }}
+                              >
+                                {denom.toUpperCase()}
+                              </MenuItem>
+                            ))}
+                          </Menu>
+                        </InputAdornment>
                       ),
                     }}
                     value={v.amount}
@@ -156,8 +218,12 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
           mx={2}
         >
           <Box>
-            <Typography variant="h5">{formatCrypto(totalAmount, account.crypto, lang)}</Typography>
-            <Typography>{formatCurrency(totalAmount, currency, lang)}</Typography>
+            <Typography variant="h5">
+              {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
+            </Typography>
+            <Typography>
+              {formatCurrency(getTokenAmountBalance(totalAmount), currency, lang)}
+            </Typography>
           </Box>
           <Button
             variant="contained"
@@ -170,9 +236,13 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                   .filter((v) => v.address && Number(v.amount))
                   .map((v) => ({
                     address: v.address,
-                    amount: Number(v.amount),
+                    amount: {
+                      amount: Number(v.amount),
+                      denom: v.denom,
+                    },
                   })),
-                memo
+                memo,
+                totalAmount
               )
             }
           >
