@@ -103,26 +103,28 @@ export const useValidatorTableHook = (props: useValidatorTableHookProps) => {
   const { favValidators } = useGeneralContext()
   const { data } = props
   const addFavTag = () => {
+    const taggedData: ValidatorInfo[] = []
     data.forEach((x: ValidatorInfo) => {
       if (favValidators.findIndex((address) => address === x.address) !== -1) {
-        x.fav = true
+        taggedData.push({ ...x, fav: true })
       } else {
-        x.fav = false
+        taggedData.push({ ...x, fav: false })
       }
     })
-    return data
+    return taggedData
   }
 
   const mapData = () => {
-    const mappedFavData: any = []
-    data.forEach((x: ValidatorInfo) => {
+    const taggedData = addFavTag()
+    const mappedFavData: ValidatorInfo[] = []
+    taggedData.forEach((x: ValidatorInfo) => {
       if (x.fav) {
         mappedFavData.push(x)
       }
     })
 
     const mappedData: any = []
-    data.forEach((x: ValidatorInfo) => {
+    taggedData.forEach((x: ValidatorInfo) => {
       const type = x.isActive ? 'active' : 'nonActive'
       if (mappedData[type]) {
         mappedData[type].push(x)

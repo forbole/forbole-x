@@ -80,10 +80,13 @@ const DelegateValidatorsTable: React.FC<DelegateValidatorsTableProps> = ({
     list.forEach((x) => {
       // eslint-disable-next-line no-param-reassign
       x.rank = i
+      console.log('map', i)
       i += 1
     })
     return list
   }
+  console.log('mappedData.active', mappedData.active)
+  console.log('addRanks(mappedData.active)', addRanks(mappedData.active))
 
   return (
     <Card className={classes.container}>
