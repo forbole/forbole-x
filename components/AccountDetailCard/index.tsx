@@ -1,20 +1,40 @@
-import { Box, Button, Card, Grid, Typography, useTheme } from '@material-ui/core'
+import { Box, Button, Card, Grid, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import get from 'lodash/get'
+import { gql, useSubscription } from '@apollo/client'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import EditIcon from '../../assets/images/icons/icon_edit_tool.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import AccountAvatar from '../AccountAvatar'
-import BalanceChart from '../BalanceChart'
+import BalanceChart, { dateRanges } from '../BalanceChart'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import StatBox from './StatBox'
+import DelegationDialog from '../DelegateDialog'
+import {
+  formatCrypto,
+  formatCurrency,
+  getTokenAmoountBalance,
+  getTotalBalance,
+  getTotalTokenAmount,
+  transformGqlAcountBalance,
+} from '../../misc/utils'
+import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
+import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 
 interface AccountDetailCardProps {
   account: Account
 }
+
+const formatTokenAmount = (tokenAmount: TokenAmount, defaultUnit: string, lang: string): string =>
+  Object.keys(tokenAmount).length
+    ? Object.keys(tokenAmount)
+        .map((ta) => formatCrypto(tokenAmount[ta].amount, ta.toUpperCase(), lang))
+        .join('\n')
+    : formatCrypto(0, defaultUnit, lang)
 
 const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
   const { lang, t } = useTranslation('common')
@@ -23,126 +43,112 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
   const iconProps = useIconProps()
   const theme = useTheme()
   const { updateAccount } = useWalletsContext()
+  const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
+  const [timestamps, setTimestamps] = React.useState<Date[]>(
+    dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
+  )
+  // Chart Data
+  const { data: accountsWithBalance, loading } = useAccountsBalancesWithinPeriod(
+    [account],
+    timestamps
+  )
+  const chartData = accountsWithBalance.length
+    ? accountsWithBalance[0].balances.map((b) => getTotalBalance(b))
+    : []
+  // Balance Data
+  const { data } = useSubscription(
+    gql`
+      ${getLatestAccountBalance(account.crypto)}
+    `,
+    { variables: { address: account.address } }
+  )
+  const { totalTokenAmount, usdBalance, accountBalance } = React.useMemo(() => {
+    const ab = transformGqlAcountBalance(data, Date.now())
+    return {
+      accountBalance: ab,
+      totalTokenAmount: getTotalTokenAmount(accountBalance).amount,
+      usdBalance: getTotalBalance(accountBalance).balance,
+    }
+  }, [data])
 
   const toggleFav = React.useCallback(() => {
     updateAccount(account.address, { fav: !account.fav })
   }, [account.address, account.fav, updateAccount])
 
-  // TODO: fetch data from backend
-  const now = Date.now()
-  const balance = 656333.849
-  const btcBalance = 57.987519
-  const delta = new Array(24 * 7).fill(null).map(() => (Math.random() - 0.5) / 10)
-  const data = []
-  delta.forEach((d, i) => {
-    data.unshift({
-      time: now - i * 3600000,
-      balance: i === 0 ? balance : data[0].balance * (1 + d),
-    })
-  })
-
   return (
-    <Card className={classes.container}>
-      <Box p={4}>
-        <Box mb={4} display="flex" justifyContent="space-between" alignItems="flex-start">
-          <AccountAvatar size="large" account={account} />
-          <Box display="flex">
-            <Button
-              classes={{ root: classes.fixedWidthButton }}
-              variant="contained"
-              color="primary"
-            >
-              Delegate
-            </Button>
-            <Button
-              classes={{ root: classes.fixedWidthButton }}
-              variant="contained"
-              color="secondary"
-            >
-              Claim Rewards
-            </Button>
-            <Button classes={{ root: classes.sendButton }} variant="contained" color="secondary">
-              Send
-            </Button>
-            <Button classes={{ root: classes.iconButton }} variant="outlined" onClick={toggleFav}>
-              {account.fav ? (
-                <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
-              ) : (
-                <StarIcon {...iconProps} />
-              )}
-            </Button>
-            <Button classes={{ root: classes.iconButton }} variant="outlined">
-              <EditIcon {...iconProps} />
-            </Button>
+    <>
+      <Card className={classes.container}>
+        <Box p={4}>
+          <Box mb={4} display="flex" justifyContent="space-between" alignItems="flex-start">
+            <AccountAvatar size="large" account={account} />
+            <Box display="flex">
+              <Button
+                classes={{ root: classes.fixedWidthButton }}
+                variant="contained"
+                color="primary"
+                onClick={() => setDelegateDialogOpen(true)}
+              >
+                {t('delegate')}
+              </Button>
+              <Button
+                classes={{ root: classes.fixedWidthButton }}
+                variant="contained"
+                color="secondary"
+              >
+                {t('claim rewards')}
+              </Button>
+              <Button classes={{ root: classes.sendButton }} variant="contained" color="secondary">
+                {t('send')}
+              </Button>
+              <Button classes={{ root: classes.iconButton }} variant="outlined" onClick={toggleFav}>
+                {account.fav ? (
+                  <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
+                ) : (
+                  <StarIcon {...iconProps} />
+                )}
+              </Button>
+              <Button classes={{ root: classes.iconButton }} variant="outlined">
+                <EditIcon {...iconProps} />
+              </Button>
+            </Box>
+          </Box>
+          <BalanceChart
+            data={chartData}
+            onDateRangeChange={(dateRange) => {
+              setTimestamps(dateRange.timestamps.map((ts) => new Date(ts)))
+            }}
+            title={formatTokenAmount(totalTokenAmount, account.crypto, lang)}
+            subtitle={formatCurrency(usdBalance, currency, lang)}
+            loading={loading}
+          />
+          <Box mt={10}>
+            <Grid container spacing={4}>
+              {['available', 'delegated', 'unbonding', 'reward', 'commission'].map((key) => (
+                <StatBox
+                  key={key}
+                  title={t(key)}
+                  value={formatTokenAmount(
+                    get(accountBalance, `balance.${key}`, {}),
+                    account.crypto,
+                    lang
+                  )}
+                  subtitle={formatCurrency(
+                    getTokenAmoountBalance(get(accountBalance, `balance.${key}`, {})),
+                    currency,
+                    lang
+                  )}
+                />
+              ))}
+            </Grid>
           </Box>
         </Box>
-        <BalanceChart
-          data={data}
-          ticks={new Array(7).fill(null).map((_a, i) => now - (6 - i) * 24 * 3600000)}
-          title={`${new Intl.NumberFormat(lang, {
-            signDisplay: 'never',
-          }).format(btcBalance)} ${account.crypto}`}
-          subtitle={`${new Intl.NumberFormat(lang, {
-            style: 'currency',
-            currency,
-          }).format(balance)} ${currency}`}
-        />
-        <Box mt={10}>
-          <Grid container spacing={4}>
-            <StatBox
-              title={t('available')}
-              value={`${new Intl.NumberFormat(lang, {
-                signDisplay: 'never',
-              }).format(btcBalance)} ${account.crypto}`}
-              subtitle={`${new Intl.NumberFormat(lang, {
-                style: 'currency',
-                currency,
-              }).format(balance)} ${currency}`}
-            />
-            <StatBox
-              title={t('delegated')}
-              value={`${new Intl.NumberFormat(lang, {
-                signDisplay: 'never',
-              }).format(btcBalance)} ${account.crypto}`}
-              subtitle={`${new Intl.NumberFormat(lang, {
-                style: 'currency',
-                currency,
-              }).format(balance)} ${currency}`}
-            />
-            <StatBox
-              title={t('unbonding')}
-              value={`${new Intl.NumberFormat(lang, {
-                signDisplay: 'never',
-              }).format(btcBalance)} ${account.crypto}`}
-              subtitle={`${new Intl.NumberFormat(lang, {
-                style: 'currency',
-                currency,
-              }).format(balance)} ${currency}`}
-            />
-            <StatBox
-              title={t('reward')}
-              value={`${new Intl.NumberFormat(lang, {
-                signDisplay: 'never',
-              }).format(btcBalance)} ${account.crypto}`}
-              subtitle={`${new Intl.NumberFormat(lang, {
-                style: 'currency',
-                currency,
-              }).format(balance)} ${currency}`}
-            />
-            <StatBox
-              title={t('commission')}
-              value={`${new Intl.NumberFormat(lang, {
-                signDisplay: 'never',
-              }).format(btcBalance)} ${account.crypto}`}
-              subtitle={`${new Intl.NumberFormat(lang, {
-                style: 'currency',
-                currency,
-              }).format(balance)} ${currency}`}
-            />
-          </Grid>
-        </Box>
-      </Box>
-    </Card>
+      </Card>
+      <DelegationDialog
+        open={delegateDialogOpen}
+        onClose={() => setDelegateDialogOpen(false)}
+        account={account}
+      />
+    </>
   )
 }
 

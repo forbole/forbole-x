@@ -12,6 +12,10 @@ jest.mock('../../contexts/WalletsContext', () => ({
 }))
 
 describe('page: Home', () => {
+  beforeAll(() => {
+    jest.useFakeTimers('modern')
+    jest.setSystemTime(new Date(2020, 3, 1))
+  })
   it('renders correctly', () => {
     ;(useWalletsContext as jest.Mock).mockReturnValueOnce({
       accounts: [
@@ -29,6 +33,9 @@ describe('page: Home', () => {
     const component = renderer.create(<Home />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
+  })
+  afterAll(() => {
+    jest.useRealTimers()
   })
 })
 

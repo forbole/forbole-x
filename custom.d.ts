@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 declare module '*.svg' {
   const content: any
   export default content
@@ -11,6 +12,28 @@ interface Account {
   name: string
   fav: boolean
   createdAt: number
+}
+
+type TokenAmount = {
+  [unit: string]: {
+    amount: number
+    price: number
+  }
+}
+
+interface AccountBalance {
+  balance: {
+    available: TokenAmount
+    delegated: TokenAmount
+    rewards: TokenAmount
+    commissions: TokenAmount
+    unbonding: TokenAmount
+  }
+  timestamp: number
+}
+
+interface AccountWithBalance extends Account {
+  balances: AccountBalance[]
 }
 
 interface CreateAccountParams {
@@ -30,6 +53,15 @@ interface Wallet {
   createdAt: number
 }
 
+interface WalletBalance {
+  balance: number // in USD
+  timestamp: number
+}
+
+interface WalletWithBalance extends Wallet {
+  balances: WalletBalance[]
+}
+
 interface Crypto {
   name: string
   coinType: number
@@ -43,6 +75,24 @@ interface Validator {
   delegatedAmount: number
   amtRatio: number
   reward: number
+}
+
+interface TokenUnit {
+  denom: string
+  exponent: number
+  token: {
+    token_units: Array<{
+      denom: string
+      exponent: number
+    }>
+  }
+}
+
+interface TokenPrice {
+  name: string
+  price: number
+  timestamp: string
+  token_unit: TokenUnit
 }
 
 interface CreateWalletParams {

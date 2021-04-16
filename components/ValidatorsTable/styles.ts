@@ -2,6 +2,9 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(
   (theme) => ({
+    container: {
+      marginBottom: theme.spacing(4),
+    },
     table: {
       border: `1px solid ${theme.palette.grey[100]}`,
       borderRadius: theme.shape.borderRadius,

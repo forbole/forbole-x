@@ -4,10 +4,12 @@ import { AppProps } from 'next/app'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import useTranslation from 'next-translate/useTranslation'
+import { ApolloProvider } from '@apollo/client'
 import { lightTheme, darkTheme } from '../misc/theme'
 import GlobalCss from '../misc/globalCss'
 import { SettingsProvider, useSettingsContext } from '../contexts/SettingsContext'
 import { WalletsProvider } from '../contexts/WalletsContext'
+import { useApollo } from '../graphql/client'
 
 function InnerApp({ Component, pageProps }: AppProps) {
   const { theme } = useSettingsContext()
@@ -33,7 +35,7 @@ function InnerApp({ Component, pageProps }: AppProps) {
   )
 }
 
-export default function App(props: AppProps) {
+export default function App({ Component, pageProps, ...props }: AppProps) {
   React.useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side')
@@ -41,6 +43,8 @@ export default function App(props: AppProps) {
       jssStyles.parentElement.removeChild(jssStyles)
     }
   }, [])
+  const apolloClient = useApollo(pageProps.initialApolloState)
+
   return (
     <>
       <Head>
@@ -53,11 +57,13 @@ export default function App(props: AppProps) {
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
         <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
-      <SettingsProvider>
-        <WalletsProvider>
-          <InnerApp {...props} />
-        </WalletsProvider>
-      </SettingsProvider>
+      <ApolloProvider client={apolloClient}>
+        <SettingsProvider>
+          <WalletsProvider>
+            <InnerApp Component={Component} pageProps={pageProps} {...props} />
+          </WalletsProvider>
+        </SettingsProvider>
+      </ApolloProvider>
     </>
   )
 }
