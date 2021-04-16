@@ -142,8 +142,8 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             </Typography>
           </Box>
           <Box className={classes.detail}>
-            {activity.detail.map((x) => (
-              <Typography>
+            {activity.detail.map((x, i) => (
+              <Typography key={`${x.address}_${i}`}>
                 {x.address} {t('received')}{' '}
                 <span className={classes.amount}>{formatCrypto(x.amount, crypto.name, lang)}</span>
               </Typography>
