@@ -103,7 +103,7 @@ export const useValidatorTableHook = (props: useValidatorTableHookProps) => {
   const { favValidators } = useGeneralContext()
   const { data } = props
   const addFavTag = () => {
-    data.forEach((x: any) => {
+    data.forEach((x: ValidatorInfo) => {
       if (favValidators.findIndex((address) => address === x.address) !== -1) {
         x.fav = true
       } else {

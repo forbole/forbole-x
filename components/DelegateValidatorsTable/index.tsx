@@ -3,7 +3,7 @@ import { Box, Typography, Card, Tabs, Tab } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import { useGetStyles } from './styles'
 import { useValidatorTableHook } from './hooks'
-import ValidatorsTable from './Table'
+import ValidatorsTable from './Table01'
 
 export interface ValidatorInfo extends Validator {
   location: {
@@ -78,6 +78,7 @@ const DelegateValidatorsTable: React.FC<DelegateValidatorsTableProps> = ({
   const addRanks = (list: ValidatorInfo[]) => {
     let i = 1
     list.forEach((x) => {
+      // eslint-disable-next-line no-param-reassign
       x.rank = i
       i += 1
     })

@@ -5,6 +5,7 @@ interface CustomPalette extends Palette {
   tagColor: { [key: string]: string }
   statusColor: { [key: string]: string }
   translucent: string
+  button: string
 }
 
 export interface CustomTheme extends Theme {
@@ -140,6 +141,7 @@ const lightTheme = ({
       tombstone: '#E0A111',
     },
     translucent: 'rgba(255, 255, 255, 0.5)',
+    button: '#007FFF',
   },
 } as unknown) as ThemeOptions
 
@@ -207,6 +209,7 @@ const darkTheme = ({
       tombstone: '#E0A111',
     },
     translucent: 'rgba(0, 0, 0, 0.5)',
+    button: '#007FFF',
   },
 } as unknown) as ThemeOptions
 
