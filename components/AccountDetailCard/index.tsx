@@ -69,6 +69,10 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
     }
   }, [data])
 
+  const isAvailableTokenEmpty = React.useMemo(() => !get(availableTokens, 'coins.length', 0), [
+    availableTokens,
+  ])
+
   const toggleFav = React.useCallback(() => {
     updateAccount(account.address, { fav: !account.fav })
   }, [account.address, account.fav, updateAccount])
@@ -84,6 +88,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
                 classes={{ root: classes.fixedWidthButton }}
                 variant="contained"
                 color="primary"
+                disabled={isAvailableTokenEmpty}
                 onClick={() => setDelegateDialogOpen(true)}
               >
                 {t('delegate')}
@@ -99,6 +104,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
                 classes={{ root: classes.sendButton }}
                 variant="contained"
                 color="secondary"
+                disabled={isAvailableTokenEmpty}
                 onClick={() => setSendDialogOpen(true)}
               >
                 {t('send')}

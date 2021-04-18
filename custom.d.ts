@@ -221,6 +221,7 @@ type ChromeMessage =
         securityPassword: string
         password: string
         transactions: any[]
+        gasFee: any
         memo?: string
       }
     }

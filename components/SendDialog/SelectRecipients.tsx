@@ -46,7 +46,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
   >([{ amount: '', denom: Object.keys(availableAmount)[0] || '', address: '' }])
   const [memo, setMemo] = React.useState('')
 
-  const totalAmount = React.useMemo(() => {
+  const totalAmount: TokenAmount = React.useMemo(() => {
     const tokenAmount = {}
     recipients.forEach((r) => {
       if (tokenAmount[r.denom]) {
@@ -60,6 +60,16 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
     })
     return tokenAmount
   }, [recipients, availableAmount])
+
+  const insufficientTokens = React.useMemo(() => {
+    const result = []
+    Object.keys(totalAmount).forEach((token) => {
+      if (get(totalAmount, `${token}.amount`, 0) > get(availableAmount, `${token}.amount`, 0)) {
+        result.push(token)
+      }
+    })
+    return result
+  }, [totalAmount, availableAmount])
 
   return (
     <>
@@ -143,6 +153,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                     variant="filled"
                     placeholder="0"
                     type="number"
+                    error={insufficientTokens.includes(v.denom)}
                     InputProps={{
                       disableUnderline: true,
                       endAdornment: (
@@ -229,7 +240,10 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
             variant="contained"
             className={classes.button}
             color="primary"
-            disabled={!recipients.filter((v) => v.address && Number(v.amount)).length}
+            disabled={
+              !!insufficientTokens.length ||
+              !recipients.filter((v) => v.address && Number(v.amount)).length
+            }
             onClick={() =>
               onConfirm(
                 recipients

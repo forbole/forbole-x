@@ -66,7 +66,7 @@ export const formatTokenAmount = (
   lang: string,
   delimiter?: string
 ): string =>
-  Object.keys(tokenAmount).length
+  tokenAmount && Object.keys(tokenAmount).length
     ? Object.keys(tokenAmount)
         .map((ta) => formatCrypto(tokenAmount[ta].amount, ta.toUpperCase(), lang))
         .join(delimiter || '\n')

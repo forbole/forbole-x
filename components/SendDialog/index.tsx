@@ -11,16 +11,18 @@ import SelectRecipients from './SelectRecipients'
 import ConfirmSend from './ConfirmSend'
 import useStateHistory from '../../misc/useStateHistory'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
-import formatTransactionMsg from '../../misc/formatTransactionMsg'
+import { formatTransactionMsg, formatRawTransactionData } from '../../misc/formatTransactionMsg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import SecurityPassword from './SecurityPassword'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import Success from './Success'
 
 enum SendStage {
   SelectRecipientsStage = 'select recipients',
   ConfirmSendStage = 'confirm send',
   SecurityPasswordStage = 'security password',
+  SuccessStage = 'success',
 }
 
 interface SendDialogProps {
@@ -66,6 +68,31 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
     SendStage.SelectRecipientsStage
   )
 
+  const transactionData = React.useMemo(
+    () => ({
+      address: account.address,
+      password,
+      transactions: recipients
+        .map((r) => {
+          const coinsToSend = getEquivalentCoinToSend(
+            r.amount,
+            availableTokens.coins,
+            availableTokens.tokens_prices
+          )
+          return formatTransactionMsg(account.crypto, {
+            type: 'send',
+            from: account.address,
+            to: r.address,
+            ...coinsToSend,
+          })
+        })
+        .filter((a) => a),
+      gasFee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
+      memo,
+    }),
+    [recipients, availableTokens, account, password, memo]
+  )
+
   const confirmRecipients = React.useCallback(
     (
       r: Array<{ amount: { amount: number; denom: string }; address: string }>,
@@ -87,35 +114,18 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
         await sendMsgToChromeExt({
           event: 'signAndBroadcastTransactions',
           data: {
-            address: account.address,
             securityPassword,
-            password,
-            transactions: recipients
-              .map((r) => {
-                const coinsToSend = getEquivalentCoinToSend(
-                  r.amount,
-                  availableTokens.coins,
-                  availableTokens.tokens_prices
-                )
-                return formatTransactionMsg(account.crypto, {
-                  type: 'send',
-                  from: account.address,
-                  to: r.address,
-                  ...coinsToSend,
-                })
-              })
-              .filter((a) => a),
-            memo,
+            ...transactionData,
           },
         })
         setLoading(false)
-        onClose()
+        setStage(SendStage.SuccessStage, true)
       } catch (err) {
         setLoading(false)
         console.log(err)
       }
     },
-    [recipients, memo, account, password, availableTokens]
+    [transactionData]
   )
 
   const content: Content = React.useMemo(() => {
@@ -131,6 +141,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
               totalAmount={totalAmount}
               memo={memo}
               gasFee={defaultGasFee}
+              rawTransactionData={formatRawTransactionData(account.crypto, transactionData)}
               onConfirm={() => setStage(SendStage.SecurityPasswordStage)}
             />
           ),
@@ -140,6 +151,12 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
           title: t('security password title'),
           dialogWidth: 'sm',
           content: <SecurityPassword onConfirm={sendTransactionMessage} loading={loading} />,
+        }
+      case SendStage.SuccessStage:
+        return {
+          title: '',
+          dialogWidth: 'xs',
+          content: <Success onClose={onClose} account={account} totalAmount={totalAmount} />,
         }
       case SendStage.SelectRecipientsStage:
       default:
@@ -162,6 +179,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
       setMemo('')
       setTotalAmount(undefined)
       setLoading(false)
+      setStage(SendStage.SelectRecipientsStage, true)
     }
   }, [open])
 

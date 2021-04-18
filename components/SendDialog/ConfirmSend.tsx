@@ -9,9 +9,13 @@ import {
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import dynamic from 'next/dynamic'
 import SendIcon from '../../assets/images/icons/icon_send_tx.svg'
 import { formatCrypto, formatTokenAmount } from '../../misc/utils'
 import useStyles from './styles'
+import { useSettingsContext } from '../../contexts/SettingsContext'
+
+const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
 interface ConfirmSendProps {
   account: Account
@@ -19,6 +23,7 @@ interface ConfirmSendProps {
   totalAmount: TokenAmount
   gasFee: TokenAmount
   memo: string
+  rawTransactionData: any
   onConfirm(): void
 }
 
@@ -28,11 +33,14 @@ const ConfirmSend: React.FC<ConfirmSendProps> = ({
   recipients,
   gasFee,
   memo,
+  rawTransactionData,
   onConfirm,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const theme = useTheme()
+  const { theme: themeSetting } = useSettingsContext()
+  const [viewingData, setViewingData] = React.useState(false)
 
   return (
     <>
@@ -55,7 +63,6 @@ const ConfirmSend: React.FC<ConfirmSendProps> = ({
           <React.Fragment key={r.address}>
             <Box my={1}>
               <Typography>{t('send to', { number: `# ${i + 1}` })}</Typography>
-
               <Typography color="textSecondary" gutterBottom>
                 {r.address}
               </Typography>
@@ -79,9 +86,20 @@ const ConfirmSend: React.FC<ConfirmSendProps> = ({
           </Typography>
         </Box>
         <Divider />
+        {viewingData ? (
+          <ReactJson
+            src={rawTransactionData}
+            displayDataTypes={false}
+            displayObjectSize={false}
+            enableClipboard={false}
+            name={false}
+            indentWidth={2}
+            theme={themeSetting === 'dark' ? 'google' : 'rjv-default'}
+          />
+        ) : null}
         <Box my={1} display="flex" justifyContent="flex-end">
-          <Button variant="text" color="secondary">
-            {t('view data')}
+          <Button onClick={() => setViewingData((v) => !v)} variant="text" color="secondary">
+            {t(viewingData ? 'hide data' : 'view data')}
           </Button>
         </Box>
       </DialogContent>

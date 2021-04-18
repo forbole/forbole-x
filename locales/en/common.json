@@ -163,10 +163,14 @@
   "NA": "N/A",
   "fee": "Fee",
   "view data": "View Data",
+  "hide data": "Hide data",
   "claim rewards": "Claim Rewards",
   "24h": "24h",
   "insert address": "Insert address",
   "add address": "Add address",
   "send to": "To {{number}}",
-  "recipient address": "Recipient address"
+  "recipient address": "Recipient address",
+  "close": "Close",
+  "success": "Success",
+  "successfully sent": "{{title}} was successfully sent"
 }

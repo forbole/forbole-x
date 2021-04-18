@@ -54,7 +54,7 @@ const formatCosmosTransactionMsg = ({ type, ...params }: TransactionMsg) => {
   return null
 }
 
-const formatTransactionMsg = (crypto: string, msg: TransactionMsg) => {
+export const formatTransactionMsg = (crypto: string, msg: TransactionMsg) => {
   const { ecosystem } = cryptocurrencies[crypto] || {}
   if (ecosystem === 'cosmos') {
     return formatCosmosTransactionMsg(msg)
@@ -62,4 +62,14 @@ const formatTransactionMsg = (crypto: string, msg: TransactionMsg) => {
   return null
 }
 
-export default formatTransactionMsg
+export const formatRawTransactionData = (crypto: string, transactionMsg: any) => {
+  const { ecosystem } = cryptocurrencies[crypto] || {}
+  if (ecosystem === 'cosmos') {
+    return {
+      fee: transactionMsg.gasFee,
+      msgs: transactionMsg.transactions,
+      memo: transactionMsg.memo,
+    }
+  }
+  return null
+}
