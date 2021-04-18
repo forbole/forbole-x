@@ -52,7 +52,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
     ? accountsWithBalance[0].balances.map((b) => getTotalBalance(b))
     : []
   // Balance Data
-  const { data, error } = useSubscription(
+  const { data } = useSubscription(
     gql`
       ${getLatestAccountBalance(account.crypto)}
     `,
