@@ -24,7 +24,7 @@ import { formatPercentage, formatCrypto } from '../../misc/utils'
 
 interface ValidatorsTableProps {
   validators: Validator[]
-  crypto: Crypto
+  crypto: Cryptocurrency
 }
 
 const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto }) => {

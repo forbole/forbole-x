@@ -102,41 +102,32 @@ export const useTableDefaultHook = (options: useTableDefaultHookProps) => {
 export const useValidatorTableHook = (props: useValidatorTableHookProps) => {
   const { favValidators } = useGeneralContext()
   const { data } = props
-  const addFavTag = () => {
-    data.forEach((x: ValidatorInfo) => {
-      if (favValidators.findIndex((address) => address === x.address) !== -1) {
-        x.fav = true
-      } else {
-        x.fav = false
-      }
-    })
-    return data
-  }
 
-  const mapData = () => {
-    const mappedFavData: any = []
-    data.forEach((x: ValidatorInfo) => {
-      if (x.fav) {
-        mappedFavData.push(x)
-      }
-    })
+  data.forEach((x: ValidatorInfo, i) => {
+    if (favValidators.findIndex((address) => address === x.address) !== -1) {
+      data[i].fav = true
+    } else {
+      data[i].fav = false
+    }
+  })
 
-    const mappedData: any = []
-    data.forEach((x: ValidatorInfo) => {
-      const type = x.isActive ? 'active' : 'nonActive'
-      if (mappedData[type]) {
-        mappedData[type].push(x)
-      } else {
-        mappedData[type] = [x]
-      }
-    })
-    return { mappedData, mappedFavData }
-  }
+  const mappedFavData: any = []
+  data.forEach((x: ValidatorInfo) => {
+    if (x.fav) {
+      mappedFavData.push(x)
+    }
+  })
 
-  return {
-    mapData,
-    addFavTag,
-  }
+  const mappedData: any = []
+  data.forEach((x: ValidatorInfo) => {
+    const type = x.isActive ? 'active' : 'nonActive'
+    if (mappedData[type]) {
+      mappedData[type].push(x)
+    } else {
+      mappedData[type] = [x]
+    }
+  })
+  return { mappedData, mappedFavData }
 }
 
 export const useInfoPopoverHook = () => {

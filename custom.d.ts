@@ -62,9 +62,12 @@ interface WalletWithBalance extends Wallet {
   balances: WalletBalance[]
 }
 
-interface Crypto {
+interface Cryptocurrency {
   name: string
+  image: string
   coinType: number
+  graphqlHttpUrl: string
+  graphqlWsUrl: string
 }
 
 interface Validator {

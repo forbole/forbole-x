@@ -152,9 +152,9 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
             )
             .map((v, i) => {
               return (
-                <TableRow key={`row-${i}`} className={classes.tableRow}>
+                <TableRow key={v.address} className={classes.tableRow}>
                   <TableCell className={classes.tableCell}>
-                    {v.rank}
+                    {i + 1}
                     <IconButton onClick={() => toggleFav({ ...v })} className={classes.star}>
                       {v.fav ? (
                         <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />

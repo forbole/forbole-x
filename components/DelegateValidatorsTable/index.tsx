@@ -20,7 +20,7 @@ export interface ValidatorInfo extends Validator {
 
 interface DelegateValidatorsTableProps {
   validators: ValidatorInfo[]
-  crypto: Crypto
+  crypto: Cryptocurrency
   account: Account
   onRowClick?: (validatorInfo: ValidatorInfo) => void
 }
@@ -43,11 +43,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`full-width-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box p={3}>{children}</Box>}
     </div>
   )
 }
@@ -58,32 +54,18 @@ const DelegateValidatorsTable: React.FC<DelegateValidatorsTableProps> = ({
   account,
 }) => {
   const { classes } = useGetStyles()
-  const { t, lang } = useTranslation('common')
+  const { t } = useTranslation('common')
   const [currentTab, setCurrentTab] = React.useState(0)
 
-  const { mapData, addFavTag } = useValidatorTableHook({
+  const { mappedData, mappedFavData } = useValidatorTableHook({
     data: validators,
   })
-
-  addFavTag()
-  const { mappedData, mappedFavData } = mapData()
 
   const tabs = [
     { label: 'active validators', count: mappedData.active?.length || 0 },
     { label: 'inactive validators', count: mappedData.nonActive?.length || 0 },
     { label: 'favourite', count: mappedFavData?.length || 0 },
   ]
-
-  // add random rank
-  const addRanks = (list: ValidatorInfo[]) => {
-    let i = 1
-    list.forEach((x) => {
-      // eslint-disable-next-line no-param-reassign
-      x.rank = i
-      i += 1
-    })
-    return list
-  }
 
   return (
     <Card className={classes.container}>
@@ -100,7 +82,7 @@ const DelegateValidatorsTable: React.FC<DelegateValidatorsTableProps> = ({
         <Box mt={2} ml={-3} mr={-3}>
           <TabPanel value={currentTab} index={0}>
             <ValidatorsTable
-              validators={mappedData.active ? addRanks(mappedData.active) : []}
+              validators={mappedData.active || []}
               crypto={crypto}
               account={account}
               initialActiveSort="moniker"
@@ -108,7 +90,7 @@ const DelegateValidatorsTable: React.FC<DelegateValidatorsTableProps> = ({
           </TabPanel>
           <TabPanel value={currentTab} index={1}>
             <ValidatorsTable
-              validators={mappedData.nonActive ? addRanks(mappedData.nonActive) : []}
+              validators={mappedData.nonActive || []}
               crypto={crypto}
               account={account}
               initialActiveSort="moniker"
@@ -116,7 +98,7 @@ const DelegateValidatorsTable: React.FC<DelegateValidatorsTableProps> = ({
           </TabPanel>
           <TabPanel value={currentTab} index={2}>
             <ValidatorsTable
-              validators={addRanks(mappedFavData)}
+              validators={mappedFavData}
               crypto={crypto}
               account={account}
               alignRight
