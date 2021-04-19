@@ -10,6 +10,7 @@ import ProposalIcon from '../../assets/images/icons/icon_proposal.svg'
 import AddressBookIcon from '../../assets/images/icons/icon_address_book.svg'
 import ExplorerIcon from '../../assets/images/icons/icon_explorer.svg'
 import Logo from '../../assets/images/logo.svg'
+import LogoExpended from '../../assets/images/logo_expended.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { MenuWidth } from '.'
@@ -79,20 +80,21 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
         >
           <ListItemIcon>
             <Box ml={-1}>
-              <Logo
-                width={theme.spacing(5)}
-                height={theme.spacing(5)}
-                fill={theme.palette.primary.main}
-              />
+              {isMenuExpanded ? (
+                <LogoExpended
+                  width={theme.spacing(25)}
+                  height={theme.spacing(5)}
+                  fill={theme.palette.primary.main}
+                />
+              ) : (
+                <Logo
+                  width={theme.spacing(5)}
+                  height={theme.spacing(5)}
+                  fill={theme.palette.primary.main}
+                />
+              )}
             </Box>
           </ListItemIcon>
-          <ListItemText
-            primary="PORTAL"
-            primaryTypographyProps={{
-              variant: 'h1',
-              color: 'primary',
-            }}
-          />
         </ListItem>
         {items.map((item) => {
           const selected = item.href === activeItem

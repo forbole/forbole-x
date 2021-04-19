@@ -24,7 +24,7 @@ const Chart: React.FC<ChartProp> = ({ rawData }) => {
     theme.palette.pieChart.color6,
   ]
 
-  // how to override light mode color of the pie? it shows black when it is activeIndex
+  // todo: how to override light mode color of the pie? it shows black when it is activeIndex
 
   rawData.forEach((d, i) => {
     const startAngle = i === 0 ? 0 : data[i - 1].endAngle
