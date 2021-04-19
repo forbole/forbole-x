@@ -102,40 +102,6 @@ export const useTableDefaultHook = (options: useTableDefaultHookProps) => {
 export const useValidatorTableHook = (props: useValidatorTableHookProps) => {
   const { favValidators } = useGeneralContext()
   const { data } = props
-<<<<<<< HEAD
-  const addFavTag = () => {
-    const taggedData: ValidatorInfo[] = []
-    data.forEach((x: ValidatorInfo) => {
-      if (favValidators.findIndex((address) => address === x.address) !== -1) {
-        taggedData.push({ ...x, fav: true })
-      } else {
-        taggedData.push({ ...x, fav: false })
-      }
-    })
-    return taggedData
-  }
-
-  const mapData = () => {
-    const taggedData = addFavTag()
-    const mappedFavData: ValidatorInfo[] = []
-    taggedData.forEach((x: ValidatorInfo) => {
-      if (x.fav) {
-        mappedFavData.push(x)
-      }
-    })
-
-    const mappedData: any = []
-    taggedData.forEach((x: ValidatorInfo) => {
-      const type = x.isActive ? 'active' : 'nonActive'
-      if (mappedData[type]) {
-        mappedData[type].push(x)
-      } else {
-        mappedData[type] = [x]
-      }
-    })
-    return { mappedData, mappedFavData }
-  }
-=======
 
   data.forEach((x: ValidatorInfo, i) => {
     if (favValidators.findIndex((address) => address === x.address) !== -1) {
@@ -144,7 +110,6 @@ export const useValidatorTableHook = (props: useValidatorTableHookProps) => {
       data[i].fav = false
     }
   })
->>>>>>> eeddf48be319b3cb7d2e6d442fea36fd8d82e303
 
   const mappedFavData: any = []
   data.forEach((x: ValidatorInfo) => {

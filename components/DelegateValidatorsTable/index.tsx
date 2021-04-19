@@ -3,7 +3,7 @@ import { Box, Typography, Card, Tabs, Tab } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import { useGetStyles } from './styles'
 import { useValidatorTableHook } from './hooks'
-import ValidatorsTable from './Table01'
+import ValidatorsTable from './Table'
 
 export interface ValidatorInfo extends Validator {
   location: {
@@ -67,23 +67,6 @@ const DelegateValidatorsTable: React.FC<DelegateValidatorsTableProps> = ({
     { label: 'favourite', count: mappedFavData?.length || 0 },
   ]
 
-<<<<<<< HEAD
-  // add random rank
-  const addRanks = (list: ValidatorInfo[]) => {
-    let i = 1
-    list.forEach((x) => {
-      // eslint-disable-next-line no-param-reassign
-      x.rank = i
-      console.log('map', i)
-      i += 1
-    })
-    return list
-  }
-  console.log('mappedData.active', mappedData.active)
-  console.log('addRanks(mappedData.active)', addRanks(mappedData.active))
-
-=======
->>>>>>> eeddf48be319b3cb7d2e6d442fea36fd8d82e303
   return (
     <Card className={classes.container}>
       <Box p={4}>
