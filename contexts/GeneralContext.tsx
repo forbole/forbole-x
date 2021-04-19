@@ -4,7 +4,7 @@ import usePersistedState from '../misc/usePersistedState'
 
 type Theme = 'light' | 'dark'
 type Currency = typeof currencies[number]
-type FavValidators = string[] | []
+type FavValidators = string[]
 
 interface SettingsState {
   currency: Currency
@@ -31,14 +31,14 @@ const GeneralProvider: React.FC = ({ children }) => {
   const [favValidators, setFavValidators] = usePersistedState('fav', initialState.favValidators)
   const addFavValidators = React.useCallback(
     (address: string) => {
-      setFavValidators([address, ...favValidators])
+      setFavValidators((vs) => [address, ...vs])
     },
-    [setFavValidators, favValidators]
+    [setFavValidators]
   )
 
   const deleteFavValidators = React.useCallback(
     (address: string) => {
-      setFavValidators((fav) => fav.filter((a) => a !== address))
+      setFavValidators((vs) => vs.filter((a) => a !== address))
     },
     [setFavValidators]
   )

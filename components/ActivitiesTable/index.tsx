@@ -23,7 +23,7 @@ export interface Account {
 interface ActivitiesTableProps {
   activities?: Activity[]
   account: Account
-  crypto: Crypto
+  crypto: Cryptocurrency
 }
 
 const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, account }) => {

@@ -1,4 +1,4 @@
-import { Box, Typography } from '@material-ui/core'
+import { Box, Button } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { useGetStyles } from './styles'
@@ -10,13 +10,13 @@ interface ActiveProps {
 
 const Active: React.FC<ActiveProps> = ({ status, onClick }) => {
   const { classes } = useGetStyles(status)
-  const { t, lang } = useTranslation('common')
+  const { t } = useTranslation('common')
 
   return (
     <Box className={classes.activeStatus} onClick={onClick}>
-      <Typography variant="body2">
-        <a className={classes.button}>{t('delegate')}</a>
-      </Typography>
+      <Button size="small" color="secondary" variant="contained">
+        {t('delegate')}
+      </Button>
     </Box>
   )
 }
