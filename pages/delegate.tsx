@@ -5,10 +5,8 @@ import { useWalletsContext } from '../contexts/WalletsContext'
 import cryptocurrencies from '../misc/cryptocurrencies'
 
 const Delegate: React.FC = () => {
-  const { wallets, accounts } = useWalletsContext()
-  // not sure how user switch account, fix it later
+  const { accounts } = useWalletsContext()
   const crypto = cryptocurrencies.DSM
-  // const crypto = 'DSM'
   const fakeValidators = [
     {
       image:
