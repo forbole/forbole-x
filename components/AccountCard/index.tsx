@@ -26,8 +26,7 @@ interface AccountCardProps {
 }
 
 const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
-  // const crypto = cryptocurrencies[account.crypto]
-  const crypto = cryptocurrencies.DSM
+  const crypto = cryptocurrencies[account.crypto]
   const classes = useStyles()
   const theme = useTheme()
   const iconProps = useIconProps()
