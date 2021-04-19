@@ -23,7 +23,7 @@ const useStyles = makeStyles(
       marginRight: theme.spacing(1),
     },
     tabIndicator: {
-      backgroundColor: theme.palette.text.primary,
+      backgroundColor: theme.palette.indicator,
     },
   }),
   {

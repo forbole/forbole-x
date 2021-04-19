@@ -97,7 +97,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
               >
                 {t('claim rewards')}
               </Button>
-              <Button classes={{ root: classes.sendButton }} variant="contained" color="secondary">
+              <Button classes={{ root: classes.sendButton }} variant="contained">
                 {t('send')}
               </Button>
               <Button classes={{ root: classes.iconButton }} variant="outlined" onClick={toggleFav}>

@@ -12,7 +12,8 @@ interface AccountAvatarProps {
 }
 
 const AccountAvatar: React.FC<AccountAvatarProps> = ({ account, hideAddress, size = 'base' }) => {
-  const crypto = cryptocurrencies[account.crypto]
+  // const crypto = cryptocurrencies[account.crypto]
+  const crypto = cryptocurrencies.DSM
   const iconProps = useIconProps()
   const classes = useStyles()
 

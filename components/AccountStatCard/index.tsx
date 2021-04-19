@@ -38,7 +38,8 @@ interface AccountStatCardProps {
 }
 
 const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
-  const crypto = cryptocurrencies[account.crypto]
+  // const crypto = cryptocurrencies[account.crypto]
+  const crypto = cryptocurrencies.DSM
   const classes = useStyles()
   const theme = useTheme()
   const { t, lang } = useTranslation('common')
