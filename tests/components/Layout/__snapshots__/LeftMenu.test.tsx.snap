@@ -39,8 +39,6 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
           <svg
             data-file-name="SvgLogo_expended"
             fill="#3f51b5"
-            height={40}
-            width={200}
           />
         </div>
       </div>
@@ -385,8 +383,6 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
           <svg
             data-file-name="SvgLogo"
             fill="#3f51b5"
-            height={40}
-            width={40}
           />
         </div>
       </div>
@@ -707,8 +703,6 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           <svg
             data-file-name="SvgLogo_expended"
             fill="#3f51b5"
-            height={40}
-            width={200}
           />
         </div>
       </div>
