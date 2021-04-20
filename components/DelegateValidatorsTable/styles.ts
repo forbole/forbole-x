@@ -22,6 +22,7 @@ export const useGetStyles = (status?: string, alignRight?: boolean) => {
         },
         tableCell: {
           borderBottom: 'none',
+          padding: theme.spacing(1.5, 2),
         },
         box: {
           cursor: 'point',
@@ -41,10 +42,6 @@ export const useGetStyles = (status?: string, alignRight?: boolean) => {
         },
         tabIndicator: {
           backgroundColor: theme.palette.text.primary,
-        },
-        star: {
-          marginLeft: theme.spacing(4),
-          verticalAlign: 'initial',
         },
         activeStatus: {
           height: theme.spacing(3.5),
@@ -111,13 +108,6 @@ export const useGetStyles = (status?: string, alignRight?: boolean) => {
         popoverContainer: {
           padding: theme.spacing(2),
           maxWidth: '300px',
-        },
-        popoverLabel: {
-          height: 0,
-          display: 'flex',
-          alignItems: 'center',
-          paddingRight: alignRight ? '25%' : '0',
-          justifyContent: alignRight ? 'flex-end' : 'flex-start',
         },
       }),
     {

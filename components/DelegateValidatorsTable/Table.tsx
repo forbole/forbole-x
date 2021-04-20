@@ -36,6 +36,7 @@ interface ValidatorsTableProps {
   onToggle?: any
   alignRight?: boolean
   initialActiveSort?: string
+  initialSortDirection?: 'asc' | 'desc'
   pagination?: {
     rowsPerPage: number | undefined
   }
@@ -48,12 +49,13 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
   alignRight,
   pagination,
   initialActiveSort,
+  initialSortDirection,
 }) => {
   const { classes } = useGetStyles()
   const { t, lang } = useTranslation('common')
   const theme = useTheme()
   const iconProps = useIconProps()
-  const { addFavValidators, deleteFavValidators } = useGeneralContext()
+  const { addFavValidators, deleteFavValidators, favValidators } = useGeneralContext()
   const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
   const router = useRouter()
 
@@ -61,6 +63,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
     data: validators,
     rowsPerPageCount: pagination?.rowsPerPage,
     initialActiveSort,
+    initialSortDirection,
   })
 
   const columns = [
@@ -102,7 +105,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
   ]
 
   const toggleFav = (validator: ValidatorInfo) => {
-    if (validator.fav) {
+    if (favValidators.includes(validator.address)) {
       deleteFavValidators(validator.address)
     } else {
       addFavValidators(validator.address)
@@ -110,7 +113,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
   }
 
   return (
-    <Box>
+    <Box mt={2}>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
@@ -120,25 +123,24 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                   <TableCell key={column.label}>
                     <TableSortLabel
                       className={classes.table__label}
+                      active={state.activeSort === column.label}
                       direction={state.activeSort === column.label ? state.sortDirection : 'asc'}
                       onClick={handleSort(column.label)}
                       IconComponent={ArrowDropDown}
                     >
-                      {t(column.display)}
+                      {column.display ? t(column.display) : ''}
                     </TableSortLabel>
                   </TableCell>
                 )
               }
               return (
                 <TableCell key={column.label} className={classes.table__label}>
-                  {column.label === 'status' ? (
-                    <div className={classes.popoverLabel}>
-                      <p>{t(column.label)}</p>
+                  <Box display="flex" alignItems="center">
+                    {column.display ? t(column.label) : ''}
+                    {column.label === 'status' ? (
                       <InfoPopover detail={t(column.detail)} className={classes.popover} />
-                    </div>
-                  ) : (
-                    t(column.label)
-                  )}
+                    ) : null}
+                  </Box>
                 </TableCell>
               )
             })}
@@ -154,14 +156,21 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
               return (
                 <TableRow key={v.address} className={classes.tableRow}>
                   <TableCell className={classes.tableCell}>
-                    {i + 1}
-                    <IconButton onClick={() => toggleFav({ ...v })} className={classes.star}>
-                      {v.fav ? (
-                        <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
-                      ) : (
-                        <StarIcon {...iconProps} />
-                      )}
-                    </IconButton>
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      width={theme.spacing(8)}
+                      justifyContent="space-between"
+                    >
+                      {i + 1}
+                      <IconButton onClick={() => toggleFav({ ...v })}>
+                        {favValidators.includes(v.address) ? (
+                          <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
+                        ) : (
+                          <StarIcon {...iconProps} />
+                        )}
+                      </IconButton>
+                    </Box>
                   </TableCell>
                   <TableCell className={classes.tableCell}>
                     <Box
@@ -191,7 +200,9 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                     {formatCrypto(v.delegatedAmount, crypto.name, lang)}(
                     {formatPercentage(v.vpRatios, lang)})
                   </TableCell>
-                  <TableCell className={classes.tableCell}>{v.selfRatio}</TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {formatPercentage(v.selfRatio, lang)}
+                  </TableCell>
                   <TableCell className={classes.tableCell}>
                     {formatPercentage(v.commission, lang)}
                   </TableCell>

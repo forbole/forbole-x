@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { ValidatorInfo } from './index'
-import { useGeneralContext } from '../../contexts/GeneralContext'
 
 export type Columns = {
   label: string
@@ -22,22 +21,18 @@ export interface useTableDefaultHookProps {
   rowsPerPageCount?: number
   onRowClick?: (data: ValidatorInfo) => void
   initialActiveSort?: string
+  initialSortDirection?: 'asc' | 'desc'
   data: ValidatorInfo[]
 }
 
-export interface useValidatorTableHookProps {
-  data?: ValidatorInfo[]
-  toggledValidator?: boolean
-}
-
 export const useTableDefaultHook = (options: useTableDefaultHookProps) => {
-  const { rowsPerPageCount = 10, initialActiveSort, data } = options
+  const { rowsPerPageCount = 10, initialActiveSort, initialSortDirection, data } = options
   const [state, setState] = useState<any>({
     data,
     page: 0,
     rowsPerPage: rowsPerPageCount,
     activeSort: initialActiveSort,
-    sortDirection: 'asc',
+    sortDirection: initialSortDirection,
   })
 
   const handleChangePage = React.useCallback(
@@ -97,37 +92,6 @@ export const useTableDefaultHook = (options: useTableDefaultHookProps) => {
     state,
     handleSort,
   }
-}
-
-export const useValidatorTableHook = (props: useValidatorTableHookProps) => {
-  const { favValidators } = useGeneralContext()
-  const { data } = props
-
-  data.forEach((x: ValidatorInfo, i) => {
-    if (favValidators.findIndex((address) => address === x.address) !== -1) {
-      data[i].fav = true
-    } else {
-      data[i].fav = false
-    }
-  })
-
-  const mappedFavData: any = []
-  data.forEach((x: ValidatorInfo) => {
-    if (x.fav) {
-      mappedFavData.push(x)
-    }
-  })
-
-  const mappedData: any = []
-  data.forEach((x: ValidatorInfo) => {
-    const type = x.isActive ? 'active' : 'nonActive'
-    if (mappedData[type]) {
-      mappedData[type].push(x)
-    } else {
-      mappedData[type] = [x]
-    }
-  })
-  return { mappedData, mappedFavData }
 }
 
 export const useInfoPopoverHook = () => {
