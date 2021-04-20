@@ -15,7 +15,6 @@ const Chart: React.FC<ChartProp> = ({ rawData }) => {
   const [activeIndex, setActiveIndex] = React.useState(0)
   const theme = useTheme()
   const COLORS = [
-    theme.palette.primary,
     theme.palette.pieChart.color1,
     theme.palette.pieChart.color2,
     theme.palette.pieChart.color3,

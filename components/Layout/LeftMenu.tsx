@@ -14,6 +14,7 @@ import LogoExpended from '../../assets/images/logo_expended.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { MenuWidth } from '.'
+import { useSettingsContext } from '../../contexts/SettingsContext'
 
 interface LeftMenuProps {
   activeItem: string
@@ -23,9 +24,10 @@ interface LeftMenuProps {
 
 const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMenuExpanded }) => {
   const { t } = useTranslation('common')
-  const theme = useTheme()
+  const themeStyle = useTheme()
   const iconProps = useIconProps(3)
   const classes = useStyles()
+  const { theme } = useSettingsContext()
   const items = React.useMemo(
     () => [
       {
@@ -69,7 +71,9 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
 
   return (
     <Paper
-      style={{ width: theme.spacing(isMenuExpanded ? MenuWidth.Expanded : MenuWidth.Collapsed) }}
+      style={{
+        width: themeStyle.spacing(isMenuExpanded ? MenuWidth.Expanded : MenuWidth.Collapsed),
+      }}
       className={classes.leftMenuContainer}
     >
       <List className={classes.menu}>
@@ -82,15 +86,23 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
             <Box ml={-1}>
               {isMenuExpanded ? (
                 <LogoExpended
-                  width={theme.spacing(25)}
-                  height={theme.spacing(5)}
-                  fill={theme.palette.primary.main}
+                  width={themeStyle.spacing(25)}
+                  height={themeStyle.spacing(5)}
+                  fill={
+                    theme === 'light'
+                      ? themeStyle.palette.primary.main
+                      : themeStyle.palette.text.primary
+                  }
                 />
               ) : (
                 <Logo
-                  width={theme.spacing(5)}
-                  height={theme.spacing(5)}
-                  fill={theme.palette.primary.main}
+                  width={themeStyle.spacing(5)}
+                  height={themeStyle.spacing(5)}
+                  fill={
+                    theme === 'light'
+                      ? themeStyle.palette.primary.main
+                      : themeStyle.palette.text.primary
+                  }
                 />
               )}
             </Box>
@@ -103,7 +115,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
               <ListItem selected={selected} className={classes.menuItem} button component="a">
                 <ListItemIcon>
                   {React.cloneElement(item.icon, {
-                    fill: selected ? theme.palette.primary.main : theme.palette.grey[300],
+                    fill: selected ? themeStyle.palette.primary.main : themeStyle.palette.grey[300],
                   })}
                 </ListItemIcon>
                 <ListItemText
