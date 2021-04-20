@@ -95,9 +95,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto })
                     <TableCell className={classes.tableCell}>
                       {formatPercentage(v.commission, lang)}
                     </TableCell>
-                    <TableCell className={classes.tableCell}>
-                      {formatPercentage(v.vpRatios, lang)}
-                    </TableCell>
+                    <TableCell className={classes.tableCell}>{formatPercentage(0, lang)}</TableCell>
                     <TableCell className={classes.tableCell}>
                       {formatCrypto(v.delegatedAmount, crypto.name, lang)}
                     </TableCell>

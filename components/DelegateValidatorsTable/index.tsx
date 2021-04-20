@@ -56,8 +56,8 @@ const DelegateValidatorsTable: React.FC<DelegateValidatorsTableProps> = ({
           validators={tabs[currentTab].validators}
           crypto={crypto}
           account={account}
-          initialActiveSort="vpRatios"
-          initialSortDirection="desc"
+          initialActiveSort="rank"
+          initialSortDirection="asc"
         />
       </Box>
     </Card>

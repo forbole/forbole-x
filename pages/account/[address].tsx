@@ -35,7 +35,7 @@ const Account: React.FC = () => {
       }
     >
       {account ? <AccountDetailCard account={account} /> : null}
-      <ValidatorsTable
+      {/* <ValidatorsTable
         validators={times(100).map((i) => ({
           image:
             'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
@@ -47,7 +47,7 @@ const Account: React.FC = () => {
           reward: 122321,
         }))}
         crypto={crypto}
-      />
+      /> */}
       <ActivitiesTable
         account={{
           name: 'Chan',
