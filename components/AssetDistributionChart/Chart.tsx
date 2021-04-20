@@ -2,6 +2,7 @@ import React from 'react'
 import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import { Box, Typography, useTheme } from '@material-ui/core'
 import useStyles from './styles'
+import { CustomTheme } from '../../misc/theme'
 
 interface ChartProp {
   rawData: {
@@ -13,13 +14,17 @@ const Chart: React.FC<ChartProp> = ({ rawData }) => {
   const classes = useStyles()
   const data = []
   const [activeIndex, setActiveIndex] = React.useState(0)
-  const theme = useTheme()
+  const theme: CustomTheme = useTheme()
   const COLORS = [
-    theme.palette.error,
-    theme.palette.warning,
-    theme.palette.success,
-    theme.palette.info,
+    theme.palette.pieChart.color1,
+    theme.palette.pieChart.color2,
+    theme.palette.pieChart.color3,
+    theme.palette.pieChart.color4,
+    theme.palette.pieChart.color5,
+    theme.palette.pieChart.color6,
   ]
+
+  // todo: how to override light mode color of the pie? it shows black when it is activeIndex
 
   rawData.forEach((d, i) => {
     const startAngle = i === 0 ? 0 : data[i - 1].endAngle
@@ -60,7 +65,8 @@ const Chart: React.FC<ChartProp> = ({ rawData }) => {
             >
               <Cell
                 onMouseEnter={() => setActiveIndex(i)}
-                fill={COLORS[i % COLORS.length][activeIndex === i ? 'light' : 'main']}
+                fill={COLORS[i % COLORS.length].main}
+                opacity={activeIndex === i ? 0.8 : 1}
               />
             </Pie>
           ))}

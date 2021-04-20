@@ -1,9 +1,11 @@
 import { ThemeOptions, Theme } from '@material-ui/core'
-import { Palette } from '@material-ui/core/styles/createPalette'
+import { Palette, PaletteColor } from '@material-ui/core/styles/createPalette'
 
 interface CustomPalette extends Palette {
   tagColor: { [key: string]: string }
   translucent: string
+  indicator: string
+  pieChart: { [key: string]: PaletteColor }
 }
 
 export interface CustomTheme extends Theme {
@@ -78,10 +80,10 @@ const lightTheme = ({
   ...common,
   palette: {
     primary: {
-      main: '#FD565F',
+      main: '#5C7BFF',
     },
     secondary: {
-      main: '#5C7BFF',
+      main: '#FCB836',
     },
     info: {
       main: '#1D86FF',
@@ -134,6 +136,27 @@ const lightTheme = ({
       setRewardAddress: '#497BFF',
     },
     translucent: 'rgba(255, 255, 255, 0.5)',
+    indicator: '#5C7BFF',
+    pieChart: {
+      color1: {
+        main: '#007FFF',
+      },
+      color2: {
+        main: '#6ED588',
+      },
+      color3: {
+        main: '#2DCBE0',
+      },
+      color4: {
+        main: '#74CDFF',
+      },
+      color5: {
+        main: '#DEC053',
+      },
+      color6: {
+        main: '#F4B65A',
+      },
+    },
   },
 } as unknown) as ThemeOptions
 
@@ -141,10 +164,10 @@ const darkTheme = ({
   ...common,
   palette: {
     primary: {
-      main: '#FD565F',
+      main: '#007FFF',
     },
     secondary: {
-      main: '#5C7BFF',
+      main: '#ECB140',
     },
     info: {
       main: '#1D86FF',
@@ -196,6 +219,27 @@ const darkTheme = ({
       setRewardAddress: '#497BFF',
     },
     translucent: 'rgba(0, 0, 0, 0.5)',
+    indicator: '#E6E6E6',
+    pieChart: {
+      color1: {
+        main: '#007FFF',
+      },
+      color2: {
+        main: '#6ED588',
+      },
+      color3: {
+        main: '#2DCBE0',
+      },
+      color4: {
+        main: '#74CDFF',
+      },
+      color5: {
+        main: '#DEC053',
+      },
+      color6: {
+        main: '#F4B65A',
+      },
+    },
   },
 } as unknown) as ThemeOptions
 

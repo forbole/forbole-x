@@ -1,4 +1,4 @@
-import { Box, Card, Typography, useTheme, IconButton } from '@material-ui/core'
+import { Box, Card, Typography, useTheme, IconButton, CircularProgress } from '@material-ui/core'
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
@@ -8,13 +8,12 @@ import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import useStyles from './styles'
 import { useSettingsContext } from '../../contexts/SettingsContext'
 import useIconProps from '../../misc/useIconProps'
-import cryptocurrencies from '../../misc/cryptocurrencies'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import AccountMenuButton from '../AccountMenuButton'
 import AccountAvatar from '../AccountAvatar'
 import {
-  formatCrypto,
   formatCurrency,
+  formatTokenAmount,
   getTotalBalance,
   getTotalTokenAmount,
   transformGqlAcountBalance,
@@ -26,7 +25,6 @@ interface AccountCardProps {
 }
 
 const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
-  const crypto = cryptocurrencies[account.crypto]
   const classes = useStyles()
   const theme = useTheme()
   const iconProps = useIconProps()
@@ -34,12 +32,13 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
   const { currency } = useSettingsContext()
   const { updateAccount } = useWalletsContext()
   const router = useRouter()
-  const { data } = useSubscription(
+  const { data, loading } = useSubscription(
     gql`
       ${getLatestAccountBalance(account.crypto)}
     `,
     { variables: { address: account.address } }
   )
+
   const { tokenAmounts, usdBalance } = React.useMemo(() => {
     const accountBalance = transformGqlAcountBalance(data, Date.now())
     return {
@@ -67,18 +66,18 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
         <AccountMenuButton accountAddress={account.address} />
       </Box>
       <Box display="flex" alignItems="flex-end" justifyContent="space-between">
-        <Box>
-          {Object.keys(tokenAmounts).length ? (
-            Object.keys(tokenAmounts).map((ta) => (
-              <Typography key={ta} variant="h4">
-                {formatCrypto(tokenAmounts[ta].amount, ta.toUpperCase(), lang)}
-              </Typography>
-            ))
-          ) : (
-            <Typography variant="h4">{formatCrypto(0, crypto.name, lang)}</Typography>
-          )}
-          <Typography variant="h6">{formatCurrency(usdBalance, currency, lang)}</Typography>
-        </Box>
+        {loading ? (
+          <Box my={0.5} mx={4}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <Box>
+            <Typography variant="h4">
+              {formatTokenAmount(tokenAmounts, account.crypto, lang)}
+            </Typography>
+            <Typography variant="h6">{formatCurrency(usdBalance, currency, lang)}</Typography>
+          </Box>
+        )}
         <IconButton onClick={toggleFav}>
           {account.fav ? (
             <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />

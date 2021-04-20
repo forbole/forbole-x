@@ -1,5 +1,5 @@
 {
-  "name": "forbole-portal",
+  "name": "forbole-x",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -26,6 +26,7 @@
     "next-translate": "^1.0.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-json-view": "^1.21.3",
     "recharts": "^2.0.3",
     "subscriptions-transport-ws": "^0.9.18"
   },

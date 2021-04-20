@@ -8,7 +8,6 @@
   "proposals": "Proposals",
   "address book": "Address Book",
   "explorer": "Explorer",
-  "portal": "PORTAL",
   "get started button": "Get Started",
   "get started line1": "Add wallet to manage your assets, control your multi assets in a single interface",
   "get started line2": "Let’s get started with setting a password",
@@ -163,6 +162,14 @@
   "NA": "N/A",
   "fee": "Fee",
   "view data": "View Data",
+  "hide data": "Hide data",
   "claim rewards": "Claim Rewards",
-  "24h": "24h"
+  "24h": "24h",
+  "insert address": "Insert address",
+  "add address": "Add address",
+  "send to": "To {{number}}",
+  "recipient address": "Recipient address",
+  "close": "Close",
+  "success": "Success",
+  "successfully sent": "{{title}} was successfully sent"
 }

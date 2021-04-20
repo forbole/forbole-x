@@ -8,7 +8,6 @@
   "proposals": "[zh] Proposals",
   "address book": "[zh] Address Book",
   "explorer": "[zh] Explorer",
-  "portal": "[zh] PORTAL",
   "get started button": "[zh] Get Started",
   "get started line1": "[zh] Add wallet to manage your assets, control your multi assets in a single interface",
   "get started line2": "[zh] Let’s get started with setting a password",
@@ -158,7 +157,13 @@
   "NA": "[zh] N/A",
   "fee": "[zh] Fee",
   "view data": "[zh] View Data",
+  "hide data": "[zh] Hide data",
   "claim rewards": "[zh] Claim Rewards",
   "send": "[zh] Send",
-  "24h": "[zh] 24h"
+  "24h": "[zh] 24h",
+  "insert address": "[zh] Insert address",
+  "add address": "[zh] Add address",
+  "send to": "[zh] To {{number}}",
+  "recipient address": "[zh] Recipient address",
+  "successfully sent": "[zh] {{title}} was successfully sent"
 }
