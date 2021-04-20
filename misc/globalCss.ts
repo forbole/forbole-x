@@ -33,6 +33,9 @@ const GlobalCss = withStyles(
         borderRadius: theme.shape.borderRadius,
         backgroundColor: theme.palette.grey[50],
       },
+      '.MuiFilledInput-root.Mui-error': {
+        border: `1px solid ${theme.palette.error.main}`,
+      },
       '.MuiFilledInput-root.Mui-focused': {
         backgroundColor: theme.palette.grey[100],
       },

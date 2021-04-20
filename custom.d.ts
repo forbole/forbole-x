@@ -89,7 +89,7 @@ interface TokenUnit {
 }
 
 interface TokenPrice {
-  name: string
+  unit_name: string
   price: number
   timestamp: string
   token_unit: TokenUnit
@@ -107,6 +107,43 @@ interface UpdateWalletParams {
   securityPassword?: string
   newSecurityPassword?: string
 }
+
+interface TransactionMsgDelegate {
+  type: 'delegate'
+  delegator: string
+  validator: string
+  amount: number
+  denom: string
+}
+
+interface TransactionMsgRedelegate {
+  type: 'redelegate'
+  delegator: string
+  fromValidator: string
+  toValidator: string
+  amount: number
+  denom: string
+}
+
+interface TransactionMsgWithdrawReward {
+  type: 'withdraw reward'
+  delegator: string
+  validator: string
+}
+
+interface TransactionMsgSend {
+  type: 'send'
+  from: string
+  to: string
+  amount: number
+  denom: string
+}
+
+type TransactionMsg =
+  | TransactionMsgDelegate
+  | TransactionMsgRedelegate
+  | TransactionMsgWithdrawReward
+  | TransactionMsgSend
 
 type ChromeMessage =
   | {
@@ -175,5 +212,16 @@ type ChromeMessage =
         securityPassword: string
         backupPassword: string
         password: string
+      }
+    }
+  | {
+      event: 'signAndBroadcastTransactions'
+      data: {
+        address: string
+        securityPassword: string
+        password: string
+        transactions: any[]
+        gasFee: any
+        memo?: string
       }
     }
