@@ -5,22 +5,11 @@ import { useGetStyles } from './styles'
 import ValidatorsTable from './Table'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 
-export interface ValidatorInfo extends Validator {
-  location: {
-    name: string
-    image: string
-  }
-  selfRatio: number
-  status: string
-  isActive: boolean
-  address: string
-}
-
 interface DelegateValidatorsTableProps {
-  validators: ValidatorInfo[]
+  validators: Validator[]
   crypto: Cryptocurrency
   account: Account
-  onRowClick?: (validatorInfo: ValidatorInfo) => void
+  onRowClick?: (validatorInfo: Validator) => void
 }
 
 const DelegateValidatorsTable: React.FC<DelegateValidatorsTableProps> = ({

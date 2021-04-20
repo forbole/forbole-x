@@ -23,6 +23,8 @@ export const useGetStyles = (status?: string, alignRight?: boolean) => {
         tableCell: {
           borderBottom: 'none',
           padding: theme.spacing(1.5, 2),
+          maxWidth: theme.spacing(20),
+          whiteSpace: 'nowrap',
         },
         box: {
           cursor: 'point',
@@ -108,6 +110,11 @@ export const useGetStyles = (status?: string, alignRight?: boolean) => {
         popoverContainer: {
           padding: theme.spacing(2),
           maxWidth: '300px',
+        },
+        ellipsisText: {
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whitespace: 'nowrap',
         },
       }),
     {

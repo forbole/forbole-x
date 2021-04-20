@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { ValidatorInfo } from './index'
 
 export type Columns = {
   label: string
@@ -11,7 +10,7 @@ export type Columns = {
 export interface TableDefaultProps {
   className?: string
   columns: Columns[]
-  data: ValidatorInfo[]
+  data: Validator[]
   pagination?: {
     rowsPerPage: number | undefined
   }
@@ -19,10 +18,10 @@ export interface TableDefaultProps {
 
 export interface useTableDefaultHookProps {
   rowsPerPageCount?: number
-  onRowClick?: (data: ValidatorInfo) => void
+  onRowClick?: (data: Validator) => void
   initialActiveSort?: string
   initialSortDirection?: 'asc' | 'desc'
-  data: ValidatorInfo[]
+  data: Validator[]
 }
 
 export const useTableDefaultHook = (options: useTableDefaultHookProps) => {
@@ -57,34 +56,45 @@ export const useTableDefaultHook = (options: useTableDefaultHookProps) => {
   )
 
   const handleSort = React.useCallback(
-    (key: string) => () => {
-      const { sortDirection, activeSort: currentActiveSort, data: currentData } = state
-      const newSortDirection = currentActiveSort === key && sortDirection === 'asc' ? 'desc' : 'asc'
-      const sortedData = currentData.sort((a: any, b: any) => {
-        let compareA = a[key]
-        let compareB = b[key]
+    (key?: string, newData?: any) => () => {
+      setState((currentState) => {
+        const { sortDirection, activeSort: currentActiveSort, data: currentData } = currentState
+        // eslint-disable-next-line no-nested-ternary
+        const newSortDirection = key
+          ? currentActiveSort === key && sortDirection === 'asc'
+            ? 'desc'
+            : 'asc'
+          : sortDirection
+        const sortedData = (newData || currentData).sort((a: any, b: any) => {
+          let compareA = a[key || currentActiveSort]
+          let compareB = b[key || currentActiveSort]
 
-        if (compareA && typeof compareA === 'string') {
-          compareA = compareA?.toLowerCase() ?? ''
-          compareB = compareB?.toLowerCase() ?? ''
-        } else if (compareA && typeof compareA === 'object') {
-          compareA = compareA?.rawValue ?? null
-          compareB = compareB?.rawValue ?? null
+          if (compareA && typeof compareA === 'string') {
+            compareA = compareA?.toLowerCase() ?? ''
+            compareB = compareB?.toLowerCase() ?? ''
+          } else if (compareA && typeof compareA === 'object') {
+            compareA = compareA?.rawValue ?? null
+            compareB = compareB?.rawValue ?? null
+          }
+          if (newSortDirection === 'desc') {
+            return compareA > compareB ? -1 : 1
+          }
+          return compareA > compareB ? 1 : -1
+        })
+        return {
+          ...currentState,
+          sortDirection: newSortDirection,
+          activeSort: key || currentActiveSort,
+          data: sortedData,
         }
-        if (newSortDirection === 'desc') {
-          return compareA > compareB ? -1 : 1
-        }
-        return compareA > compareB ? 1 : -1
-      })
-      setState({
-        ...state,
-        sortDirection: newSortDirection,
-        activeSort: key,
-        data: sortedData,
       })
     },
-    [state, setState]
+    [setState]
   )
+
+  React.useEffect(() => {
+    handleSort(undefined, data)()
+  }, [data])
 
   return {
     handleChangePage,

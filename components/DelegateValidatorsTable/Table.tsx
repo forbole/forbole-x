@@ -26,11 +26,10 @@ import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { useTableDefaultHook } from './hooks'
 import DelegationDialog from '../DelegateDialog'
-import { ValidatorInfo } from './index'
 import InfoPopover from './InfoPopover'
 
 interface ValidatorsTableProps {
-  validators: ValidatorInfo[]
+  validators: Validator[]
   crypto: any
   account: Account
   onToggle?: any
@@ -59,6 +58,11 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
   const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
   const router = useRouter()
 
+  const totalVotingPower = React.useMemo(
+    () => validators.map((v) => v.votingPower).reduce((a, b) => a + b, 0),
+    [validators]
+  )
+
   const { handleChangePage, handleChangeRowsPerPage, handleSort, state } = useTableDefaultHook({
     data: validators,
     rowsPerPageCount: pagination?.rowsPerPage,
@@ -77,12 +81,12 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
       display: 'moniker',
       sort: true,
     },
+    // {
+    //   label: 'location',
+    //   display: 'location',
+    // },
     {
-      label: 'location',
-      display: 'location',
-    },
-    {
-      label: 'vpRatios',
+      label: 'votingPower',
       display: 'voting power',
       sort: true,
     },
@@ -104,7 +108,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
     },
   ]
 
-  const toggleFav = (validator: ValidatorInfo) => {
+  const toggleFav = (validator: Validator) => {
     if (favValidators.includes(validator.address)) {
       deleteFavValidators(validator.address)
     } else {
@@ -147,12 +151,12 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {validators
+          {state.data
             .slice(
               state.page * state.rowsPerPage,
               state.page * state.rowsPerPage + state.rowsPerPage
             )
-            .map((v, i) => {
+            .map((v) => {
               return (
                 <TableRow key={v.address} className={classes.tableRow}>
                   <TableCell className={classes.tableCell}>
@@ -162,7 +166,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                       width={theme.spacing(8)}
                       justifyContent="space-between"
                     >
-                      {i + 1}
+                      {v.rank}
                       <IconButton onClick={() => toggleFav({ ...v })}>
                         {favValidators.includes(v.address) ? (
                           <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
@@ -182,10 +186,10 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                       }}
                     >
                       <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
-                      <Typography>{v.name}</Typography>
+                      <Typography className={classes.ellipsisText}>{v.name}</Typography>
                     </Box>
                   </TableCell>
-                  <TableCell className={classes.tableCell}>
+                  {/* <TableCell className={classes.tableCell}>
                     <Box display="flex" alignItems="center">
                       <Avatar
                         className={classes.flagAvatar}
@@ -195,10 +199,10 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                       />
                       <Typography>{v.location.name}</Typography>
                     </Box>
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell className={classes.tableCell}>
-                    {formatCrypto(v.delegatedAmount, crypto.name, lang)}(
-                    {formatPercentage(v.vpRatios, lang)})
+                    {formatCrypto(v.votingPower, crypto.name, lang)} (
+                    {formatPercentage(v.votingPower / totalVotingPower, lang)})
                   </TableCell>
                   <TableCell className={classes.tableCell}>
                     {formatPercentage(v.selfRatio, lang)}

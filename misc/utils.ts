@@ -146,6 +146,40 @@ export const transformGqlAcountBalance = (data: any, timestamp: number): Account
   }
 }
 
+const statuses = ['unknown', 'unbonded', 'unbonded', 'active']
+
+export const getValidatorStatus = (status: number, jailed: boolean): string => {
+  if (jailed) {
+    return 'jailed'
+  }
+  return statuses[status]
+}
+
+export const transformValidators = (data: any): Validator[] => {
+  if (!data) {
+    return []
+  }
+  return data.validator
+    .map((validator) => ({
+      address: get(validator, 'address', ''),
+      image: get(validator, 'description[0].avatar_url', ''),
+      name: get(validator, 'description[0].moniker', get(validator, 'address', '')),
+      commission: get(validator, 'commission[0].commission', 0),
+      votingPower: get(validator, 'voting_power[0].voting_power', 0),
+      selfRatio: 0, // TODO: solve performance issue on BDJuno
+      status: getValidatorStatus(
+        get(validator, 'status[0].status', 0),
+        get(validator, 'status[0].jailed', false)
+      ),
+      isActive: get(validator, 'status[0].status', 0) === statuses.indexOf('active'),
+    }))
+    .sort((a, b) => b.votingPower - a.votingPower)
+    .map((validator, i) => ({
+      ...validator,
+      rank: i + 1,
+    }))
+}
+
 export const createEmptyChartData = (
   rawData: Array<{
     balance: number

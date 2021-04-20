@@ -71,13 +71,18 @@ interface Cryptocurrency {
 }
 
 interface Validator {
+  rank: number
+  address: string
   image: string
   name: string
   commission: number
-  vpRatios: number
-  delegatedAmount: number
+  votingPower: number
   amtRatio: number
-  reward: number
+  selfRatio: number
+  status: string
+  isActive: boolean
+  reward?: number
+  delegatedAmount?: number
 }
 
 interface TokenUnit {
