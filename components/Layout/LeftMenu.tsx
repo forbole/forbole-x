@@ -86,8 +86,6 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
             <Box ml={-1}>
               {isMenuExpanded ? (
                 <LogoExpended
-                  width={themeStyle.spacing(25)}
-                  height={themeStyle.spacing(5)}
                   fill={
                     theme === 'light'
                       ? themeStyle.palette.primary.main
@@ -96,8 +94,6 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
                 />
               ) : (
                 <Logo
-                  width={themeStyle.spacing(5)}
-                  height={themeStyle.spacing(5)}
                   fill={
                     theme === 'light'
                       ? themeStyle.palette.primary.main

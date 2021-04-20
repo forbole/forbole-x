@@ -2,6 +2,7 @@ import React from 'react'
 import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import { Box, Typography, useTheme } from '@material-ui/core'
 import useStyles from './styles'
+import { CustomTheme } from '../../misc/theme'
 
 interface ChartProp {
   rawData: {
@@ -13,7 +14,7 @@ const Chart: React.FC<ChartProp> = ({ rawData }) => {
   const classes = useStyles()
   const data = []
   const [activeIndex, setActiveIndex] = React.useState(0)
-  const theme = useTheme()
+  const theme: CustomTheme = useTheme()
   const COLORS = [
     theme.palette.pieChart.color1,
     theme.palette.pieChart.color2,
@@ -64,7 +65,8 @@ const Chart: React.FC<ChartProp> = ({ rawData }) => {
             >
               <Cell
                 onMouseEnter={() => setActiveIndex(i)}
-                fill={COLORS[i % COLORS.length][activeIndex === i ? 'light' : 'main']}
+                fill={COLORS[i % COLORS.length].main}
+                opacity={activeIndex === i ? 0.8 : 1}
               />
             </Pie>
           ))}
