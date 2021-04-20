@@ -17,24 +17,19 @@ import DelegationDialog from '../DelegateDialog'
 import {
   formatCrypto,
   formatCurrency,
-  getTokenAmoountBalance,
+  formatTokenAmount,
+  getTokenAmountBalance,
   getTotalBalance,
   getTotalTokenAmount,
   transformGqlAcountBalance,
 } from '../../misc/utils'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
 import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
+import SendDialog from '../SendDialog'
 
 interface AccountDetailCardProps {
   account: Account
 }
-
-const formatTokenAmount = (tokenAmount: TokenAmount, defaultUnit: string, lang: string): string =>
-  Object.keys(tokenAmount).length
-    ? Object.keys(tokenAmount)
-        .map((ta) => formatCrypto(tokenAmount[ta].amount, ta.toUpperCase(), lang))
-        .join('\n')
-    : formatCrypto(0, defaultUnit, lang)
 
 const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
   const { lang, t } = useTranslation('common')
@@ -44,6 +39,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
   const theme = useTheme()
   const { updateAccount } = useWalletsContext()
   const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
+  const [sendDialogOpen, setSendDialogOpen] = React.useState(false)
   const [timestamps, setTimestamps] = React.useState<Date[]>(
     dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
   )
@@ -62,14 +58,20 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
     `,
     { variables: { address: account.address } }
   )
-  const { totalTokenAmount, usdBalance, accountBalance } = React.useMemo(() => {
+
+  const { availableTokens, totalTokenAmount, usdBalance, accountBalance } = React.useMemo(() => {
     const ab = transformGqlAcountBalance(data, Date.now())
     return {
+      availableTokens: get(data, 'account[0].available[0]', { coins: [], tokens_prices: [] }),
       accountBalance: ab,
-      totalTokenAmount: getTotalTokenAmount(accountBalance).amount,
-      usdBalance: getTotalBalance(accountBalance).balance,
+      totalTokenAmount: getTotalTokenAmount(ab).amount,
+      usdBalance: getTotalBalance(ab).balance,
     }
   }, [data])
+
+  const isAvailableTokenEmpty = React.useMemo(() => !get(availableTokens, 'coins.length', 0), [
+    availableTokens,
+  ])
 
   const toggleFav = React.useCallback(() => {
     updateAccount(account.address, { fav: !account.fav })
@@ -86,6 +88,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
                 classes={{ root: classes.fixedWidthButton }}
                 variant="contained"
                 color="primary"
+                disabled={isAvailableTokenEmpty}
                 onClick={() => setDelegateDialogOpen(true)}
               >
                 {t('delegate')}
@@ -97,7 +100,13 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
               >
                 {t('claim rewards')}
               </Button>
-              <Button classes={{ root: classes.sendButton }} variant="contained" color="secondary">
+              <Button
+                classes={{ root: classes.sendButton }}
+                variant="contained"
+                color="secondary"
+                disabled={isAvailableTokenEmpty}
+                onClick={() => setSendDialogOpen(true)}
+              >
                 {t('send')}
               </Button>
               <Button classes={{ root: classes.iconButton }} variant="outlined" onClick={toggleFav}>
@@ -133,7 +142,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
                     lang
                   )}
                   subtitle={formatCurrency(
-                    getTokenAmoountBalance(get(accountBalance, `balance.${key}`, {})),
+                    getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})),
                     currency,
                     lang
                   )}
@@ -147,6 +156,12 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
         open={delegateDialogOpen}
         onClose={() => setDelegateDialogOpen(false)}
         account={account}
+      />
+      <SendDialog
+        open={sendDialogOpen}
+        onClose={() => setSendDialogOpen(false)}
+        account={account}
+        availableTokens={availableTokens}
       />
     </>
   )
