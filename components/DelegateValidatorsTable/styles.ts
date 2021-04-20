@@ -5,9 +5,6 @@ export const useGetStyles = (status?: string, alignRight?: boolean) => {
   const useStyles = makeStyles(
     (theme: CustomTheme) =>
       createStyles({
-        container: {
-          marginBottom: theme.spacing(4),
-        },
         table: {
           border: `1px solid ${theme.palette.grey[100]}`,
           borderRadius: theme.shape.borderRadius,

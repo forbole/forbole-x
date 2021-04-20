@@ -41,8 +41,8 @@ const DelegateValidatorsTable: React.FC<DelegateValidatorsTableProps> = ({
   )
 
   return (
-    <Card className={classes.container}>
-      <Box p={4}>
+    <Card>
+      <Box p={4} pt={2}>
         <Tabs
           value={currentTab}
           classes={{ indicator: classes.tabIndicator }}
