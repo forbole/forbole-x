@@ -5,6 +5,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import TablePagination from '../TablePagination'
 import { useGetStyles } from './styles'
 import Row from './Row'
+import { useSettingsContext } from '../../contexts/SettingsContext'
 
 export interface Activity {
   ref: string
@@ -33,6 +34,7 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, a
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [currentTab, setCurrentTab] = React.useState(0)
   const [activitiesCollection, setActivitiesCollection] = React.useState(activities)
+  const { theme } = useSettingsContext()
 
   const tabs = [
     { label: 'all', count: activities.length },
@@ -57,8 +59,11 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, a
       <Box p={4}>
         <Tabs
           value={currentTab}
-          classes={{ indicator: classes.tabIndicator }}
+          classes={{
+            indicator: classes.tabIndicator,
+          }}
           onChange={(e, v) => setTabContent(v)}
+          textColor={theme === 'light' ? 'primary' : 'inherit'}
         >
           {tabs.map((tab) => (
             <Tab key={tab.label} label={`${t(tab.label)} (${tab.count})`} />

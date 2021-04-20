@@ -21,6 +21,7 @@ import TablePagination from '../TablePagination'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { formatPercentage, formatCrypto } from '../../misc/utils'
+import { useSettingsContext } from '../../contexts/SettingsContext'
 
 interface ValidatorsTableProps {
   validators: Validator[]
@@ -30,11 +31,12 @@ interface ValidatorsTableProps {
 const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
-  const theme = useTheme()
+  const themeStyle = useTheme()
   const iconProps = useIconProps()
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [currentTab, setCurrentTab] = React.useState(0)
+  const { theme } = useSettingsContext()
 
   const tabs = [
     { label: 'delegations', count: 100 },
@@ -49,6 +51,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto })
           value={currentTab}
           classes={{ indicator: classes.tabIndicator }}
           onChange={(e, v) => setCurrentTab(v)}
+          textColor={theme === 'light' ? 'primary' : 'inherit'}
         >
           {tabs.map((tab) => (
             <Tab key={tab.label} label={`${t(tab.label)} (${tab.count})`} />
@@ -109,13 +112,19 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto })
                     </TableCell>
                     <TableCell className={classes.tableCell}>
                       <Box my={-2}>
-                        <LineChart width={theme.spacing(20)} height={theme.spacing(5)} data={data}>
+                        <LineChart
+                          width={themeStyle.spacing(20)}
+                          height={themeStyle.spacing(5)}
+                          data={data}
+                        >
                           <YAxis domain={['dataMin', 'dataMax']} hide />
                           <Line
                             type="monotone"
                             dataKey="balance"
                             stroke={
-                              increasing ? theme.palette.success.main : theme.palette.error.main
+                              increasing
+                                ? themeStyle.palette.success.main
+                                : themeStyle.palette.error.main
                             }
                             dot={false}
                             strokeWidth={2}

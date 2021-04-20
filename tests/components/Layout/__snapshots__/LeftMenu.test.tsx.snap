@@ -37,21 +37,10 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
           className="MuiBox-root MuiBox-root-9"
         >
           <svg
-            data-file-name="SvgLogo"
+            data-file-name="SvgLogo_expended"
             fill="#3f51b5"
-            height={40}
-            width={40}
           />
         </div>
-      </div>
-      <div
-        className="MuiListItemText-root"
-      >
-        <span
-          className="MuiTypography-root MuiListItemText-primary MuiTypography-h1 MuiTypography-colorPrimary MuiTypography-displayBlock"
-        >
-          PORTAL
-        </span>
       </div>
       <span
         className="MuiTouchRipple-root"
@@ -394,19 +383,8 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
           <svg
             data-file-name="SvgLogo"
             fill="#3f51b5"
-            height={40}
-            width={40}
           />
         </div>
-      </div>
-      <div
-        className="MuiListItemText-root"
-      >
-        <span
-          className="MuiTypography-root MuiListItemText-primary MuiTypography-h1 MuiTypography-colorPrimary MuiTypography-displayBlock"
-        >
-          PORTAL
-        </span>
       </div>
     </div>
     <a
@@ -723,21 +701,10 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           className="MuiBox-root MuiBox-root-8"
         >
           <svg
-            data-file-name="SvgLogo"
+            data-file-name="SvgLogo_expended"
             fill="#3f51b5"
-            height={40}
-            width={40}
           />
         </div>
-      </div>
-      <div
-        className="MuiListItemText-root"
-      >
-        <span
-          className="MuiTypography-root MuiListItemText-primary MuiTypography-h1 MuiTypography-colorPrimary MuiTypography-displayBlock"
-        >
-          PORTAL
-        </span>
       </div>
     </div>
     <a
