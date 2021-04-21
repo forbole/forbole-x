@@ -2,26 +2,26 @@
 
 exports[`page: _app renders dark theme correctly 1`] = `
 <ApolloProvider>
-  <SettingsProvider>
+  <GeneralProvider>
     <ThemeProvider>
       <GlobalCss />
       <div
         id="component"
       />
     </ThemeProvider>
-  </SettingsProvider>
+  </GeneralProvider>
 </ApolloProvider>
 `;
 
 exports[`page: _app renders light theme correctly 1`] = `
 <ApolloProvider>
-  <SettingsProvider>
+  <GeneralProvider>
     <ThemeProvider>
       <GlobalCss />
       <div
         id="component"
       />
     </ThemeProvider>
-  </SettingsProvider>
+  </GeneralProvider>
 </ApolloProvider>
 `;

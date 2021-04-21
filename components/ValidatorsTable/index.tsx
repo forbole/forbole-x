@@ -21,11 +21,11 @@ import TablePagination from '../TablePagination'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { formatPercentage, formatCrypto } from '../../misc/utils'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface ValidatorsTableProps {
   validators: Validator[]
-  crypto: Crypto
+  crypto: Cryptocurrency
 }
 
 const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto }) => {
@@ -36,7 +36,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto })
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [currentTab, setCurrentTab] = React.useState(0)
-  const { theme } = useSettingsContext()
+  const { theme } = useGeneralContext()
 
   const tabs = [
     { label: 'delegations', count: 100 },
@@ -98,9 +98,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto })
                     <TableCell className={classes.tableCell}>
                       {formatPercentage(v.commission, lang)}
                     </TableCell>
-                    <TableCell className={classes.tableCell}>
-                      {formatPercentage(v.vpRatios, lang)}
-                    </TableCell>
+                    <TableCell className={classes.tableCell}>{formatPercentage(0, lang)}</TableCell>
                     <TableCell className={classes.tableCell}>
                       {formatCrypto(v.delegatedAmount, crypto.name, lang)}
                     </TableCell>

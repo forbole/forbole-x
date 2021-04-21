@@ -1,9 +1,10 @@
 import { Card } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import last from 'lodash/last'
 import get from 'lodash/get'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import last from 'lodash/last'
+import { useGeneralContext } from '../../contexts/GeneralContext'
+import { useWalletsContext } from '../../contexts/WalletsContext'
 import SelectWalletButton from './SelectWalletButton'
 import useStyles from './styles'
 import BalanceChart, { dateRanges } from '../BalanceChart'
@@ -14,7 +15,6 @@ import {
   getCoinPrice,
   getWalletsBalancesFromAccountsBalances,
 } from '../../misc/utils'
-import { useWalletsContext } from '../../contexts/WalletsContext'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
 
 // const accounts = [
@@ -26,7 +26,7 @@ import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBala
 const WalletBalanceChart: React.FC = () => {
   const classes = useStyles()
   const { lang } = useTranslation('common')
-  const { currency } = useSettingsContext()
+  const { currency } = useGeneralContext()
   const { accounts, wallets } = useWalletsContext()
   const [currentWallet, setCurrentWallet] = React.useState(wallets[0])
   const [timestamps, setTimestamps] = React.useState<Date[]>(

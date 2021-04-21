@@ -13,7 +13,7 @@ import dynamic from 'next/dynamic'
 import SendIcon from '../../assets/images/icons/icon_send_tx.svg'
 import { formatCrypto, formatTokenAmount } from '../../misc/utils'
 import useStyles from './styles'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
@@ -39,7 +39,7 @@ const ConfirmSend: React.FC<ConfirmSendProps> = ({
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const theme = useTheme()
-  const { theme: themeSetting } = useSettingsContext()
+  const { theme: themeSetting } = useGeneralContext()
   const [viewingData, setViewingData] = React.useState(false)
 
   return (

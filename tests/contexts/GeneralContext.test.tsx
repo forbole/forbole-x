@@ -1,10 +1,10 @@
 import { renderHook, act, cleanup } from '@testing-library/react-hooks'
-import { SettingsProvider, useSettingsContext } from '../../contexts/SettingsContext'
+import { GeneralProvider, useGeneralContext } from '../../contexts/GeneralContext'
 
-describe('context: SettingsContext', () => {
+describe('context: GeneralContext', () => {
   it('changes currency when setCurrency is called', async () => {
-    const wrapper: React.FC = ({ children }) => <SettingsProvider>{children}</SettingsProvider>
-    const { result } = renderHook(() => useSettingsContext(), {
+    const wrapper: React.FC = ({ children }) => <GeneralProvider>{children}</GeneralProvider>
+    const { result } = renderHook(() => useGeneralContext(), {
       wrapper,
     })
     expect(result.current.currency).toBe('USD')
@@ -14,8 +14,8 @@ describe('context: SettingsContext', () => {
     expect(result.current.currency).toBe('HKD')
   })
   it('changes theme when setTheme is called', async () => {
-    const wrapper: React.FC = ({ children }) => <SettingsProvider>{children}</SettingsProvider>
-    const { result } = renderHook(() => useSettingsContext(), {
+    const wrapper: React.FC = ({ children }) => <GeneralProvider>{children}</GeneralProvider>
+    const { result } = renderHook(() => useGeneralContext(), {
       wrapper,
     })
     expect(result.current.theme).toBe('light')
