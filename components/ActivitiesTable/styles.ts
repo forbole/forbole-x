@@ -27,7 +27,7 @@ export const useGetStyles = (tag?: string) => {
         color: theme.palette.success.main,
       },
       tabIndicator: {
-        backgroundColor: theme.palette.text.primary,
+        backgroundColor: theme.palette.indicator,
       },
       typograph: {
         padding: theme.spacing(2, 0),

@@ -103,7 +103,6 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
               <Button
                 classes={{ root: classes.sendButton }}
                 variant="contained"
-                color="secondary"
                 disabled={isAvailableTokenEmpty}
                 onClick={() => setSendDialogOpen(true)}
               >
