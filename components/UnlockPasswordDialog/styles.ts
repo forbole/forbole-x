@@ -1,7 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CustomTheme } from '../../misc/theme'
 
 const useStyles = makeStyles(
-  (theme) => ({
+  (theme: CustomTheme) => ({
     passwordRequirement: {
       marginTop: theme.spacing(1),
     },
@@ -12,7 +13,9 @@ const useStyles = makeStyles(
     },
     forgotButtom: {
       marginBottom: theme.spacing(2),
-      color: theme.palette.text.secondary,
+      color: theme.palette.font4.main,
+      width: 'fit-content',
+      alignSelf: 'center',
     },
     action: {
       display: 'contents',
@@ -21,6 +24,11 @@ const useStyles = makeStyles(
       position: 'absolute',
       top: theme.spacing(2),
       right: theme.spacing(2),
+    },
+    backButton: {
+      position: 'absolute',
+      top: theme.spacing(2),
+      left: theme.spacing(2),
     },
   }),
   {

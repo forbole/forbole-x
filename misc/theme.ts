@@ -6,6 +6,7 @@ interface CustomPalette extends Palette {
   translucent: string
   indicator: string
   pieChart: { [key: string]: PaletteColor }
+  font4: PaletteColor
 }
 
 export interface CustomTheme extends Theme {
@@ -102,6 +103,9 @@ const lightTheme = ({
       primary: '#000000',
       secondary: '#646464',
     },
+    font4: {
+      main: '#007FFF',
+    },
     background: {
       default: '#F2F2F2',
       paper: '#FFFFFF',
@@ -184,6 +188,9 @@ const darkTheme = ({
     text: {
       primary: '#E6E6E6',
       secondary: '#9D9D9D',
+    },
+    font4: {
+      main: '#379AFE',
     },
     background: {
       default: '#1D1E22',
