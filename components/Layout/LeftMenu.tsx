@@ -14,7 +14,7 @@ import LogoExpended from '../../assets/images/logo_expended.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { MenuWidth } from '.'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface LeftMenuProps {
   activeItem: string
@@ -27,7 +27,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
   const themeStyle = useTheme()
   const iconProps = useIconProps(3)
   const classes = useStyles()
-  const { theme } = useSettingsContext()
+  const { theme } = useGeneralContext()
   const items = React.useMemo(
     () => [
       {

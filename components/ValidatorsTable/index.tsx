@@ -21,7 +21,7 @@ import TablePagination from '../TablePagination'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { formatPercentage, formatCrypto } from '../../misc/utils'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface ValidatorsTableProps {
   validators: Validator[]
@@ -36,7 +36,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto })
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [currentTab, setCurrentTab] = React.useState(0)
-  const { theme } = useSettingsContext()
+  const { theme } = useGeneralContext()
 
   const tabs = [
     { label: 'delegations', count: 100 },

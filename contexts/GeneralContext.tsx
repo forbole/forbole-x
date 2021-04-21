@@ -6,7 +6,7 @@ type Theme = 'light' | 'dark'
 type Currency = typeof currencies[number]
 type FavValidators = string[]
 
-interface SettingsState {
+interface GeneralState {
   currency: Currency
   theme: Theme
   favValidators: FavValidators
@@ -17,13 +17,13 @@ interface SettingsState {
   deleteFavValidators?: (id: string) => void
 }
 
-const initialState: SettingsState = {
+const initialState: GeneralState = {
   currency: 'USD',
   theme: 'light',
   favValidators: [],
 }
 
-const GeneralContext = React.createContext<SettingsState>(initialState)
+const GeneralContext = React.createContext<GeneralState>(initialState)
 
 const GeneralProvider: React.FC = ({ children }) => {
   const [currency, setCurrency] = usePersistedState('currency', initialState.currency)
@@ -61,6 +61,6 @@ const GeneralProvider: React.FC = ({ children }) => {
   )
 }
 
-const useGeneralContext = (): SettingsState => React.useContext(GeneralContext)
+const useGeneralContext = (): GeneralState => React.useContext(GeneralContext)
 
 export { GeneralProvider, useGeneralContext }
