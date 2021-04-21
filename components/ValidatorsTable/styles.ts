@@ -1,7 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CustomTheme } from '../../misc/theme'
 
 const useStyles = makeStyles(
-  (theme) => ({
+  (theme: CustomTheme) => ({
     container: {
       marginBottom: theme.spacing(4),
     },
@@ -23,7 +24,7 @@ const useStyles = makeStyles(
       marginRight: theme.spacing(1),
     },
     tabIndicator: {
-      backgroundColor: theme.palette.text.primary,
+      backgroundColor: theme.palette.indicator,
     },
   }),
   {

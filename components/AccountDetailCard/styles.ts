@@ -6,14 +6,16 @@ const useStyles = makeStyles(
       marginBottom: theme.spacing(4),
     },
     sendButton: {
+      color: 'white',
       width: theme.spacing(18),
       marginLeft: theme.spacing(2),
-      backgroundColor: theme.palette.warning.main,
+      backgroundColor: theme.palette.success.main,
       '&:hover': {
-        backgroundColor: theme.palette.warning.dark,
+        backgroundColor: theme.palette.success.dark,
       },
     },
     fixedWidthButton: {
+      color: 'white',
       width: theme.spacing(18),
       marginLeft: theme.spacing(2),
     },
