@@ -7,8 +7,15 @@ const useStyles = makeStyles(
     },
     button: {
       flex: 1,
-      margin: theme.spacing(4, 2),
+      margin: theme.spacing(1, 2),
       marginTop: theme.spacing(20),
+    },
+    forgotButtom: {
+      marginBottom: theme.spacing(2),
+      color: theme.palette.text.secondary,
+    },
+    action: {
+      display: 'contents',
     },
     closeButton: {
       position: 'absolute',

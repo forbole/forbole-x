@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Typography,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -41,8 +42,9 @@ const UnlockPasswordDialog: React.FC = () => {
           helperText={error}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {/* <Button className={classes.button}>{t('forgot password')}</Button> */}
       </DialogContent>
-      <DialogActions>
+      <DialogActions className={classes.action}>
         <Button
           className={classes.button}
           variant="contained"
@@ -50,6 +52,9 @@ const UnlockPasswordDialog: React.FC = () => {
           onClick={onButtonClick}
         >
           {t('next')}
+        </Button>
+        <Button className={classes.forgotButtom}>
+          {t('forgot password')}
         </Button>
       </DialogActions>
     </Dialog>
