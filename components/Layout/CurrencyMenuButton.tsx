@@ -3,11 +3,11 @@ import React from 'react'
 import currencies from '../../misc/currencies'
 import useStyles from './styles'
 import CurrencyIcon from '../../assets/images/icons/icon_delegate_08.svg'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIconProps from '../../misc/useIconProps'
 
 const CurrencyMenuButton: React.FC = () => {
-  const { currency, setCurrency } = useSettingsContext()
+  const { currency, setCurrency } = useGeneralContext()
   const classes = useStyles()
   const iconProps = useIconProps(3)
 

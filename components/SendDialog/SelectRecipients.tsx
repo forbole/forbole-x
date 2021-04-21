@@ -19,7 +19,7 @@ import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.sv
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { getTokenAmountBalance, formatCurrency, formatTokenAmount } from '../../misc/utils'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface SelectRecipientsProps {
   onConfirm(
@@ -39,7 +39,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
-  const { currency } = useSettingsContext()
+  const { currency } = useGeneralContext()
   const [denomAnchor, setDenomAnchor] = React.useState<Element>()
   const [recipients, setRecipients] = React.useState<
     Array<{ amount: string; denom: string; address: string }>

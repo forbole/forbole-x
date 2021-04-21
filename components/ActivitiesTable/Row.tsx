@@ -8,7 +8,7 @@ import { formatCrypto } from '../../misc/utils'
 interface RowProps {
   activity: Activity
   account: Account
-  crypto: Crypto
+  crypto: Cryptocurrency
 }
 
 const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {

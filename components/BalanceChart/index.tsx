@@ -11,7 +11,7 @@ import {
   Tooltip,
   Line,
 } from 'recharts'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import useStyles from './styles'
 import { formatCurrency } from '../../misc/utils'
 import { CustomTheme } from '../../misc/theme'
@@ -61,7 +61,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
-  const { currency } = useSettingsContext()
+  const { currency } = useGeneralContext()
   const theme: CustomTheme = useTheme()
   const [currentDateRange, setCurrentDateRange] = React.useState(
     dateRanges.find((d) => d.isDefault)

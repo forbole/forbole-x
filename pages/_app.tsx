@@ -7,12 +7,12 @@ import useTranslation from 'next-translate/useTranslation'
 import { ApolloProvider } from '@apollo/client'
 import { lightTheme, darkTheme } from '../misc/theme'
 import GlobalCss from '../misc/globalCss'
-import { SettingsProvider, useSettingsContext } from '../contexts/SettingsContext'
+import { GeneralProvider, useGeneralContext } from '../contexts/GeneralContext'
 import { WalletsProvider } from '../contexts/WalletsContext'
 import { useApollo } from '../graphql/client'
 
 function InnerApp({ Component, pageProps }: AppProps) {
-  const { theme } = useSettingsContext()
+  const { theme } = useGeneralContext()
   const { lang } = useTranslation()
 
   const muiTheme = React.useMemo(() => {
@@ -58,11 +58,11 @@ export default function App({ Component, pageProps, ...props }: AppProps) {
         <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
       <ApolloProvider client={apolloClient}>
-        <SettingsProvider>
+        <GeneralProvider>
           <WalletsProvider>
             <InnerApp Component={Component} pageProps={pageProps} {...props} />
           </WalletsProvider>
-        </SettingsProvider>
+        </GeneralProvider>
       </ApolloProvider>
     </>
   )

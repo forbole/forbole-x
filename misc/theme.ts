@@ -3,6 +3,7 @@ import { Palette, PaletteColor } from '@material-ui/core/styles/createPalette'
 
 interface CustomPalette extends Palette {
   tagColor: { [key: string]: string }
+  statusColor: { [key: string]: string }
   translucent: string
   indicator: string
   pieChart: { [key: string]: PaletteColor }
@@ -135,6 +136,11 @@ const lightTheme = ({
       send: '#9F46EC',
       setRewardAddress: '#497BFF',
     },
+    statusColor: {
+      active: '#1EC490',
+      unbonded: '#FD565F',
+      unknown: '#E0A111',
+    },
     translucent: 'rgba(255, 255, 255, 0.5)',
     indicator: '#5C7BFF',
     pieChart: {
@@ -217,6 +223,11 @@ const darkTheme = ({
       editValidator: '#1EC490',
       send: '#9F46EC',
       setRewardAddress: '#497BFF',
+    },
+    statusColor: {
+      active: '#1EC490',
+      unbonded: '#FD565F',
+      unknown: '#E0A111',
     },
     translucent: 'rgba(0, 0, 0, 0.5)',
     indicator: '#E6E6E6',

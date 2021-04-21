@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import { formatCrypto, formatCurrency } from '../../misc/utils'
 import useStyles from './styles'
 
@@ -21,7 +21,7 @@ interface SelectAmountProps {
 const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const { currency } = useSettingsContext()
+  const { currency } = useGeneralContext()
   const [amount, setAmount] = React.useState('')
 
   return (

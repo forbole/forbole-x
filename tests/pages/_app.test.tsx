@@ -8,9 +8,9 @@ const mockThemeContext = {
   theme: 'light',
 }
 
-jest.mock('../../contexts/SettingsContext', () => ({
-  useSettingsContext: () => mockThemeContext,
-  SettingsProvider: 'SettingsProvider',
+jest.mock('../../contexts/GeneralContext', () => ({
+  useGeneralContext: () => mockThemeContext,
+  GeneralProvider: 'GeneralProvider',
 }))
 jest.mock('../../misc/globalCss', () => 'GlobalCss')
 jest.mock('@material-ui/core/styles', () => ({

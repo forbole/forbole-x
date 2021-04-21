@@ -4,7 +4,7 @@ import React from 'react'
 import SuccessLight from '../../assets/images/tx_success_light.svg'
 import SuccessDark from '../../assets/images/tx_success_dark.svg'
 import useStyles from './styles'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import { formatTokenAmount } from '../../misc/utils'
 
 interface ConfirmSendProps {
@@ -16,7 +16,7 @@ interface ConfirmSendProps {
 const Success: React.FC<ConfirmSendProps> = ({ onClose, totalAmount, account }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const { theme } = useSettingsContext()
+  const { theme } = useGeneralContext()
 
   return (
     <>
