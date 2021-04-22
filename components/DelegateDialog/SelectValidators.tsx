@@ -27,6 +27,7 @@ interface SelectValidatorsProps {
   ): void
   account: Account
   amount: number
+  denom: string
 }
 
 const mockValidators = {
@@ -47,7 +48,12 @@ const mockValidators = {
   },
 }
 
-const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, onConfirm }) => {
+const SelectValidators: React.FC<SelectValidatorsProps> = ({
+  account,
+  amount,
+  denom,
+  onConfirm,
+}) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
@@ -62,7 +68,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, on
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
             {t('total delegated amount')}{' '}
-            <b className={classes.marginLeft}>{formatCrypto(amount, account.crypto, lang)}</b>
+            <b className={classes.marginLeft}>{formatCrypto(amount, denom, lang)}</b>
           </Typography>
           <Grid container spacing={4}>
             <Grid item xs={6}>

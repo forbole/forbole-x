@@ -1,28 +1,26 @@
-import {
-  Box,
-  Button,
-  DialogActions,
-  DialogContent,
-  InputAdornment,
-  TextField,
-  Typography,
-} from '@material-ui/core'
+import { Box, Button, DialogActions, DialogContent, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import get from 'lodash/get'
 import { useGeneralContext } from '../../contexts/GeneralContext'
-import { formatCrypto, formatCurrency } from '../../misc/utils'
+import { formatCrypto, formatCurrency, formatTokenAmount } from '../../misc/utils'
+import TokenAmountInput from '../TokenAmountInput'
 import useStyles from './styles'
 
 interface SelectAmountProps {
-  onConfirm(amount: number): void
+  onConfirm(amount: number, denom: string): void
   account: Account
+  availableAmount: TokenAmount
 }
 
-const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm }) => {
+const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availableAmount }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const { currency } = useGeneralContext()
   const [amount, setAmount] = React.useState('')
+  const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
+
+  const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount)
 
   return (
     <>
@@ -30,20 +28,17 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm }) => {
         <Box mb={32}>
           <Typography className={classes.marginBottom}>
             {t('available amount')}{' '}
-            <b className={classes.marginLeft}>{formatCrypto(123.123, account.crypto, lang)}</b>
+            <b className={classes.marginLeft}>
+              {formatTokenAmount(availableAmount, account.crypto, lang, ', ')}
+            </b>
           </Typography>
           <Typography>{t('total delegated amount')}</Typography>
-          <TextField
-            fullWidth
-            variant="filled"
-            InputProps={{
-              disableUnderline: true,
-              endAdornment: <InputAdornment position="end">{account.crypto}</InputAdornment>,
-            }}
-            placeholder="0"
-            type="number"
+          <TokenAmountInput
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            denom={denom}
+            onValueChange={setAmount}
+            onDenomChange={setDenom}
+            availableAmount={availableAmount}
           />
         </Box>
       </DialogContent>
@@ -64,8 +59,8 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm }) => {
             variant="contained"
             className={classes.button}
             color="primary"
-            disabled={!Number(amount)}
-            onClick={() => onConfirm(Number(amount))}
+            disabled={!Number(amount) || insufficientFund}
+            onClick={() => onConfirm(Number(amount), denom)}
           >
             {t('next')}
           </Button>

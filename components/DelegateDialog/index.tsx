@@ -1,6 +1,8 @@
+/* eslint-disable camelcase */
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import get from 'lodash/get'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
@@ -9,6 +11,8 @@ import SelectAmount from './SelectAmount'
 import SelectValidators from './SelectValidators'
 import ConfirmDelegation from './ConfirmDelegation'
 import useStateHistory from '../../misc/useStateHistory'
+import { getTokenAmountFromDenoms } from '../../misc/utils'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 enum DelegationStage {
   SelectAmountStage = 'select amount',
@@ -18,6 +22,7 @@ enum DelegationStage {
 
 interface DelegationDialogProps {
   account: Account
+  availableTokens: { coins: Array<{ amount: string; denom: string }>; tokens_prices: TokenPrice[] }
   open: boolean
   onClose(): void
 }
@@ -28,11 +33,17 @@ interface Content {
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-const DelegationDialog: React.FC<DelegationDialogProps> = ({ account, open, onClose }) => {
+const DelegationDialog: React.FC<DelegationDialogProps> = ({
+  account,
+  open,
+  onClose,
+  availableTokens,
+}) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
   const [amount, setAmount] = React.useState(0)
+  const [denom, setDenom] = React.useState('')
   const [delegations, setDelegations] = React.useState<
     Array<{ amount: number; validator: { name: string; image: string } }>
   >([])
@@ -42,9 +53,24 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({ account, open, onCl
     DelegationStage.SelectAmountStage
   )
 
+  const { availableAmount, defaultGasFee } = React.useMemo(
+    () => ({
+      availableAmount: getTokenAmountFromDenoms(
+        availableTokens.coins,
+        availableTokens.tokens_prices
+      ),
+      defaultGasFee: getTokenAmountFromDenoms(
+        get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
+        availableTokens.tokens_prices
+      ),
+    }),
+    [availableTokens]
+  )
+
   const confirmAmount = React.useCallback(
-    (a: number) => {
+    (a: number, d: string) => {
       setAmount(a)
+      setDenom(d)
       setStage(DelegationStage.SelectValidatorsStage)
     },
     [setAmount, setStage]
@@ -67,7 +93,12 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({ account, open, onCl
         return {
           title: t('delegate'),
           content: (
-            <SelectValidators account={account} amount={amount} onConfirm={confirmDelegations} />
+            <SelectValidators
+              account={account}
+              amount={amount}
+              denom={denom}
+              onConfirm={confirmDelegations}
+            />
           ),
         }
       case DelegationStage.ConfirmDelegationStage:
@@ -88,7 +119,13 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({ account, open, onCl
       default:
         return {
           title: t('delegate'),
-          content: <SelectAmount account={account} onConfirm={confirmAmount} />,
+          content: (
+            <SelectAmount
+              account={account}
+              availableAmount={availableAmount}
+              onConfirm={confirmAmount}
+            />
+          ),
         }
     }
   }, [stage, t])

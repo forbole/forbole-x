@@ -155,6 +155,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
         open={delegateDialogOpen}
         onClose={() => setDelegateDialogOpen(false)}
         account={account}
+        availableTokens={availableTokens}
       />
       <SendDialog
         open={sendDialogOpen}
