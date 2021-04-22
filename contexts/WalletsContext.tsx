@@ -20,6 +20,7 @@ interface WalletsState {
     securityPassword: string,
     backupPassword: string
   ) => Promise<string>
+  reset?: () => void
 }
 
 const initialState: WalletsState = {
@@ -32,11 +33,20 @@ const initialState: WalletsState = {
 
 const WalletsContext = React.createContext<WalletsState>(initialState)
 
+
 const WalletsProvider: React.FC = ({ children }) => {
   const [wallets, setWallets] = React.useState<Wallet[]>([])
   const [accounts, setAccounts] = React.useState<Account[]>([])
   const [isFirstTimeUser, setIsFirstTimeUser] = React.useState(false)
   const [password, setPassword] = React.useState('')
+
+  const reset = React.useCallback(async () => {
+    setIsFirstTimeUser(false)
+    setAccounts([])
+    setWallets([])
+    setPassword('')
+    console.log('reset!', WalletsContext)
+  }, [setIsFirstTimeUser, setAccounts, setWallets, setPassword])
 
   const checkIsFirstTimeUser = React.useCallback(async () => {
     const response = await sendMsgToChromeExt({
@@ -230,6 +240,7 @@ const WalletsProvider: React.FC = ({ children }) => {
         deleteAccount,
         viewMnemonicPhraseBackup,
         viewMnemonicPhrase,
+        reset,
       }}
     >
       {children}

@@ -11,6 +11,12 @@ const useStyles = makeStyles(
       margin: theme.spacing(1, 2),
       marginTop: theme.spacing(20),
     },
+    buttonReset: {
+      flex: 1,
+      margin: theme.spacing(4, 2),
+      marginTop: theme.spacing(6),
+      color: 'white',
+    },
     forgotButtom: {
       marginBottom: theme.spacing(2),
       color: theme.palette.font4.main,
@@ -29,6 +35,9 @@ const useStyles = makeStyles(
       position: 'absolute',
       top: theme.spacing(2),
       left: theme.spacing(2),
+    },
+        dialogContent: {
+      overflowY: 'initial',
     },
   }),
   {

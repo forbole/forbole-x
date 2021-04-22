@@ -13,7 +13,12 @@ import useStyles from './styles'
 import PasswordInput from '../PasswordInput'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 
-const UnlockPassword: React.FC = () => {
+interface UnlockPasswordProps {
+  onForgot: () => void
+}
+
+const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
+  console.log('onForgot', onForgot)
   const { t } = useTranslation('common')
   const classes = useStyles()
   const [password, setPassword] = React.useState('')
@@ -33,7 +38,7 @@ const UnlockPassword: React.FC = () => {
   return (
     // <Dialog fullWidth open={!wallets.length}>
     <>
-      <DialogTitle>{t('unlock password title')}</DialogTitle>
+      {/* <DialogTitle>{t('unlock password title')}</DialogTitle> */}
       <DialogContent>
         <DialogContentText>{t('unlock password description')}</DialogContentText>
         <PasswordInput
@@ -54,7 +59,9 @@ const UnlockPassword: React.FC = () => {
         >
           {t('next')}
         </Button>
-        <Button className={classes.forgotButtom}>{t('forgot password')}</Button>
+        <Button className={classes.forgotButtom} onClick={() => onForgot()}>
+          {t('forgot password?')}
+        </Button>
       </DialogActions>
     </>
   )

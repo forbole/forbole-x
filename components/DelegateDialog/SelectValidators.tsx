@@ -48,6 +48,7 @@ const mockValidators = {
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, onConfirm }) => {
+  console.log('onConfirm_validator', onConfirm)
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()

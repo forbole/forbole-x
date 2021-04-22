@@ -13,8 +13,11 @@ import useStyles from './styles'
 import PasswordInput from '../PasswordInput'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 
+interface ForgotPasswordProps {
+  onReset(): void
+}
 
-const ForgotPassword: React.FC = () => {
+const ForgotPassword: React.FC<ForgotPasswordProps> = ({onReset}) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const [password, setPassword] = React.useState('')
@@ -32,31 +35,29 @@ const ForgotPassword: React.FC = () => {
   }, [password, setError, setPassword])
 
   return (
-    <Dialog fullWidth>
-      <DialogTitle>{t('forgot la')}</DialogTitle>
+    <>
       <DialogContent>
-        <DialogContentText>{t('unlock password description')}</DialogContentText>
-        <PasswordInput
+        <DialogContentText>{t('forgot password description')}</DialogContentText>
+        {/* <PasswordInput
           placeholder={t('password')}
           value={password}
           error={!!error}
           helperText={error}
           onChange={(e) => setPassword(e.target.value)}
-        />
+        /> */}
         {/* <Button className={classes.button}>{t('forgot password')}</Button> */}
       </DialogContent>
       <DialogActions className={classes.action}>
-        {/* <Button
-          className={classes.button}
+        <Button
+          className={classes.buttonReset}
           variant="contained"
           color="primary"
-          onClick={onButtonClick}
+          onClick={() => onReset()}
         >
-          {t('next')}
+          {t('reset')}
         </Button>
-        <Button className={classes.forgotButtom}>{t('forgot password')}</Button> */}
       </DialogActions>
-    </Dialog>
+    </>
   )
 }
 

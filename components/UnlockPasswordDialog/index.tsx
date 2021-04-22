@@ -1,15 +1,15 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
+import React, { useCallback } from 'react'
 import useStyles from './styles'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
-import { useWalletsContext } from '../../contexts/WalletsContext'
+import { useWalletsContext, WalletsProvider } from '../../contexts/WalletsContext'
 import ForgotPassword from './ForgotPassword'
 import UnlockPassword from './UnlockPassword'
 import Reset from './Reset'
 import useIconProps from '../../misc/useIconProps'
 import useStateHistory from '../../misc/useStateHistory'
+import { resetApolloContext } from '@apollo/client'
 
 enum UnlockPasswordStage {
   UnlockPasswordStage = 'unlock',
@@ -17,9 +17,8 @@ enum UnlockPasswordStage {
   ResetStage = 'reset',
 }
 
-
 interface Content {
-  // title: string
+  title: string
   content: React.ReactNode
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
@@ -28,53 +27,68 @@ const UnlockPasswordDialog: React.FC = () => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
-  const [password, setPassword] = React.useState('')
-  const { unlockWallets, wallets } = useWalletsContext()
-  const [error, setError] = React.useState('')
-
-  // const onButtonClick = React.useCallback(async () => {
-  //   try {
-  //     setError('')
-  //     await unlockWallets(password)
-  //   } catch (err) {
-  //     setError(t(err.message))
-  //     setPassword('')
-  //   }
-  // }, [password, setError, setPassword])
-
+  const { unlockWallets, wallets, reset } = useWalletsContext()
+  const [ isReset, setReset ] = React.useState(false)
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<UnlockPasswordStage>(
     UnlockPasswordStage.UnlockPasswordStage
   )
+
+  const forgotPassword = React.useCallback(() => {
+    setStage(UnlockPasswordStage.ForgotPasswordStage)
+  }, [setStage])
+
+  const resetAll = React.useCallback(() => {
+    setStage(UnlockPasswordStage.ResetStage)
+  }, [setStage])
+
+  const cancel = React.useCallback(() => {
+    setStage(UnlockPasswordStage.UnlockPasswordStage)
+  }, [setStage])
+
+  const resetApp = React.useCallback(async () => {
+    await reset()
+    setReset(true)
+  }, [reset, wallets])
+  console.log('reset_is', isReset)
+  console.log('reset_wallets', wallets)
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
       case UnlockPasswordStage.ResetStage:
         return {
-          content: <Reset />,
+          content: <Reset onCancel={cancel} onResetApp={resetApp} />,
+          title: t('reset'),
         }
       case UnlockPasswordStage.ForgotPasswordStage:
         return {
-          content: <ForgotPassword />,
+          content: <ForgotPassword onReset={resetAll} />,
+          title: t('forgot password'),
         }
       case UnlockPasswordStage.UnlockPasswordStage:
       default:
         return {
-          content: <UnlockPassword />,
+          content: <UnlockPassword onForgot={forgotPassword} />,
+          title: t('unlock password title'),
         }
     }
   }, [stage, t])
 
+  const [open, setOpen] = React.useState(true)
+  if (!wallets.length) {
+    setOpen(false)
+  }
+  if (isReset) {
+    setOpen(false)
+  }
+
   return (
-    <Dialog fullWidth open={!wallets.length}>
-      {isPrevStageAvailable ? (
+    <Dialog fullWidth open={open}>
+      {isPrevStageAvailable && stage !== 'unlock' ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />
         </IconButton>
       ) : null}
-      <IconButton className={classes.closeButton} >
-        <CloseIcon {...iconProps} />
-      </IconButton>
-      {/* {content.title ? <DialogTitle>{content.title}</DialogTitle> : null} */}
+      {content.title ? <DialogTitle>{content.title}</DialogTitle> : null}
       {content.content}
     </Dialog>
   )
