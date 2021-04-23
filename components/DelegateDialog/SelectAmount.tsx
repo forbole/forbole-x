@@ -52,8 +52,10 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availab
           mx={2}
         >
           <Box>
-            <Typography variant="h5">{formatCrypto(0, account.crypto, lang)}</Typography>
-            <Typography>{formatCurrency(0, currency, lang)}</Typography>
+            <Typography variant="h5">{formatCrypto(Number(amount), denom, lang)}</Typography>
+            <Typography>
+              {formatCurrency(Number(amount) * availableAmount[denom].price, currency, lang)}
+            </Typography>
           </Box>
           <Button
             variant="contained"

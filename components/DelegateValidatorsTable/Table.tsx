@@ -229,11 +229,12 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      <DelegationDialog
+      {/* <DelegationDialog
         open={delegateDialogOpen}
         onClose={() => setDelegateDialogOpen(false)}
         account={account}
-      />
+        validators={validators}
+      /> */}
     </Box>
   )
 }

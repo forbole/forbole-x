@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import times from 'lodash/times'
+import { gql, useSubscription } from '@apollo/client'
 import AccountAvatar from '../../components/AccountAvatar'
 import AccountDetailCard from '../../components/AccountDetailCard'
 import Layout from '../../components/Layout'
@@ -11,6 +12,8 @@ import ValidatorsTable from '../../components/ValidatorsTable'
 import ActivitiesTable from '../../components/ActivitiesTable'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import { getValidators } from '../../graphql/queries/validators'
+import { transformValidators } from '../../misc/utils'
 
 const Account: React.FC = () => {
   const router = useRouter()
@@ -18,6 +21,13 @@ const Account: React.FC = () => {
   const { accounts } = useWalletsContext()
   const account = accounts.find((a) => a.address === router.query.address)
   const crypto = account ? cryptocurrencies[account.crypto] : {}
+
+  const { data } = useSubscription(
+    gql`
+      ${getValidators('DSM')}
+    `
+  )
+  const validators = transformValidators(data)
 
   return (
     <Layout
@@ -34,7 +44,7 @@ const Account: React.FC = () => {
         ) : null
       }
     >
-      {account ? <AccountDetailCard account={account} /> : null}
+      {account ? <AccountDetailCard account={account} validators={validators} /> : null}
       {/* <ValidatorsTable
         validators={times(100).map((i) => ({
           image:

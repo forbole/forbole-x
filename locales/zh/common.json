@@ -174,5 +174,6 @@
   "add address": "[zh] Add address",
   "send to": "[zh] To {{number}}",
   "recipient address": "[zh] Recipient address",
-  "successfully sent": "[zh] {{title}} was successfully sent"
+  "successfully sent": "[zh] {{title}} was successfully sent",
+  "successfully delegated": "[zh] {{denom}} was successfully delegated"
 }

@@ -175,7 +175,7 @@ export const transformValidators = (data: any): Validator[] => {
   }
   return data.validator
     .map((validator) => ({
-      address: get(validator, 'address', ''),
+      address: get(validator, 'info.operator_address', ''),
       image: get(validator, 'description[0].avatar_url', ''),
       name: get(validator, 'description[0].moniker', get(validator, 'address', '')),
       commission: get(validator, 'commission[0].commission', 0),

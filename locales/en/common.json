@@ -180,5 +180,6 @@
   "recipient address": "Recipient address",
   "close": "Close",
   "success": "Success",
-  "successfully sent": "{{title}} was successfully sent"
+  "successfully sent": "{{title}} was successfully sent",
+  "successfully delegated": "{{denom}} was successfully delegated"
 }

@@ -29,9 +29,10 @@ import SendDialog from '../SendDialog'
 
 interface AccountDetailCardProps {
   account: Account
+  validators: Validator[]
 }
 
-const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
+const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account, validators }) => {
   const { lang, t } = useTranslation('common')
   const { currency } = useGeneralContext()
   const classes = useStyles()
@@ -156,6 +157,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
         onClose={() => setDelegateDialogOpen(false)}
         account={account}
         availableTokens={availableTokens}
+        validators={validators.filter(({ status }) => status === 'active')}
       />
       <SendDialog
         open={sendDialogOpen}
