@@ -1,12 +1,4 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Typography,
-} from '@material-ui/core'
+import { Button, DialogActions, DialogContent, DialogContentText } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
@@ -18,11 +10,10 @@ interface UnlockPasswordProps {
 }
 
 const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
-  console.log('onForgot', onForgot)
   const { t } = useTranslation('common')
   const classes = useStyles()
   const [password, setPassword] = React.useState('')
-  const { unlockWallets, wallets } = useWalletsContext()
+  const { unlockWallets } = useWalletsContext()
   const [error, setError] = React.useState('')
 
   const onButtonClick = React.useCallback(async () => {
@@ -36,9 +27,7 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
   }, [password, setError, setPassword])
 
   return (
-    // <Dialog fullWidth open={!wallets.length}>
     <>
-      {/* <DialogTitle>{t('unlock password title')}</DialogTitle> */}
       <DialogContent>
         <DialogContentText>{t('unlock password description')}</DialogContentText>
         <PasswordInput
@@ -48,7 +37,6 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
           helperText={error}
           onChange={(e) => setPassword(e.target.value)}
         />
-        {/* <Button className={classes.button}>{t('forgot password')}</Button> */}
       </DialogContent>
       <DialogActions className={classes.action}>
         <Button

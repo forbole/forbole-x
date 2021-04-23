@@ -11,7 +11,7 @@ const useStyles = makeStyles(
       margin: theme.spacing(1, 2),
       marginTop: theme.spacing(20),
     },
-    buttonReset: {
+    resetButton: {
       flex: 1,
       margin: theme.spacing(4, 2),
       marginTop: theme.spacing(6),
@@ -35,9 +35,6 @@ const useStyles = makeStyles(
       position: 'absolute',
       top: theme.spacing(2),
       left: theme.spacing(2),
-    },
-        dialogContent: {
-      overflowY: 'initial',
     },
   }),
   {

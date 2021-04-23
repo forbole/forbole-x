@@ -1,15 +1,14 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-import React, { useCallback } from 'react'
+import React from 'react'
 import useStyles from './styles'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
-import { useWalletsContext, WalletsProvider } from '../../contexts/WalletsContext'
+import { useWalletsContext } from '../../contexts/WalletsContext'
 import ForgotPassword from './ForgotPassword'
 import UnlockPassword from './UnlockPassword'
 import Reset from './Reset'
 import useIconProps from '../../misc/useIconProps'
 import useStateHistory from '../../misc/useStateHistory'
-import { resetApolloContext } from '@apollo/client'
 
 enum UnlockPasswordStage {
   UnlockPasswordStage = 'unlock',
@@ -27,8 +26,8 @@ const UnlockPasswordDialog: React.FC = () => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
-  const { unlockWallets, wallets, reset } = useWalletsContext()
-  const [ isReset, setReset ] = React.useState(false)
+  const { wallets, reset } = useWalletsContext()
+  const [isReset, setReset] = React.useState(false)
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<UnlockPasswordStage>(
     UnlockPasswordStage.UnlockPasswordStage
   )
@@ -49,8 +48,6 @@ const UnlockPasswordDialog: React.FC = () => {
     await reset()
     setReset(true)
   }, [reset, wallets])
-  console.log('reset_is', isReset)
-  console.log('reset_wallets', wallets)
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
@@ -73,16 +70,8 @@ const UnlockPasswordDialog: React.FC = () => {
     }
   }, [stage, t])
 
-  const [open, setOpen] = React.useState(true)
-  if (!wallets.length) {
-    setOpen(false)
-  }
-  if (isReset) {
-    setOpen(false)
-  }
-
   return (
-    <Dialog fullWidth open={open}>
+    <Dialog fullWidth open={!(wallets.length !== 0 || isReset)}>
       {isPrevStageAvailable && stage !== 'unlock' ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

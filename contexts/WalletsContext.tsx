@@ -33,20 +33,27 @@ const initialState: WalletsState = {
 
 const WalletsContext = React.createContext<WalletsState>(initialState)
 
-
 const WalletsProvider: React.FC = ({ children }) => {
   const [wallets, setWallets] = React.useState<Wallet[]>([])
   const [accounts, setAccounts] = React.useState<Account[]>([])
-  const [isFirstTimeUser, setIsFirstTimeUser] = React.useState(false)
+  const [isFirstTimeUser, setIsFirstTimeUser] = React.useState(true)
   const [password, setPassword] = React.useState('')
 
   const reset = React.useCallback(async () => {
-    setIsFirstTimeUser(false)
+    setIsFirstTimeUser(true)
     setAccounts([])
     setWallets([])
     setPassword('')
-    console.log('reset!', WalletsContext)
-  }, [setIsFirstTimeUser, setAccounts, setWallets, setPassword])
+  }, [
+    setIsFirstTimeUser,
+    setAccounts,
+    setWallets,
+    setPassword,
+    accounts,
+    wallets,
+    isFirstTimeUser,
+    password,
+  ])
 
   const checkIsFirstTimeUser = React.useCallback(async () => {
     const response = await sendMsgToChromeExt({
