@@ -1,6 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import UnlockPasswordDialog from '../../../components/UnlockPasswordDialog'
+import useStyles from '../../../components/UnlockPasswordDialog/styles'
 
 const mockWalletsContext = {
   password: '',
@@ -16,6 +17,8 @@ jest.mock('../../../components/PasswordInput', () => (props) => (
 jest.mock('../../../contexts/WalletsContext', () => ({
   useWalletsContext: () => mockWalletsContext,
 }))
+
+jest.mock('./styles', () => useStyles())
 
 describe('component: UnlockPasswordDialog', () => {
   it('renders correctly', () => {
