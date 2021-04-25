@@ -1,7 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import UnlockPasswordDialog from '../../../components/UnlockPasswordDialog'
-import useStyles from '../../../components/UnlockPasswordDialog/styles'
 
 const mockWalletsContext = {
   password: '',
@@ -17,8 +16,6 @@ jest.mock('../../../components/PasswordInput', () => (props) => (
 jest.mock('../../../contexts/WalletsContext', () => ({
   useWalletsContext: () => mockWalletsContext,
 }))
-
-jest.mock('./styles', () => useStyles())
 
 describe('component: UnlockPasswordDialog', () => {
   it('renders correctly', () => {
@@ -69,7 +66,7 @@ describe('component: UnlockPasswordDialog', () => {
         })
     })
     await renderer.act(async () => {
-      await component.root.findByType('button').props.onClick()
+      await component.root.findAllByType('button')[0].props.onClick()
     })
     expect(mockWalletsContext.unlockWallets).toBeCalledWith('password')
   })
@@ -88,7 +85,7 @@ describe('component: UnlockPasswordDialog', () => {
         })
     })
     await renderer.act(async () => {
-      await component.root.findByType('button').props.onClick()
+      await component.root.findAllByType('button')[0].props.onClick()
     })
     expect(mockWalletsContext.unlockWallets).toBeCalledWith('password')
     const tree = component.toJSON()

@@ -17,9 +17,9 @@ const useStyles = makeStyles(
       marginTop: theme.spacing(6),
       color: 'white',
     },
-    forgotButtom: {
+    forgotButton: {
       marginBottom: theme.spacing(2),
-      color: theme.palette.font4.main,
+      color: theme.palette.primary.main,
       width: 'fit-content',
       alignSelf: 'center',
     },

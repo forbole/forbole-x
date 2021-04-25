@@ -47,7 +47,7 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
         >
           {t('next')}
         </Button>
-        <Button className={classes.forgotButtom} onClick={() => onForgot()}>
+        <Button className={classes.forgotButton} onClick={() => onForgot()}>
           {t('forgot password?')}
         </Button>
       </DialogActions>

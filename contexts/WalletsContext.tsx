@@ -36,7 +36,7 @@ const WalletsContext = React.createContext<WalletsState>(initialState)
 const WalletsProvider: React.FC = ({ children }) => {
   const [wallets, setWallets] = React.useState<Wallet[]>([])
   const [accounts, setAccounts] = React.useState<Account[]>([])
-  const [isFirstTimeUser, setIsFirstTimeUser] = React.useState(true)
+  const [isFirstTimeUser, setIsFirstTimeUser] = React.useState(false)
   const [password, setPassword] = React.useState('')
 
   const reset = React.useCallback(async () => {
@@ -176,7 +176,7 @@ const WalletsProvider: React.FC = ({ children }) => {
 
   const deleteAccount = React.useCallback(
     async (address: string) => {
-      const result = await sendMsgToChromeExt({
+      await sendMsgToChromeExt({
         event: 'deleteAccount',
         data: {
           address,
