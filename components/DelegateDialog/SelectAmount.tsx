@@ -19,7 +19,6 @@ interface SelectAmountProps {
 }
 
 const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm }) => {
-  console.log('onConfirm', onConfirm)
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const { currency } = useGeneralContext()

@@ -40,20 +40,14 @@ const WalletsProvider: React.FC = ({ children }) => {
   const [password, setPassword] = React.useState('')
 
   const reset = React.useCallback(async () => {
+    await sendMsgToChromeExt({
+      event: 'reset',
+    })
     setIsFirstTimeUser(true)
     setAccounts([])
     setWallets([])
     setPassword('')
-  }, [
-    setIsFirstTimeUser,
-    setAccounts,
-    setWallets,
-    setPassword,
-    accounts,
-    wallets,
-    isFirstTimeUser,
-    password,
-  ])
+  }, [setIsFirstTimeUser, setAccounts, setWallets, setPassword])
 
   const checkIsFirstTimeUser = React.useCallback(async () => {
     const response = await sendMsgToChromeExt({
