@@ -3,6 +3,7 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
 import { gql, useSubscription } from '@apollo/client'
+import times from 'lodash/times'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import EditIcon from '../../assets/images/icons/icon_edit_tool.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
@@ -14,6 +15,7 @@ import useIconProps from '../../misc/useIconProps'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import StatBox from './StatBox'
 import DelegationDialog from '../DelegateDialog'
+import ClaimRewardsDialog from '../ClaimRewardsDialog'
 import {
   formatCrypto,
   formatCurrency,
@@ -39,6 +41,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
   const theme = useTheme()
   const { updateAccount } = useWalletsContext()
   const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
+  const [claimRewardsDialogOpen, setClaimRewardsDialogOpen] = React.useState(false)
   const [sendDialogOpen, setSendDialogOpen] = React.useState(false)
   const [timestamps, setTimestamps] = React.useState<Date[]>(
     dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
@@ -58,6 +61,16 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
     `,
     { variables: { address: account.address } }
   )
+
+  const validators = [
+    times(100).map((i) => ({
+      address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
+      image:
+        'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
+      name: 'Forbole',
+      reward: 599.013243,
+    })),
+  ]
 
   const { availableTokens, totalTokenAmount, usdBalance, accountBalance } = React.useMemo(() => {
     const ab = transformGqlAcountBalance(data, Date.now())
@@ -97,6 +110,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
                 classes={{ root: classes.fixedWidthButton }}
                 variant="contained"
                 color="secondary"
+                onClick={() => setClaimRewardsDialogOpen(true)}
               >
                 {t('claim rewards')}
               </Button>
@@ -155,6 +169,18 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
         open={delegateDialogOpen}
         onClose={() => setDelegateDialogOpen(false)}
         account={account}
+      />
+      <ClaimRewardsDialog
+        open={claimRewardsDialogOpen}
+        onClose={() => setClaimRewardsDialogOpen(false)}
+        account={account}
+        validators={times(100).map((i) => ({
+          address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
+          image:
+            'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
+          name: 'Forbole',
+          reward: 599.013243,
+        }))}
       />
       <SendDialog
         open={sendDialogOpen}
