@@ -42,8 +42,6 @@ describe('context: WalletsContext', () => {
     await act(async () => {
       await result.current.unlockWallets(password)
     })
-    // expect(result.current.wallets).toStrictEqual([wallet])
-    // expect(sendMsgToChromeExt).toBeCalledTimes(3)
     expect(sendMsgToChromeExt).toBeCalledWith({
       event: 'getWallets',
       data: {
