@@ -125,13 +125,14 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
     async (securityPassword: string) => {
       try {
         setLoading(true)
-        await sendMsgToChromeExt({
+        const result = await sendMsgToChromeExt({
           event: 'signAndBroadcastTransactions',
           data: {
             securityPassword,
             ...transactionData,
           },
         })
+        console.log(result)
         setLoading(false)
         setStage(DelegationStage.SuccessStage, true)
       } catch (err) {
