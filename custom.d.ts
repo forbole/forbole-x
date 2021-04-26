@@ -157,6 +157,7 @@ type ChromeMessage =
   | {
       event: 'ping'
     }
+  | { event: 'reset' }
   | {
       event: 'getWallets'
       data: { password: string }
