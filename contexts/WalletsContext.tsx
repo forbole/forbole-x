@@ -20,6 +20,7 @@ interface WalletsState {
     securityPassword: string,
     backupPassword: string
   ) => Promise<string>
+  reset?: () => void
 }
 
 const initialState: WalletsState = {
@@ -37,6 +38,16 @@ const WalletsProvider: React.FC = ({ children }) => {
   const [accounts, setAccounts] = React.useState<Account[]>([])
   const [isFirstTimeUser, setIsFirstTimeUser] = React.useState(false)
   const [password, setPassword] = React.useState('')
+
+  const reset = React.useCallback(async () => {
+    await sendMsgToChromeExt({
+      event: 'reset',
+    })
+    setIsFirstTimeUser(true)
+    setAccounts([])
+    setWallets([])
+    setPassword('')
+  }, [setIsFirstTimeUser, setAccounts, setWallets, setPassword])
 
   const checkIsFirstTimeUser = React.useCallback(async () => {
     const response = await sendMsgToChromeExt({
@@ -165,7 +176,7 @@ const WalletsProvider: React.FC = ({ children }) => {
 
   const deleteAccount = React.useCallback(
     async (address: string) => {
-      const result = await sendMsgToChromeExt({
+      await sendMsgToChromeExt({
         event: 'deleteAccount',
         data: {
           address,
@@ -230,6 +241,7 @@ const WalletsProvider: React.FC = ({ children }) => {
         deleteAccount,
         viewMnemonicPhraseBackup,
         viewMnemonicPhrase,
+        reset,
       }}
     >
       {children}
