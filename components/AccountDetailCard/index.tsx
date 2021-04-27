@@ -62,16 +62,6 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
     { variables: { address: account.address } }
   )
 
-  const validators = [
-    times(100).map((i) => ({
-      address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
-      image:
-        'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-      name: 'Forbole',
-      reward: 599.013243,
-    })),
-  ]
-
   const { availableTokens, totalTokenAmount, usdBalance, accountBalance } = React.useMemo(() => {
     const ab = transformGqlAcountBalance(data, Date.now())
     return {

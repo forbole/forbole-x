@@ -1,19 +1,18 @@
-import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
+import { Dialog, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
-import WithdrawRewards from './WithdrawRewards'
 import SelectValidators from './SelectValidators'
-import ConfirmDelegation from './ConfirmDelegation'
+import ConfirmWithdraw from './ConfirmWithdraw'
 import useStateHistory from '../../misc/useStateHistory'
 
 enum DelegationStage {
-  WithdrawRewards = 'withdraw rewards',
+  // SelectValidator = 'select validator',
   SelectValidatorsStage = 'select validators',
-  ConfirmDelegationStage = 'confirm delegation',
+  ConfirmWithdrawStage = 'confirm withdraw',
 }
 
 interface DelegationDialogProps {
@@ -24,7 +23,6 @@ interface DelegationDialogProps {
 }
 
 interface Content {
-  title: string
   content: React.ReactNode
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
@@ -45,43 +43,50 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
   const [memo, setMemo] = React.useState('')
 
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<DelegationStage>(
-    DelegationStage.SelectAmountStage
+    DelegationStage.SelectValidatorsStage
   )
+
+  // const confirmAmount = React.useCallback(
+  //   (a: number) => {
+  //     setAmount(a)
+  //     setStage(DelegationStage.SelectValidatorsStage)
+  //   },
+  //   [setAmount, setStage]
+  // )
 
   const confirmAmount = React.useCallback(
-    (a: number) => {
-      setAmount(a)
-      setStage(DelegationStage.SelectValidatorsStage)
-    },
-    [setAmount, setStage]
-  )
-
-  const confirmDelegations = React.useCallback(
     (d: Array<{ amount: number; validator: { name: string; image: string } }>, m: string) => {
-      setDelegations(d)
+      setDelegations([
+        {
+          amount: 100,
+          validator: {
+            name: 'forbole',
+            image:
+              'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
+          },
+        },
+      ])
       setMemo(m)
-      // TODO: sign transactions
-      console.log(delegations, memo)
-      setStage(DelegationStage.ConfirmDelegationStage)
+      setStage(DelegationStage.ConfirmWithdrawStage)
     },
     [setStage]
   )
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
-      case DelegationStage.SelectValidatorsStage:
-        return {
-          title: t('delegate'),
-          content: (
-            <SelectValidators account={account} amount={amount} onConfirm={confirmDelegations} />
-          ),
-        }
-      case DelegationStage.ConfirmDelegationStage:
+      // case DelegationStage.SelectValidatorsStage:
+      //   return {
+      //     title: t('delegate'),
+      //     content: (
+      //       <SelectValidators account={account} amount={amount} onConfirm={confirmDelegations} />
+      //     ),
+      //   }
+      case DelegationStage.ConfirmWithdrawStage:
         return {
           title: '',
           dialogWidth: 'xs',
           content: (
-            <ConfirmDelegation
+            <ConfirmWithdraw
               account={account}
               amount={amount}
               delegations={delegations}
@@ -90,12 +95,11 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
             />
           ),
         }
-      case DelegationStage.WithdrawRewards:
+      case DelegationStage.SelectValidatorsStage:
       default:
         return {
-          title: t('delegate'),
           content: (
-            <WithdrawRewards account={account} onConfirm={confirmAmount} validators={validators} />
+            <SelectValidators account={account} onConfirm={confirmAmount} validators={validators} />
           ),
         }
     }
@@ -111,7 +115,6 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
-      {/* {content.title ? <DialogTitle>{content.title}</DialogTitle> : null} */}
       {content.content}
     </Dialog>
   )

@@ -3,213 +3,156 @@ import {
   Button,
   DialogActions,
   DialogContent,
-  IconButton,
-  InputAdornment,
   TextField,
   Typography,
+  Tabs,
+  Tab,
+  Checkbox,
+  FormControlLabel,
   Avatar,
-  Grid,
 } from '@material-ui/core'
-import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
-import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import { formatCrypto, formatCurrency } from '../../misc/utils'
+import TablePagination from '../TablePagination'
 import { useGeneralContext } from '../../contexts/GeneralContext'
+import { formatCrypto, formatCurrency } from '../../misc/utils'
+import useStyles from './styles'
 
 interface SelectValidatorsProps {
   onConfirm(
-    delegations: Array<{ amount: number; validator: { name: string; image: string } }>,
-    memo: string
+    delegations: Array<{ amount: number; validator: { name: string; image: string } }>
   ): void
   account: Account
-  amount: number
+  validators: any
 }
 
-const mockValidators = {
-  Forbole: {
-    image:
-      'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-    name: 'Forbole',
-  },
-  'Forbole 2': {
-    image:
-      'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-    name: 'Forbole 2',
-  },
-  'Forbole 3': {
-    image:
-      'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-    name: 'Forbole 3',
-  },
-}
-
-const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, onConfirm }) => {
+const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm, validators }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const iconProps = useIconProps()
   const { currency } = useGeneralContext()
-  const [delegations, setDelegations] = React.useState<
-    Array<{ amount: string; validator: string; percentage: string }>
-  >([{ amount: amount.toString(), validator: '', percentage: '100' }])
-  const [memo, setMemo] = React.useState('')
+  const [amount, setAmount] = React.useState(1)
+  const [page, setPage] = React.useState(0)
+  const [value, setValue] = React.useState('')
+  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const [currentTab, setCurrentTab] = React.useState(0)
+  const [checked, setChecked] = React.useState(true)
+  const handleChange = (event) => {
+    setChecked(event.target.checked)
+  }
+
+  const handleClick = (v) => {
+    v.isSelected = true
+  }
+
+  const tabs = [{ label: 'withrawReward' }, { label: 'withdraw commission' }]
+
+  const [selectedValidators, setSelectedValidators] = React.useState([])
+  const select = (v: any) => {
+    setSelectedValidators([...selectedValidators, v])
+  }
+  const validatorList = () => {
+    const newList = []
+    validators.map((x) => {
+      newList.push({ ...x, isSelected: false })
+      return newList
+    })
+    return newList
+  }
+
   return (
     <>
       <DialogContent className={classes.dialogContent}>
-        <Box ml={4} minHeight={360} maxHeight={600}>
-          <Typography className={classes.marginBottom}>
-            {t('total delegated amount')}{' '}
-            <b className={classes.marginLeft}>{formatCrypto(amount, account.crypto, lang)}</b>
-          </Typography>
-          <Grid container spacing={4}>
-            <Grid item xs={6}>
-              <Typography gutterBottom>{t('delegate to')}</Typography>
-              {delegations.map((v, i) => (
-                <Box
-                  key={i.toString()}
-                  display="flex"
-                  alignItems="center"
-                  ml={delegations.length <= 1 ? 0 : -5}
-                  mt={i === 0 ? 0 : 1}
-                >
-                  {delegations.length <= 1 ? null : (
-                    <IconButton onClick={() => setDelegations((d) => d.filter((a, j) => j !== i))}>
-                      <RemoveIcon {...iconProps} />
-                    </IconButton>
-                  )}
-                  <Autocomplete
-                    options={Object.keys(mockValidators)}
-                    openOnFocus
-                    fullWidth
-                    value={v.validator}
-                    onChange={(e, val) =>
-                      setDelegations((d) =>
-                        d.map((a, j) => (j === i ? { ...a, validator: val } : a))
-                      )
-                    }
-                    renderOption={(option) => (
-                      <Box display="flex" alignItems="center">
-                        <Avatar
-                          className={classes.validatorAvatar}
-                          alt={mockValidators[option].name}
-                          src={mockValidators[option].image}
-                        />
-                        <Typography>{mockValidators[option].name}</Typography>
-                      </Box>
-                    )}
-                    renderInput={({ InputProps, ...params }) => (
-                      <TextField
-                        {...params}
-                        variant="filled"
-                        placeholder={t('select validator')}
-                        InputProps={{
-                          ...InputProps,
-                          className: '',
-                          disableUnderline: true,
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <DropDownIcon {...iconProps} />
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    )}
-                  />
-                </Box>
-              ))}
-              <Box mt={1}>
-                <Button
-                  variant="text"
-                  color="secondary"
-                  onClick={() =>
-                    setDelegations((d) => [...d, { validator: '', amount: '', percentage: '' }])
+        <Box mb={10}>
+          <Tabs
+            className={classes.tab}
+            value={currentTab}
+            classes={{
+              indicator: classes.tabIndicator,
+            }}
+            centered
+            onChange={(e, v) => setCurrentTab(v)}
+            // textColor={theme === 'light' ? 'primary' : 'inherit'}
+          >
+            {tabs.map((tab) => (
+              <Tab key={tab.label} label={t(tab.label)} />
+            ))}
+          </Tabs>
+          <Box mt={2}>
+            <Typography className={classes.totalReward}>
+              {t('total reward amount')}&nbsp;9,666.749 ATOM
+            </Typography>
+            <Typography>{t('withdraw amount')}</Typography>
+            <Typography variant="h1" className={classes.h1}>
+              622.028873 ATOM
+            </Typography>
+            <Typography>Select the validator below you want to claim the reward amount</Typography>
+          </Box>
+          <FormControlLabel
+            value="end"
+            control={
+              <Checkbox
+                // className={classes.checkBox}
+                checked={checked}
+                onChange={handleChange}
+                color="primary"
+                size="small"
+              />
+            }
+            label={<Typography>{t('withdraw all')}</Typography>}
+            labelPlacement="end"
+          />
+          <Box>
+            {validatorList()
+              .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+              .map((v, i) => (
+                <FormControlLabel
+                  className={classes.controllLabel}
+                  value="end"
+                  control={
+                    <Checkbox
+                      // className={classes.checkBox}
+                      checked={v.isSelected}
+                      onClick={handleClick(v)}
+                      color="primary"
+                      size="small"
+                    />
                   }
-                >
-                  {t('add validator')}
-                </Button>
-              </Box>
-              <Box mt={2}>
-                <Typography gutterBottom>{t('memo')}</Typography>
-                <TextField
-                  fullWidth
-                  multiline
-                  rows={3}
-                  variant="filled"
-                  placeholder={t('description optional')}
-                  InputProps={{
-                    disableUnderline: true,
-                  }}
-                  value={memo}
-                  onChange={(e) => setMemo(e.target.value)}
+                  label={
+                    <Box display="flex" alignItems="center" style={{ flex: 1, width: '25rem' }}>
+                      <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
+                      <Typography>{v.name}</Typography>
+                      <Typography className={classes.rewardsAmount}>
+                        {`${v.reward} ATOM`}
+                      </Typography>
+                    </Box>
+                  }
+                  labelPlacement="end"
                 />
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography gutterBottom>{t('amount')}</Typography>
-              {delegations.map((v, i) => (
-                <Box key={i.toString()} display="flex" alignItems="center" mt={i === 0 ? 0 : 1}>
-                  <TextField
-                    fullWidth
-                    variant="filled"
-                    placeholder="0"
-                    type="number"
-                    InputProps={{
-                      disableUnderline: true,
-                      endAdornment: (
-                        <InputAdornment position="end">{account.crypto}</InputAdornment>
-                      ),
-                    }}
-                    value={v.amount}
-                    onChange={(e) =>
-                      setDelegations((d) =>
-                        d.map((a, j) =>
-                          j === i
-                            ? {
-                                ...a,
-                                amount: e.target.value,
-                                percentage: ((100 * Number(e.target.value)) / amount).toFixed(2),
-                              }
-                            : a
-                        )
-                      )
-                    }
-                  />
-                  <TextField
-                    className={classes.percentageTextField}
-                    variant="filled"
-                    placeholder="0"
-                    type="number"
-                    InputProps={{
-                      disableUnderline: true,
-                      endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                    }}
-                    // eslint-disable-next-line react/jsx-no-duplicate-props
-                    inputProps={{
-                      className: classes.numberInput,
-                    }}
-                    value={v.percentage}
-                    onChange={(e) =>
-                      setDelegations((d) =>
-                        d.map((a, j) =>
-                          j === i
-                            ? {
-                                ...a,
-                                percentage: e.target.value,
-                                amount: ((amount * Number(e.target.value)) / 100).toFixed(2),
-                              }
-                            : a
-                        )
-                      )
-                    }
-                  />
-                </Box>
               ))}
-            </Grid>
-          </Grid>
+          </Box>
+          <TablePagination
+            className={classes.tablePagination}
+            hideFooter
+            page={page}
+            rowsPerPage={rowsPerPage}
+            rowsCount={validators.length}
+            onPageChange={setPage}
+            onRowsPerPageChange={setRowsPerPage}
+          />
         </Box>
+        <Typography>{t('memo')}</Typography>
+        <TextField
+          InputProps={{
+            disableUnderline: true,
+          }}
+          fullWidth
+          // type={isShowingPassword ? 'text' : 'password'}
+          variant="filled"
+          value={value}
+          placeholder={t('description')}
+          multiline
+          rows={4}
+        />
       </DialogContent>
       <DialogActions>
         <Box
@@ -221,23 +164,18 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, on
           mx={2}
         >
           <Box>
-            <Typography variant="h5">{formatCrypto(amount, account.crypto, lang)}</Typography>
-            <Typography>{formatCurrency(amount, currency, lang)}</Typography>
+            <Typography variant="h5">{formatCrypto(0, account.crypto, lang)}</Typography>
+            <Typography>{formatCurrency(0, currency, lang)}</Typography>
           </Box>
           <Button
             variant="contained"
             className={classes.button}
             color="primary"
-            disabled={!delegations.filter((v) => v.validator && Number(v.amount)).length}
+            disabled={!Number(amount)}
             onClick={() =>
               onConfirm(
-                delegations
-                  .filter((v) => v.validator && Number(v.amount))
-                  .map((v) => ({
-                    validator: mockValidators[v.validator],
-                    amount: Number(v.amount),
-                  })),
-                memo
+                validators.filter((v) => v.isSelected === true),
+                value
               )
             }
           >

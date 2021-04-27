@@ -10,10 +10,10 @@ import {
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import DelegateIcon from '../../assets/images/icons/icon_delegate_tx.svg'
+import WithdrawIcon from '../../assets/images/icons/icon_withdraw_tx.svg'
 import useStyles from './styles'
 
-interface ConfirmDelegationProps {
+interface ConfirmWithdrawProps {
   account: Account
   amount: number
   delegations: Array<{ amount: number; validator: { name: string; image: string } }>
@@ -21,7 +21,7 @@ interface ConfirmDelegationProps {
   onConfirm(): void
 }
 
-const ConfirmDelegation: React.FC<ConfirmDelegationProps> = ({
+const ConfirmWithdraw: React.FC<ConfirmWithdrawProps> = ({
   account,
   amount,
   delegations,
@@ -32,22 +32,38 @@ const ConfirmDelegation: React.FC<ConfirmDelegationProps> = ({
   const classes = useStyles()
   const theme = useTheme()
 
+  console.log('delegations', delegations)
+
   return (
     <>
       <DialogContent className={classes.dialogContent}>
         <Box display="flex" flexDirection="column" alignItems="center" mt={6}>
-          <DelegateIcon width={theme.spacing(6)} height={theme.spacing(6)} />
+          <WithdrawIcon width={theme.spacing(6)} height={theme.spacing(6)} />
           <Box mt={2} mb={4}>
             <Typography variant="h4">
-              {t('delegate')} {amount} {account.crypto}
+              {t('withdraw')} {amount} {account.crypto}
             </Typography>
           </Box>
         </Box>
         <Divider />
         <Box my={1}>
-          <Typography>{t('from')}</Typography>
+          <Typography>{t('rewards')}</Typography>
           <Typography variant="body2" color="textSecondary">
             {account.address}
+          </Typography>
+        </Box>
+        <Divider />
+        <Box my={1}>
+          <Typography>{t('withdraw rewards from')}</Typography>
+          <Typography variant="body2" color="textSecondary">
+            {account.address}
+          </Typography>
+        </Box>
+        <Divider />
+        <Box my={1}>
+          <Typography>{t('memo')}</Typography>
+          <Typography variant="body2" color="textSecondary">
+            N/A
           </Typography>
         </Box>
         <Divider />
@@ -105,4 +121,4 @@ const ConfirmDelegation: React.FC<ConfirmDelegationProps> = ({
   )
 }
 
-export default ConfirmDelegation
+export default ConfirmWithdraw
