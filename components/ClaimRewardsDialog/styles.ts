@@ -61,6 +61,9 @@ const useStyles = makeStyles(
       flex: 1,
       textAlign: 'right',
     },
+    tablePagination: {
+      justifyContent: 'center',
+    },
   }),
   {
     name: 'HookGlobalStyles',

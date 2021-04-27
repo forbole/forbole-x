@@ -8,13 +8,13 @@ import {
   Typography,
   Tabs,
   Tab,
-  TablePagination,
   Checkbox,
   FormControlLabel,
   Avatar,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import TablePagination from '../TablePagination'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { formatCrypto, formatCurrency } from '../../misc/utils'
 import useStyles from './styles'
@@ -30,6 +30,8 @@ const WithdrawRewards: React.FC<WithdrawRewardsProps> = ({ account, onConfirm, v
   const classes = useStyles()
   const { currency } = useGeneralContext()
   const [amount, setAmount] = React.useState('')
+  const [page, setPage] = React.useState(0)
+  const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [currentTab, setCurrentTab] = React.useState(0)
   const [checked, setChecked] = React.useState(true)
   const handleChange = (event) => {
@@ -70,7 +72,7 @@ const WithdrawRewards: React.FC<WithdrawRewardsProps> = ({ account, onConfirm, v
             value="end"
             control={
               <Checkbox
-                className={classes.checkBox}
+                // className={classes.checkBox}
                 checked={checked}
                 onChange={handleChange}
                 color="primary"
@@ -81,44 +83,39 @@ const WithdrawRewards: React.FC<WithdrawRewardsProps> = ({ account, onConfirm, v
             labelPlacement="end"
           />
           <Box>
-            {validators.map((v) => {
-              return (
-                // <Box>
-                // </Box>
-
-                <FormControlLabel
-                  className={classes.controllLabel}
-                  value="end"
-                  control={
-                    <Checkbox
-                      // className={classes.checkBox}
-                      checked={checked}
-                      onChange={handleChange}
-                      color="primary"
-                      size="small"
-                    />
-                  }
-                  label={
-                    <Box display="flex" alignItems="center" style={{ flex: 1, width: '25rem' }}>
-                      <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
-                      <Typography>{v.name}</Typography>
-                      <Typography className={classes.rewardsAmount}>
-                        {`${v.reward} ATOM`}
-                      </Typography>
-                    </Box>
-                  }
-                  labelPlacement="end"
-                />
-              )
-            })}
+            {validators.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((v, i) => (
+              <FormControlLabel
+                className={classes.controllLabel}
+                value="end"
+                control={
+                  <Checkbox
+                    // className={classes.checkBox}
+                    checked={checked}
+                    onChange={handleChange}
+                    color="primary"
+                    size="small"
+                  />
+                }
+                label={
+                  <Box display="flex" alignItems="center" style={{ flex: 1, width: '25rem' }}>
+                    <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
+                    <Typography>{v.name}</Typography>
+                    <Typography className={classes.rewardsAmount}>{`${v.reward} ATOM`}</Typography>
+                  </Box>
+                }
+                labelPlacement="end"
+              />
+            ))}
           </Box>
-          {/* <TablePagination
+          <TablePagination
+            className={classes.tablePagination}
+            hideFooter
             page={page}
             rowsPerPage={rowsPerPage}
-            rowsCount={activitiesCollection.length}
+            rowsCount={validators.length}
             onPageChange={setPage}
             onRowsPerPageChange={setRowsPerPage}
-          /> */}
+          />
         </Box>
       </DialogContent>
       <DialogActions>
