@@ -16,6 +16,7 @@ import WhatIsMnemonic from './WhatIsMnemonic'
 import ImportMnemonicBackup from './ImportMnemonicBackup'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import useStateHistory from '../../misc/useStateHistory'
+import ConnectLedger from './ConnectLedger'
 
 export enum ImportStage {
   ImportMnemonicPhraseStage = 'import mnemonic phrase',
@@ -117,6 +118,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
   const saveWallet = React.useCallback(
     async (name: string, cryptos: string[]) => {
       await addWallet({
+        type: 'mneomnic',
         name,
         cryptos,
         mnemonic,
@@ -133,6 +135,11 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
         return {
           title: t('access my wallet title'),
           content: <AccessMyWallet onConfirm={setStage} onCreateWallet={createWallet} />,
+        }
+      case ImportStage.ConnectLedgerDeviceStage:
+        return {
+          title: t('connect ledger'),
+          content: <ConnectLedger onConnect={() => null} />,
         }
       case ImportStage.ImportMnemonicPhraseStage:
         return {

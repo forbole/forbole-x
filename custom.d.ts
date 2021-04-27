@@ -47,7 +47,10 @@ interface UpdateAccountParams {
   fav?: boolean
 }
 
+type WalletType = 'ledger' | 'mneomnic'
+
 interface Wallet {
+  type: WalletType
   name: string
   id: string
   createdAt: number
@@ -104,6 +107,7 @@ interface TokenPrice {
 }
 
 interface CreateWalletParams {
+  type: WalletType
   name: string
   cryptos: string[]
   mnemonic: string
