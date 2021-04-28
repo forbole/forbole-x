@@ -146,11 +146,20 @@ export const transformGqlAcountBalance = (data: any, timestamp: number): Account
   const denoms = get(data, 'account[0].available[0].tokens_prices', [])
   const balance = {
     available: getTokenAmountFromDenoms(get(data, 'account[0].available[0].coins', []), denoms),
-    delegated: getTokenAmountFromDenoms([get(data, 'account[0].delegated[0].amount', {})], denoms),
-    unbonding: getTokenAmountFromDenoms([get(data, 'account[0].unbonding[0].amount', {})], denoms),
-    rewards: getTokenAmountFromDenoms([get(data, 'account[0].rewards[0].amount', {})], denoms),
+    delegated: getTokenAmountFromDenoms(
+      get(data, 'account[0].delegated.nodes', []).map((d) => d.amount),
+      denoms
+    ),
+    unbonding: getTokenAmountFromDenoms(
+      get(data, 'account[0].unbonding.nodes', []).map((d) => d.amount),
+      denoms
+    ),
+    rewards: getTokenAmountFromDenoms(
+      get(data, 'account[0].rewards.nodes', []).map((d) => d.amount),
+      denoms
+    ),
     commissions: getTokenAmountFromDenoms(
-      [get(data, 'account[0].delegated[0].commissions', {})],
+      get(data, 'account[0].validator.validator.commissions.nodes', []).map((d) => d.amount),
       denoms
     ),
   }
