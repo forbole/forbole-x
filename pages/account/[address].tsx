@@ -3,7 +3,7 @@ import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
-import times from 'lodash/times'
+import get from 'lodash/get'
 import { gql, useSubscription } from '@apollo/client'
 import AccountAvatar from '../../components/AccountAvatar'
 import AccountDetailCard from '../../components/AccountDetailCard'
@@ -13,21 +13,39 @@ import ActivitiesTable from '../../components/ActivitiesTable'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { getValidators } from '../../graphql/queries/validators'
-import { transformValidators } from '../../misc/utils'
+import {
+  getTokenAmountFromDenoms,
+  transformGqlAcountBalance,
+  transformValidators,
+  transformValidatorsWithTokenAmount,
+} from '../../misc/utils'
+import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 
 const Account: React.FC = () => {
   const router = useRouter()
   const { t } = useTranslation('common')
   const { accounts } = useWalletsContext()
   const account = accounts.find((a) => a.address === router.query.address)
-  const crypto = account ? cryptocurrencies[account.crypto] : {}
+  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
 
   const { data } = useSubscription(
     gql`
-      ${getValidators('DSM')}
+      ${getValidators(crypto.name)}
     `
   )
-  const validators = transformValidators(data)
+  const { data: balanceData } = useSubscription(
+    gql`
+      ${getLatestAccountBalance(crypto.name)}
+    `,
+    { variables: { address: account ? account.address : '' } }
+  )
+
+  const validators = transformValidatorsWithTokenAmount(data, balanceData)
+  const accountBalance = transformGqlAcountBalance(balanceData, Date.now())
+  const availableTokens = get(balanceData, 'account[0].available[0]', {
+    coins: [],
+    tokens_prices: [],
+  })
 
   return (
     <Layout
@@ -44,20 +62,15 @@ const Account: React.FC = () => {
         ) : null
       }
     >
-      {account ? <AccountDetailCard account={account} validators={validators} /> : null}
-      {/* <ValidatorsTable
-        validators={times(100).map((i) => ({
-          image:
-            'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-          name: `Forbole ${i}`,
-          commission: 0.015,
-          vpRatios: 0.05,
-          delegatedAmount: 11887597,
-          amtRatio: 0.05,
-          reward: 122321,
-        }))}
-        crypto={crypto}
-      /> */}
+      {account ? (
+        <AccountDetailCard
+          account={account}
+          validators={validators}
+          accountBalance={accountBalance}
+          availableTokens={availableTokens}
+        />
+      ) : null}
+      <ValidatorsTable validators={validators} crypto={crypto} />
       <ActivitiesTable
         account={{
           name: 'Chan',

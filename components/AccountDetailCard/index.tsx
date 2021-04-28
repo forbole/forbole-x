@@ -2,7 +2,6 @@ import { Box, Button, Card, Grid, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
-import { gql, useSubscription } from '@apollo/client'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import EditIcon from '../../assets/images/icons/icon_edit_tool.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
@@ -15,24 +14,28 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import StatBox from './StatBox'
 import DelegationDialog from '../DelegateDialog'
 import {
-  formatCrypto,
   formatCurrency,
   formatTokenAmount,
   getTokenAmountBalance,
   getTotalBalance,
   getTotalTokenAmount,
-  transformGqlAcountBalance,
 } from '../../misc/utils'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
-import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import SendDialog from '../SendDialog'
 
 interface AccountDetailCardProps {
   account: Account
   validators: Validator[]
+  accountBalance: AccountBalance
+  availableTokens: any
 }
 
-const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account, validators }) => {
+const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
+  account,
+  accountBalance,
+  availableTokens,
+  validators,
+}) => {
   const { lang, t } = useTranslation('common')
   const { currency } = useGeneralContext()
   const classes = useStyles()
@@ -53,22 +56,12 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account, validato
     ? accountsWithBalance[0].balances.map((b) => getTotalBalance(b))
     : []
   // Balance Data
-  const { data } = useSubscription(
-    gql`
-      ${getLatestAccountBalance(account.crypto)}
-    `,
-    { variables: { address: account.address } }
-  )
-
-  const { availableTokens, totalTokenAmount, usdBalance, accountBalance } = React.useMemo(() => {
-    const ab = transformGqlAcountBalance(data, Date.now())
+  const { totalTokenAmount, usdBalance } = React.useMemo(() => {
     return {
-      availableTokens: get(data, 'account[0].available[0]', { coins: [], tokens_prices: [] }),
-      accountBalance: ab,
-      totalTokenAmount: getTotalTokenAmount(ab).amount,
-      usdBalance: getTotalBalance(ab).balance,
+      totalTokenAmount: getTotalTokenAmount(accountBalance).amount,
+      usdBalance: getTotalBalance(accountBalance).balance,
     }
-  }, [data])
+  }, [accountBalance])
 
   const isAvailableTokenEmpty = React.useMemo(() => !get(availableTokens, 'coins.length', 0), [
     availableTokens,

@@ -8,7 +8,7 @@ export const formatPercentage = (percent: number, lang: string): string =>
     style: 'percent',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(percent)
+  }).format(percent || 0)
 
 export const formatCrypto = (
   amount: number,
@@ -19,7 +19,7 @@ export const formatCrypto = (
   `${new Intl.NumberFormat(lang, {
     signDisplay: 'never',
     maximumFractionDigits: 4,
-  }).format(amount)}${hideUnit ? '' : ` ${(unit || '').toUpperCase()}`}`
+  }).format(amount || 0)}${hideUnit ? '' : ` ${(unit || '').toUpperCase()}`}`
 
 export const formatCurrency = (
   amount: number,
@@ -32,7 +32,7 @@ export const formatCurrency = (
     style: 'currency',
     currency,
     notation: compact ? 'compact' : undefined,
-  }).format(amount)}${hideUnit ? '' : ` ${currency}`}`
+  }).format(amount || 0)}${hideUnit ? '' : ` ${currency}`}`
 
 export const getTokenAmountFromDenoms = (
   coins: Array<{ denom: string; amount: string }>,
@@ -201,6 +201,35 @@ export const transformValidators = (data: any): Validator[] => {
       ...validator,
       rank: i + 1,
     }))
+}
+
+export const transformValidatorsWithTokenAmount = (data: any, balanceData: any) => {
+  const validators = transformValidators(data)
+  const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
+  const delegatedByValidator = {}
+  get(balanceData, 'account[0].delegated.nodes', []).forEach((d) => {
+    delegatedByValidator[
+      get(d, 'validator.validator_info.operator_address', '')
+    ] = getTokenAmountFromDenoms([d.amount], tokensPrices)
+  })
+  const rewardsByValidator = {}
+  get(balanceData, 'account[0].rewards.nodes', []).forEach((d) => {
+    rewardsByValidator[
+      get(d, 'validator.validator_info.operator_address', '')
+    ] = getTokenAmountFromDenoms([d.amount], tokensPrices)
+  })
+  const unbondingByValidator = {}
+  get(balanceData, 'account[0].unbonding.nodes', []).forEach((d) => {
+    unbondingByValidator[
+      get(d, 'validator.validator_info.operator_address', '')
+    ] = getTokenAmountFromDenoms([d.amount], tokensPrices)
+  })
+  return validators.map((v) => ({
+    ...v,
+    delegated: delegatedByValidator[v.address],
+    rewards: rewardsByValidator[v.address],
+    unbonding: unbondingByValidator[v.address],
+  }))
 }
 
 export const getEquivalentCoinToSend = (
