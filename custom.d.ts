@@ -77,12 +77,12 @@ interface Validator {
   name: string
   commission: number
   votingPower: number
-  amtRatio: number
   selfRatio: number
   status: string
   isActive: boolean
-  reward?: number
-  delegatedAmount?: number
+  rewards?: TokenAmount
+  delegated?: TokenAmount
+  unbonding?: TokenAmount
 }
 
 interface TokenUnit {

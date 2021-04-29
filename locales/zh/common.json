@@ -174,5 +174,12 @@
   "add address": "[zh] Add address",
   "send to": "[zh] To {{number}}",
   "recipient address": "[zh] Recipient address",
-  "successfully sent": "[zh] {{title}} was successfully sent"
+  "successfully sent": "[zh] {{title}} was successfully sent",
+  "successfully delegated": "[zh] {{denom}} was successfully delegated",
+  "forgot password?": "[zh] Forgot password?",
+  "forgot password": "[zh] Forgot Password",
+  "forgot password description": "[zh] Reset Forbole Portal app, all data will be erased from your phone, \nmake sure you have a secure copy of your backup mnemonic phrase. ",
+  "reset app": "[zh] Reset App",
+  "reset": "[zh] Reset",
+  "reset description": "[zh] Are you sure you would like to reset this app ? "
 }

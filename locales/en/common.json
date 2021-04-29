@@ -181,6 +181,7 @@
   "close": "Close",
   "success": "Success",
   "successfully sent": "{{title}} was successfully sent",
+  "successfully delegated": "{{denom}} was successfully delegated",
   "forgot password?": "Forgot password?",
   "forgot password": "Forgot Password",
   "forgot password description": "Reset Forbole Portal app, all data will be erased from your phone, \nmake sure you have a secure copy of your backup mnemonic phrase. ",
