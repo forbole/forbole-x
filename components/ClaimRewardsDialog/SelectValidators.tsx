@@ -35,13 +35,35 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
   const [value, setValue] = React.useState('')
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [currentTab, setCurrentTab] = React.useState(0)
-  const [checked, setChecked] = React.useState(true)
+  const [state, setState] = React.useState({
+    // checkedA: true,
+    // checkedB: true,
+    // checkedF: true,
+    // checkedG: true,
+  })
+
+  const [test, setT] = React.useState({})
+  validators.map((x) => {
+    // setT({ ...test, [x.address]: false })
+    console.log('address', x.address)
+  })
+  console.log('test', test)
+
   const handleChange = (event) => {
-    setChecked(event.target.checked)
+    setState({ ...state, [event.target.name]: event.target.checked })
   }
 
-  const handleClick = (v) => {
-    v.isSelected = true
+  const [isSelectAll, setIsSelectAll] = React.useState(false)
+  console.log('state_isSelectAll', isSelectAll)
+
+  const handleSelectAll = (event) => {
+    setState({})
+    if (!isSelectAll) {
+      validators.forEach((x) => {
+        setState({ ...state, [x.address]: true })
+      })
+    }
+    setIsSelectAll(!isSelectAll)
   }
 
   const tabs = [{ label: 'withrawReward' }, { label: 'withdraw commission' }]
@@ -92,8 +114,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
             control={
               <Checkbox
                 // className={classes.checkBox}
-                checked={checked}
-                onChange={handleChange}
+                // checked={checked}
+                onChange={handleSelectAll}
                 color="primary"
                 size="small"
               />
@@ -111,10 +133,12 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
                   control={
                     <Checkbox
                       // className={classes.checkBox}
-                      checked={v.isSelected}
-                      onClick={handleClick(v)}
+                      // checked={v.isSelected}
+                      // onClick={handlecheck(v)}
+                      onChange={handleChange}
                       color="primary"
                       size="small"
+                      name={v.address}
                     />
                   }
                   label={
