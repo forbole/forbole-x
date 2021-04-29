@@ -5,16 +5,14 @@ import SuccessLight from '../../assets/images/tx_success_light.svg'
 import SuccessDark from '../../assets/images/tx_success_dark.svg'
 import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
-import { formatTokenAmount } from '../../misc/utils'
 
 interface ConfirmSendProps {
   onClose(): void
-  totalAmount: TokenAmount
-  account: Account
+  denom: string
 }
 
-const Success: React.FC<ConfirmSendProps> = ({ onClose, totalAmount, account }) => {
-  const { t, lang } = useTranslation('common')
+const Success: React.FC<ConfirmSendProps> = ({ onClose, denom }) => {
+  const { t } = useTranslation('common')
   const classes = useStyles()
   const { theme } = useGeneralContext()
 
@@ -26,11 +24,7 @@ const Success: React.FC<ConfirmSendProps> = ({ onClose, totalAmount, account }) 
           <Typography variant="h4" gutterBottom>
             {t('success')}
           </Typography>
-          <Typography>
-            {t('successfully sent', {
-              title: formatTokenAmount(totalAmount, account.crypto, lang, ', '),
-            })}
-          </Typography>
+          <Typography>{t('successfully delegated', { denom: denom.toUpperCase() })}</Typography>
         </Box>
       </DialogContent>
       <DialogActions>

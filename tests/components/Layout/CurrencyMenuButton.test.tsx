@@ -7,8 +7,8 @@ const mockCurrencyContext = {
   setCurrency: jest.fn(),
 }
 
-jest.mock('../../../contexts/SettingsContext', () => ({
-  useSettingsContext: () => mockCurrencyContext,
+jest.mock('../../../contexts/GeneralContext', () => ({
+  useGeneralContext: () => mockCurrencyContext,
 }))
 
 jest.mock('@material-ui/core/Menu', () => (props) => <div id="menu" {...props} />)

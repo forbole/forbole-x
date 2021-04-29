@@ -33,7 +33,7 @@ exports[`component: UnlockPasswordDialog renders correctly 1`] = `
     />
   </div>
   <div
-    className="MuiDialogActions-root MuiDialogActions-spacing"
+    className="MuiDialogActions-root HookGlobalStyles-action-5 MuiDialogActions-spacing"
   >
     <button
       className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
@@ -57,6 +57,30 @@ exports[`component: UnlockPasswordDialog renders correctly 1`] = `
         className="MuiButton-label"
       >
         common:next
+      </span>
+    </button>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-4"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:forgot password?
       </span>
     </button>
   </div>
@@ -96,7 +120,7 @@ exports[`component: UnlockPasswordDialog renders correctly when password is chan
     />
   </div>
   <div
-    className="MuiDialogActions-root MuiDialogActions-spacing"
+    className="MuiDialogActions-root HookGlobalStyles-action-5 MuiDialogActions-spacing"
   >
     <button
       className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
@@ -120,6 +144,33 @@ exports[`component: UnlockPasswordDialog renders correctly when password is chan
         className="MuiButton-label"
       >
         common:next
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-4"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:forgot password?
       </span>
       <span
         className="MuiTouchRipple-root"
@@ -162,7 +213,7 @@ exports[`component: UnlockPasswordDialog renders error state correctly 1`] = `
     />
   </div>
   <div
-    className="MuiDialogActions-root MuiDialogActions-spacing"
+    className="MuiDialogActions-root HookGlobalStyles-action-5 MuiDialogActions-spacing"
   >
     <button
       className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
@@ -186,6 +237,33 @@ exports[`component: UnlockPasswordDialog renders error state correctly 1`] = `
         className="MuiButton-label"
       >
         common:next
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-4"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:forgot password?
       </span>
       <span
         className="MuiTouchRipple-root"
@@ -228,7 +306,7 @@ exports[`component: UnlockPasswordDialog renders non empty password correctly 1`
     />
   </div>
   <div
-    className="MuiDialogActions-root MuiDialogActions-spacing"
+    className="MuiDialogActions-root HookGlobalStyles-action-5 MuiDialogActions-spacing"
   >
     <button
       className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
@@ -252,6 +330,33 @@ exports[`component: UnlockPasswordDialog renders non empty password correctly 1`
         className="MuiButton-label"
       >
         common:next
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-4"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:forgot password?
       </span>
       <span
         className="MuiTouchRipple-root"
@@ -294,7 +399,7 @@ exports[`component: UnlockPasswordDialog renders non empty wallets correctly 1`]
     />
   </div>
   <div
-    className="MuiDialogActions-root MuiDialogActions-spacing"
+    className="MuiDialogActions-root HookGlobalStyles-action-5 MuiDialogActions-spacing"
   >
     <button
       className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
@@ -318,6 +423,33 @@ exports[`component: UnlockPasswordDialog renders non empty wallets correctly 1`]
         className="MuiButton-label"
       >
         common:next
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-4"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:forgot password?
       </span>
       <span
         className="MuiTouchRipple-root"

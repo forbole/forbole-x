@@ -4,22 +4,19 @@ import {
   DialogActions,
   DialogContent,
   IconButton,
-  InputAdornment,
   TextField,
   Typography,
   Grid,
-  Menu,
-  MenuItem,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
 import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
-import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { getTokenAmountBalance, formatCurrency, formatTokenAmount } from '../../misc/utils'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
+import TokenAmountInput from '../TokenAmountInput'
 
 interface SelectRecipientsProps {
   onConfirm(
@@ -39,8 +36,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
-  const { currency } = useSettingsContext()
-  const [denomAnchor, setDenomAnchor] = React.useState<Element>()
+  const { currency } = useGeneralContext()
   const [recipients, setRecipients] = React.useState<
     Array<{ amount: string; denom: string; address: string }>
   >([{ amount: '', denom: Object.keys(availableAmount)[0] || '', address: '' }])
@@ -78,7 +74,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
           <Typography className={classes.marginBottom}>
             {t('available amount')}{' '}
             <b className={classes.marginLeft}>
-              {formatTokenAmount(availableAmount, account.crypto, lang)}
+              {formatTokenAmount(availableAmount, account.crypto, lang, ', ')}
             </b>
           </Typography>
           <Grid container spacing={4}>
@@ -148,70 +144,16 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
               <Typography gutterBottom>{t('amount')}</Typography>
               {recipients.map((v, i) => (
                 <Box key={i.toString()} mt={i === 0 ? 0 : 1}>
-                  <TextField
-                    fullWidth
-                    variant="filled"
-                    placeholder="0"
-                    type="number"
-                    error={insufficientTokens.includes(v.denom)}
-                    InputProps={{
-                      disableUnderline: true,
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Button
-                            variant="text"
-                            size="small"
-                            endIcon={<DropDownIcon {...iconProps} />}
-                            onClick={(e) => setDenomAnchor(e.currentTarget)}
-                          >
-                            {v.denom.toUpperCase()}
-                          </Button>
-                          <Menu
-                            anchorEl={denomAnchor}
-                            getContentAnchorEl={null}
-                            anchorOrigin={{
-                              vertical: 'bottom',
-                              horizontal: 'center',
-                            }}
-                            transformOrigin={{
-                              vertical: 'top',
-                              horizontal: 'center',
-                            }}
-                            keepMounted
-                            open={!!denomAnchor}
-                            onClose={() => setDenomAnchor(undefined)}
-                          >
-                            {Object.keys(availableAmount).map((denom) => (
-                              <MenuItem
-                                button
-                                key={denom}
-                                onClick={() => {
-                                  setRecipients((d) =>
-                                    d.map((a, j) => (j === i ? { ...a, denom } : a))
-                                  )
-                                  setDenomAnchor(undefined)
-                                }}
-                              >
-                                {denom.toUpperCase()}
-                              </MenuItem>
-                            ))}
-                          </Menu>
-                        </InputAdornment>
-                      ),
-                    }}
+                  <TokenAmountInput
                     value={v.amount}
-                    onChange={(e) =>
-                      setRecipients((d) =>
-                        d.map((a, j) =>
-                          j === i
-                            ? {
-                                ...a,
-                                amount: e.target.value,
-                              }
-                            : a
-                        )
-                      )
+                    denom={v.denom}
+                    onValueChange={(amount) =>
+                      setRecipients((d) => d.map((a, j) => (j === i ? { ...a, amount } : a)))
                     }
+                    onDenomChange={(denom) =>
+                      setRecipients((d) => d.map((a, j) => (j === i ? { ...a, denom } : a)))
+                    }
+                    availableAmount={availableAmount}
                   />
                 </Box>
               ))}

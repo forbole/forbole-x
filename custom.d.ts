@@ -62,19 +62,27 @@ interface WalletWithBalance extends Wallet {
   balances: WalletBalance[]
 }
 
-interface Crypto {
+interface Cryptocurrency {
   name: string
+  image: string
   coinType: number
+  graphqlHttpUrl: string
+  graphqlWsUrl: string
 }
 
 interface Validator {
+  rank: number
+  address: string
   image: string
   name: string
   commission: number
-  vpRatios: number
-  delegatedAmount: number
-  amtRatio: number
-  reward: number
+  votingPower: number
+  selfRatio: number
+  status: string
+  isActive: boolean
+  rewards?: TokenAmount
+  delegated?: TokenAmount
+  unbonding?: TokenAmount
 }
 
 interface TokenUnit {
@@ -149,6 +157,7 @@ type ChromeMessage =
   | {
       event: 'ping'
     }
+  | { event: 'reset' }
   | {
       event: 'getWallets'
       data: { password: string }

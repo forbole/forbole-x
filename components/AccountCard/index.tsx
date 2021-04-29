@@ -6,7 +6,7 @@ import { gql, useSubscription } from '@apollo/client'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import useStyles from './styles'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIconProps from '../../misc/useIconProps'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import AccountMenuButton from '../AccountMenuButton'
@@ -29,7 +29,7 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
   const theme = useTheme()
   const iconProps = useIconProps()
   const { lang } = useTranslation()
-  const { currency } = useSettingsContext()
+  const { currency } = useGeneralContext()
   const { updateAccount } = useWalletsContext()
   const router = useRouter()
   const { data, loading } = useSubscription(

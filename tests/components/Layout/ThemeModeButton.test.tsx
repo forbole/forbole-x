@@ -7,8 +7,8 @@ const mockThemeContext = {
   setTheme: jest.fn(),
 }
 
-jest.mock('../../../contexts/SettingsContext', () => ({
-  useSettingsContext: () => mockThemeContext,
+jest.mock('../../../contexts/GeneralContext', () => ({
+  useGeneralContext: () => mockThemeContext,
 }))
 
 describe('component: Layout - ThemeModeButton', () => {

@@ -16,7 +16,7 @@ import last from 'lodash/last'
 import get from 'lodash/get'
 import { useRouter } from 'next/router'
 import useStyles from './styles'
-import { useSettingsContext } from '../../contexts/SettingsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import {
   createEmptyChartData,
@@ -42,7 +42,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const classes = useStyles()
   const theme = useTheme()
   const { t, lang } = useTranslation('common')
-  const { currency } = useSettingsContext()
+  const { currency } = useGeneralContext()
   const router = useRouter()
   const {
     data: [accountWithBalance],
