@@ -12,6 +12,8 @@ import {
   Tab,
   // useTheme,
   IconButton,
+  Menu,
+  MenuItem,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 // import { LineChart, Line, YAxis } from 'recharts'
@@ -49,6 +51,8 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
   const [currentTab, setCurrentTab] = React.useState(0)
   const [managingValidator, setManagingValidator] = React.useState<Validator>()
   const { theme } = useGeneralContext()
+  const [anchor, setAnchor] = React.useState<Element>()
+  const [undelegating, setUndelegating] = React.useState(false)
 
   const tabs = [
     { label: 'delegations', rows: validators.filter((v) => !!v.delegated) },
@@ -139,7 +143,12 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                     </TableCell> */}
                       <TableCell className={classes.tableCell}>
                         <Box my={-2}>
-                          <IconButton onClick={() => setManagingValidator(v)}>
+                          <IconButton
+                            onClick={(e) => {
+                              setManagingValidator(v)
+                              setAnchor(e.currentTarget)
+                            }}
+                          >
                             <MoreIcon {...iconProps} />
                           </IconButton>
                         </Box>
@@ -158,15 +167,48 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
           onRowsPerPageChange={setRowsPerPage}
         />
       </Box>
+      <Menu
+        anchorEl={anchor}
+        getContentAnchorEl={null}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        keepMounted
+        open={!!anchor}
+        onClose={() => {
+          setManagingValidator(undefined)
+          setAnchor(undefined)
+        }}
+      >
+        <MenuItem button>{t('delegate')}</MenuItem>
+        <MenuItem button>{t('redelegate')}</MenuItem>
+        <MenuItem
+          button
+          onClick={() => {
+            setUndelegating(true)
+            setAnchor(undefined)
+          }}
+        >
+          {t('undelegate')}
+        </MenuItem>
+        <MenuItem button>{t('claim rewards')}</MenuItem>
+      </Menu>
       {account && managingValidator ? (
         <UndelegationDialog
           account={account}
           validator={managingValidator}
           delegatedTokens={delegatedTokens[get(managingValidator, 'address', '')]}
-          // availableDelegatedTokens={delegatedTokens[get(managingValidator, 'address', '')]}
           tokensPrices={tokensPrices}
-          open={!!managingValidator}
-          onClose={() => setManagingValidator(undefined)}
+          open={undelegating}
+          onClose={() => {
+            setManagingValidator(undefined)
+            setUndelegating(false)
+          }}
         />
       ) : null}
     </Card>

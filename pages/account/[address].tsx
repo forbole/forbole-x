@@ -1,4 +1,4 @@
-import { Avatar, Box, Breadcrumbs, Link as MLink } from '@material-ui/core'
+import { Breadcrumbs, Link as MLink } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -13,12 +13,7 @@ import ActivitiesTable from '../../components/ActivitiesTable'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { getValidators } from '../../graphql/queries/validators'
-import {
-  getTokenAmountFromDenoms,
-  transformGqlAcountBalance,
-  transformValidators,
-  transformValidatorsWithTokenAmount,
-} from '../../misc/utils'
+import { transformGqlAcountBalance, transformValidatorsWithTokenAmount } from '../../misc/utils'
 import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 
 const Account: React.FC = () => {
