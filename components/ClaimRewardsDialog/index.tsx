@@ -56,16 +56,7 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
 
   const confirmAmount = React.useCallback(
     (d: Array<{ amount: number; validator: { name: string; image: string } }>, m: string) => {
-      setDelegations([
-        {
-          amount: 100,
-          validator: {
-            name: 'forbole',
-            image:
-              'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-          },
-        },
-      ])
+      setDelegations(d)
       setMemo(m)
       setStage(DelegationStage.ConfirmWithdrawStage)
     },

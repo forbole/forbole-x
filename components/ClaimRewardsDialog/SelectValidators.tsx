@@ -10,6 +10,7 @@ import {
   Checkbox,
   FormControlLabel,
   Avatar,
+  FilledTextFieldProps,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -18,7 +19,7 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 import { formatCrypto, formatCurrency } from '../../misc/utils'
 import useStyles from './styles'
 
-interface SelectValidatorsProps {
+interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
   onConfirm(
     delegations: Array<{ amount: number; validator: { name: string; image: string } }>
   ): void
@@ -26,7 +27,13 @@ interface SelectValidatorsProps {
   validators: any
 }
 
-const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm, validators }) => {
+const SelectValidators: React.FC<SelectValidatorsProps> = ({
+  account,
+  onConfirm,
+  validators,
+  // value,
+  ...props
+}) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const { currency } = useGeneralContext()
@@ -35,50 +42,47 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
   const [value, setValue] = React.useState('')
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [currentTab, setCurrentTab] = React.useState(0)
-  const [state, setState] = React.useState({
-    // checkedA: true,
-    // checkedB: true,
-    // checkedF: true,
-    // checkedG: true,
-  })
-
-  const [test, setT] = React.useState({})
-  validators.map((x) => {
-    // setT({ ...test, [x.address]: false })
-    console.log('address', x.address)
-  })
-  console.log('test', test)
+  const [state, setState] = React.useState({})
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked })
   }
 
   const [isSelectAll, setIsSelectAll] = React.useState(false)
-  console.log('state_isSelectAll', isSelectAll)
-
-  const handleSelectAll = (event) => {
-    setState({})
-    if (!isSelectAll) {
-      validators.forEach((x) => {
-        setState({ ...state, [x.address]: true })
-      })
-    }
-    setIsSelectAll(!isSelectAll)
-  }
 
   const tabs = [{ label: 'withrawReward' }, { label: 'withdraw commission' }]
 
-  const [selectedValidators, setSelectedValidators] = React.useState([])
-  const select = (v: any) => {
-    setSelectedValidators([...selectedValidators, v])
+  const validatorsWithTag = []
+  validators.forEach((x) => {
+    validatorsWithTag.push({ ...x, isSelected: false })
+  })
+  const [validatorList, setValidatorList] = React.useState(validatorsWithTag)
+
+  const onClick = (address) => {
+    const index = validatorList.findIndex((v) => v.address === address)
+    const testList = validatorList
+
+    if (testList[index].isSelected === true) {
+      testList[index].isSelected = false
+    } else {
+      testList[index].isSelected = true
+    }
+    setValidatorList(testList)
   }
-  const validatorList = () => {
-    const newList = []
-    validators.map((x) => {
-      newList.push({ ...x, isSelected: false })
-      return newList
-    })
-    return newList
+
+  const handleSelectAll = () => {
+    const newList = validatorList
+    if (!isSelectAll) {
+      newList.forEach((x) => {
+        x.isSelected = true
+      })
+    } else {
+      newList.forEach((x) => {
+        x.isSelected = false
+      })
+    }
+    setIsSelectAll(!isSelectAll)
+    setValidatorList(newList)
   }
 
   return (
@@ -115,7 +119,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
               <Checkbox
                 // className={classes.checkBox}
                 // checked={checked}
-                onChange={handleSelectAll}
+                onClick={handleSelectAll}
                 color="primary"
                 size="small"
               />
@@ -124,35 +128,31 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
             labelPlacement="end"
           />
           <Box>
-            {validatorList()
-              .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-              .map((v, i) => (
-                <FormControlLabel
-                  className={classes.controllLabel}
-                  value="end"
-                  control={
-                    <Checkbox
-                      // className={classes.checkBox}
-                      // checked={v.isSelected}
-                      // onClick={handlecheck(v)}
-                      onChange={handleChange}
-                      color="primary"
-                      size="small"
-                      name={v.address}
-                    />
-                  }
-                  label={
-                    <Box display="flex" alignItems="center" style={{ flex: 1, width: '25rem' }}>
-                      <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
-                      <Typography>{v.name}</Typography>
-                      <Typography className={classes.rewardsAmount}>
-                        {`${v.reward} ATOM`}
-                      </Typography>
-                    </Box>
-                  }
-                  labelPlacement="end"
-                />
-              ))}
+            {validatorList.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((v, i) => (
+              <FormControlLabel
+                className={classes.controllLabel}
+                value="end"
+                control={
+                  <Checkbox
+                    // className={classes.checkBox}
+                    checked={v.isSelected}
+                    onClick={() => onClick(v.address)}
+                    onChange={handleChange}
+                    color="primary"
+                    size="small"
+                    name={v.address}
+                  />
+                }
+                label={
+                  <Box display="flex" alignItems="center" style={{ flex: 1, width: '25rem' }}>
+                    <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
+                    <Typography>{v.name}</Typography>
+                    <Typography className={classes.rewardsAmount}>{`${v.reward} ATOM`}</Typography>
+                  </Box>
+                }
+                labelPlacement="end"
+              />
+            ))}
           </Box>
           <TablePagination
             className={classes.tablePagination}
@@ -176,6 +176,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
           placeholder={t('description')}
           multiline
           rows={4}
+          onChange={(e) => setValue(e.target.value)}
+          // {...props}
         />
       </DialogContent>
       <DialogActions>
@@ -198,7 +200,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
             disabled={!Number(amount)}
             onClick={() =>
               onConfirm(
-                validators.filter((v) => v.isSelected === true),
+                validatorList.filter((v) => v.isSelected === true),
                 value
               )
             }
