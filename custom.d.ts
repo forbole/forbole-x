@@ -124,6 +124,14 @@ interface TransactionMsgDelegate {
   denom: string
 }
 
+interface TransactionMsgUndelegate {
+  type: 'undelegate'
+  delegator: string
+  validator: string
+  amount: number
+  denom: string
+}
+
 interface TransactionMsgRedelegate {
   type: 'redelegate'
   delegator: string
@@ -149,6 +157,7 @@ interface TransactionMsgSend {
 
 type TransactionMsg =
   | TransactionMsgDelegate
+  | TransactionMsgUndelegate
   | TransactionMsgRedelegate
   | TransactionMsgWithdrawReward
   | TransactionMsgSend

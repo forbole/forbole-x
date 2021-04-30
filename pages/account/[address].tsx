@@ -47,6 +47,11 @@ const Account: React.FC = () => {
     tokens_prices: [],
   })
 
+  const delegatedTokens = {}
+  get(balanceData, 'account[0].delegated.nodes', []).forEach((d) => {
+    delegatedTokens[get(d, 'validator.validator_info.operator_address', '')] = [d.amount]
+  })
+
   return (
     <Layout
       passwordRequired
@@ -70,7 +75,13 @@ const Account: React.FC = () => {
           availableTokens={availableTokens}
         />
       ) : null}
-      <ValidatorsTable validators={validators} crypto={crypto} />
+      <ValidatorsTable
+        account={account}
+        validators={validators}
+        delegatedTokens={delegatedTokens}
+        crypto={crypto}
+        tokensPrices={availableTokens.tokens_prices}
+      />
       <ActivitiesTable
         account={{
           name: 'Chan',

@@ -18,23 +18,23 @@ import useStyles from './styles'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
-interface ConfirmDelegationProps {
+interface ConfirmUndelegationProps {
   account: Account
   amount: number
-  delegations: Array<{ amount: number; validator: { name: string; image: string } }>
   denom: string
+  validator: Validator
   gasFee: TokenAmount
   memo: string
   onConfirm(): void
   rawTransactionData: any
 }
 
-const ConfirmDelegation: React.FC<ConfirmDelegationProps> = ({
+const ConfirmUndelegation: React.FC<ConfirmUndelegationProps> = ({
   account,
   amount,
   denom,
   gasFee,
-  delegations,
+  validator,
   memo,
   onConfirm,
   rawTransactionData,
@@ -66,22 +66,17 @@ const ConfirmDelegation: React.FC<ConfirmDelegationProps> = ({
         <Divider />
         <Box my={1}>
           <Typography>{t('delegate to')}</Typography>
-          {delegations.map((d, i) => (
-            <React.Fragment key={d.validator.name}>
-              <Box display="flex" justifyContent="space-between" alignItems="center" my={1.5}>
-                <Box display="flex" alignItems="center">
-                  <Avatar
-                    className={classes.validatorAvatar}
-                    alt={d.validator.name}
-                    src={d.validator.image}
-                  />
-                  <Typography color="textSecondary">{d.validator.name}</Typography>
-                </Box>
-                <Typography color="textSecondary">{formatCrypto(d.amount, denom, lang)}</Typography>
-              </Box>
-              {i === delegations.length - 1 ? null : <Divider />}
-            </React.Fragment>
-          ))}
+          <Box display="flex" justifyContent="space-between" alignItems="center" my={1.5}>
+            <Box display="flex" alignItems="center">
+              <Avatar
+                className={classes.validatorAvatar}
+                alt={validator.name}
+                src={validator.image}
+              />
+              <Typography color="textSecondary">{validator.name}</Typography>
+            </Box>
+            <Typography color="textSecondary">{formatCrypto(amount, denom, lang)}</Typography>
+          </Box>
         </Box>
         <Divider />
         <Box my={1}>
@@ -125,4 +120,4 @@ const ConfirmDelegation: React.FC<ConfirmDelegationProps> = ({
   )
 }
 
-export default ConfirmDelegation
+export default ConfirmUndelegation

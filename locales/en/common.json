@@ -187,5 +187,6 @@
   "forgot password description": "Reset Forbole Portal app, all data will be erased from your phone, \nmake sure you have a secure copy of your backup mnemonic phrase. ",
   "reset app": "Reset App",
   "reset": "Reset",
-  "reset description": "Are you sure you would like to reset this app ? "
+  "reset description": "Are you sure you would like to reset this app ? ",
+  "undelegate from": "Undelegate from"
 }

@@ -16,19 +16,30 @@ import {
 import useTranslation from 'next-translate/useTranslation'
 // import { LineChart, Line, YAxis } from 'recharts'
 import React from 'react'
+import get from 'lodash/get'
 import MoreIcon from '../../assets/images/icons/icon_more.svg'
 import TablePagination from '../TablePagination'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { formatPercentage, formatTokenAmount } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
+import UndelegationDialog from '../UndelegateDialog'
 
 interface ValidatorsTableProps {
+  account: Account
   validators: Validator[]
+  delegatedTokens: { [address: string]: Array<{ amount: string; denom: string }> }
   crypto: Cryptocurrency
+  tokensPrices: TokenPrice[]
 }
 
-const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto }) => {
+const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
+  account,
+  validators,
+  delegatedTokens,
+  crypto,
+  tokensPrices,
+}) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   // const themeStyle = useTheme()
@@ -36,6 +47,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto })
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [currentTab, setCurrentTab] = React.useState(0)
+  const [managingValidator, setManagingValidator] = React.useState<Validator>()
   const { theme } = useGeneralContext()
 
   const tabs = [
@@ -127,7 +139,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto })
                     </TableCell> */}
                       <TableCell className={classes.tableCell}>
                         <Box my={-2}>
-                          <IconButton>
+                          <IconButton onClick={() => setManagingValidator(v)}>
                             <MoreIcon {...iconProps} />
                           </IconButton>
                         </Box>
@@ -146,6 +158,17 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto })
           onRowsPerPageChange={setRowsPerPage}
         />
       </Box>
+      {account && managingValidator ? (
+        <UndelegationDialog
+          account={account}
+          validator={managingValidator}
+          delegatedTokens={delegatedTokens[get(managingValidator, 'address', '')]}
+          // availableDelegatedTokens={delegatedTokens[get(managingValidator, 'address', '')]}
+          tokensPrices={tokensPrices}
+          open={!!managingValidator}
+          onClose={() => setManagingValidator(undefined)}
+        />
+      ) : null}
     </Card>
   )
 }
