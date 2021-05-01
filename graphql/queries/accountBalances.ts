@@ -35,6 +35,8 @@ export const getLatestAccountBalance = (crypto: string): string => `
       unbonding: unbonding_delegations_aggregate(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}]) {
         nodes {
           amount
+          completion_timestamp
+          height
           validator {
             validator_info {
               operator_address

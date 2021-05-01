@@ -8,12 +8,16 @@ import { gql, useSubscription } from '@apollo/client'
 import AccountAvatar from '../../components/AccountAvatar'
 import AccountDetailCard from '../../components/AccountDetailCard'
 import Layout from '../../components/Layout'
-import ValidatorsTable from '../../components/ValidatorsTable'
+import DelegationsTable from '../../components/DelegationsTable'
 import ActivitiesTable from '../../components/ActivitiesTable'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { getValidators } from '../../graphql/queries/validators'
-import { transformGqlAcountBalance, transformValidatorsWithTokenAmount } from '../../misc/utils'
+import {
+  transformGqlAcountBalance,
+  transformUnbonding,
+  transformValidatorsWithTokenAmount,
+} from '../../misc/utils'
 import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 
 const Account: React.FC = () => {
@@ -36,6 +40,7 @@ const Account: React.FC = () => {
   )
 
   const validators = transformValidatorsWithTokenAmount(data, balanceData)
+  const unbondings = transformUnbonding(data, balanceData)
   const accountBalance = transformGqlAcountBalance(balanceData, Date.now())
   const availableTokens = get(balanceData, 'account[0].available[0]', {
     coins: [],
@@ -70,9 +75,10 @@ const Account: React.FC = () => {
           availableTokens={availableTokens}
         />
       ) : null}
-      <ValidatorsTable
+      <DelegationsTable
         account={account}
         validators={validators}
+        unbondings={unbondings}
         delegatedTokens={delegatedTokens}
         crypto={crypto}
         tokensPrices={availableTokens.tokens_prices}

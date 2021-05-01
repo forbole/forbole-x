@@ -85,6 +85,13 @@ interface Validator {
   unbonding?: TokenAmount
 }
 
+interface Unbonding {
+  amount: TokenAmount
+  validator: Validator
+  height: number
+  completionDate: Date
+}
+
 interface TokenUnit {
   denom: string
   exponent: number

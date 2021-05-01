@@ -95,8 +95,8 @@
   "available": "Available",
   "delegated": "Delegated",
   "unbonding": "Unbonding",
-  "reward": "Reward",
-  "commission": "Commission",
+  "rewards": "Rewards",
+  "commissions": "Commissions",
   "validator": "Validator",
   "vp ratios": "VP Ratios",
   "delegated amount": "Delegated Amount",
@@ -188,5 +188,8 @@
   "reset app": "Reset App",
   "reset": "Reset",
   "reset description": "Are you sure you would like to reset this app ? ",
-  "undelegate from": "Undelegate from"
+  "undelegate from": "Undelegate from",
+  "height": "Height",
+  "unbonded amount": "Unbonded amount",
+  "expected delivery": "Expected delicery"
 }

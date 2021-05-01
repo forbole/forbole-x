@@ -95,8 +95,8 @@
   "available": "[zh] Available",
   "delegated": "[zh] Delegated",
   "unbonding": "[zh] Unbonding",
-  "reward": "[zh] Reward",
-  "commission": "[zh] Commission",
+  "rewards": "[zh] Rewards",
+  "commissions": "[zh] Commissions",
   "validator": "[zh] Validator",
   "vp ratios": "[zh] VP Ratios",
   "delegated amount": "[zh] Delegated Amount",
@@ -188,5 +188,8 @@
   "reset app": "[zh] Reset App",
   "reset": "[zh] Reset",
   "reset description": "[zh] Are you sure you would like to reset this app ? ",
-  "undelegate from": "[zh] Undelegate from"
+  "undelegate from": "[zh] Undelegate from",
+  "height": "[zh] Height",
+  "unbonded amount": "[zh] Unbonded amount",
+  "expected delivery": "[zh] Expected delicery"
 }

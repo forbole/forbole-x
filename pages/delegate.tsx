@@ -4,7 +4,7 @@ import { Box, Button, Menu, MenuItem, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import groupBy from 'lodash/groupBy'
 import Layout from '../components/Layout'
-import DelegateValidatorsTable from '../components/DelegateValidatorsTable'
+import ValidatorsTable from '../components/ValidatorsTable'
 import { useWalletsContext } from '../contexts/WalletsContext'
 import cryptocurrencies from '../misc/cryptocurrencies'
 import { getValidators } from '../graphql/queries/validators'
@@ -93,7 +93,7 @@ const Delegate: React.FC = () => {
           </Box>
         ) : null}
       </Box>
-      <DelegateValidatorsTable account={activeAccount} validators={validators} crypto={crypto} />
+      <ValidatorsTable account={activeAccount} validators={validators} crypto={crypto} />
     </Layout>
   )
 }
