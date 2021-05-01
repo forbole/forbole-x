@@ -8,6 +8,7 @@ import {
   Typography,
   Avatar,
   Grid,
+  useTheme,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -31,6 +32,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const { currency } = useGeneralContext()
+  const theme = useTheme()
   const [amount, setAmount] = React.useState(totalAmount.toString())
   const [percentage, setPercentage] = React.useState('100')
   const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
@@ -49,7 +51,13 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
           <Grid container spacing={4}>
             <Grid item xs={6}>
               <Typography gutterBottom>{t('undelegate from')}</Typography>
-              <Box display="flex" alignItems="center">
+              <Box
+                display="flex"
+                alignItems="center"
+                bgcolor={theme.palette.grey[50]}
+                borderRadius={theme.shape.borderRadius}
+                p={1}
+              >
                 <Avatar
                   className={classes.validatorAvatar}
                   alt={validator.name}
