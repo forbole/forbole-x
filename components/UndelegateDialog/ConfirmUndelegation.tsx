@@ -52,20 +52,20 @@ const ConfirmUndelegation: React.FC<ConfirmUndelegationProps> = ({
           <DelegateIcon width={theme.spacing(6)} height={theme.spacing(6)} />
           <Box mt={2} mb={4}>
             <Typography variant="h4">
-              {t('delegate')} {formatCrypto(amount, denom, lang)}
+              {t('undelegate')} {formatCrypto(amount, denom, lang)}
             </Typography>
           </Box>
         </Box>
         <Divider />
         <Box my={1}>
-          <Typography>{t('from')}</Typography>
+          <Typography>{t('address')}</Typography>
           <Typography variant="body2" color="textSecondary">
             {account.address}
           </Typography>
         </Box>
         <Divider />
         <Box my={1}>
-          <Typography>{t('delegate to')}</Typography>
+          <Typography>{t('undelegate from')}</Typography>
           <Box display="flex" justifyContent="space-between" alignItems="center" my={1.5}>
             <Box display="flex" alignItems="center">
               <Avatar

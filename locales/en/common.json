@@ -191,5 +191,6 @@
   "undelegate from": "Undelegate from",
   "height": "Height",
   "unbonded amount": "Unbonded amount",
-  "expected delivery": "Expected delicery"
+  "expected delivery": "Expected delicery",
+  "address": "Address"
 }

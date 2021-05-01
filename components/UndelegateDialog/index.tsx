@@ -157,7 +157,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
       case UndelegationStage.SelectValidatorsStage:
       default:
         return {
-          title: t('delegate'),
+          title: t('undelegate'),
           content: (
             <SelectValidators
               account={account}
