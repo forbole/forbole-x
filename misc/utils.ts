@@ -244,6 +244,33 @@ export const transformUnbonding = (data: any, balanceData: any): Unbonding[] => 
   }))
 }
 
+export const transformRedelegations = (data: any, balanceData: any): Redelegation[] => {
+  const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
+  return get(data, 'redelegations', []).map((u) => ({
+    fromValidator: {
+      name: get(
+        u,
+        'from_validator.description[0].moniker',
+        get(u, 'from_validator.info.operator_address', '')
+      ),
+      address: get(u, 'from_validator.info.operator_address', ''),
+      image: get(u, 'from_validator.description[0].avatar_url', ''),
+    },
+    toValidator: {
+      name: get(
+        u,
+        'to_validator.description[0].moniker',
+        get(u, 'to_validator.info.operator_address', '')
+      ),
+      address: get(u, 'to_validator.info.operator_address', ''),
+      image: get(u, 'to_validator.description[0].avatar_url', ''),
+    },
+    amount: getTokenAmountFromDenoms([u.amount], tokensPrices),
+    height: Number(u.height),
+    completionDate: new Date(u.completion_timestamp),
+  }))
+}
+
 export const getEquivalentCoinToSend = (
   amount: { amount: number; denom: string },
   availableCoins: Array<{ amount: string; denom: string }>,

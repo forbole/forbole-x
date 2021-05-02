@@ -8,11 +8,14 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 import UndelegationDialog from '../UndelegateDialog'
 import Delegations from './Delegations'
 import Unbonding from './Unbonding'
+import RedelegationDialog from '../RedelegateDialog'
+import Redelegations from './Redelegations'
 
 interface DelegationsTableProps {
   account: Account
   validators: Validator[]
   unbondings: Unbonding[]
+  redelegations: Redelegation[]
   delegatedTokens: { [address: string]: Array<{ amount: string; denom: string }> }
   crypto: Cryptocurrency
   tokensPrices: TokenPrice[]
@@ -22,6 +25,7 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
   account,
   validators,
   unbondings,
+  redelegations,
   delegatedTokens,
   crypto,
   tokensPrices,
@@ -35,10 +39,11 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
   const { theme } = useGeneralContext()
   const [anchor, setAnchor] = React.useState<Element>()
   const [undelegating, setUndelegating] = React.useState(false)
+  const [redelegating, setRedelegating] = React.useState(false)
 
   const tabs = [
     { label: 'delegations', rows: validators.filter((v) => !!v.delegated) },
-    { label: 'redelegations', rows: [] }, // TODO
+    { label: 'redelegations', rows: redelegations },
     { label: 'unbonding', rows: unbondings },
   ]
 
@@ -67,6 +72,9 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
                 setAnchor(e.currentTarget)
               }}
             />
+          ) : null}
+          {tabs[currentTab].label === 'redelegations' ? (
+            <Redelegations redelegations={rows as Redelegation[]} crypto={crypto} />
           ) : null}
           {tabs[currentTab].label === 'unbonding' ? (
             <Unbonding unbondings={rows as Unbonding[]} crypto={crypto} />
@@ -99,7 +107,15 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
         }}
       >
         <MenuItem button>{t('delegate')}</MenuItem>
-        <MenuItem button>{t('redelegate')}</MenuItem>
+        <MenuItem
+          button
+          onClick={() => {
+            setRedelegating(true)
+            setAnchor(undefined)
+          }}
+        >
+          {t('redelegate')}
+        </MenuItem>
         <MenuItem
           button
           onClick={() => {
@@ -112,17 +128,31 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
         <MenuItem button>{t('claim rewards')}</MenuItem>
       </Menu>
       {account && managingValidator ? (
-        <UndelegationDialog
-          account={account}
-          validator={managingValidator}
-          delegatedTokens={delegatedTokens[get(managingValidator, 'address', '')]}
-          tokensPrices={tokensPrices}
-          open={undelegating}
-          onClose={() => {
-            setManagingValidator(undefined)
-            setUndelegating(false)
-          }}
-        />
+        <>
+          <UndelegationDialog
+            account={account}
+            validator={managingValidator}
+            delegatedTokens={delegatedTokens[get(managingValidator, 'address', '')]}
+            tokensPrices={tokensPrices}
+            open={undelegating}
+            onClose={() => {
+              setManagingValidator(undefined)
+              setUndelegating(false)
+            }}
+          />
+          <RedelegationDialog
+            account={account}
+            fromValidator={managingValidator}
+            validators={validators}
+            delegatedTokens={delegatedTokens[get(managingValidator, 'address', '')]}
+            tokensPrices={tokensPrices}
+            open={redelegating}
+            onClose={() => {
+              setManagingValidator(undefined)
+              setRedelegating(false)
+            }}
+          />
+        </>
       ) : null}
     </Card>
   )

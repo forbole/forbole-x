@@ -87,7 +87,27 @@ interface Validator {
 
 interface Unbonding {
   amount: TokenAmount
-  validator: Validator
+  validator: {
+    address: string
+    image: string
+    name: string
+  }
+  height: number
+  completionDate: Date
+}
+
+interface Redelegation {
+  amount: TokenAmount
+  fromValidator: {
+    address: string
+    image: string
+    name: string
+  }
+  toValidator: {
+    address: string
+    image: string
+    name: string
+  }
   height: number
   completionDate: Date
 }

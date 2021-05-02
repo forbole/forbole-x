@@ -192,5 +192,8 @@
   "height": "[zh] Height",
   "unbonded amount": "[zh] Unbonded amount",
   "expected delivery": "[zh] Expected delicery",
-  "address": "[zh] Address"
+  "address": "[zh] Address",
+  "redelegate from": "[zh] Redelegate from",
+  "redelegate to": "[zh] Redelegate to",
+  "redelegated amount": "[zh] Redelegated amount"
 }
