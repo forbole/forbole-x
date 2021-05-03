@@ -87,7 +87,7 @@ const ConfirmSend: React.FC<ConfirmSendProps> = ({
         </Box>
         <Divider />
         <Box my={1} display="flex" justifyContent="flex-end">
-          <Button onClick={() => setViewingData((v) => !v)} variant="text" color="secondary">
+          <Button onClick={() => setViewingData((v) => !v)} variant="text" color="primary">
             {t(viewingData ? 'hide data' : 'view data')}
           </Button>
         </Box>

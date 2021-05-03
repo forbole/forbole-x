@@ -90,7 +90,7 @@ const ConfirmUndelegation: React.FC<ConfirmUndelegationProps> = ({
         </Box>
         <Divider />
         <Box my={1} display="flex" justifyContent="flex-end">
-          <Button variant="text" color="secondary" onClick={() => setViewingData((v) => !v)}>
+          <Button variant="text" color="primary" onClick={() => setViewingData((v) => !v)}>
             {t(viewingData ? 'hide data' : 'view data')}
           </Button>
         </Box>
