@@ -12,6 +12,17 @@ const formatCosmosTransactionMsg = ({ type, ...params }: TransactionMsg) => {
       },
     }
   }
+  if (type === 'undelegate') {
+    const { delegator, validator, amount, denom } = params as TransactionMsgDelegate
+    return {
+      type: 'cosmos-sdk/MsgUndelegate',
+      value: {
+        delegator_address: delegator,
+        validator_address: validator,
+        amount: { amount: amount.toString(), denom },
+      },
+    }
+  }
   if (type === 'redelegate') {
     const {
       delegator,

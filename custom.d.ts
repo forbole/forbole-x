@@ -85,6 +85,33 @@ interface Validator {
   unbonding?: TokenAmount
 }
 
+interface Unbonding {
+  amount: TokenAmount
+  validator: {
+    address: string
+    image: string
+    name: string
+  }
+  height: number
+  completionDate: Date
+}
+
+interface Redelegation {
+  amount: TokenAmount
+  fromValidator: {
+    address: string
+    image: string
+    name: string
+  }
+  toValidator: {
+    address: string
+    image: string
+    name: string
+  }
+  height: number
+  completionDate: Date
+}
+
 interface TokenUnit {
   denom: string
   exponent: number
@@ -124,6 +151,14 @@ interface TransactionMsgDelegate {
   denom: string
 }
 
+interface TransactionMsgUndelegate {
+  type: 'undelegate'
+  delegator: string
+  validator: string
+  amount: number
+  denom: string
+}
+
 interface TransactionMsgRedelegate {
   type: 'redelegate'
   delegator: string
@@ -149,6 +184,7 @@ interface TransactionMsgSend {
 
 type TransactionMsg =
   | TransactionMsgDelegate
+  | TransactionMsgUndelegate
   | TransactionMsgRedelegate
   | TransactionMsgWithdrawReward
   | TransactionMsgSend

@@ -95,8 +95,8 @@
   "available": "Available",
   "delegated": "Delegated",
   "unbonding": "Unbonding",
-  "reward": "Reward",
-  "commission": "Commission",
+  "rewards": "Rewards",
+  "commissions": "Commissions",
   "validator": "Validator",
   "vp ratios": "VP Ratios",
   "delegated amount": "Delegated Amount",
@@ -187,5 +187,13 @@
   "forgot password description": "Reset Forbole Portal app, all data will be erased from your phone, \nmake sure you have a secure copy of your backup mnemonic phrase. ",
   "reset app": "Reset App",
   "reset": "Reset",
-  "reset description": "Are you sure you would like to reset this app ? "
+  "reset description": "Are you sure you would like to reset this app ? ",
+  "undelegate from": "Undelegate from",
+  "height": "Height",
+  "unbonded amount": "Unbonded amount",
+  "expected delivery": "Expected delivery",
+  "address": "Address",
+  "redelegate from": "Redelegate from",
+  "redelegate to": "Redelegate to",
+  "redelegated amount": "Redelegated amount"
 }
