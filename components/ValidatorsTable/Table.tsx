@@ -39,6 +39,8 @@ interface ValidatorsTableProps {
   pagination?: {
     rowsPerPage: number | undefined
   }
+  // eslint-disable-next-line camelcase
+  availableTokens: { coins: Array<{ amount: string; denom: string }>; tokens_prices: TokenPrice[] }
 }
 
 const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
@@ -49,13 +51,14 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
   pagination,
   initialActiveSort,
   initialSortDirection,
+  availableTokens,
 }) => {
   const { classes } = useGetStyles()
   const { t, lang } = useTranslation('common')
   const theme = useTheme()
   const iconProps = useIconProps()
   const { addFavValidators, deleteFavValidators, favValidators } = useGeneralContext()
-  const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
+  const [delegatingValidator, setDelegatingValidator] = React.useState<Validator>()
   const router = useRouter()
 
   const totalVotingPower = React.useMemo(
@@ -212,7 +215,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                   </TableCell>
                   <TableCell className={classes.tableCell}>
                     {v.isActive ? (
-                      <ActiveStatus status={v.status} onClick={() => setDelegateDialogOpen(true)} />
+                      <ActiveStatus status={v.status} onClick={() => setDelegatingValidator(v)} />
                     ) : (
                       <InActiveStatus status={v.status} alignRight={alignRight} />
                     )}
@@ -229,12 +232,16 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      {/* <DelegationDialog
-        open={delegateDialogOpen}
-        onClose={() => setDelegateDialogOpen(false)}
-        account={account}
-        validators={validators}
-      /> */}
+      {account && availableTokens ? (
+        <DelegationDialog
+          open={!!delegatingValidator}
+          onClose={() => setDelegatingValidator(undefined)}
+          account={account}
+          validators={validators}
+          defaultValidator={delegatingValidator}
+          availableTokens={availableTokens}
+        />
+      ) : null}
     </Box>
   )
 }

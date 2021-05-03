@@ -195,5 +195,6 @@
   "address": "[zh] Address",
   "redelegate from": "[zh] Redelegate from",
   "redelegate to": "[zh] Redelegate to",
-  "redelegated amount": "[zh] Redelegated amount"
+  "redelegated amount": "[zh] Redelegated amount",
+  "commission": "[zh] Commission"
 }

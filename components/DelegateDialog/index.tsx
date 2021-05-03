@@ -30,6 +30,7 @@ enum DelegationStage {
 interface DelegationDialogProps {
   account: Account
   validators: Validator[]
+  defaultValidator?: Validator
   availableTokens: { coins: Array<{ amount: string; denom: string }>; tokens_prices: TokenPrice[] }
   open: boolean
   onClose(): void
@@ -47,6 +48,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
   open,
   onClose,
   availableTokens,
+  defaultValidator,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
@@ -107,9 +109,12 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
     (a: number, d: string) => {
       setAmount(a)
       setDenom(d)
+      if (defaultValidator) {
+        setDelegations([{ amount: a, validator: defaultValidator }])
+      }
       setStage(DelegationStage.SelectValidatorsStage)
     },
-    [setAmount, setStage]
+    [setAmount, setStage, defaultValidator]
   )
 
   const confirmDelegations = React.useCallback(
@@ -151,6 +156,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
           content: (
             <SelectValidators
               account={account}
+              delegations={delegations}
               validators={validators}
               amount={amount}
               denom={denom}
