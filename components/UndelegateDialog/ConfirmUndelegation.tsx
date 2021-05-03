@@ -89,6 +89,11 @@ const ConfirmUndelegation: React.FC<ConfirmUndelegationProps> = ({
           <Typography color="textSecondary">{formatTokenAmount(gasFee, denom, lang)}</Typography>
         </Box>
         <Divider />
+        <Box my={1} display="flex" justifyContent="flex-end">
+          <Button variant="text" color="secondary" onClick={() => setViewingData((v) => !v)}>
+            {t(viewingData ? 'hide data' : 'view data')}
+          </Button>
+        </Box>
         {viewingData ? (
           <Box flex={1} overflow="auto">
             <ReactJson
@@ -103,11 +108,6 @@ const ConfirmUndelegation: React.FC<ConfirmUndelegationProps> = ({
             />
           </Box>
         ) : null}
-        <Box my={1} display="flex" justifyContent="flex-end">
-          <Button variant="text" color="secondary" onClick={() => setViewingData((v) => !v)}>
-            {t(viewingData ? 'hide data' : 'view data')}
-          </Button>
-        </Box>
       </DialogContent>
       <DialogActions>
         <Button

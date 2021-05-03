@@ -86,6 +86,11 @@ const ConfirmSend: React.FC<ConfirmSendProps> = ({
           </Typography>
         </Box>
         <Divider />
+        <Box my={1} display="flex" justifyContent="flex-end">
+          <Button onClick={() => setViewingData((v) => !v)} variant="text" color="secondary">
+            {t(viewingData ? 'hide data' : 'view data')}
+          </Button>
+        </Box>
         {viewingData ? (
           <Box flex={1} overflow="auto">
             <ReactJson
@@ -100,11 +105,6 @@ const ConfirmSend: React.FC<ConfirmSendProps> = ({
             />
           </Box>
         ) : null}
-        <Box my={1} display="flex" justifyContent="flex-end">
-          <Button onClick={() => setViewingData((v) => !v)} variant="text" color="secondary">
-            {t(viewingData ? 'hide data' : 'view data')}
-          </Button>
-        </Box>
       </DialogContent>
       <DialogActions>
         <Button
