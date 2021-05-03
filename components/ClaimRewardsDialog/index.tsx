@@ -9,11 +9,13 @@ import SelectValidators from './SelectValidators'
 import ConfirmWithdraw from './ConfirmWithdraw'
 import useStateHistory from '../../misc/useStateHistory'
 import UnlockPasswordDialog from '../UnlockPasswordDialog'
+import Success from '../Success'
 
 enum DelegationStage {
   SecurityPassword = 'security password',
   SelectValidatorsStage = 'select validators',
   ConfirmWithdrawStage = 'confirm withdraw',
+  SuccessStage = 'success',
 }
 
 interface DelegationDialogProps {
@@ -87,6 +89,12 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
+      case DelegationStage.SuccessStage:
+        return {
+          title: '',
+          dialogWidth: 'xs',
+          content: <Success onClose={onClose} />,
+        }
       case DelegationStage.SecurityPassword:
         return {
           // title: t('delegate'),
