@@ -95,15 +95,17 @@ const ConfirmDelegation: React.FC<ConfirmDelegationProps> = ({
         </Box>
         <Divider />
         {viewingData ? (
-          <ReactJson
-            src={rawTransactionData}
-            displayDataTypes={false}
-            displayObjectSize={false}
-            enableClipboard={false}
-            name={false}
-            indentWidth={2}
-            theme={themeSetting === 'dark' ? 'google' : 'rjv-default'}
-          />
+          <Box flex={1} overflow="auto">
+            <ReactJson
+              src={rawTransactionData}
+              displayDataTypes={false}
+              displayObjectSize={false}
+              enableClipboard={false}
+              name={false}
+              indentWidth={2}
+              theme={themeSetting === 'dark' ? 'google' : 'rjv-default'}
+            />
+          </Box>
         ) : null}
         <Box my={1} display="flex" justifyContent="flex-end">
           <Button variant="text" color="secondary" onClick={() => setViewingData((v) => !v)}>
