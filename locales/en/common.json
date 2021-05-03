@@ -195,5 +195,6 @@
   "address": "Address",
   "redelegate from": "Redelegate from",
   "redelegate to": "Redelegate to",
-  "redelegated amount": "Redelegated amount"
+  "redelegated amount": "Redelegated amount",
+  "commission": "Commission"
 }

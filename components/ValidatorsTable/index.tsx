@@ -9,10 +9,17 @@ interface ValidatorsTableProps {
   validators: Validator[]
   crypto: Cryptocurrency
   account: Account
+  // eslint-disable-next-line camelcase
+  availableTokens: { coins: Array<{ amount: string; denom: string }>; tokens_prices: TokenPrice[] }
   onRowClick?: (validatorInfo: Validator) => void
 }
 
-const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto, account }) => {
+const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
+  validators,
+  crypto,
+  account,
+  availableTokens,
+}) => {
   const { favValidators } = useGeneralContext()
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
@@ -50,6 +57,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({ validators, crypto, a
         </Tabs>
         <Table
           validators={tabs[currentTab].validators}
+          availableTokens={availableTokens}
           crypto={crypto}
           account={account}
           initialActiveSort="rank"

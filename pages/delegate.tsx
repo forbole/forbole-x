@@ -3,6 +3,7 @@ import { gql, useSubscription } from '@apollo/client'
 import { Box, Button, Menu, MenuItem, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import groupBy from 'lodash/groupBy'
+import get from 'lodash/get'
 import Layout from '../components/Layout'
 import ValidatorsTable from '../components/ValidatorsTable'
 import { useWalletsContext } from '../contexts/WalletsContext'
@@ -12,6 +13,7 @@ import { transformValidators } from '../misc/utils'
 import AccountAvatar from '../components/AccountAvatar'
 import DropDownIcon from '../assets/images/icons/icon_arrow_down_input_box.svg'
 import useIconProps from '../misc/useIconProps'
+import { getLatestAccountBalance } from '../graphql/queries/accountBalances'
 
 const Delegate: React.FC = () => {
   const { t } = useTranslation('common')
@@ -39,6 +41,17 @@ const Delegate: React.FC = () => {
   const crypto = activeAccount
     ? cryptocurrencies[activeAccount.crypto]
     : Object.values(cryptocurrencies)[0]
+
+  const { data: balanceData } = useSubscription(
+    gql`
+      ${getLatestAccountBalance(crypto.name)}
+    `,
+    { variables: { address: activeAccount ? activeAccount.address : '' } }
+  )
+  const availableTokens = get(balanceData, 'account[0].available[0]', {
+    coins: [],
+    tokens_prices: [],
+  })
 
   return (
     <Layout passwordRequired activeItem="/delegate">
@@ -93,7 +106,12 @@ const Delegate: React.FC = () => {
           </Box>
         ) : null}
       </Box>
-      <ValidatorsTable account={activeAccount} validators={validators} crypto={crypto} />
+      <ValidatorsTable
+        account={activeAccount}
+        validators={validators}
+        crypto={crypto}
+        availableTokens={availableTokens}
+      />
     </Layout>
   )
 }

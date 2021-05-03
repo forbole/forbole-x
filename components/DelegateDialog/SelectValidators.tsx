@@ -23,6 +23,7 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface SelectValidatorsProps {
   onConfirm(delegations: Array<{ amount: number; validator: Validator }>, memo: string): void
+  delegations: Array<{ amount: number; validator: Validator }>
   account: Account
   validators: Validator[]
   amount: number
@@ -32,6 +33,7 @@ interface SelectValidatorsProps {
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
   account,
   validators,
+  delegations: defaultDelegations,
   amount,
   denom,
   onConfirm,
@@ -42,7 +44,15 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const { currency } = useGeneralContext()
   const [delegations, setDelegations] = React.useState<
     Array<{ amount: string; validator: any; percentage: string }>
-  >([{ amount: amount.toString(), validator: {}, percentage: '100' }])
+  >(
+    defaultDelegations
+      ? defaultDelegations.map((d) => ({
+          amount: d.amount.toString(),
+          validator: d.validator,
+          percentage: ((100 * d.amount) / amount).toFixed(2),
+        }))
+      : [{ amount: amount.toString(), validator: {}, percentage: '100' }]
+  )
   const [memo, setMemo] = React.useState('')
 
   const validatorsMap = keyBy(validators, 'address')
@@ -100,11 +110,16 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                         <Typography>{validatorsMap[address].name}</Typography>
                       </Box>
                     )}
-                    renderInput={({ InputProps, ...params }) => (
+                    renderInput={({ InputProps, inputProps, ...params }) => (
                       <TextField
                         {...params}
                         variant="filled"
                         placeholder={t('select validator')}
+                        inputProps={{
+                          ...inputProps,
+                          value: v.validator.name,
+                        }}
+                        // eslint-disable-next-line react/jsx-no-duplicate-props
                         InputProps={{
                           ...InputProps,
                           className: '',
