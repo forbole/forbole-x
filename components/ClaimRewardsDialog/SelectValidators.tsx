@@ -21,7 +21,15 @@ import useStyles from './styles'
 
 interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
   onConfirm(
-    delegations: Array<{ amount: number; validator: { name: string; image: string } }>
+    amount: number,
+    delegations: Array<{
+      name: string
+      image: string
+      amount: number
+      isSelected: boolean
+      reward: number
+    }>,
+    m: string
   ): void
   account: Account
   validators: any
@@ -37,7 +45,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const { currency } = useGeneralContext()
-  const [amount, setAmount] = React.useState(1)
+  const [amount, setAmount] = React.useState(0)
   const [page, setPage] = React.useState(0)
   const [value, setValue] = React.useState('')
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
@@ -58,6 +66,16 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   })
   const [validatorList, setValidatorList] = React.useState(validatorsWithTag)
 
+  const calculateTotalAmount = (latestValidatorList) => {
+    let totalAmount = 0
+    latestValidatorList.forEach((x) => {
+      if (x.isSelected) {
+        totalAmount += x.reward
+      }
+    })
+    setAmount(totalAmount)
+  }
+
   const onClick = (address) => {
     const index = validatorList.findIndex((v) => v.address === address)
     const testList = validatorList
@@ -68,6 +86,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
       testList[index].isSelected = true
     }
     setValidatorList(testList)
+    calculateTotalAmount(testList)
   }
 
   const handleSelectAll = () => {
@@ -83,6 +102,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
     }
     setIsSelectAll(!isSelectAll)
     setValidatorList(newList)
+    calculateTotalAmount(newList)
   }
 
   return (
@@ -200,6 +220,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             disabled={!Number(amount)}
             onClick={() =>
               onConfirm(
+                amount,
                 validatorList.filter((v) => v.isSelected === true),
                 value
               )

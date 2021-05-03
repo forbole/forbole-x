@@ -8,9 +8,10 @@ import useIconProps from '../../misc/useIconProps'
 import SelectValidators from './SelectValidators'
 import ConfirmWithdraw from './ConfirmWithdraw'
 import useStateHistory from '../../misc/useStateHistory'
+import UnlockPasswordDialog from '../UnlockPasswordDialog'
 
 enum DelegationStage {
-  // SelectValidator = 'select validator',
+  SecurityPassword = 'security password',
   SelectValidatorsStage = 'select validators',
   ConfirmWithdrawStage = 'confirm withdraw',
 }
@@ -38,7 +39,7 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
   const iconProps = useIconProps()
   const [amount, setAmount] = React.useState(0)
   const [delegations, setDelegations] = React.useState<
-    Array<{ amount: number; validator: { name: string; image: string } }>
+    Array<{ name: string; image: string; amount: number; isSelected: boolean; reward: number }>
   >([])
   const [memo, setMemo] = React.useState('')
 
@@ -46,17 +47,38 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
     DelegationStage.SelectValidatorsStage
   )
 
-  // const confirmAmount = React.useCallback(
-  //   (a: number) => {
-  //     setAmount(a)
-  //     setStage(DelegationStage.SelectValidatorsStage)
-  //   },
-  //   [setAmount, setStage]
-  // )
+  const confirmLast = React.useCallback(
+    (
+      a: number,
+      d: Array<{
+        name: string
+        image: string
+        amount: number
+        isSelected: boolean
+        reward: number
+      }>,
+      m: string
+    ) => {
+      // setAmount(a)
+      setStage(DelegationStage.SecurityPassword)
+    },
+    [setStage]
+  )
 
   const confirmAmount = React.useCallback(
-    (d: Array<{ amount: number; validator: { name: string; image: string } }>, m: string) => {
+    (
+      a: number,
+      d: Array<{
+        name: string
+        image: string
+        amount: number
+        isSelected: boolean
+        reward: number
+      }>,
+      m: string
+    ) => {
       setDelegations(d)
+      setAmount(a)
       setMemo(m)
       setStage(DelegationStage.ConfirmWithdrawStage)
     },
@@ -65,13 +87,15 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
-      // case DelegationStage.SelectValidatorsStage:
-      //   return {
-      //     title: t('delegate'),
-      //     content: (
-      //       <SelectValidators account={account} amount={amount} onConfirm={confirmDelegations} />
-      //     ),
-      //   }
+      case DelegationStage.SecurityPassword:
+        return {
+          // title: t('delegate'),
+          dialogWidth: 'xs',
+          content: <UnlockPasswordDialog isOpen />,
+          // content: (
+          //   <SelectValidators account={account} onConfirm={confirmAmount} validators={validators} />
+          // ),
+        }
       case DelegationStage.ConfirmWithdrawStage:
         return {
           title: '',
@@ -82,7 +106,7 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
               amount={amount}
               delegations={delegations}
               memo={memo}
-              onConfirm={onClose}
+              onConfirm={confirmLast}
             />
           ),
         }
@@ -96,6 +120,23 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
     }
   }, [stage, t])
 
+  // if (stage === 'security password') {
+  //   console.log('stage', stage)
+  //   return (
+  //     <Dialog fullWidth maxWidth={content.dialogWidth || 'md'} open={open} onClose={onClose}>
+  //       {isPrevStageAvailable ? (
+  //         <IconButton className={classes.backButton} onClick={toPrevStage}>
+  //           <BackIcon {...iconProps} />
+  //         </IconButton>
+  //       ) : null}
+  //       <IconButton className={classes.closeButton} onClick={onClose}>
+  //         <CloseIcon {...iconProps} />
+  //       </IconButton>
+  //       edjqpedpoqek
+  //       {/* {content.content} */}
+  //     </Dialog>
+  //   )
+  // }
   return (
     <Dialog fullWidth maxWidth={content.dialogWidth || 'md'} open={open} onClose={onClose}>
       {isPrevStageAvailable ? (
@@ -106,6 +147,7 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
+      111
       {content.content}
     </Dialog>
   )
