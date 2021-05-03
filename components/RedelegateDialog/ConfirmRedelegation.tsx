@@ -109,6 +109,7 @@ const ConfirmRedelegation: React.FC<ConfirmRedelegationProps> = ({
           <Box flex={1} overflow="auto">
             <ReactJson
               src={rawTransactionData}
+              style={{ backgroundColor: 'transparent' }}
               displayDataTypes={false}
               displayObjectSize={false}
               enableClipboard={false}
