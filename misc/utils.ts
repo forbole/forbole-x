@@ -278,7 +278,7 @@ export const getEquivalentCoinToSend = (
 ): { amount: number; denom: string } => {
   const tokenPrice = tokensPrices.find((tp) => tp.unit_name === amount.denom)
   if (!tokenPrice) {
-    return null
+    return { amount: 0, denom: '' }
   }
   const coinDenom: { denom: string; exponent: number } = get(
     tokenPrice,
