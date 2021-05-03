@@ -125,7 +125,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
           />
           <Box mt={10}>
             <Grid container spacing={4}>
-              {['available', 'delegated', 'unbonding', 'reward', 'commission'].map((key) => (
+              {['available', 'delegated', 'unbonding', 'rewards', 'commissions'].map((key) => (
                 <StatBox
                   key={key}
                   title={t(key)}
