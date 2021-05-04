@@ -8,10 +8,10 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface ConfirmSendProps {
   onClose(): void
-  denom: string
+  content: string
 }
 
-const Success: React.FC<ConfirmSendProps> = ({ onClose, denom }) => {
+const Success: React.FC<ConfirmSendProps> = ({ onClose, content }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const { theme } = useGeneralContext()
@@ -24,7 +24,7 @@ const Success: React.FC<ConfirmSendProps> = ({ onClose, denom }) => {
           <Typography variant="h4" gutterBottom>
             {t('success')}
           </Typography>
-          <Typography>{t('successfully delegated', { denom: denom.toUpperCase() })}</Typography>
+          <Typography>{t(content)}</Typography>
         </Box>
       </DialogContent>
       <DialogActions>

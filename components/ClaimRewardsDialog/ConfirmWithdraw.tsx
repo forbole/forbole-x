@@ -7,12 +7,15 @@ import {
   Divider,
   Typography,
   useTheme,
-  TextField,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import dynamic from 'next/dynamic'
 import WithdrawIcon from '../../assets/images/icons/icon_withdraw_tx.svg'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import useStyles from './styles'
+
+const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
 interface ConfirmWithdrawProps {
   account: Account
@@ -36,6 +39,7 @@ interface ConfirmWithdrawProps {
     }>,
     m: string
   ): void
+  rawTransactionData: any
 }
 
 const ConfirmWithdraw: React.FC<ConfirmWithdrawProps> = ({
@@ -44,15 +48,12 @@ const ConfirmWithdraw: React.FC<ConfirmWithdrawProps> = ({
   delegations,
   memo,
   onConfirm,
+  rawTransactionData,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const theme = useTheme()
-  console.log('delegations', delegations)
-
-  const example =
-    '"chain_id": "akashnet-1",\n"account_number": "2063",\n"sequence": "8",\n"fee": {\n"gas": "1000",\n"amount": [{ "delegator_address": "akash1zn2ff2x9usmdp44cxhxj80th8e9p3ure8nq9hw",\n},\n},'
-
+  const { theme: themeSetting } = useGeneralContext()
   const [viewData, setViewData] = React.useState(false)
 
   const toggleViewData = () => {
@@ -71,26 +72,12 @@ const ConfirmWithdraw: React.FC<ConfirmWithdrawProps> = ({
           </Box>
         </Box>
         <Divider />
-        {/* <Box my={1}>
-          <Typography>{t('rewards')}</Typography>
-          <Typography variant="body2" color="textSecondary">
-            {account.address}
-          </Typography>
-        </Box>
-        <Divider /> */}
         <Box my={1}>
           <Typography>{t('rewards')}</Typography>
           <Typography variant="body2" color="textSecondary">
             {amount}
           </Typography>
         </Box>
-        {/* <Divider />
-        <Box my={1}>
-          <Typography>{t('memo')}</Typography>
-          <Typography variant="body2" color="textSecondary">
-            N/A
-          </Typography>
-        </Box> */}
         <Divider />
         <Box my={1}>
           <Typography>{t('withdraw rewards from')}</Typography>
@@ -127,18 +114,20 @@ const ConfirmWithdraw: React.FC<ConfirmWithdrawProps> = ({
             {t('view data')}
           </Button>
         </Box>
-        <TextField
-          style={{ display: viewData ? 'inherit' : 'none' }}
-          InputProps={{
-            disableUnderline: true,
-          }}
-          fullWidth
-          variant="filled"
-          value={example}
-          placeholder={t('description')}
-          multiline
-          rows={8}
-        />
+        {viewData ? (
+          <Box flex={1} overflow="auto">
+            <ReactJson
+              src={rawTransactionData}
+              style={{ backgroundColor: 'transparent' }}
+              displayDataTypes={false}
+              displayObjectSize={false}
+              enableClipboard={false}
+              name={false}
+              indentWidth={2}
+              theme={themeSetting === 'dark' ? 'google' : 'rjv-default'}
+            />
+          </Box>
+        ) : null}
       </DialogContent>
       <DialogActions>
         <Button

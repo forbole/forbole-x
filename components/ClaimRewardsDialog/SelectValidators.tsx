@@ -16,7 +16,7 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import TablePagination from '../TablePagination'
 import { useGeneralContext } from '../../contexts/GeneralContext'
-import { formatCrypto, formatCurrency } from '../../misc/utils'
+import { formatCrypto, formatCurrency, getCoinPrice } from '../../misc/utils'
 import useStyles from './styles'
 
 interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
@@ -35,13 +35,7 @@ interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
   validators: any
 }
 
-const SelectValidators: React.FC<SelectValidatorsProps> = ({
-  account,
-  onConfirm,
-  validators,
-  // value,
-  ...props
-}) => {
+const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm, validators }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const { currency } = useGeneralContext()
@@ -51,6 +45,20 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [currentTab, setCurrentTab] = React.useState(0)
   const [state, setState] = React.useState({})
+  const [price, setPrice] = React.useState(0)
+
+  const getPrice = React.useCallback(async () => {
+    try {
+      const coinPrice = await getCoinPrice(account.crypto)
+      setPrice(coinPrice)
+    } catch (err) {
+      console.log(err)
+    }
+  }, [])
+
+  React.useEffect(() => {
+    getPrice()
+  }, [getPrice])
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked })
@@ -66,43 +74,51 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   })
   const [validatorList, setValidatorList] = React.useState(validatorsWithTag)
 
-  const calculateTotalAmount = (latestValidatorList) => {
-    let totalAmount = 0
+  const calculateWithdrawAmount = (latestValidatorList) => {
+    let withdrawAmount = 0
     latestValidatorList.forEach((x) => {
       if (x.isSelected) {
-        totalAmount += x.reward
+        withdrawAmount += x.reward
       }
     })
-    setAmount(totalAmount)
+    setAmount(withdrawAmount)
+  }
+
+  const calculateTotalAmount = () => {
+    let totalAmount = 0
+    validatorList.forEach((x) => {
+      totalAmount += x.reward
+    })
+    return totalAmount
   }
 
   const onClick = (address) => {
     const index = validatorList.findIndex((v) => v.address === address)
-    const testList = validatorList
+    const updatedList = validatorList
 
-    if (testList[index].isSelected === true) {
-      testList[index].isSelected = false
+    if (updatedList[index].isSelected === true) {
+      updatedList[index].isSelected = false
     } else {
-      testList[index].isSelected = true
+      updatedList[index].isSelected = true
     }
-    setValidatorList(testList)
-    calculateTotalAmount(testList)
+    setValidatorList(updatedList)
+    calculateWithdrawAmount(updatedList)
   }
 
   const handleSelectAll = () => {
-    const newList = validatorList
+    const updatedList = validatorList
     if (!isSelectAll) {
-      newList.forEach((x) => {
+      updatedList.forEach((x) => {
         x.isSelected = true
       })
     } else {
-      newList.forEach((x) => {
+      updatedList.forEach((x) => {
         x.isSelected = false
       })
     }
     setIsSelectAll(!isSelectAll)
-    setValidatorList(newList)
-    calculateTotalAmount(newList)
+    setValidatorList(updatedList)
+    calculateWithdrawAmount(updatedList)
   }
 
   return (
@@ -110,51 +126,44 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
       <DialogContent className={classes.dialogContent}>
         <Box mb={10}>
           <Tabs
-            className={classes.tab}
+            className={classes.tabs}
             value={currentTab}
             classes={{
               indicator: classes.tabIndicator,
             }}
             centered
             onChange={(e, v) => setCurrentTab(v)}
-            // textColor={theme === 'light' ? 'primary' : 'inherit'}
           >
             {tabs.map((tab) => (
-              <Tab key={tab.label} label={t(tab.label)} />
+              <Tab className={classes.tab} key={tab.label} label={t(tab.label)} />
             ))}
           </Tabs>
-          <Box mt={2}>
+          <Box mt={4} mb={2}>
             <Typography className={classes.totalReward}>
-              {t('total reward amount')}&nbsp;9,666.749 ATOM
+              {t('total reward amount')}&nbsp;
+              {formatCrypto(calculateTotalAmount(), account.crypto, lang)}
             </Typography>
             <Typography>{t('withdraw amount')}</Typography>
             <Typography variant="h1" className={classes.h1}>
-              622.028873 ATOM
+              {formatCrypto(amount, account.crypto, lang)}
             </Typography>
-            <Typography>Select the validator below you want to claim the reward amount</Typography>
+            <Typography>
+              {t('select the validator below you want to claim the reward amount')}
+            </Typography>
           </Box>
           <FormControlLabel
             value="end"
-            control={
-              <Checkbox
-                // className={classes.checkBox}
-                // checked={checked}
-                onClick={handleSelectAll}
-                color="primary"
-                size="small"
-              />
-            }
+            control={<Checkbox onClick={handleSelectAll} color="primary" size="small" />}
             label={<Typography>{t('withdraw all')}</Typography>}
             labelPlacement="end"
           />
-          <Box>
+          <Box mt={0}>
             {validatorList.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((v, i) => (
               <FormControlLabel
                 className={classes.controllLabel}
                 value="end"
                 control={
                   <Checkbox
-                    // className={classes.checkBox}
                     checked={v.isSelected}
                     onClick={() => onClick(v.address)}
                     onChange={handleChange}
@@ -190,14 +199,12 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             disableUnderline: true,
           }}
           fullWidth
-          // type={isShowingPassword ? 'text' : 'password'}
           variant="filled"
           value={value}
           placeholder={t('description')}
           multiline
           rows={4}
           onChange={(e) => setValue(e.target.value)}
-          // {...props}
         />
       </DialogContent>
       <DialogActions>
@@ -210,8 +217,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
           mx={2}
         >
           <Box>
-            <Typography variant="h5">{formatCrypto(0, account.crypto, lang)}</Typography>
-            <Typography>{formatCurrency(0, currency, lang)}</Typography>
+            <Typography variant="h5">{formatCrypto(amount, account.crypto, lang)}</Typography>
+            <Typography>{formatCurrency(price * amount, currency, lang)}</Typography>
           </Box>
           <Button
             variant="contained"

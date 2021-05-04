@@ -3,20 +3,23 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
 import PasswordInput from '../PasswordInput'
-import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface UnlockPasswordProps {
   onForgot: () => void
+  onUnlock: (password) => void
+  password: string
+  setPassword: any
 }
 
-const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
+const UnlockPassword: React.FC<UnlockPasswordProps> = ({
+  onForgot,
+  onUnlock,
+  password,
+  setPassword,
+}) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
-  const [password, setPassword] = React.useState('')
-  const { unlockWallets } = useWalletsContext()
   const [error, setError] = React.useState('')
-
-
 
   return (
     <>
@@ -35,7 +38,7 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
           className={classes.button}
           variant="contained"
           color="primary"
-          onClick={onButtonClick}
+          onClick={() => onUnlock(password)}
         >
           {t('next')}
         </Button>

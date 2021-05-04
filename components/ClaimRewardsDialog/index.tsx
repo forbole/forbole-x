@@ -8,7 +8,6 @@ import useIconProps from '../../misc/useIconProps'
 import SelectValidators from './SelectValidators'
 import ConfirmWithdraw from './ConfirmWithdraw'
 import useStateHistory from '../../misc/useStateHistory'
-import UnlockPasswordDialog from '../UnlockPasswordDialog'
 import Success from '../Success'
 import UnlockPasswordContent from '../UnlockPassword'
 
@@ -50,41 +49,13 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
     DelegationStage.SelectValidatorsStage
   )
 
-  const confirmLast = React.useCallback(
-    (
-      a: number,
-      d: Array<{
-        name: string
-        image: string
-        amount: number
-        isSelected: boolean
-        reward: number
-      }>,
-      m: string
-    ) => {
-      // setAmount(a)
-      setStage(DelegationStage.SecurityPassword)
-    },
-    [setStage]
-  )
+  const confirmLast = React.useCallback(() => {
+    setStage(DelegationStage.SecurityPassword)
+  }, [setStage])
 
-  const confirmWithPassword = React.useCallback(
-    (
-      a: number,
-      d: Array<{
-        name: string
-        image: string
-        amount: number
-        isSelected: boolean
-        reward: number
-      }>,
-      m: string
-    ) => {
-      // setAmount(a)
-      setStage(DelegationStage.SuccessStage)
-    },
-    [setStage]
-  )
+  const confirmWithPassword = React.useCallback(() => {
+    setStage(DelegationStage.SuccessStage)
+  }, [setStage])
 
   const confirmAmount = React.useCallback(
     (
@@ -112,16 +83,12 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
         return {
           title: '',
           dialogWidth: 'xs',
-          content: <Success onClose={onClose} />,
+          content: <Success onClose={onClose} content="rewards was successfully withdrew" />,
         }
       case DelegationStage.SecurityPassword:
         return {
-          // title: t('delegate'),
           dialogWidth: 'xs',
-          content: <UnlockPasswordContent />,
-          // content: (
-          //   <SelectValidators account={account} onConfirm={confirmAmount} validators={validators} />
-          // ),
+          content: <UnlockPasswordContent onConfirm={confirmWithPassword} />,
         }
       case DelegationStage.ConfirmWithdrawStage:
         return {
@@ -134,6 +101,7 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
               delegations={delegations}
               memo={memo}
               onConfirm={confirmLast}
+              rawTransactionData={{}}
             />
           ),
         }
@@ -147,23 +115,6 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
     }
   }, [stage, t])
 
-  // if (stage === 'security password') {
-  //   console.log('stage', stage)
-  //   return (
-  //     <Dialog fullWidth maxWidth={content.dialogWidth || 'md'} open={open} onClose={onClose}>
-  //       {isPrevStageAvailable ? (
-  //         <IconButton className={classes.backButton} onClick={toPrevStage}>
-  //           <BackIcon {...iconProps} />
-  //         </IconButton>
-  //       ) : null}
-  //       <IconButton className={classes.closeButton} onClick={onClose}>
-  //         <CloseIcon {...iconProps} />
-  //       </IconButton>
-  //       edjqpedpoqek
-  //       {/* {content.content} */}
-  //     </Dialog>
-  //   )
-  // }
   return (
     <Dialog fullWidth maxWidth={content.dialogWidth || 'md'} open={open} onClose={onClose}>
       {isPrevStageAvailable ? (
