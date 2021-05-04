@@ -1,23 +1,66 @@
-import { Avatar, Box, Breadcrumbs, Link as MLink } from '@material-ui/core'
+import { Breadcrumbs, Link as MLink } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
-import times from 'lodash/times'
+import get from 'lodash/get'
+import { gql, useSubscription } from '@apollo/client'
 import AccountAvatar from '../../components/AccountAvatar'
 import AccountDetailCard from '../../components/AccountDetailCard'
 import Layout from '../../components/Layout'
-import ValidatorsTable from '../../components/ValidatorsTable'
+import DelegationsTable from '../../components/DelegationsTable'
 import ActivitiesTable from '../../components/ActivitiesTable'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import { getValidators } from '../../graphql/queries/validators'
+import {
+  transformGqlAcountBalance,
+  transformRedelegations,
+  transformUnbonding,
+  transformValidatorsWithTokenAmount,
+} from '../../misc/utils'
+import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
+import { getRedelegations } from '../../graphql/queries/redelegations'
 
 const Account: React.FC = () => {
   const router = useRouter()
   const { t } = useTranslation('common')
   const { accounts } = useWalletsContext()
   const account = accounts.find((a) => a.address === router.query.address)
-  const crypto = account ? cryptocurrencies[account.crypto] : {}
+  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
+
+  const { data: validatorsData } = useSubscription(
+    gql`
+      ${getValidators(crypto.name)}
+    `
+  )
+  const { data: balanceData } = useSubscription(
+    gql`
+      ${getLatestAccountBalance(crypto.name)}
+    `,
+    { variables: { address: account ? account.address : '' } }
+  )
+  const { data: redelegationsData } = useSubscription(
+    gql`
+      ${getRedelegations(crypto.name)}
+    `,
+    { variables: { address: account ? account.address : '' } }
+  )
+
+  const validators = transformValidatorsWithTokenAmount(validatorsData, balanceData)
+  const unbondings = transformUnbonding(validatorsData, balanceData)
+  const redelegations = transformRedelegations(redelegationsData, balanceData)
+
+  const accountBalance = transformGqlAcountBalance(balanceData, Date.now())
+  const availableTokens = get(balanceData, 'account[0].available[0]', {
+    coins: [],
+    tokens_prices: [],
+  })
+
+  const delegatedTokens = {}
+  get(balanceData, 'account[0].delegated.nodes', []).forEach((d) => {
+    delegatedTokens[get(d, 'validator.validator_info.operator_address', '')] = [d.amount]
+  })
 
   return (
     <Layout
@@ -34,20 +77,23 @@ const Account: React.FC = () => {
         ) : null
       }
     >
-      {account ? <AccountDetailCard account={account} /> : null}
-      {/* <ValidatorsTable
-        validators={times(100).map((i) => ({
-          image:
-            'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-          name: `Forbole ${i}`,
-          commission: 0.015,
-          vpRatios: 0.05,
-          delegatedAmount: 11887597,
-          amtRatio: 0.05,
-          reward: 122321,
-        }))}
+      {account ? (
+        <AccountDetailCard
+          account={account}
+          validators={validators}
+          accountBalance={accountBalance}
+          availableTokens={availableTokens}
+        />
+      ) : null}
+      <DelegationsTable
+        account={account}
+        validators={validators}
+        unbondings={unbondings}
+        redelegations={redelegations}
+        delegatedTokens={delegatedTokens}
         crypto={crypto}
-      /> */}
+        tokensPrices={availableTokens.tokens_prices}
+      />
       <ActivitiesTable
         account={{
           name: 'Chan',

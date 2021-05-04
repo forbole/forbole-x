@@ -14,7 +14,7 @@ const Active: React.FC<ActiveProps> = ({ status, onClick }) => {
 
   return (
     <Box className={classes.activeStatus} onClick={onClick}>
-      <Button size="small" color="secondary" variant="contained">
+      <Button size="small" color="primary" variant="contained">
         {t('delegate')}
       </Button>
     </Box>

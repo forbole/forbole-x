@@ -2,13 +2,14 @@ import get from 'lodash/get'
 import last from 'lodash/last'
 import cloneDeep from 'lodash/cloneDeep'
 import drop from 'lodash/drop'
+import keyBy from 'lodash/keyBy'
 
 export const formatPercentage = (percent: number, lang: string): string =>
   new Intl.NumberFormat(lang, {
     style: 'percent',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(percent)
+  }).format(percent || 0)
 
 export const formatCrypto = (
   amount: number,
@@ -19,7 +20,7 @@ export const formatCrypto = (
   `${new Intl.NumberFormat(lang, {
     signDisplay: 'never',
     maximumFractionDigits: 4,
-  }).format(amount)}${hideUnit ? '' : ` ${(unit || '').toUpperCase()}`}`
+  }).format(amount || 0)}${hideUnit ? '' : ` ${(unit || '').toUpperCase()}`}`
 
 export const formatCurrency = (
   amount: number,
@@ -32,7 +33,7 @@ export const formatCurrency = (
     style: 'currency',
     currency,
     notation: compact ? 'compact' : undefined,
-  }).format(amount)}${hideUnit ? '' : ` ${currency}`}`
+  }).format(amount || 0)}${hideUnit ? '' : ` ${currency}`}`
 
 export const getTokenAmountFromDenoms = (
   coins: Array<{ denom: string; amount: string }>,
@@ -146,11 +147,20 @@ export const transformGqlAcountBalance = (data: any, timestamp: number): Account
   const denoms = get(data, 'account[0].available[0].tokens_prices', [])
   const balance = {
     available: getTokenAmountFromDenoms(get(data, 'account[0].available[0].coins', []), denoms),
-    delegated: getTokenAmountFromDenoms([get(data, 'account[0].delegated[0].amount', {})], denoms),
-    unbonding: getTokenAmountFromDenoms([get(data, 'account[0].unbonding[0].amount', {})], denoms),
-    rewards: getTokenAmountFromDenoms([get(data, 'account[0].rewards[0].amount', {})], denoms),
+    delegated: getTokenAmountFromDenoms(
+      get(data, 'account[0].delegated.nodes', []).map((d) => d.amount),
+      denoms
+    ),
+    unbonding: getTokenAmountFromDenoms(
+      get(data, 'account[0].unbonding.nodes', []).map((d) => d.amount),
+      denoms
+    ),
+    rewards: getTokenAmountFromDenoms(
+      get(data, 'account[0].rewards.nodes', []).map((d) => get(d, 'amount[0]')),
+      denoms
+    ),
     commissions: getTokenAmountFromDenoms(
-      [get(data, 'account[0].delegated[0].commissions', {})],
+      get(data, 'account[0].validator.validator.commissions.nodes', []).map((d) => d.amount),
       denoms
     ),
   }
@@ -175,7 +185,7 @@ export const transformValidators = (data: any): Validator[] => {
   }
   return data.validator
     .map((validator) => ({
-      address: get(validator, 'address', ''),
+      address: get(validator, 'info.operator_address', ''),
       image: get(validator, 'description[0].avatar_url', ''),
       name: get(validator, 'description[0].moniker', get(validator, 'address', '')),
       commission: get(validator, 'commission[0].commission', 0),
@@ -194,6 +204,73 @@ export const transformValidators = (data: any): Validator[] => {
     }))
 }
 
+export const transformValidatorsWithTokenAmount = (data: any, balanceData: any) => {
+  const validators = transformValidators(data)
+  const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
+  const delegatedByValidator = {}
+  get(balanceData, 'account[0].delegated.nodes', []).forEach((d) => {
+    delegatedByValidator[
+      get(d, 'validator.validator_info.operator_address', '')
+    ] = getTokenAmountFromDenoms([d.amount], tokensPrices)
+  })
+  const rewardsByValidator = {}
+  get(balanceData, 'account[0].rewards.nodes', []).forEach((d) => {
+    rewardsByValidator[
+      get(d, 'validator.validator_info.operator_address', '')
+    ] = getTokenAmountFromDenoms(d.amount, tokensPrices)
+  })
+  const unbondingByValidator = {}
+  get(balanceData, 'account[0].unbonding.nodes', []).forEach((d) => {
+    unbondingByValidator[
+      get(d, 'validator.validator_info.operator_address', '')
+    ] = getTokenAmountFromDenoms([d.amount], tokensPrices)
+  })
+  return validators.map((v) => ({
+    ...v,
+    delegated: delegatedByValidator[v.address],
+    rewards: rewardsByValidator[v.address],
+    unbonding: unbondingByValidator[v.address],
+  }))
+}
+
+export const transformUnbonding = (data: any, balanceData: any): Unbonding[] => {
+  const validators = keyBy(transformValidators(data), 'address')
+  const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
+  return get(balanceData, 'account[0].unbonding.nodes', []).map((u) => ({
+    validator: validators[get(u, 'validator.validator_info.operator_address', '')],
+    amount: getTokenAmountFromDenoms([u.amount], tokensPrices),
+    height: Number(u.height),
+    completionDate: new Date(u.completion_timestamp),
+  }))
+}
+
+export const transformRedelegations = (data: any, balanceData: any): Redelegation[] => {
+  const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
+  return get(data, 'redelegations', []).map((u) => ({
+    fromValidator: {
+      name: get(
+        u,
+        'from_validator.description[0].moniker',
+        get(u, 'from_validator.info.operator_address', '')
+      ),
+      address: get(u, 'from_validator.info.operator_address', ''),
+      image: get(u, 'from_validator.description[0].avatar_url', ''),
+    },
+    toValidator: {
+      name: get(
+        u,
+        'to_validator.description[0].moniker',
+        get(u, 'to_validator.info.operator_address', '')
+      ),
+      address: get(u, 'to_validator.info.operator_address', ''),
+      image: get(u, 'to_validator.description[0].avatar_url', ''),
+    },
+    amount: getTokenAmountFromDenoms([u.amount], tokensPrices),
+    height: Number(u.height),
+    completionDate: new Date(u.completion_timestamp),
+  }))
+}
+
 export const getEquivalentCoinToSend = (
   amount: { amount: number; denom: string },
   availableCoins: Array<{ amount: string; denom: string }>,
@@ -201,7 +278,7 @@ export const getEquivalentCoinToSend = (
 ): { amount: number; denom: string } => {
   const tokenPrice = tokensPrices.find((tp) => tp.unit_name === amount.denom)
   if (!tokenPrice) {
-    return null
+    return { amount: 0, denom: '' }
   }
   const coinDenom: { denom: string; exponent: number } = get(
     tokenPrice,

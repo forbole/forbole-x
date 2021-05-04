@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   DialogActions,
@@ -10,31 +11,33 @@ import {
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import dynamic from 'next/dynamic'
-import SendIcon from '../../assets/images/icons/icon_send_tx.svg'
+import DelegateIcon from '../../assets/images/icons/icon_delegate_tx.svg'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import { formatCrypto, formatTokenAmount } from '../../misc/utils'
 import useStyles from './styles'
-import { useGeneralContext } from '../../contexts/GeneralContext'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
-interface ConfirmSendProps {
+interface ConfirmUndelegationProps {
   account: Account
-  recipients: Array<{ amount: { amount: number; denom: string }; address: string }>
-  totalAmount: TokenAmount
+  amount: number
+  denom: string
+  validator: Validator
   gasFee: TokenAmount
   memo: string
-  rawTransactionData: any
   onConfirm(): void
+  rawTransactionData: any
 }
 
-const ConfirmSend: React.FC<ConfirmSendProps> = ({
+const ConfirmUndelegation: React.FC<ConfirmUndelegationProps> = ({
   account,
-  totalAmount,
-  recipients,
+  amount,
+  denom,
   gasFee,
+  validator,
   memo,
-  rawTransactionData,
   onConfirm,
+  rawTransactionData,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
@@ -46,34 +49,36 @@ const ConfirmSend: React.FC<ConfirmSendProps> = ({
     <>
       <DialogContent className={classes.dialogContent}>
         <Box display="flex" flexDirection="column" alignItems="center" mt={6}>
-          <SendIcon width={theme.spacing(6)} height={theme.spacing(6)} />
+          <DelegateIcon width={theme.spacing(6)} height={theme.spacing(6)} />
           <Box mt={2} mb={4}>
             <Typography variant="h4">
-              {t('send')} {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
+              {t('undelegate')} {formatCrypto(amount, denom, lang)}
             </Typography>
           </Box>
         </Box>
         <Divider />
         <Box my={1}>
-          <Typography>{t('from')}</Typography>
-          <Typography color="textSecondary">{account.address}</Typography>
+          <Typography>{t('address')}</Typography>
+          <Typography variant="body2" color="textSecondary">
+            {account.address}
+          </Typography>
         </Box>
         <Divider />
-        {recipients.map((r, i) => (
-          <React.Fragment key={r.address}>
-            <Box my={1}>
-              <Typography>{t('send to', { number: `# ${i + 1}` })}</Typography>
-              <Typography color="textSecondary" gutterBottom>
-                {r.address}
-              </Typography>
-              <Typography>{t('amount')}</Typography>
-              <Typography color="textSecondary">
-                {formatCrypto(r.amount.amount, r.amount.denom, lang)}
-              </Typography>
+        <Box my={1}>
+          <Typography>{t('undelegate from')}</Typography>
+          <Box display="flex" justifyContent="space-between" alignItems="center" my={1.5}>
+            <Box display="flex" alignItems="center">
+              <Avatar
+                className={classes.validatorAvatar}
+                alt={validator.name}
+                src={validator.image}
+              />
+              <Typography color="textSecondary">{validator.name}</Typography>
             </Box>
-            <Divider />
-          </React.Fragment>
-        ))}
+            <Typography color="textSecondary">{formatCrypto(amount, denom, lang)}</Typography>
+          </Box>
+        </Box>
+        <Divider />
         <Box my={1}>
           <Typography gutterBottom>{t('memo')}</Typography>
           <Typography color="textSecondary">{memo || t('NA')}</Typography>
@@ -81,13 +86,11 @@ const ConfirmSend: React.FC<ConfirmSendProps> = ({
         <Divider />
         <Box my={1}>
           <Typography gutterBottom>{t('fee')}</Typography>
-          <Typography color="textSecondary">
-            {formatTokenAmount(gasFee, account.crypto, lang)}
-          </Typography>
+          <Typography color="textSecondary">{formatTokenAmount(gasFee, denom, lang)}</Typography>
         </Box>
         <Divider />
         <Box my={1} display="flex" justifyContent="flex-end">
-          <Button onClick={() => setViewingData((v) => !v)} variant="text" color="primary">
+          <Button variant="text" color="primary" onClick={() => setViewingData((v) => !v)}>
             {t(viewingData ? 'hide data' : 'view data')}
           </Button>
         </Box>
@@ -120,4 +123,4 @@ const ConfirmSend: React.FC<ConfirmSendProps> = ({
   )
 }
 
-export default ConfirmSend
+export default ConfirmUndelegation

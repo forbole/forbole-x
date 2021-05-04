@@ -9,7 +9,7 @@ import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import SelectAmount from './SelectAmount'
 import SelectValidators from './SelectValidators'
-import ConfirmDelegation from './ConfirmDelegation'
+import ConfirmRedelegation from './ConfirmRedelegation'
 import useStateHistory from '../../misc/useStateHistory'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
 import cryptocurrencies from '../../misc/cryptocurrencies'
@@ -19,19 +19,20 @@ import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import SecurityPassword from './SecurityPassword'
 import Success from './Success'
 
-enum DelegationStage {
+enum RedelegationStage {
   SelectAmountStage = 'select amount',
   SelectValidatorsStage = 'select validators',
-  ConfirmDelegationStage = 'confirm delegation',
+  ConfirmRedelegationStage = 'confirm redelegation',
   SecurityPasswordStage = 'security password',
   SuccessStage = 'success',
 }
 
-interface DelegationDialogProps {
+interface RedelegationDialogProps {
   account: Account
+  fromValidator: Validator
   validators: Validator[]
-  defaultValidator?: Validator
-  availableTokens: { coins: Array<{ amount: string; denom: string }>; tokens_prices: TokenPrice[] }
+  delegatedTokens: Array<{ amount: string; denom: string }>
+  tokensPrices: TokenPrice[]
   open: boolean
   onClose(): void
 }
@@ -42,13 +43,14 @@ interface Content {
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-const DelegationDialog: React.FC<DelegationDialogProps> = ({
+const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
   account,
+  fromValidator,
   validators,
   open,
   onClose,
-  availableTokens,
-  defaultValidator,
+  delegatedTokens,
+  tokensPrices,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
@@ -56,74 +58,62 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
   const { password } = useWalletsContext()
   const [amount, setAmount] = React.useState(0)
   const [denom, setDenom] = React.useState('')
-  const [delegations, setDelegations] = React.useState<
-    Array<{ amount: number; validator: Validator }>
-  >([])
+  const [toValidator, setToValidator] = React.useState<Validator>()
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
 
-  const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<DelegationStage>(
-    DelegationStage.SelectAmountStage
+  const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<RedelegationStage>(
+    RedelegationStage.SelectAmountStage
   )
 
-  const transactionData = React.useMemo(
-    () => ({
+  const transactionData = React.useMemo(() => {
+    const coinsToSend = getEquivalentCoinToSend({ amount, denom }, delegatedTokens, tokensPrices)
+    return {
       address: account.address,
       password,
-      transactions: delegations
-        .map((r) => {
-          const coinsToSend = getEquivalentCoinToSend(
-            { amount: r.amount, denom },
-            availableTokens.coins,
-            availableTokens.tokens_prices
-          )
-          return formatTransactionMsg(account.crypto, {
-            type: 'delegate',
-            delegator: account.address,
-            validator: r.validator.address,
-            ...coinsToSend,
-          })
-        })
-        .filter((a) => a),
+      transactions: toValidator
+        ? [
+            formatTransactionMsg(account.crypto, {
+              type: 'redelegate',
+              delegator: account.address,
+              fromValidator: fromValidator.address,
+              toValidator: toValidator.address,
+              ...coinsToSend,
+            }),
+          ]
+        : [],
       gasFee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
       memo,
-    }),
-    [delegations, availableTokens, account, password, memo]
-  )
+    }
+  }, [toValidator, delegatedTokens, tokensPrices, account, password, memo])
 
   const { availableAmount, defaultGasFee } = React.useMemo(
     () => ({
-      availableAmount: getTokenAmountFromDenoms(
-        availableTokens.coins,
-        availableTokens.tokens_prices
-      ),
+      availableAmount: getTokenAmountFromDenoms(delegatedTokens, tokensPrices),
       defaultGasFee: getTokenAmountFromDenoms(
         get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
-        availableTokens.tokens_prices
+        tokensPrices
       ),
     }),
-    [availableTokens]
+    [delegatedTokens, tokensPrices]
   )
 
   const confirmAmount = React.useCallback(
     (a: number, d: string) => {
       setAmount(a)
       setDenom(d)
-      if (defaultValidator) {
-        setDelegations([{ amount: a, validator: defaultValidator }])
-      }
-      setStage(DelegationStage.SelectValidatorsStage)
+      setStage(RedelegationStage.SelectValidatorsStage)
     },
-    [setAmount, setStage, defaultValidator]
+    [setAmount, setDenom, setStage]
   )
 
-  const confirmDelegations = React.useCallback(
-    (d: Array<{ amount: number; validator: Validator }>, m: string) => {
-      setDelegations(d)
+  const confirmRedelegations = React.useCallback(
+    (v: Validator, m: string) => {
+      setToValidator(v)
       setMemo(m)
-      setStage(DelegationStage.ConfirmDelegationStage)
+      setStage(RedelegationStage.ConfirmRedelegationStage)
     },
-    [setStage]
+    [setStage, setMemo, setToValidator]
   )
 
   const sendTransactionMessage = React.useCallback(
@@ -139,7 +129,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
         })
         console.log(result)
         setLoading(false)
-        setStage(DelegationStage.SuccessStage, true)
+        setStage(RedelegationStage.SuccessStage, true)
       } catch (err) {
         setLoading(false)
         console.log(err)
@@ -150,55 +140,55 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
-      case DelegationStage.SelectValidatorsStage:
+      case RedelegationStage.SelectValidatorsStage:
         return {
-          title: t('delegate'),
+          title: t('redelegate'),
           content: (
             <SelectValidators
-              account={account}
-              delegations={delegations}
-              validators={validators}
               amount={amount}
+              validators={validators}
               denom={denom}
-              onConfirm={confirmDelegations}
+              onConfirm={confirmRedelegations}
             />
           ),
         }
-      case DelegationStage.ConfirmDelegationStage:
+      case RedelegationStage.ConfirmRedelegationStage:
         return {
           title: '',
           dialogWidth: 'xs',
           content: (
-            <ConfirmDelegation
+            <ConfirmRedelegation
               account={account}
               amount={amount}
               denom={denom}
               gasFee={defaultGasFee}
-              delegations={delegations}
+              fromValidator={fromValidator}
+              toValidator={toValidator}
               memo={memo}
               rawTransactionData={formatRawTransactionData(account.crypto, transactionData)}
-              onConfirm={() => setStage(DelegationStage.SecurityPasswordStage)}
+              onConfirm={() => setStage(RedelegationStage.SecurityPasswordStage)}
             />
           ),
         }
-      case DelegationStage.SecurityPasswordStage:
+      case RedelegationStage.SecurityPasswordStage:
         return {
           title: t('security password title'),
           dialogWidth: 'sm',
           content: <SecurityPassword onConfirm={sendTransactionMessage} loading={loading} />,
         }
-      case DelegationStage.SuccessStage:
+      case RedelegationStage.SuccessStage:
         return {
           title: '',
           dialogWidth: 'xs',
           content: <Success onClose={onClose} denom={denom} />,
         }
-      case DelegationStage.SelectAmountStage:
+      case RedelegationStage.SelectAmountStage:
       default:
         return {
-          title: t('delegate'),
+          title: t('redelegate'),
           content: (
             <SelectAmount
+              fromValidator={fromValidator}
               account={account}
               availableAmount={availableAmount}
               onConfirm={confirmAmount}
@@ -212,10 +202,10 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
     if (open) {
       setAmount(0)
       setDenom('')
-      setDelegations([])
+      setToValidator(undefined)
       setMemo('')
       setLoading(false)
-      setStage(DelegationStage.SelectAmountStage)
+      setStage(RedelegationStage.SelectAmountStage)
     }
   }, [open])
 
@@ -235,4 +225,4 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
   )
 }
 
-export default DelegationDialog
+export default RedelegationDialog
