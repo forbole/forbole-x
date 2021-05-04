@@ -10,6 +10,7 @@ import ConfirmWithdraw from './ConfirmWithdraw'
 import useStateHistory from '../../misc/useStateHistory'
 import UnlockPasswordDialog from '../UnlockPasswordDialog'
 import Success from '../Success'
+import UnlockPasswordContent from '../UnlockPassword'
 
 enum DelegationStage {
   SecurityPassword = 'security password',
@@ -67,6 +68,24 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
     [setStage]
   )
 
+  const confirmWithPassword = React.useCallback(
+    (
+      a: number,
+      d: Array<{
+        name: string
+        image: string
+        amount: number
+        isSelected: boolean
+        reward: number
+      }>,
+      m: string
+    ) => {
+      // setAmount(a)
+      setStage(DelegationStage.SuccessStage)
+    },
+    [setStage]
+  )
+
   const confirmAmount = React.useCallback(
     (
       a: number,
@@ -99,7 +118,7 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
         return {
           // title: t('delegate'),
           dialogWidth: 'xs',
-          content: <UnlockPasswordDialog isOpen />,
+          content: <UnlockPasswordContent />,
           // content: (
           //   <SelectValidators account={account} onConfirm={confirmAmount} validators={validators} />
           // ),
@@ -155,7 +174,6 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
-      111
       {content.content}
     </Dialog>
   )
