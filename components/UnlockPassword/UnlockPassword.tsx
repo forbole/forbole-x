@@ -1,4 +1,11 @@
-import { Button, DialogActions, DialogContent, DialogContentText } from '@material-ui/core'
+import {
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  CircularProgress,
+  useTheme,
+} from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
@@ -9,6 +16,7 @@ interface UnlockPasswordProps {
   onUnlock: (password) => void
   password: string
   setPassword: any
+  loading: boolean
 }
 
 const UnlockPassword: React.FC<UnlockPasswordProps> = ({
@@ -16,10 +24,12 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({
   onUnlock,
   password,
   setPassword,
+  loading,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const [error, setError] = React.useState('')
+  const theme = useTheme()
 
   return (
     <>
@@ -38,9 +48,10 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({
           className={classes.button}
           variant="contained"
           color="primary"
+          disabled={!password.length || loading}
           onClick={() => onUnlock(password)}
         >
-          {t('next')}
+          {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
         </Button>
         <Button className={classes.forgotButton} onClick={() => onForgot()}>
           {t('forgot password?')}

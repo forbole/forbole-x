@@ -20,19 +20,9 @@ import { formatCrypto, formatCurrency, getCoinPrice } from '../../misc/utils'
 import useStyles from './styles'
 
 interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
-  onConfirm(
-    amount: number,
-    delegations: Array<{
-      name: string
-      image: string
-      amount: number
-      isSelected: boolean
-      reward: number
-    }>,
-    m: string
-  ): void
+  onConfirm(amount: number, delegations: Validator[], m: string): void
   account: Account
-  validators: any
+  validators: Validator[]
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm, validators }) => {
@@ -109,17 +99,19 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
     const updatedList = validatorList
     if (!isSelectAll) {
       updatedList.forEach((x) => {
-        x.isSelected = true
+        updatedList[x.address].isSelected = true
       })
     } else {
       updatedList.forEach((x) => {
-        x.isSelected = false
+        updatedList[x].isSelected = false
       })
     }
     setIsSelectAll(!isSelectAll)
     setValidatorList(updatedList)
     calculateWithdrawAmount(updatedList)
   }
+
+  console.log('amount', amount)
 
   return (
     <>
@@ -158,7 +150,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
             labelPlacement="end"
           />
           <Box mt={0}>
-            {validatorList.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((v, i) => (
+            {validatorList.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((v) => (
               <FormControlLabel
                 className={classes.controllLabel}
                 value="end"
@@ -176,7 +168,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
                   <Box display="flex" alignItems="center" style={{ flex: 1, width: '25rem' }}>
                     <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
                     <Typography>{v.name}</Typography>
-                    <Typography className={classes.rewardsAmount}>{`${v.reward} ATOM`}</Typography>
+                    <Typography className={classes.rewardsAmount}>
+                      {`${v.rewards.daric.amount} ATOM`}
+                    </Typography>
                   </Box>
                 }
                 labelPlacement="end"

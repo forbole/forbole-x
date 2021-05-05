@@ -20,10 +20,11 @@ interface Content {
 }
 
 interface UnlockPasswordContentProps {
-  onConfirm(): void
+  onConfirm(password: string): void
+  loading: boolean
 }
 
-const UnlockPasswordContent: React.FC<UnlockPasswordContentProps> = ({ onConfirm }) => {
+const UnlockPasswordContent: React.FC<UnlockPasswordContentProps> = ({ onConfirm, loading }) => {
   const { t } = useTranslation('common')
   const { wallets, reset } = useWalletsContext()
   const [isReset, setReset] = React.useState(false)
@@ -56,7 +57,7 @@ const UnlockPasswordContent: React.FC<UnlockPasswordContentProps> = ({ onConfirm
     try {
       setError('')
       await unlockWallets(password)
-      onConfirm()
+      onConfirm(password)
     } catch (err) {
       setError(t(err.message))
       setPassword('')
@@ -84,6 +85,7 @@ const UnlockPasswordContent: React.FC<UnlockPasswordContentProps> = ({ onConfirm
               onUnlock={onButtonClick}
               password={password}
               setPassword={setPassword}
+              loading={loading}
             />
           ),
           title: t('unlock password title'),

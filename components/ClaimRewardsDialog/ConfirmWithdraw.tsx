@@ -26,6 +26,7 @@ interface ConfirmWithdrawProps {
     amount: number
     isSelected: boolean
     reward: number
+    address: string
   }>
   memo: string
   onConfirm(
@@ -36,6 +37,7 @@ interface ConfirmWithdrawProps {
       amount: number
       isSelected: boolean
       reward: number
+      address: string
     }>,
     m: string
   ): void

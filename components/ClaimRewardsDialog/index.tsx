@@ -1,6 +1,7 @@
 import { Dialog, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import get from 'lodash/get'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
@@ -10,6 +11,10 @@ import ConfirmWithdraw from './ConfirmWithdraw'
 import useStateHistory from '../../misc/useStateHistory'
 import Success from '../Success'
 import UnlockPasswordContent from '../UnlockPassword'
+import { useWalletsContext } from '../../contexts/WalletsContext'
+import cryptocurrencies from '../../misc/cryptocurrencies'
+import { formatTransactionMsg } from '../../misc/formatTransactionMsg'
+import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 
 enum DelegationStage {
   SecurityPassword = 'security password',
@@ -22,7 +27,7 @@ interface DelegationDialogProps {
   account: Account
   open: boolean
   onClose(): void
-  validators: any
+  validators: Validator
 }
 
 interface Content {
@@ -41,21 +46,73 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
   const iconProps = useIconProps()
   const [amount, setAmount] = React.useState(0)
   const [delegations, setDelegations] = React.useState<
-    Array<{ name: string; image: string; amount: number; isSelected: boolean; reward: number }>
+    Array<{
+      name: string
+      image: string
+      amount: number
+      isSelected: boolean
+      reward: number
+      address: string
+    }>
   >([])
   const [memo, setMemo] = React.useState('')
+  const [loading, setLoading] = React.useState(false)
 
+  const { password } = useWalletsContext()
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<DelegationStage>(
     DelegationStage.SelectValidatorsStage
+  )
+
+  console.log('validators', validators)
+
+  const transactionData = React.useMemo(
+    () => ({
+      address: account.address,
+      password,
+      transactions: delegations
+        .map((r) => {
+          return formatTransactionMsg(account.crypto, {
+            type: 'withdraw reward',
+            delegator: account.address,
+            validator: r.address,
+          })
+        })
+        .filter((a) => a),
+      gasFee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
+      memo,
+    }),
+    [delegations, account, password, memo]
+  )
+
+  const confirmWithPassword = React.useCallback(
+    async (securityPassword: string) => {
+      try {
+        setLoading(true)
+        const result = await sendMsgToChromeExt({
+          event: 'signAndBroadcastTransactions',
+          data: {
+            securityPassword,
+            ...transactionData,
+          },
+        })
+        console.log(result)
+        setLoading(false)
+        setStage(DelegationStage.SuccessStage, true)
+      } catch (err) {
+        setLoading(false)
+        console.log(err)
+      }
+    },
+    [transactionData]
   )
 
   const confirmLast = React.useCallback(() => {
     setStage(DelegationStage.SecurityPassword)
   }, [setStage])
 
-  const confirmWithPassword = React.useCallback(() => {
-    setStage(DelegationStage.SuccessStage)
-  }, [setStage])
+  // const confirmWithPassword = React.useCallback(() => {
+  //   setStage(DelegationStage.SuccessStage)
+  // }, [setStage])
 
   const confirmAmount = React.useCallback(
     (
@@ -88,7 +145,7 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
       case DelegationStage.SecurityPassword:
         return {
           dialogWidth: 'xs',
-          content: <UnlockPasswordContent onConfirm={confirmWithPassword} />,
+          content: <UnlockPasswordContent onConfirm={confirmWithPassword} loading={loading} />,
         }
       case DelegationStage.ConfirmWithdrawStage:
         return {
@@ -101,7 +158,7 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
               delegations={delegations}
               memo={memo}
               onConfirm={confirmLast}
-              rawTransactionData={{}}
+              rawTransactionData={transactionData}
             />
           ),
         }

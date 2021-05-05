@@ -2,6 +2,7 @@ import { Box, Button, Card, Grid, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
+import { gql, useSubscription } from '@apollo/client'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import EditIcon from '../../assets/images/icons/icon_edit_tool.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
@@ -20,9 +21,12 @@ import {
   getTokenAmountBalance,
   getTotalBalance,
   getTotalTokenAmount,
+  transformGqlAcountBalance,
 } from '../../misc/utils'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
 import SendDialog from '../SendDialog'
+import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 interface AccountDetailCardProps {
   account: Account
@@ -49,6 +53,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
   const [timestamps, setTimestamps] = React.useState<Date[]>(
     dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
   )
+  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
   // Chart Data
   const { data: accountsWithBalance, loading } = useAccountsBalancesWithinPeriod(
     [account],
@@ -59,11 +64,13 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
     : []
   // Balance Data
   const { totalTokenAmount, usdBalance } = React.useMemo(() => {
+    console.log('accountBalance', accountBalance)
     return {
       totalTokenAmount: getTotalTokenAmount(accountBalance).amount,
       usdBalance: getTotalBalance(accountBalance).balance,
     }
   }, [accountBalance])
+  console.log('validators', validators)
 
   const isAvailableTokenEmpty = React.useMemo(() => !get(availableTokens, 'coins.length', 0), [
     availableTokens,
@@ -159,29 +166,30 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
         open={claimRewardsDialogOpen}
         onClose={() => setClaimRewardsDialogOpen(false)}
         account={account}
-        validators={[
-          {
-            address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
-            image:
-              'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-            name: 'Forbole',
-            reward: 599.013243,
-          },
-          {
-            address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9s111',
-            image:
-              'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-            name: 'Forbole',
-            reward: 599.013243,
-          },
-          {
-            address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9s222',
-            image:
-              'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-            name: 'Forbole',
-            reward: 599.013243,
-          },
-        ]}
+        validators={validators.filter((v) => !!v.delegated)}
+        // validators={[
+        //   {
+        //     address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9sg8d',
+        //     image:
+        //       'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
+        //     name: 'Forbole',
+        //     reward: 599.013243,
+        //   },
+        //   {
+        //     address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9s111',
+        //     image:
+        //       'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
+        //     name: 'Forbole',
+        //     reward: 599.013243,
+        //   },
+        //   {
+        //     address: 'desmos1qpm8wutycha3ncd0u3w9g42v89xnnfs6f9s222',
+        //     image:
+        //       'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
+        //     name: 'Forbole',
+        //     reward: 599.013243,
+        //   },
+        // ]}
       />
       <SendDialog
         open={sendDialogOpen}

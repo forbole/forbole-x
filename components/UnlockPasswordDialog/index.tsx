@@ -22,11 +22,7 @@ interface Content {
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-interface UnlockPasswordDialogProps {
-  isOpen?: boolean
-}
-
-const UnlockPasswordDialog: React.FC<UnlockPasswordDialogProps> = (isOpen) => {
+const UnlockPasswordDialog: React.FC = () => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
@@ -74,7 +70,6 @@ const UnlockPasswordDialog: React.FC<UnlockPasswordDialogProps> = (isOpen) => {
     }
   }, [stage, t])
 
-  console.log('isOpen', isOpen)
   return (
     <Dialog fullWidth open={!(wallets.length !== 0 || isReset)}>
       {isPrevStageAvailable && stage !== 'unlock' ? (
