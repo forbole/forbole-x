@@ -20,10 +20,9 @@ export const useGetStyles = (tag?: string) => {
         borderRadius: theme.shape.borderRadius,
       },
       checkIcon: {
-        width: theme.spacing(2),
-        height: theme.spacing(2),
         verticalAlign: 'middle',
-        marginLeft: theme.spacing(0.5),
+        marginLeft: theme.spacing(2),
+        marginTop: theme.spacing(-0.5),
         color: theme.palette.success.main,
       },
       tabIndicator: {

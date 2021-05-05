@@ -1,25 +1,13 @@
 import { Box, Card, Tabs, Tab, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+import SuccessIcon from '../../assets/images/icons/icon_status_success.svg'
+import FailIcon from '../../assets/images/icons/icon_status_reject.svg'
 import TablePagination from '../TablePagination'
 import { useGetStyles } from './styles'
 import Row from './Row'
 import { useGeneralContext } from '../../contexts/GeneralContext'
-
-export interface Activity {
-  ref: string
-  date: string
-  tab: string
-  tag: string
-  detail?: any
-  amount?: number
-}
-
-export interface Account {
-  name: string
-  imageURL: string
-}
+import useIconProps from '../../misc/useIconProps'
 
 interface ActivitiesTableProps {
   activities?: Activity[]
@@ -30,29 +18,20 @@ interface ActivitiesTableProps {
 const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, account }) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
+  const iconProps = useIconProps()
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [currentTab, setCurrentTab] = React.useState(0)
-  const [activitiesCollection, setActivitiesCollection] = React.useState(activities)
   const { theme } = useGeneralContext()
 
   const tabs = [
-    { label: 'all', count: activities.length },
-    { label: 'transfer', count: activities.filter((x) => x.tab === 'transfer').length },
-    { label: 'staking', count: activities.filter((x) => x.tab === 'staking').length },
-    { label: 'distribution', count: activities.filter((x) => x.tab === 'distribution').length },
-    { label: 'governance', count: activities.filter((x) => x.tab === 'governance').length },
-    { label: 'slashing', count: activities.filter((x) => x.tab === 'slashing').length },
+    { label: 'all', rows: activities },
+    { label: 'transfer', rows: activities.filter((x) => x.tab === 'transfer') },
+    { label: 'staking', rows: activities.filter((x) => x.tab === 'staking') },
+    { label: 'distribution', rows: activities.filter((x) => x.tab === 'distribution') },
+    { label: 'governance', rows: activities.filter((x) => x.tab === 'governance') },
+    { label: 'slashing', rows: activities.filter((x) => x.tab === 'slashing') },
   ]
-
-  const setTabContent = (v) => {
-    setCurrentTab(v)
-    if (v === 0) {
-      setActivitiesCollection(activities)
-    } else {
-      setActivitiesCollection(activities.filter((x) => x.tab === tabs[v].label))
-    }
-  }
 
   return (
     <Card>
@@ -62,21 +41,25 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, a
           classes={{
             indicator: classes.tabIndicator,
           }}
-          onChange={(e, v) => setTabContent(v)}
+          onChange={(e, v) => setCurrentTab(v)}
           textColor={theme === 'light' ? 'primary' : 'inherit'}
         >
           {tabs.map((tab) => (
-            <Tab key={tab.label} label={`${t(tab.label)} (${tab.count})`} />
+            <Tab key={tab.label} label={`${t(tab.label)} (${tab.rows.length})`} />
           ))}
         </Tabs>
         <Box className={classes.table} mt={2}>
-          {activitiesCollection.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((a, i) => (
+          {tabs[currentTab].rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((a, i) => (
             <Box key={`${a.ref}-${i}`}>
               <Box className={classes.rowHeader}>
                 <span>{a.ref}</span>
                 <Typography className={classes.typograph}>
                   {a.date}
-                  <CheckCircleIcon className={classes.checkIcon} />
+                  {a.success ? (
+                    <SuccessIcon className={classes.checkIcon} {...iconProps} />
+                  ) : (
+                    <FailIcon className={classes.checkIcon} {...iconProps} />
+                  )}
                 </Typography>
               </Box>
               <Box className={classes.row}>
@@ -88,7 +71,7 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, a
         <TablePagination
           page={page}
           rowsPerPage={rowsPerPage}
-          rowsCount={activitiesCollection.length}
+          rowsCount={tabs[currentTab].rows.length}
           onPageChange={setPage}
           onRowsPerPageChange={setRowsPerPage}
         />
