@@ -235,10 +235,24 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
       )
     }
     if (activity.tag === 'send') {
+      // eslint-disable-next-line react/require-default-props
+      const Self = ({ marginLeft }: { marginLeft?: boolean }) => (
+        <>
+          <Avatar
+            className={marginLeft ? classes.validatorAvatar : classes.accountAvatar}
+            alt={account.name}
+            src={crypto.image}
+          />
+          <Typography className={classes.validatorTypography}>{account.name}</Typography>
+        </>
+      )
       return (
         <Box display="flex" alignItems="center">
-          <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
-          <Typography className={classes.validatorTypography}>{account.name}</Typography>
+          {activity.detail.address === account.address ? (
+            <Typography className={classes.proposalTypography}>{account.address}</Typography>
+          ) : (
+            <Self />
+          )}
           <Typography>
             {t(`${activity.tag}Activity`)}
             <span className={classes.amount}>
@@ -246,7 +260,13 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             </span>
             {t('to')}
           </Typography>
-          <Typography className={classes.proposalTypography}>{activity.detail.address}</Typography>
+          {activity.detail.address === account.address ? (
+            <Self marginLeft />
+          ) : (
+            <Typography className={classes.proposalTypography}>
+              {activity.detail.address}
+            </Typography>
+          )}
         </Box>
       )
     }
