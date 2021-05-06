@@ -14,33 +14,16 @@ import dynamic from 'next/dynamic'
 import WithdrawIcon from '../../assets/images/icons/icon_withdraw_tx.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import useStyles from './styles'
+import { ValidatorTag } from './index'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
 interface ConfirmWithdrawProps {
   account: Account
   amount: number
-  delegations: Array<{
-    name: string
-    image: string
-    amount: number
-    isSelected: boolean
-    reward: number
-    address: string
-  }>
+  delegations: Array<ValidatorTag>
   memo: string
-  onConfirm(
-    amount: number,
-    delegations: Array<{
-      name: string
-      image: string
-      amount: number
-      isSelected: boolean
-      reward: number
-      address: string
-    }>,
-    m: string
-  ): void
+  onConfirm(amount: number, delegations: Array<ValidatorTag>, m: string): void
   rawTransactionData: any
 }
 
@@ -57,10 +40,11 @@ const ConfirmWithdraw: React.FC<ConfirmWithdrawProps> = ({
   const theme = useTheme()
   const { theme: themeSetting } = useGeneralContext()
   const [viewData, setViewData] = React.useState(false)
-
   const toggleViewData = () => {
     setViewData(!viewData)
   }
+  // const unit = account.crypto
+  const unit = 'daric'
 
   return (
     <>
@@ -91,7 +75,7 @@ const ConfirmWithdraw: React.FC<ConfirmWithdrawProps> = ({
                   <Typography color="textSecondary">{d.name}</Typography>
                 </Box>
                 <Typography color="textSecondary">
-                  {d.reward} {account.crypto}
+                  {d.rewards[unit].amount} {account.crypto}
                 </Typography>
               </Box>
               {i === delegations.length - 1 ? null : <Divider />}

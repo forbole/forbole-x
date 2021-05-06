@@ -16,11 +16,12 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import TablePagination from '../TablePagination'
 import { useGeneralContext } from '../../contexts/GeneralContext'
-import { formatCrypto, formatCurrency, getCoinPrice } from '../../misc/utils'
+import { formatCurrency, getCoinPrice } from '../../misc/utils'
 import useStyles from './styles'
+import { ValidatorTag } from './index'
 
 interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
-  onConfirm(amount: number, delegations: Validator[], m: string): void
+  onConfirm(amount: number, delegations: ValidatorTag[], m: string): void
   account: Account
   validators: Validator[]
 }
@@ -54,6 +55,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
     setState({ ...state, [event.target.name]: event.target.checked })
   }
 
+  // const unit = account.crypto
+  const unit = 'daric'
+
   const [isSelectAll, setIsSelectAll] = React.useState(false)
 
   const tabs = [{ label: 'withrawReward' }, { label: 'withdraw commission' }]
@@ -68,7 +72,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
     let withdrawAmount = 0
     latestValidatorList.forEach((x) => {
       if (x.isSelected) {
-        withdrawAmount += x.reward
+        withdrawAmount += x.rewards.daric.amount
       }
     })
     setAmount(withdrawAmount)
@@ -77,12 +81,12 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
   const calculateTotalAmount = () => {
     let totalAmount = 0
     validatorList.forEach((x) => {
-      totalAmount += x.reward
+      totalAmount += x.rewards.daric.amount
     })
     return totalAmount
   }
 
-  const onClick = (address) => {
+  const onSelect = (address) => {
     const index = validatorList.findIndex((v) => v.address === address)
     const updatedList = validatorList
 
@@ -99,19 +103,19 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
     const updatedList = validatorList
     if (!isSelectAll) {
       updatedList.forEach((x) => {
-        updatedList[x.address].isSelected = true
+        const index = validatorList.findIndex((v) => v.address === x.address)
+        updatedList[index].isSelected = true
       })
     } else {
       updatedList.forEach((x) => {
-        updatedList[x].isSelected = false
+        const index = validatorList.findIndex((v) => v.address === x.address)
+        updatedList[index].isSelected = false
       })
     }
     setIsSelectAll(!isSelectAll)
     setValidatorList(updatedList)
     calculateWithdrawAmount(updatedList)
   }
-
-  console.log('amount', amount)
 
   return (
     <>
@@ -133,11 +137,11 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
           <Box mt={4} mb={2}>
             <Typography className={classes.totalReward}>
               {t('total reward amount')}&nbsp;
-              {formatCrypto(calculateTotalAmount(), account.crypto, lang)}
+              {calculateTotalAmount()} {account.crypto}
             </Typography>
             <Typography>{t('withdraw amount')}</Typography>
             <Typography variant="h1" className={classes.h1}>
-              {formatCrypto(amount, account.crypto, lang)}
+              {amount} {account.crypto}
             </Typography>
             <Typography>
               {t('select the validator below you want to claim the reward amount')}
@@ -157,7 +161,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
                 control={
                   <Checkbox
                     checked={v.isSelected}
-                    onClick={() => onClick(v.address)}
+                    onClick={() => onSelect(v.address)}
                     onChange={handleChange}
                     color="primary"
                     size="small"
@@ -169,7 +173,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
                     <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
                     <Typography>{v.name}</Typography>
                     <Typography className={classes.rewardsAmount}>
-                      {`${v.rewards.daric.amount} ATOM`}
+                      {v.rewards[unit].amount} {account.crypto}
                     </Typography>
                   </Box>
                 }
@@ -211,7 +215,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
           mx={2}
         >
           <Box>
-            <Typography variant="h5">{formatCrypto(amount, account.crypto, lang)}</Typography>
+            <Typography variant="h5">
+              {amount} {account.crypto}
+            </Typography>
             <Typography>{formatCurrency(price * amount, currency, lang)}</Typography>
           </Box>
           <Button

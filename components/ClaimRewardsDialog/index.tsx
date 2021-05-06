@@ -23,11 +23,15 @@ enum DelegationStage {
   SuccessStage = 'success',
 }
 
+export interface ValidatorTag extends Partial<Validator> {
+  isSelected: boolean
+}
+
 interface DelegationDialogProps {
   account: Account
   open: boolean
   onClose(): void
-  validators: Validator
+  validators: Validator[]
 }
 
 interface Content {
@@ -45,16 +49,7 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
   const classes = useStyles()
   const iconProps = useIconProps()
   const [amount, setAmount] = React.useState(0)
-  const [delegations, setDelegations] = React.useState<
-    Array<{
-      name: string
-      image: string
-      amount: number
-      isSelected: boolean
-      reward: number
-      address: string
-    }>
-  >([])
+  const [delegations, setDelegations] = React.useState<Array<ValidatorTag>>([])
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
 
@@ -62,8 +57,6 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<DelegationStage>(
     DelegationStage.SelectValidatorsStage
   )
-
-  console.log('validators', validators)
 
   const transactionData = React.useMemo(
     () => ({
@@ -110,22 +103,8 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
     setStage(DelegationStage.SecurityPassword)
   }, [setStage])
 
-  // const confirmWithPassword = React.useCallback(() => {
-  //   setStage(DelegationStage.SuccessStage)
-  // }, [setStage])
-
   const confirmAmount = React.useCallback(
-    (
-      a: number,
-      d: Array<{
-        name: string
-        image: string
-        amount: number
-        isSelected: boolean
-        reward: number
-      }>,
-      m: string
-    ) => {
+    (a: number, d: Array<ValidatorTag>, m: string) => {
       setDelegations(d)
       setAmount(a)
       setMemo(m)
@@ -150,7 +129,7 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
       case DelegationStage.ConfirmWithdrawStage:
         return {
           title: '',
-          dialogWidth: 'xs',
+          dialogWidth: 'sm',
           content: (
             <ConfirmWithdraw
               account={account}
