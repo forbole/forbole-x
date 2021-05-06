@@ -112,6 +112,16 @@ interface Redelegation {
   completionDate: Date
 }
 
+interface Activity {
+  ref: string
+  date: string
+  tab: string
+  tag: string
+  success: boolean
+  detail?: any
+  amount?: TokenAmount
+}
+
 interface TokenUnit {
   denom: string
   exponent: number
