@@ -5,8 +5,8 @@ import {
   DialogContent,
   TextField,
   Typography,
-  Tabs,
-  Tab,
+  // Tabs,
+  // Tab,
   Checkbox,
   FormControlLabel,
   Avatar,
@@ -16,12 +16,12 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import TablePagination from '../TablePagination'
 import { useGeneralContext } from '../../contexts/GeneralContext'
-import { formatCurrency, getCoinPrice } from '../../misc/utils'
+import { formatCurrency, formatTokenAmount, getTokenAmountBalance } from '../../misc/utils'
 import useStyles from './styles'
 import { ValidatorTag } from './index'
 
 interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
-  onConfirm(amount: number, delegations: ValidatorTag[], m: string): void
+  onConfirm(amount: TokenAmount, delegations: ValidatorTag[], m: string): void
   account: Account
   validators: Validator[]
 }
@@ -30,37 +30,20 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const { currency } = useGeneralContext()
-  const [amount, setAmount] = React.useState(0)
+  const [amount, setAmount] = React.useState<TokenAmount>({})
   const [page, setPage] = React.useState(0)
   const [value, setValue] = React.useState('')
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
-  const [currentTab, setCurrentTab] = React.useState(0)
+  // const [currentTab, setCurrentTab] = React.useState(0)
   const [state, setState] = React.useState({})
-  const [price, setPrice] = React.useState(0)
-
-  const getPrice = React.useCallback(async () => {
-    try {
-      const coinPrice = await getCoinPrice(account.crypto)
-      setPrice(coinPrice)
-    } catch (err) {
-      console.log(err)
-    }
-  }, [])
-
-  React.useEffect(() => {
-    getPrice()
-  }, [getPrice])
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked })
   }
 
-  // const unit = account.crypto
-  const unit = 'daric'
-
   const [isSelectAll, setIsSelectAll] = React.useState(false)
 
-  const tabs = [{ label: 'withrawReward' }, { label: 'withdraw commission' }]
+  // const tabs = [{ label: 'withdraw reward' }, { label: 'withdraw commission' }]
 
   const validatorsWithTag = []
   validators.forEach((x) => {
@@ -69,22 +52,34 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
   const [validatorList, setValidatorList] = React.useState(validatorsWithTag)
 
   const calculateWithdrawAmount = (latestValidatorList) => {
-    let withdrawAmount = 0
+    const withdrawAmount: TokenAmount = {}
     latestValidatorList.forEach((x) => {
       if (x.isSelected) {
-        withdrawAmount += x.rewards.daric.amount
+        Object.keys(x.rewards).forEach((denom) => {
+          if (withdrawAmount[denom]) {
+            withdrawAmount[denom].amount += x.rewards[denom].amount
+          } else {
+            withdrawAmount[denom] = x.rewards[denom]
+          }
+        })
       }
     })
     setAmount(withdrawAmount)
   }
 
-  const calculateTotalAmount = () => {
-    let totalAmount = 0
+  const totalAmount = React.useMemo(() => {
+    const total: TokenAmount = {}
     validatorList.forEach((x) => {
-      totalAmount += x.rewards.daric.amount
+      Object.keys(x.rewards).forEach((denom) => {
+        if (total[denom]) {
+          total[denom].amount += x.rewards[denom].amount
+        } else {
+          total[denom] = x.rewards[denom]
+        }
+      })
     })
-    return totalAmount
-  }
+    return total
+  }, [validatorList])
 
   const onSelect = (address) => {
     const index = validatorList.findIndex((v) => v.address === address)
@@ -121,7 +116,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
     <>
       <DialogContent className={classes.dialogContent}>
         <Box mb={10}>
-          <Tabs
+          {/* <Tabs
             className={classes.tabs}
             value={currentTab}
             classes={{
@@ -133,15 +128,15 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
             {tabs.map((tab) => (
               <Tab className={classes.tab} key={tab.label} label={t(tab.label)} />
             ))}
-          </Tabs>
+          </Tabs> */}
           <Box mt={4} mb={2}>
             <Typography className={classes.totalReward}>
               {t('total reward amount')}&nbsp;
-              {calculateTotalAmount()} {account.crypto}
+              {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
             </Typography>
             <Typography>{t('withdraw amount')}</Typography>
             <Typography variant="h1" className={classes.h1}>
-              {amount} {account.crypto}
+              {formatTokenAmount(amount, account.crypto, lang, ', ')}
             </Typography>
             <Typography>
               {t('select the validator below you want to claim the reward amount')}
@@ -173,7 +168,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
                     <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
                     <Typography>{v.name}</Typography>
                     <Typography className={classes.rewardsAmount}>
-                      {v.rewards[unit].amount} {account.crypto}
+                      {formatTokenAmount(v.rewards, account.crypto, lang, ', ')}
                     </Typography>
                   </Box>
                 }
@@ -215,16 +210,18 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
           mx={2}
         >
           <Box>
-            <Typography variant="h5">
-              {amount} {account.crypto}
-            </Typography>
-            <Typography>{formatCurrency(price * amount, currency, lang)}</Typography>
+            <Typography variant="h5">{formatTokenAmount(amount, account.crypto, lang)}</Typography>
+            <Typography>{formatCurrency(getTokenAmountBalance(amount), currency, lang)}</Typography>
           </Box>
           <Button
             variant="contained"
             className={classes.button}
             color="primary"
-            disabled={!Number(amount)}
+            disabled={
+              !Object.values(amount)
+                .map((a) => a.amount)
+                .reduce((a, b) => a + b, 0)
+            }
             onClick={() =>
               onConfirm(
                 amount,

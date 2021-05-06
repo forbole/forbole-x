@@ -11,7 +11,7 @@ import React from 'react'
 import useStyles from './styles'
 import PasswordInput from '../PasswordInput'
 
-interface UnlockPasswordProps {
+interface SecurityPasswordProps {
   onForgot: () => void
   onUnlock: (password) => void
   password: string
@@ -19,7 +19,7 @@ interface UnlockPasswordProps {
   loading: boolean
 }
 
-const UnlockPassword: React.FC<UnlockPasswordProps> = ({
+const SecurityPassword: React.FC<SecurityPasswordProps> = ({
   onForgot,
   onUnlock,
   password,
@@ -34,7 +34,7 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({
   return (
     <>
       <DialogContent>
-        <DialogContentText>{t('unlock password description')}</DialogContentText>
+        <DialogContentText>{t('security password description')}</DialogContentText>
         <PasswordInput
           placeholder={t('password')}
           value={password}
@@ -61,4 +61,4 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({
   )
 }
 
-export default UnlockPassword
+export default SecurityPassword

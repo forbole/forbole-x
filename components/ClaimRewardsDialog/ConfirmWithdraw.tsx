@@ -15,27 +15,30 @@ import WithdrawIcon from '../../assets/images/icons/icon_withdraw_tx.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import useStyles from './styles'
 import { ValidatorTag } from './index'
+import { formatTokenAmount } from '../../misc/utils'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
 interface ConfirmWithdrawProps {
   account: Account
-  amount: number
+  amount: TokenAmount
+  gasFee: TokenAmount
   delegations: Array<ValidatorTag>
   memo: string
-  onConfirm(amount: number, delegations: Array<ValidatorTag>, m: string): void
+  onConfirm(amount: TokenAmount, delegations: Array<ValidatorTag>, m: string): void
   rawTransactionData: any
 }
 
 const ConfirmWithdraw: React.FC<ConfirmWithdrawProps> = ({
   amount,
+  gasFee,
   account,
   delegations,
   memo,
   onConfirm,
   rawTransactionData,
 }) => {
-  const { t } = useTranslation('common')
+  const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const theme = useTheme()
   const { theme: themeSetting } = useGeneralContext()
@@ -43,8 +46,6 @@ const ConfirmWithdraw: React.FC<ConfirmWithdrawProps> = ({
   const toggleViewData = () => {
     setViewData(!viewData)
   }
-  // const unit = account.crypto
-  const unit = 'daric'
 
   return (
     <>
@@ -53,7 +54,7 @@ const ConfirmWithdraw: React.FC<ConfirmWithdrawProps> = ({
           <WithdrawIcon width={theme.spacing(6)} height={theme.spacing(6)} />
           <Box mt={2} mb={4}>
             <Typography variant="h4">
-              {t('withdraw')} {amount} {account.crypto}
+              {t('withdraw')} {formatTokenAmount(amount, account.crypto, lang, ', ')}
             </Typography>
           </Box>
         </Box>
@@ -61,7 +62,7 @@ const ConfirmWithdraw: React.FC<ConfirmWithdrawProps> = ({
         <Box my={1}>
           <Typography>{t('rewards')}</Typography>
           <Typography variant="body2" color="textSecondary">
-            {amount}
+            {formatTokenAmount(amount, account.crypto, lang, ', ')}
           </Typography>
         </Box>
         <Divider />
@@ -75,7 +76,7 @@ const ConfirmWithdraw: React.FC<ConfirmWithdrawProps> = ({
                   <Typography color="textSecondary">{d.name}</Typography>
                 </Box>
                 <Typography color="textSecondary">
-                  {d.rewards[unit].amount} {account.crypto}
+                  {formatTokenAmount(d.rewards, account.crypto, lang, ', ')}
                 </Typography>
               </Box>
               {i === delegations.length - 1 ? null : <Divider />}
@@ -91,7 +92,7 @@ const ConfirmWithdraw: React.FC<ConfirmWithdrawProps> = ({
         <Box my={1}>
           <Typography gutterBottom>{t('fee')}</Typography>
           <Typography color="textSecondary">
-            {0.00001} {account.crypto}
+            {formatTokenAmount(gasFee, account.crypto, lang)}
           </Typography>
         </Box>
         <Divider />

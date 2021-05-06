@@ -3,11 +3,11 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import ForgotPassword from './ForgotPassword'
-import UnlockPassword from './UnlockPassword'
+import SecurityPassword from './SecurityPassword'
 import Reset from './Reset'
 import useStateHistory from '../../misc/useStateHistory'
 
-enum UnlockPasswordContentStage {
+enum SecurityPasswordDialogContentStage {
   UnlockPasswordStage = 'unlock',
   ForgotPasswordStage = 'forgot',
   ResetStage = 'reset',
@@ -19,35 +19,32 @@ interface Content {
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-interface UnlockPasswordContentProps {
+interface SecurityPasswordDialogContentProps {
   onConfirm(password: string): void
   loading: boolean
 }
 
-const UnlockPasswordContent: React.FC<UnlockPasswordContentProps> = ({ onConfirm, loading }) => {
+const SecurityPasswordDialogContent: React.FC<SecurityPasswordDialogContentProps> = ({
+  onConfirm,
+  loading,
+}) => {
   const { t } = useTranslation('common')
-  const { wallets, reset } = useWalletsContext()
-  const [isReset, setReset] = React.useState(false)
-  const [stage, setStage] = useStateHistory<UnlockPasswordContentStage>(
-    UnlockPasswordContentStage.UnlockPasswordStage
+  const { reset } = useWalletsContext()
+  const [stage, setStage] = useStateHistory<SecurityPasswordDialogContentStage>(
+    SecurityPasswordDialogContentStage.UnlockPasswordStage
   )
 
   const forgotPassword = React.useCallback(() => {
-    setStage(UnlockPasswordContentStage.ForgotPasswordStage)
+    setStage(SecurityPasswordDialogContentStage.ForgotPasswordStage)
   }, [setStage])
 
   const resetAll = React.useCallback(() => {
-    setStage(UnlockPasswordContentStage.ResetStage)
+    setStage(SecurityPasswordDialogContentStage.ResetStage)
   }, [setStage])
 
   const cancel = React.useCallback(() => {
-    setStage(UnlockPasswordContentStage.UnlockPasswordStage)
+    setStage(SecurityPasswordDialogContentStage.UnlockPasswordStage)
   }, [setStage])
-
-  const resetApp = React.useCallback(async () => {
-    await reset()
-    setReset(true)
-  }, [reset, wallets])
 
   const { unlockWallets } = useWalletsContext()
   const [error, setError] = React.useState('')
@@ -66,21 +63,21 @@ const UnlockPasswordContent: React.FC<UnlockPasswordContentProps> = ({ onConfirm
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
-      case UnlockPasswordContentStage.ResetStage:
+      case SecurityPasswordDialogContentStage.ResetStage:
         return {
-          content: <Reset onCancel={cancel} onResetApp={resetApp} />,
+          content: <Reset onCancel={cancel} onResetApp={reset} />,
           title: t('reset'),
         }
-      case UnlockPasswordContentStage.ForgotPasswordStage:
+      case SecurityPasswordDialogContentStage.ForgotPasswordStage:
         return {
           content: <ForgotPassword onReset={resetAll} />,
           title: t('forgot password'),
         }
-      case UnlockPasswordContentStage.UnlockPasswordStage:
+      case SecurityPasswordDialogContentStage.UnlockPasswordStage:
       default:
         return {
           content: (
-            <UnlockPassword
+            <SecurityPassword
               onForgot={forgotPassword}
               onUnlock={onButtonClick}
               password={password}
@@ -88,7 +85,7 @@ const UnlockPasswordContent: React.FC<UnlockPasswordContentProps> = ({ onConfirm
               loading={loading}
             />
           ),
-          title: t('unlock password title'),
+          title: t('security password title'),
         }
     }
   }, [stage, t])
@@ -101,4 +98,4 @@ const UnlockPasswordContent: React.FC<UnlockPasswordContentProps> = ({ onConfirm
   )
 }
 
-export default UnlockPasswordContent
+export default SecurityPasswordDialogContent

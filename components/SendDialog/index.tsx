@@ -13,7 +13,7 @@ import useStateHistory from '../../misc/useStateHistory'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import { formatTransactionMsg, formatRawTransactionData } from '../../misc/formatTransactionMsg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import SecurityPassword from './SecurityPassword'
+import SecurityPassword from '../SecurityPasswordDialogContent'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import Success from './Success'
@@ -148,7 +148,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
         }
       case SendStage.SecurityPasswordStage:
         return {
-          title: t('security password title'),
+          title: '',
           dialogWidth: 'sm',
           content: <SecurityPassword onConfirm={sendTransactionMessage} loading={loading} />,
         }

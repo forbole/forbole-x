@@ -2,7 +2,6 @@ import { Box, Button, Card, Grid, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
-import { gql, useSubscription } from '@apollo/client'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import EditIcon from '../../assets/images/icons/icon_edit_tool.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
@@ -53,7 +52,6 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
   const [timestamps, setTimestamps] = React.useState<Date[]>(
     dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
   )
-  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
   // Chart Data
   const { data: accountsWithBalance, loading } = useAccountsBalancesWithinPeriod(
     [account],
@@ -164,6 +162,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
         open={claimRewardsDialogOpen}
         onClose={() => setClaimRewardsDialogOpen(false)}
         account={account}
+        tokensPrices={availableTokens.tokens_prices}
         validators={validators.filter((v) => !!v.delegated)}
       />
       <SendDialog
