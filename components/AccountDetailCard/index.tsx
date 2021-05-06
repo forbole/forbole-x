@@ -13,15 +13,19 @@ import useIconProps from '../../misc/useIconProps'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import StatBox from './StatBox'
 import DelegationDialog from '../DelegateDialog'
+import ClaimRewardsDialog from '../ClaimRewardsDialog'
 import {
   formatCurrency,
   formatTokenAmount,
   getTokenAmountBalance,
   getTotalBalance,
   getTotalTokenAmount,
+  transformGqlAcountBalance,
 } from '../../misc/utils'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
 import SendDialog from '../SendDialog'
+import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 interface AccountDetailCardProps {
   account: Account
@@ -43,6 +47,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
   const theme = useTheme()
   const { updateAccount } = useWalletsContext()
   const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
+  const [claimRewardsDialogOpen, setClaimRewardsDialogOpen] = React.useState(false)
   const [sendDialogOpen, setSendDialogOpen] = React.useState(false)
   const [timestamps, setTimestamps] = React.useState<Date[]>(
     dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
@@ -91,6 +96,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                 classes={{ root: classes.fixedWidthButton }}
                 variant="contained"
                 color="secondary"
+                onClick={() => setClaimRewardsDialogOpen(true)}
               >
                 {t('claim rewards')}
               </Button>
@@ -151,6 +157,13 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
         account={account}
         availableTokens={availableTokens}
         validators={validators.filter(({ status }) => status === 'active')}
+      />
+      <ClaimRewardsDialog
+        open={claimRewardsDialogOpen}
+        onClose={() => setClaimRewardsDialogOpen(false)}
+        account={account}
+        tokensPrices={availableTokens.tokens_prices}
+        validators={validators.filter((v) => !!v.delegated)}
       />
       <SendDialog
         open={sendDialogOpen}

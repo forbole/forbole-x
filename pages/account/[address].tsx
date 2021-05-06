@@ -31,7 +31,6 @@ const Account: React.FC = () => {
   const { accounts } = useWalletsContext()
   const account = accounts.find((a) => a.address === router.query.address)
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
-
   const { data: validatorsData } = useSubscription(
     gql`
       ${getValidators(crypto.name)}
