@@ -109,9 +109,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
     (a: number, d: string) => {
       setAmount(a)
       setDenom(d)
-      if (defaultValidator) {
-        setDelegations([{ amount: a, validator: defaultValidator }])
-      }
+      setDelegations([{ amount: a, validator: (defaultValidator || {}) as Validator }])
       setStage(DelegationStage.SelectValidatorsStage)
     },
     [setAmount, setStage, defaultValidator]
@@ -215,7 +213,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
       setDelegations([])
       setMemo('')
       setLoading(false)
-      setStage(DelegationStage.SelectAmountStage)
+      setStage(DelegationStage.SelectAmountStage, true)
     }
   }, [open])
 
