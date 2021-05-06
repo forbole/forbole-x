@@ -46,6 +46,8 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
     { label: 'redelegations', rows: redelegations },
     { label: 'unbonding', rows: unbondings },
   ]
+  // console.log('validators', validators)
+  // console.log('validators_row', tabs)
 
   const rows = tabs[currentTab].rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage)
 

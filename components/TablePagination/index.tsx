@@ -19,6 +19,8 @@ interface TablePaginationProps {
   rowsPerPage: number
   onPageChange(page: number): void
   onRowsPerPageChange(rowsPerPage: number): void
+  className?: string
+  hideFooter?: boolean
 }
 
 const TablePagination: React.FC<TablePaginationProps> = ({
@@ -27,6 +29,8 @@ const TablePagination: React.FC<TablePaginationProps> = ({
   rowsPerPage,
   onPageChange,
   onRowsPerPageChange,
+  className,
+  hideFooter,
 }) => {
   const iconProps = useIconProps()
   const classes = useStyles()
@@ -41,7 +45,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
   )
 
   return (
-    <Box mt={3} display="flex" justifyContent="flex-end" alignItems="center">
+    <Box mt={3} display="flex" justifyContent="flex-end" alignItems="center" className={className}>
       <Button
         onClick={() => onPageChange(0)}
         disabled={page <= 0}
@@ -93,7 +97,11 @@ const TablePagination: React.FC<TablePaginationProps> = ({
       >
         {rowsPerPage}
       </Button>
-      <Typography>
+      <Typography
+        style={{
+          display: hideFooter ? 'none' : 'inherit',
+        }}
+      >
         {t('table footer', {
           range: `${page * rowsPerPage + 1} - ${Math.min((page + 1) * rowsPerPage, rowsCount)}`,
           total: rowsCount,
