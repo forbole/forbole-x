@@ -3,6 +3,7 @@ import last from 'lodash/last'
 import cloneDeep from 'lodash/cloneDeep'
 import drop from 'lodash/drop'
 import keyBy from 'lodash/keyBy'
+import format from 'date-fns/format'
 
 export const formatPercentage = (percent: number, lang: string): string =>
   new Intl.NumberFormat(lang, {
@@ -42,7 +43,9 @@ export const getTokenAmountFromDenoms = (
   const result = {}
   coins.forEach((coin) => {
     denoms.some((d) => {
-      const unit = get(d, 'token_unit.token.token_units', []).find((t) => t.denom === coin.denom)
+      const unit = get(d, 'token_unit.token.token_units', []).find(
+        (t) => t && coin && t.denom === coin.denom
+      )
       if (unit) {
         const base = get(d, 'token_unit.token.token_units', []).find((t) => t.denom === d.unit_name)
         if (result[base.denom]) {
@@ -269,6 +272,91 @@ export const transformRedelegations = (data: any, balanceData: any): Redelegatio
     height: Number(u.height),
     completionDate: new Date(u.completion_timestamp),
   }))
+}
+
+export const transformTransactions = (
+  data: any,
+  validatorsMap: { [address: string]: Validator },
+  tokensPrices: TokenPrice[]
+): Activity[] => {
+  return get(data, 'messages_by_address', [])
+    .map((t) => {
+      if (t.type.includes('MsgSend')) {
+        return {
+          ref: `#${get(t, 'transaction_hash', '')}`,
+          tab: 'transfer',
+          tag: 'send',
+          date: `${format(
+            new Date(get(t, 'transaction.block.timestamp')),
+            'dd MMM yyyy HH:mm'
+          )} UTC`,
+          detail: {
+            address: get(t, 'value.to_address', ''),
+          },
+          amount: getTokenAmountFromDenoms(get(t, 'value.amount', []), tokensPrices),
+          success: get(t, 'transaction.success', false),
+        }
+      }
+      if (t.type.includes('MsgDelegate')) {
+        return {
+          ref: `#${get(t, 'transaction_hash', '')}`,
+          tab: 'staking',
+          tag: 'delegate',
+          date: `${format(
+            new Date(get(t, 'transaction.block.timestamp')),
+            'dd MMM yyyy HH:mm'
+          )} UTC`,
+          detail: {
+            name: get(validatorsMap, `${get(t, 'value.validator_address', '')}.name`, ''),
+            image: get(validatorsMap, `${get(t, 'value.validator_address', '')}.image`, ''),
+          },
+          amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
+          success: get(t, 'transaction.success', false),
+        }
+      }
+      if (t.type.includes('MsgBeginRedelegate')) {
+        return {
+          ref: `#${get(t, 'transaction_hash', '')}`,
+          tab: 'staking',
+          tag: 'redelegate',
+          date: `${format(
+            new Date(get(t, 'transaction.block.timestamp')),
+            'dd MMM yyyy HH:mm'
+          )} UTC`,
+          detail: {
+            src: {
+              name: get(validatorsMap, `${get(t, 'value.validator_src_address', '')}.name`, ''),
+              image: get(validatorsMap, `${get(t, 'value.validator_src_address', '')}.image`, ''),
+            },
+            dst: {
+              name: get(validatorsMap, `${get(t, 'value.validator_dst_address', '')}.name`, ''),
+              image: get(validatorsMap, `${get(t, 'value.validator_dst_address', '')}.image`, ''),
+            },
+          },
+          amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
+          success: get(t, 'transaction.success', false),
+        }
+      }
+      if (t.type.includes('MsgUndelegate')) {
+        return {
+          ref: `#${get(t, 'transaction_hash', '')}`,
+          tab: 'staking',
+          tag: 'undelegate',
+          date: `${format(
+            new Date(get(t, 'transaction.block.timestamp')),
+            'dd MMM yyyy HH:mm'
+          )} UTC`,
+          detail: {
+            name: get(validatorsMap, `${get(t, 'value.validator_address', '')}.name`, ''),
+            image: get(validatorsMap, `${get(t, 'value.validator_address', '')}.image`, ''),
+          },
+          amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
+          success: get(t, 'transaction.success', false),
+        }
+      }
+      return null
+    })
+    .filter((a) => !!a)
 }
 
 export const getEquivalentCoinToSend = (

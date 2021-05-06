@@ -16,7 +16,7 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 import { formatRawTransactionData, formatTransactionMsg } from '../../misc/formatTransactionMsg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
-import SecurityPassword from './SecurityPassword'
+import SecurityPassword from '../SecurityPasswordDialogContent'
 import Success from './Success'
 
 enum RedelegationStage {
@@ -172,7 +172,7 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
         }
       case RedelegationStage.SecurityPasswordStage:
         return {
-          title: t('security password title'),
+          title: '',
           dialogWidth: 'sm',
           content: <SecurityPassword onConfirm={sendTransactionMessage} loading={loading} />,
         }
