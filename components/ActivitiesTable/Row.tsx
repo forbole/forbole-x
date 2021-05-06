@@ -112,9 +112,10 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
           <Typography className={classes.validatorTypography}>{account.name}</Typography>
           <Typography>
             {t(`${activity.tag}Activity`)}
-            <span className={classes.amount}>
+            {/* TODO: get rewards amount */}
+            {/* <span className={classes.amount}>
               {formatTokenAmount(activity.amount, crypto.name, lang)}
-            </span>
+            </span> */}{' '}
             {t('from').toLocaleLowerCase()}
           </Typography>
           <Avatar
