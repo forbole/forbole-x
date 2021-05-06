@@ -352,6 +352,23 @@ export const transformTransactions = (
           success: get(t, 'transaction.success', false),
         }
       }
+      if (t.type.includes('MsgWithdrawDelegatorReward')) {
+        return {
+          ref: `#${get(t, 'transaction_hash', '')}`,
+          tab: 'transfer',
+          tag: 'withdrawReward',
+          date: `${format(
+            new Date(get(t, 'transaction.block.timestamp')),
+            'dd MMM yyyy HH:mm'
+          )} UTC`,
+          detail: {
+            name: get(validatorsMap, `${get(t, 'value.validator_address', '')}.name`, ''),
+            image: get(validatorsMap, `${get(t, 'value.validator_address', '')}.image`, ''),
+          },
+          amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
+          success: get(t, 'transaction.success', false),
+        }
+      }
       return null
     })
     .filter((a) => !!a)
