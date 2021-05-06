@@ -249,10 +249,12 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
       )
       return (
         <Box display="flex" alignItems="center">
-          {activity.detail.address === account.address ? (
-            <Typography className={classes.proposalTypography}>{account.address}</Typography>
-          ) : (
+          {activity.detail.fromAddress === account.address ? (
             <Self />
+          ) : (
+            <Typography className={classes.proposalTypography}>
+              {activity.detail.fromAddress}
+            </Typography>
           )}
           <Typography>
             {t(`${activity.tag}Activity`)}
@@ -261,11 +263,11 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             </span>
             {t('to')}
           </Typography>
-          {activity.detail.address === account.address ? (
+          {activity.detail.toAddress === account.address ? (
             <Self marginLeft />
           ) : (
             <Typography className={classes.proposalTypography}>
-              {activity.detail.address}
+              {activity.detail.toAddress}
             </Typography>
           )}
         </Box>
