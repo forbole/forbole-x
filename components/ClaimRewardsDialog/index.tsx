@@ -34,6 +34,7 @@ interface ClaimRewardsDialogProps {
   open: boolean
   onClose(): void
   validators: Validator[]
+  preselectedValidatorAddresses?: string[]
 }
 
 interface Content {
@@ -48,6 +49,7 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
   open,
   onClose,
   validators,
+  preselectedValidatorAddresses,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
@@ -157,7 +159,12 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
         return {
           title: t('withdraw reward'),
           content: (
-            <SelectValidators account={account} onConfirm={confirmAmount} validators={validators} />
+            <SelectValidators
+              account={account}
+              onConfirm={confirmAmount}
+              validators={validators}
+              preselectedValidatorAddresses={preselectedValidatorAddresses}
+            />
           ),
         }
     }

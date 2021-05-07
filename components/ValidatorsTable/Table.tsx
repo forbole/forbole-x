@@ -25,7 +25,7 @@ import StarIcon from '../../assets/images/icons/icon_star.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { useTableDefaultHook } from './hooks'
-import DelegationDialog from '../DelegateDialog'
+import DelegationDialog from '../DelegationDialog'
 import InfoPopover from './InfoPopover'
 
 interface ValidatorsTableProps {

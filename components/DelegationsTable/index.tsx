@@ -10,6 +10,8 @@ import Delegations from './Delegations'
 import Unbonding from './Unbonding'
 import RedelegationDialog from '../RedelegateDialog'
 import Redelegations from './Redelegations'
+import DelegationDialog from '../DelegationDialog'
+import ClaimRewardsDialog from '../ClaimRewardsDialog'
 
 interface DelegationsTableProps {
   account: Account
@@ -18,7 +20,7 @@ interface DelegationsTableProps {
   redelegations: Redelegation[]
   delegatedTokens: { [address: string]: Array<{ amount: string; denom: string }> }
   crypto: Cryptocurrency
-  tokensPrices: TokenPrice[]
+  availableTokens: any
 }
 
 const DelegationsTable: React.FC<DelegationsTableProps> = ({
@@ -28,7 +30,7 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
   redelegations,
   delegatedTokens,
   crypto,
-  tokensPrices,
+  availableTokens,
 }) => {
   const classes = useStyles()
   const { t } = useTranslation('common')
@@ -40,6 +42,8 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
   const [anchor, setAnchor] = React.useState<Element>()
   const [undelegating, setUndelegating] = React.useState(false)
   const [redelegating, setRedelegating] = React.useState(false)
+  const [delegating, setDelegating] = React.useState(false)
+  const [claimingRewards, setClaimingRewards] = React.useState(false)
 
   const tabs = [
     { label: 'delegations', rows: validators.filter((v) => !!v.delegated) },
@@ -108,7 +112,15 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
           setAnchor(undefined)
         }}
       >
-        <MenuItem button>{t('delegate')}</MenuItem>
+        <MenuItem
+          button
+          onClick={() => {
+            setDelegating(true)
+            setAnchor(undefined)
+          }}
+        >
+          {t('delegate')}
+        </MenuItem>
         <MenuItem
           button
           onClick={() => {
@@ -127,15 +139,23 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
         >
           {t('undelegate')}
         </MenuItem>
-        <MenuItem button>{t('claim rewards')}</MenuItem>
+        <MenuItem
+          button
+          onClick={() => {
+            setClaimingRewards(true)
+            setAnchor(undefined)
+          }}
+        >
+          {t('claim rewards')}
+        </MenuItem>
       </Menu>
-      {account && managingValidator ? (
+      {account && managingValidator && availableTokens ? (
         <>
           <UndelegationDialog
             account={account}
             validator={managingValidator}
             delegatedTokens={delegatedTokens[get(managingValidator, 'address', '')]}
-            tokensPrices={tokensPrices}
+            tokensPrices={availableTokens.tokens_prices}
             open={undelegating}
             onClose={() => {
               setManagingValidator(undefined)
@@ -147,12 +167,31 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
             fromValidator={managingValidator}
             validators={validators}
             delegatedTokens={delegatedTokens[get(managingValidator, 'address', '')]}
-            tokensPrices={tokensPrices}
+            tokensPrices={availableTokens.tokens_prices}
             open={redelegating}
             onClose={() => {
               setManagingValidator(undefined)
               setRedelegating(false)
             }}
+          />
+          <DelegationDialog
+            open={delegating}
+            onClose={() => {
+              setManagingValidator(undefined)
+              setDelegating(false)
+            }}
+            account={account}
+            validators={validators}
+            defaultValidator={managingValidator}
+            availableTokens={availableTokens}
+          />
+          <ClaimRewardsDialog
+            open={claimingRewards}
+            onClose={() => setClaimingRewards(false)}
+            account={account}
+            tokensPrices={availableTokens.tokens_prices}
+            validators={validators.filter((v) => !!v.delegated)}
+            preselectedValidatorAddresses={[managingValidator.address]}
           />
         </>
       ) : null}
