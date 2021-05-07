@@ -12,7 +12,7 @@ import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import StatBox from './StatBox'
-import DelegationDialog from '../DelegateDialog'
+import DelegationDialog from '../DelegationDialog'
 import ClaimRewardsDialog from '../ClaimRewardsDialog'
 import {
   formatCurrency,
@@ -20,12 +20,10 @@ import {
   getTokenAmountBalance,
   getTotalBalance,
   getTotalTokenAmount,
-  transformGqlAcountBalance,
 } from '../../misc/utils'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
 import SendDialog from '../SendDialog'
-import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
-import cryptocurrencies from '../../misc/cryptocurrencies'
+import AccountMenuButton from '../AccountMenuButton'
 
 interface AccountDetailCardProps {
   account: Account
@@ -115,9 +113,14 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                   <StarIcon {...iconProps} />
                 )}
               </Button>
-              <Button classes={{ root: classes.iconButton }} variant="outlined">
-                <EditIcon {...iconProps} />
-              </Button>
+              <AccountMenuButton
+                accountAddress={account.address}
+                buttonComponent={
+                  <Button classes={{ root: classes.iconButton }} variant="outlined">
+                    <EditIcon {...iconProps} />
+                  </Button>
+                }
+              />
             </Box>
           </Box>
           <BalanceChart

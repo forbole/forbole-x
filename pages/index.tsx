@@ -14,12 +14,12 @@ const Home: React.FC = () => {
   return (
     <Layout passwordRequired activeItem="/">
       <Grid container spacing={3}>
-        <Grid item md={6}>
+        <Grid item md={12}>
           <WalletBalanceChart />
         </Grid>
-        <Grid item md={6}>
+        {/* <Grid item md={6}>
           <AssetDistributionChart />
-        </Grid>
+        </Grid> */}
       </Grid>
       <Box mt={2}>
         <Typography gutterBottom variant="h4">

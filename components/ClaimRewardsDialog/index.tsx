@@ -28,7 +28,7 @@ export interface ValidatorTag extends Partial<Validator> {
   isSelected: boolean
 }
 
-interface DelegationDialogProps {
+interface ClaimRewardsDialogProps {
   account: Account
   tokensPrices: TokenPrice[]
   open: boolean
@@ -42,7 +42,7 @@ interface Content {
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
+const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
   account,
   tokensPrices,
   open,
