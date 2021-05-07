@@ -7,6 +7,8 @@ interface CustomPalette extends Palette {
   translucent: string
   indicator: string
   pieChart: { [key: string]: PaletteColor }
+  validator: string
+  divider: string
 }
 
 export interface CustomTheme extends Theme {
@@ -143,6 +145,8 @@ const lightTheme = ({
     },
     translucent: 'rgba(255, 255, 255, 0.5)',
     indicator: '#5C7BFF',
+    validator: '#007FFF',
+    divider: '#E4E4E4',
     pieChart: {
       color1: {
         main: '#007FFF',
@@ -231,6 +235,8 @@ const darkTheme = ({
     },
     translucent: 'rgba(0, 0, 0, 0.5)',
     indicator: '#E6E6E6',
+    validator: '#379AFE',
+    divider: '#34383E',
     pieChart: {
       color1: {
         main: '#007FFF',

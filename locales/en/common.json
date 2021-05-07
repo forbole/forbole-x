@@ -205,5 +205,8 @@
   "redelegate to": "Redelegate to",
   "redelegated amount": "Redelegated amount",
   "commission": "Commission",
-  "rewards was successfully withdrew": "Rewards was successfully withdrew"
+  "rewards was successfully withdrew": "Rewards was successfully withdrew",
+  "proposal": "Proposal",
+  "proposer": "proposer",
+  "rejected": "Rejected"
 }
