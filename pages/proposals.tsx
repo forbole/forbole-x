@@ -1,19 +1,13 @@
 import React from 'react'
-import { gql, useSubscription } from '@apollo/client'
 import { Box, Button, Menu, MenuItem, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import groupBy from 'lodash/groupBy'
-import get from 'lodash/get'
 import Layout from '../components/Layout'
 import ProposalsTable from '../components/ProposalsTable'
 import { useWalletsContext } from '../contexts/WalletsContext'
-import cryptocurrencies from '../misc/cryptocurrencies'
-import { getValidators } from '../graphql/queries/validators'
-import { transformValidators } from '../misc/utils'
 import AccountAvatar from '../components/AccountAvatar'
 import DropDownIcon from '../assets/images/icons/icon_arrow_down_input_box.svg'
 import useIconProps from '../misc/useIconProps'
-import { getLatestAccountBalance } from '../graphql/queries/accountBalances'
 
 const Proposals: React.FC = () => {
   const { t } = useTranslation('common')
@@ -29,32 +23,10 @@ const Proposals: React.FC = () => {
   )
   const [accountMenuAnchor, setAccountMenuAnchor] = React.useState<Element>()
   const [activeAccountIndex, setActiveAccountIndex] = React.useState(0)
-  const { data } = useSubscription(
-    gql`
-      ${getValidators('DSM')}
-    `
-  )
-  const validators = transformValidators(data)
-
   const activeAccount = accounts[activeAccountIndex]
 
-  const crypto = activeAccount
-    ? cryptocurrencies[activeAccount.crypto]
-    : Object.values(cryptocurrencies)[0]
-
-  const { data: balanceData } = useSubscription(
-    gql`
-      ${getLatestAccountBalance(crypto.name)}
-    `,
-    { variables: { address: activeAccount ? activeAccount.address : '' } }
-  )
-  const availableTokens = get(balanceData, 'account[0].available[0]', {
-    coins: [],
-    tokens_prices: [],
-  })
-
   return (
-    <Layout passwordRequired activeItem="/delegate">
+    <Layout passwordRequired activeItem="/proposals">
       <Box display="flex" alignItems="center" mb={2}>
         <Typography variant="h1">{t('proposal')}</Typography>
         {activeAccount ? (

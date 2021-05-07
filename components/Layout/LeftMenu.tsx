@@ -106,6 +106,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
         </ListItem>
         {items.map((item) => {
           const selected = item.href === activeItem
+          console.log('selected', item.href, activeItem)
           return (
             <Link key={item.title} href={item.href} passHref>
               <ListItem selected={selected} className={classes.menuItem} button component="a">
