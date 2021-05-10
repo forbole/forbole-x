@@ -43,11 +43,12 @@ const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposals }) => {
               router.push(`/proposal/${x.no}`)
             }}
           >
-            <Box p={4} pl={2} display="flex">
+            <Box p={4} display="flex" justifyContent="flex-end">
               <Box>
                 <Typography variant="h6">{`#${x.no}`}</Typography>
               </Box>
-              <Box pl={3}>
+
+              <Box pl={3} flex={1}>
                 <Box display="flex" mb={2}>
                   <Typography variant="h6">{t('proposer')}</Typography>
                   <Avatar
@@ -68,7 +69,8 @@ const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposals }) => {
                   <span className={classes.duration}>{x.duration}</span>
                 </Typography>
               </Box>
-              <Box>
+
+              <Box display="flex-end">
                 {x.isActive ? (
                   <Active status={x.tag} onClick={onClick} />
                 ) : (
