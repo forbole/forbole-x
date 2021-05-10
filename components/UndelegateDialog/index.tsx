@@ -12,7 +12,11 @@ import ConfirmUndelegation from './ConfirmUndelegation'
 import useStateHistory from '../../misc/useStateHistory'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import { formatRawTransactionData, formatTransactionMsg } from '../../misc/formatTransactionMsg'
+import {
+  formatRawTransactionData,
+  formatTransactionMsg,
+  formatTypeUrlTransactionMsg,
+} from '../../misc/formatTransactionMsg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import SecurityPassword from '../SecurityPasswordDialogContent'
@@ -111,6 +115,9 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
           data: {
             securityPassword,
             ...transactionData,
+            transactions: transactionData.transactions.map((msg) =>
+              formatTypeUrlTransactionMsg(msg)
+            ),
           },
         })
         setLoading(false)

@@ -11,7 +11,11 @@ import SelectRecipients from './SelectRecipients'
 import ConfirmSend from './ConfirmSend'
 import useStateHistory from '../../misc/useStateHistory'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
-import { formatTransactionMsg, formatRawTransactionData } from '../../misc/formatTransactionMsg'
+import {
+  formatTransactionMsg,
+  formatRawTransactionData,
+  formatTypeUrlTransactionMsg,
+} from '../../misc/formatTransactionMsg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import SecurityPassword from '../SecurityPasswordDialogContent'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
@@ -116,6 +120,9 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
           data: {
             securityPassword,
             ...transactionData,
+            transactions: transactionData.transactions.map((msg) =>
+              formatTypeUrlTransactionMsg(msg)
+            ),
           },
         })
         setLoading(false)

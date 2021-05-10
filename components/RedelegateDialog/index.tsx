@@ -13,7 +13,11 @@ import ConfirmRedelegation from './ConfirmRedelegation'
 import useStateHistory from '../../misc/useStateHistory'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import { formatRawTransactionData, formatTransactionMsg } from '../../misc/formatTransactionMsg'
+import {
+  formatRawTransactionData,
+  formatTransactionMsg,
+  formatTypeUrlTransactionMsg,
+} from '../../misc/formatTransactionMsg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import SecurityPassword from '../SecurityPasswordDialogContent'
@@ -125,6 +129,9 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
           data: {
             securityPassword,
             ...transactionData,
+            transactions: transactionData.transactions.map((msg) =>
+              formatTypeUrlTransactionMsg(msg)
+            ),
           },
         })
         console.log(result)

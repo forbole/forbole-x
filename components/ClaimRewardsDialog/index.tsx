@@ -13,7 +13,7 @@ import Success from '../Success'
 import SecurityPassword from '../SecurityPasswordDialogContent'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import { formatTransactionMsg } from '../../misc/formatTransactionMsg'
+import { formatTransactionMsg, formatTypeUrlTransactionMsg } from '../../misc/formatTransactionMsg'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import { getTokenAmountFromDenoms } from '../../misc/utils'
 
@@ -97,6 +97,9 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
           data: {
             securityPassword,
             ...transactionData,
+            transactions: transactionData.transactions.map((msg) =>
+              formatTypeUrlTransactionMsg(msg)
+            ),
           },
         })
         console.log(result)
