@@ -106,7 +106,25 @@ export const useGetStyles = (status?: string) => {
           },
         },
         title: {
-          // margin: theme.spacing(4),
+          color: theme.palette.text.secondary,
+        },
+        amount: {
+          color: theme.palette.text.primary,
+        },
+        label: {
+          '&:before': {
+            content: '""',
+            width: theme.spacing(0.5),
+            marginLeft: theme.spacing(-2.5),
+            height: theme.spacing(5),
+            top: '0',
+            background: theme.palette.statusColor[status]
+              ? theme.palette.statusColor[status]
+              : 'grey',
+            display: 'block',
+            position: 'absolute',
+            borderRadius: theme.spacing(2),
+          },
         },
       }),
     {

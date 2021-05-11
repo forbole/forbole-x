@@ -212,5 +212,6 @@
   "text proposal": "Text Proposal",
   "description": "Description",
   "depositor": "Depositor",
-  "time": "Time"
+  "time": "Time",
+  "voted": "Voted"
 }

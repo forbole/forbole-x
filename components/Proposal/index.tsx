@@ -4,8 +4,8 @@ import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
 import { useGetStyles } from './styles'
 import Active from './Active'
-import InActive from './InActive'
 import DepositTable from './DepositTable'
+import InActiveCard from './InActiveCard'
 
 export interface DepositDetail {
   depositor: {
@@ -99,6 +99,7 @@ const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposal }) => {
           ) : null}
         </Box>
       </Card>
+      <InActiveCard />
       {proposal.tag === 'deposit' ? (
         <DepositTable depositDetails={proposal.depositDetails} />
       ) : null}
