@@ -5,7 +5,7 @@ const cryptocurrencies = {
     ecosystem: 'cosmos',
     image: '/static/images/cryptocurrencies/dsm.png',
     coinType: 852,
-    graphqlHttpUrl: 'https://gql.morpheus.desmos.network/v1/graphql',
+    graphqlHttpUrl: 'https://gql.forbolex.desmos.network/v1/graphql',
     graphqlWsUrl: 'wss://gql.morpheus.desmos.network/v1/graphql',
     defaultGasFee: {
       amount: [

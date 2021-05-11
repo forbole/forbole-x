@@ -3,7 +3,7 @@ import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import Layout from '../components/Layout'
 import WalletBalanceChart from '../components/WalletBalanceChart'
-import AssetDistributionChart from '../components/AssetDistributionChart'
+// import AssetDistributionChart from '../components/AssetDistributionChart'
 import AccountStatCard from '../components/AccountStatCard'
 import { useWalletsContext } from '../contexts/WalletsContext'
 
