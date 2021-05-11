@@ -14,6 +14,9 @@ export const useGetStyles = (status?: string) => {
   const useStyles = makeStyles(
     (theme: CustomTheme) =>
       createStyles({
+        box: {
+          cursor: 'pointer',
+        },
         validatorAvatar: {
           width: theme.spacing(3.5),
           height: theme.spacing(3.5),

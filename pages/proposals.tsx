@@ -3,7 +3,7 @@ import { Box, Button, Menu, MenuItem, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import groupBy from 'lodash/groupBy'
 import Layout from '../components/Layout'
-import ProposalsTable from '../components/ProposalsTable'
+import ProposalTable from '../components/ProposalTable'
 import { useWalletsContext } from '../contexts/WalletsContext'
 import AccountAvatar from '../components/AccountAvatar'
 import DropDownIcon from '../assets/images/icons/icon_arrow_down_input_box.svg'
@@ -78,7 +78,7 @@ const Proposals: React.FC = () => {
           </Box>
         ) : null}
       </Box>
-      <ProposalsTable
+      <ProposalTable
         proposals={[
           {
             no: '01',
@@ -112,7 +112,7 @@ const Proposals: React.FC = () => {
             votingTime: 'Voting Time: 12 Dec 2019 16:22  to 26 Dec 2019, 16:22 UTC',
             duration: '(in 14 days)',
             isActive: true,
-            tag: 'delegate',
+            tag: 'deposit',
           },
           {
             no: '03',

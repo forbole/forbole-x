@@ -25,7 +25,7 @@ interface ProposalsTableProps {
   proposals: Proposal[]
 }
 
-const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposals }) => {
+const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals }) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
 
@@ -39,6 +39,7 @@ const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposals }) => {
       {proposals.map((x) => {
         return (
           <Box
+            className={classes.box}
             onClick={() => {
               router.push(`/proposal/${x.no}`)
             }}
@@ -86,4 +87,4 @@ const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposals }) => {
   )
 }
 
-export default ProposalsTable
+export default ProposalTable

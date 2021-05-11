@@ -193,7 +193,6 @@
   "withdraw amount": "Withdraw amount",
   "select the validator below you want to claim the reward amount": "Select the validator below you want to claim the reward amount",
   "withdraw all": "Withdraw all",
-  "description": "Description (optional)",
   "withdraw": "Withdraw",
   "withdraw rewards from": "Withdraw rewards from",
   "undelegate from": "Undelegate from",
@@ -207,6 +206,11 @@
   "commission": "Commission",
   "rewards was successfully withdrew": "Rewards was successfully withdrew",
   "proposal": "Proposal",
-  "proposer": "proposer",
-  "rejected": "Rejected"
+  "proposer": "Proposer",
+  "rejected": "Rejected",
+  "type": "Type",
+  "text proposal": "Text Proposal",
+  "description": "Description",
+  "depositor": "Depositor",
+  "time": "Time"
 }
