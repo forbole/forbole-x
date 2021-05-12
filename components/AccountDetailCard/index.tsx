@@ -94,7 +94,6 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                 color="primary"
                 disabled={isAvailableTokenEmpty}
                 onClick={() => setDelegateDialogOpen(true)}
-                size={isMobile ? 'small' : 'medium'}
               >
                 {t('delegate')}
               </Button>
@@ -103,7 +102,6 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                 variant="contained"
                 color="secondary"
                 onClick={() => setClaimRewardsDialogOpen(true)}
-                size={isMobile ? 'small' : 'medium'}
               >
                 {t('claim rewards')}
               </Button>
@@ -112,7 +110,6 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                 variant="contained"
                 disabled={isAvailableTokenEmpty}
                 onClick={() => setSendDialogOpen(true)}
-                size={isMobile ? 'small' : 'medium'}
               >
                 {t('send')}
               </Button>

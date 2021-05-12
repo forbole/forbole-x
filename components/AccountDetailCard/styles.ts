@@ -18,6 +18,7 @@ const useStyles = makeStyles(
       color: 'white',
       width: theme.spacing(18),
       marginLeft: theme.spacing(2),
+      padding: theme.spacing(0.5),
     },
     iconButton: {
       minWidth: 0,
