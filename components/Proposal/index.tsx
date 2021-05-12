@@ -7,6 +7,29 @@ import Active from './Active'
 import DepositTable from './DepositTable'
 import InActiveCard from './InActiveCard'
 
+export interface VoteSummary {
+  amount: number
+  percentage: number
+  description: string
+  colors: string[]
+  data: {
+    title: string
+    percentage: number
+    value: number
+  }[]
+}
+
+export interface VoteDetail {
+  voter: {
+    name: string
+    image: string
+  }
+  votingPower: number
+  votingPowerPercentage: number
+  votingPowerOverride: number
+  answer: string
+}
+
 export interface DepositDetail {
   depositor: {
     name: string
@@ -33,13 +56,16 @@ interface Proposal {
   tag: string
   type: string
   depositDetails?: DepositDetail[]
+  voteDetails?: VoteDetail[]
 }
 
 interface ProposalsTableProps {
   proposal: Proposal
+  crypto: Cryptocurrency
+  voteSummary?: VoteSummary
 }
 
-const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposal }) => {
+const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposal, crypto, voteSummary }) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
 
@@ -61,7 +87,6 @@ const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposal }) => {
             <Box>
               <Typography variant="h6">{`#${proposal.no}`}</Typography>
             </Box>
-
             <Box pl={3} flex={1}>
               <Box display="flex" mb={2}>
                 <Typography variant="h6">{t('proposer')}</Typography>
@@ -86,7 +111,7 @@ const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposal }) => {
         <Box p={4} pb={20} style={{ position: 'relative' }}>
           <Box display="flex">
             <Box>
-              <Typography variant="h6" className={classes.no}>{`#${proposal.no}`}</Typography>
+              <Typography variant="h6" className={classes.number}>{`#${proposal.no}`}</Typography>
             </Box>
             <Box pl={3} flex={1}>
               <Typography variant="subtitle1">{`${t('type')}: ${t(proposal.type)}`}</Typography>
@@ -99,7 +124,13 @@ const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposal }) => {
           ) : null}
         </Box>
       </Card>
-      <InActiveCard />
+      {!proposal.isActive ? (
+        <InActiveCard
+          voteSummary={voteSummary}
+          voteDetails={proposal.voteDetails}
+          crypto={crypto}
+        />
+      ) : null}
       {proposal.tag === 'deposit' ? (
         <DepositTable depositDetails={proposal.depositDetails} />
       ) : null}

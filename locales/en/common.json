@@ -213,5 +213,15 @@
   "description": "Description",
   "depositor": "Depositor",
   "time": "Time",
-  "voted": "Voted"
+  "voted": "Voted",
+  "yes": "Yes",
+  "no": "No",
+  "veto": "Veto",
+  "abstain": "Abstain",
+  "absence": "Absence",
+  "voter": "Voter",
+  "voting power percentage": "Voting Power%",
+  "voting power override": "Voting Power Override",
+  "answer": "Answer",
+  "all votes": "All Votes"
 }

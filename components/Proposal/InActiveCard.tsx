@@ -1,50 +1,26 @@
-import {
-  Box,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Avatar,
-  Typography,
-  Card,
-} from '@material-ui/core'
+import { Box, Card } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { useGetStyles } from './styles'
-import { DepositDetail } from './index'
-import Chart from './Chart'
+import { VoteDetail, VoteSummary } from './index'
+import VoteResult from './VoteResult'
+import VoteTable from './VoteTable'
 
 interface InActiveCardProps {
-  depositDetails: DepositDetail[]
-  // onClick: () => void
+  voteDetails: VoteDetail[]
+  crypto: Cryptocurrency
+  voteSummary: VoteSummary
 }
 
-const InActiveCard: React.FC = () => {
+const InActiveCard: React.FC<InActiveCardProps> = ({ voteDetails, crypto, voteSummary }) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
-  const onClick = () => {
-    // link to vote / deposit page
-  }
-
-  const columns = [
-    {
-      label: 'depositor',
-    },
-    {
-      label: 'amount',
-      alignRight: true,
-    },
-    {
-      label: 'time',
-      alignRight: true,
-    },
-  ]
 
   return (
     <Card className={classes.card}>
       <Box m={4}>
-        <Chart />
+        <VoteResult voteSummary={voteSummary} crypto={crypto} />
+        <VoteTable voteDetails={voteDetails} crypto={crypto} />
       </Box>
     </Card>
   )

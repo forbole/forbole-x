@@ -10,7 +10,7 @@ interface ActiveProps {
 }
 
 const Active: React.FC<ActiveProps> = ({ status, onClick, className }) => {
-  const { classes } = useGetStyles(status)
+  const { classes } = useGetStyles('', status)
   const { t } = useTranslation('common')
 
   return (

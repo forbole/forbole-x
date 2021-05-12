@@ -1,16 +1,7 @@
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { CustomTheme } from '../../misc/theme'
 
-export const useGetStyles = (status?: string) => {
-  const statusColor = () => {
-    if (status === 'rejected') {
-      return 'unbonded'
-    }
-    if (status === 'removed') {
-      return 'unknown'
-    }
-    return 'active'
-  }
+export const useGetStyles = (color?: string, status?: string) => {
   const useStyles = makeStyles(
     (theme: CustomTheme) =>
       createStyles({
@@ -46,22 +37,8 @@ export const useGetStyles = (status?: string) => {
           position: 'relative',
           display: 'flex',
         },
-        typograph: {
-          width: theme.spacing(8),
-          marginLeft: theme.spacing(4),
-          '&:before': {
-            content: '""',
-            width: theme.spacing(1.5),
-            marginLeft: theme.spacing(-2.5),
-            height: theme.spacing(1.5),
-            top: '20%',
-            background: theme.palette.statusColor[statusColor()]
-              ? theme.palette.statusColor[statusColor()]
-              : 'grey',
-            display: 'block',
-            position: 'absolute',
-            borderRadius: theme.spacing(2),
-          },
+        tabIndicator: {
+          backgroundColor: theme.palette.indicator,
         },
         activeStatus: {
           fontSize: theme.spacing(2),
@@ -69,7 +46,7 @@ export const useGetStyles = (status?: string) => {
           background: status === 'vote' ? theme.palette.primary.main : theme.palette.success.main,
           width: theme.spacing(12),
         },
-        no: {
+        number: {
           color: '#00000000',
         },
         vote: {
@@ -83,16 +60,13 @@ export const useGetStyles = (status?: string) => {
           right: '0px',
         },
         table: {
-          borderTop: `1px solid ${theme.palette.grey[100]}`,
-          // borderRadius: theme.shape.borderRadius,
+          marginTop: theme.spacing(2),
           '& .MuiTableCell-root': {
             borderBottom: 'none',
           },
         },
         table__label: {
           fontWeight: 500,
-          // textAlign: 'right',
-          // color: 'red',
         },
         tableCell: {
           borderBottom: 'none',
@@ -118,13 +92,23 @@ export const useGetStyles = (status?: string) => {
             marginLeft: theme.spacing(-2.5),
             height: theme.spacing(5),
             top: '0',
-            background: theme.palette.statusColor[status]
-              ? theme.palette.statusColor[status]
-              : 'grey',
+            background: color,
             display: 'block',
             position: 'absolute',
             borderRadius: theme.spacing(2),
           },
+        },
+        yes: {
+          color: theme.palette.success.main,
+        },
+        no: {
+          color: theme.palette.error.main,
+        },
+        veto: {
+          color: theme.palette.warning.main,
+        },
+        abstain: {
+          color: theme.palette.primary.main,
         },
       }),
     {
