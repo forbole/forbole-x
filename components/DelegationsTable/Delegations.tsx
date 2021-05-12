@@ -16,6 +16,7 @@ import MoreIcon from '../../assets/images/icons/icon_more.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { formatPercentage, formatTokenAmount } from '../../misc/utils'
+import useIsMobile from '../../misc/useIsMobile'
 
 interface DelegationsProps {
   validators: Validator[]
@@ -28,6 +29,7 @@ const Delegations: React.FC<DelegationsProps> = ({ validators, crypto, onManageC
   const { t, lang } = useTranslation('common')
   // const themeStyle = useTheme()
   const iconProps = useIconProps()
+  const isMobile = useIsMobile()
 
   const totalVotingPower = React.useMemo(
     () => validators.map((v) => v.votingPower).reduce((a, b) => a + b, 0),
@@ -39,8 +41,10 @@ const Delegations: React.FC<DelegationsProps> = ({ validators, crypto, onManageC
       <TableHead>
         <TableRow>
           <TableCell className={classes.tableCell}>{t('validator')}</TableCell>
-          <TableCell className={classes.tableCell}>{t('commissions')}</TableCell>
-          <TableCell className={classes.tableCell}>{t('vp ratios')}</TableCell>
+          {isMobile ? null : (
+            <TableCell className={classes.tableCell}>{t('commissions')}</TableCell>
+          )}
+          {isMobile ? null : <TableCell className={classes.tableCell}>{t('vp ratios')}</TableCell>}
           <TableCell className={classes.tableCell}>{t('delegated amount')}</TableCell>
           {/* <TableCell className={classes.tableCell}>{t('amt ratio')}</TableCell> */}
           <TableCell className={classes.tableCell}>{t('rewards')}</TableCell>
@@ -55,15 +59,19 @@ const Delegations: React.FC<DelegationsProps> = ({ validators, crypto, onManageC
               <TableCell className={classes.tableCell}>
                 <Box display="flex" alignItems="center">
                   <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
-                  <Typography>{v.name}</Typography>
+                  <Typography className={classes.wrapText}>{v.name}</Typography>
                 </Box>
               </TableCell>
-              <TableCell className={classes.tableCell}>
-                {formatPercentage(v.commission, lang)}
-              </TableCell>
-              <TableCell className={classes.tableCell}>
-                {formatPercentage(v.votingPower / totalVotingPower, lang)}
-              </TableCell>
+              {isMobile ? null : (
+                <TableCell className={classes.tableCell}>
+                  {formatPercentage(v.commission, lang)}
+                </TableCell>
+              )}
+              {isMobile ? null : (
+                <TableCell className={classes.tableCell}>
+                  {formatPercentage(v.votingPower / totalVotingPower, lang)}
+                </TableCell>
+              )}
               <TableCell className={classes.tableCell}>
                 {formatTokenAmount(v.delegated, crypto.name, lang)}
               </TableCell>

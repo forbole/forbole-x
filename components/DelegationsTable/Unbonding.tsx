@@ -13,6 +13,7 @@ import React from 'react'
 import { format, formatRelative } from 'date-fns'
 import useStyles from './styles'
 import { formatTokenAmount } from '../../misc/utils'
+import useIsMobile from '../../misc/useIsMobile'
 
 interface UnbondingProps {
   unbondings: Unbonding[]
@@ -22,12 +23,13 @@ interface UnbondingProps {
 const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
+  const isMobile = useIsMobile()
 
   return (
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell className={classes.tableCell}>{t('height')}</TableCell>
+          {isMobile ? null : <TableCell className={classes.tableCell}>{t('height')}</TableCell>}
           <TableCell className={classes.tableCell}>{t('validator')}</TableCell>
           <TableCell className={classes.tableCell}>{t('unbonded amount')}</TableCell>
           <TableCell className={classes.tableCell}>{t('expected delivery')}</TableCell>
@@ -37,7 +39,7 @@ const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
         {unbondings.map((u) => {
           return (
             <TableRow key={u.height} className={classes.tableRow}>
-              <TableCell className={classes.tableCell}>{u.height}</TableCell>
+              {isMobile ? null : <TableCell className={classes.tableCell}>{u.height}</TableCell>}
               <TableCell className={classes.tableCell}>
                 <Box display="flex" alignItems="center">
                   <Avatar
@@ -45,7 +47,7 @@ const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
                     alt={u.validator.name}
                     src={u.validator.image}
                   />
-                  <Typography>{u.validator.name}</Typography>
+                  <Typography className={classes.wrapText}>{u.validator.name}</Typography>
                 </Box>
               </TableCell>
               <TableCell className={classes.tableCell}>
@@ -53,8 +55,8 @@ const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
               </TableCell>
               <TableCell className={classes.tableCell}>
                 <Box display="flex" alignItems="center">
-                  {format(u.completionDate, 'dd MMM yyyy, HH:mm:ss')}
-                  <Box ml={2}>
+                  {isMobile ? null : format(u.completionDate, 'dd MMM yyyy, HH:mm:ss')}
+                  <Box ml={isMobile ? 0 : 2}>
                     <Typography color="primary">
                       {formatRelative(u.completionDate, new Date())}
                     </Typography>

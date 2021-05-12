@@ -21,6 +21,7 @@ import SecurityPassword from '../SecurityPasswordDialogContent'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import Success from './Success'
+import useIsMobile from '../../misc/useIsMobile'
 
 enum SendStage {
   SelectRecipientsStage = 'select recipients',
@@ -47,6 +48,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
   const classes = useStyles()
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
+  const isMobile = useIsMobile()
   const [recipients, setRecipients] = React.useState<
     Array<{ amount: { amount: number; denom: string }; address: string }>
   >([])
@@ -191,7 +193,13 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
   }, [open])
 
   return (
-    <Dialog fullWidth maxWidth={content.dialogWidth || 'md'} open={open} onClose={onClose}>
+    <Dialog
+      fullWidth
+      maxWidth={content.dialogWidth || 'md'}
+      open={open}
+      onClose={onClose}
+      fullScreen={isMobile}
+    >
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

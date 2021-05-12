@@ -21,6 +21,7 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import SecurityPassword from '../SecurityPasswordDialogContent'
 import Success from './Success'
+import useIsMobile from '../../misc/useIsMobile'
 
 enum UndelegationStage {
   SelectValidatorsStage = 'select validators',
@@ -56,6 +57,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
   const classes = useStyles()
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
+  const isMobile = useIsMobile()
   const [amount, setAmount] = React.useState(0)
   const [denom, setDenom] = React.useState('')
   const [memo, setMemo] = React.useState('')
@@ -188,7 +190,13 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
   }, [open])
 
   return (
-    <Dialog fullWidth maxWidth={content.dialogWidth || 'md'} open={open} onClose={onClose}>
+    <Dialog
+      fullWidth
+      maxWidth={content.dialogWidth || 'md'}
+      open={open}
+      onClose={onClose}
+      fullScreen={isMobile}
+    >
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

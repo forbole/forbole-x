@@ -120,7 +120,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   }
 
   React.useEffect(() => {
-    preselectedValidatorAddresses.forEach((a) => {
+    // eslint-disable-next-line @typescript-eslint/no-extra-semi
+    ;(preselectedValidatorAddresses || []).forEach((a) => {
       onSelect(a)
     })
   }, [])

@@ -35,12 +35,19 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({ account, hideAddress, siz
         </Typography>
         {hideAddress ? null : (
           <Link
-            component="button"
-            variant="body2"
             color="textSecondary"
+            component="button"
             onClick={() => navigator.clipboard.writeText(account.address)}
+            className={classes.addressButton}
           >
-            {account.address}
+            <Link
+              variant="body2"
+              color="textSecondary"
+              component="button"
+              className={classes.address}
+            >
+              {account.address}
+            </Link>
             <Box display="inline" ml={1}>
               <CopyIcon {...iconProps} />
             </Box>

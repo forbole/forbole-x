@@ -22,6 +22,7 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import SecurityPassword from './SecurityPassword'
 import Success from './Success'
+import useIsMobile from '../../misc/useIsMobile'
 
 enum DelegationStage {
   SelectAmountStage = 'select amount',
@@ -58,6 +59,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
   const classes = useStyles()
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
+  const isMobile = useIsMobile()
   const [amount, setAmount] = React.useState(0)
   const [denom, setDenom] = React.useState('')
   const [delegations, setDelegations] = React.useState<
@@ -225,7 +227,13 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
   }, [open])
 
   return (
-    <Dialog fullWidth maxWidth={content.dialogWidth || 'md'} open={open} onClose={onClose}>
+    <Dialog
+      fullWidth
+      maxWidth={content.dialogWidth || 'md'}
+      open={open}
+      onClose={onClose}
+      fullScreen={isMobile}
+    >
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

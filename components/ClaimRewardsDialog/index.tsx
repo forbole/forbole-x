@@ -16,6 +16,7 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 import { formatTransactionMsg, formatTypeUrlTransactionMsg } from '../../misc/formatTransactionMsg'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import { getTokenAmountFromDenoms } from '../../misc/utils'
+import useIsMobile from '../../misc/useIsMobile'
 
 enum DelegationStage {
   SecurityPasswordStage = 'security password',
@@ -54,6 +55,7 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
+  const isMobile = useIsMobile()
   const [amount, setAmount] = React.useState<TokenAmount>({})
   const [delegations, setDelegations] = React.useState<Array<ValidatorTag>>([])
   const [memo, setMemo] = React.useState('')
@@ -174,7 +176,13 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
   }, [stage, t])
 
   return (
-    <Dialog fullWidth maxWidth={content.dialogWidth || 'md'} open={open} onClose={onClose}>
+    <Dialog
+      fullWidth
+      maxWidth={content.dialogWidth || 'md'}
+      open={open}
+      onClose={onClose}
+      fullScreen={isMobile}
+    >
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />
