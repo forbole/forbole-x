@@ -54,6 +54,13 @@ const useStyles = makeStyles(
       '&:nth-of-type(even)': {
         paddingLeft: theme.spacing(4),
       },
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+        '&:nth-of-type(even)': {
+          paddingLeft: 0,
+          paddingRight: theme.spacing(4),
+        },
+      },
     },
     rewardsAmount: {
       flex: 1,
