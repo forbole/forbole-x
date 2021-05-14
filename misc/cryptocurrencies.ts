@@ -7,6 +7,7 @@ const cryptocurrencies = {
     coinType: 852,
     graphqlHttpUrl: 'https://gql.morpheus.desmos.network/v1/graphql',
     graphqlWsUrl: 'wss://gql.morpheus.desmos.network/v1/graphql',
+    blockExplorerBaseUrl: 'https://morpheus.desmos.network',
     defaultGasFee: {
       amount: [
         {

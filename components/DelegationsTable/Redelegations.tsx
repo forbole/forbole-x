@@ -5,7 +5,6 @@ import {
   TableCell,
   TableBody,
   Box,
-  Avatar,
   Typography,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
@@ -16,6 +15,7 @@ import useStyles from './styles'
 import { formatTokenAmount } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
 import useIconProps from '../../misc/useIconProps'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 interface RedelegationsProps {
   redelegations: Redelegation[]
@@ -52,47 +52,35 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
               {isMobile ? null : <TableCell className={classes.tableCell}>{u.height}</TableCell>}
               {isMobile ? (
                 <TableCell className={classes.tableCell}>
-                  <Box display="flex" alignItems="center">
-                    <Avatar
-                      className={classes.validatorAvatar}
-                      alt={u.fromValidator.name}
-                      src={u.fromValidator.image}
-                    />
-                    <Typography className={classes.wrapText}>{u.fromValidator.name}</Typography>
-                  </Box>
+                  <ValidatorAvatar
+                    crypto={crypto}
+                    validator={u.fromValidator as Validator}
+                    size="small"
+                  />
                   <Box display="flex" justifyContent="center" my={1}>
                     <ToIcon {...iconProps} />
                   </Box>
-                  <Box display="flex" alignItems="center">
-                    <Avatar
-                      className={classes.validatorAvatar}
-                      alt={u.toValidator.name}
-                      src={u.toValidator.image}
-                    />
-                    <Typography className={classes.wrapText}>{u.toValidator.name}</Typography>
-                  </Box>
+                  <ValidatorAvatar
+                    crypto={crypto}
+                    validator={u.toValidator as Validator}
+                    size="small"
+                  />
                 </TableCell>
               ) : (
                 <>
                   <TableCell className={classes.tableCell}>
-                    <Box display="flex" alignItems="center">
-                      <Avatar
-                        className={classes.validatorAvatar}
-                        alt={u.fromValidator.name}
-                        src={u.fromValidator.image}
-                      />
-                      <Typography>{u.fromValidator.name}</Typography>
-                    </Box>
+                    <ValidatorAvatar
+                      crypto={crypto}
+                      validator={u.fromValidator as Validator}
+                      size="small"
+                    />
                   </TableCell>
                   <TableCell className={classes.tableCell}>
-                    <Box display="flex" alignItems="center">
-                      <Avatar
-                        className={classes.validatorAvatar}
-                        alt={u.toValidator.name}
-                        src={u.toValidator.image}
-                      />
-                      <Typography>{u.toValidator.name}</Typography>
-                    </Box>
+                    <ValidatorAvatar
+                      crypto={crypto}
+                      validator={u.toValidator as Validator}
+                      size="small"
+                    />
                   </TableCell>
                 </>
               )}

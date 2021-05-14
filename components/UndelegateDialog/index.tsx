@@ -58,6 +58,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
   const isMobile = useIsMobile()
+  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
   const [amount, setAmount] = React.useState(0)
   const [denom, setDenom] = React.useState('')
   const [memo, setMemo] = React.useState('')
@@ -81,21 +82,21 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
               ...coinsToSend,
             }),
           ],
-          gasFee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
+          gasFee: get(crypto, 'defaultGasFee', {}),
           memo,
         }
       : null
-  }, [tokensPrices, delegatedTokens, account, password, memo, amount, denom])
+  }, [tokensPrices, delegatedTokens, account, crypto, password, memo, amount, denom])
 
   const { availableAmount, defaultGasFee } = React.useMemo(
     () => ({
       availableAmount: getTokenAmountFromDenoms(delegatedTokens, tokensPrices),
       defaultGasFee: getTokenAmountFromDenoms(
-        get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
+        get(crypto, 'defaultGasFee.amount', []),
         tokensPrices
       ),
     }),
-    [delegatedTokens, tokensPrices]
+    [delegatedTokens, tokensPrices, crypto]
   )
 
   const confirmUndelegation = React.useCallback(
@@ -141,6 +142,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
           content: (
             <ConfirmUndelegation
               account={account}
+              crypto={crypto}
               amount={amount}
               denom={denom}
               gasFee={defaultGasFee}
@@ -170,6 +172,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
           content: (
             <SelectValidators
               account={account}
+              crypto={crypto}
               validator={validator}
               availableAmount={availableAmount}
               onConfirm={confirmUndelegation}

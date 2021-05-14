@@ -1,4 +1,4 @@
-import { Box, Card, Tabs, Tab, Typography } from '@material-ui/core'
+import { Box, Card, Tabs, Tab, Typography, Link } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import SuccessIcon from '../../assets/images/icons/icon_status_success.svg'
@@ -59,9 +59,16 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, a
                 flexDirection={isMobile ? 'column' : 'row'}
                 alignItems={isMobile ? 'flex-start' : 'center'}
               >
-                <Typography color="textSecondary" variant="body2" className={classes.wrapText}>
+                <Link
+                  href={`${crypto.blockExplorerBaseUrl}/transactions/${a.ref.replace('#', '')}`}
+                  color="textSecondary"
+                  variant="body2"
+                  className={classes.wrapText}
+                  target="_blank"
+                >
                   {a.ref}
-                </Typography>
+                </Link>
+
                 <Typography>
                   {a.date}
                   {a.success ? (

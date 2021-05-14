@@ -80,7 +80,7 @@ export const getBalanceAtHeight = (crypto: string): string => `
         coins
         height
         block { timestamp }
-        tokens_prices {
+        tokens_prices: token_prices_history {
           unit_name
           price
           timestamp
@@ -99,11 +99,6 @@ export const getBalanceAtHeight = (crypto: string): string => `
       delegated: delegation_histories_aggregate(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}], where: { height: { _lte: $height } }) {
         nodes {
           amount
-          validator {
-            validator_info {
-              operator_address
-            }
-          }
           validator_address
         }
       }
@@ -112,22 +107,12 @@ export const getBalanceAtHeight = (crypto: string): string => `
           amount
           completion_timestamp
           height
-          validator {
-            validator_info {
-              operator_address
-            }
-          }
           validator_address
         }
       }
       rewards: delegation_reward_histories_aggregate(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}], where: { height: { _lte: $height } }) {
         nodes {
           amount
-          validator {
-            validator_info {
-              operator_address
-            }
-          }
           validator_address
         }
       }

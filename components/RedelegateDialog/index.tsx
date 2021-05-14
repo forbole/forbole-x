@@ -62,6 +62,7 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
   const isMobile = useIsMobile()
+  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
   const [amount, setAmount] = React.useState(0)
   const [denom, setDenom] = React.useState('')
   const [toValidator, setToValidator] = React.useState<Validator>()
@@ -88,20 +89,20 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
             }),
           ]
         : [],
-      gasFee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
+      gasFee: get(crypto, 'defaultGasFee', {}),
       memo,
     }
-  }, [toValidator, delegatedTokens, tokensPrices, account, password, memo])
+  }, [toValidator, delegatedTokens, tokensPrices, account, crypto, password, memo])
 
   const { availableAmount, defaultGasFee } = React.useMemo(
     () => ({
       availableAmount: getTokenAmountFromDenoms(delegatedTokens, tokensPrices),
       defaultGasFee: getTokenAmountFromDenoms(
-        get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
+        get(crypto, 'defaultGasFee.amount', []),
         tokensPrices
       ),
     }),
-    [delegatedTokens, tokensPrices]
+    [delegatedTokens, tokensPrices, crypto]
   )
 
   const confirmAmount = React.useCallback(
@@ -155,6 +156,7 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
           content: (
             <SelectValidators
               amount={amount}
+              crypto={crypto}
               validators={validators}
               denom={denom}
               onConfirm={confirmRedelegations}
@@ -168,6 +170,7 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
           content: (
             <ConfirmRedelegation
               account={account}
+              crypto={crypto}
               amount={amount}
               denom={denom}
               gasFee={defaultGasFee}
@@ -199,6 +202,7 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
             <SelectAmount
               fromValidator={fromValidator}
               account={account}
+              crypto={crypto}
               availableAmount={availableAmount}
               onConfirm={confirmAmount}
             />

@@ -6,8 +6,6 @@ import {
   TableCell,
   TableBody,
   Box,
-  Avatar,
-  Typography,
   useTheme,
   IconButton,
   TableSortLabel,
@@ -27,6 +25,7 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 import { useTableDefaultHook } from './hooks'
 import DelegationDialog from '../DelegationDialog'
 import InfoPopover from './InfoPopover'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 interface ValidatorsTableProps {
   validators: Validator[]
@@ -180,17 +179,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                     </Box>
                   </TableCell>
                   <TableCell className={classes.tableCell}>
-                    <Box
-                      className={classes.box}
-                      display="flex"
-                      alignItems="center"
-                      onClick={() => {
-                        router.push(`/validator/${v.address}`)
-                      }}
-                    >
-                      <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
-                      <Typography className={classes.ellipsisText}>{v.name}</Typography>
-                    </Box>
+                    <ValidatorAvatar crypto={crypto} validator={v} size="small" />
                   </TableCell>
                   {/* <TableCell className={classes.tableCell}>
                     <Box display="flex" alignItems="center">

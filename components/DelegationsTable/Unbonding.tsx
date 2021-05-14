@@ -5,7 +5,6 @@ import {
   TableCell,
   TableBody,
   Box,
-  Avatar,
   Typography,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
@@ -14,6 +13,7 @@ import { format, formatRelative } from 'date-fns'
 import useStyles from './styles'
 import { formatTokenAmount } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 interface UnbondingProps {
   unbondings: Unbonding[]
@@ -41,14 +41,11 @@ const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
             <TableRow key={u.height} className={classes.tableRow}>
               {isMobile ? null : <TableCell className={classes.tableCell}>{u.height}</TableCell>}
               <TableCell className={classes.tableCell}>
-                <Box display="flex" alignItems="center">
-                  <Avatar
-                    className={classes.validatorAvatar}
-                    alt={u.validator.name}
-                    src={u.validator.image}
-                  />
-                  <Typography className={classes.wrapText}>{u.validator.name}</Typography>
-                </Box>
+                <ValidatorAvatar
+                  crypto={crypto}
+                  validator={u.validator as Validator}
+                  size="small"
+                />
               </TableCell>
               <TableCell className={classes.tableCell}>
                 {formatTokenAmount(u.amount, crypto.name, lang)}

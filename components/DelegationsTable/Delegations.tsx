@@ -5,8 +5,6 @@ import {
   TableCell,
   TableBody,
   Box,
-  Avatar,
-  Typography,
   IconButton,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
@@ -17,6 +15,7 @@ import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { formatPercentage, formatTokenAmount } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 interface DelegationsProps {
   validators: Validator[]
@@ -57,10 +56,7 @@ const Delegations: React.FC<DelegationsProps> = ({ validators, crypto, onManageC
           return (
             <TableRow key={v.name} className={classes.tableRow}>
               <TableCell className={classes.tableCell}>
-                <Box display="flex" alignItems="center">
-                  <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
-                  <Typography className={classes.wrapText}>{v.name}</Typography>
-                </Box>
+                <ValidatorAvatar crypto={crypto} validator={v} size="small" />
               </TableCell>
               {isMobile ? null : (
                 <TableCell className={classes.tableCell}>

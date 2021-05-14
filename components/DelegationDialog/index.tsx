@@ -60,6 +60,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
   const isMobile = useIsMobile()
+  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
   const [amount, setAmount] = React.useState(0)
   const [denom, setDenom] = React.useState('')
   const [delegations, setDelegations] = React.useState<
@@ -91,10 +92,10 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
           })
         })
         .filter((a) => a),
-      gasFee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
+      gasFee: get(crypto, 'defaultGasFee', {}),
       memo,
     }),
-    [delegations, availableTokens, account, password, memo]
+    [delegations, crypto, availableTokens, account, password, memo]
   )
 
   const { availableAmount, defaultGasFee } = React.useMemo(
@@ -162,7 +163,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
           title: t('delegate'),
           content: (
             <SelectValidators
-              account={account}
+              crypto={crypto}
               delegations={delegations}
               validators={validators}
               amount={amount}
@@ -178,6 +179,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
           content: (
             <ConfirmDelegation
               account={account}
+              crypto={crypto}
               amount={amount}
               denom={denom}
               gasFee={defaultGasFee}

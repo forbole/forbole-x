@@ -21,18 +21,19 @@ import useIconProps from '../../misc/useIconProps'
 import { formatCrypto, formatCurrency } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIsMobile from '../../misc/useIsMobile'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 interface SelectValidatorsProps {
   onConfirm(delegations: Array<{ amount: number; validator: Validator }>, memo: string): void
   delegations: Array<{ amount: number; validator: Validator }>
-  account: Account
+  crypto: Cryptocurrency
   validators: Validator[]
   amount: number
   denom: string
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
-  account,
+  crypto,
   validators,
   delegations: defaultDelegations,
   amount,
@@ -103,14 +104,12 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                       )
                     }
                     renderOption={(address) => (
-                      <Box display="flex" alignItems="center">
-                        <Avatar
-                          className={classes.validatorAvatar}
-                          alt={validatorsMap[address].name}
-                          src={validatorsMap[address].image}
-                        />
-                        <Typography>{validatorsMap[address].name}</Typography>
-                      </Box>
+                      <ValidatorAvatar
+                        crypto={crypto}
+                        validator={validatorsMap[address]}
+                        size="small"
+                        withoutLink
+                      />
                     )}
                     renderInput={({ InputProps, inputProps, ...params }) => (
                       <TextField

@@ -18,14 +18,14 @@ import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import { getTokenAmountFromDenoms } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
 
-enum DelegationStage {
+enum ClaimRewardsStage {
   SecurityPasswordStage = 'security password',
   SelectValidatorsStage = 'select validators',
   ConfirmWithdrawStage = 'confirm withdraw',
   SuccessStage = 'success',
 }
 
-export interface ValidatorTag extends Partial<Validator> {
+export interface ValidatorTag extends Validator {
   isSelected: boolean
 }
 
@@ -56,18 +56,19 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
   const classes = useStyles()
   const iconProps = useIconProps()
   const isMobile = useIsMobile()
+  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
   const [amount, setAmount] = React.useState<TokenAmount>({})
   const [delegations, setDelegations] = React.useState<Array<ValidatorTag>>([])
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
 
   const { password } = useWalletsContext()
-  const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<DelegationStage>(
-    DelegationStage.SelectValidatorsStage
+  const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<ClaimRewardsStage>(
+    ClaimRewardsStage.SelectValidatorsStage
   )
 
   const defaultGasFee = getTokenAmountFromDenoms(
-    get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
+    get(crypto, 'defaultGasFee.amount', []),
     tokensPrices
   )
 
@@ -84,10 +85,10 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
           })
         })
         .filter((a) => a),
-      gasFee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
+      gasFee: get(crypto, 'defaultGasFee', {}),
       memo,
     }),
-    [delegations, account, password, memo]
+    [delegations, crypto, account, password, memo]
   )
 
   const confirmWithPassword = React.useCallback(
@@ -106,7 +107,7 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
         })
         console.log(result)
         setLoading(false)
-        setStage(DelegationStage.SuccessStage, true)
+        setStage(ClaimRewardsStage.SuccessStage, true)
       } catch (err) {
         setLoading(false)
         console.log(err)
@@ -116,7 +117,7 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
   )
 
   const confirmLast = React.useCallback(() => {
-    setStage(DelegationStage.SecurityPasswordStage)
+    setStage(ClaimRewardsStage.SecurityPasswordStage)
   }, [setStage])
 
   const confirmAmount = React.useCallback(
@@ -124,32 +125,33 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
       setDelegations(d)
       setAmount(a)
       setMemo(m)
-      setStage(DelegationStage.ConfirmWithdrawStage)
+      setStage(ClaimRewardsStage.ConfirmWithdrawStage)
     },
     [setStage]
   )
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
-      case DelegationStage.SuccessStage:
+      case ClaimRewardsStage.SuccessStage:
         return {
           title: '',
           dialogWidth: 'xs',
           content: <Success onClose={onClose} content="rewards was successfully withdrew" />,
         }
-      case DelegationStage.SecurityPasswordStage:
+      case ClaimRewardsStage.SecurityPasswordStage:
         return {
           title: '',
           dialogWidth: 'sm',
           content: <SecurityPassword onConfirm={confirmWithPassword} loading={loading} />,
         }
-      case DelegationStage.ConfirmWithdrawStage:
+      case ClaimRewardsStage.ConfirmWithdrawStage:
         return {
           title: '',
           dialogWidth: 'sm',
           content: (
             <ConfirmWithdraw
               account={account}
+              crypto={crypto}
               amount={amount}
               gasFee={defaultGasFee}
               delegations={delegations}
@@ -159,13 +161,14 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
             />
           ),
         }
-      case DelegationStage.SelectValidatorsStage:
+      case ClaimRewardsStage.SelectValidatorsStage:
       default:
         return {
           title: t('withdraw reward'),
           content: (
             <SelectValidators
               account={account}
+              crypto={crypto}
               onConfirm={confirmAmount}
               validators={validators}
               preselectedValidatorAddresses={preselectedValidatorAddresses}
@@ -174,6 +177,16 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
         }
     }
   }, [stage, t])
+
+  React.useEffect(() => {
+    if (open) {
+      setAmount({})
+      setDelegations([])
+      setMemo('')
+      setLoading(false)
+      setStage(ClaimRewardsStage.SelectValidatorsStage, true)
+    }
+  }, [open])
 
   return (
     <Dialog

@@ -1,12 +1,4 @@
-import {
-  Box,
-  Card,
-  Avatar,
-  Typography,
-  Button,
-  useTheme,
-  CircularProgress,
-} from '@material-ui/core'
+import { Box, Card, Typography, useTheme, CircularProgress } from '@material-ui/core'
 import React from 'react'
 import { LineChart, Line, YAxis } from 'recharts'
 import UpIcon from '@material-ui/icons/ArrowDropUp'
@@ -28,6 +20,7 @@ import {
 } from '../../misc/utils'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
 import { dateRanges } from '../BalanceChart'
+import AccountAvatar from '../AccountAvatar'
 
 const dailyTimestamps = dateRanges
   .find((d) => d.title === 'day')
@@ -76,12 +69,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
         }}
       >
         <Box mb={7} display="flex" alignItems="center" justifyContent="space-between">
-          <Box display="flex" alignItems="center">
-            <Avatar alt={crypto.name} src={crypto.image} />
-            <Typography className={classes.name} variant="h5">
-              {account.name}
-            </Typography>
-          </Box>
+          <AccountAvatar account={account} hideAddress />
           {/* <Button variant="outlined">{t('delegate')}</Button> */}
         </Box>
         <Box display="flex" alignItems="center" justifyContent="space-between">

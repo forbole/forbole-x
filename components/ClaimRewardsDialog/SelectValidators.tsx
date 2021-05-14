@@ -9,7 +9,6 @@ import {
   // Tab,
   Checkbox,
   FormControlLabel,
-  Avatar,
   FilledTextFieldProps,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
@@ -20,16 +19,19 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 import { formatCurrency, formatTokenAmount, getTokenAmountBalance } from '../../misc/utils'
 import useStyles from './styles'
 import { ValidatorTag } from './index'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
   onConfirm(amount: TokenAmount, delegations: ValidatorTag[], m: string): void
   account: Account
+  crypto: Cryptocurrency
   validators: Validator[]
   preselectedValidatorAddresses?: string[]
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
   account,
+  crypto,
   onConfirm,
   validators,
   preselectedValidatorAddresses,
@@ -180,8 +182,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                 }
                 label={
                   <Box display="flex" alignItems="center" style={{ flex: 1, width: '25rem' }}>
-                    <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
-                    <Typography>{v.name}</Typography>
+                    <ValidatorAvatar crypto={crypto} withoutLink validator={v} size="small" />
                     <Typography className={classes.rewardsAmount}>
                       {formatTokenAmount(v.rewards, account.crypto, lang, ', ')}
                     </Typography>

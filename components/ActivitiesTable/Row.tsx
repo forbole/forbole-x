@@ -4,6 +4,8 @@ import React from 'react'
 import { useGetStyles } from './styles'
 import { formatCrypto, formatTokenAmount } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
+import AccountAvatar from '../AccountAvatar'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 interface RowProps {
   activity: Activity
@@ -20,8 +22,9 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
     if (activity.tag === 'delegate') {
       return (
         <>
-          <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
-          <Typography className={classes.validatorTypography}>{account.name}</Typography>
+          <Box mr={1}>
+            <AccountAvatar account={account} hideAddress size="small" />
+          </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
             <span className={classes.amount}>
@@ -29,20 +32,18 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             </span>
             {t('to')}
           </Typography>
-          <Avatar
-            className={classes.validatorAvatar}
-            alt={activity.detail.name}
-            src={activity.detail.image}
-          />
-          <Typography className={classes.validatorTypography}>{activity.detail.name}</Typography>
+          <Box ml={1}>
+            <ValidatorAvatar crypto={crypto} validator={activity.detail.validator} size="small" />
+          </Box>
         </>
       )
     }
     if (activity.tag === 'redelegate') {
       return (
         <>
-          <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
-          <Typography className={classes.validatorTypography}>{account.name}</Typography>
+          <Box mr={1}>
+            <AccountAvatar account={account} hideAddress size="small" />
+          </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
             <span className={classes.amount}>
@@ -50,31 +51,30 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             </span>
             {t('from').toLocaleLowerCase()}
           </Typography>
-          <Avatar
-            className={classes.validatorAvatar}
-            alt={activity.detail.src.name}
-            src={activity.detail.src.image}
-          />
-          <Typography className={classes.validatorTypography}>
-            {activity.detail.src.name}
-          </Typography>
+          <Box mx={1}>
+            <ValidatorAvatar
+              crypto={crypto}
+              validator={activity.detail.srcValidator}
+              size="small"
+            />
+          </Box>
           <Typography>{t('to')}</Typography>
-          <Avatar
-            className={classes.validatorAvatar}
-            alt={activity.detail.dst.name}
-            src={activity.detail.dst.image}
-          />
-          <Typography className={classes.validatorTypography}>
-            {activity.detail.dst.name}
-          </Typography>
+          <Box ml={1}>
+            <ValidatorAvatar
+              crypto={crypto}
+              validator={activity.detail.dstValidator}
+              size="small"
+            />
+          </Box>
         </>
       )
     }
     if (activity.tag === 'undelegate') {
       return (
         <>
-          <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
-          <Typography className={classes.validatorTypography}>{account.name}</Typography>
+          <Box mr={1}>
+            <AccountAvatar account={account} hideAddress size="small" />
+          </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
             <span className={classes.amount}>
@@ -82,12 +82,9 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             </span>
             {t('from').toLocaleLowerCase()}
           </Typography>
-          <Avatar
-            className={classes.validatorAvatar}
-            alt={activity.detail.name}
-            src={activity.detail.image}
-          />
-          <Typography className={classes.validatorTypography}>{activity.detail.name}</Typography>
+          <Box ml={1}>
+            <ValidatorAvatar crypto={crypto} validator={activity.detail.validator} size="small" />
+          </Box>
         </>
       )
     }
@@ -110,8 +107,9 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
     if (activity.tag === 'withdrawReward') {
       return (
         <>
-          <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
-          <Typography className={classes.validatorTypography}>{account.name}</Typography>
+          <Box mr={1}>
+            <AccountAvatar account={account} hideAddress size="small" />
+          </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
             {/* TODO: get rewards amount */}
@@ -120,12 +118,9 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             </span> */}{' '}
             {t('from').toLocaleLowerCase()}
           </Typography>
-          <Avatar
-            className={classes.validatorAvatar}
-            alt={activity.detail.name}
-            src={activity.detail.image}
-          />
-          <Typography className={classes.validatorTypography}>{activity.detail.name}</Typography>
+          <Box ml={1}>
+            <ValidatorAvatar crypto={crypto} validator={activity.detail.validator} size="small" />
+          </Box>
         </>
       )
     }
@@ -238,21 +233,12 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
       )
     }
     if (activity.tag === 'send') {
-      // eslint-disable-next-line react/require-default-props
-      const Self = ({ marginLeft }: { marginLeft?: boolean }) => (
-        <>
-          <Avatar
-            className={marginLeft ? classes.validatorAvatar : classes.accountAvatar}
-            alt={account.name}
-            src={crypto.image}
-          />
-          <Typography className={classes.validatorTypography}>{account.name}</Typography>
-        </>
-      )
       return (
         <>
           {activity.detail.fromAddress === account.address ? (
-            <Self />
+            <Box mr={1}>
+              <AccountAvatar account={account} hideAddress size="small" />
+            </Box>
           ) : (
             <Typography className={classes.proposalTypography}>
               {activity.detail.fromAddress}
@@ -266,7 +252,9 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             {t('to')}
           </Typography>
           {activity.detail.toAddress === account.address ? (
-            <Self marginLeft />
+            <Box ml={1}>
+              <AccountAvatar account={account} hideAddress size="small" />
+            </Box>
           ) : (
             <Typography className={classes.proposalTypography}>
               {activity.detail.toAddress}
