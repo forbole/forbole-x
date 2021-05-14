@@ -2,6 +2,7 @@
 
 exports[`component: ChangeWalletMonikerDialog renders closed state correctly 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -120,6 +121,7 @@ exports[`component: ChangeWalletMonikerDialog renders closed state correctly 1`]
 
 exports[`component: ChangeWalletMonikerDialog renders opened state correctly 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}

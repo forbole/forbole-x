@@ -29,10 +29,12 @@ function InnerApp({ Component, pageProps }: AppProps) {
   }, [lang])
 
   React.useEffect(() => {
-    router.events.on('routeChangeComplete', () => {
-      window.scrollTo(0, 0)
-    })
-  }, [])
+    if (router) {
+      router.events.on('routeChangeComplete', () => {
+        window.scrollTo(0, 0)
+      })
+    }
+  }, [router])
 
   return (
     <ThemeProvider theme={muiTheme}>

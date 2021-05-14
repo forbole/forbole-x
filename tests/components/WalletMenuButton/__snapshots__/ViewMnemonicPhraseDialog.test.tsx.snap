@@ -2,6 +2,7 @@
 
 exports[`component: ViewMnemonicPhraseDialog calls viewMnemonicPhrase on next button click, then calls viewMnemonicPhraseBackup on next button click, then calls onClose on next button click 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -146,6 +147,7 @@ exports[`component: ViewMnemonicPhraseDialog calls viewMnemonicPhrase on next bu
 
 exports[`component: ViewMnemonicPhraseDialog calls viewMnemonicPhrase on next button click, then goes back on back button click 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -253,6 +255,7 @@ exports[`component: ViewMnemonicPhraseDialog calls viewMnemonicPhrase on next bu
 
 exports[`component: ViewMnemonicPhraseDialog handles error on next button click 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -360,6 +363,7 @@ exports[`component: ViewMnemonicPhraseDialog handles error on next button click 
 
 exports[`component: ViewMnemonicPhraseDialog renders closed state correctly 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -467,6 +471,7 @@ exports[`component: ViewMnemonicPhraseDialog renders closed state correctly 1`] 
 
 exports[`component: ViewMnemonicPhraseDialog renders opened state correctly 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}

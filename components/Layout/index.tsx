@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, useTheme } from '@material-ui/core'
 import { useRouter } from 'next/router'
+import get from 'lodash/get'
 import useStyles from './styles'
 import LeftMenu from './LeftMenu'
 import NavBar from './NavBar'
@@ -33,14 +34,15 @@ const Layout: React.FC<LayoutProps> = ({
   const { isFirstTimeUser, isUnlocked } = useWalletsContext()
 
   // Hide menu for chrome extension
-  const { query } = useRouter()
-  const isHideMenu = query['hide-menu'] || (process.browser && (window as any).hideMenu)
+  const router = useRouter()
+  const hideMenuQueryParam = get(router, 'query["hide-menu"]', '')
+  const isHideMenu = hideMenuQueryParam || (process.browser && (window as any).hideMenu)
   React.useEffect(() => {
-    if (query['hide-menu']) {
+    if (hideMenuQueryParam) {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
       ;(window as any).hideMenu = true
     }
-  }, [query['hide-menu']])
+  }, [hideMenuQueryParam])
 
   return loaded ? (
     <>

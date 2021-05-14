@@ -2,6 +2,7 @@
 
 exports[`component: UnlockPasswordDialog renders correctly 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   open={true}
@@ -89,6 +90,7 @@ exports[`component: UnlockPasswordDialog renders correctly 1`] = `
 
 exports[`component: UnlockPasswordDialog renders correctly when password is changed 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   open={true}
@@ -182,6 +184,7 @@ exports[`component: UnlockPasswordDialog renders correctly when password is chan
 
 exports[`component: UnlockPasswordDialog renders error state correctly 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   open={true}
@@ -275,6 +278,7 @@ exports[`component: UnlockPasswordDialog renders error state correctly 1`] = `
 
 exports[`component: UnlockPasswordDialog renders non empty password correctly 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   open={true}
@@ -368,6 +372,7 @@ exports[`component: UnlockPasswordDialog renders non empty password correctly 1`
 
 exports[`component: UnlockPasswordDialog renders non empty wallets correctly 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   open={false}
