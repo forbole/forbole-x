@@ -6,7 +6,6 @@ import {
   InputAdornment,
   TextField,
   Typography,
-  Avatar,
   Grid,
   useTheme,
 } from '@material-ui/core'
@@ -15,10 +14,12 @@ import React from 'react'
 import useStyles from './styles'
 import { formatCrypto, formatCurrency, formatTokenAmount } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 interface SelectValidatorsProps {
   onConfirm(amount: number, denom: string, memo: string): void
   account: Account
+  crypto: Cryptocurrency
   validator: Validator
   availableAmount: TokenAmount
 }
@@ -27,6 +28,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   validator,
   availableAmount,
   onConfirm,
+  crypto,
 }) => {
   const { amount: totalAmount, price } = Object.values(availableAmount)[0]
   const { t, lang } = useTranslation('common')
@@ -51,19 +53,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
           <Grid container spacing={4}>
             <Grid item xs={6}>
               <Typography gutterBottom>{t('undelegate from')}</Typography>
-              <Box
-                display="flex"
-                alignItems="center"
-                bgcolor={theme.palette.grey[50]}
-                borderRadius={theme.shape.borderRadius}
-                p={1}
-              >
-                <Avatar
-                  className={classes.validatorAvatar}
-                  alt={validator.name}
-                  src={validator.image}
-                />
-                <Typography>{validator.name}</Typography>
+              <Box bgcolor={theme.palette.grey[50]} borderRadius={theme.shape.borderRadius} p={1}>
+                <ValidatorAvatar crypto={crypto} validator={validator} size="small" />
               </Box>
               <Box mt={2}>
                 <Typography gutterBottom>{t('memo')}</Typography>

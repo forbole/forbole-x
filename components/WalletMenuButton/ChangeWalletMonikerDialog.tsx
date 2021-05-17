@@ -15,6 +15,7 @@ import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
+import useIsMobile from '../../misc/useIsMobile'
 
 interface ChangeWalletMonikerDialogProps {
   walletId: string
@@ -30,6 +31,7 @@ const ChangeWalletMonikerDialog: React.FC<ChangeWalletMonikerDialogProps> = ({
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
+  const isMobile = useIsMobile()
   const [name, setName] = React.useState('')
   const { updateWallet } = useWalletsContext()
 
@@ -49,7 +51,7 @@ const ChangeWalletMonikerDialog: React.FC<ChangeWalletMonikerDialogProps> = ({
   }, [open])
 
   return (
-    <Dialog fullWidth open={open} onClose={onClose}>
+    <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>

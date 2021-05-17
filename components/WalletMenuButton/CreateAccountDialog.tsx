@@ -22,6 +22,7 @@ import useIconProps from '../../misc/useIconProps'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useStateHistory from '../../misc/useStateHistory'
 import PasswordInput from '../PasswordInput'
+import useIsMobile from '../../misc/useIsMobile'
 
 enum Stage {
   CreateAccount = 'create account',
@@ -38,6 +39,7 @@ const CreateAccountDialog: React.FC<CreateAccountDialogProps> = ({ walletId, ope
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
+  const isMobile = useIsMobile()
   const [crypto, setCrypto] = React.useState('')
   const [name, setName] = React.useState('')
   const [securityPassword, setSecurityPassword] = React.useState('')
@@ -67,7 +69,7 @@ const CreateAccountDialog: React.FC<CreateAccountDialogProps> = ({ walletId, ope
   }, [open])
 
   return (
-    <Dialog fullWidth open={open} onClose={onClose}>
+    <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

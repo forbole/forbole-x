@@ -7,7 +7,10 @@ import useIconProps from '../../misc/useIconProps'
 import ChangeAccountMonikerDialog from './ChangeAccountMonikerDialog'
 import DeleteAccountDialog from './DeleteAccountDialog'
 
-const AccountMenuButton: React.FC<{ accountAddress: string }> = ({ accountAddress }) => {
+const AccountMenuButton: React.FC<{
+  accountAddress: string
+  buttonComponent?: React.ReactElement
+}> = ({ accountAddress, buttonComponent }) => {
   const { t } = useTranslation('common')
   const iconProps = useIconProps()
   const classes = useStyles()
@@ -20,9 +23,13 @@ const AccountMenuButton: React.FC<{ accountAddress: string }> = ({ accountAddres
 
   return (
     <>
-      <IconButton onClick={(e) => setAnchor(e.currentTarget)}>
-        <MoreIcon {...iconProps} />
-      </IconButton>
+      {buttonComponent ? (
+        React.cloneElement(buttonComponent, { onClick: (e) => setAnchor(e.currentTarget) })
+      ) : (
+        <IconButton onClick={(e) => setAnchor(e.currentTarget)}>
+          <MoreIcon {...iconProps} />
+        </IconButton>
+      )}
       <Menu
         anchorEl={anchor}
         getContentAnchorEl={null}

@@ -68,6 +68,11 @@ interface Cryptocurrency {
   coinType: number
   graphqlHttpUrl: string
   graphqlWsUrl: string
+  blockExplorerBaseUrl: string
+  defaultGasFee: {
+    amount: Array<{ amount: string; denom: string }>
+    gas: string
+  }
 }
 
 interface Validator {

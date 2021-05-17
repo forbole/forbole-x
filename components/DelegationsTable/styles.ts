@@ -26,6 +26,15 @@ const useStyles = makeStyles(
     tabIndicator: {
       backgroundColor: theme.palette.indicator,
     },
+    wrapText: {
+      maxWidth: theme.spacing(10),
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      [theme.breakpoints.down('sm')]: {
+        maxWidth: theme.spacing(6),
+      },
+    },
   }),
   {
     name: 'HookGlobalStyles',

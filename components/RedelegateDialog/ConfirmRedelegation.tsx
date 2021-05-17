@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   DialogActions,
@@ -15,11 +14,13 @@ import DelegateIcon from '../../assets/images/icons/icon_delegate_tx.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { formatCrypto, formatTokenAmount } from '../../misc/utils'
 import useStyles from './styles'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
 interface ConfirmRedelegationProps {
   account: Account
+  crypto: Cryptocurrency
   amount: number
   fromValidator: Validator
   toValidator: Validator
@@ -32,6 +33,7 @@ interface ConfirmRedelegationProps {
 
 const ConfirmRedelegation: React.FC<ConfirmRedelegationProps> = ({
   account,
+  crypto,
   amount,
   denom,
   gasFee,
@@ -69,28 +71,14 @@ const ConfirmRedelegation: React.FC<ConfirmRedelegationProps> = ({
         <Box my={1}>
           <Typography>{t('redelegate from')}</Typography>
           <Box display="flex" justifyContent="space-between" alignItems="center" my={1.5}>
-            <Box display="flex" alignItems="center">
-              <Avatar
-                className={classes.validatorAvatar}
-                alt={fromValidator.name}
-                src={fromValidator.image}
-              />
-              <Typography color="textSecondary">{fromValidator.name}</Typography>
-            </Box>
+            <ValidatorAvatar crypto={crypto} validator={fromValidator} size="small" />
           </Box>
         </Box>
         <Divider />
         <Box my={1}>
           <Typography>{t('redelegate to')}</Typography>
           <Box display="flex" justifyContent="space-between" alignItems="center" my={1.5}>
-            <Box display="flex" alignItems="center">
-              <Avatar
-                className={classes.validatorAvatar}
-                alt={toValidator.name}
-                src={toValidator.image}
-              />
-              <Typography color="textSecondary">{toValidator.name}</Typography>
-            </Box>
+            <ValidatorAvatar crypto={crypto} validator={toValidator} size="small" />
             <Typography color="textSecondary">{formatCrypto(amount, denom, lang)}</Typography>
           </Box>
         </Box>

@@ -20,18 +20,20 @@ import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { formatCrypto, formatCurrency } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
+import useIsMobile from '../../misc/useIsMobile'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 interface SelectValidatorsProps {
   onConfirm(delegations: Array<{ amount: number; validator: Validator }>, memo: string): void
   delegations: Array<{ amount: number; validator: Validator }>
-  account: Account
+  crypto: Cryptocurrency
   validators: Validator[]
   amount: number
   denom: string
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
-  account,
+  crypto,
   validators,
   delegations: defaultDelegations,
   amount,
@@ -42,6 +44,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const classes = useStyles()
   const iconProps = useIconProps()
   const { currency } = useGeneralContext()
+  const isMobile = useIsMobile()
   const [delegations, setDelegations] = React.useState<
     Array<{ amount: string; validator: any; percentage: string }>
   >(
@@ -101,14 +104,12 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                       )
                     }
                     renderOption={(address) => (
-                      <Box display="flex" alignItems="center">
-                        <Avatar
-                          className={classes.validatorAvatar}
-                          alt={validatorsMap[address].name}
-                          src={validatorsMap[address].image}
-                        />
-                        <Typography>{validatorsMap[address].name}</Typography>
-                      </Box>
+                      <ValidatorAvatar
+                        crypto={crypto}
+                        validator={validatorsMap[address]}
+                        size="small"
+                        withoutLink
+                      />
                     )}
                     renderInput={({ InputProps, inputProps, ...params }) => (
                       <TextField
@@ -182,7 +183,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                     type="number"
                     InputProps={{
                       disableUnderline: true,
-                      endAdornment: <InputAdornment position="end">{denom}</InputAdornment>,
+                      endAdornment: (
+                        <InputAdornment position="end">{denom.toUpperCase()}</InputAdornment>
+                      ),
                     }}
                     value={v.amount}
                     onChange={(e) =>
@@ -199,34 +202,36 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                       )
                     }
                   />
-                  <TextField
-                    className={classes.percentageTextField}
-                    variant="filled"
-                    placeholder="0"
-                    type="number"
-                    InputProps={{
-                      disableUnderline: true,
-                      endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                    }}
-                    // eslint-disable-next-line react/jsx-no-duplicate-props
-                    inputProps={{
-                      className: classes.numberInput,
-                    }}
-                    value={v.percentage}
-                    onChange={(e) =>
-                      setDelegations((d) =>
-                        d.map((a, j) =>
-                          j === i
-                            ? {
-                                ...a,
-                                percentage: e.target.value,
-                                amount: ((amount * Number(e.target.value)) / 100).toFixed(2),
-                              }
-                            : a
+                  {isMobile ? null : (
+                    <TextField
+                      className={classes.percentageTextField}
+                      variant="filled"
+                      placeholder="0"
+                      type="number"
+                      InputProps={{
+                        disableUnderline: true,
+                        endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                      }}
+                      // eslint-disable-next-line react/jsx-no-duplicate-props
+                      inputProps={{
+                        className: classes.numberInput,
+                      }}
+                      value={v.percentage}
+                      onChange={(e) =>
+                        setDelegations((d) =>
+                          d.map((a, j) =>
+                            j === i
+                              ? {
+                                  ...a,
+                                  percentage: e.target.value,
+                                  amount: ((amount * Number(e.target.value)) / 100).toFixed(2),
+                                }
+                              : a
+                          )
                         )
-                      )
-                    }
-                  />
+                      }
+                    />
+                  )}
                 </Box>
               ))}
             </Grid>

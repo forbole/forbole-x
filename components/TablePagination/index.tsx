@@ -9,6 +9,7 @@ import NextIcon from '../../assets/images/icons/arrow_right.svg'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import useIconProps from '../../misc/useIconProps'
 import useStyles from './styles'
+import useIsMobile from '../../misc/useIsMobile'
 
 const PAGE_BUTTONS_COUNT = 5
 const ROWS_PER_PAGE_OPTIONS = [10, 20, 50, 100]
@@ -35,6 +36,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
   const iconProps = useIconProps()
   const classes = useStyles()
   const { t } = useTranslation('common')
+  const isMobile = useIsMobile()
   const [rowsPerPageButtonAnchor, setRowsPerPageButtonAnchor] = React.useState<Element>()
 
   const lastPage = Math.ceil(rowsCount / rowsPerPage) - 1
@@ -89,52 +91,56 @@ const TablePagination: React.FC<TablePaginationProps> = ({
       >
         <ToLastPageIcon {...iconProps} />
       </Button>
-      <Button
-        variant="contained"
-        className={classes.selectButton}
-        endIcon={<DropDownIcon {...iconProps} />}
-        onClick={(e) => setRowsPerPageButtonAnchor(e.currentTarget)}
-      >
-        {rowsPerPage}
-      </Button>
-      <Typography
-        style={{
-          display: hideFooter ? 'none' : 'inherit',
-        }}
-      >
-        {t('table footer', {
-          range: `${page * rowsPerPage + 1} - ${Math.min((page + 1) * rowsPerPage, rowsCount)}`,
-          total: rowsCount,
-        })}
-      </Typography>
-      <Menu
-        anchorEl={rowsPerPageButtonAnchor}
-        getContentAnchorEl={null}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-        keepMounted
-        open={!!rowsPerPageButtonAnchor}
-        onClose={() => setRowsPerPageButtonAnchor(undefined)}
-      >
-        {ROWS_PER_PAGE_OPTIONS.map((o) => (
-          <MenuItem
-            button
-            key={o}
-            onClick={() => {
-              onRowsPerPageChange(o)
-              setRowsPerPageButtonAnchor(undefined)
+      {isMobile ? null : (
+        <>
+          <Button
+            variant="contained"
+            className={classes.selectButton}
+            endIcon={<DropDownIcon {...iconProps} />}
+            onClick={(e) => setRowsPerPageButtonAnchor(e.currentTarget)}
+          >
+            {rowsPerPage}
+          </Button>
+          <Typography
+            style={{
+              display: hideFooter ? 'none' : 'inherit',
             }}
           >
-            {o}
-          </MenuItem>
-        ))}
-      </Menu>
+            {t('table footer', {
+              range: `${page * rowsPerPage + 1} - ${Math.min((page + 1) * rowsPerPage, rowsCount)}`,
+              total: rowsCount,
+            })}
+          </Typography>
+          <Menu
+            anchorEl={rowsPerPageButtonAnchor}
+            getContentAnchorEl={null}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+            keepMounted
+            open={!!rowsPerPageButtonAnchor}
+            onClose={() => setRowsPerPageButtonAnchor(undefined)}
+          >
+            {ROWS_PER_PAGE_OPTIONS.map((o) => (
+              <MenuItem
+                button
+                key={o}
+                onClick={() => {
+                  onRowsPerPageChange(o)
+                  setRowsPerPageButtonAnchor(undefined)
+                }}
+              >
+                {o}
+              </MenuItem>
+            ))}
+          </Menu>
+        </>
+      )}
     </Box>
   )
 }

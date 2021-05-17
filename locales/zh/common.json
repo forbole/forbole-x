@@ -182,6 +182,8 @@
   "success": "[zh] Success",
   "successfully sent": "[zh] {{title}} was successfully sent",
   "successfully delegated": "[zh] {{denom}} was successfully delegated",
+  "successfully undelegated": "[zh] {{denom}} was successfully undelegated",
+  "successfully redelegated": "[zh] {{denom}} was successfully redelegated",
   "forgot password?": "[zh] Forgot password?",
   "forgot password": "[zh] Forgot Password",
   "forgot password description": "[zh] Reset Forbole Portal app, all data will be erased from your device, \nmake sure you have a secure copy of your backup mnemonic phrase. ",
@@ -205,5 +207,6 @@
   "redelegate to": "[zh] Redelegate to",
   "redelegated amount": "[zh] Redelegated amount",
   "commission": "[zh] Commission",
-  "rewards was successfully withdrew": "[zh] Rewards was successfully withdrew"
+  "rewards was successfully withdrew": "[zh] Rewards was successfully withdrew",
+  "copied to clipboard": "[zh] Copied to Clipboard!"
 }
