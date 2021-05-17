@@ -15,6 +15,7 @@ import useStyles from './styles'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
 import PasswordInput from '../PasswordInput'
+import useIsMobile from '../../misc/useIsMobile'
 
 interface ChangeSecurityPasswordDialogProps {
   walletId: string
@@ -30,6 +31,7 @@ const ChangeSecurityPasswordDialog: React.FC<ChangeSecurityPasswordDialogProps> 
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
+  const isMobile = useIsMobile()
   const [error, setError] = React.useState('')
   const [isSettingNewPassword, setIsSettingNewPassword] = React.useState(false)
   const [securityPassword, setSecurityPassword] = React.useState('')
@@ -68,7 +70,7 @@ const ChangeSecurityPasswordDialog: React.FC<ChangeSecurityPasswordDialogProps> 
   }, [open])
 
   return (
-    <Dialog fullWidth open={open} onClose={onClose}>
+    <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>

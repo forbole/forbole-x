@@ -12,7 +12,7 @@ import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import StatBox from './StatBox'
-import DelegationDialog from '../DelegateDialog'
+import DelegationDialog from '../DelegationDialog'
 import ClaimRewardsDialog from '../ClaimRewardsDialog'
 import {
   formatCurrency,
@@ -20,12 +20,11 @@ import {
   getTokenAmountBalance,
   getTotalBalance,
   getTotalTokenAmount,
-  transformGqlAcountBalance,
 } from '../../misc/utils'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
 import SendDialog from '../SendDialog'
-import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
-import cryptocurrencies from '../../misc/cryptocurrencies'
+import AccountMenuButton from '../AccountMenuButton'
+import useIsMobile from '../../misc/useIsMobile'
 
 interface AccountDetailCardProps {
   account: Account
@@ -45,6 +44,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
   const classes = useStyles()
   const iconProps = useIconProps()
   const theme = useTheme()
+  const isMobile = useIsMobile()
   const { updateAccount } = useWalletsContext()
   const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
   const [claimRewardsDialogOpen, setClaimRewardsDialogOpen] = React.useState(false)
@@ -79,10 +79,15 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
   return (
     <>
       <Card className={classes.container}>
-        <Box p={4}>
-          <Box mb={4} display="flex" justifyContent="space-between" alignItems="flex-start">
+        <Box p={4} position="relative">
+          <Box
+            mb={4}
+            display={isMobile ? 'block' : 'flex'}
+            justifyContent="space-between"
+            alignItems="flex-start"
+          >
             <AccountAvatar size="large" account={account} />
-            <Box display="flex">
+            <Box display="flex" mt={isMobile ? 2 : 0} ml={isMobile ? -2 : 0}>
               <Button
                 classes={{ root: classes.fixedWidthButton }}
                 variant="contained"
@@ -108,20 +113,40 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
               >
                 {t('send')}
               </Button>
-              <Button classes={{ root: classes.iconButton }} variant="outlined" onClick={toggleFav}>
-                {account.fav ? (
-                  <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
-                ) : (
-                  <StarIcon {...iconProps} />
-                )}
-              </Button>
-              <Button classes={{ root: classes.iconButton }} variant="outlined">
-                <EditIcon {...iconProps} />
-              </Button>
+              <Box
+                display="flex"
+                position={isMobile ? 'absolute' : 'static'}
+                top={theme.spacing(2)}
+                right={theme.spacing(2)}
+              >
+                <Button
+                  classes={{ root: classes.iconButton }}
+                  variant={isMobile ? 'text' : 'outlined'}
+                  onClick={toggleFav}
+                >
+                  {account.fav ? (
+                    <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
+                  ) : (
+                    <StarIcon {...iconProps} />
+                  )}
+                </Button>
+                <AccountMenuButton
+                  accountAddress={account.address}
+                  buttonComponent={
+                    <Button
+                      classes={{ root: classes.iconButton }}
+                      variant={isMobile ? 'text' : 'outlined'}
+                    >
+                      <EditIcon {...iconProps} />
+                    </Button>
+                  }
+                />
+              </Box>
             </Box>
           </Box>
           <BalanceChart
             data={chartData}
+            hideChart={isMobile}
             onDateRangeChange={(dateRange) => {
               setTimestamps(dateRange.timestamps.map((ts) => new Date(ts)))
             }}
@@ -129,7 +154,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
             subtitle={formatCurrency(usdBalance, currency, lang)}
             loading={loading}
           />
-          <Box mt={10}>
+          <Box mt={isMobile ? 6 : 10}>
             <Grid container spacing={4}>
               {['available', 'delegated', 'unbonding', 'rewards', 'commissions'].map((key) => (
                 <StatBox

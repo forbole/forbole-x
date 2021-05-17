@@ -16,16 +16,19 @@ import get from 'lodash/get'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { formatCrypto, formatCurrency, formatTokenAmount } from '../../misc/utils'
 import useStyles from './styles'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 interface SelectAmountProps {
   onConfirm(amount: number, denom: string): void
   account: Account
+  crypto: Cryptocurrency
   fromValidator: Validator
   availableAmount: TokenAmount
 }
 
 const SelectAmount: React.FC<SelectAmountProps> = ({
   account,
+  crypto,
   fromValidator,
   onConfirm,
   availableAmount,
@@ -54,19 +57,8 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
           <Grid container spacing={4}>
             <Grid item xs={6}>
               <Typography gutterBottom>{t('redelegate from')}</Typography>
-              <Box
-                display="flex"
-                alignItems="center"
-                bgcolor={theme.palette.grey[50]}
-                borderRadius={theme.shape.borderRadius}
-                p={1}
-              >
-                <Avatar
-                  className={classes.validatorAvatar}
-                  alt={fromValidator.name}
-                  src={fromValidator.image}
-                />
-                <Typography>{fromValidator.name}</Typography>
+              <Box bgcolor={theme.palette.grey[50]} borderRadius={theme.shape.borderRadius} p={1}>
+                <ValidatorAvatar crypto={crypto} validator={fromValidator} size="small" />
               </Box>
             </Grid>
             <Grid item xs={6}>

@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   DialogActions,
@@ -15,13 +14,15 @@ import DelegateIcon from '../../assets/images/icons/icon_delegate_tx.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { formatCrypto, formatTokenAmount } from '../../misc/utils'
 import useStyles from './styles'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
 interface ConfirmDelegationProps {
   account: Account
+  crypto: Cryptocurrency
   amount: number
-  delegations: Array<{ amount: number; validator: { name: string; image: string } }>
+  delegations: Array<{ amount: number; validator: Validator }>
   denom: string
   gasFee: TokenAmount
   memo: string
@@ -31,6 +32,7 @@ interface ConfirmDelegationProps {
 
 const ConfirmDelegation: React.FC<ConfirmDelegationProps> = ({
   account,
+  crypto,
   amount,
   denom,
   gasFee,
@@ -69,14 +71,7 @@ const ConfirmDelegation: React.FC<ConfirmDelegationProps> = ({
           {delegations.map((d, i) => (
             <React.Fragment key={d.validator.name}>
               <Box display="flex" justifyContent="space-between" alignItems="center" my={1.5}>
-                <Box display="flex" alignItems="center">
-                  <Avatar
-                    className={classes.validatorAvatar}
-                    alt={d.validator.name}
-                    src={d.validator.image}
-                  />
-                  <Typography color="textSecondary">{d.validator.name}</Typography>
-                </Box>
+                <ValidatorAvatar crypto={crypto} validator={d.validator} size="small" />
                 <Typography color="textSecondary">{formatCrypto(d.amount, denom, lang)}</Typography>
               </Box>
               {i === delegations.length - 1 ? null : <Divider />}

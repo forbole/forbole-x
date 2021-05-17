@@ -9,6 +9,7 @@ import UnlockPassword from './UnlockPassword'
 import Reset from './Reset'
 import useIconProps from '../../misc/useIconProps'
 import useStateHistory from '../../misc/useStateHistory'
+import useIsMobile from '../../misc/useIsMobile'
 
 enum UnlockPasswordStage {
   UnlockPasswordStage = 'unlock',
@@ -27,6 +28,7 @@ const UnlockPasswordDialog: React.FC = () => {
   const classes = useStyles()
   const iconProps = useIconProps()
   const { wallets, reset } = useWalletsContext()
+  const isMobile = useIsMobile()
   const [isReset, setReset] = React.useState(false)
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<UnlockPasswordStage>(
     UnlockPasswordStage.UnlockPasswordStage
@@ -71,7 +73,7 @@ const UnlockPasswordDialog: React.FC = () => {
   }, [stage, t])
 
   return (
-    <Dialog fullWidth open={!(wallets.length !== 0 || isReset)}>
+    <Dialog fullWidth open={!(wallets.length !== 0 || isReset)} fullScreen={isMobile}>
       {isPrevStageAvailable && stage !== 'unlock' ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

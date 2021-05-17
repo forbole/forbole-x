@@ -14,7 +14,7 @@ Array [
       className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-5"
     >
       <div
-        className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6"
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
       >
         <button
           className="MuiButtonBase-root HookGlobalStyles-selectionBox-4"
@@ -34,6 +34,13 @@ Array [
           tabIndex={0}
           type="button"
         >
+          <div
+            className="MuiBox-root MuiBox-root-8"
+          >
+            <svg
+              data-file-name="SvgLogin_light"
+            />
+          </div>
           <p
             className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
           >
@@ -42,7 +49,7 @@ Array [
         </button>
       </div>
       <div
-        className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6"
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
       >
         <button
           className="MuiButtonBase-root HookGlobalStyles-selectionBox-4"
@@ -62,6 +69,13 @@ Array [
           tabIndex={0}
           type="button"
         >
+          <div
+            className="MuiBox-root MuiBox-root-9"
+          >
+            <svg
+              data-file-name="SvgCreate_wallet_light"
+            />
+          </div>
           <p
             className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
           >

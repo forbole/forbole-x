@@ -22,6 +22,7 @@ const fetchBalance = async (address: string, crypto: string, timestamp: Date) =>
       variables: { address, height: get(block, 'data.block[0].height', 0) },
     }),
   }).then((r) => r.json())
+
   return transformGqlAcountBalance(balance.data, timestamp.getTime())
 }
 

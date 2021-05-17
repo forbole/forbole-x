@@ -10,16 +10,6 @@ const useStyles = makeStyles(
       width: theme.spacing(7),
       height: theme.spacing(7),
     },
-    address: {
-      whiteSpace: 'nowrap',
-      textOverflow: 'ellipsis',
-      maxWidth: '50vw',
-      overflow: 'hidden',
-      display: 'inline-block',
-    },
-    addressButton: {
-      display: 'contents',
-    },
     wrapText: {
       maxWidth: theme.spacing(18),
       textOverflow: 'ellipsis',

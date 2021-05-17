@@ -18,12 +18,14 @@ import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { formatCrypto, formatCurrency } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 interface SelectValidatorsProps {
   onConfirm(toValidator: Validator, memo: string): void
   validators: Validator[]
   amount: number
   denom: string
+  crypto: Cryptocurrency
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
@@ -31,6 +33,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   amount,
   denom,
   onConfirm,
+  crypto,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
@@ -67,14 +70,12 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                   }
                   onChange={(e, address) => setToValidator(validatorsMap[address])}
                   renderOption={(address) => (
-                    <Box display="flex" alignItems="center">
-                      <Avatar
-                        className={classes.validatorAvatar}
-                        alt={validatorsMap[address].name}
-                        src={validatorsMap[address].image}
-                      />
-                      <Typography>{validatorsMap[address].name}</Typography>
-                    </Box>
+                    <ValidatorAvatar
+                      crypto={crypto}
+                      validator={validatorsMap[address]}
+                      size="small"
+                      withoutLink
+                    />
                   )}
                   renderInput={({ InputProps, ...params }) => (
                     <TextField

@@ -22,15 +22,15 @@ const NavBar: React.FC<{ HeaderLeftComponent?: React.ReactNode; menuWidth: numbe
           {HeaderLeftComponent}
         </Box>
       ) : null}
-      <CurrencyMenuButton />
+      {/* <CurrencyMenuButton />
       <LangMenuButton />
       <IconButton className={classes.navBarButton}>
         <NotiIcon {...iconProps} />
-      </IconButton>
+      </IconButton> */}
       <ThemeModeButton />
-      <IconButton className={classes.navBarButton}>
+      {/* <IconButton className={classes.navBarButton}>
         <SettingsIcon {...iconProps} />
-      </IconButton>
+      </IconButton> */}
     </Box>
   )
 }

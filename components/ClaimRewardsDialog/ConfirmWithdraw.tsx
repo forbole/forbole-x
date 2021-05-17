@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   DialogActions,
@@ -16,11 +15,13 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 import useStyles from './styles'
 import { ValidatorTag } from './index'
 import { formatTokenAmount } from '../../misc/utils'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
 interface ConfirmWithdrawProps {
   account: Account
+  crypto: Cryptocurrency
   amount: TokenAmount
   gasFee: TokenAmount
   delegations: Array<ValidatorTag>
@@ -31,6 +32,7 @@ interface ConfirmWithdrawProps {
 
 const ConfirmWithdraw: React.FC<ConfirmWithdrawProps> = ({
   amount,
+  crypto,
   gasFee,
   account,
   delegations,
@@ -71,10 +73,7 @@ const ConfirmWithdraw: React.FC<ConfirmWithdrawProps> = ({
           {delegations.map((d, i) => (
             <React.Fragment key={d.name}>
               <Box display="flex" justifyContent="space-between" alignItems="center" my={1.5}>
-                <Box display="flex" alignItems="center">
-                  <Avatar className={classes.validatorAvatar} alt={d.name} src={d.image} />
-                  <Typography color="textSecondary">{d.name}</Typography>
-                </Box>
+                <ValidatorAvatar crypto={crypto} validator={d} size="small" />
                 <Typography color="textSecondary">
                   {formatTokenAmount(d.rewards, account.crypto, lang, ', ')}
                 </Typography>

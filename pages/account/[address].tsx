@@ -107,7 +107,7 @@ const Account: React.FC = () => {
         redelegations={redelegations}
         delegatedTokens={delegatedTokens}
         crypto={crypto}
-        tokensPrices={availableTokens.tokens_prices}
+        availableTokens={availableTokens}
       />
       <ActivitiesTable account={account} activities={activities} crypto={crypto} />
     </Layout>

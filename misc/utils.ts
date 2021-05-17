@@ -291,7 +291,8 @@ export const transformTransactions = (
             'dd MMM yyyy HH:mm'
           )} UTC`,
           detail: {
-            address: get(t, 'value.to_address', ''),
+            fromAddress: get(t, 'value.from_address', ''),
+            toAddress: get(t, 'value.to_address', ''),
           },
           amount: getTokenAmountFromDenoms(get(t, 'value.amount', []), tokensPrices),
           success: get(t, 'transaction.success', false),
@@ -307,8 +308,7 @@ export const transformTransactions = (
             'dd MMM yyyy HH:mm'
           )} UTC`,
           detail: {
-            name: get(validatorsMap, `${get(t, 'value.validator_address', '')}.name`, ''),
-            image: get(validatorsMap, `${get(t, 'value.validator_address', '')}.image`, ''),
+            validator: get(validatorsMap, `${get(t, 'value.validator_address', '')}`, {}),
           },
           amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
           success: get(t, 'transaction.success', false),
@@ -324,14 +324,8 @@ export const transformTransactions = (
             'dd MMM yyyy HH:mm'
           )} UTC`,
           detail: {
-            src: {
-              name: get(validatorsMap, `${get(t, 'value.validator_src_address', '')}.name`, ''),
-              image: get(validatorsMap, `${get(t, 'value.validator_src_address', '')}.image`, ''),
-            },
-            dst: {
-              name: get(validatorsMap, `${get(t, 'value.validator_dst_address', '')}.name`, ''),
-              image: get(validatorsMap, `${get(t, 'value.validator_dst_address', '')}.image`, ''),
-            },
+            srcValidator: get(validatorsMap, `${get(t, 'value.validator_src_address', '')}`, {}),
+            dstValidator: get(validatorsMap, `${get(t, 'value.validator_dst_address', '')}`, {}),
           },
           amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
           success: get(t, 'transaction.success', false),
@@ -347,8 +341,7 @@ export const transformTransactions = (
             'dd MMM yyyy HH:mm'
           )} UTC`,
           detail: {
-            name: get(validatorsMap, `${get(t, 'value.validator_address', '')}.name`, ''),
-            image: get(validatorsMap, `${get(t, 'value.validator_address', '')}.image`, ''),
+            validator: get(validatorsMap, `${get(t, 'value.validator_address', '')}`, {}),
           },
           amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
           success: get(t, 'transaction.success', false),
@@ -364,8 +357,7 @@ export const transformTransactions = (
             'dd MMM yyyy HH:mm'
           )} UTC`,
           detail: {
-            name: get(validatorsMap, `${get(t, 'value.validator_address', '')}.name`, ''),
-            image: get(validatorsMap, `${get(t, 'value.validator_address', '')}.image`, ''),
+            validator: get(validatorsMap, `${get(t, 'value.validator_address', '')}`, {}),
           },
           amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
           success: get(t, 'transaction.success', false),

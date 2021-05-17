@@ -6,11 +6,18 @@ export const useGetStyles = (tag?: string) => {
     createStyles({
       rowHeader: {
         background: theme.palette.grey[400],
-        padding: theme.spacing(0, 2),
+        padding: theme.spacing(2),
         color: theme.palette.grey[500],
         display: 'flex',
-        alignItems: 'center',
         justifyContent: 'space-between',
+      },
+      wrapText: {
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        flex: 1,
+        [theme.breakpoints.down('sm')]: {
+          width: '100%',
+        },
       },
       row: {
         padding: theme.spacing(3.25, 2),
@@ -33,6 +40,9 @@ export const useGetStyles = (tag?: string) => {
       },
       rowContainer: {
         display: 'flex',
+        [theme.breakpoints.down('sm')]: {
+          display: 'block',
+        },
       },
       tagContainer: {
         width: theme.spacing(24),

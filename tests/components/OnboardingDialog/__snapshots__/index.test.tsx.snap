@@ -2,6 +2,7 @@
 
 exports[`component: OnboardingDialog renders closed state correctly 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -105,6 +106,7 @@ exports[`component: OnboardingDialog renders closed state correctly 1`] = `
 
 exports[`component: OnboardingDialog renders confirming password state when submit valid password 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -208,6 +210,7 @@ exports[`component: OnboardingDialog renders confirming password state when subm
 
 exports[`component: OnboardingDialog renders correctly when submit valid confirm password 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -311,6 +314,7 @@ exports[`component: OnboardingDialog renders correctly when submit valid confirm
 
 exports[`component: OnboardingDialog renders error state when submit invalid confirm password 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -414,6 +418,7 @@ exports[`component: OnboardingDialog renders error state when submit invalid con
 
 exports[`component: OnboardingDialog renders error state when submit invalid password 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -517,6 +522,7 @@ exports[`component: OnboardingDialog renders error state when submit invalid pas
 
 exports[`component: OnboardingDialog renders open state correctly 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
