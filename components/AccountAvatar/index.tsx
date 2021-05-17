@@ -40,7 +40,7 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({ account, hideAddress, siz
       <Box display="flex" alignItems="center">
         <Avatar className={avatarClass} alt={crypto.name} src={crypto.image} />
         <Box ml={1}>
-          <Typography className={classes.wrapText} color="textPrimary" variant={titleVariant}>
+          <Typography color="textPrimary" variant={titleVariant}>
             {account.name}
           </Typography>
           {hideAddress ? null : (
