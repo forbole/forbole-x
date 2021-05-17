@@ -230,5 +230,8 @@
   "proposal title": "Proposal title",
   "select network": "Select network",
   "select type": "Select type",
-  "select account": "Select account"
+  "select account": "Select account",
+  "proposal/create proposal": "Proposal / Create Proposal",
+  "confirm proposal": "Confirm Proposal",
+  "proposal/create proposal/confirm proposal": "Proposal / Create Proposal / Confirm Proposal"
 }

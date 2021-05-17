@@ -24,6 +24,9 @@ export const useGetStyles = (status?: string) => {
           // }`,
           // borderRadius: theme.shape.borderRadius,
         },
+        confirmTitle: {
+          fontSize: theme.spacing(4),
+        },
       }),
     {
       name: 'HookGlobalStyles',

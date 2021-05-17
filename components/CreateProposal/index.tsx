@@ -2,7 +2,7 @@ import React from 'react'
 import {
   Box,
   Card,
-  Button,
+  Dialog,
   DialogActions,
   DialogContent,
   IconButton,
@@ -11,6 +11,8 @@ import {
   Typography,
   Avatar,
   Grid,
+  Breadcrumbs,
+  Link as MLink,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
@@ -19,11 +21,25 @@ import useStateHistory from '../../misc/useStateHistory'
 import useIconProps from '../../misc/useIconProps'
 import { useGetStyles } from './styles'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import CreateProposalForm from './Create'
+import CreateProposalForm from './CreateProposalContent'
+import ConfirmProposalContent from './ConfirmProposalContent'
+import Account from '../../pages/account/[address]'
+import Layout from '../Layout'
+import SecurityPassword from '../SecurityPasswordDialogContent'
+import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 
 enum CreateProposalStage {
   Create = 'select amount',
   Confirm = 'select validators',
+}
+
+export interface Proposal {
+  proposalAccount: Account
+  network: { name: string; id: string }
+  type: { name: string; id: string }
+  title: string
+  description: string
+  memo?: string
 }
 
 interface CreateProposlProps {
@@ -35,9 +51,8 @@ interface CreateProposlProps {
   // onClose(): void
 }
 
-
 interface Content {
-  // title: string
+  title: string
   content: React.ReactNode
   // dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
@@ -49,11 +64,10 @@ const CreateProposal: React.FC<CreateProposlProps> = ({ accounts }) => {
   const { password } = useWalletsContext()
   const [amount, setAmount] = React.useState(0)
   const [denom, setDenom] = React.useState('')
-  const [delegations, setDelegations] = React.useState<
-    Array<{ amount: number; validator: Validator }>
-  >([])
-  const [memo, setMemo] = React.useState('')
+  const [open, setOpen] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
+
+  const [proposal, setProposal] = React.useState<Proposal>()
 
   const [stage, setStage] = useStateHistory<CreateProposalStage>(CreateProposalStage.Create)
 
@@ -96,24 +110,24 @@ const CreateProposal: React.FC<CreateProposlProps> = ({ accounts }) => {
   //   [availableTokens]
   // )
 
-  const confirmAmount = React.useCallback(
-    (a: number, d: string) => {
-      setAmount(a)
-      setDenom(d)
-      setDelegations([{ amount: a, validator: (defaultValidator || {}) as Validator }])
-      setStage(DelegationStage.SelectValidatorsStage)
-    },
-    [setAmount, setStage, defaultValidator]
-  )
-
-  const confirmDelegations = React.useCallback(
-    (d: Array<{ amount: number; validator: Validator }>, m: string) => {
-      setDelegations(d)
-      setMemo(m)
-      setStage(DelegationStage.ConfirmDelegationStage)
+  const createDraft = React.useCallback(
+    (
+      proposalAccount: Account,
+      network: { name: string; id: string },
+      type: { name: string; id: string },
+      title: string,
+      description: string,
+      memo?: string
+    ) => {
+      setProposal({ proposalAccount, network, type, title, description, memo })
+      setStage(CreateProposalStage.Confirm)
     },
     [setStage]
   )
+
+  const enterPassword = () => {
+    setOpen(true)
+  }
 
   // const sendTransactionMessage = React.useCallback(
   //   async (securityPassword: string) => {
@@ -136,55 +150,68 @@ const CreateProposal: React.FC<CreateProposlProps> = ({ accounts }) => {
   //   },
   //   [transactionData]
   // )
+  const transactionData = {}
+
+  const confirmWithPassword = React.useCallback(
+    async (securityPassword: string) => {
+      try {
+        setLoading(true)
+        const result = await sendMsgToChromeExt({
+          event: 'signAndBroadcastTransactions',
+          data: {
+            securityPassword,
+            ...transactionData,
+          },
+        })
+        // console.log(result)
+        setLoading(false)
+        // setStage(DelegationStage.SuccessStage, true)
+      } catch (err) {
+        setLoading(false)
+        console.log(err)
+      }
+    },
+    [transactionData]
+  )
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
       case CreateProposalStage.Confirm:
         return {
+          title: 'proposal/create proposal/confirm proposal',
           content: (
-            <SelectValidators
-              account={account}
-              delegations={delegations}
-              validators={validators}
-              amount={amount}
-              denom={denom}
-              onConfirm={confirmDelegations}
+            <ConfirmProposalContent
+              accounts={accounts}
+              proposal={proposal}
+              onConfirm={enterPassword}
             />
           ),
         }
       case CreateProposalStage.Create:
       default:
         return {
-          content: <CreateProposalForm accounts={accounts} />,
+          title: 'proposal/create proposal',
+          content: <CreateProposalForm accounts={accounts} onNext={createDraft} />,
         }
     }
   }, [stage, t])
 
-  React.useEffect(() => {
-    if (open) {
-      setAmount(0)
-      setDenom('')
-      setDelegations([])
-      setMemo('')
-      setLoading(false)
-      setStage(DelegationStage.SelectAmountStage, true)
-    }
-  }, [open])
-
   return (
-    <Dialog fullWidth maxWidth={content.dialogWidth || 'md'} open={open} onClose={onClose}>
-      {isPrevStageAvailable ? (
-        <IconButton className={classes.backButton} onClick={toPrevStage}>
-          <BackIcon {...iconProps} />
-        </IconButton>
-      ) : null}
-      <IconButton className={classes.closeButton} onClick={onClose}>
-        <CloseIcon {...iconProps} />
-      </IconButton>
-      {content.title ? <DialogTitle>{content.title}</DialogTitle> : null}
+    <Layout
+      passwordRequired
+      activeItem="/proposals"
+      HeaderLeftComponent={
+        <Breadcrumbs>
+          <MLink color="textPrimary">{t(content.title)}</MLink>
+        </Breadcrumbs>
+      }
+    >
       {content.content}
-    </Dialog>
+      <Dialog fullWidth maxWidth="sm" open={open}>
+        <SecurityPassword onConfirm={confirmWithPassword} loading={loading} />
+      </Dialog>
+    </Layout>
   )
 }
 
-export default DelegationDialog
+export default CreateProposal

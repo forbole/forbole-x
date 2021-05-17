@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, Button, Menu, MenuItem, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import groupBy from 'lodash/groupBy'
+import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
 import ProposalTable from '../components/ProposalTable'
 import { useWalletsContext } from '../contexts/WalletsContext'
@@ -9,7 +10,6 @@ import AccountAvatar from '../components/AccountAvatar'
 import DropDownIcon from '../assets/images/icons/icon_arrow_down_input_box.svg'
 import useIconProps from '../misc/useIconProps'
 import CreateProposalDialog from '../components/CreateProposalDialog'
-import { useRouter } from 'next/router'
 
 const Proposals: React.FC = () => {
   const { t } = useTranslation('common')

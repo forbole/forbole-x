@@ -33,7 +33,6 @@ const Account: React.FC = () => {
       }
     >
       <Proposal
-        // Vote
         proposal={{
           no: '01',
           proposer: {

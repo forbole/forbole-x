@@ -1,6 +1,15 @@
 import React from 'react'
-import { Box, Button, Menu, MenuItem, Typography } from '@material-ui/core'
+import {
+  Box,
+  Button,
+  Menu,
+  MenuItem,
+  Typography,
+  Breadcrumbs,
+  Link as MLink,
+} from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
+import Link from 'next/link'
 import groupBy from 'lodash/groupBy'
 import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
@@ -29,12 +38,17 @@ const Proposals: React.FC = () => {
   const router = useRouter()
 
   return (
-    <Layout passwordRequired activeItem="/proposals">
-      <Box display="flex" alignItems="center" mb={2}>
-        <Typography variant="h1">{t('create proposal')}</Typography>
-      </Box>
-      <CreateProposal accounts={accounts} />
-    </Layout>
+    // <Layout
+    //   passwordRequired
+    //   activeItem="/proposals"
+    //   HeaderLeftComponent={
+    //     <Breadcrumbs>
+    //       <MLink color="textPrimary">{t('proposal/create proposal')}</MLink>
+    //     </Breadcrumbs>
+    //   }
+    // >
+    <CreateProposal accounts={accounts} />
+    // </Layout>
   )
 }
 
