@@ -8,6 +8,8 @@ import { useWalletsContext } from '../contexts/WalletsContext'
 import AccountAvatar from '../components/AccountAvatar'
 import DropDownIcon from '../assets/images/icons/icon_arrow_down_input_box.svg'
 import useIconProps from '../misc/useIconProps'
+import CreateProposalDialog from '../components/CreateProposalDialog'
+import { useRouter } from 'next/router'
 
 const Proposals: React.FC = () => {
   const { t } = useTranslation('common')
@@ -24,6 +26,7 @@ const Proposals: React.FC = () => {
   const [accountMenuAnchor, setAccountMenuAnchor] = React.useState<Element>()
   const [activeAccountIndex, setActiveAccountIndex] = React.useState(0)
   const activeAccount = accounts[activeAccountIndex]
+  const router = useRouter()
 
   return (
     <Layout passwordRequired activeItem="/proposals">
@@ -77,6 +80,11 @@ const Proposals: React.FC = () => {
             </Menu>
           </Box>
         ) : null}
+        <Box justifyContent="flex-end" display="flex" flex="1">
+          <Button onClick={() => router.push('/createProposal')}>
+            <CreateProposalDialog />
+          </Button>
+        </Box>
       </Box>
       <ProposalTable
         proposals={[

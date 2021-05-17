@@ -223,5 +223,12 @@
   "voting power percentage": "Voting Power%",
   "voting power override": "Voting Power Override",
   "answer": "Answer",
-  "all votes": "All Votes"
+  "all votes": "All Votes",
+  "create proposal": "Create Proposal",
+  "title": "Title",
+  "proposal description": "Proposal description",
+  "proposal title": "Proposal title",
+  "select network": "Select network",
+  "select type": "Select type",
+  "select account": "Select account"
 }

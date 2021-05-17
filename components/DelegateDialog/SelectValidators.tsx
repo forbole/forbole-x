@@ -56,6 +56,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [memo, setMemo] = React.useState('')
 
   const validatorsMap = keyBy(validators, 'address')
+  console.log('delegations', delegations)
 
   return (
     <>
