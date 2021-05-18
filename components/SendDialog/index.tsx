@@ -11,12 +11,17 @@ import SelectRecipients from './SelectRecipients'
 import ConfirmSend from './ConfirmSend'
 import useStateHistory from '../../misc/useStateHistory'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
-import { formatTransactionMsg, formatRawTransactionData } from '../../misc/formatTransactionMsg'
+import {
+  formatTransactionMsg,
+  formatRawTransactionData,
+  formatTypeUrlTransactionMsg,
+} from '../../misc/formatTransactionMsg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import SecurityPassword from './SecurityPassword'
+import SecurityPassword from '../SecurityPasswordDialogContent'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import Success from './Success'
+import useIsMobile from '../../misc/useIsMobile'
 
 enum SendStage {
   SelectRecipientsStage = 'select recipients',
@@ -43,6 +48,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
   const classes = useStyles()
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
+  const isMobile = useIsMobile()
   const [recipients, setRecipients] = React.useState<
     Array<{ amount: { amount: number; denom: string }; address: string }>
   >([])
@@ -116,6 +122,9 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
           data: {
             securityPassword,
             ...transactionData,
+            transactions: transactionData.transactions.map((msg) =>
+              formatTypeUrlTransactionMsg(msg)
+            ),
           },
         })
         setLoading(false)
@@ -148,7 +157,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
         }
       case SendStage.SecurityPasswordStage:
         return {
-          title: t('security password title'),
+          title: '',
           dialogWidth: 'sm',
           content: <SecurityPassword onConfirm={sendTransactionMessage} loading={loading} />,
         }
@@ -184,7 +193,13 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
   }, [open])
 
   return (
-    <Dialog fullWidth maxWidth={content.dialogWidth || 'md'} open={open} onClose={onClose}>
+    <Dialog
+      fullWidth
+      maxWidth={content.dialogWidth || 'md'}
+      open={open}
+      onClose={onClose}
+      fullScreen={isMobile}
+    >
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

@@ -1,4 +1,4 @@
-import { Button, DialogActions, DialogContent, DialogContentText } from '@material-ui/core'
+import { Box, Button, DialogActions, DialogContent, DialogContentText } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
@@ -18,13 +18,14 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onReset }) => {
       </DialogContent>
       <DialogActions className={classes.action}>
         <Button
-          className={classes.resetButton}
+          className={classes.button}
           variant="contained"
           color="primary"
           onClick={() => onReset()}
         >
           {t('reset')}
         </Button>
+        <Box my={3.5} />
       </DialogActions>
     </>
   )

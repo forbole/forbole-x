@@ -13,56 +13,60 @@ import {
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import keyBy from 'lodash/keyBy'
 import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { formatCrypto, formatCurrency } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
+import useIsMobile from '../../misc/useIsMobile'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 interface SelectValidatorsProps {
-  onConfirm(
-    delegations: Array<{ amount: number; validator: { name: string; image: string } }>,
-    memo: string
-  ): void
-  account: Account
+  onConfirm(delegations: Array<{ amount: number; validator: Validator }>, memo: string): void
+  delegations: Array<{ amount: number; validator: Validator }>
+  crypto: Cryptocurrency
+  validators: Validator[]
   amount: number
+  denom: string
 }
 
-const mockValidators = {
-  Forbole: {
-    image:
-      'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-    name: 'Forbole',
-  },
-  'Forbole 2': {
-    image:
-      'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-    name: 'Forbole 2',
-  },
-  'Forbole 3': {
-    image:
-      'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-    name: 'Forbole 3',
-  },
-}
-
-const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, onConfirm }) => {
+const SelectValidators: React.FC<SelectValidatorsProps> = ({
+  crypto,
+  validators,
+  delegations: defaultDelegations,
+  amount,
+  denom,
+  onConfirm,
+}) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
   const { currency } = useGeneralContext()
+  const isMobile = useIsMobile()
   const [delegations, setDelegations] = React.useState<
-    Array<{ amount: string; validator: string; percentage: string }>
-  >([{ amount: amount.toString(), validator: '', percentage: '100' }])
+    Array<{ amount: string; validator: any; percentage: string }>
+  >(
+    defaultDelegations
+      ? defaultDelegations.map((d) => ({
+          amount: d.amount.toString(),
+          validator: d.validator,
+          percentage: ((100 * d.amount) / amount).toFixed(2),
+        }))
+      : [{ amount: amount.toString(), validator: {}, percentage: '100' }]
+  )
   const [memo, setMemo] = React.useState('')
+
+  const validatorsMap = keyBy(validators, 'address')
+
   return (
     <>
       <DialogContent className={classes.dialogContent}>
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
             {t('total delegated amount')}{' '}
-            <b className={classes.marginLeft}>{formatCrypto(amount, account.crypto, lang)}</b>
+            <b className={classes.marginLeft}>{formatCrypto(amount, denom, lang)}</b>
           </Typography>
           <Grid container spacing={4}>
             <Grid item xs={6}>
@@ -81,34 +85,55 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, on
                     </IconButton>
                   )}
                   <Autocomplete
-                    options={Object.keys(mockValidators)}
+                    options={validators.map(({ address }) => address)}
+                    getOptionLabel={(option) => validatorsMap[option].name}
                     openOnFocus
                     fullWidth
-                    value={v.validator}
-                    onChange={(e, val) =>
+                    filterOptions={(options: string[], { inputValue }: any) =>
+                      options
+                        .filter((o) =>
+                          validatorsMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
+                        )
+                        .slice(0, 10)
+                    }
+                    onChange={(e, address) =>
                       setDelegations((d) =>
-                        d.map((a, j) => (j === i ? { ...a, validator: val } : a))
+                        d.map((a, j) =>
+                          j === i ? { ...a, validator: validatorsMap[address] || {} } : a
+                        )
                       )
                     }
-                    renderOption={(option) => (
-                      <Box display="flex" alignItems="center">
-                        <Avatar
-                          className={classes.validatorAvatar}
-                          alt={mockValidators[option].name}
-                          src={mockValidators[option].image}
-                        />
-                        <Typography>{mockValidators[option].name}</Typography>
-                      </Box>
+                    renderOption={(address) => (
+                      <ValidatorAvatar
+                        crypto={crypto}
+                        validator={validatorsMap[address]}
+                        size="small"
+                        withoutLink
+                      />
                     )}
-                    renderInput={({ InputProps, ...params }) => (
+                    renderInput={({ InputProps, inputProps, ...params }) => (
                       <TextField
                         {...params}
                         variant="filled"
                         placeholder={t('select validator')}
+                        inputProps={{
+                          ...inputProps,
+                          value: v.validator.name,
+                        }}
+                        // eslint-disable-next-line react/jsx-no-duplicate-props
                         InputProps={{
                           ...InputProps,
                           className: '',
                           disableUnderline: true,
+                          startAdornment: v.validator.name ? (
+                            <Box mr={-1}>
+                              <Avatar
+                                className={classes.validatorAvatar}
+                                alt={v.validator.name}
+                                src={v.validator.image}
+                              />
+                            </Box>
+                          ) : null,
                           endAdornment: (
                             <InputAdornment position="end">
                               <DropDownIcon {...iconProps} />
@@ -159,7 +184,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, on
                     InputProps={{
                       disableUnderline: true,
                       endAdornment: (
-                        <InputAdornment position="end">{account.crypto}</InputAdornment>
+                        <InputAdornment position="end">{denom.toUpperCase()}</InputAdornment>
                       ),
                     }}
                     value={v.amount}
@@ -177,34 +202,36 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, on
                       )
                     }
                   />
-                  <TextField
-                    className={classes.percentageTextField}
-                    variant="filled"
-                    placeholder="0"
-                    type="number"
-                    InputProps={{
-                      disableUnderline: true,
-                      endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                    }}
-                    // eslint-disable-next-line react/jsx-no-duplicate-props
-                    inputProps={{
-                      className: classes.numberInput,
-                    }}
-                    value={v.percentage}
-                    onChange={(e) =>
-                      setDelegations((d) =>
-                        d.map((a, j) =>
-                          j === i
-                            ? {
-                                ...a,
-                                percentage: e.target.value,
-                                amount: ((amount * Number(e.target.value)) / 100).toFixed(2),
-                              }
-                            : a
+                  {isMobile ? null : (
+                    <TextField
+                      className={classes.percentageTextField}
+                      variant="filled"
+                      placeholder="0"
+                      type="number"
+                      InputProps={{
+                        disableUnderline: true,
+                        endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                      }}
+                      // eslint-disable-next-line react/jsx-no-duplicate-props
+                      inputProps={{
+                        className: classes.numberInput,
+                      }}
+                      value={v.percentage}
+                      onChange={(e) =>
+                        setDelegations((d) =>
+                          d.map((a, j) =>
+                            j === i
+                              ? {
+                                  ...a,
+                                  percentage: e.target.value,
+                                  amount: ((amount * Number(e.target.value)) / 100).toFixed(2),
+                                }
+                              : a
+                          )
                         )
-                      )
-                    }
-                  />
+                      }
+                    />
+                  )}
                 </Box>
               ))}
             </Grid>
@@ -221,20 +248,23 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, amount, on
           mx={2}
         >
           <Box>
-            <Typography variant="h5">{formatCrypto(amount, account.crypto, lang)}</Typography>
+            <Typography variant="h5">{formatCrypto(amount, denom, lang)}</Typography>
             <Typography>{formatCurrency(amount, currency, lang)}</Typography>
           </Box>
           <Button
             variant="contained"
             className={classes.button}
             color="primary"
-            disabled={!delegations.filter((v) => v.validator && Number(v.amount)).length}
+            disabled={
+              !delegations.filter((v) => v.validator.name && Number(v.amount)).length ||
+              delegations.map((v) => Number(v.amount)).reduce((a, b) => a + b, 0) > amount
+            }
             onClick={() =>
               onConfirm(
                 delegations
-                  .filter((v) => v.validator && Number(v.amount))
+                  .filter((v) => v.validator.name && Number(v.amount))
                   .map((v) => ({
-                    validator: mockValidators[v.validator],
+                    validator: v.validator,
                     amount: Number(v.amount),
                   })),
                 memo

@@ -5,6 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import useTranslation from 'next-translate/useTranslation'
 import { ApolloProvider } from '@apollo/client'
+import { useRouter } from 'next/router'
 import { lightTheme, darkTheme } from '../misc/theme'
 import GlobalCss from '../misc/globalCss'
 import { GeneralProvider, useGeneralContext } from '../contexts/GeneralContext'
@@ -14,6 +15,7 @@ import { useApollo } from '../graphql/client'
 function InnerApp({ Component, pageProps }: AppProps) {
   const { theme } = useGeneralContext()
   const { lang } = useTranslation()
+  const router = useRouter()
 
   const muiTheme = React.useMemo(() => {
     if (theme === 'dark') {
@@ -25,6 +27,14 @@ function InnerApp({ Component, pageProps }: AppProps) {
   React.useEffect(() => {
     document.cookie = `NEXT_LOCALE=${lang}`
   }, [lang])
+
+  React.useEffect(() => {
+    if (router) {
+      router.events.on('routeChangeComplete', () => {
+        window.scrollTo(0, 0)
+      })
+    }
+  }, [router])
 
   return (
     <ThemeProvider theme={muiTheme}>

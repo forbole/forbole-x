@@ -71,6 +71,11 @@ interface Cryptocurrency {
   coinType: number
   graphqlHttpUrl: string
   graphqlWsUrl: string
+  blockExplorerBaseUrl: string
+  defaultGasFee: {
+    amount: Array<{ amount: string; denom: string }>
+    gas: string
+  }
 }
 
 interface Validator {
@@ -80,12 +85,49 @@ interface Validator {
   name: string
   commission: number
   votingPower: number
-  amtRatio: number
   selfRatio: number
   status: string
   isActive: boolean
-  reward?: number
-  delegatedAmount?: number
+  rewards?: TokenAmount
+  delegated?: TokenAmount
+  unbonding?: TokenAmount
+}
+
+interface Unbonding {
+  amount: TokenAmount
+  validator: {
+    address: string
+    image: string
+    name: string
+  }
+  height: number
+  completionDate: Date
+}
+
+interface Redelegation {
+  amount: TokenAmount
+  fromValidator: {
+    address: string
+    image: string
+    name: string
+  }
+  toValidator: {
+    address: string
+    image: string
+    name: string
+  }
+  height: number
+  completionDate: Date
+}
+
+interface Activity {
+  ref: string
+  date: string
+  tab: string
+  tag: string
+  success: boolean
+  detail?: any
+  amount?: TokenAmount
 }
 
 interface TokenUnit {
@@ -128,6 +170,14 @@ interface TransactionMsgDelegate {
   denom: string
 }
 
+interface TransactionMsgUndelegate {
+  type: 'undelegate'
+  delegator: string
+  validator: string
+  amount: number
+  denom: string
+}
+
 interface TransactionMsgRedelegate {
   type: 'redelegate'
   delegator: string
@@ -153,6 +203,7 @@ interface TransactionMsgSend {
 
 type TransactionMsg =
   | TransactionMsgDelegate
+  | TransactionMsgUndelegate
   | TransactionMsgRedelegate
   | TransactionMsgWithdrawReward
   | TransactionMsgSend

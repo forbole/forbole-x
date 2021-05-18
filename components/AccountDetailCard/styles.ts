@@ -18,12 +18,17 @@ const useStyles = makeStyles(
       color: 'white',
       width: theme.spacing(18),
       marginLeft: theme.spacing(2),
+      padding: theme.spacing(0.5),
     },
     iconButton: {
       minWidth: 0,
       marginLeft: theme.spacing(2),
       width: theme.spacing(6),
+      height: theme.spacing(5),
       padding: 0,
+      [theme.breakpoints.down('sm')]: {
+        marginLeft: 0,
+      },
     },
   }),
   {

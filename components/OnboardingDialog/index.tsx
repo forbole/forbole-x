@@ -14,6 +14,7 @@ import ClossIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import PasswordInput from '../PasswordInput'
 import useIconProps from '../../misc/useIconProps'
+import useIsMobile from '../../misc/useIsMobile'
 
 interface OnboardingDialogProps {
   open: boolean
@@ -25,6 +26,7 @@ const OnboardingDialog: React.FC<OnboardingDialogProps> = ({ open, onClose, onSu
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
+  const isMobile = useIsMobile()
   const [password, setPassword] = React.useState('')
   const [confirmPassword, setConfirmPassword] = React.useState('')
   const [isConfirmingPassword, setIsConfirmingPassword] = React.useState(false)
@@ -45,7 +47,7 @@ const OnboardingDialog: React.FC<OnboardingDialogProps> = ({ open, onClose, onSu
     }
   }, [isConfirmingPassword, password, confirmPassword])
   return (
-    <Dialog fullWidth open={open} onClose={onClose}>
+    <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
       <IconButton className={classes.closeButton} onClick={onClose}>
         <ClossIcon {...iconProps} />
       </IconButton>

@@ -45,26 +45,26 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
         icon: <DelegateIcon {...iconProps} />,
         href: '/delegate',
       },
-      {
-        title: t('market'),
-        icon: <MarketIcon {...iconProps} />,
-        href: '/market',
-      },
-      {
-        title: t('proposals'),
-        icon: <ProposalIcon {...iconProps} />,
-        href: '/proposals',
-      },
-      {
-        title: t('address book'),
-        icon: <AddressBookIcon {...iconProps} />,
-        href: '/address-book',
-      },
-      {
-        title: t('explorer'),
-        icon: <ExplorerIcon {...iconProps} />,
-        href: '/explorer',
-      },
+      // {
+      //   title: t('market'),
+      //   icon: <MarketIcon {...iconProps} />,
+      //   href: '/market',
+      // },
+      // {
+      //   title: t('proposals'),
+      //   icon: <ProposalIcon {...iconProps} />,
+      //   href: '/proposals',
+      // },
+      // {
+      //   title: t('address book'),
+      //   icon: <AddressBookIcon {...iconProps} />,
+      //   href: '/address-book',
+      // },
+      // {
+      //   title: t('explorer'),
+      //   icon: <ExplorerIcon {...iconProps} />,
+      //   href: '/explorer',
+      // },
     ],
     [iconProps, t]
   )

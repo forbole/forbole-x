@@ -6,8 +6,6 @@ import {
   TableCell,
   TableBody,
   Box,
-  Avatar,
-  Typography,
   useTheme,
   IconButton,
   TableSortLabel,
@@ -25,8 +23,9 @@ import StarIcon from '../../assets/images/icons/icon_star.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { useTableDefaultHook } from './hooks'
-import DelegationDialog from '../DelegateDialog'
+import DelegationDialog from '../DelegationDialog'
 import InfoPopover from './InfoPopover'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 interface ValidatorsTableProps {
   validators: Validator[]
@@ -39,6 +38,8 @@ interface ValidatorsTableProps {
   pagination?: {
     rowsPerPage: number | undefined
   }
+  // eslint-disable-next-line camelcase
+  availableTokens: { coins: Array<{ amount: string; denom: string }>; tokens_prices: TokenPrice[] }
 }
 
 const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
@@ -49,13 +50,14 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
   pagination,
   initialActiveSort,
   initialSortDirection,
+  availableTokens,
 }) => {
   const { classes } = useGetStyles()
   const { t, lang } = useTranslation('common')
   const theme = useTheme()
   const iconProps = useIconProps()
   const { addFavValidators, deleteFavValidators, favValidators } = useGeneralContext()
-  const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
+  const [delegatingValidator, setDelegatingValidator] = React.useState<Validator>()
   const router = useRouter()
 
   const totalVotingPower = React.useMemo(
@@ -177,17 +179,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                     </Box>
                   </TableCell>
                   <TableCell className={classes.tableCell}>
-                    <Box
-                      className={classes.box}
-                      display="flex"
-                      alignItems="center"
-                      onClick={() => {
-                        router.push(`/validator/${v.address}`)
-                      }}
-                    >
-                      <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
-                      <Typography className={classes.ellipsisText}>{v.name}</Typography>
-                    </Box>
+                    <ValidatorAvatar crypto={crypto} validator={v} size="small" />
                   </TableCell>
                   {/* <TableCell className={classes.tableCell}>
                     <Box display="flex" alignItems="center">
@@ -212,7 +204,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                   </TableCell>
                   <TableCell className={classes.tableCell}>
                     {v.isActive ? (
-                      <ActiveStatus status={v.status} onClick={() => setDelegateDialogOpen(true)} />
+                      <ActiveStatus status={v.status} onClick={() => setDelegatingValidator(v)} />
                     ) : (
                       <InActiveStatus status={v.status} alignRight={alignRight} />
                     )}
@@ -229,11 +221,16 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      <DelegationDialog
-        open={delegateDialogOpen}
-        onClose={() => setDelegateDialogOpen(false)}
-        account={account}
-      />
+      {account && availableTokens ? (
+        <DelegationDialog
+          open={!!delegatingValidator}
+          onClose={() => setDelegatingValidator(undefined)}
+          account={account}
+          validators={validators}
+          defaultValidator={delegatingValidator}
+          availableTokens={availableTokens}
+        />
+      ) : null}
     </Box>
   )
 }

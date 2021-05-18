@@ -2,7 +2,6 @@ import { Box, Button, Card, Grid, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
-import { gql, useSubscription } from '@apollo/client'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import EditIcon from '../../assets/images/icons/icon_edit_tool.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
@@ -13,32 +12,42 @@ import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import StatBox from './StatBox'
-import DelegationDialog from '../DelegateDialog'
+import DelegationDialog from '../DelegationDialog'
+import ClaimRewardsDialog from '../ClaimRewardsDialog'
 import {
-  formatCrypto,
   formatCurrency,
   formatTokenAmount,
   getTokenAmountBalance,
   getTotalBalance,
   getTotalTokenAmount,
-  transformGqlAcountBalance,
 } from '../../misc/utils'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
-import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import SendDialog from '../SendDialog'
+import AccountMenuButton from '../AccountMenuButton'
+import useIsMobile from '../../misc/useIsMobile'
 
 interface AccountDetailCardProps {
   account: Account
+  validators: Validator[]
+  accountBalance: AccountBalance
+  availableTokens: any
 }
 
-const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
+const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
+  account,
+  accountBalance,
+  availableTokens,
+  validators,
+}) => {
   const { lang, t } = useTranslation('common')
   const { currency } = useGeneralContext()
   const classes = useStyles()
   const iconProps = useIconProps()
   const theme = useTheme()
+  const isMobile = useIsMobile()
   const { updateAccount } = useWalletsContext()
   const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
+  const [claimRewardsDialogOpen, setClaimRewardsDialogOpen] = React.useState(false)
   const [sendDialogOpen, setSendDialogOpen] = React.useState(false)
   const [timestamps, setTimestamps] = React.useState<Date[]>(
     dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
@@ -52,22 +61,12 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
     ? accountsWithBalance[0].balances.map((b) => getTotalBalance(b))
     : []
   // Balance Data
-  const { data } = useSubscription(
-    gql`
-      ${getLatestAccountBalance(account.crypto)}
-    `,
-    { variables: { address: account.address } }
-  )
-
-  const { availableTokens, totalTokenAmount, usdBalance, accountBalance } = React.useMemo(() => {
-    const ab = transformGqlAcountBalance(data, Date.now())
+  const { totalTokenAmount, usdBalance } = React.useMemo(() => {
     return {
-      availableTokens: get(data, 'account[0].available[0]', { coins: [], tokens_prices: [] }),
-      accountBalance: ab,
-      totalTokenAmount: getTotalTokenAmount(ab).amount,
-      usdBalance: getTotalBalance(ab).balance,
+      totalTokenAmount: getTotalTokenAmount(accountBalance).amount,
+      usdBalance: getTotalBalance(accountBalance).balance,
     }
-  }, [data])
+  }, [accountBalance])
 
   const isAvailableTokenEmpty = React.useMemo(() => !get(availableTokens, 'coins.length', 0), [
     availableTokens,
@@ -80,10 +79,15 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
   return (
     <>
       <Card className={classes.container}>
-        <Box p={4}>
-          <Box mb={4} display="flex" justifyContent="space-between" alignItems="flex-start">
+        <Box p={4} position="relative">
+          <Box
+            mb={4}
+            display={isMobile ? 'block' : 'flex'}
+            justifyContent="space-between"
+            alignItems="flex-start"
+          >
             <AccountAvatar size="large" account={account} />
-            <Box display="flex">
+            <Box display="flex" mt={isMobile ? 2 : 0} ml={isMobile ? -2 : 0}>
               <Button
                 classes={{ root: classes.fixedWidthButton }}
                 variant="contained"
@@ -97,6 +101,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
                 classes={{ root: classes.fixedWidthButton }}
                 variant="contained"
                 color="secondary"
+                onClick={() => setClaimRewardsDialogOpen(true)}
               >
                 {t('claim rewards')}
               </Button>
@@ -108,20 +113,40 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
               >
                 {t('send')}
               </Button>
-              <Button classes={{ root: classes.iconButton }} variant="outlined" onClick={toggleFav}>
-                {account.fav ? (
-                  <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
-                ) : (
-                  <StarIcon {...iconProps} />
-                )}
-              </Button>
-              <Button classes={{ root: classes.iconButton }} variant="outlined">
-                <EditIcon {...iconProps} />
-              </Button>
+              <Box
+                display="flex"
+                position={isMobile ? 'absolute' : 'static'}
+                top={theme.spacing(2)}
+                right={theme.spacing(2)}
+              >
+                <Button
+                  classes={{ root: classes.iconButton }}
+                  variant={isMobile ? 'text' : 'outlined'}
+                  onClick={toggleFav}
+                >
+                  {account.fav ? (
+                    <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
+                  ) : (
+                    <StarIcon {...iconProps} />
+                  )}
+                </Button>
+                <AccountMenuButton
+                  accountAddress={account.address}
+                  buttonComponent={
+                    <Button
+                      classes={{ root: classes.iconButton }}
+                      variant={isMobile ? 'text' : 'outlined'}
+                    >
+                      <EditIcon {...iconProps} />
+                    </Button>
+                  }
+                />
+              </Box>
             </Box>
           </Box>
           <BalanceChart
             data={chartData}
+            hideChart={isMobile}
             onDateRangeChange={(dateRange) => {
               setTimestamps(dateRange.timestamps.map((ts) => new Date(ts)))
             }}
@@ -129,9 +154,9 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
             subtitle={formatCurrency(usdBalance, currency, lang)}
             loading={loading}
           />
-          <Box mt={10}>
+          <Box mt={isMobile ? 6 : 10}>
             <Grid container spacing={4}>
-              {['available', 'delegated', 'unbonding', 'reward', 'commission'].map((key) => (
+              {['available', 'delegated', 'unbonding', 'rewards', 'commissions'].map((key) => (
                 <StatBox
                   key={key}
                   title={t(key)}
@@ -155,6 +180,15 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({ account }) => {
         open={delegateDialogOpen}
         onClose={() => setDelegateDialogOpen(false)}
         account={account}
+        availableTokens={availableTokens}
+        validators={validators.filter(({ status }) => status === 'active')}
+      />
+      <ClaimRewardsDialog
+        open={claimRewardsDialogOpen}
+        onClose={() => setClaimRewardsDialogOpen(false)}
+        account={account}
+        tokensPrices={availableTokens.tokens_prices}
+        validators={validators.filter((v) => !!v.delegated)}
       />
       <SendDialog
         open={sendDialogOpen}

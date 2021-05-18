@@ -1,7 +1,9 @@
 export const getValidators = (crypto: string): string => `
 subscription Validators @${crypto} {
   validator {
-    address: consensus_address
+    info: validator_info {
+      operator_address
+    }
     description: validator_descriptions(limit: 1, order_by: { height: desc }) {
       moniker
       avatar_url

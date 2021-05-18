@@ -6,11 +6,18 @@ export const useGetStyles = (tag?: string) => {
     createStyles({
       rowHeader: {
         background: theme.palette.grey[400],
-        padding: theme.spacing(0, 2),
+        padding: theme.spacing(2),
         color: theme.palette.grey[500],
         display: 'flex',
-        alignItems: 'center',
         justifyContent: 'space-between',
+      },
+      wrapText: {
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        flex: 1,
+        [theme.breakpoints.down('sm')]: {
+          width: '100%',
+        },
       },
       row: {
         padding: theme.spacing(3.25, 2),
@@ -20,10 +27,9 @@ export const useGetStyles = (tag?: string) => {
         borderRadius: theme.shape.borderRadius,
       },
       checkIcon: {
-        width: theme.spacing(2),
-        height: theme.spacing(2),
         verticalAlign: 'middle',
-        marginLeft: theme.spacing(0.5),
+        marginLeft: theme.spacing(2),
+        marginTop: theme.spacing(-0.5),
         color: theme.palette.success.main,
       },
       tabIndicator: {
@@ -34,6 +40,9 @@ export const useGetStyles = (tag?: string) => {
       },
       rowContainer: {
         display: 'flex',
+        [theme.breakpoints.down('sm')]: {
+          display: 'block',
+        },
       },
       tagContainer: {
         width: theme.spacing(24),

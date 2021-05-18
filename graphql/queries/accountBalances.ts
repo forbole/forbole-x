@@ -21,27 +21,50 @@ export const getLatestAccountBalance = (crypto: string): string => `
           }
         }
       }
-      delegated: delegations(limit: 1, order_by: {height: desc}) {
-        height
-        amount
+      delegated: delegations_aggregate(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}]) {
+        nodes {
+          amount
+          validator {
+            validator_info {
+              operator_address
+            }
+          }
+          validator_address
+        }
       }
-      unbonding: unbonding_delegations(limit: 1, order_by: {height: desc}) {
-        height
-        amount
+      unbonding: unbonding_delegations_aggregate(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}]) {
+        nodes {
+          amount
+          completion_timestamp
+          height
+          validator {
+            validator_info {
+              operator_address
+            }
+          }
+          validator_address
+        }
       }
-      rewards: delegation_rewards(limit: 1, order_by: {height: desc}, where: {delegator_address: {_eq: $address}}) {
-        height
-        amount
-        delegator_address
+      rewards: delegation_rewards_aggregate(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}]) {
+        nodes {
+          amount
+          validator {
+            validator_info {
+              operator_address
+            }
+          }
+          validator_address
+        }
       }
       validator: validator_infos(where: {self_delegate_address: {_eq: $address}}) {
         consensus_address
         operator_address
         self_delegate_address
         validator {
-          commissions: validator_commission_amounts(limit: 1, order_by: {height: desc}) {
-            height
-            amount
+          commissions: validator_commission_amounts_aggregate(limit: 1, order_by: {height: desc}) {
+            nodes {
+              amount
+            }
           }
         }
       }
@@ -53,11 +76,11 @@ export const getBalanceAtHeight = (crypto: string): string => `
   query AccountBalance($address: String!, $height: bigint! ) @${crypto} {
     account(where: { address: { _eq: $address } }) {
       address
-      available: account_balances(limit: 1, order_by: { height: desc }, where: { height: { _lte: $height } }) {
+      available: account_balance_histories(limit: 1, order_by: { height: desc }, where: { height: { _lte: $height } }) {
         coins
         height
         block { timestamp }
-        tokens_prices {
+        tokens_prices: token_prices_history {
           unit_name
           price
           timestamp
@@ -73,27 +96,35 @@ export const getBalanceAtHeight = (crypto: string): string => `
           }
         }
       }
-      delegated: delegations(limit: 1, order_by: { height: desc }, where: { height: { _lte: $height } }) {
-        height
-        amount
+      delegated: delegation_histories_aggregate(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}], where: { height: { _lte: $height } }) {
+        nodes {
+          amount
+          validator_address
+        }
       }
-      unbonding: unbonding_delegations(limit: 1, order_by: { height: desc }, where: { height: { _lte: $height } }) {
-        height
-        amount
+      unbonding: unbonding_delegation_histories_aggregate(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}], where: { height: { _lte: $height } }) {
+        nodes {
+          amount
+          completion_timestamp
+          height
+          validator_address
+        }
       }
-      rewards: delegation_rewards(limit: 1, order_by: { height: desc }, where: {delegator_address: { _eq: $address }, height: { _lte: $height }}) {
-        height
-        amount
-        delegator_address
+      rewards: delegation_reward_histories_aggregate(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}], where: { height: { _lte: $height } }) {
+        nodes {
+          amount
+          validator_address
+        }
       }
-      validator: validator_infos(where: {self_delegate_address: { _eq: $address }}) {
+      validator: validator_infos(where: {self_delegate_address: {_eq: $address}}) {
         consensus_address
         operator_address
         self_delegate_address
         validator {
-          commissions: validator_commission_amounts(limit: 1, order_by: { height: desc }, where: { height: { _lte: $height } }) {
-            height
-            amount
+          commissions: validator_commission_amount_histories_aggregate(limit: 1, order_by: {height: desc}, where: { height: { _lte: $height } }) {
+            nodes {
+              amount
+            }
           }
         }
       }
