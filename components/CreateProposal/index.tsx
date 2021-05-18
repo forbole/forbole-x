@@ -1,29 +1,12 @@
 import React from 'react'
-import {
-  Box,
-  Card,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-  Avatar,
-  Grid,
-  Breadcrumbs,
-  Link as MLink,
-} from '@material-ui/core'
+import { Dialog, Breadcrumbs, Link as MLink } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-import { useRouter } from 'next/router'
-import keyBy from 'lodash/keyBy'
 import useStateHistory from '../../misc/useStateHistory'
 import useIconProps from '../../misc/useIconProps'
 import { useGetStyles } from './styles'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import CreateProposalForm from './CreateProposalContent'
 import ConfirmProposalContent from './ConfirmProposalContent'
-import Account from '../../pages/account/[address]'
 import Layout from '../Layout'
 import SecurityPassword from '../SecurityPasswordDialogContent'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
@@ -156,13 +139,14 @@ const CreateProposal: React.FC<CreateProposlProps> = ({ accounts }) => {
     async (securityPassword: string) => {
       try {
         setLoading(true)
-        const result = await sendMsgToChromeExt({
-          event: 'signAndBroadcastTransactions',
-          data: {
-            securityPassword,
-            ...transactionData,
-          },
-        })
+        // how to upload to backend
+        // const result = await sendMsgToChromeExt({
+        //   event: 'signAndBroadcastTransactions',
+        //   data: {
+        //     securityPassword,
+        //     ...transactionData,
+        //   },
+        // })
         // console.log(result)
         setLoading(false)
         // setStage(DelegationStage.SuccessStage, true)
