@@ -1,25 +1,10 @@
 import React from 'react'
-import {
-  Box,
-  Card,
-  Button,
-  DialogActions,
-  DialogContent,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-  Avatar,
-  Grid,
-} from '@material-ui/core'
+import { Box, Button, InputAdornment, TextField, Typography, Grid } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
-import { useRouter } from 'next/router'
 import keyBy from 'lodash/keyBy'
 import useIconProps from '../../misc/useIconProps'
 import { useGetStyles } from './styles'
-import Active from './Active'
-import InActive from './InActive'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 
 interface Proposal {

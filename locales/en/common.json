@@ -233,5 +233,7 @@
   "select account": "Select account",
   "proposal/create proposal": "Proposal / Create Proposal",
   "confirm proposal": "Confirm Proposal",
-  "proposal/create proposal/confirm proposal": "Proposal / Create Proposal / Confirm Proposal"
+  "proposal/create proposal/confirm proposal": "Proposal / Create Proposal / Confirm Proposal",
+  "vote proposal": "Vote Proposal",
+  "You’re going to vote": "You’re going to vote"
 }

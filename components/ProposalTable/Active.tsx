@@ -13,7 +13,7 @@ const Active: React.FC<ActiveProps> = ({ status, onClick }) => {
   const { t } = useTranslation('common')
 
   return (
-    <Box onClick={onClick}>
+    <Box onClick={() => onClick()}>
       <Button size="small" variant="contained" className={classes.activeStatus}>
         {t(status)}
       </Button>

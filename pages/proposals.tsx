@@ -9,7 +9,7 @@ import { useWalletsContext } from '../contexts/WalletsContext'
 import AccountAvatar from '../components/AccountAvatar'
 import DropDownIcon from '../assets/images/icons/icon_arrow_down_input_box.svg'
 import useIconProps from '../misc/useIconProps'
-import CreateProposalDialog from '../components/CreateProposalDialog'
+import CreateProposalButton from '../components/CreateProposalButton'
 
 const Proposals: React.FC = () => {
   const { t } = useTranslation('common')
@@ -82,11 +82,12 @@ const Proposals: React.FC = () => {
         ) : null}
         <Box justifyContent="flex-end" display="flex" flex="1">
           <Button onClick={() => router.push('/createProposal')}>
-            <CreateProposalDialog />
+            <CreateProposalButton />
           </Button>
         </Box>
       </Box>
       <ProposalTable
+        accounts={accounts}
         proposals={[
           {
             no: '01',
