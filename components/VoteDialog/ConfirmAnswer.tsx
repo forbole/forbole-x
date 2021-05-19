@@ -79,7 +79,7 @@ const ConfirmAnswer: React.FC<ConfirmWithdrawProps> = ({
         <Box pt={1.5} pb={1.5}>
           <Typography variant="h6">{t('fee')}</Typography>
           <Typography variant="subtitle1" color="textSecondary">
-            {gasFee['DSM'].amount}
+            {formatTokenAmount(gasFee, account.crypto, lang)}
           </Typography>
         </Box>
         <Divider />

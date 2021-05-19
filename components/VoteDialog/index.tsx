@@ -2,13 +2,14 @@ import { Box, Dialog, DialogTitle, IconButton, Typography } from '@material-ui/c
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
+import { size } from 'lodash'
+import { gql, useSubscription } from '@apollo/client'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import VoteIcon from '../../assets/images/icons/icon_vote.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import SelectAnswer from './SelectAnswer'
-import ConfirmWithdraw from './ConfirmAnswer'
 import useStateHistory from '../../misc/useStateHistory'
 import Success from '../Success'
 import SecurityPassword from '../SecurityPasswordDialogContent'
@@ -17,8 +18,8 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 import { formatTransactionMsg } from '../../misc/formatTransactionMsg'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import { getTokenAmountFromDenoms } from '../../misc/utils'
-import { size } from 'lodash'
 import ConfirmAnswer from './ConfirmAnswer'
+import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 
 enum VotingStage {
   SecurityPasswordStage = 'security password',
@@ -44,7 +45,7 @@ export interface Proposal {
 
 interface VoteDialogProps {
   accounts: Account[]
-  tokensPrices: TokenPrice[]
+  // tokensPrices: TokenPrice[]
   open: boolean
   onClose(): void
   proposal: Proposal
@@ -58,7 +59,7 @@ interface Content {
 
 const VoteDialog: React.FC<VoteDialogProps> = ({
   accounts,
-  tokensPrices,
+  // tokensPrices,
   open,
   onClose,
   proposal,
@@ -67,7 +68,7 @@ const VoteDialog: React.FC<VoteDialogProps> = ({
   const classes = useStyles()
   const iconProps = useIconProps()
   const voteIconProps = useIconProps(8)
-  const [answer, setAnswer] = React.useState<{ name: string; id: string }>()
+  const [answer, setAnswer] = React.useState<{ name?: string; id?: string }>({})
   const [voteAccount, setVoteAccount] = React.useState<Account>(accounts[0])
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
@@ -77,18 +78,48 @@ const VoteDialog: React.FC<VoteDialogProps> = ({
     VotingStage.SelectAnswerStage
   )
 
-  console.log('accounts[0]', accounts[0])
+  const crypto = voteAccount
+    ? cryptocurrencies[voteAccount.crypto]
+    : Object.values(cryptocurrencies)[0]
 
-  // const defaultGasFee = getTokenAmountFromDenoms(
-  //   get(cryptocurrencies, `${voteAccount.crypto}.defaultGasFee.amount`, []),
-  //   tokensPrices
-  // )
+  const { data: balanceData } = useSubscription(
+    gql`
+      ${getLatestAccountBalance(crypto.name)}
+    `,
+    { variables: { address: voteAccount ? voteAccount.address : '' } }
+  )
+
+  const availableTokens = get(balanceData, 'account[0].available[0]', {
+    coins: [],
+    tokens_prices: [],
+  })
+
+  console.log('crypto', crypto)
+  console.log('voteAccount', voteAccount)
+
+  const defaultGasFeeTest = voteAccount
+    ? getTokenAmountFromDenoms(
+        get(cryptocurrencies, `${voteAccount.crypto}.defaultGasFee.amount`, []),
+        availableTokens.tokens_prices
+      )
+    : null
+  console.log('defaultGasFeeTest', defaultGasFeeTest)
+
   const defaultGasFee: TokenAmount = {
     DSM: {
       amount: 0,
       price: 0,
     },
   }
+  React.useEffect(() => {
+    if (open) {
+      setAnswer({})
+      setMemo('')
+      setMemo('')
+      setLoading(false)
+      setStage(VotingStage.SelectAnswerStage, true)
+    }
+  }, [open])
 
   // const transactionData = React.useMemo(
   //   () => ({
@@ -165,16 +196,18 @@ const VoteDialog: React.FC<VoteDialogProps> = ({
           title: (
             <Box>
               <VoteIcon {...voteIconProps} className={classes.voteButton} />
-              <Typography className={classes.title} variant="h1">{`${t('You’re going to vote')} ${answer.name}`}</Typography>
+              <Typography className={classes.title} variant="h1">
+                {`${t('You’re going to vote')} ${answer.name}`}
+              </Typography>
             </Box>
           ),
           dialogWidth: 'sm',
           content: (
-            <ConfirmWithdraw
+            <ConfirmAnswer
               account={voteAccount}
               proposal={proposal}
               answer={answer}
-              gasFee={defaultGasFee}
+              gasFee={defaultGasFeeTest}
               memo={memo}
               onConfirm={confirmFinal}
               rawTransactionData=""

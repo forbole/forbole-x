@@ -96,25 +96,26 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, accounts }) =
         proposal={selectedProposal}
         accounts={accounts}
         open={voteDialogOpen}
-        tokensPrices={[
-          {
-            unit_name: '',
-            price: 0,
-            timestamp: '',
-            token_unit: {
-              denom: '',
-              exponent: 0,
-              token: {
-                token_units: [
-                  {
-                    denom: '',
-                    exponent: 0,
-                  },
-                ],
-              },
-            },
-          },
-        ]}
+        // tokensPrices={availableTokens.tokens_prices}
+        // tokensPrices={[
+        //   {
+        //     unit_name: '',
+        //     price: 0,
+        //     timestamp: '',
+        //     token_unit: {
+        //       denom: '',
+        //       exponent: 0,
+        //       token: {
+        //         token_units: [
+        //           {
+        //             denom: '',
+        //             exponent: 0,
+        //           },
+        //         ],
+        //       },
+        //     },
+        //   },
+        // ]}
         onClose={() => setVoteDialogOpen(false)}
       />
     </>

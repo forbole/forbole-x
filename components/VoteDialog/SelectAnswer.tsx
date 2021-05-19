@@ -66,6 +66,8 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ accounts, onNext, proposal 
   const [answer, setAnswer] = React.useState<{ name: string; id: string }>()
   const [memo, setMemo] = React.useState('')
   const [voteAccount, setVoteAccount] = React.useState<Account>(testAccount[0])
+
+
   return (
     <>
       <DialogContent>
@@ -146,7 +148,7 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ accounts, onNext, proposal 
                     <TextField
                       {...params}
                       variant="filled"
-                      placeholder={t('select network')}
+                      placeholder={t('select answer')}
                       inputProps={{
                         ...inputProps,
                       }}

@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
 import ProposalTable from '../components/ProposalTable'
 import { useWalletsContext } from '../contexts/WalletsContext'
+import cryptocurrencies from '../misc/cryptocurrencies'
 import AccountAvatar from '../components/AccountAvatar'
 import DropDownIcon from '../assets/images/icons/icon_arrow_down_input_box.svg'
 import useIconProps from '../misc/useIconProps'
@@ -23,6 +24,7 @@ const Proposals: React.FC = () => {
       ),
     [accounts]
   )
+
   const [accountMenuAnchor, setAccountMenuAnchor] = React.useState<Element>()
   const [activeAccountIndex, setActiveAccountIndex] = React.useState(0)
   const activeAccount = accounts[activeAccountIndex]
@@ -88,6 +90,7 @@ const Proposals: React.FC = () => {
       </Box>
       <ProposalTable
         accounts={accounts}
+        // availableTokens={availableTokens}
         proposals={[
           {
             no: '01',
