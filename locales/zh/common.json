@@ -181,6 +181,8 @@
   "success": "[zh] Success",
   "successfully sent": "[zh] {{title}} was successfully sent",
   "successfully delegated": "[zh] {{denom}} was successfully delegated",
+  "successfully undelegated": "[zh] {{denom}} was successfully undelegated",
+  "successfully redelegated": "[zh] {{denom}} was successfully redelegated",
   "forgot password?": "[zh] Forgot password?",
   "forgot password": "[zh] Forgot Password",
   "forgot password description": "[zh] Reset Forbole Portal app, all data will be erased from your device, \nmake sure you have a secure copy of your backup mnemonic phrase. ",
@@ -223,5 +225,6 @@
   "voting power percentage": "[zh] Voting Power%",
   "voting power override": "[zh] Voting Power Override",
   "answer": "[zh] Answer",
-  "all votes": "[zh] All Votes"
+  "all votes": "[zh] All Votes",
+  "copied to clipboard": "[zh] Copied to Clipboard!"
 }

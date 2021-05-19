@@ -182,6 +182,8 @@
   "success": "Success",
   "successfully sent": "{{title}} was successfully sent",
   "successfully delegated": "{{denom}} was successfully delegated",
+  "successfully undelegated": "{{denom}} was successfully undelegated",
+  "successfully redelegated": "{{denom}} was successfully redelegated",
   "forgot password?": "Forgot password?",
   "forgot password": "Forgot Password",
   "forgot password description": "Reset Forbole Portal app, all data will be erased from your device, \nmake sure you have a secure copy of your backup mnemonic phrase. ",
@@ -235,5 +237,6 @@
   "confirm proposal": "Confirm Proposal",
   "proposal/create proposal/confirm proposal": "Proposal / Create Proposal / Confirm Proposal",
   "vote proposal": "Vote Proposal",
-  "You’re going to vote": "You’re going to vote"
+  "You’re going to vote": "You’re going to vote",
+  "copied to clipboard": "Copied to Clipboard!"
 }

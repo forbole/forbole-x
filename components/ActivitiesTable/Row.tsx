@@ -3,6 +3,9 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { useGetStyles } from './styles'
 import { formatCrypto, formatTokenAmount } from '../../misc/utils'
+import useIsMobile from '../../misc/useIsMobile'
+import AccountAvatar from '../AccountAvatar'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 interface RowProps {
   activity: Activity
@@ -13,13 +16,15 @@ interface RowProps {
 const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
   const { classes } = useGetStyles(activity.tag)
   const { t, lang } = useTranslation('common')
+  const isMobile = useIsMobile()
 
   const Content = () => {
     if (activity.tag === 'delegate') {
       return (
-        <Box display="flex" alignItems="center">
-          <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
-          <Typography className={classes.validatorTypography}>{account.name}</Typography>
+        <>
+          <Box mr={1}>
+            <AccountAvatar account={account} hideAddress size="small" />
+          </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
             <span className={classes.amount}>
@@ -27,20 +32,18 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             </span>
             {t('to')}
           </Typography>
-          <Avatar
-            className={classes.validatorAvatar}
-            alt={activity.detail.name}
-            src={activity.detail.image}
-          />
-          <Typography className={classes.validatorTypography}>{activity.detail.name}</Typography>
-        </Box>
+          <Box ml={1}>
+            <ValidatorAvatar crypto={crypto} validator={activity.detail.validator} size="small" />
+          </Box>
+        </>
       )
     }
     if (activity.tag === 'redelegate') {
       return (
-        <Box display="flex" alignItems="center">
-          <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
-          <Typography className={classes.validatorTypography}>{account.name}</Typography>
+        <>
+          <Box mr={1}>
+            <AccountAvatar account={account} hideAddress size="small" />
+          </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
             <span className={classes.amount}>
@@ -48,31 +51,30 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             </span>
             {t('from').toLocaleLowerCase()}
           </Typography>
-          <Avatar
-            className={classes.validatorAvatar}
-            alt={activity.detail.src.name}
-            src={activity.detail.src.image}
-          />
-          <Typography className={classes.validatorTypography}>
-            {activity.detail.src.name}
-          </Typography>
+          <Box mx={1}>
+            <ValidatorAvatar
+              crypto={crypto}
+              validator={activity.detail.srcValidator}
+              size="small"
+            />
+          </Box>
           <Typography>{t('to')}</Typography>
-          <Avatar
-            className={classes.validatorAvatar}
-            alt={activity.detail.dst.name}
-            src={activity.detail.dst.image}
-          />
-          <Typography className={classes.validatorTypography}>
-            {activity.detail.dst.name}
-          </Typography>
-        </Box>
+          <Box ml={1}>
+            <ValidatorAvatar
+              crypto={crypto}
+              validator={activity.detail.dstValidator}
+              size="small"
+            />
+          </Box>
+        </>
       )
     }
     if (activity.tag === 'undelegate') {
       return (
-        <Box display="flex" alignItems="center">
-          <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
-          <Typography className={classes.validatorTypography}>{account.name}</Typography>
+        <>
+          <Box mr={1}>
+            <AccountAvatar account={account} hideAddress size="small" />
+          </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
             <span className={classes.amount}>
@@ -80,18 +82,15 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             </span>
             {t('from').toLocaleLowerCase()}
           </Typography>
-          <Avatar
-            className={classes.validatorAvatar}
-            alt={activity.detail.name}
-            src={activity.detail.image}
-          />
-          <Typography className={classes.validatorTypography}>{activity.detail.name}</Typography>
-        </Box>
+          <Box ml={1}>
+            <ValidatorAvatar crypto={crypto} validator={activity.detail.validator} size="small" />
+          </Box>
+        </>
       )
     }
     if (activity.tag === 'deposit') {
       return (
-        <Box display="flex" alignItems="center">
+        <>
           <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
           <Typography className={classes.validatorTypography}>{account.name}</Typography>
           <Typography>
@@ -102,14 +101,15 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             {t('to')}
           </Typography>
           <Typography className={classes.receiverTypography}>{activity.detail.name}</Typography>
-        </Box>
+        </>
       )
     }
     if (activity.tag === 'withdrawReward') {
       return (
-        <Box display="flex" alignItems="center">
-          <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
-          <Typography className={classes.validatorTypography}>{account.name}</Typography>
+        <>
+          <Box mr={1}>
+            <AccountAvatar account={account} hideAddress size="small" />
+          </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
             {/* TODO: get rewards amount */}
@@ -118,19 +118,16 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             </span> */}{' '}
             {t('from').toLocaleLowerCase()}
           </Typography>
-          <Avatar
-            className={classes.validatorAvatar}
-            alt={activity.detail.name}
-            src={activity.detail.image}
-          />
-          <Typography className={classes.validatorTypography}>{activity.detail.name}</Typography>
-        </Box>
+          <Box ml={1}>
+            <ValidatorAvatar crypto={crypto} validator={activity.detail.validator} size="small" />
+          </Box>
+        </>
       )
     }
     if (activity.tag === 'multisend') {
       return (
-        <Box>
-          <Box display="flex" alignItems="center">
+        <>
+          <Box display="flex" alignItems="center" flexWrap="wrap">
             <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
             <Typography className={classes.validatorTypography}>{account.name}</Typography>
             <Typography>
@@ -149,12 +146,12 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
               </Typography>
             ))}
           </Box>
-        </Box>
+        </>
       )
     }
     if (activity.tag === 'createValidator') {
       return (
-        <Box display="flex" alignItems="center">
+        <>
           <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
           <Typography className={classes.validatorTypography}>{account.name}</Typography>
           <Typography>{t(`${activity.tag}Activity`)}</Typography>
@@ -164,12 +161,12 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             src={activity?.detail?.image}
           />
           <Typography className={classes.validatorTypography}>{activity?.detail?.name}</Typography>
-        </Box>
+        </>
       )
     }
     if (activity.tag === 'fund') {
       return (
-        <Box display="flex" alignItems="center">
+        <>
           <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
           <Typography className={classes.validatorTypography}>{account.name}</Typography>
           <Typography>
@@ -179,21 +176,21 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             </span>
             {t('toCommunityPool')}
           </Typography>
-        </Box>
+        </>
       )
     }
     if (activity.tag === 'verifyInvariant') {
       return (
-        <Box display="flex" alignItems="center">
+        <>
           <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
           <Typography className={classes.validatorTypography}>{account.name}</Typography>
           <Typography>{t(`${activity.tag}Activity`)}</Typography>
-        </Box>
+        </>
       )
     }
     if (activity.tag === 'vote') {
       return (
-        <Box display="flex" alignItems="center">
+        <>
           <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
           <Typography className={classes.validatorTypography}>{account.name}</Typography>
           <Typography>{t(`${activity.tag}Activity`)}</Typography>
@@ -202,55 +199,46 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             {t('with')}
             <span className={classes.amount}>{activity.detail.ans}</span>
           </Typography>
-        </Box>
+        </>
       )
     }
     if (activity.tag === 'unjail') {
       return (
-        <Box display="flex" alignItems="center">
+        <>
           <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
           <Typography className={classes.validatorTypography}>{account.name}</Typography>
           <Typography>{t(`${activity.tag}Activity`)}</Typography>
-        </Box>
+        </>
       )
     }
     if (activity.tag === 'submitProposal') {
       return (
-        <Box display="flex" alignItems="center">
+        <>
           <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
           <Typography className={classes.validatorTypography}>{account.name}</Typography>
           <Typography>{t(`${activity.tag}Activity`)}</Typography>
           <Typography className={classes.proposalTypography}>{activity.detail.name}</Typography>
-        </Box>
+        </>
       )
     }
     if (activity.tag === 'editValidator') {
       return (
-        <Box display="flex" alignItems="center">
+        <>
           <Avatar className={classes.accountAvatar} alt={account.name} src={crypto.image} />
           <Typography className={classes.validatorTypography}>{account.name}</Typography>
           <Typography>
             {t(`${activity.tag}Activity`)} {activity.detail.name}
           </Typography>
-        </Box>
+        </>
       )
     }
     if (activity.tag === 'send') {
-      // eslint-disable-next-line react/require-default-props
-      const Self = ({ marginLeft }: { marginLeft?: boolean }) => (
-        <>
-          <Avatar
-            className={marginLeft ? classes.validatorAvatar : classes.accountAvatar}
-            alt={account.name}
-            src={crypto.image}
-          />
-          <Typography className={classes.validatorTypography}>{account.name}</Typography>
-        </>
-      )
       return (
-        <Box display="flex" alignItems="center">
+        <>
           {activity.detail.fromAddress === account.address ? (
-            <Self />
+            <Box mr={1}>
+              <AccountAvatar account={account} hideAddress size="small" />
+            </Box>
           ) : (
             <Typography className={classes.proposalTypography}>
               {activity.detail.fromAddress}
@@ -264,18 +252,20 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
             {t('to')}
           </Typography>
           {activity.detail.toAddress === account.address ? (
-            <Self marginLeft />
+            <Box ml={1}>
+              <AccountAvatar account={account} hideAddress size="small" />
+            </Box>
           ) : (
             <Typography className={classes.proposalTypography}>
               {activity.detail.toAddress}
             </Typography>
           )}
-        </Box>
+        </>
       )
     }
     if (activity.tag === 'setRewardAddress') {
       return (
-        <Box display="flex" alignItems="center">
+        <>
           <Typography className={classes.validatorTypography}>
             {activity.detail.srcAddress}
           </Typography>
@@ -283,7 +273,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
           <Typography className={classes.proposalTypography}>
             {activity.detail.dstAddress}
           </Typography>
-        </Box>
+        </>
       )
     }
     return null
@@ -296,7 +286,9 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
           {t(activity.tag)}
         </Typography>
       </Box>
-      <Content />
+      <Box display="flex" alignItems="center" flexWrap="wrap" mt={isMobile ? 2 : 0}>
+        <Content />
+      </Box>
     </Box>
   )
 }

@@ -13,27 +13,29 @@ import Success from '../Success'
 import SecurityPassword from '../SecurityPasswordDialogContent'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import { formatTransactionMsg } from '../../misc/formatTransactionMsg'
+import { formatTransactionMsg, formatTypeUrlTransactionMsg } from '../../misc/formatTransactionMsg'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import { getTokenAmountFromDenoms } from '../../misc/utils'
+import useIsMobile from '../../misc/useIsMobile'
 
-enum DelegationStage {
+enum ClaimRewardsStage {
   SecurityPasswordStage = 'security password',
   SelectValidatorsStage = 'select validators',
   ConfirmWithdrawStage = 'confirm withdraw',
   SuccessStage = 'success',
 }
 
-export interface ValidatorTag extends Partial<Validator> {
+export interface ValidatorTag extends Validator {
   isSelected: boolean
 }
 
-interface DelegationDialogProps {
+interface ClaimRewardsDialogProps {
   account: Account
   tokensPrices: TokenPrice[]
   open: boolean
   onClose(): void
   validators: Validator[]
+  preselectedValidatorAddresses?: string[]
 }
 
 interface Content {
@@ -42,28 +44,31 @@ interface Content {
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
+const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
   account,
   tokensPrices,
   open,
   onClose,
   validators,
+  preselectedValidatorAddresses,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
+  const isMobile = useIsMobile()
+  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
   const [amount, setAmount] = React.useState<TokenAmount>({})
   const [delegations, setDelegations] = React.useState<Array<ValidatorTag>>([])
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
 
   const { password } = useWalletsContext()
-  const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<DelegationStage>(
-    DelegationStage.SelectValidatorsStage
+  const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<ClaimRewardsStage>(
+    ClaimRewardsStage.SelectValidatorsStage
   )
 
   const defaultGasFee = getTokenAmountFromDenoms(
-    get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
+    get(crypto, 'defaultGasFee.amount', []),
     tokensPrices
   )
 
@@ -80,10 +85,10 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
           })
         })
         .filter((a) => a),
-      gasFee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
+      gasFee: get(crypto, 'defaultGasFee', {}),
       memo,
     }),
-    [delegations, account, password, memo]
+    [delegations, crypto, account, password, memo]
   )
 
   const confirmWithPassword = React.useCallback(
@@ -95,11 +100,14 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
           data: {
             securityPassword,
             ...transactionData,
+            transactions: transactionData.transactions.map((msg) =>
+              formatTypeUrlTransactionMsg(msg)
+            ),
           },
         })
         console.log(result)
         setLoading(false)
-        setStage(DelegationStage.SuccessStage, true)
+        setStage(ClaimRewardsStage.SuccessStage, true)
       } catch (err) {
         setLoading(false)
         console.log(err)
@@ -109,7 +117,7 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
   )
 
   const confirmLast = React.useCallback(() => {
-    setStage(DelegationStage.SecurityPasswordStage)
+    setStage(ClaimRewardsStage.SecurityPasswordStage)
   }, [setStage])
 
   const confirmAmount = React.useCallback(
@@ -117,32 +125,33 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
       setDelegations(d)
       setAmount(a)
       setMemo(m)
-      setStage(DelegationStage.ConfirmWithdrawStage)
+      setStage(ClaimRewardsStage.ConfirmWithdrawStage)
     },
     [setStage]
   )
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
-      case DelegationStage.SuccessStage:
+      case ClaimRewardsStage.SuccessStage:
         return {
           title: '',
           dialogWidth: 'xs',
           content: <Success onClose={onClose} content="rewards was successfully withdrew" />,
         }
-      case DelegationStage.SecurityPasswordStage:
+      case ClaimRewardsStage.SecurityPasswordStage:
         return {
           title: '',
           dialogWidth: 'sm',
           content: <SecurityPassword onConfirm={confirmWithPassword} loading={loading} />,
         }
-      case DelegationStage.ConfirmWithdrawStage:
+      case ClaimRewardsStage.ConfirmWithdrawStage:
         return {
           title: '',
           dialogWidth: 'sm',
           content: (
             <ConfirmWithdraw
               account={account}
+              crypto={crypto}
               amount={amount}
               gasFee={defaultGasFee}
               delegations={delegations}
@@ -152,19 +161,41 @@ const ClaimRewardsDialog: React.FC<DelegationDialogProps> = ({
             />
           ),
         }
-      case DelegationStage.SelectValidatorsStage:
+      case ClaimRewardsStage.SelectValidatorsStage:
       default:
         return {
           title: t('withdraw reward'),
           content: (
-            <SelectValidators account={account} onConfirm={confirmAmount} validators={validators} />
+            <SelectValidators
+              account={account}
+              crypto={crypto}
+              onConfirm={confirmAmount}
+              validators={validators}
+              preselectedValidatorAddresses={preselectedValidatorAddresses}
+            />
           ),
         }
     }
   }, [stage, t])
 
+  React.useEffect(() => {
+    if (open) {
+      setAmount({})
+      setDelegations([])
+      setMemo('')
+      setLoading(false)
+      setStage(ClaimRewardsStage.SelectValidatorsStage, true)
+    }
+  }, [open])
+
   return (
-    <Dialog fullWidth maxWidth={content.dialogWidth || 'md'} open={open} onClose={onClose}>
+    <Dialog
+      fullWidth
+      maxWidth={content.dialogWidth || 'md'}
+      open={open}
+      onClose={onClose}
+      fullScreen={isMobile}
+    >
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

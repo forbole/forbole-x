@@ -26,7 +26,7 @@ const GlobalCss = withStyles(
       },
       '.MuiDialogContentText-root': {
         textAlign: 'center',
-        whiteSpace: 'pre',
+        whiteSpace: 'pre-wrap',
         marginBottom: theme.spacing(5),
       },
       '.MuiFilledInput-root': {

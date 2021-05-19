@@ -15,6 +15,7 @@ import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
+import useIsMobile from '../../misc/useIsMobile'
 
 interface ChangeAccountMonikerDialogProps {
   accountAddress: string
@@ -32,6 +33,7 @@ const ChangeAccountMonikerDialog: React.FC<ChangeAccountMonikerDialogProps> = ({
   const iconProps = useIconProps()
   const [name, setName] = React.useState('')
   const { updateAccount } = useWalletsContext()
+  const isMobile = useIsMobile()
 
   const onButtonClick = React.useCallback(async () => {
     try {
@@ -49,7 +51,7 @@ const ChangeAccountMonikerDialog: React.FC<ChangeAccountMonikerDialogProps> = ({
   }, [open])
 
   return (
-    <Dialog fullWidth open={open} onClose={onClose}>
+    <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>

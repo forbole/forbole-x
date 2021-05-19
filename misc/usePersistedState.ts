@@ -1,4 +1,3 @@
-import { AirlineSeatLegroomExtraRounded } from '@material-ui/icons'
 import React from 'react'
 
 const retrievePersistedValue = <P>(key: string, initialValue: P) => {

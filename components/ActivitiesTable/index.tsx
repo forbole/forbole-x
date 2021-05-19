@@ -1,4 +1,4 @@
-import { Box, Card, Tabs, Tab, Typography } from '@material-ui/core'
+import { Box, Card, Tabs, Tab, Typography, Link } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import SuccessIcon from '../../assets/images/icons/icon_status_success.svg'
@@ -8,6 +8,7 @@ import { useGetStyles } from './styles'
 import Row from './Row'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIconProps from '../../misc/useIconProps'
+import useIsMobile from '../../misc/useIsMobile'
 
 interface ActivitiesTableProps {
   activities?: Activity[]
@@ -19,6 +20,7 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, a
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
   const iconProps = useIconProps()
+  const isMobile = useIsMobile()
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [currentTab, setCurrentTab] = React.useState(0)
@@ -43,6 +45,7 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, a
           }}
           onChange={(e, v) => setCurrentTab(v)}
           textColor={theme === 'light' ? 'primary' : 'inherit'}
+          variant="scrollable"
         >
           {tabs.map((tab) => (
             <Tab key={tab.label} label={`${t(tab.label)} (${tab.rows.length})`} />
@@ -51,9 +54,22 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, a
         <Box className={classes.table} mt={2}>
           {tabs[currentTab].rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((a, i) => (
             <Box key={`${a.ref}-${i}`}>
-              <Box className={classes.rowHeader}>
-                <span>{a.ref}</span>
-                <Typography className={classes.typograph}>
+              <Box
+                className={classes.rowHeader}
+                flexDirection={isMobile ? 'column' : 'row'}
+                alignItems={isMobile ? 'flex-start' : 'center'}
+              >
+                <Link
+                  href={`${crypto.blockExplorerBaseUrl}/transactions/${a.ref.replace('#', '')}`}
+                  color="textSecondary"
+                  variant="body2"
+                  className={classes.wrapText}
+                  target="_blank"
+                >
+                  {a.ref}
+                </Link>
+
+                <Typography>
                   {a.date}
                   {a.success ? (
                     <SuccessIcon className={classes.checkIcon} {...iconProps} />

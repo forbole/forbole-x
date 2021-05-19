@@ -2,6 +2,7 @@
 
 exports[`component: CreateWalletDialog calls Secp256k1HdWallet.generate(24) and renders create wallet stage correctly when onCreateWalletClick is called 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -90,6 +91,7 @@ exports[`component: CreateWalletDialog calls Secp256k1HdWallet.generate(24) and 
 
 exports[`component: CreateWalletDialog calls addWallet and onClose when wallet name is set 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={
@@ -201,6 +203,7 @@ exports[`component: CreateWalletDialog calls addWallet and onClose when wallet n
 
 exports[`component: CreateWalletDialog calls verify mnemonic and renders set security password stage correctly when onConfirm is called from ConfirmMnemonic 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -288,6 +291,7 @@ exports[`component: CreateWalletDialog calls verify mnemonic and renders set sec
 
 exports[`component: CreateWalletDialog calls verify mnemonic backup and renders set security password stage correctly when onConfirm is called from ImportMnemonicBackup 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -375,6 +379,7 @@ exports[`component: CreateWalletDialog calls verify mnemonic backup and renders 
 
 exports[`component: CreateWalletDialog renders access my wallet stage correctly when onImportWalletClick is called from Start 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -463,6 +468,7 @@ exports[`component: CreateWalletDialog renders access my wallet stage correctly 
 
 exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -520,6 +526,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
 
 exports[`component: CreateWalletDialog renders confirm mnemonic stage correctly when onConfirm is called from CreateWallet 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -609,6 +616,7 @@ exports[`component: CreateWalletDialog renders confirm mnemonic stage correctly 
 
 exports[`component: CreateWalletDialog renders correctly when back button is clicked on import wallets stage 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -666,6 +674,7 @@ exports[`component: CreateWalletDialog renders correctly when back button is cli
 
 exports[`component: CreateWalletDialog renders correctly when confirm mnemonic is invalid 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -755,6 +764,7 @@ exports[`component: CreateWalletDialog renders correctly when confirm mnemonic i
 
 exports[`component: CreateWalletDialog renders error state when invalid mnemonic phrase backup is imported 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -843,6 +853,7 @@ exports[`component: CreateWalletDialog renders error state when invalid mnemonic
 
 exports[`component: CreateWalletDialog renders error state when invalid mnemonic phrase is imported 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -932,6 +943,7 @@ exports[`component: CreateWalletDialog renders error state when invalid mnemonic
 
 exports[`component: CreateWalletDialog renders import mnemonic phrase stage correctly when onConfirm is called from AccessMyWallet 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -1021,6 +1033,7 @@ exports[`component: CreateWalletDialog renders import mnemonic phrase stage corr
 
 exports[`component: CreateWalletDialog renders import wallet stage correctly when security password is set 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -1108,6 +1121,7 @@ exports[`component: CreateWalletDialog renders import wallet stage correctly whe
 
 exports[`component: CreateWalletDialog renders import wallets stage correctly 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -1196,6 +1210,7 @@ exports[`component: CreateWalletDialog renders import wallets stage correctly 1`
 
 exports[`component: CreateWalletDialog renders mnemonic phrase backup stage correctly when onConfirm is called from AccessMyWallet 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -1284,6 +1299,7 @@ exports[`component: CreateWalletDialog renders mnemonic phrase backup stage corr
 
 exports[`component: CreateWalletDialog renders open state correctly 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -1338,6 +1354,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
 
 exports[`component: CreateWalletDialog renders set security password stage correctly when mnemonic is confirmed to be correct 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -1425,6 +1442,7 @@ exports[`component: CreateWalletDialog renders set security password stage corre
 
 exports[`component: CreateWalletDialog renders what is mnemonic stage correctly 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
