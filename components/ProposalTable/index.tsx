@@ -8,18 +8,19 @@ import InActive from './InActive'
 import VoteDialog from '../VoteDialog'
 
 interface Proposal {
-  no: string
+  id: number
   proposer: {
     name: string
     image: string
     address: string
   }
   title: string
-  content: string
-  votingTime: string
-  duration?: string
-  isActive: boolean
-  tag: string
+  description: string
+  votingStartTime: string
+  votingEndTime: string
+  duration?: number
+  isActive?: boolean
+  tag?: string
 }
 
 interface ProposalsTableProps {
@@ -39,7 +40,6 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, accounts }) =
     setSelectedProposal(proposal)
     setVoteDialogOpen(true)
   }
-  console.log('voteDialogOpen', voteDialogOpen)
 
   return (
     <>
@@ -49,12 +49,12 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, accounts }) =
             <Box
               className={classes.box}
               onClick={() => {
-                // router.push(`/proposal/${x.no}`)
+                router.push(`/proposal/${x.id}`)
               }}
             >
               <Box p={4} display="flex" justifyContent="flex-end">
                 <Box>
-                  <Typography variant="h6">{`#${x.no}`}</Typography>
+                  <Typography variant="h6">{`#${x.id}`}</Typography>
                 </Box>
 
                 <Box pl={3} flex={1}>
@@ -71,16 +71,20 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, accounts }) =
                   </Box>
                   <Typography variant="h6">{x.title}</Typography>
                   <Typography variant="subtitle1" color="textSecondary">
-                    {x.content}
+                    {x.description}
                   </Typography>
                   <Typography variant="subtitle1" color="textSecondary">
-                    {x.votingTime}
-                    <span className={classes.duration}>{x.duration}</span>
+                    {`${t('voting time')}: ${x.votingStartTime} to ${x.votingEndTime}`}
+                    {x.isActive ? (
+                      <span className={classes.duration}>
+                        {`(${t('in')} ${x.duration} ${x.duration > 1 ? t('days') : t('day')})`}
+                      </span>
+                    ) : null}
                   </Typography>
                 </Box>
 
                 <Box display="flex-end">
-                  {x.isActive ? (
+                  {x.tag === 'vote' || x.tag === 'deposit' ? (
                     <Active status={x.tag} onClick={() => onClick(x)} />
                   ) : (
                     <InActive status={x.tag} />
@@ -96,26 +100,6 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, accounts }) =
         proposal={selectedProposal}
         accounts={accounts}
         open={voteDialogOpen}
-        // tokensPrices={availableTokens.tokens_prices}
-        // tokensPrices={[
-        //   {
-        //     unit_name: '',
-        //     price: 0,
-        //     timestamp: '',
-        //     token_unit: {
-        //       denom: '',
-        //       exponent: 0,
-        //       token: {
-        //         token_units: [
-        //           {
-        //             denom: '',
-        //             exponent: 0,
-        //           },
-        //         ],
-        //       },
-        //     },
-        //   },
-        // ]}
         onClose={() => setVoteDialogOpen(false)}
       />
     </>

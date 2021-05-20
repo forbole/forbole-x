@@ -29,23 +29,22 @@ enum VotingStage {
 }
 
 export interface Proposal {
-  no: string
+  id: string
   proposer: {
     name: string
     image: string
     address: string
   }
   title: string
-  content: string
-  votingTime: string
+  description: string
+  votingEndTime: string
   duration?: string
-  isActive: boolean
-  tag: string
+  isActive?: boolean
+  tag?: string
 }
 
 interface VoteDialogProps {
   accounts: Account[]
-  // tokensPrices: TokenPrice[]
   open: boolean
   onClose(): void
   proposal: Proposal
@@ -57,13 +56,7 @@ interface Content {
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-const VoteDialog: React.FC<VoteDialogProps> = ({
-  accounts,
-  // tokensPrices,
-  open,
-  onClose,
-  proposal,
-}) => {
+const VoteDialog: React.FC<VoteDialogProps> = ({ accounts, open, onClose, proposal }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
@@ -94,23 +87,13 @@ const VoteDialog: React.FC<VoteDialogProps> = ({
     tokens_prices: [],
   })
 
-  console.log('crypto', crypto)
-  console.log('voteAccount', voteAccount)
-
-  const defaultGasFeeTest = voteAccount
+  const defaultGasFee = voteAccount
     ? getTokenAmountFromDenoms(
         get(cryptocurrencies, `${voteAccount.crypto}.defaultGasFee.amount`, []),
         availableTokens.tokens_prices
       )
     : null
-  console.log('defaultGasFeeTest', defaultGasFeeTest)
 
-  const defaultGasFee: TokenAmount = {
-    DSM: {
-      amount: 0,
-      price: 0,
-    },
-  }
   React.useEffect(() => {
     if (open) {
       setAnswer({})
@@ -207,7 +190,7 @@ const VoteDialog: React.FC<VoteDialogProps> = ({
               account={voteAccount}
               proposal={proposal}
               answer={answer}
-              gasFee={defaultGasFeeTest}
+              gasFee={defaultGasFee}
               memo={memo}
               onConfirm={confirmFinal}
               rawTransactionData=""

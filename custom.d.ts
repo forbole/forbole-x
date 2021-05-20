@@ -127,6 +127,46 @@ interface Activity {
   amount?: TokenAmount
 }
 
+interface VoteDetail {
+  voter: {
+    name: string
+    image: string
+  }
+  votingPower: number
+  votingPowerPercentage: number
+  votingPowerOverride: number
+  answer: string
+}
+
+interface DepositDetail {
+  depositor: {
+    name: string
+    image: string
+    address: string
+  }
+  amount: number
+  time: string
+}
+
+interface Proposal {
+  id: string
+  proposer: {
+    name: string
+    address: string
+    image: string
+  }
+  type: string
+  isActive: boolean
+  tag: string
+  title: string
+  description: string
+  votingStartTime: string
+  votingEndTime: string
+  duration?: number
+  depositDetails?: DepositDetail[]
+  voteDetails?: VoteDetail[]
+}
+
 interface TokenUnit {
   denom: string
   exponent: number

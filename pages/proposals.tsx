@@ -3,6 +3,7 @@ import { Box, Button, Menu, MenuItem, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import groupBy from 'lodash/groupBy'
 import { useRouter } from 'next/router'
+import { gql, useSubscription } from '@apollo/client'
 import Layout from '../components/Layout'
 import ProposalTable from '../components/ProposalTable'
 import { useWalletsContext } from '../contexts/WalletsContext'
@@ -11,6 +12,8 @@ import AccountAvatar from '../components/AccountAvatar'
 import DropDownIcon from '../assets/images/icons/icon_arrow_down_input_box.svg'
 import useIconProps from '../misc/useIconProps'
 import CreateProposalButton from '../components/CreateProposalButton'
+import { getProposals, getProposers } from '../graphql/queries/proposals'
+import { transformProposals } from '../misc/utils'
 
 const Proposals: React.FC = () => {
   const { t } = useTranslation('common')
@@ -29,6 +32,22 @@ const Proposals: React.FC = () => {
   const [activeAccountIndex, setActiveAccountIndex] = React.useState(0)
   const activeAccount = accounts[activeAccountIndex]
   const router = useRouter()
+  const crypto = activeAccount
+    ? cryptocurrencies[activeAccount.crypto]
+    : Object.values(cryptocurrencies)[0]
+
+  const { data: proposalData } = useSubscription(
+    gql`
+      ${getProposals(crypto.name)}
+    `
+  )
+
+  const { data: proposerData } = useSubscription(
+    gql`
+      ${getProposers(crypto.name)}
+    `
+  )
+  const proposalList = transformProposals(proposalData, proposerData)
 
   return (
     <Layout passwordRequired activeItem="/proposals">
@@ -92,8 +111,9 @@ const Proposals: React.FC = () => {
         accounts={accounts}
         // availableTokens={availableTokens}
         proposals={[
+          ...proposalList,
           {
-            no: '01',
+            id: 1,
             proposer: {
               name: 'forbole',
               image:
@@ -102,15 +122,16 @@ const Proposals: React.FC = () => {
             },
             title:
               'Are Validators Charging 0% Commission Harmful to the Success of the Cosmos Hub?',
-            content:
+            description:
               'This governance proposal is intended to act purely as a signalling proposal. Throughout this history of the Cosmos Hub, there has been much debate about …',
-            votingTime: 'Voting Time: 12 Dec 2019 16:22  to 26 Dec 2019, 16:22 UTC',
-            duration: '(in 14 days)',
+            votingEndTime: 'Voting Time: 12 Dec 2019 16:22  to 26 Dec 2019, 16:22 UTC',
+            duration: 1,
             isActive: true,
             tag: 'vote',
+            status: 'vote',
           },
           {
-            no: '02',
+            id: 2,
             proposer: {
               name: 'forbole',
               image:
@@ -119,15 +140,17 @@ const Proposals: React.FC = () => {
             },
             title:
               'Are Validators Charging 0% Commission Harmful to the Success of the Cosmos Hub?',
-            content:
+            description:
               'This governance proposal is intended to act purely as a signalling proposal. Throughout this history of the Cosmos Hub, there has been much debate about …',
-            votingTime: 'Voting Time: 12 Dec 2019 16:22  to 26 Dec 2019, 16:22 UTC',
-            duration: '(in 14 days)',
+            votingStartTime: '12 Dec 2019 16:22',
+            votingEndTime: 'to 26 Dec 2019, 16:22 UTC',
+            duration: '14',
             isActive: true,
             tag: 'deposit',
+            status: 'deposit',
           },
           {
-            no: '03',
+            id: 3,
             proposer: {
               name: 'forbole',
               image:
@@ -136,14 +159,16 @@ const Proposals: React.FC = () => {
             },
             title:
               'Are Validators Charging 0% Commission Harmful to the Success of the Cosmos Hub?',
-            content:
+            description:
               'This governance proposal is intended to act purely as a signalling proposal. Throughout this history of the Cosmos Hub, there has been much debate about …',
-            votingTime: 'Voting Time: 12 Dec 2019 16:22  to 26 Dec 2019, 16:22 UTC',
+            votingStartTime: '12 Dec 2019 16:22',
+            votingEndTime: 'to 26 Dec 2019, 16:22 UTC',
             isActive: false,
             tag: 'rejected',
+            status: 'rejected',
           },
           {
-            no: '04',
+            id: 8,
             proposer: {
               name: 'forbole',
               image:
@@ -152,14 +177,16 @@ const Proposals: React.FC = () => {
             },
             title:
               'Are Validators Charging 0% Commission Harmful to the Success of the Cosmos Hub?',
-            content:
+            description:
               'This governance proposal is intended to act purely as a signalling proposal. Throughout this history of the Cosmos Hub, there has been much debate about …',
-            votingTime: 'Voting Time: 12 Dec 2019 16:22  to 26 Dec 2019, 16:22 UTC',
+            votingStartTime: '12 Dec 2019 16:22',
+            votingEndTime: 'to 26 Dec 2019, 16:22 UTC',
             isActive: false,
             tag: 'passed',
+            status: 'passed',
           },
           {
-            no: '05',
+            id: 9,
             proposer: {
               name: 'forbole',
               image:
@@ -168,11 +195,13 @@ const Proposals: React.FC = () => {
             },
             title:
               'Are Validators Charging 0% Commission Harmful to the Success of the Cosmos Hub?',
-            content:
+            description:
               'This governance proposal is intended to act purely as a signalling proposal. Throughout this history of the Cosmos Hub, there has been much debate about …',
-            votingTime: 'Voting Time: 12 Dec 2019 16:22  to 26 Dec 2019, 16:22 UTC',
+            votingStartTime: '12 Dec 2019 16:22',
+            votingEndTime: 'to 26 Dec 2019, 16:22 UTC',
             isActive: false,
             tag: 'removed',
+            status: 'removed',
           },
         ]}
       />

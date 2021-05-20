@@ -4,6 +4,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import drop from 'lodash/drop'
 import keyBy from 'lodash/keyBy'
 import format from 'date-fns/format'
+import differenceInDays from 'date-fns/fp/differenceInDays'
 
 export const formatPercentage = (percent: number, lang: string): string =>
   new Intl.NumberFormat(lang, {
@@ -422,3 +423,81 @@ export const getCoinPrice = (coin: string): Promise<number> =>
     const data = await result.json()
     return get(last(get(data, 'prices', [])), 1)
   })
+
+const getTag = (status: string) => {
+  if (status === 'PROPOSAL_STATUS_REJECTED') {
+    return 'rejected'
+  }
+  if (status === 'PROPOSAL_STATUS_INVALID') {
+    return 'removed'
+  }
+  if (status === 'PROPOSAL_STATUS_PASSED') {
+    return 'passed'
+  }
+  if (status === 'PROPOSAL_STATUS_VOTING') {
+    return 'vote'
+  }
+  if (status === 'PROPOSAL_STATUS_DEPOSIT') {
+    return 'deposit'
+  }
+  // needs to be updated depends on the status content
+  return ''
+}
+
+export const transformProposals = (proposalData: any, proposerData: any): Proposal[] => {
+  return get(proposalData, 'proposal', []).map((p) => ({
+    id: get(p, 'id'),
+    proposer: {
+      name: get(proposerData, 'account')?.filter((x) => x.address === get(p, 'proposer_address'))[0]
+        .validator_infos[0].validator.validator_descriptions[0].moniker,
+      image: get(proposerData, 'account')?.filter(
+        (x) => x.address === get(p, 'proposer_address')
+      )[0].validator_infos[0].validator.validator_descriptions[0].avatar_url,
+      address: get(p, 'proposer_address'),
+    },
+    title: get(p, 'title'),
+    description: get(p, 'description'),
+    type: get(p, 'proposal_type'),
+    votingStartTime: `${format(new Date(get(p, 'voting_start_time')), 'dd MMM yyyy HH:mm')} UTC`,
+    votingEndTime: `${format(new Date(get(p, 'voting_end_time')), 'dd MMM yyyy HH:mm')} UTC`,
+    isActive: !!(
+      get(p, 'status') === 'PROPOSAL_STATUS_VOTING' ||
+      get(p, 'status') === 'PROPOSAL_STATUS_DEPOSIT'
+    ),
+    tag: getTag(get(p, 'status')),
+    duration: differenceInDays(new Date(get(p, 'voting_end_time')), Date.now()),
+  }))
+}
+
+
+// start from here
+
+export const transformProposal = (proposalData: any, proposerData: any): Proposal => {
+  const p = get(proposalData, 'proposal[0]')
+  console.log('proposalData', proposalData)
+  return {
+    id: get(p, 'id'),
+    proposer: {
+      name: get(
+        proposerData,
+        'account[0].validator_infos[0].validator.validator_descriptions[0].moniker'
+      ),
+      image: get(
+        proposerData,
+        'account[0].validator_infos[0].validator.validator_descriptions[0].avatar_url'
+      ),
+      address: get(p, 'proposer_address'),
+    },
+    title: get(p, 'title'),
+    description: get(p, 'description'),
+    type: get(p, 'proposal_type'),
+    votingStartTime: `${format(new Date(get(p, 'voting_start_time')), 'dd MMM yyyy HH:mm')} UTC`,
+    votingEndTime: `${format(new Date(get(p, 'voting_end_time')), 'dd MMM yyyy HH:mm')} UTC`,
+    isActive: !!(
+      get(p, 'status') === 'PROPOSAL_STATUS_VOTING' ||
+      get(p, 'status') === 'PROPOSAL_STATUS_DEPOSIT'
+    ),
+    tag: getTag(get(p, 'status')),
+    duration: differenceInDays(new Date(get(p, 'voting_end_time')), Date.now()),
+  }
+}

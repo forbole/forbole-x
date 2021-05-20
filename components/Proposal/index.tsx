@@ -41,16 +41,16 @@ export interface DepositDetail {
 }
 
 interface Proposal {
-  no: string
+  id: string
   proposer: {
     name: string
     image: string
     address: string
   }
   title: string
-  content: string
-  detail: string
-  votingTime: string
+  description: string
+  votingStartTime: string
+  votingEndTime: string
   duration?: string
   isActive: boolean
   tag: string
@@ -74,18 +74,20 @@ const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposal, crypto, voteS
     // link to vote / deposit page
   }
 
+  // console.log('proposal', proposal)
+
   return (
     <>
       <Card className={classes.card}>
         <Box
           className={classes.box}
           onClick={() => {
-            router.push(`/proposal/${proposal.no}`)
+            router.push(`/proposal/${proposal.id}`)
           }}
         >
           <Box p={4} display="flex" justifyContent="flex-end">
             <Box>
-              <Typography variant="h6">{`#${proposal.no}`}</Typography>
+              <Typography variant="h6">{`#${proposal.id}`}</Typography>
             </Box>
             <Box pl={3} flex={1}>
               <Box display="flex" mb={2}>
@@ -101,7 +103,7 @@ const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposal, crypto, voteS
               </Box>
               <Typography variant="h6">{proposal.title}</Typography>
               <Typography variant="subtitle1" color="textSecondary">
-                {proposal.votingTime}
+                {proposal.votingEndTime}
                 <span className={classes.duration}>{proposal.duration}</span>
               </Typography>
             </Box>
@@ -111,12 +113,12 @@ const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposal, crypto, voteS
         <Box p={4} pb={20} style={{ position: 'relative' }}>
           <Box display="flex">
             <Box>
-              <Typography variant="h6" className={classes.number}>{`#${proposal.no}`}</Typography>
+              <Typography variant="h6" className={classes.number}>{`#${proposal.id}`}</Typography>
             </Box>
             <Box pl={3} flex={1}>
               <Typography variant="subtitle1">{`${t('type')}: ${t(proposal.type)}`}</Typography>
               <Typography variant="subtitle1">{`${t('description')}: `}</Typography>
-              <Typography variant="subtitle1">{proposal.detail}</Typography>
+              <Typography variant="subtitle1">{proposal.description}</Typography>
             </Box>
           </Box>
           {proposal.tag === 'vote' ? (
@@ -125,11 +127,12 @@ const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposal, crypto, voteS
         </Box>
       </Card>
       {!proposal.isActive ? (
-        <InActiveCard
-          voteSummary={voteSummary}
-          voteDetails={proposal.voteDetails}
-          crypto={crypto}
-        />
+        // <InActiveCard
+        //   voteSummary={voteSummary}
+        //   voteDetails={proposal.voteDetails}
+        //   crypto={crypto}
+        // />
+        <Typography>111</Typography>
       ) : null}
       {proposal.tag === 'deposit' ? (
         <DepositTable depositDetails={proposal.depositDetails} />

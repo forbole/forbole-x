@@ -67,7 +67,6 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ accounts, onNext, proposal 
   const [memo, setMemo] = React.useState('')
   const [voteAccount, setVoteAccount] = React.useState<Account>(testAccount[0])
 
-
   return (
     <>
       <DialogContent>
@@ -123,7 +122,7 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ accounts, onNext, proposal 
             </Box>
             <Box>
               <Typography variant="button" className={classes.button}>
-                {`${t('vote proposal')} #${proposal.no}`}
+                {`${t('vote proposal')} #${proposal.id}`}
               </Typography>
               <Box display="flex" alignItems="center">
                 <Autocomplete
