@@ -1,25 +1,20 @@
 import React from 'react'
 import TransportWebUSB from '@ledgerhq/hw-transport-webusb'
-import { LaunchpadLedger } from '@cosmjs/ledger-amino'
-import { rawSecp256k1PubkeyToAddress } from '@cosmjs/launchpad'
+import { Cosmos } from 'ledger-app-cosmos'
 import cryptocurrencies from './cryptocurrencies'
 
 const useLedger = () => {
-  const [pubkey, setPubkey] = React.useState<any>()
-
-  const connect = React.useCallback(async () => {
+  const getAddress = React.useCallback(async (crypto: string, index: number) => {
     const transport = await TransportWebUSB.create()
-    const app = new LaunchpadLedger(transport)
-    const result = await app.getPubkey()
-    setPubkey(result)
-  }, [setPubkey])
+    const app = new Cosmos(transport)
+    const result = await app.getAddressAndPublicKey(
+      [44, cryptocurrencies[crypto].coinType, 0, 0, index],
+      cryptocurrencies[crypto].prefix
+    )
+    return result.bech32_address
+  }, [])
 
-  const getAddress = React.useCallback(
-    (crypto: string) => rawSecp256k1PubkeyToAddress(pubkey, cryptocurrencies[crypto].prefix),
-    [pubkey]
-  )
-
-  return { connect, getAddress }
+  return { getAddress }
 }
 
 export default useLedger

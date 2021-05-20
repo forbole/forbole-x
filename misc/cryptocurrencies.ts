@@ -2,6 +2,7 @@ const cryptocurrencies = {
   // ATOM: { name: 'ATOM', image: '/static/images/cryptocurrencies/atom.png', coinType: 118 },
   DSM: {
     name: 'DSM',
+    prefix: 'desmos',
     ecosystem: 'cosmos',
     image: '/static/images/cryptocurrencies/dsm.png',
     coinType: 852,

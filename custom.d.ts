@@ -3,6 +3,7 @@ declare module '*.svg' {
   const content: any
   export default content
 }
+declare module '@ledgerhq/hw-transport-webusb'
 
 interface Account {
   walletId: string
