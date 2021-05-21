@@ -41,6 +41,8 @@ interface CreateAccountParams {
   walletId: string
   crypto: string
   name: string
+  address?: string
+  index?: number
 }
 
 interface UpdateAccountParams {
@@ -153,7 +155,8 @@ interface CreateWalletParams {
   type: WalletType
   name: string
   cryptos: string[]
-  mnemonic: string
+  mnemonic?: string // For mnemonic type
+  addresses?: string[] // For ledger type
   securityPassword: string
 }
 

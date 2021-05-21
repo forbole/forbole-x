@@ -1,16 +1,27 @@
 import { Box, DialogContent, DialogContentText, Typography } from '@material-ui/core'
+import { Cosmos } from 'ledger-app-cosmos'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import LedgerImage from '../../assets/images/ledger.svg'
+import { connectLedger } from '../../misc/ledger'
 import useStyles from './styles'
 
-interface ConnectLedgerProps {
-  onConnect(address: string): void
+interface ConnectLedgerDialogContentProps {
+  onConnect(ledgerApp: Cosmos): void
 }
 
-const ConnectLedger: React.FC<ConnectLedgerProps> = () => {
+const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({ onConnect }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
+
+  const connect = React.useCallback(async () => {
+    const ledgerApp = await connectLedger()
+    onConnect(ledgerApp)
+  }, [])
+
+  React.useEffect(() => {
+    connect()
+  }, [])
 
   return (
     <DialogContent className={classes.dialogContent}>
@@ -25,4 +36,4 @@ const ConnectLedger: React.FC<ConnectLedgerProps> = () => {
   )
 }
 
-export default ConnectLedger
+export default ConnectLedgerDialogContent
