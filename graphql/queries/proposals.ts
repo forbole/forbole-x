@@ -25,13 +25,13 @@ export const getProposal = (crypto: string): string => `
 query Proposal($id: Int!) @${crypto} {
   proposal(where: {id: {_eq: $id }}) {
     content
-    deposit_end_time
     description
     id
-    submit_time
     title
     voting_end_time
     voting_start_time
+    submit_time
+    deposit_end_time
     proposal_type
     proposer_address
     status
@@ -78,6 +78,29 @@ query Account($address: String!) @${crypto} {
         }
       }
     }
+  }
+}
+`
+
+export const getProposalResult = (crypto: string): string => `
+query ProposalResult($id: Int!) @${crypto} {
+  proposal_tally_result(where: {proposal_id: {_eq: $id}}) {
+    abstain
+    height
+    no
+    no_with_veto
+    proposal_id
+    yes
+  }
+}
+`
+
+export const getVoteDetail = (crypto: string): string => `
+query VoteDetail($id: Int!) @${crypto} {
+  proposal_vote(where: {proposal_id: {_eq: $id}}) {
+    voter_address
+    proposal_id
+    option
   }
 }
 `

@@ -241,6 +241,11 @@
   "copied to clipboard": "Copied to Clipboard!",
   "select answer": "Select answer",
   "voting time": "Voting Time",
+  "voting start time": "Voting Start Time",
+  "voting end time": "Voting End Time",
+  "submitted time": "Submitted Time",
+  "deposited end time": "Deposited End Time",
   "in": "In",
-  "days": "Days"
+  "days": "Days",
+  "was successfully deposited": "was successfully deposited"
 }

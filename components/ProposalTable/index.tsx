@@ -6,6 +6,7 @@ import { useGetStyles } from './styles'
 import Active from './Active'
 import InActive from './InActive'
 import VoteDialog from '../VoteDialog'
+import DepositDialog from '../DepositDialog'
 
 interface Proposal {
   id: number
@@ -35,10 +36,17 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, accounts }) =
   const router = useRouter()
 
   const [voteDialogOpen, setVoteDialogOpen] = React.useState(false)
+  const [depositDialogOpen, setDepositDialogOpen] = React.useState(false)
   const [selectedProposal, setSelectedProposal] = React.useState<Proposal>()
   const onClick = (proposal: Proposal) => {
     setSelectedProposal(proposal)
-    setVoteDialogOpen(true)
+    if (proposal.tag === 'vote') {
+      setVoteDialogOpen(true)
+    }
+    setSelectedProposal(proposal)
+    if (proposal.tag === 'deposit') {
+      setDepositDialogOpen(true)
+    }
   }
 
   return (
@@ -49,7 +57,7 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, accounts }) =
             <Box
               className={classes.box}
               onClick={() => {
-                router.push(`/proposal/${x.id}`)
+                // router.push(`/proposal/${x.id}`)
               }}
             >
               <Box p={4} display="flex" justifyContent="flex-end">
@@ -101,6 +109,12 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, accounts }) =
         accounts={accounts}
         open={voteDialogOpen}
         onClose={() => setVoteDialogOpen(false)}
+      />
+      <DepositDialog
+        proposal={selectedProposal}
+        accounts={accounts}
+        open={depositDialogOpen}
+        onClose={() => setDepositDialogOpen(false)}
       />
     </>
   )

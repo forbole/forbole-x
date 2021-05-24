@@ -1,17 +1,20 @@
 import React from 'react'
 import { Box, Card, Typography, Avatar, Divider } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-import { useRouter } from 'next/router'
 import { useGetStyles } from './styles'
 import Active from './Active'
 import DepositTable from './DepositTable'
+import VoteTime from './VoteTime'
+import DepositTime from './DepositTime'
+import InactiveTime from './InactiveTime'
 import InActiveCard from './InActiveCard'
+import InActive from './InActive'
+import VoteDialog from '../VoteDialog'
 
 export interface VoteSummary {
   amount: number
   percentage: number
   description: string
-  colors: string[]
   data: {
     title: string
     percentage: number
@@ -36,11 +39,11 @@ export interface DepositDetail {
     image: string
     address: string
   }
-  amount: number
+  amount: TokenAmount
   time: string
 }
 
-interface Proposal {
+export interface Proposal {
   id: string
   proposer: {
     name: string
@@ -49,42 +52,52 @@ interface Proposal {
   }
   title: string
   description: string
+  submitTime: string
+  depositEndTime: string
   votingStartTime: string
   votingEndTime: string
-  duration?: string
+  duration?: number
   isActive: boolean
   tag: string
   type: string
   depositDetails?: DepositDetail[]
-  voteDetails?: VoteDetail[]
 }
 
-interface ProposalsTableProps {
+interface ProposalDetailProps {
   proposal: Proposal
   crypto: Cryptocurrency
   voteSummary?: VoteSummary
+  colors?: [string, string, string, string]
+  voteDetails?: VoteDetail[]
+  accounts: Account[]
 }
 
-const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposal, crypto, voteSummary }) => {
+const ProposalDetail: React.FC<ProposalDetailProps> = ({
+  accounts,
+  proposal,
+  crypto,
+  voteSummary,
+  voteDetails,
+  colors,
+}) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
+  const [voteDialogOpen, setVoteDialogOpen] = React.useState(false)
 
-  const router = useRouter()
-  const onClick = () => {
-    // link to vote / deposit page
+  const timeContent = (p: Proposal) => {
+    if (p.tag === 'vote') {
+      return <VoteTime proposal={p} />
+    }
+    if (p.tag === 'deposit') {
+      return <DepositTime proposal={p} />
+    }
+    return <InactiveTime proposal={p} />
   }
-
-  // console.log('proposal', proposal)
 
   return (
     <>
       <Card className={classes.card}>
-        <Box
-          className={classes.box}
-          onClick={() => {
-            router.push(`/proposal/${proposal.id}`)
-          }}
-        >
+        <Box className={classes.box}>
           <Box p={4} display="flex" justifyContent="flex-end">
             <Box>
               <Typography variant="h6">{`#${proposal.id}`}</Typography>
@@ -102,10 +115,10 @@ const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposal, crypto, voteS
                 </Typography>
               </Box>
               <Typography variant="h6">{proposal.title}</Typography>
-              <Typography variant="subtitle1" color="textSecondary">
-                {proposal.votingEndTime}
-                <span className={classes.duration}>{proposal.duration}</span>
-              </Typography>
+              {timeContent(proposal)}
+            </Box>
+            <Box display="flex-end">
+              {proposal.isActive ? null : <InActive status={proposal.tag} />}
             </Box>
           </Box>
           <Divider className={classes.divider} />
@@ -122,23 +135,28 @@ const ProposalsTable: React.FC<ProposalsTableProps> = ({ proposal, crypto, voteS
             </Box>
           </Box>
           {proposal.tag === 'vote' ? (
-            <Active status={proposal.tag} onClick={onClick} className={classes.vote} />
+            <Active
+              status={proposal.tag}
+              onClick={() => setVoteDialogOpen(true)}
+              className={classes.vote}
+            />
           ) : null}
         </Box>
       </Card>
       {!proposal.isActive ? (
-        // <InActiveCard
-        //   voteSummary={voteSummary}
-        //   voteDetails={proposal.voteDetails}
-        //   crypto={crypto}
-        // />
-        <Typography>111</Typography>
+        <InActiveCard voteSummary={voteSummary} voteDetails={voteDetails} crypto={crypto} />
       ) : null}
-      {proposal.tag === 'deposit' ? (
-        <DepositTable depositDetails={proposal.depositDetails} />
+      {proposal.tag !== 'vote' ? (
+        <DepositTable accounts={accounts} proposal={proposal} crypto={crypto} tag={proposal.tag} />
       ) : null}
+      <VoteDialog
+        proposal={proposal}
+        accounts={accounts}
+        open={voteDialogOpen}
+        onClose={() => setVoteDialogOpen(false)}
+      />
     </>
   )
 }
 
-export default ProposalsTable
+export default ProposalDetail

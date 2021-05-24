@@ -6,10 +6,10 @@ import { size } from 'lodash'
 import { gql, useSubscription } from '@apollo/client'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
-import VoteIcon from '../../assets/images/icons/icon_vote.svg'
+import DepositIcon from '../../assets/images/icons/icon_delegate_tx.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
-import SelectAnswer from './SelectAnswer'
+import InputAmount from './InputAmount'
 import useStateHistory from '../../misc/useStateHistory'
 import Success from '../Success'
 import SecurityPassword from '../SecurityPasswordDialogContent'
@@ -17,13 +17,13 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { formatTransactionMsg } from '../../misc/formatTransactionMsg'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
-import { getTokenAmountFromDenoms } from '../../misc/utils'
-import ConfirmAnswer from './ConfirmAnswer'
+import { getTokenAmountFromDenoms, formatTokenAmount, formatCrypto } from '../../misc/utils'
+import ConfirmAnswer from './ConfirmAmount'
 import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 
-enum VotingStage {
+enum DepositStage {
   SecurityPasswordStage = 'security password',
-  SelectAnswerStage = 'select answer',
+  InputAmountStage = 'input amount',
   ConfirmAnswerStage = 'confirm withdraw',
   SuccessStage = 'success',
 }
@@ -43,7 +43,7 @@ export interface Proposal {
   tag?: string
 }
 
-interface VoteDialogProps {
+interface DepositDialogProps {
   accounts: Account[]
   open: boolean
   onClose(): void
@@ -56,19 +56,19 @@ interface Content {
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-const VoteDialog: React.FC<VoteDialogProps> = ({ accounts, open, onClose, proposal }) => {
-  const { t } = useTranslation('common')
+const DepositDialog: React.FC<DepositDialogProps> = ({ accounts, open, onClose, proposal }) => {
+  const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
   const voteIconProps = useIconProps(8)
-  const [answer, setAnswer] = React.useState<{ name?: string; id?: string }>({})
+  const [amount, setAmount] = React.useState(0)
   const [voteAccount, setVoteAccount] = React.useState<Account>(accounts[0])
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
 
   const { password } = useWalletsContext()
-  const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<VotingStage>(
-    VotingStage.SelectAnswerStage
+  const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<DepositStage>(
+    DepositStage.InputAmountStage
   )
 
   const crypto = voteAccount
@@ -96,11 +96,11 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ accounts, open, onClose, propos
 
   React.useEffect(() => {
     if (open) {
-      setAnswer({})
+      setAmount(undefined)
       setMemo('')
       setMemo('')
       setLoading(false)
-      setStage(VotingStage.SelectAnswerStage, true)
+      setStage(DepositStage.InputAmountStage, true)
     }
   }, [open])
 
@@ -136,7 +136,7 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ accounts, open, onClose, propos
         // })
         // console.log(result)
         setLoading(false)
-        setStage(VotingStage.SuccessStage, true)
+        setStage(DepositStage.SuccessStage, true)
       } catch (err) {
         setLoading(false)
         console.log(err)
@@ -146,41 +146,42 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ accounts, open, onClose, propos
     []
   )
 
-  const confirmFinal = React.useCallback(() => {
-    setStage(VotingStage.SecurityPasswordStage)
-  }, [setStage])
-
-  const chooseAnswer = React.useCallback(
-    (v: Account, a: { name: string; id: string }, m?: string) => {
+  const confirmAmount = React.useCallback(
+    (v: Account, a: number, m?: string) => {
       setVoteAccount(v)
-      setAnswer(a)
+      setAmount(a)
       setMemo(m)
-      setStage(VotingStage.ConfirmAnswerStage)
+      setStage(DepositStage.ConfirmAnswerStage)
     },
     [setStage]
   )
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
-      case VotingStage.SuccessStage:
+      case DepositStage.SuccessStage:
         return {
           title: '',
           dialogWidth: 'xs',
-          content: <Success onClose={onClose} content="rewards was successfully withdrew" />,
+          content: (
+            <Success
+              onClose={onClose}
+              content={`${t('proposal')} #${proposal.id} ${t('was successfully deposited')}`}
+            />
+          ),
         }
-      case VotingStage.SecurityPasswordStage:
+      case DepositStage.SecurityPasswordStage:
         return {
           title: '',
           dialogWidth: 'sm',
           content: <SecurityPassword onConfirm={confirmWithPassword} loading={loading} />,
         }
-      case VotingStage.ConfirmAnswerStage:
+      case DepositStage.ConfirmAnswerStage:
         return {
           title: (
             <Box>
-              <VoteIcon {...voteIconProps} className={classes.voteButton} />
+              <DepositIcon {...voteIconProps} className={classes.voteButton} />
               <Typography className={classes.title} variant="h1">
-                {`${t('You’re going to vote')} ${answer.name}`}
+                {`${t('deposit')} ${formatCrypto(amount, voteAccount.crypto, lang)}`}
               </Typography>
             </Box>
           ),
@@ -189,20 +190,27 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ accounts, open, onClose, propos
             <ConfirmAnswer
               account={voteAccount}
               proposal={proposal}
-              answer={answer}
+              amount={amount}
               gasFee={defaultGasFee}
               memo={memo}
-              onConfirm={confirmFinal}
+              onConfirm={() => setStage(DepositStage.SecurityPasswordStage)}
               rawTransactionData=""
             />
           ),
         }
-      case VotingStage.SelectAnswerStage:
+      case DepositStage.InputAmountStage:
       default:
         return {
-          title: t('vote'),
+          title: t('deposit'),
           dialogWidth: 'sm',
-          content: <SelectAnswer accounts={accounts} onNext={chooseAnswer} proposal={proposal} />,
+          content: (
+            <InputAmount
+              accounts={accounts}
+              onNext={confirmAmount}
+              proposal={proposal}
+              availableTokens={availableTokens}
+            />
+          ),
         }
     }
   }, [stage, t])
@@ -223,4 +231,4 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ accounts, open, onClose, propos
   )
 }
 
-export default VoteDialog
+export default DepositDialog

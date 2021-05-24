@@ -144,7 +144,7 @@ interface DepositDetail {
     image: string
     address: string
   }
-  amount: number
+  amount: TokenAmount
   time: string
 }
 
@@ -162,6 +162,8 @@ interface Proposal {
   description: string
   votingStartTime: string
   votingEndTime: string
+  submitTime: string
+  depositEndTime: string
   duration?: number
   depositDetails?: DepositDetail[]
   voteDetails?: VoteDetail[]

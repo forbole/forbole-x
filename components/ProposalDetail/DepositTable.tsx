@@ -12,19 +12,25 @@ import {
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { useGetStyles } from './styles'
-import { DepositDetail } from './index'
 import Active from './Active'
+import { formatTokenAmount } from '../../misc/utils'
+import DepositDialog from '../DepositDialog'
+import { Proposal } from './index'
 
 interface DepositTableProps {
-  depositDetails: DepositDetail[]
+  proposal: Proposal
+  crypto: Cryptocurrency
+  tag: string
+  accounts: Account[]
   // onClick: () => void
 }
 
-const DepositTable: React.FC<DepositTableProps> = ({ depositDetails }) => {
+const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto, accounts }) => {
   const { classes } = useGetStyles()
-  const { t } = useTranslation('common')
+  const { t, lang } = useTranslation('common')
+  const [depositDialogOpen, setDepositDialogOpen] = React.useState(false)
   const onClick = () => {
-    // link to vote / deposit page
+    setDepositDialogOpen(true)
   }
 
   const columns = [
@@ -47,7 +53,9 @@ const DepositTable: React.FC<DepositTableProps> = ({ depositDetails }) => {
         <Typography className={classes.title} variant="h4">
           {t('deposit')}
         </Typography>
-        <Active status="deposit" onClick={onClick} className={classes.deposit} />
+        {tag === 'deposit' ? (
+          <Active status="deposit" onClick={onClick} className={classes.deposit} />
+        ) : null}
       </Box>
 
       <Box m={4} mt={0}>
@@ -68,9 +76,9 @@ const DepositTable: React.FC<DepositTableProps> = ({ depositDetails }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {depositDetails.map((d) => {
+            {proposal.depositDetails.map((d, i) => {
               return (
-                <TableRow className={classes.tableRow}>
+                <TableRow className={classes.tableRow} key={i}>
                   <TableCell className={classes.tableCell}>
                     <Box className={classes.box} display="flex" alignItems="center">
                       <Avatar
@@ -82,7 +90,9 @@ const DepositTable: React.FC<DepositTableProps> = ({ depositDetails }) => {
                     </Box>
                   </TableCell>
                   <TableCell align="right">
-                    <Typography variant="subtitle1">{d.amount}</Typography>
+                    <Typography variant="subtitle1">
+                      {formatTokenAmount(d.amount, crypto.name, lang)}
+                    </Typography>
                   </TableCell>
                   <TableCell align="right">
                     <Typography variant="subtitle1">{d.time}</Typography>
@@ -92,6 +102,12 @@ const DepositTable: React.FC<DepositTableProps> = ({ depositDetails }) => {
             })}
           </TableBody>
         </Table>
+        <DepositDialog
+          proposal={proposal}
+          accounts={accounts}
+          open={depositDialogOpen}
+          onClose={() => setDepositDialogOpen(false)}
+      />
       </Box>
     </Card>
   )

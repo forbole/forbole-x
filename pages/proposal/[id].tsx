@@ -1,6 +1,7 @@
 import { Breadcrumbs, Link as MLink } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
+import groupBy from 'lodash/groupBy'
 import { useRouter } from 'next/router'
 import { gql, useSubscription } from '@apollo/client'
 import React from 'react'
@@ -9,9 +10,16 @@ import AccountAvatar from '../../components/AccountAvatar'
 import Layout from '../../components/Layout'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import Proposal from '../../components/Proposal'
-import { getProposal, getProposer } from '../../graphql/queries/proposals'
-import { transformProposal } from '../../misc/utils'
+import ProposalDetail from '../../components/ProposalDetail'
+import {
+  getProposal,
+  getProposer,
+  getProposers,
+  getProposalResult,
+  getVoteDetail,
+} from '../../graphql/queries/proposals'
+import { transformProposal, transformVoteSummary, transformVoteDetail } from '../../misc/utils'
+import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 
 const Account: React.FC = () => {
   const router = useRouter()
@@ -20,7 +28,14 @@ const Account: React.FC = () => {
   const account = accounts.find((a) => a.address === router.query.address)
   const { id } = router.query
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
-
+  const accountsMap = React.useMemo(
+    () =>
+      groupBy(
+        accounts.map((a, index) => ({ ...a, index })),
+        'walletId'
+      ),
+    [accounts]
+  )
   const { data: proposalData } = useSubscription(
     gql`
       ${getProposal(crypto.name)}
@@ -42,8 +57,38 @@ const Account: React.FC = () => {
       },
     }
   )
-  const proposal = transformProposal(proposalData, proposerData)
-  console.log('proposal12', proposal, proposalData, proposerData)
+
+  const { data: balanceData } = useSubscription(
+    gql`
+      ${getLatestAccountBalance(crypto.name)}
+    `,
+    { variables: { address: get(proposalData, 'proposal[0].proposer_address') } }
+  )
+
+  const { data: proposerListData } = useSubscription(
+    gql`
+      ${getProposers(crypto.name)}
+    `
+  )
+
+  const { data: proporslReaultData } = useSubscription(
+    gql`
+      ${getProposalResult(crypto.name)}
+    `,
+    { variables: { id } }
+  )
+
+  const { data: voteDetailData } = useSubscription(
+    gql`
+      ${getVoteDetail(crypto.name)}
+    `,
+    { variables: { id } }
+  )
+
+  const proposal = transformProposal(proposalData, proposerData, balanceData, proposerListData)
+  const voteSummary = transformVoteSummary(proporslReaultData)
+  const voteDetail = transformVoteDetail(voteDetailData)
+  console.log('voteDetail', voteDetail)
 
   return (
     <Layout
@@ -60,27 +105,43 @@ const Account: React.FC = () => {
         ) : null
       }
     >
-      <Proposal
-        // proposal={proposal}
-        proposal={{
-          id: '01',
-          proposer: {
-            name: 'forbole',
-            image:
-              'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-            address: 'address',
-          },
-          title: 'Are Validators Charging 0% Commission Harmful to the Success of the Cosmos Hub?',
-          description:
-            'This governance proposal is intended to act purely as a signalling proposal. Throughout this history of the Cosmos Hub, there has been much debate about …',
-          votingEndTime: 'Voting Time: 12 Dec 2019 16:22  to 26 Dec 2019, 16:22 UTC',
-          votingStartTime: '',
-          duration: '(in 14 days)',
-          isActive: true,
-          tag: 'vote',
-          type: 'text proposal',
-        }}
+      <ProposalDetail
+        accounts={accounts}
+        proposal={proposal}
+        // proposal={{
+        //   id: '01',
+        //   proposer: {
+        //     name: 'forbole',
+        //     image:
+        //       'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
+        //     address: 'address',
+        //   },
+        //   title: 'Are Validators Charging 0% Commission Harmful to the Success of the Cosmos Hub?',
+        //   description:
+        //     'This governance proposal is intended to act purely as a signalling proposal. Throughout this history of the Cosmos Hub, there has been much debate about …',
+        //   votingEndTime: 'Voting Time: 12 Dec 2019 16:22  to 26 Dec 2019, 16:22 UTC',
+        //   votingStartTime: '',
+        //   duration: '(in 14 days)',
+        //   isActive: true,
+        //   tag: 'vote',
+        //   type: 'text proposal',
+        // }}
         crypto={crypto}
+        colors={['#28C989', '#1C86FC', '#FD248C', '#FD7522']}
+        voteSummary={voteSummary}
+        voteDetails={[
+          {
+            voter: {
+              name: 'forbole',
+              image:
+                'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
+            },
+            votingPower: 10,
+            votingPowerPercentage: 0.1,
+            votingPowerOverride: 0.1,
+            answer: 'yes',
+          },
+        ]}
         // Vote Result
         // proposal={{
         //   no: '01',

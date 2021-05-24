@@ -434,10 +434,10 @@ const getTag = (status: string) => {
   if (status === 'PROPOSAL_STATUS_PASSED') {
     return 'passed'
   }
-  if (status === 'PROPOSAL_STATUS_VOTING') {
+  if (status === 'PROPOSAL_STATUS_VOTING_PERIOD') {
     return 'vote'
   }
-  if (status === 'PROPOSAL_STATUS_DEPOSIT') {
+  if (status === 'PROPOSAL_STATUS_DEPOSIT_PERIOD') {
     return 'deposit'
   }
   // needs to be updated depends on the status content
@@ -469,12 +469,17 @@ export const transformProposals = (proposalData: any, proposerData: any): Propos
   }))
 }
 
+// handle voting time later! depositDetail does not include timeStamp now
 
-// start from here
-
-export const transformProposal = (proposalData: any, proposerData: any): Proposal => {
+export const transformProposal = (
+  proposalData: any,
+  proposerData: any,
+  balanceData: any,
+  proposerListData: any
+): Proposal => {
   const p = get(proposalData, 'proposal[0]')
-  console.log('proposalData', proposalData)
+  const d = get(proposalData, 'proposal[0].proposal_deposits')
+  const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
   return {
     id: get(p, 'id'),
     proposer: {
@@ -491,13 +496,107 @@ export const transformProposal = (proposalData: any, proposerData: any): Proposa
     title: get(p, 'title'),
     description: get(p, 'description'),
     type: get(p, 'proposal_type'),
-    votingStartTime: `${format(new Date(get(p, 'voting_start_time')), 'dd MMM yyyy HH:mm')} UTC`,
-    votingEndTime: `${format(new Date(get(p, 'voting_end_time')), 'dd MMM yyyy HH:mm')} UTC`,
+    votingStartTime: get(p, 'voting_start_time'),
+    votingEndTime: get(p, 'voting_end_time'),
+    submitTime: get(p, 'submit_time'),
+    depositEndTime: get(p, 'deposit_end_time'),
+    // votingStartTime: `${format(new Date(get(p, 'voting_start_time')), 'dd MMM yyyy HH:mm')} UTC`,
+    // votingEndTime: `${format(new Date(get(p, 'voting_end_time')), 'dd MMM yyyy HH:mm')} UTC`,
     isActive: !!(
-      get(p, 'status') === 'PROPOSAL_STATUS_VOTING' ||
-      get(p, 'status') === 'PROPOSAL_STATUS_DEPOSIT'
+      get(p, 'status') === 'PROPOSAL_STATUS_VOTING_PERIOD' ||
+      get(p, 'status') === 'PROPOSAL_STATUS_DEPOSIT_PERIOD'
     ),
     tag: getTag(get(p, 'status')),
     duration: differenceInDays(new Date(get(p, 'voting_end_time')), Date.now()),
+    depositDetails: get(proposalData, 'proposal[0].proposal_deposits', []).map((x) => {
+      return {
+        depositor: {
+          name: get(proposerListData, 'account')?.filter(
+            (a) => a.address === x.depositor_address
+          )[0].validator_infos[0].validator.validator_descriptions[0].moniker,
+          image: get(proposerListData, 'account')?.filter(
+            (a) => a.address === x.depositor_address
+          )[0].validator_infos[0].validator.validator_descriptions[0].avatar_url,
+          address: x.depositor_address,
+        },
+        amount: getTokenAmountFromDenoms(x.amount, tokensPrices),
+        time: '',
+      }
+    }),
   }
+}
+
+// how to get description
+export const transformVoteSummary = (proposalResult: any): any => {
+  let abstain = 0
+  let no = 0
+  let veto = 0
+  let yes = 0
+
+  get(proposalResult, 'proposal_tally_result', []).forEach((p) => {
+    abstain += get(p, 'abstain')
+    no += get(p, 'no')
+    veto += get(p, 'no_with_veto')
+    yes += get(p, 'yes')
+  })
+
+  const totalAmount = abstain + no + veto + yes
+
+  const voteSummary = {
+    percentage: 0.0,
+    amount: totalAmount,
+    description: '',
+    data: [
+      {
+        title: 'yes',
+        percentage: totalAmount === 0 ? 0 : yes / totalAmount,
+        value: yes,
+      },
+      {
+        title: 'no',
+        percentage: totalAmount === 0 ? 0 : no / totalAmount,
+        value: no,
+      },
+      {
+        title: 'veto',
+        percentage: totalAmount === 0 ? 0 : veto / totalAmount,
+        value: veto,
+      },
+      {
+        title: 'abstain',
+        percentage: totalAmount === 0 ? 0 : abstain / totalAmount,
+        value: abstain,
+      },
+    ],
+  }
+
+  return voteSummary
+}
+
+// how to get description
+export const transformVoteDetail = (voteDetail: any): any => {
+  const getVoteAnswer = (answer: string) => {
+    if (answer === 'VOTE_OPTION_YES') {
+      return 'yes'
+    }
+    if (answer === 'VOTE_OPTION_NO') {
+      return 'no'
+    }
+    if (answer === 'VOTE_OPTION_ABSTAIN') {
+      return 'abstain'
+    }
+    return 'veto'
+  }
+
+  return get(voteDetail, 'proposal_vote', []).map((d) => ({
+    voter: {
+      name: '',
+      image: '',
+      address: get(d, 'voter_address'),
+    },
+    votingPower: 0,
+    votingPowerPercentage: 0.1,
+    votingPowerOverride: 0.1,
+    answer: getVoteAnswer(get(d, 'option')),
+  }))
 }

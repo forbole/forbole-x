@@ -2,6 +2,15 @@ import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { CustomTheme } from '../../misc/theme'
 
 export const useGetStyles = (color?: string, status?: string) => {
+  const statusColor = () => {
+    if (status === 'rejected') {
+      return 'unbonded'
+    }
+    if (status === 'removed') {
+      return 'unknown'
+    }
+    return 'active'
+  }
   const useStyles = makeStyles(
     (theme: CustomTheme) =>
       createStyles({
@@ -109,6 +118,23 @@ export const useGetStyles = (color?: string, status?: string) => {
         },
         abstain: {
           color: theme.palette.primary.main,
+        },
+        typograph: {
+          width: theme.spacing(8),
+          marginLeft: theme.spacing(4),
+          '&:before': {
+            content: '""',
+            width: theme.spacing(1.5),
+            marginLeft: theme.spacing(-2.5),
+            height: theme.spacing(1.5),
+            top: '20%',
+            background: theme.palette.statusColor[statusColor()]
+              ? theme.palette.statusColor[statusColor()]
+              : 'grey',
+            display: 'block',
+            position: 'absolute',
+            borderRadius: theme.spacing(2),
+          },
         },
       }),
     {
