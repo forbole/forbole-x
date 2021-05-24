@@ -293,3 +293,10 @@ type ChromeMessage =
         memo?: string
       }
     }
+  | {
+      event: 'getSequenceAndChainId'
+      data: {
+        address: string
+        crypto: string
+      }
+    }

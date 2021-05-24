@@ -7,7 +7,7 @@ const typeUrlMap = {
   'cosmos-sdk/MsgBeginRedelegate': '/cosmos.staking.v1beta1.MsgBeginRedelegate',
   'cosmos-sdk/MsgWithdrawDelegationReward':
     '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
-  'cosmos-sdk/MsgSend': '/cosmos.bank.v1beta1.MsgMultiSend',
+  'cosmos-sdk/MsgSend': '/cosmos.bank.v1beta1.MsgSend',
 }
 
 const formatCosmosTransactionMsg = ({ type, ...params }: TransactionMsg) => {
@@ -90,6 +90,9 @@ export const formatRawTransactionData = (crypto: string, transactionMsg: any) =>
       fee: transactionMsg.gasFee,
       msgs: transactionMsg.transactions,
       memo: transactionMsg.memo,
+      account_number: transactionMsg.accountNumber,
+      sequence: transactionMsg.sequence,
+      chainId: transactionMsg.chainId,
     }
   }
   return null

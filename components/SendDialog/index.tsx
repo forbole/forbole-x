@@ -3,6 +3,7 @@ import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
+import { Cosmos } from 'ledger-app-cosmos'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
@@ -22,9 +23,12 @@ import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/ut
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import Success from './Success'
 import useIsMobile from '../../misc/useIsMobile'
+import sendTransaction from '../../misc/sendTransaction'
+import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 
 enum SendStage {
   SelectRecipientsStage = 'select recipients',
+  ConnectLedgerStage = 'connect ledger',
   ConfirmSendStage = 'confirm send',
   SecurityPasswordStage = 'security password',
   SuccessStage = 'success',
@@ -49,12 +53,25 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
   const isMobile = useIsMobile()
+  const { wallets } = useWalletsContext()
+  const wallet = wallets.find((w) => w.id === account.walletId)
   const [recipients, setRecipients] = React.useState<
     Array<{ amount: { amount: number; denom: string }; address: string }>
   >([])
   const [memo, setMemo] = React.useState('')
   const [totalAmount, setTotalAmount] = React.useState<TokenAmount>()
   const [loading, setLoading] = React.useState(false)
+  const [signerInfo, setSignerInfo] = React.useState({})
+
+  React.useEffect(() => {
+    sendMsgToChromeExt({
+      event: 'getSequenceAndChainId',
+      data: {
+        address: account.address,
+        crypto: account.crypto,
+      },
+    }).then((result) => setSignerInfo(result))
+  }, [account])
 
   const { availableAmount, defaultGasFee } = React.useMemo(
     () => ({
@@ -95,8 +112,9 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
         .filter((a) => a),
       gasFee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
       memo,
+      ...signerInfo,
     }),
-    [recipients, availableTokens, account, password, memo]
+    [recipients, availableTokens, account, password, memo, signerInfo]
   )
 
   const confirmRecipients = React.useCallback(
@@ -113,20 +131,15 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
     [setStage]
   )
 
-  const sendTransactionMessage = React.useCallback(
-    async (securityPassword: string) => {
+  const confirm = React.useCallback(
+    async (securityPassword: string, ledgerApp?: Cosmos) => {
       try {
         setLoading(true)
-        await sendMsgToChromeExt({
-          event: 'signAndBroadcastTransactions',
-          data: {
-            securityPassword,
-            ...transactionData,
-            transactions: transactionData.transactions.map((msg) =>
-              formatTypeUrlTransactionMsg(msg)
-            ),
-          },
-        })
+        const data = {
+          securityPassword,
+          ...transactionData,
+        }
+        await sendTransaction(data, ledgerApp, account.index)
         setLoading(false)
         setStage(SendStage.SuccessStage, true)
       } catch (err) {
@@ -134,7 +147,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
         console.log(err)
       }
     },
-    [transactionData]
+    [transactionData, account]
   )
 
   const content: Content = React.useMemo(() => {
@@ -151,7 +164,13 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
               memo={memo}
               gasFee={defaultGasFee}
               rawTransactionData={formatRawTransactionData(account.crypto, transactionData)}
-              onConfirm={() => setStage(SendStage.SecurityPasswordStage)}
+              onConfirm={() =>
+                setStage(
+                  wallet.type === 'ledger'
+                    ? SendStage.ConnectLedgerStage
+                    : SendStage.SecurityPasswordStage
+                )
+              }
             />
           ),
         }
@@ -159,7 +178,13 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
         return {
           title: '',
           dialogWidth: 'sm',
-          content: <SecurityPassword onConfirm={sendTransactionMessage} loading={loading} />,
+          content: <SecurityPassword onConfirm={confirm} loading={loading} />,
+        }
+      case SendStage.ConnectLedgerStage:
+        return {
+          title: '',
+          dialogWidth: 'sm',
+          content: <ConnectLedgerDialogContent onConnect={(ledgerApp) => confirm('', ledgerApp)} />,
         }
       case SendStage.SuccessStage:
         return {

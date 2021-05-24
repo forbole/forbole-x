@@ -2,6 +2,7 @@ import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
+import { Cosmos } from 'ledger-app-cosmos'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
@@ -17,9 +18,12 @@ import { formatTransactionMsg, formatTypeUrlTransactionMsg } from '../../misc/fo
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import { getTokenAmountFromDenoms } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
+import sendTransaction from '../../misc/sendTransaction'
+import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 
 enum ClaimRewardsStage {
   SecurityPasswordStage = 'security password',
+  ConnectLedgerStage = 'connect ledger',
   SelectValidatorsStage = 'select validators',
   ConfirmWithdrawStage = 'confirm withdraw',
   SuccessStage = 'success',
@@ -57,10 +61,23 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
   const iconProps = useIconProps()
   const isMobile = useIsMobile()
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
+  const { wallets } = useWalletsContext()
+  const wallet = wallets.find((w) => w.id === account.walletId)
   const [amount, setAmount] = React.useState<TokenAmount>({})
   const [delegations, setDelegations] = React.useState<Array<ValidatorTag>>([])
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
+  const [signerInfo, setSignerInfo] = React.useState({})
+
+  React.useEffect(() => {
+    sendMsgToChromeExt({
+      event: 'getSequenceAndChainId',
+      data: {
+        address: account.address,
+        crypto: account.crypto,
+      },
+    }).then((result) => setSignerInfo(result))
+  }, [account])
 
   const { password } = useWalletsContext()
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<ClaimRewardsStage>(
@@ -87,25 +104,20 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
         .filter((a) => a),
       gasFee: get(crypto, 'defaultGasFee', {}),
       memo,
+      ...signerInfo,
     }),
-    [delegations, crypto, account, password, memo]
+    [delegations, crypto, account, password, memo, signerInfo]
   )
 
-  const confirmWithPassword = React.useCallback(
-    async (securityPassword: string) => {
+  const confirm = React.useCallback(
+    async (securityPassword: string, ledgerApp?: Cosmos) => {
       try {
         setLoading(true)
-        const result = await sendMsgToChromeExt({
-          event: 'signAndBroadcastTransactions',
-          data: {
-            securityPassword,
-            ...transactionData,
-            transactions: transactionData.transactions.map((msg) =>
-              formatTypeUrlTransactionMsg(msg)
-            ),
-          },
-        })
-        console.log(result)
+        const data = {
+          securityPassword,
+          ...transactionData,
+        }
+        await sendTransaction(data, ledgerApp, account.index)
         setLoading(false)
         setStage(ClaimRewardsStage.SuccessStage, true)
       } catch (err) {
@@ -113,11 +125,15 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
         console.log(err)
       }
     },
-    [transactionData]
+    [transactionData, account]
   )
 
   const confirmLast = React.useCallback(() => {
-    setStage(ClaimRewardsStage.SecurityPasswordStage)
+    setStage(
+      wallet.type === 'ledger'
+        ? ClaimRewardsStage.ConnectLedgerStage
+        : ClaimRewardsStage.SecurityPasswordStage
+    )
   }, [setStage])
 
   const confirmAmount = React.useCallback(
@@ -142,7 +158,13 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
         return {
           title: '',
           dialogWidth: 'sm',
-          content: <SecurityPassword onConfirm={confirmWithPassword} loading={loading} />,
+          content: <SecurityPassword onConfirm={confirm} loading={loading} />,
+        }
+      case ClaimRewardsStage.ConnectLedgerStage:
+        return {
+          title: '',
+          dialogWidth: 'sm',
+          content: <ConnectLedgerDialogContent onConnect={(ledgerApp) => confirm('', ledgerApp)} />,
         }
       case ClaimRewardsStage.ConfirmWithdrawStage:
         return {
