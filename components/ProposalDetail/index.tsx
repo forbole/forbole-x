@@ -2,18 +2,18 @@ import React from 'react'
 import { Box, Card, Typography, Avatar, Divider } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import { useGetStyles } from './styles'
-import Active from './Active'
+import ActiveStatus from './ActiveStatus'
 import DepositTable from './DepositTable'
 import VoteTime from './VoteTime'
 import DepositTime from './DepositTime'
 import InactiveTime from './InactiveTime'
-import InActiveCard from './InActiveCard'
-import InActive from './InActive'
+import InActiveStatus from './InActiveStatus'
 import VoteDialog from '../VoteDialog'
+import VoteResult from './VoteResult'
+import VoteTable from './VoteTable'
 
 export interface VoteSummary {
   amount: number
-  percentage: number
   description: string
   data: {
     title: string
@@ -44,7 +44,7 @@ export interface DepositDetail {
 }
 
 export interface Proposal {
-  id: string
+  id: number
   proposer: {
     name: string
     image: string
@@ -78,7 +78,6 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
   crypto,
   voteSummary,
   voteDetails,
-  colors,
 }) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
@@ -118,7 +117,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
               {timeContent(proposal)}
             </Box>
             <Box display="flex-end">
-              {proposal.isActive ? null : <InActive status={proposal.tag} />}
+              {proposal.isActive ? null : <InActiveStatus status={proposal.tag} />}
             </Box>
           </Box>
           <Divider className={classes.divider} />
@@ -135,7 +134,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
             </Box>
           </Box>
           {proposal.tag === 'vote' ? (
-            <Active
+            <ActiveStatus
               status={proposal.tag}
               onClick={() => setVoteDialogOpen(true)}
               className={classes.vote}
@@ -144,7 +143,12 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
         </Box>
       </Card>
       {!proposal.isActive ? (
-        <InActiveCard voteSummary={voteSummary} voteDetails={voteDetails} crypto={crypto} />
+        <Card className={classes.card}>
+          <Box m={4}>
+            <VoteResult voteSummary={voteSummary} crypto={crypto} />
+            <VoteTable voteDetails={voteDetails} crypto={crypto} />
+          </Box>
+        </Card>
       ) : null}
       {proposal.tag !== 'vote' ? (
         <DepositTable accounts={accounts} proposal={proposal} crypto={crypto} tag={proposal.tag} />

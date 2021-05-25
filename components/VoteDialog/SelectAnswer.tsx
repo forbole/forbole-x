@@ -22,7 +22,7 @@ interface SelectAnswerProps {
 }
 
 const SelectAnswer: React.FC<SelectAnswerProps> = ({ accounts, onNext, proposal }) => {
-  const { t, lang } = useTranslation('common')
+  const { t } = useTranslation('common')
   const classes = useStyles()
   const answers = [
     {

@@ -6,10 +6,9 @@ import { Proposal } from './index'
 
 interface ActiveProps {
   proposal: Proposal
-  className?: string
 }
 
-const DepositTime: React.FC<ActiveProps> = ({ proposal, className }) => {
+const DepositTime: React.FC<ActiveProps> = ({ proposal }) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
 

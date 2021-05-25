@@ -41,13 +41,7 @@ const Proposals: React.FC = () => {
       ${getProposals(crypto.name)}
     `
   )
-
-  const { data: proposerData } = useSubscription(
-    gql`
-      ${getProposers(crypto.name)}
-    `
-  )
-  const proposalList = transformProposals(proposalData, proposerData)
+  const proposalList = transformProposals(proposalData)
 
   return (
     <Layout passwordRequired activeItem="/proposals">
@@ -107,104 +101,7 @@ const Proposals: React.FC = () => {
           </Button>
         </Box>
       </Box>
-      <ProposalTable
-        accounts={accounts}
-        // availableTokens={availableTokens}
-        proposals={[
-          ...proposalList,
-          {
-            id: 1,
-            proposer: {
-              name: 'forbole',
-              image:
-                'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-              address: 'address',
-            },
-            title:
-              'Are Validators Charging 0% Commission Harmful to the Success of the Cosmos Hub?',
-            description:
-              'This governance proposal is intended to act purely as a signalling proposal. Throughout this history of the Cosmos Hub, there has been much debate about …',
-            votingEndTime: 'Voting Time: 12 Dec 2019 16:22  to 26 Dec 2019, 16:22 UTC',
-            duration: 1,
-            isActive: true,
-            tag: 'vote',
-            status: 'vote',
-          },
-          {
-            id: 2,
-            proposer: {
-              name: 'forbole',
-              image:
-                'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-              address: 'address',
-            },
-            title:
-              'Are Validators Charging 0% Commission Harmful to the Success of the Cosmos Hub?',
-            description:
-              'This governance proposal is intended to act purely as a signalling proposal. Throughout this history of the Cosmos Hub, there has been much debate about …',
-            votingStartTime: '12 Dec 2019 16:22',
-            votingEndTime: 'to 26 Dec 2019, 16:22 UTC',
-            duration: '14',
-            isActive: true,
-            tag: 'deposit',
-            status: 'deposit',
-          },
-          {
-            id: 3,
-            proposer: {
-              name: 'forbole',
-              image:
-                'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-              address: 'address',
-            },
-            title:
-              'Are Validators Charging 0% Commission Harmful to the Success of the Cosmos Hub?',
-            description:
-              'This governance proposal is intended to act purely as a signalling proposal. Throughout this history of the Cosmos Hub, there has been much debate about …',
-            votingStartTime: '12 Dec 2019 16:22',
-            votingEndTime: 'to 26 Dec 2019, 16:22 UTC',
-            isActive: false,
-            tag: 'rejected',
-            status: 'rejected',
-          },
-          {
-            id: 8,
-            proposer: {
-              name: 'forbole',
-              image:
-                'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-              address: 'address',
-            },
-            title:
-              'Are Validators Charging 0% Commission Harmful to the Success of the Cosmos Hub?',
-            description:
-              'This governance proposal is intended to act purely as a signalling proposal. Throughout this history of the Cosmos Hub, there has been much debate about …',
-            votingStartTime: '12 Dec 2019 16:22',
-            votingEndTime: 'to 26 Dec 2019, 16:22 UTC',
-            isActive: false,
-            tag: 'passed',
-            status: 'passed',
-          },
-          {
-            id: 9,
-            proposer: {
-              name: 'forbole',
-              image:
-                'https://s3.amazonaws.com/keybase_processed_uploads/f5b0771af36b2e3d6a196a29751e1f05_360_360.jpeg',
-              address: 'address',
-            },
-            title:
-              'Are Validators Charging 0% Commission Harmful to the Success of the Cosmos Hub?',
-            description:
-              'This governance proposal is intended to act purely as a signalling proposal. Throughout this history of the Cosmos Hub, there has been much debate about …',
-            votingStartTime: '12 Dec 2019 16:22',
-            votingEndTime: 'to 26 Dec 2019, 16:22 UTC',
-            isActive: false,
-            tag: 'removed',
-            status: 'removed',
-          },
-        ]}
-      />
+      <ProposalTable accounts={accounts} proposals={proposalList} />
     </Layout>
   )
 }

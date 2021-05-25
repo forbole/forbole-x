@@ -1,42 +1,8 @@
 import React from 'react'
-import {
-  Box,
-  Card,
-  Button,
-  DialogActions,
-  DialogContent,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-  Divider,
-  Grid,
-} from '@material-ui/core'
-import { Autocomplete } from '@material-ui/lab'
+import { Box, Card, Button, Typography, Divider } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-import { useRouter } from 'next/router'
-import keyBy from 'lodash/keyBy'
-import useIconProps from '../../misc/useIconProps'
 import { useGetStyles } from './styles'
-import Active from './Active'
-import InActive from './InActive'
-import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import { Proposal } from './index'
-
-// interface Proposal {
-//   no: string
-//   proposer: {
-//     name: string
-//     image: string
-//     address: string
-//   }
-//   title: string
-//   content: string
-//   votingTime: string
-//   duration?: string
-//   isActive: boolean
-//   tag: string
-// }
 
 interface ConfirmProposalContentProps {
   proposal: Proposal
@@ -44,68 +10,10 @@ interface ConfirmProposalContentProps {
   onConfirm: () => void
 }
 
-const ConfirmProposalContent: React.FC<ConfirmProposalContentProps> = ({
-  accounts,
-  proposal,
-  onConfirm,
-}) => {
+const ConfirmProposalContent: React.FC<ConfirmProposalContentProps> = ({ proposal, onConfirm }) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
 
-  const iconProps = useIconProps()
-  const networks = [
-    {
-      name: 'Cosmoshub - ATOM',
-      id: '01',
-    },
-    {
-      name: 'Desmoshub - DSM',
-      id: '02',
-    },
-  ]
-
-  const types = [
-    {
-      name: 'Text Proposal',
-      id: '01',
-    },
-    {
-      name: 'Other Proposal',
-      id: '02',
-    },
-  ]
-
-  const testAccount = [
-    ...accounts,
-    {
-      walletId: '1111',
-      address: 'desmos111111',
-      createdAt: 111111,
-      crypto: 'DSM',
-      fav: false,
-      index: 0,
-      name: 'DSM',
-      displayName: '',
-      id: '',
-      rpDisplayName: '',
-    },
-  ]
-
-  const [network, setNetwork] = React.useState<{ name: string; id: string }>()
-
-  const [type, setType] = React.useState<{ name: string; id: string }>()
-
-  const [proposalAccount, setProposalAccount] = React.useState<Account>(testAccount[0])
-
-  const accountsMap = keyBy(testAccount, 'address')
-
-  const networksMap = keyBy(networks, 'id')
-
-  const typesMap = keyBy(types, 'id')
-
-  const [description, setDescription] = React.useState('')
-
-  const [title, setTitle] = React.useState('')
 
   return (
     <Card>
@@ -171,17 +79,6 @@ const ConfirmProposalContent: React.FC<ConfirmProposalContentProps> = ({
             className={classes.button}
             color="primary"
             onClick={() => onConfirm()}
-            // onClick={() =>
-            //   onConfirm(
-            //     delegations
-            //       .filter((v) => v.validator.name && Number(v.amount))
-            //       .map((v) => ({
-            //         validator: v.validator,
-            //         amount: Number(v.amount),
-            //       })),
-            //     memo
-            //   )
-            // }
           >
             {t('next')}
           </Button>

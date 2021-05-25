@@ -2,11 +2,11 @@ import { Box, Typography } from '@material-ui/core'
 import React from 'react'
 import { useGetStyles } from './styles'
 
-interface InActiveProps {
+interface InActiveStatusProps {
   status: string
 }
 
-const InActive: React.FC<InActiveProps> = ({ status }) => {
+const InActiveStatus: React.FC<InActiveStatusProps> = ({ status }) => {
   const { classes } = useGetStyles('', status)
 
   return (
@@ -18,4 +18,4 @@ const InActive: React.FC<InActiveProps> = ({ status }) => {
   )
 }
 
-export default InActive
+export default InActiveStatus

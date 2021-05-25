@@ -1,26 +1,11 @@
 import React from 'react'
-import { Box, Button, InputAdornment, TextField, Typography, Grid } from '@material-ui/core'
+import { Box, Button, InputAdornment, TextField, Typography, Grid, Avatar } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
 import keyBy from 'lodash/keyBy'
 import useIconProps from '../../misc/useIconProps'
 import { useGetStyles } from './styles'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
-
-interface Proposal {
-  no: string
-  proposer: {
-    name: string
-    image: string
-    address: string
-  }
-  title: string
-  content: string
-  votingTime: string
-  duration?: string
-  isActive: boolean
-  tag: string
-}
 
 interface CreateProposalContentProps {
   accounts: Account[]
@@ -31,48 +16,35 @@ interface CreateProposalContentProps {
     title: string,
     description: string
   ): void
+  networks: { name: string; id: string }[]
 }
 
-const CreateProposalContent: React.FC<CreateProposalContentProps> = ({ accounts, onNext }) => {
+const CreateProposalContent: React.FC<CreateProposalContentProps> = ({
+  accounts,
+  onNext,
+  networks,
+}) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
 
   const iconProps = useIconProps()
-  const networks = [
-    {
-      name: 'Cosmoshub - ATOM',
-      id: '01',
-    },
-    {
-      name: 'Desmoshub - DSM',
-      id: '02',
-    },
-  ]
 
   const types = [
     {
-      name: 'Text Proposal',
-      id: '01',
+      name: `${t('Text')}`,
+      id: 'Text',
     },
     {
-      name: 'Other Proposal',
-      id: '02',
+      name: `${t('ParameterChange')}`,
+      id: 'ParameterChange',
     },
-  ]
-
-  const testAccount = [
-    ...accounts,
     {
-      walletId: '1111',
-      address: 'desmos111111',
-      createdAt: 111111,
-      crypto: 'DSM',
-      fav: false,
-      index: 0,
-      name: 'DSM',
-      displayName: '',
-      id: '',
-      rpDisplayName: '',
+      name: `${t('SoftwareUpgrade')}`,
+      id: 'SoftwareUpgrade',
+    },
+    {
+      name: `${t('CommunityPoolSpend')}`,
+      id: 'CommunityPoolSpend',
     },
   ]
 
@@ -80,9 +52,9 @@ const CreateProposalContent: React.FC<CreateProposalContentProps> = ({ accounts,
 
   const [type, setType] = React.useState<{ name: string; id: string }>()
 
-  const [proposalAccount, setProposalAccount] = React.useState<Account>(testAccount[0])
+  const [proposalAccount, setProposalAccount] = React.useState<Account>(accounts[0])
 
-  const accountsMap = keyBy(testAccount, 'address')
+  const accountsMap = keyBy(accounts, 'address')
 
   const networksMap = keyBy(networks, 'id')
 
@@ -105,7 +77,7 @@ const CreateProposalContent: React.FC<CreateProposalContentProps> = ({ accounts,
         </Typography>
         <Box display="flex" alignItems="center" ml={0} mb={4}>
           <Autocomplete
-            options={testAccount.map(({ address }) => address)}
+            options={accounts.map(({ address }) => address)}
             getOptionLabel={(option) =>
               `${accountsMap[option].name} ${accountsMap[option].address}`
             }
@@ -194,7 +166,6 @@ const CreateProposalContent: React.FC<CreateProposalContentProps> = ({ accounts,
               />
             </Box>
           </Grid>
-
           <Grid item xs={6}>
             <Typography variant="button" className={classes.button}>
               {t('type')}

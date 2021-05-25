@@ -3,13 +3,13 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { useGetStyles } from './styles'
 
-interface ActiveProps {
+interface ActiveStatusProps {
   status: string
   onClick: () => void
   className?: string
 }
 
-const Active: React.FC<ActiveProps> = ({ status, onClick, className }) => {
+const ActiveStatus: React.FC<ActiveStatusProps> = ({ status, onClick, className }) => {
   const { classes } = useGetStyles('', status)
   const { t } = useTranslation('common')
 
@@ -22,4 +22,4 @@ const Active: React.FC<ActiveProps> = ({ status, onClick, className }) => {
   )
 }
 
-export default Active
+export default ActiveStatus

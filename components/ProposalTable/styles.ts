@@ -3,7 +3,7 @@ import { CustomTheme } from '../../misc/theme'
 
 export const useGetStyles = (status?: string) => {
   const statusColor = () => {
-    if (status === 'rejected') {
+    if (status === 'rejected' || status === 'failed') {
       return 'unbonded'
     }
     if (status === 'removed') {

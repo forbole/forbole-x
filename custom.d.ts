@@ -149,7 +149,7 @@ interface DepositDetail {
 }
 
 interface Proposal {
-  id: string
+  id: number
   proposer: {
     name: string
     address: string
@@ -164,7 +164,7 @@ interface Proposal {
   votingEndTime: string
   submitTime: string
   depositEndTime: string
-  duration?: number
+  duration: number
   depositDetails?: DepositDetail[]
   voteDetails?: VoteDetail[]
 }

@@ -12,7 +12,7 @@ import {
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { useGetStyles } from './styles'
-import Active from './Active'
+import Active from './ActiveStatus'
 import { formatTokenAmount } from '../../misc/utils'
 import DepositDialog from '../DepositDialog'
 import { Proposal } from './index'
@@ -22,7 +22,6 @@ interface DepositTableProps {
   crypto: Cryptocurrency
   tag: string
   accounts: Account[]
-  // onClick: () => void
 }
 
 const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto, accounts }) => {
@@ -107,7 +106,7 @@ const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto, acco
           accounts={accounts}
           open={depositDialogOpen}
           onClose={() => setDepositDialogOpen(false)}
-      />
+        />
       </Box>
     </Card>
   )

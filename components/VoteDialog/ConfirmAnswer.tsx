@@ -1,12 +1,4 @@
-import {
-  Button,
-  DialogActions,
-  DialogContent,
-  Divider,
-  Typography,
-  useTheme,
-  Box,
-} from '@material-ui/core'
+import { Button, DialogActions, DialogContent, Divider, Typography, Box } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import dynamic from 'next/dynamic'
@@ -43,7 +35,6 @@ const ConfirmAnswer: React.FC<ConfirmWithdrawProps> = ({
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const theme = useTheme()
   const { theme: themeSetting } = useGeneralContext()
   const [viewData, setViewData] = React.useState(false)
   const toggleViewData = () => {

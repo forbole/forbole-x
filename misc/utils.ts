@@ -440,20 +440,19 @@ const getTag = (status: string) => {
   if (status === 'PROPOSAL_STATUS_DEPOSIT_PERIOD') {
     return 'deposit'
   }
-  // needs to be updated depends on the status content
+  if (status === 'PROPOSAL_STATUS_FAILED') {
+    return 'failed'
+  }
   return ''
 }
 
-export const transformProposals = (proposalData: any, proposerData: any): Proposal[] => {
+export const transformProposals = (proposalData: any): Proposal[] => {
   return get(proposalData, 'proposal', []).map((p) => ({
     id: get(p, 'id'),
     proposer: {
-      name: get(proposerData, 'account')?.filter((x) => x.address === get(p, 'proposer_address'))[0]
-        .validator_infos[0].validator.validator_descriptions[0].moniker,
-      image: get(proposerData, 'account')?.filter(
-        (x) => x.address === get(p, 'proposer_address')
-      )[0].validator_infos[0].validator.validator_descriptions[0].avatar_url,
-      address: get(p, 'proposer_address'),
+      name: get(p, 'proposer.validator_infos[0].validator.validator_descriptions[0].moniker'),
+      image: get(p, 'proposer.validator_infos[0].validator.validator_descriptions[0].avatar_url'),
+      address: get(p, 'proposer.address'),
     },
     title: get(p, 'title'),
     description: get(p, 'description'),
@@ -469,64 +468,54 @@ export const transformProposals = (proposalData: any, proposerData: any): Propos
   }))
 }
 
-// handle voting time later! depositDetail does not include timeStamp now
-
-export const transformProposal = (
-  proposalData: any,
-  proposerData: any,
-  balanceData: any,
-  proposerListData: any
-): Proposal => {
+export const transformProposal = (proposalData: any, balanceData: any): Proposal => {
   const p = get(proposalData, 'proposal[0]')
-  const d = get(proposalData, 'proposal[0].proposal_deposits')
   const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
   return {
     id: get(p, 'id'),
     proposer: {
-      name: get(
-        proposerData,
-        'account[0].validator_infos[0].validator.validator_descriptions[0].moniker'
-      ),
-      image: get(
-        proposerData,
-        'account[0].validator_infos[0].validator.validator_descriptions[0].avatar_url'
-      ),
-      address: get(p, 'proposer_address'),
+      name: get(p, 'proposer.validator_infos[0].validator.validator_descriptions[0].moniker'),
+      image: get(p, 'proposer.validator_infos[0].validator.validator_descriptions[0].avatar_url'),
+      address: get(p, 'proposer.address'),
     },
     title: get(p, 'title'),
     description: get(p, 'description'),
     type: get(p, 'proposal_type'),
-    votingStartTime: get(p, 'voting_start_time'),
-    votingEndTime: get(p, 'voting_end_time'),
-    submitTime: get(p, 'submit_time'),
-    depositEndTime: get(p, 'deposit_end_time'),
-    // votingStartTime: `${format(new Date(get(p, 'voting_start_time')), 'dd MMM yyyy HH:mm')} UTC`,
-    // votingEndTime: `${format(new Date(get(p, 'voting_end_time')), 'dd MMM yyyy HH:mm')} UTC`,
+    votingStartTime: get(p, 'voting_start_time')
+      ? `${format(new Date(get(p, 'voting_start_time')), 'dd MMM yyyy HH:mm')} UTC`
+      : '',
+    votingEndTime: get(p, 'voting_end_time')
+      ? `${format(new Date(get(p, 'voting_end_time')), 'dd MMM yyyy HH:mm')} UTC`
+      : '',
+    depositEndTime: get(p, 'deposit_end_time')
+      ? `${format(new Date(get(p, 'deposit_end_time')), 'dd MMM yyyy HH:mm')} UTC`
+      : '',
+    submitTime: get(p, 'submit_time')
+      ? `${format(new Date(get(p, 'submit_time')), 'dd MMM yyyy HH:mm')} UTC`
+      : '',
     isActive: !!(
       get(p, 'status') === 'PROPOSAL_STATUS_VOTING_PERIOD' ||
       get(p, 'status') === 'PROPOSAL_STATUS_DEPOSIT_PERIOD'
     ),
     tag: getTag(get(p, 'status')),
     duration: differenceInDays(new Date(get(p, 'voting_end_time')), Date.now()),
-    depositDetails: get(proposalData, 'proposal[0].proposal_deposits', []).map((x) => {
+    depositDetails: get(p, 'proposal_deposits', []).map((x) => {
       return {
         depositor: {
-          name: get(proposerListData, 'account')?.filter(
-            (a) => a.address === x.depositor_address
-          )[0].validator_infos[0].validator.validator_descriptions[0].moniker,
-          image: get(proposerListData, 'account')?.filter(
-            (a) => a.address === x.depositor_address
-          )[0].validator_infos[0].validator.validator_descriptions[0].avatar_url,
-          address: x.depositor_address,
+          name: get(x, 'depositor.validator_infos[0].validator.validator_descriptions[0].moniker'),
+          image: get(
+            x,
+            'depositor.validator_infos[0].validator.validator_descriptions[0].avatar_url'
+          ),
+          address: get(x, 'depositor.address'),
         },
         amount: getTokenAmountFromDenoms(x.amount, tokensPrices),
-        time: '',
+        time: `${format(new Date(x.block.timestamp), 'dd MMM yyyy HH:mm')} UTC`,
       }
     }),
   }
 }
 
-// how to get description
 export const transformVoteSummary = (proposalResult: any): any => {
   let abstain = 0
   let no = 0
@@ -573,7 +562,6 @@ export const transformVoteSummary = (proposalResult: any): any => {
   return voteSummary
 }
 
-// how to get description
 export const transformVoteDetail = (voteDetail: any): any => {
   const getVoteAnswer = (answer: string) => {
     if (answer === 'VOTE_OPTION_YES') {
@@ -590,8 +578,8 @@ export const transformVoteDetail = (voteDetail: any): any => {
 
   return get(voteDetail, 'proposal_vote', []).map((d) => ({
     voter: {
-      name: '',
-      image: '',
+      name: get(d, 'account.validator_infos[0].validator.validator_descriptions[0].moniker'),
+      image: get(d, 'account.validator_infos[0].validator.validator_descriptions[0].avatar_url'),
       address: get(d, 'voter_address'),
     },
     votingPower: 0,

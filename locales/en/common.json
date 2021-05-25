@@ -247,5 +247,9 @@
   "deposited end time": "Deposited End Time",
   "in": "In",
   "days": "Days",
-  "was successfully deposited": "was successfully deposited"
+  "was successfully deposited": "was successfully deposited",
+  "Text": "Text Proposal",
+  "ParameterChange": "Parameter Change Proposal",
+  "SoftwareUpgrade": "Software Upgrade Proposal",
+  "CommunityPoolSpend": "Community Pool Spend Proposal"
 }

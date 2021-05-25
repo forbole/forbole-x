@@ -2,7 +2,6 @@ import { Box, Dialog, DialogTitle, IconButton, Typography } from '@material-ui/c
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
-import { size } from 'lodash'
 import { gql, useSubscription } from '@apollo/client'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
@@ -15,9 +14,7 @@ import Success from '../Success'
 import SecurityPassword from '../SecurityPasswordDialogContent'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import { formatTransactionMsg } from '../../misc/formatTransactionMsg'
-import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
-import { getTokenAmountFromDenoms, formatTokenAmount, formatCrypto } from '../../misc/utils'
+import { getTokenAmountFromDenoms, formatCrypto } from '../../misc/utils'
 import ConfirmAnswer from './ConfirmAmount'
 import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 
@@ -29,7 +26,7 @@ enum DepositStage {
 }
 
 export interface Proposal {
-  id: string
+  id: number
   proposer: {
     name: string
     image: string
@@ -104,47 +101,17 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ accounts, open, onClose, 
     }
   }, [open])
 
-  // const transactionData = React.useMemo(
-  //   () => ({
-  //     address: voteAccount.address,
-  //     password,
-  //     transactions: delegations
-  //       .map((r) => {
-  //         return formatTransactionMsg(voteAccount.crypto, {
-  //           type: 'withdraw reward',
-  //           delegator: voteAccount.address,
-  //           validator: r.address,
-  //         })
-  //       })
-  //       .filter((a) => a),
-  //     gasFee: get(cryptocurrencies, `${voteAccount.crypto}.defaultGasFee`, {}),
-  //     memo,
-  //   }),
-  //   [delegations, voteAccount, password, memo]
-  // )
-
-  const confirmWithPassword = React.useCallback(
-    async (securityPassword: string) => {
-      try {
-        setLoading(true)
-        // const result = await sendMsgToChromeExt({
-        //   event: 'signAndBroadcastTransactions',
-        //   data: {
-        //     securityPassword,
-        //     ...transactionData,
-        //   },
-        // })
-        // console.log(result)
-        setLoading(false)
-        setStage(DepositStage.SuccessStage, true)
-      } catch (err) {
-        setLoading(false)
-        console.log(err)
-      }
-    },
-    // [transactionData]
-    []
-  )
+  const confirmWithPassword = React.useCallback(async (securityPassword: string) => {
+    try {
+      setLoading(true)
+      // handle transaction part later
+      setLoading(false)
+      setStage(DepositStage.SuccessStage, true)
+    } catch (err) {
+      setLoading(false)
+      console.log(err)
+    }
+  }, [])
 
   const confirmAmount = React.useCallback(
     (v: Account, a: number, m?: string) => {

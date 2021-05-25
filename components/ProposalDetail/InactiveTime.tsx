@@ -1,7 +1,6 @@
 import { Box, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { useGetStyles } from './styles'
 import { Proposal } from './index'
 
 interface ActiveProps {
@@ -9,7 +8,6 @@ interface ActiveProps {
 }
 
 const InactiveTime: React.FC<ActiveProps> = ({ proposal }) => {
-  const { classes } = useGetStyles()
   const { t } = useTranslation('common')
 
   return (

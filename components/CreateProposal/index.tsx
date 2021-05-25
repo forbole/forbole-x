@@ -2,14 +2,10 @@ import React from 'react'
 import { Dialog, Breadcrumbs, Link as MLink } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import useStateHistory from '../../misc/useStateHistory'
-import useIconProps from '../../misc/useIconProps'
-import { useGetStyles } from './styles'
-import { useWalletsContext } from '../../contexts/WalletsContext'
 import CreateProposalForm from './CreateProposalContent'
 import ConfirmProposalContent from './ConfirmProposalContent'
 import Layout from '../Layout'
 import SecurityPassword from '../SecurityPasswordDialogContent'
-import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 
 enum CreateProposalStage {
   Create = 'select amount',
@@ -27,71 +23,20 @@ export interface Proposal {
 
 interface CreateProposlProps {
   accounts: Account[]
-  // validators: Validator[]
-  // defaultValidator?: Validator
-  // availableTokens: { coins: Array<{ amount: string; denom: string }>; tokens_prices: TokenPrice[] }
-  // open: boolean
-  // onClose(): void
+  networks: { name: string; id: string }[]
 }
 
 interface Content {
   title: string
   content: React.ReactNode
-  // dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-const CreateProposal: React.FC<CreateProposlProps> = ({ accounts }) => {
+const CreateProposal: React.FC<CreateProposlProps> = ({ accounts, networks }) => {
   const { t } = useTranslation('common')
-  const { classes } = useGetStyles()
-  const iconProps = useIconProps()
-  const { password } = useWalletsContext()
-  const [amount, setAmount] = React.useState(0)
-  const [denom, setDenom] = React.useState('')
   const [open, setOpen] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
-
   const [proposal, setProposal] = React.useState<Proposal>()
-
   const [stage, setStage] = useStateHistory<CreateProposalStage>(CreateProposalStage.Create)
-
-  // const transactionData = React.useMemo(
-  //   () => ({
-  //     address: account.address,
-  //     password,
-  //     transactions: delegations
-  //       .map((r) => {
-  //         const coinsToSend = getEquivalentCoinToSend(
-  //           { amount: r.amount, denom },
-  //           availableTokens.coins,
-  //           availableTokens.tokens_prices
-  //         )
-  //         return formatTransactionMsg(account.crypto, {
-  //           type: 'delegate',
-  //           delegator: account.address,
-  //           validator: r.validator.address,
-  //           ...coinsToSend,
-  //         })
-  //       })
-  //       .filter((a) => a),
-  //     gasFee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
-  //     memo,
-  //   }),
-  //   [delegations, availableTokens, account, password, memo]
-  // )
-
-  // const { availableAmount, defaultGasFee } = React.useMemo(
-  //   () => ({
-  //     availableAmount: getTokenAmountFromDenoms(
-  //       availableTokens.coins,
-  //       availableTokens.tokens_prices
-  //     ),
-  //     defaultGasFee: getTokenAmountFromDenoms(
-  //       get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
-  //       availableTokens.tokens_prices
-  //     ),
-  //   }),
-  //   [availableTokens]
-  // )
 
   const createDraft = React.useCallback(
     (
@@ -112,44 +57,14 @@ const CreateProposal: React.FC<CreateProposlProps> = ({ accounts }) => {
     setOpen(true)
   }
 
-  // const sendTransactionMessage = React.useCallback(
-  //   async (securityPassword: string) => {
-  //     try {
-  //       setLoading(true)
-  //       const result = await sendMsgToChromeExt({
-  //         event: 'signAndBroadcastTransactions',
-  //         data: {
-  //           securityPassword,
-  //           ...transactionData,
-  //         },
-  //       })
-  //       console.log(result)
-  //       setLoading(false)
-  //       setStage(DelegationStage.SuccessStage, true)
-  //     } catch (err) {
-  //       setLoading(false)
-  //       console.log(err)
-  //     }
-  //   },
-  //   [transactionData]
-  // )
   const transactionData = {}
 
   const confirmWithPassword = React.useCallback(
     async (securityPassword: string) => {
       try {
         setLoading(true)
-        // how to upload to backend
-        // const result = await sendMsgToChromeExt({
-        //   event: 'signAndBroadcastTransactions',
-        //   data: {
-        //     securityPassword,
-        //     ...transactionData,
-        //   },
-        // })
-        // console.log(result)
+        // handle upload to backend later
         setLoading(false)
-        // setStage(DelegationStage.SuccessStage, true)
       } catch (err) {
         setLoading(false)
         console.log(err)
@@ -175,7 +90,9 @@ const CreateProposal: React.FC<CreateProposlProps> = ({ accounts }) => {
       default:
         return {
           title: 'proposal/create proposal',
-          content: <CreateProposalForm accounts={accounts} onNext={createDraft} />,
+          content: (
+            <CreateProposalForm accounts={accounts} onNext={createDraft} networks={networks} />
+          ),
         }
     }
   }, [stage, t])

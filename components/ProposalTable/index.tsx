@@ -19,9 +19,9 @@ interface Proposal {
   description: string
   votingStartTime: string
   votingEndTime: string
-  duration?: number
+  duration: number
   isActive?: boolean
-  tag?: string
+  tag: string
 }
 
 interface ProposalsTableProps {
@@ -54,18 +54,22 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, accounts }) =
       <Card>
         {proposals.map((x) => {
           return (
-            <Box
-              className={classes.box}
-              onClick={() => {
-                // router.push(`/proposal/${x.id}`)
-              }}
-            >
+            <Box className={classes.box}>
               <Box p={4} display="flex" justifyContent="flex-end">
-                <Box>
+                <Box
+                  onClick={() => {
+                    router.push(`/proposals/${x.id}`)
+                  }}
+                >
                   <Typography variant="h6">{`#${x.id}`}</Typography>
                 </Box>
-
-                <Box pl={3} flex={1}>
+                <Box
+                  pl={3}
+                  flex={1}
+                  onClick={() => {
+                    router.push(`/proposals/${x.id}`)
+                  }}
+                >
                   <Box display="flex" mb={2}>
                     <Typography variant="h6">{t('proposer')}</Typography>
                     <Avatar
@@ -90,7 +94,6 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, accounts }) =
                     ) : null}
                   </Typography>
                 </Box>
-
                 <Box display="flex-end">
                   {x.tag === 'vote' || x.tag === 'deposit' ? (
                     <Active status={x.tag} onClick={() => onClick(x)} />
