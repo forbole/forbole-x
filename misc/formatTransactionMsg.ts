@@ -92,7 +92,7 @@ export const formatRawTransactionData = (crypto: string, transactionMsg: any) =>
       memo: transactionMsg.memo,
       account_number: transactionMsg.accountNumber,
       sequence: transactionMsg.sequence,
-      chainId: transactionMsg.chainId,
+      chain_id: transactionMsg.chainId,
     }
   }
   return null

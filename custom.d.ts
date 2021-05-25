@@ -294,6 +294,14 @@ type ChromeMessage =
       }
     }
   | {
+      event: 'broadcastTransactions'
+      data: {
+        address: string
+        password: string
+        signed: Uint8Array
+      }
+    }
+  | {
       event: 'getSequenceAndChainId'
       data: {
         address: string

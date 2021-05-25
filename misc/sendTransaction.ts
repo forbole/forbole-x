@@ -18,13 +18,22 @@ const sendTransaction = async (
   accountIndex?: number
 ): Promise<any> => {
   if (ledgerApp) {
-    const result = await ledgerApp.sign([44, 118, 0, 0, accountIndex], {
-      account_number: transactionData.accountNumber,
+    const device = await ledgerApp.getVersion()
+    const signature = await ledgerApp.sign([44, 118, 0, 0, accountIndex], {
+      account_number: transactionData.accountNumber.toString(),
       chain_id: transactionData.chainId,
-      sequence: transactionData.sequence,
       fee: transactionData.gasFee,
       memo: transactionData.memo,
       msgs: transactionData.transactions,
+      sequence: transactionData.sequence.toString(),
+    })
+    const result = await sendMsgToChromeExt({
+      event: 'broadcastTransactions',
+      data: {
+        password: transactionData.password,
+        address: transactionData.address,
+        signed: signature.signature,
+      },
     })
     return result
   }

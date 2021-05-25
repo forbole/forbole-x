@@ -21,7 +21,9 @@
     "date-fns": "^2.16.1",
     "graphql": "^15.5.0",
     "isomorphic-ws": "^4.0.1",
+    "json-keys-sort": "^2.0.0",
     "ledger-app-cosmos": "^1.0.55",
+    "ledger-cosmos-js": "^2.1.8",
     "lodash": "^4.17.21",
     "next": "10.0.4",
     "next-translate": "^1.0.1",
@@ -30,6 +32,7 @@
     "react-dom": "17.0.1",
     "react-json-view": "^1.21.3",
     "recharts": "^2.0.3",
+    "secp256k1": "^4.0.2",
     "subscriptions-transport-ws": "^0.9.18"
   },
   "devDependencies": {
