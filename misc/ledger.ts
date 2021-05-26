@@ -5,6 +5,7 @@ import cryptocurrencies from './cryptocurrencies'
 export const connectLedger = async (): Promise<Cosmos> => {
   const transport = await TransportWebUSB.create()
   const app = new Cosmos(transport)
+  await app.getVersion()
   return app
 }
 

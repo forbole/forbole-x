@@ -18,7 +18,6 @@ const sendTransaction = async (
   accountIndex?: number
 ): Promise<any> => {
   if (ledgerApp) {
-    const device = await ledgerApp.getVersion()
     const signature = await ledgerApp.sign([44, 118, 0, 0, accountIndex], {
       account_number: transactionData.accountNumber.toString(),
       chain_id: transactionData.chainId,
