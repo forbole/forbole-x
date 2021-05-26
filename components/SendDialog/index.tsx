@@ -12,11 +12,7 @@ import SelectRecipients from './SelectRecipients'
 import ConfirmSend from './ConfirmSend'
 import useStateHistory from '../../misc/useStateHistory'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
-import {
-  formatTransactionMsg,
-  formatRawTransactionData,
-  formatTypeUrlTransactionMsg,
-} from '../../misc/formatTransactionMsg'
+import { formatTransactionMsg, formatRawTransactionData } from '../../misc/formatTransactionMsg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import SecurityPassword from '../SecurityPasswordDialogContent'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
@@ -25,6 +21,7 @@ import Success from './Success'
 import useIsMobile from '../../misc/useIsMobile'
 import sendTransaction from '../../misc/sendTransaction'
 import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
+import useSignerInfo from '../../misc/useSignerInfo'
 
 enum SendStage {
   SelectRecipientsStage = 'select recipients',
@@ -61,17 +58,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
   const [memo, setMemo] = React.useState('')
   const [totalAmount, setTotalAmount] = React.useState<TokenAmount>()
   const [loading, setLoading] = React.useState(false)
-  const [signerInfo, setSignerInfo] = React.useState({})
-
-  React.useEffect(() => {
-    sendMsgToChromeExt({
-      event: 'getSequenceAndChainId',
-      data: {
-        address: account.address,
-        crypto: account.crypto,
-      },
-    }).then((result) => setSignerInfo(result))
-  }, [account])
+  const signerInfo = useSignerInfo(account)
 
   const { availableAmount, defaultGasFee } = React.useMemo(
     () => ({
@@ -176,13 +163,13 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
         }
       case SendStage.SecurityPasswordStage:
         return {
-          title: '',
+          title: t('security password title'),
           dialogWidth: 'sm',
           content: <SecurityPassword onConfirm={confirm} loading={loading} />,
         }
       case SendStage.ConnectLedgerStage:
         return {
-          title: '',
+          title: t('connect ledger'),
           dialogWidth: 'sm',
           content: <ConnectLedgerDialogContent onConnect={(ledgerApp) => confirm('', ledgerApp)} />,
         }

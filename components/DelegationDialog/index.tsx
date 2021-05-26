@@ -3,6 +3,7 @@ import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
+import { Cosmos } from 'ledger-app-cosmos'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
@@ -13,22 +14,22 @@ import ConfirmDelegation from './ConfirmDelegation'
 import useStateHistory from '../../misc/useStateHistory'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import {
-  formatRawTransactionData,
-  formatTransactionMsg,
-  formatTypeUrlTransactionMsg,
-} from '../../misc/formatTransactionMsg'
+import { formatRawTransactionData, formatTransactionMsg } from '../../misc/formatTransactionMsg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import SecurityPassword from './SecurityPassword'
 import Success from './Success'
 import useIsMobile from '../../misc/useIsMobile'
+import sendTransaction from '../../misc/sendTransaction'
+import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
+import useSignerInfo from '../../misc/useSignerInfo'
 
 enum DelegationStage {
   SelectAmountStage = 'select amount',
   SelectValidatorsStage = 'select validators',
   ConfirmDelegationStage = 'confirm delegation',
   SecurityPasswordStage = 'security password',
+  ConnectLedgerStage = 'connect ledger',
   SuccessStage = 'success',
 }
 
@@ -68,6 +69,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
   >([])
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
+  const signerInfo = useSignerInfo(account)
 
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<DelegationStage>(
     DelegationStage.SelectAmountStage
@@ -94,8 +96,9 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
         .filter((a) => a),
       gasFee: get(crypto, 'defaultGasFee', {}),
       memo,
+      ...signerInfo,
     }),
-    [delegations, crypto, availableTokens, account, password, memo]
+    [delegations, crypto, availableTokens, signerInfo, account, password, memo]
   )
 
   const { availableAmount, defaultGasFee } = React.useMemo(
@@ -132,20 +135,14 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
   )
 
   const sendTransactionMessage = React.useCallback(
-    async (securityPassword: string) => {
+    async (securityPassword: string, ledgerApp?: Cosmos) => {
       try {
         setLoading(true)
-        const result = await sendMsgToChromeExt({
-          event: 'signAndBroadcastTransactions',
-          data: {
-            securityPassword,
-            ...transactionData,
-            transactions: transactionData.transactions.map((msg) =>
-              formatTypeUrlTransactionMsg(msg)
-            ),
-          },
-        })
-        console.log(result)
+        const data = {
+          securityPassword,
+          ...transactionData,
+        }
+        await sendTransaction(data, ledgerApp, account.index)
         setLoading(false)
         setStage(DelegationStage.SuccessStage, true)
       } catch (err) {
@@ -153,7 +150,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
         console.log(err)
       }
     },
-    [transactionData]
+    [transactionData, account]
   )
 
   const content: Content = React.useMemo(() => {
@@ -195,6 +192,16 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
           title: t('security password title'),
           dialogWidth: 'sm',
           content: <SecurityPassword onConfirm={sendTransactionMessage} loading={loading} />,
+        }
+      case DelegationStage.ConnectLedgerStage:
+        return {
+          title: t('connect ledger'),
+          dialogWidth: 'sm',
+          content: (
+            <ConnectLedgerDialogContent
+              onConnect={(ledgerApp) => sendTransactionMessage('', ledgerApp)}
+            />
+          ),
         }
       case DelegationStage.SuccessStage:
         return {

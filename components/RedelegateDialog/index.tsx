@@ -3,6 +3,7 @@ import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
+import { Cosmos } from 'ledger-app-cosmos'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
@@ -23,12 +24,16 @@ import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import SecurityPassword from '../SecurityPasswordDialogContent'
 import Success from './Success'
 import useIsMobile from '../../misc/useIsMobile'
+import useSignerInfo from '../../misc/useSignerInfo'
+import sendTransaction from '../../misc/sendTransaction'
+import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 
 enum RedelegationStage {
   SelectAmountStage = 'select amount',
   SelectValidatorsStage = 'select validators',
   ConfirmRedelegationStage = 'confirm redelegation',
   SecurityPasswordStage = 'security password',
+  ConnectLedgerStage = 'connect ledger',
   SuccessStage = 'success',
 }
 
@@ -68,6 +73,7 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
   const [toValidator, setToValidator] = React.useState<Validator>()
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
+  const signerInfo = useSignerInfo(account)
 
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<RedelegationStage>(
     RedelegationStage.SelectAmountStage
@@ -91,8 +97,9 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
         : [],
       gasFee: get(crypto, 'defaultGasFee', {}),
       memo,
+      ...signerInfo,
     }
-  }, [toValidator, delegatedTokens, tokensPrices, account, crypto, password, memo])
+  }, [toValidator, delegatedTokens, signerInfo, tokensPrices, account, crypto, password, memo])
 
   const { availableAmount, defaultGasFee } = React.useMemo(
     () => ({
@@ -124,20 +131,14 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
   )
 
   const sendTransactionMessage = React.useCallback(
-    async (securityPassword: string) => {
+    async (securityPassword: string, ledgerApp?: Cosmos) => {
       try {
         setLoading(true)
-        const result = await sendMsgToChromeExt({
-          event: 'signAndBroadcastTransactions',
-          data: {
-            securityPassword,
-            ...transactionData,
-            transactions: transactionData.transactions.map((msg) =>
-              formatTypeUrlTransactionMsg(msg)
-            ),
-          },
-        })
-        console.log(result)
+        const data = {
+          securityPassword,
+          ...transactionData,
+        }
+        await sendTransaction(data, ledgerApp, account.index)
         setLoading(false)
         setStage(RedelegationStage.SuccessStage, true)
       } catch (err) {
@@ -145,7 +146,7 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
         console.log(err)
       }
     },
-    [transactionData]
+    [transactionData, account]
   )
 
   const content: Content = React.useMemo(() => {
@@ -184,9 +185,19 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
         }
       case RedelegationStage.SecurityPasswordStage:
         return {
-          title: '',
+          title: t('security password title'),
           dialogWidth: 'sm',
           content: <SecurityPassword onConfirm={sendTransactionMessage} loading={loading} />,
+        }
+      case RedelegationStage.ConnectLedgerStage:
+        return {
+          title: t('connect ledger'),
+          dialogWidth: 'sm',
+          content: (
+            <ConnectLedgerDialogContent
+              onConnect={(ledgerApp) => sendTransactionMessage('', ledgerApp)}
+            />
+          ),
         }
       case RedelegationStage.SuccessStage:
         return {

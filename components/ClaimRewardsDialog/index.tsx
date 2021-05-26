@@ -20,6 +20,7 @@ import { getTokenAmountFromDenoms } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
 import sendTransaction from '../../misc/sendTransaction'
 import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
+import useSignerInfo from '../../misc/useSignerInfo'
 
 enum ClaimRewardsStage {
   SecurityPasswordStage = 'security password',
@@ -67,17 +68,7 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
   const [delegations, setDelegations] = React.useState<Array<ValidatorTag>>([])
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
-  const [signerInfo, setSignerInfo] = React.useState({})
-
-  React.useEffect(() => {
-    sendMsgToChromeExt({
-      event: 'getSequenceAndChainId',
-      data: {
-        address: account.address,
-        crypto: account.crypto,
-      },
-    }).then((result) => setSignerInfo(result))
-  }, [account])
+  const signerInfo = useSignerInfo(account)
 
   const { password } = useWalletsContext()
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<ClaimRewardsStage>(
@@ -162,7 +153,7 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
         }
       case ClaimRewardsStage.ConnectLedgerStage:
         return {
-          title: '',
+          title: t('connect ledger'),
           dialogWidth: 'sm',
           content: <ConnectLedgerDialogContent onConnect={(ledgerApp) => confirm('', ledgerApp)} />,
         }

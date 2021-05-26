@@ -3,6 +3,7 @@ import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
+import { Cosmos } from 'ledger-app-cosmos'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
@@ -12,21 +13,20 @@ import ConfirmUndelegation from './ConfirmUndelegation'
 import useStateHistory from '../../misc/useStateHistory'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import {
-  formatRawTransactionData,
-  formatTransactionMsg,
-  formatTypeUrlTransactionMsg,
-} from '../../misc/formatTransactionMsg'
+import { formatRawTransactionData, formatTransactionMsg } from '../../misc/formatTransactionMsg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import SecurityPassword from '../SecurityPasswordDialogContent'
 import Success from './Success'
 import useIsMobile from '../../misc/useIsMobile'
+import useSignerInfo from '../../misc/useSignerInfo'
+import sendTransaction from '../../misc/sendTransaction'
+import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 
 enum UndelegationStage {
   SelectValidatorsStage = 'select validators',
   ConfirmUndelegationStage = 'confirm undelegation',
   SecurityPasswordStage = 'security password',
+  ConnectLedgerStage = 'connect ledger',
   SuccessStage = 'success',
 }
 
@@ -63,6 +63,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
   const [denom, setDenom] = React.useState('')
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
+  const signerInfo = useSignerInfo(account)
 
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<UndelegationStage>(
     UndelegationStage.SelectValidatorsStage
@@ -84,9 +85,10 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
           ],
           gasFee: get(crypto, 'defaultGasFee', {}),
           memo,
+          ...signerInfo,
         }
       : null
-  }, [tokensPrices, delegatedTokens, account, crypto, password, memo, amount, denom])
+  }, [tokensPrices, delegatedTokens, signerInfo, account, crypto, password, memo, amount, denom])
 
   const { availableAmount, defaultGasFee } = React.useMemo(
     () => ({
@@ -110,19 +112,14 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
   )
 
   const sendTransactionMessage = React.useCallback(
-    async (securityPassword: string) => {
+    async (securityPassword: string, ledgerApp?: Cosmos) => {
       try {
         setLoading(true)
-        await sendMsgToChromeExt({
-          event: 'signAndBroadcastTransactions',
-          data: {
-            securityPassword,
-            ...transactionData,
-            transactions: transactionData.transactions.map((msg) =>
-              formatTypeUrlTransactionMsg(msg)
-            ),
-          },
-        })
+        const data = {
+          securityPassword,
+          ...transactionData,
+        }
+        await sendTransaction(data, ledgerApp, account.index)
         setLoading(false)
         setStage(UndelegationStage.SuccessStage, true)
       } catch (err) {
@@ -130,7 +127,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
         console.log(err)
       }
     },
-    [transactionData]
+    [transactionData, account]
   )
 
   const content: Content = React.useMemo(() => {
@@ -155,9 +152,19 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
         }
       case UndelegationStage.SecurityPasswordStage:
         return {
-          title: '',
+          title: t('security password title'),
           dialogWidth: 'sm',
           content: <SecurityPassword onConfirm={sendTransactionMessage} loading={loading} />,
+        }
+      case UndelegationStage.ConnectLedgerStage:
+        return {
+          title: t('connect ledger'),
+          dialogWidth: 'sm',
+          content: (
+            <ConnectLedgerDialogContent
+              onConnect={(ledgerApp) => sendTransactionMessage('', ledgerApp)}
+            />
+          ),
         }
       case UndelegationStage.SuccessStage:
         return {
