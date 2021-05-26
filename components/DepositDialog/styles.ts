@@ -4,8 +4,8 @@ import { CustomTheme } from '../../misc/theme'
 const useStyles = makeStyles(
   (theme: CustomTheme) => ({
     title: {
-     fontSize: theme.spacing(3),
-     marginTop: theme.spacing(2),
+      fontSize: theme.spacing(3),
+      marginTop: theme.spacing(2),
     },
     button: {
       // width: theme.spacing(16),

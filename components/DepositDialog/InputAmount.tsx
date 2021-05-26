@@ -16,18 +16,24 @@ import get from 'lodash/get'
 import useIconProps from '../../misc/useIconProps'
 import useStyles from './styles'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
-import { Proposal } from './index'
 import TokenAmountInput from '../TokenAmountInput'
-import { getTokenAmountFromDenoms } from '../../misc/utils'
+import { getTokenAmountFromDenoms, formatCrypto } from '../../misc/utils'
 
 interface InputAmountProps {
   accounts: Account[]
+  crypto: Cryptocurrency
   onNext(voteAccount: Account, amount: number, memo?: string): void
   proposal: Proposal
   availableTokens: { coins: Array<{ amount: string; denom: string }>; tokens_prices: TokenPrice[] }
 }
 
-const InputAmount: React.FC<InputAmountProps> = ({ accounts, onNext, availableTokens }) => {
+const InputAmount: React.FC<InputAmountProps> = ({
+  crypto,
+  accounts,
+  onNext,
+  availableTokens,
+  proposal,
+}) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
 
@@ -54,9 +60,28 @@ const InputAmount: React.FC<InputAmountProps> = ({ accounts, onNext, availableTo
     setDenom(accountsMap[a].crypto)
   }
 
+  const remainAmount = () => {
+    // crypto.name = "DSM", but data is "daric", need to fix it
+    // if (proposal.totalDeposits[crypto.name].amount > proposal.minDeposit[crypto.name].amount) {
+    //   return 0
+    // }
+    // return proposal.minDeposit[crypto.name].amount - proposal.totalDeposits[crypto.name].amount
+    if (proposal.totalDeposits.daric.amount > proposal.minDeposit.daric.amount) {
+      return 0
+    }
+    return proposal.minDeposit.daric.amount - proposal.totalDeposits.daric.amount
+  }
+
   return (
     <>
       <DialogContent>
+        <Box textAlign="center" mb={4}>
+          <Typography variant="h6">{t('Deposit end in 19:10:36')}</Typography>
+          <Typography variant="subtitle1" color="textSecondary">
+            {`${t('remaining deposit amount')} `}
+            {formatCrypto(remainAmount(), crypto.name, lang)}
+          </Typography>
+        </Box>
         <Box>
           <Box>
             <Typography variant="button" className={classes.button}>
@@ -120,6 +145,15 @@ const InputAmount: React.FC<InputAmountProps> = ({ accounts, onNext, availableTo
                 availableAmount={availableAmount}
               />
             </Box>
+            <Box textAlign="right">
+              <Typography variant="subtitle1" color="textSecondary">
+                {`${'available amount'} ${formatCrypto(
+                  Number(get(availableAmount, `${denom}.amount`, 0)),
+                  crypto.name,
+                  lang
+                )}`}
+              </Typography>
+            </Box>
 
             <Box mt={4}>
               <Typography variant="button" className={classes.button}>
@@ -137,9 +171,6 @@ const InputAmount: React.FC<InputAmountProps> = ({ accounts, onNext, availableTo
                 value={memo}
                 onChange={(e) => setMemo(e.target.value)}
               />
-            </Box>
-            <Box textAlign="center" mt={6}>
-              <Typography variant="subtitle2">{t('Deposit end in 19:10:36')}</Typography>
             </Box>
           </Box>
         </Box>

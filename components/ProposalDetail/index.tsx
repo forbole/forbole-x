@@ -43,26 +43,6 @@ export interface DepositDetail {
   time: string
 }
 
-export interface Proposal {
-  id: number
-  proposer: {
-    name: string
-    image: string
-    address: string
-  }
-  title: string
-  description: string
-  submitTime: string
-  depositEndTime: string
-  votingStartTime: string
-  votingEndTime: string
-  duration?: number
-  isActive: boolean
-  tag: string
-  type: string
-  depositDetails?: DepositDetail[]
-}
-
 interface ProposalDetailProps {
   proposal: Proposal
   crypto: Cryptocurrency

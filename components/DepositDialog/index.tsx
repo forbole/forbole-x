@@ -25,26 +25,12 @@ enum DepositStage {
   SuccessStage = 'success',
 }
 
-export interface Proposal {
-  id: number
-  proposer: {
-    name: string
-    image: string
-    address: string
-  }
-  title: string
-  description: string
-  votingEndTime: string
-  duration?: number
-  isActive?: boolean
-  tag?: string
-}
-
 interface DepositDialogProps {
   accounts: Account[]
   open: boolean
   onClose(): void
   proposal: Proposal
+  // crypto: Cryptocurrency
 }
 
 interface Content {
@@ -53,13 +39,19 @@ interface Content {
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-const DepositDialog: React.FC<DepositDialogProps> = ({ accounts, open, onClose, proposal }) => {
+const DepositDialog: React.FC<DepositDialogProps> = ({
+  accounts,
+  open,
+  onClose,
+  proposal,
+  // crypto,
+}) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
   const voteIconProps = useIconProps(8)
   const [amount, setAmount] = React.useState(0)
-  const [voteAccount, setVoteAccount] = React.useState<Account>(accounts[0])
+
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
 
@@ -67,7 +59,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ accounts, open, onClose, 
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<DepositStage>(
     DepositStage.InputAmountStage
   )
-
+  const [voteAccount, setVoteAccount] = React.useState<Account>(accounts ? accounts[0] : null)
   const crypto = voteAccount
     ? cryptocurrencies[voteAccount.crypto]
     : Object.values(cryptocurrencies)[0]
@@ -175,6 +167,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ accounts, open, onClose, 
               accounts={accounts}
               onNext={confirmAmount}
               proposal={proposal}
+              crypto={crypto}
               availableTokens={availableTokens}
             />
           ),

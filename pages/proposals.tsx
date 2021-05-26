@@ -12,7 +12,7 @@ import AccountAvatar from '../components/AccountAvatar'
 import DropDownIcon from '../assets/images/icons/icon_arrow_down_input_box.svg'
 import useIconProps from '../misc/useIconProps'
 import CreateProposalButton from '../components/CreateProposalButton'
-import { getProposals, getProposers } from '../graphql/queries/proposals'
+import { getProposals } from '../graphql/queries/proposals'
 import { transformProposals } from '../misc/utils'
 
 const Proposals: React.FC = () => {

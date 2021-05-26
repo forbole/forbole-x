@@ -15,7 +15,6 @@ import { useGetStyles } from './styles'
 import Active from './ActiveStatus'
 import { formatTokenAmount } from '../../misc/utils'
 import DepositDialog from '../DepositDialog'
-import { Proposal } from './index'
 
 interface DepositTableProps {
   proposal: Proposal

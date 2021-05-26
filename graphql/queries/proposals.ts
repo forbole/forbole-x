@@ -10,6 +10,7 @@ query Proposals @${crypto} {
     voting_end_time
     voting_start_time
     proposal_type
+    proposer_address
     proposer {
       address
       validator_infos {
@@ -28,6 +29,9 @@ query Proposals @${crypto} {
 
 export const getProposal = (crypto: string): string => `
 query Proposal($id: Int!) @${crypto} {
+  gov_params {
+    deposit_params
+  }
   proposal(where: {id: {_eq: $id }}) {
     content
     description
@@ -38,6 +42,7 @@ query Proposal($id: Int!) @${crypto} {
     submit_time
     deposit_end_time
     proposal_type
+    proposer_address
     proposer {
       address
       validator_infos {

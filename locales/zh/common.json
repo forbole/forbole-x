@@ -226,5 +226,19 @@
   "voting power override": "[zh] Voting Power Override",
   "answer": "[zh] Answer",
   "all votes": "[zh] All Votes",
-  "copied to clipboard": "[zh] Copied to Clipboard!"
+  "copied to clipboard": "[zh] Copied to Clipboard!",
+  "select answer": "[zh] Select answer",
+  "voting time": "[zh] Voting Time",
+  "voting start time": "[zh] Voting Start Time",
+  "voting end time": "[zh] Voting End Time",
+  "submitted time": "[zh] Submitted Time",
+  "deposited end time": "[zh] Deposited End Time",
+  "in": "[zh] In",
+  "days": "[zh] Days",
+  "was successfully deposited": "[zh] was successfully deposited",
+  "Text": "[zh] Text Proposal",
+  "ParameterChange": "[zh] Parameter Change Proposal",
+  "SoftwareUpgrade": "[zh] Software Upgrade Proposal",
+  "CommunityPoolSpend": "[zh] Community Pool Spend Proposal",
+  "remaining deposit amount": "[zh] Remaining deposit amount"
 }

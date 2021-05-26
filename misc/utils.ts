@@ -1,3 +1,4 @@
+/* eslint-disable import/no-duplicates */
 import get from 'lodash/get'
 import last from 'lodash/last'
 import cloneDeep from 'lodash/cloneDeep'
@@ -471,6 +472,7 @@ export const transformProposals = (proposalData: any): Proposal[] => {
 export const transformProposal = (proposalData: any, balanceData: any): Proposal => {
   const p = get(proposalData, 'proposal[0]')
   const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
+  let totalDepositsList = []
   return {
     id: get(p, 'id'),
     proposer: {
@@ -500,6 +502,9 @@ export const transformProposal = (proposalData: any, balanceData: any): Proposal
     tag: getTag(get(p, 'status')),
     duration: differenceInDays(new Date(get(p, 'voting_end_time')), Date.now()),
     depositDetails: get(p, 'proposal_deposits', []).map((x) => {
+      if (get(x, 'denom') === tokensPrices.unit_name) {
+        totalDepositsList = [...totalDepositsList, get(x, 'amount[0]')]
+      }
       return {
         depositor: {
           name: get(x, 'depositor.validator_infos[0].validator.validator_descriptions[0].moniker'),
@@ -509,10 +514,17 @@ export const transformProposal = (proposalData: any, balanceData: any): Proposal
           ),
           address: get(x, 'depositor.address'),
         },
-        amount: getTokenAmountFromDenoms(x.amount, tokensPrices),
+        amount: getTokenAmountFromDenoms(get(x, 'amount'), tokensPrices),
         time: `${format(new Date(x.block.timestamp), 'dd MMM yyyy HH:mm')} UTC`,
       }
     }),
+    totalDeposits: getTokenAmountFromDenoms(totalDepositsList, tokensPrices),
+    minDeposit: proposalData
+      ? getTokenAmountFromDenoms(
+          get(proposalData, 'gov_params[0].deposit_params.min_deposit'),
+          tokensPrices
+        )
+      : null,
   }
 }
 

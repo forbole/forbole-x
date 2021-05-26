@@ -167,6 +167,8 @@ interface Proposal {
   duration: number
   depositDetails?: DepositDetail[]
   voteDetails?: VoteDetail[]
+  totalDeposits?: TokenAmount
+  minDeposit: TokenAmount
 }
 
 interface TokenUnit {

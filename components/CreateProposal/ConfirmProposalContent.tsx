@@ -14,7 +14,6 @@ const ConfirmProposalContent: React.FC<ConfirmProposalContentProps> = ({ proposa
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
 
-
   return (
     <Card>
       <Box m={3}>

@@ -13,7 +13,6 @@ import dynamic from 'next/dynamic'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import useStyles from './styles'
 import { formatCrypto, formatTokenAmount } from '../../misc/utils'
-import { Proposal } from './index'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
@@ -38,7 +37,6 @@ const ConfirmAmount: React.FC<ConfirmAmountProps> = ({
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const theme = useTheme()
   const { theme: themeSetting } = useGeneralContext()
   const [viewData, setViewData] = React.useState(false)
   const toggleViewData = () => {

@@ -21,14 +21,6 @@ const Account: React.FC = () => {
   const account = accounts.find((a) => a.address === router.query.address)
   const { id } = router.query
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
-  // const accountsMap = React.useMemo(
-  //   () =>
-  //     groupBy(
-  //       accounts.map((a, index) => ({ ...a, index })),
-  //       'walletId'
-  //     ),
-  //   [accounts]
-  // )
   const { data: proposalData } = useSubscription(
     gql`
       ${getProposal(crypto.name)}
@@ -64,7 +56,6 @@ const Account: React.FC = () => {
   const proposal = transformProposal(proposalData, balanceData)
   const voteSummary = transformVoteSummary(proporslReaultData)
   const voteDetail = transformVoteDetail(voteDetailData)
-
   return (
     <Layout
       passwordRequired
