@@ -1,7 +1,6 @@
 import { Box, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { Proposal } from './index'
 
 interface ActiveProps {
   proposal: Proposal
