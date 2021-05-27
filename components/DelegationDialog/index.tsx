@@ -189,7 +189,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
         }
       case DelegationStage.SecurityPasswordStage:
         return {
-          title: t('security password title'),
+          title: '',
           dialogWidth: 'sm',
           content: <SecurityPassword onConfirm={sendTransactionMessage} loading={loading} />,
         }

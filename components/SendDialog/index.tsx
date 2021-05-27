@@ -163,7 +163,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
         }
       case SendStage.SecurityPasswordStage:
         return {
-          title: t('security password title'),
+          title: '',
           dialogWidth: 'sm',
           content: <SecurityPassword onConfirm={confirm} loading={loading} />,
         }

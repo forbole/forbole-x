@@ -152,7 +152,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
         }
       case UndelegationStage.SecurityPasswordStage:
         return {
-          title: t('security password title'),
+          title: '',
           dialogWidth: 'sm',
           content: <SecurityPassword onConfirm={sendTransactionMessage} loading={loading} />,
         }
