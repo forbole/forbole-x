@@ -55,11 +55,11 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
       //   icon: <ProposalIcon {...iconProps} />,
       //   href: '/proposals',
       // },
-      // {
-      //   title: t('address book'),
-      //   icon: <AddressBookIcon {...iconProps} />,
-      //   href: '/address-book',
-      // },
+      {
+        title: t('address book'),
+        icon: <AddressBookIcon {...iconProps} />,
+        href: '/address-book',
+      },
       // {
       //   title: t('explorer'),
       //   icon: <ExplorerIcon {...iconProps} />,
