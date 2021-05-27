@@ -2,6 +2,7 @@
 
 exports[`component: CreateAccountDialog handles error on next button click 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -136,6 +137,7 @@ exports[`component: CreateAccountDialog handles error on next button click 1`] =
 
 exports[`component: CreateAccountDialog moves to next stage on next button click, then goes back on back button click 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -270,6 +272,7 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
 
 exports[`component: CreateAccountDialog moves to next stage on next button click, then goes back on back button click 2`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -455,6 +458,7 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
 
 exports[`component: CreateAccountDialog renders closed state correctly 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}
@@ -629,6 +633,7 @@ exports[`component: CreateAccountDialog renders closed state correctly 1`] = `
 
 exports[`component: CreateAccountDialog renders opened state correctly 1`] = `
 <div
+  fullScreen={false}
   fullWidth={true}
   id="dialog"
   onClose={[MockFunction]}

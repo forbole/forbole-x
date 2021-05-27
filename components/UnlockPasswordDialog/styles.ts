@@ -7,7 +7,6 @@ const useStyles = makeStyles(
       marginTop: theme.spacing(1),
     },
     button: {
-      flex: 1,
       margin: theme.spacing(1, 2),
       marginTop: theme.spacing(20),
     },

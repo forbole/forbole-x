@@ -18,6 +18,7 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
 import PasswordInput from '../PasswordInput'
 import useStateHistory from '../../misc/useStateHistory'
+import useIsMobile from '../../misc/useIsMobile'
 
 enum Stage {
   SecurityPassword = 'security password',
@@ -39,6 +40,7 @@ const ViewMnemonicPhraseDialog: React.FC<ViewMnemonicPhraseDialogProps> = ({
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
+  const isMobile = useIsMobile()
   const [error, setError] = React.useState('')
   const [securityPassword, setSecurityPassword] = React.useState('')
   const [backupPassword, setBackupPassword] = React.useState('')
@@ -86,7 +88,7 @@ const ViewMnemonicPhraseDialog: React.FC<ViewMnemonicPhraseDialogProps> = ({
   }, [open])
 
   return (
-    <Dialog fullWidth open={open} onClose={onClose}>
+    <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

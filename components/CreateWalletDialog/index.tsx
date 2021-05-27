@@ -16,6 +16,7 @@ import WhatIsMnemonic from './WhatIsMnemonic'
 import ImportMnemonicBackup from './ImportMnemonicBackup'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import useStateHistory from '../../misc/useStateHistory'
+import useIsMobile from '../../misc/useIsMobile'
 
 export enum ImportStage {
   ImportMnemonicPhraseStage = 'import mnemonic phrase',
@@ -50,6 +51,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
   const classes = useStyles()
   const iconProps = useIconProps()
   const { addWallet } = useWalletsContext()
+  const isMobile = useIsMobile()
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
     CommonStage.StartStage
   )
@@ -202,7 +204,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
   }, [stage, t])
 
   return (
-    <Dialog fullWidth open={open} onClose={onClose}>
+    <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

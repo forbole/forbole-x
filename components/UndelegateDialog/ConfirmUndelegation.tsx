@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   DialogActions,
@@ -15,11 +14,13 @@ import DelegateIcon from '../../assets/images/icons/icon_delegate_tx.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { formatCrypto, formatTokenAmount } from '../../misc/utils'
 import useStyles from './styles'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
 interface ConfirmUndelegationProps {
   account: Account
+  crypto: Cryptocurrency
   amount: number
   denom: string
   validator: Validator
@@ -31,6 +32,7 @@ interface ConfirmUndelegationProps {
 
 const ConfirmUndelegation: React.FC<ConfirmUndelegationProps> = ({
   account,
+  crypto,
   amount,
   denom,
   gasFee,
@@ -67,14 +69,7 @@ const ConfirmUndelegation: React.FC<ConfirmUndelegationProps> = ({
         <Box my={1}>
           <Typography>{t('undelegate from')}</Typography>
           <Box display="flex" justifyContent="space-between" alignItems="center" my={1.5}>
-            <Box display="flex" alignItems="center">
-              <Avatar
-                className={classes.validatorAvatar}
-                alt={validator.name}
-                src={validator.image}
-              />
-              <Typography color="textSecondary">{validator.name}</Typography>
-            </Box>
+            <ValidatorAvatar crypto={crypto} validator={validator} size="small" />
             <Typography color="textSecondary">{formatCrypto(amount, denom, lang)}</Typography>
           </Box>
         </Box>

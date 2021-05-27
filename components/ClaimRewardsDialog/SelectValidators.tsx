@@ -9,24 +9,33 @@ import {
   // Tab,
   Checkbox,
   FormControlLabel,
-  Avatar,
   FilledTextFieldProps,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import cloneDeep from 'lodash/cloneDeep'
 import TablePagination from '../TablePagination'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { formatCurrency, formatTokenAmount, getTokenAmountBalance } from '../../misc/utils'
 import useStyles from './styles'
 import { ValidatorTag } from './index'
+import ValidatorAvatar from '../ValidatorAvatar'
 
 interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
   onConfirm(amount: TokenAmount, delegations: ValidatorTag[], m: string): void
   account: Account
+  crypto: Cryptocurrency
   validators: Validator[]
+  preselectedValidatorAddresses?: string[]
 }
 
-const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm, validators }) => {
+const SelectValidators: React.FC<SelectValidatorsProps> = ({
+  account,
+  crypto,
+  onConfirm,
+  validators,
+  preselectedValidatorAddresses,
+}) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const { currency } = useGeneralContext()
@@ -59,7 +68,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
           if (withdrawAmount[denom]) {
             withdrawAmount[denom].amount += x.rewards[denom].amount
           } else {
-            withdrawAmount[denom] = x.rewards[denom]
+            withdrawAmount[denom] = cloneDeep(x.rewards[denom])
           }
         })
       }
@@ -74,7 +83,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
         if (total[denom]) {
           total[denom].amount += x.rewards[denom].amount
         } else {
-          total[denom] = x.rewards[denom]
+          total[denom] = cloneDeep(x.rewards[denom])
         }
       })
     })
@@ -111,6 +120,13 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
     setValidatorList(updatedList)
     calculateWithdrawAmount(updatedList)
   }
+
+  React.useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-extra-semi
+    ;(preselectedValidatorAddresses || []).forEach((a) => {
+      onSelect(a)
+    })
+  }, [])
 
   return (
     <>
@@ -151,6 +167,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
           <Box mt={0}>
             {validatorList.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((v) => (
               <FormControlLabel
+                key={v.address}
                 className={classes.controllLabel}
                 value="end"
                 control={
@@ -165,8 +182,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({ account, onConfirm,
                 }
                 label={
                   <Box display="flex" alignItems="center" style={{ flex: 1, width: '25rem' }}>
-                    <Avatar className={classes.validatorAvatar} alt={v.name} src={v.image} />
-                    <Typography>{v.name}</Typography>
+                    <ValidatorAvatar crypto={crypto} withoutLink validator={v} size="small" />
                     <Typography className={classes.rewardsAmount}>
                       {formatTokenAmount(v.rewards, account.crypto, lang, ', ')}
                     </Typography>
