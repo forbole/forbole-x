@@ -12,6 +12,7 @@ import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
 import keyBy from 'lodash/keyBy'
 import React from 'react'
+import intervalToDuration from 'date-fns/intervalToDuration'
 import get from 'lodash/get'
 import useIconProps from '../../misc/useIconProps'
 import useStyles from './styles'
@@ -38,7 +39,10 @@ const InputAmount: React.FC<InputAmountProps> = ({
   const classes = useStyles()
 
   const iconProps = useIconProps()
-
+  const remainingTime = intervalToDuration({
+    end: new Date(proposal.depositEndTimeRaw),
+    start: Date.now(),
+  })
   const accountsMap = keyBy(accounts, 'address')
   const [memo, setMemo] = React.useState('')
   const [amount, setAmount] = React.useState('')
@@ -76,7 +80,11 @@ const InputAmount: React.FC<InputAmountProps> = ({
     <>
       <DialogContent>
         <Box textAlign="center" mb={4}>
-          <Typography variant="h6">{t('Deposit end in 19:10:36')}</Typography>
+          <Typography variant="h6">
+            {`${t('deposit end in')} ${remainingTime.days} ${'days'} ${remainingTime.hours}:${
+              remainingTime.minutes
+            }:${remainingTime.seconds}`}
+          </Typography>
           <Typography variant="subtitle1" color="textSecondary">
             {`${t('remaining deposit amount')} `}
             {formatCrypto(remainAmount(), crypto.name, lang)}

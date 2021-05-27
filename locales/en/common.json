@@ -252,5 +252,6 @@
   "ParameterChange": "Parameter Change Proposal",
   "SoftwareUpgrade": "Software Upgrade Proposal",
   "CommunityPoolSpend": "Community Pool Spend Proposal",
-  "remaining deposit amount": "Remaining deposit amount"
+  "remaining deposit amount": "Remaining deposit amount",
+  "deposit end in": "Deposit end in"
 }

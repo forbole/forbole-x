@@ -1,11 +1,9 @@
-/* eslint-disable import/no-duplicates */
 import get from 'lodash/get'
 import last from 'lodash/last'
 import cloneDeep from 'lodash/cloneDeep'
 import drop from 'lodash/drop'
 import keyBy from 'lodash/keyBy'
-import format from 'date-fns/format'
-import differenceInDays from 'date-fns/fp/differenceInDays'
+import { format, differenceInDays } from 'date-fns'
 
 export const formatPercentage = (percent: number, lang: string): string =>
   new Intl.NumberFormat(lang, {
@@ -492,6 +490,7 @@ export const transformProposal = (proposalData: any, balanceData: any): Proposal
     depositEndTime: get(p, 'deposit_end_time')
       ? `${format(new Date(get(p, 'deposit_end_time')), 'dd MMM yyyy HH:mm')} UTC`
       : '',
+    depositEndTimeRaw: get(p, 'deposit_end_time'),
     submitTime: get(p, 'submit_time')
       ? `${format(new Date(get(p, 'submit_time')), 'dd MMM yyyy HH:mm')} UTC`
       : '',

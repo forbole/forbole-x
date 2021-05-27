@@ -164,6 +164,7 @@ interface Proposal {
   votingEndTime: string
   submitTime: string
   depositEndTime: string
+  depositEndTimeRaw: timestamp
   duration: number
   depositDetails?: DepositDetail[]
   voteDetails?: VoteDetail[]
