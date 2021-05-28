@@ -6,24 +6,31 @@ import {
   DialogContent,
   Divider,
   Typography,
-  useTheme,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import dynamic from 'next/dynamic'
-import SendIcon from '../../assets/images/icons/icon_send_tx.svg'
-import { formatCrypto, formatTokenAmount, getTokenAmountFromDenoms } from '../../misc/utils'
+import flatten from 'lodash/flatten'
+import keyBy from 'lodash/keyBy'
+import { gql, useSubscription } from '@apollo/client'
+import { formatTokenAmount, getTokenAmountFromDenoms, transformValidators } from '../../misc/utils'
 import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIsMobile from '../../misc/useIsMobile'
 import { useWalletsContext } from '../../contexts/WalletsContext'
+import { getTokensPrices } from '../../graphql/queries/tokensPrices'
+import SendContent from './SendContent'
+import DelegateContent from './DelegateContent'
+import RedelegateContent from './RedelegateContent'
+import UndelegateContent from './UndelegateContent'
+import ClaimRewardsContent from './ClaimRewardsContent'
+import { getValidatorsByAddresses } from '../../graphql/queries/validators'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
 interface ConfirmTransactionDialogProps {
   address: string
   transactionData: Transaction
-  denoms?: TokenPrice[]
   open: boolean
   onClose(): void
 }
@@ -31,13 +38,11 @@ interface ConfirmTransactionDialogProps {
 const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   address,
   transactionData,
-  denoms,
   open,
   onClose,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const theme = useTheme()
   const { theme: themeSetting } = useGeneralContext()
   const isMobile = useIsMobile()
   const [viewingData, setViewingData] = React.useState(false)
@@ -45,45 +50,112 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const { accounts } = useWalletsContext()
   const account = accounts.find((a) => a.address === address)
 
+  const { data: denoms } = useSubscription(gql`
+    ${getTokensPrices(account.crypto)}
+  `)
+
+  const totalAmount = getTokenAmountFromDenoms(
+    flatten(transactionData.msgs.map((msg) => (msg.value as any).amount).filter((a) => a)),
+    denoms
+  )
+
+  const validatorsAddresses = flatten(
+    transactionData.msgs.map((m) => {
+      switch (m.type) {
+        case 'cosmos-sdk/MsgSend':
+          return []
+        case 'cosmos-sdk/MsgDelegate':
+          return [m.value.validator_address]
+        case 'cosmos-sdk/MsgBeginRedelegate':
+          return [m.value.validator_src_address, m.value.validator_dst_address]
+        case 'cosmos-sdk/MsgUndelegate':
+          return [m.value.validator_address]
+        case 'cosmos-sdk/MsgWithdrawDelegationReward':
+          return [m.value.validator_address]
+        default:
+          return []
+      }
+    })
+  )
+
+  const { data: validatorsData } = useSubscription(
+    gql`
+      ${getValidatorsByAddresses(account.crypto)}
+    `,
+    {
+      variables: {
+        addresses: validatorsAddresses,
+      },
+    }
+  )
+
+  const validators = keyBy(transformValidators(validatorsData), 'address')
+
+  const { type } = transactionData.msgs[0]
+
+  const content = React.useMemo(() => {
+    switch (type) {
+      case 'cosmos-sdk/MsgSend':
+        return (
+          <SendContent
+            account={account}
+            denoms={denoms}
+            totalAmount={totalAmount}
+            msgs={transactionData.msgs as TransactionMsgSend[]}
+          />
+        )
+      case 'cosmos-sdk/MsgDelegate':
+        return (
+          <DelegateContent
+            account={account}
+            denoms={denoms}
+            totalAmount={totalAmount}
+            msgs={transactionData.msgs as TransactionMsgDelegate[]}
+            validators={validators}
+          />
+        )
+      case 'cosmos-sdk/MsgUndelegate':
+        return (
+          <UndelegateContent
+            account={account}
+            denoms={denoms}
+            totalAmount={totalAmount}
+            msgs={transactionData.msgs as TransactionMsgUndelegate[]}
+            validators={validators}
+          />
+        )
+      case 'cosmos-sdk/MsgBeginRedelegate':
+        return (
+          <RedelegateContent
+            account={account}
+            denoms={denoms}
+            totalAmount={totalAmount}
+            msgs={transactionData.msgs as TransactionMsgRedelegate[]}
+            validators={validators}
+          />
+        )
+      case 'cosmos-sdk/MsgWithdrawDelegationReward':
+        return (
+          <ClaimRewardsContent
+            account={account}
+            msgs={transactionData.msgs as TransactionMsgWithdrawReward[]}
+            validators={validators}
+          />
+        )
+      default:
+        return null
+    }
+  }, [type])
+
   // TODO
-  // 1. calculate total amount
-  // 2. get tokens_prices by query
-  // 3. render content by tx type
+
   // 4. redirect to enter security password / connect ledger
   // 5. send transaction by calling chrome ext
 
   return (
     <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose} fullScreen={isMobile}>
       <DialogContent className={classes.dialogContent}>
-        <Box display="flex" flexDirection="column" alignItems="center" mt={6}>
-          <SendIcon width={theme.spacing(6)} height={theme.spacing(6)} />
-          <Box mt={2} mb={4}>
-            <Typography variant="h4">
-              {t('send')} {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
-            </Typography>
-          </Box>
-        </Box>
-        <Divider />
-        <Box my={1}>
-          <Typography>{t('from')}</Typography>
-          <Typography color="textSecondary">{account.address}</Typography>
-        </Box>
-        <Divider />
-        {recipients.map((r, i) => (
-          <React.Fragment key={r.address}>
-            <Box my={1}>
-              <Typography>{t('send to', { number: `# ${i + 1}` })}</Typography>
-              <Typography color="textSecondary" gutterBottom>
-                {r.address}
-              </Typography>
-              <Typography>{t('amount')}</Typography>
-              <Typography color="textSecondary">
-                {formatCrypto(r.amount.amount, r.amount.denom, lang)}
-              </Typography>
-            </Box>
-            <Divider />
-          </React.Fragment>
-        ))}
+        {content}
         <Box my={1}>
           <Typography gutterBottom>{t('memo')}</Typography>
           <Typography color="textSecondary">{transactionData.memo || t('NA')}</Typography>

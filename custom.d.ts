@@ -167,42 +167,48 @@ interface UpdateWalletParams {
 }
 
 interface TransactionMsgDelegate {
-  type: 'delegate'
-  delegator: string
-  validator: string
-  amount: number
-  denom: string
+  type: 'cosmos-sdk/MsgDelegate'
+  value: {
+    delegator_address: string
+    validator_address: string
+    amount: { amount: string; denom: string }
+  }
 }
 
 interface TransactionMsgUndelegate {
-  type: 'undelegate'
-  delegator: string
-  validator: string
-  amount: number
-  denom: string
+  type: 'cosmos-sdk/MsgUndelegate'
+  value: {
+    delegator_address: string
+    validator_address: string
+    amount: { amount: string; denom: string }
+  }
 }
 
 interface TransactionMsgRedelegate {
-  type: 'redelegate'
-  delegator: string
-  fromValidator: string
-  toValidator: string
-  amount: number
-  denom: string
+  type: 'cosmos-sdk/MsgBeginRedelegate'
+  value: {
+    delegator_address: string
+    validator_src_address: string
+    validator_dst_address: string
+    amount: { amount: string; denom: string }
+  }
 }
 
 interface TransactionMsgWithdrawReward {
-  type: 'withdraw reward'
-  delegator: string
-  validator: string
+  type: 'cosmos-sdk/MsgWithdrawDelegationReward'
+  value: {
+    delegator_address: string
+    validator_address: string
+  }
 }
 
 interface TransactionMsgSend {
-  type: 'send'
-  from: string
-  to: string
-  amount: number
-  denom: string
+  type: 'cosmos-sdk/MsgSend'
+  value: {
+    from_address: string
+    to_address: string
+    amount: Array<{ amount: string; denom: string }>
+  }
 }
 
 type TransactionMsg =
