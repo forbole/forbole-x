@@ -21,8 +21,7 @@ import TokenAmountInput from '../TokenAmountInput'
 interface SelectRecipientsProps {
   onConfirm(
     recipients: Array<{ amount: { amount: number; denom: string }; address: string }>,
-    memo: string,
-    totalAmount: TokenAmount
+    memo: string
   ): void
   availableAmount: TokenAmount
   account: Account
@@ -197,8 +196,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                       denom: v.denom,
                     },
                   })),
-                memo,
-                totalAmount
+                memo
               )
             }
           >

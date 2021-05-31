@@ -10,9 +10,9 @@ const typeUrlMap = {
   'cosmos-sdk/MsgSend': '/cosmos.bank.v1beta1.MsgSend',
 }
 
-const formatCosmosTransactionMsg = ({ type, ...params }: TransactionMsg) => {
+const formatCosmosTransactionMsg = ({ type, ...params }: any): TransactionMsg => {
   if (type === 'delegate') {
-    const { delegator, validator, amount, denom } = params as TransactionMsgDelegate
+    const { delegator, validator, amount, denom } = params
     return {
       type: 'cosmos-sdk/MsgDelegate',
       value: {
@@ -23,7 +23,7 @@ const formatCosmosTransactionMsg = ({ type, ...params }: TransactionMsg) => {
     }
   }
   if (type === 'undelegate') {
-    const { delegator, validator, amount, denom } = params as TransactionMsgDelegate
+    const { delegator, validator, amount, denom } = params
     return {
       type: 'cosmos-sdk/MsgUndelegate',
       value: {
@@ -34,13 +34,7 @@ const formatCosmosTransactionMsg = ({ type, ...params }: TransactionMsg) => {
     }
   }
   if (type === 'redelegate') {
-    const {
-      delegator,
-      fromValidator,
-      toValidator,
-      amount,
-      denom,
-    } = params as TransactionMsgRedelegate
+    const { delegator, fromValidator, toValidator, amount, denom } = params
     return {
       type: 'cosmos-sdk/MsgBeginRedelegate',
       value: {
@@ -52,7 +46,7 @@ const formatCosmosTransactionMsg = ({ type, ...params }: TransactionMsg) => {
     }
   }
   if (type === 'withdraw reward') {
-    const { delegator, validator } = params as TransactionMsgWithdrawReward
+    const { delegator, validator } = params
     return {
       type: 'cosmos-sdk/MsgWithdrawDelegationReward',
       value: {
@@ -62,7 +56,7 @@ const formatCosmosTransactionMsg = ({ type, ...params }: TransactionMsg) => {
     }
   }
   if (type === 'send') {
-    const { from, to, amount, denom } = params as TransactionMsgSend
+    const { from, to, amount, denom } = params
     return {
       type: 'cosmos-sdk/MsgSend',
       value: {
@@ -75,7 +69,7 @@ const formatCosmosTransactionMsg = ({ type, ...params }: TransactionMsg) => {
   return null
 }
 
-export const formatTransactionMsg = (crypto: string, msg: TransactionMsg) => {
+export const formatTransactionMsg = (crypto: string, msg: any) => {
   const { ecosystem } = cryptocurrencies[crypto] || {}
   if (ecosystem === 'cosmos') {
     return formatCosmosTransactionMsg(msg)

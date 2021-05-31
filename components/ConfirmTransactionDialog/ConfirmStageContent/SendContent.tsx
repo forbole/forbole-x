@@ -1,8 +1,8 @@
 import React from 'react'
 import { Box, Divider, Typography, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-import SendIcon from '../../assets/images/icons/icon_send_tx.svg'
-import { formatTokenAmount, getTokenAmountFromDenoms } from '../../misc/utils'
+import SendIcon from '../../../assets/images/icons/icon_send_tx.svg'
+import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils'
 
 interface SendContentProps {
   totalAmount: TokenAmount

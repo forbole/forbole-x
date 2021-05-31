@@ -1,10 +1,10 @@
 import React from 'react'
 import { Box, Divider, Typography, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-import DelegateIcon from '../../assets/images/icons/icon_delegate_tx.svg'
-import { formatTokenAmount, getTokenAmountFromDenoms } from '../../misc/utils'
-import ValidatorAvatar from '../ValidatorAvatar'
-import cryptocurrencies from '../../misc/cryptocurrencies'
+import DelegateIcon from '../../../assets/images/icons/icon_delegate_tx.svg'
+import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils'
+import ValidatorAvatar from '../../ValidatorAvatar'
+import cryptocurrencies from '../../../misc/cryptocurrencies'
 
 interface UndelegateContentProps {
   totalAmount: TokenAmount

@@ -1,32 +1,37 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  Divider,
-  Typography,
-} from '@material-ui/core'
+import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import dynamic from 'next/dynamic'
 import flatten from 'lodash/flatten'
 import keyBy from 'lodash/keyBy'
+import invoke from 'lodash/invoke'
 import { gql, useSubscription } from '@apollo/client'
-import { formatTokenAmount, getTokenAmountFromDenoms, transformValidators } from '../../misc/utils'
+import useStateHistory from '../../misc/useStateHistory'
+import { transformValidators } from '../../misc/utils'
 import useStyles from './styles'
-import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIsMobile from '../../misc/useIsMobile'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import { getTokensPrices } from '../../graphql/queries/tokensPrices'
-import SendContent from './SendContent'
-import DelegateContent from './DelegateContent'
-import RedelegateContent from './RedelegateContent'
-import UndelegateContent from './UndelegateContent'
-import ClaimRewardsContent from './ClaimRewardsContent'
+import CloseIcon from '../../assets/images/icons/icon_cross.svg'
+import BackIcon from '../../assets/images/icons/icon_back.svg'
+import useIconProps from '../../misc/useIconProps'
 import { getValidatorsByAddresses } from '../../graphql/queries/validators'
+import ConfirmStageContent from './ConfirmStageContent'
+import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
+import SuccessContent from './SuccessContent'
+import SecurityPasswordDialogContent from '../SecurityPasswordDialogContent'
 
-const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
+enum ConfirmTransactionStage {
+  ConfirmStage = 'confirm',
+  SecurityPasswordStage = 'security password',
+  ConnectLedgerStage = 'connect ledger',
+  SuccessStage = 'success',
+}
+
+interface Content {
+  title: string
+  content: React.ReactNode
+  dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+}
 
 interface ConfirmTransactionDialogProps {
   address: string
@@ -43,9 +48,8 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const { theme: themeSetting } = useGeneralContext()
   const isMobile = useIsMobile()
-  const [viewingData, setViewingData] = React.useState(false)
+  const iconProps = useIconProps()
 
   const { accounts } = useWalletsContext()
   const account = accounts.find((a) => a.address === address)
@@ -53,11 +57,6 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const { data: denoms } = useSubscription(gql`
     ${getTokensPrices(account.crypto)}
   `)
-
-  const totalAmount = getTokenAmountFromDenoms(
-    flatten(transactionData.msgs.map((msg) => (msg.value as any).amount).filter((a) => a)),
-    denoms
-  )
 
   const validatorsAddresses = flatten(
     transactionData.msgs.map((m) => {
@@ -91,117 +90,89 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
 
   const validators = keyBy(transformValidators(validatorsData), 'address')
 
-  const { type } = transactionData.msgs[0]
+  const [
+    stage,
+    setStage,
+    toPrevStage,
+    isPrevStageAvailable,
+  ] = useStateHistory<ConfirmTransactionStage>(ConfirmTransactionStage.ConfirmStage)
 
-  const content = React.useMemo(() => {
-    switch (type) {
-      case 'cosmos-sdk/MsgSend':
-        return (
-          <SendContent
-            account={account}
-            denoms={denoms}
-            totalAmount={totalAmount}
-            msgs={transactionData.msgs as TransactionMsgSend[]}
-          />
+  const [loading, setLoading] = React.useState(false)
+
+  const confirm = React.useCallback(
+    async (securityPassword?: string) => {
+      try {
+        setLoading(true)
+        await invoke(
+          window,
+          'forboleX.private.signAndBroadcastTransaction',
+          address,
+          transactionData,
+          securityPassword
         )
-      case 'cosmos-sdk/MsgDelegate':
-        return (
-          <DelegateContent
-            account={account}
-            denoms={denoms}
-            totalAmount={totalAmount}
-            msgs={transactionData.msgs as TransactionMsgDelegate[]}
-            validators={validators}
-          />
-        )
-      case 'cosmos-sdk/MsgUndelegate':
-        return (
-          <UndelegateContent
-            account={account}
-            denoms={denoms}
-            totalAmount={totalAmount}
-            msgs={transactionData.msgs as TransactionMsgUndelegate[]}
-            validators={validators}
-          />
-        )
-      case 'cosmos-sdk/MsgBeginRedelegate':
-        return (
-          <RedelegateContent
-            account={account}
-            denoms={denoms}
-            totalAmount={totalAmount}
-            msgs={transactionData.msgs as TransactionMsgRedelegate[]}
-            validators={validators}
-          />
-        )
-      case 'cosmos-sdk/MsgWithdrawDelegationReward':
-        return (
-          <ClaimRewardsContent
-            account={account}
-            msgs={transactionData.msgs as TransactionMsgWithdrawReward[]}
-            validators={validators}
-          />
-        )
+        setLoading(false)
+        setStage(ConfirmTransactionStage.SuccessStage, true)
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    [address, transactionData]
+  )
+
+  const content: Content = React.useMemo(() => {
+    switch (stage) {
+      case ConfirmTransactionStage.ConfirmStage:
+        return {
+          title: '',
+          dialogWidth: 'sm',
+          content: (
+            <ConfirmStageContent
+              denoms={denoms}
+              transactionData={transactionData}
+              account={account}
+              validators={validators}
+            />
+          ),
+        }
+      case ConfirmTransactionStage.SecurityPasswordStage:
+        return {
+          title: '',
+          dialogWidth: 'sm',
+          content: <SecurityPasswordDialogContent onConfirm={confirm} loading={loading} />,
+        }
+      case ConfirmTransactionStage.ConnectLedgerStage:
+        return {
+          title: t('connect ledger'),
+          dialogWidth: 'sm',
+          content: <ConnectLedgerDialogContent onConnect={confirm} />,
+        }
+      case ConfirmTransactionStage.SuccessStage:
       default:
-        return null
+        return {
+          title: '',
+          dialogWidth: 'sm',
+          content: <SuccessContent message="" onClose={onClose} />,
+        }
     }
-  }, [type])
-
-  // TODO
-
-  // 4. redirect to enter security password / connect ledger
-  // 5. send transaction by calling chrome ext
+  }, [stage, t])
 
   return (
     <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose} fullScreen={isMobile}>
-      <DialogContent className={classes.dialogContent}>
-        {content}
-        <Box my={1}>
-          <Typography gutterBottom>{t('memo')}</Typography>
-          <Typography color="textSecondary">{transactionData.memo || t('NA')}</Typography>
-        </Box>
-        <Divider />
-        <Box my={1}>
-          <Typography gutterBottom>{t('fee')}</Typography>
-          <Typography color="textSecondary">
-            {formatTokenAmount(
-              getTokenAmountFromDenoms([transactionData.fee], denoms || []),
-              account.crypto,
-              lang
-            )}
-          </Typography>
-        </Box>
-        <Divider />
-        <Box my={1} display="flex" justifyContent="flex-end">
-          <Button onClick={() => setViewingData((v) => !v)} variant="text" color="primary">
-            {t(viewingData ? 'hide data' : 'view data')}
-          </Button>
-        </Box>
-        {viewingData ? (
-          <Box flex={1} overflow="auto">
-            <ReactJson
-              src={transactionData}
-              style={{ backgroundColor: 'transparent' }}
-              displayDataTypes={false}
-              displayObjectSize={false}
-              enableClipboard={false}
-              name={false}
-              indentWidth={2}
-              theme={themeSetting === 'dark' ? 'google' : 'rjv-default'}
-            />
-          </Box>
-        ) : null}
-      </DialogContent>
-      <DialogActions>
-        <Button
-          variant="contained"
-          className={classes.fullWidthButton}
-          color="primary"
-          onClick={() => null}
-        >
-          {t('confirm')}
-        </Button>
-      </DialogActions>
+      {isPrevStageAvailable ? (
+        <IconButton className={classes.backButton} onClick={toPrevStage}>
+          <BackIcon {...iconProps} />
+        </IconButton>
+      ) : null}
+      <IconButton className={classes.closeButton} onClick={onClose}>
+        <CloseIcon {...iconProps} />
+      </IconButton>
+      {content.title ? <DialogTitle>{content.title}</DialogTitle> : null}
+      <ConfirmStageContent
+        denoms={denoms}
+        transactionData={transactionData}
+        account={account}
+        validators={validators}
+      />
     </Dialog>
   )
 }

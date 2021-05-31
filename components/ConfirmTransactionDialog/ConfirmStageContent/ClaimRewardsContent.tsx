@@ -1,9 +1,9 @@
 import React from 'react'
 import { Box, Divider, Typography, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-import WithdrawIcon from '../../assets/images/icons/icon_withdraw_tx.svg'
-import ValidatorAvatar from '../ValidatorAvatar'
-import cryptocurrencies from '../../misc/cryptocurrencies'
+import WithdrawIcon from '../../../assets/images/icons/icon_withdraw_tx.svg'
+import ValidatorAvatar from '../../ValidatorAvatar'
+import cryptocurrencies from '../../../misc/cryptocurrencies'
 
 interface ClaimRewardsContentProps {
   msgs: TransactionMsgWithdrawReward[]

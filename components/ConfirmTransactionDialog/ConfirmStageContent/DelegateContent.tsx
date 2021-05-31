@@ -1,20 +1,20 @@
 import React from 'react'
 import { Box, Divider, Typography, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-import DelegateIcon from '../../assets/images/icons/icon_delegate_tx.svg'
-import { formatTokenAmount, getTokenAmountFromDenoms } from '../../misc/utils'
-import ValidatorAvatar from '../ValidatorAvatar'
-import cryptocurrencies from '../../misc/cryptocurrencies'
+import DelegateIcon from '../../../assets/images/icons/icon_delegate_tx.svg'
+import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils'
+import ValidatorAvatar from '../../ValidatorAvatar'
+import cryptocurrencies from '../../../misc/cryptocurrencies'
 
-interface RedelegateContentProps {
+interface DelegateContentProps {
   totalAmount: TokenAmount
-  msgs: TransactionMsgRedelegate[]
+  msgs: TransactionMsgDelegate[]
   denoms: TokenPrice[]
   account: Account
   validators: { [address: string]: Validator }
 }
 
-const RedelegateContent: React.FC<RedelegateContentProps> = ({
+const DelegateContent: React.FC<DelegateContentProps> = ({
   msgs,
   denoms,
   totalAmount,
@@ -29,7 +29,7 @@ const RedelegateContent: React.FC<RedelegateContentProps> = ({
         <DelegateIcon width={theme.spacing(6)} height={theme.spacing(6)} />
         <Box mt={2} mb={4}>
           <Typography variant="h4">
-            {t('redelegate')} {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
+            {t('delegate')} {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
           </Typography>
         </Box>
       </Box>
@@ -41,25 +41,14 @@ const RedelegateContent: React.FC<RedelegateContentProps> = ({
         </Typography>
       </Box>
       <Divider />
-      {msgs.map((m) => (
-        <React.Fragment key={m.value.validator_dst_address}>
-          <Box my={1}>
-            <Typography>{t('redelegate from')}</Typography>
+      <Box my={1}>
+        <Typography>{t('delegate to')}</Typography>
+        {msgs.map((m, i) => (
+          <React.Fragment key={m.value.validator_address}>
             <Box display="flex" justifyContent="space-between" alignItems="center" my={1.5}>
               <ValidatorAvatar
                 crypto={cryptocurrencies[account.crypto]}
-                validator={validators[m.value.validator_src_address]}
-                size="small"
-              />
-            </Box>
-          </Box>
-          <Divider />
-          <Box my={1}>
-            <Typography>{t('redelegate to')}</Typography>
-            <Box display="flex" justifyContent="space-between" alignItems="center" my={1.5}>
-              <ValidatorAvatar
-                crypto={cryptocurrencies[account.crypto]}
-                validator={validators[m.value.validator_dst_address]}
+                validator={validators[m.value.validator_address]}
                 size="small"
               />
               <Typography color="textSecondary">
@@ -70,12 +59,13 @@ const RedelegateContent: React.FC<RedelegateContentProps> = ({
                 )}
               </Typography>
             </Box>
-          </Box>
-        </React.Fragment>
-      ))}
+            {i === msgs.length - 1 ? null : <Divider />}
+          </React.Fragment>
+        ))}
+      </Box>
       <Divider />
     </>
   )
 }
 
-export default RedelegateContent
+export default DelegateContent
