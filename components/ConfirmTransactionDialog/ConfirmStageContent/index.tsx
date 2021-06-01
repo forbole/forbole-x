@@ -27,6 +27,7 @@ interface ConfirmStageContentProps {
   denoms: TokenPrice[]
   validators: { [address: string]: Validator }
   transactionData: Transaction
+  onConfirm(): void
 }
 
 const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
@@ -34,6 +35,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
   denoms,
   validators,
   transactionData,
+  onConfirm,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
@@ -152,7 +154,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
           variant="contained"
           className={classes.fullWidthButton}
           color="primary"
-          onClick={() => null}
+          onClick={onConfirm}
         >
           {t('confirm')}
         </Button>

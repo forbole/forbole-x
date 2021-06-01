@@ -3,8 +3,9 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import flatten from 'lodash/flatten'
 import keyBy from 'lodash/keyBy'
-import invoke from 'lodash/invoke'
+import get from 'lodash/get'
 import { gql, useSubscription } from '@apollo/client'
+import invoke from 'lodash/invoke'
 import useStateHistory from '../../misc/useStateHistory'
 import { transformValidators } from '../../misc/utils'
 import useStyles from './styles'
@@ -19,6 +20,8 @@ import ConfirmStageContent from './ConfirmStageContent'
 import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 import SuccessContent from './SuccessContent'
 import SecurityPasswordDialogContent from '../SecurityPasswordDialogContent'
+import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 enum ConfirmTransactionStage {
   ConfirmStage = 'confirm',
@@ -46,16 +49,18 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   open,
   onClose,
 }) => {
-  const { t, lang } = useTranslation('common')
+  const { t } = useTranslation('common')
   const classes = useStyles()
   const isMobile = useIsMobile()
   const iconProps = useIconProps()
 
-  const { accounts } = useWalletsContext()
+  const { accounts, password, wallets } = useWalletsContext()
   const account = accounts.find((a) => a.address === address)
+  const wallet = account ? wallets.find((w) => w.id === account.walletId) : undefined
+  const crypto = account ? account.crypto : Object.keys(cryptocurrencies)[0]
 
   const { data: denoms } = useSubscription(gql`
-    ${getTokensPrices(account.crypto)}
+    ${getTokensPrices(crypto)}
   `)
 
   const validatorsAddresses = flatten(
@@ -79,7 +84,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
 
   const { data: validatorsData } = useSubscription(
     gql`
-      ${getValidatorsByAddresses(account.crypto)}
+      ${getValidatorsByAddresses(crypto)}
     `,
     {
       variables: {
@@ -105,7 +110,9 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         setLoading(true)
         await invoke(
           window,
-          'forboleX.private.signAndBroadcastTransaction',
+          'forboleX.signAndBroadcastTransaction',
+          process.env.NEXT_PUBLIC_CHROME_EXT_ID,
+          password,
           address,
           transactionData,
           securityPassword
@@ -116,7 +123,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         console.log(err)
       }
     },
-    [address, transactionData]
+    [address, transactionData, password]
   )
 
   const content: Content = React.useMemo(() => {
@@ -127,10 +134,17 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
           dialogWidth: 'sm',
           content: (
             <ConfirmStageContent
-              denoms={denoms}
+              denoms={get(denoms, 'token_price', [])}
               transactionData={transactionData}
               account={account}
               validators={validators}
+              onConfirm={() =>
+                setStage(
+                  get(wallet, 'type', '') === 'ledger'
+                    ? ConfirmTransactionStage.ConnectLedgerStage
+                    : ConfirmTransactionStage.SecurityPasswordStage
+                )
+              }
             />
           ),
         }
@@ -167,12 +181,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         <CloseIcon {...iconProps} />
       </IconButton>
       {content.title ? <DialogTitle>{content.title}</DialogTitle> : null}
-      <ConfirmStageContent
-        denoms={denoms}
-        transactionData={transactionData}
-        account={account}
-        validators={validators}
-      />
+      {account && wallet && denoms ? content.content : null}
     </Dialog>
   )
 }

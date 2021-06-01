@@ -1,5 +1,4 @@
 import { Cosmos } from 'ledger-app-cosmos'
-import { formatTypeUrlTransactionMsg } from './formatTransactionMsg'
 import sendMsgToChromeExt from './sendMsgToChromeExt'
 
 const sendTransaction = async (
@@ -38,10 +37,7 @@ const sendTransaction = async (
   }
   const result = await sendMsgToChromeExt({
     event: 'signAndBroadcastTransactions',
-    data: {
-      ...transactionData,
-      transactions: transactionData.transactions.map((msg) => formatTypeUrlTransactionMsg(msg)),
-    },
+    data: transactionData as any,
   })
   return result
 }

@@ -303,9 +303,7 @@ type ChromeMessage =
         address: string
         securityPassword: string
         password: string
-        transactions: any[]
-        gasFee: any
-        memo?: string
+        transactionData: Transaction
       }
     }
   | {

@@ -40,34 +40,28 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
       recipients: Array<{ amount: { amount: number; denom: string }; address: string }>,
       memo: string
     ) => {
-      await invoke(
-        window,
-        'forboleX.sendTransaction',
-        account.address,
-        {
-          msgs: recipients
-            .map((r) => {
-              const coinsToSend = getEquivalentCoinToSend(
-                r.amount,
-                availableTokens.coins,
-                availableTokens.tokens_prices
-              )
-              return formatTransactionMsg(account.crypto, {
-                type: 'send',
-                from: account.address,
-                to: r.address,
-                ...coinsToSend,
-              })
+      await invoke(window, 'forboleX.sendTransaction', password, account.address, {
+        msgs: recipients
+          .map((r) => {
+            const coinsToSend = getEquivalentCoinToSend(
+              r.amount,
+              availableTokens.coins,
+              availableTokens.tokens_prices
+            )
+            return formatTransactionMsg(account.crypto, {
+              type: 'send',
+              from: account.address,
+              to: r.address,
+              ...coinsToSend,
             })
-            .filter((a) => a),
-          gas_fee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
-          memo,
-          ...signerInfo,
-        },
-        password
-      )
+          })
+          .filter((a) => a),
+        fee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
+        memo,
+        ...signerInfo,
+      })
     },
-    [signerInfo]
+    [signerInfo, availableTokens]
   )
 
   return (
