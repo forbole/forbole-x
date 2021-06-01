@@ -14,13 +14,13 @@ import useStyles from './styles'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
 
-interface DeleteWalletDialogProps {
+interface DeleteWalletProps {
   walletId: string
-  open: boolean
+  // open: boolean
   onClose(): void
 }
 
-const DeleteWalletDialog: React.FC<DeleteWalletDialogProps> = ({ walletId, open, onClose }) => {
+const DeleteWallet: React.FC<DeleteWalletProps> = ({ walletId, onClose }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
@@ -35,10 +35,11 @@ const DeleteWalletDialog: React.FC<DeleteWalletDialogProps> = ({ walletId, open,
   }, [deleteWallet, walletId])
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <IconButton className={classes.closeButton} onClick={onClose}>
-        <CloseIcon {...iconProps} />
-      </IconButton>
+    // <Dialog open={open} onClose={onClose}>
+    //   <IconButton className={classes.closeButton} onClick={onClose}>
+    //     <CloseIcon {...iconProps} />
+    //   </IconButton>
+    <>
       <DialogTitle>{t('delete wallet')}</DialogTitle>
       <DialogContent>
         <Typography>{t('delete wallet warning')}</Typography>
@@ -61,8 +62,8 @@ const DeleteWalletDialog: React.FC<DeleteWalletDialogProps> = ({ walletId, open,
           {t('delete')}
         </Button>
       </DialogActions>
-    </Dialog>
+    </>
   )
 }
 
-export default DeleteWalletDialog
+export default DeleteWallet

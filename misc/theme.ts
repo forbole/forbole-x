@@ -7,6 +7,9 @@ interface CustomPalette extends Palette {
   translucent: string
   indicator: string
   pieChart: { [key: string]: PaletteColor }
+  button: string
+  menuBackground: string
+  socialMediaIcon: { background: string; fill: string }
 }
 
 export interface CustomTheme extends Theme {
@@ -163,6 +166,12 @@ const lightTheme = ({
         main: '#F4B65A',
       },
     },
+    button: '#007FFF',
+    menuBackground: '#F7F7F7',
+    socialMediaIcon: {
+      background: '#999999',
+      fill: '#FFFFFF',
+    },
   },
 } as unknown) as ThemeOptions
 
@@ -250,6 +259,12 @@ const darkTheme = ({
       color6: {
         main: '#F4B65A',
       },
+    },
+    button: '#FFFFFF',
+    menuBackground: '#282f35',
+    socialMediaIcon: {
+      background: '#999999',
+      fill: '#25282D',
     },
   },
 } as unknown) as ThemeOptions

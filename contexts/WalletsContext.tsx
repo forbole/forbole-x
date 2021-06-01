@@ -14,7 +14,10 @@ interface WalletsState {
   addAccount?: (account: CreateAccountParams, securityPassword: string) => void
   updateAccount?: (address: string, account: UpdateAccountParams) => void
   deleteAccount?: (address: string) => void
-  viewMnemonicPhrase?: (id: string, securityPassword: string) => Promise<{ success: boolean }>
+  viewMnemonicPhrase?: (
+    id: string,
+    securityPassword: string
+  ) => Promise<{ success: boolean; mnenomic: any }>
   viewMnemonicPhraseBackup?: (
     id: string,
     securityPassword: string,
@@ -199,6 +202,7 @@ const WalletsProvider: React.FC = ({ children }) => {
           password,
         },
       })
+      console.log('mnemonic', mnemonic)
       return mnemonic
     },
     [password]

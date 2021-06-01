@@ -12,6 +12,7 @@
   "get started line1": "Add wallet to manage your assets, control your multi assets in a single interface",
   "get started line2": "Let’s get started with setting a password",
   "set password title": "Set Password",
+  "display mnemonic title": "Mnemonic phrase",
   "set password description": "Set a password to prevent unauthorized access\nto wallet data on your application",
   "password": "Password",
   "password caption": "* at least 6 characters in length",
@@ -208,5 +209,18 @@
   "redelegated amount": "Redelegated amount",
   "commission": "Commission",
   "rewards was successfully withdrew": "Rewards was successfully withdrew",
-  "copied to clipboard": "Copied to Clipboard!"
+  "copied to clipboard": "Copied to Clipboard!",
+  "`s wallet": "'s Wallet",
+  "set security details": "In oder to export your mnemonic properly, we need a password with it will be encrypted for security reasons. Please insert below passwords that you will also be required later when importing it.",
+  "export mnemomic details": "You can export this data whenever you want, even sending it to a friend of yours for backup, if you have used a strong enough password.",
+  "display mnemomic details": "Please write down and safe your mnemonic phrase\nIt’s the ONLY WAY to restore your account",
+  "export mnemonic": "Export Mnemonic",
+  "share": "Share",
+  "copy": "Copy",
+  "social media title": "Share via",
+  "facebook": "Facebook",
+  "twitter": "Twitter",
+  "gmail": "gmail",
+  "whatsapp": "Whatsapp",
+  "telegram": "Telegram"
 }

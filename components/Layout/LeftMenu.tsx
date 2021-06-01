@@ -15,6 +15,7 @@ import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { MenuWidth } from '.'
 import { useGeneralContext } from '../../contexts/GeneralContext'
+import { CustomTheme } from '../../misc/theme'
 
 interface LeftMenuProps {
   activeItem: string
@@ -24,7 +25,7 @@ interface LeftMenuProps {
 
 const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMenuExpanded }) => {
   const { t } = useTranslation('common')
-  const themeStyle = useTheme()
+  const themeStyle: CustomTheme = useTheme()
   const iconProps = useIconProps(3)
   const classes = useStyles()
   const { theme } = useGeneralContext()
@@ -108,7 +109,13 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
           const selected = item.href === activeItem
           return (
             <Link key={item.title} href={item.href} passHref>
-              <ListItem selected={selected} className={classes.menuItem} button component="a">
+              <ListItem
+                selected={selected}
+                className={classes.menuItem}
+                button
+                component="a"
+                style={{ background: selected ? themeStyle.palette.menuBackground : 'inherits' }}
+              >
                 <ListItemIcon>
                   {React.cloneElement(item.icon, {
                     fill: selected ? themeStyle.palette.primary.main : themeStyle.palette.grey[300],

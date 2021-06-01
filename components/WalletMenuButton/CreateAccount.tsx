@@ -29,17 +29,15 @@ enum Stage {
   SecurityPassword = 'security password',
 }
 
-interface CreateAccountDialogProps {
+interface CreateAccountProps {
   walletId: string
-  open: boolean
+  // open: boolean
   onClose(): void
 }
 
-const CreateAccountDialog: React.FC<CreateAccountDialogProps> = ({ walletId, open, onClose }) => {
+const CreateAccount: React.FC<CreateAccountProps> = ({ walletId, onClose }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
-  const iconProps = useIconProps()
-  const isMobile = useIsMobile()
   const [crypto, setCrypto] = React.useState('')
   const [name, setName] = React.useState('')
   const [securityPassword, setSecurityPassword] = React.useState('')
@@ -56,28 +54,20 @@ const CreateAccountDialog: React.FC<CreateAccountDialogProps> = ({ walletId, ope
     } catch (err) {
       setError(err.message)
     }
-  }, [name, addAccount, walletId, crypto, securityPassword, onClose, setError])
+  }, [name, addAccount, walletId, crypto, securityPassword, setError])
 
-  React.useEffect(() => {
-    if (open) {
-      setName('')
-      setCrypto('')
-      setSecurityPassword('')
-      setError('')
-      setStage(Stage.CreateAccount, true)
-    }
-  }, [open])
+  // React.useEffect(() => {
+  //   if (open) {
+  //     setName('')
+  //     setCrypto('')
+  //     setSecurityPassword('')
+  //     setError('')
+  //     setStage(Stage.CreateAccount, true)
+  //   }
+  // }, [open])
 
   return (
-    <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
-      {isPrevStageAvailable ? (
-        <IconButton className={classes.backButton} onClick={toPrevStage}>
-          <BackIcon {...iconProps} />
-        </IconButton>
-      ) : null}
-      <IconButton className={classes.closeButton} onClick={onClose}>
-        <CloseIcon {...iconProps} />
-      </IconButton>
+    <>
       <DialogTitle>
         {t(stage === Stage.CreateAccount ? 'create account' : 'security password title')}
       </DialogTitle>
@@ -145,8 +135,8 @@ const CreateAccountDialog: React.FC<CreateAccountDialogProps> = ({ walletId, ope
           {t(stage === Stage.CreateAccount ? 'next' : 'confirm')}
         </Button>
       </DialogActions>
-    </Dialog>
+    </>
   )
 }
 
-export default CreateAccountDialog
+export default CreateAccount
