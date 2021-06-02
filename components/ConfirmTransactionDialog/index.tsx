@@ -112,6 +112,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
           window,
           'forboleX.signAndBroadcastTransaction',
           process.env.NEXT_PUBLIC_CHROME_EXT_ID,
+          window.location.origin,
           password,
           address,
           transactionData,
@@ -165,7 +166,12 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         return {
           title: '',
           dialogWidth: 'sm',
-          content: <SuccessContent message="" onClose={onClose} />,
+          content: (
+            <SuccessContent
+              message=""
+              onClose={() => sendMsgToChromeExt({ event: 'closeChromeExtension' })}
+            />
+          ),
         }
     }
   }, [stage, t])

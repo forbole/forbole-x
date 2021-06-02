@@ -12,7 +12,7 @@ interface SendContentProps {
 }
 
 const SendContent: React.FC<SendContentProps> = ({ msgs, denoms, totalAmount, account }) => {
-  const { t, lang } = useTranslation()
+  const { t, lang } = useTranslation('common')
   const theme = useTheme()
   return (
     <>

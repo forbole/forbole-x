@@ -7,6 +7,8 @@ import {
   TextField,
   Typography,
   Grid,
+  CircularProgress,
+  useTheme,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -25,17 +27,20 @@ interface SelectRecipientsProps {
   ): void
   availableAmount: TokenAmount
   account: Account
+  loading: boolean
 }
 
 const SelectRecipients: React.FC<SelectRecipientsProps> = ({
   account,
   availableAmount,
   onConfirm,
+  loading,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
   const { currency } = useGeneralContext()
+  const theme = useTheme()
   const [recipients, setRecipients] = React.useState<
     Array<{ amount: string; denom: string; address: string }>
   >([{ amount: '', denom: Object.keys(availableAmount)[0] || '', address: '' }])
@@ -182,6 +187,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
             className={classes.button}
             color="primary"
             disabled={
+              loading ||
               !!insufficientTokens.length ||
               !recipients.filter((v) => v.address && Number(v.amount)).length
             }
@@ -200,7 +206,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
               )
             }
           >
-            {t('next')}
+            {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </DialogActions>

@@ -321,3 +321,4 @@ type ChromeMessage =
         crypto: string
       }
     }
+  | { event: 'closeChromeExtension' }

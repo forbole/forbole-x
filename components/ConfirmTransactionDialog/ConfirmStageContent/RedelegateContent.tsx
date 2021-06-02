@@ -21,7 +21,7 @@ const RedelegateContent: React.FC<RedelegateContentProps> = ({
   account,
   validators,
 }) => {
-  const { t, lang } = useTranslation()
+  const { t, lang } = useTranslation('common')
   const theme = useTheme()
   return (
     <>

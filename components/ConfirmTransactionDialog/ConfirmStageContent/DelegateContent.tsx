@@ -21,7 +21,7 @@ const DelegateContent: React.FC<DelegateContentProps> = ({
   account,
   validators,
 }) => {
-  const { t, lang } = useTranslation()
+  const { t, lang } = useTranslation('common')
   const theme = useTheme()
   return (
     <>

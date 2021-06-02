@@ -12,7 +12,7 @@ interface ClaimRewardsContentProps {
 }
 
 const ClaimRewardsContent: React.FC<ClaimRewardsContentProps> = ({ msgs, account, validators }) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation('common')
   const theme = useTheme()
   return (
     <>

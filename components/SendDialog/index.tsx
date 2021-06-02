@@ -29,6 +29,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
   const { password } = useWalletsContext()
   const isMobile = useIsMobile()
   const signerInfo = useSignerInfo(account)
+  const [loading, setLoading] = React.useState(false)
 
   const availableAmount = React.useMemo(
     () => getTokenAmountFromDenoms(availableTokens.coins, availableTokens.tokens_prices),
@@ -40,6 +41,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
       recipients: Array<{ amount: { amount: number; denom: string }; address: string }>,
       memo: string
     ) => {
+      setLoading(true)
       await invoke(window, 'forboleX.sendTransaction', password, account.address, {
         msgs: recipients
           .map((r) => {
@@ -60,6 +62,8 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
         memo,
         ...signerInfo,
       })
+      setLoading(false)
+      onClose()
     },
     [signerInfo, availableTokens]
   )
@@ -70,7 +74,12 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
         <CloseIcon {...iconProps} />
       </IconButton>
       <DialogTitle>{t('send')}</DialogTitle>
-      <SelectRecipients account={account} availableAmount={availableAmount} onConfirm={confirm} />
+      <SelectRecipients
+        loading={loading}
+        account={account}
+        availableAmount={availableAmount}
+        onConfirm={confirm}
+      />
     </Dialog>
   )
 }
