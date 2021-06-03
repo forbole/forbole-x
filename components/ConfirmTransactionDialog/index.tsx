@@ -174,7 +174,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
           ),
         }
     }
-  }, [stage, t])
+  }, [stage, t, transactionData, account, validators, wallet, confirm])
 
   return (
     <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose} fullScreen={isMobile}>

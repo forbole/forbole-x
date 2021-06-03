@@ -224,7 +224,10 @@ interface Transaction {
   sequence?: string
   msgs: TransactionMsg[]
   memo: string
-  fee?: { amount: string; denom: string }
+  fee?: {
+    amount: Array<{ amount: string; denom: string }>
+    gas: string
+  }
 }
 
 type ChromeMessage =

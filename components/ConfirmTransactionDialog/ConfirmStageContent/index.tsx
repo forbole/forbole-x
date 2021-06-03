@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  Divider,
-  Typography,
-} from '@material-ui/core'
+import { Box, Button, DialogActions, DialogContent, Divider, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import dynamic from 'next/dynamic'
@@ -102,7 +94,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
       default:
         return null
     }
-  }, [type])
+  }, [type, validators, account, transactionData, totalAmount, denoms])
 
   // TODO
 
@@ -122,7 +114,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
           <Typography gutterBottom>{t('fee')}</Typography>
           <Typography color="textSecondary">
             {formatTokenAmount(
-              getTokenAmountFromDenoms([transactionData.fee], denoms || []),
+              getTokenAmountFromDenoms(transactionData.fee.amount, denoms || []),
               account.crypto,
               lang
             )}

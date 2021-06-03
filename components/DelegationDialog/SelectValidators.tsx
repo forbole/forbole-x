@@ -9,6 +9,8 @@ import {
   Typography,
   Avatar,
   Grid,
+  CircularProgress,
+  useTheme,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
@@ -30,6 +32,7 @@ interface SelectValidatorsProps {
   validators: Validator[]
   amount: number
   denom: string
+  loading: boolean
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
@@ -39,12 +42,14 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   amount,
   denom,
   onConfirm,
+  loading,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
   const { currency } = useGeneralContext()
   const isMobile = useIsMobile()
+  const theme = useTheme()
   const [delegations, setDelegations] = React.useState<
     Array<{ amount: string; validator: any; percentage: string }>
   >(
@@ -256,6 +261,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             className={classes.button}
             color="primary"
             disabled={
+              loading ||
               !delegations.filter((v) => v.validator.name && Number(v.amount)).length ||
               delegations.map((v) => Number(v.amount)).reduce((a, b) => a + b, 0) > amount
             }
@@ -271,7 +277,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               )
             }
           >
-            {t('next')}
+            {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </DialogActions>
