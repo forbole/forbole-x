@@ -50,7 +50,7 @@ interface UpdateAccountParams {
   fav?: boolean
 }
 
-type WalletType = 'ledger' | 'mneomnic'
+type WalletType = 'ledger' | 'mnemonic'
 
 interface Wallet {
   type: WalletType

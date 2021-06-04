@@ -19,6 +19,7 @@ import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import useStateHistory from '../../misc/useStateHistory'
 import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 import useIsMobile from '../../misc/useIsMobile'
+import { connectLedger } from '../../misc/ledger'
 
 let ledgerApp: Cosmos
 
@@ -150,8 +151,8 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
           title: t('connect ledger'),
           content: (
             <ConnectLedgerDialogContent
-              onConnect={async (app) => {
-                ledgerApp = app
+              onConnect={async () => {
+                ledgerApp = await connectLedger()
                 setStage(CommonStage.ImportLedgerWalletStage, undefined, true)
               }}
             />

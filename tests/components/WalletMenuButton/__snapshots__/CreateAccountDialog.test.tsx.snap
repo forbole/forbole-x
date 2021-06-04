@@ -78,34 +78,23 @@ exports[`component: CreateAccountDialog handles error on next button click 1`] =
     <h2
       className="MuiTypography-root MuiTypography-h6"
     >
-      common:security password title
+      common:forgot password
     </h2>
   </div>
   <div
     className="MuiDialogContent-root"
   >
-    <div
-      className="MuiBox-root MuiBox-root-21"
+    <p
+      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
     >
-      <p
-        className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
-      >
-        common:password
-      </p>
-      <input
-        error={true}
-        helperText="error"
-        onChange={[Function]}
-        placeholder="common:password"
-        value="password"
-      />
-    </div>
+      common:forgot password description
+    </p>
   </div>
   <div
-    className="MuiDialogActions-root MuiDialogActions-spacing"
+    className="MuiDialogActions-root HookGlobalStyles-action-33 MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-3 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-resetButton-31 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -125,7 +114,7 @@ exports[`component: CreateAccountDialog handles error on next button click 1`] =
       <span
         className="MuiButton-label"
       >
-        common:confirm
+        common:reset
       </span>
       <span
         className="MuiTouchRipple-root"
@@ -219,28 +208,48 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
   <div
     className="MuiDialogContent-root"
   >
-    <div
-      className="MuiBox-root MuiBox-root-16"
+    <p
+      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
     >
-      <p
-        className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
-      >
-        common:password
-      </p>
-      <input
-        error={false}
-        helperText=""
-        onChange={[Function]}
-        placeholder="common:password"
-        value=""
-      />
-    </div>
+      common:security password description
+    </p>
+    <input
+      error={false}
+      helperText=""
+      onChange={[Function]}
+      placeholder="common:password"
+      value=""
+    />
   </div>
   <div
-    className="MuiDialogActions-root MuiDialogActions-spacing"
+    className="MuiDialogActions-root HookGlobalStyles-action-22 MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-3 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-19 MuiButton-containedPrimary Mui-disabled Mui-disabled"
+      disabled={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={-1}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:next
+      </span>
+    </button>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-21"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -260,7 +269,7 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
       <span
         className="MuiButton-label"
       >
-        common:confirm
+        common:forgot password?
       </span>
       <span
         className="MuiTouchRipple-root"
@@ -323,7 +332,7 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
     className="MuiDialogContent-root"
   >
     <div
-      className="MuiBox-root MuiBox-root-16"
+      className="MuiBox-root MuiBox-root-25"
     >
       <p
         className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
@@ -390,7 +399,7 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-18"
+      className="MuiBox-root MuiBox-root-26"
     >
       <p
         className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"

@@ -45,15 +45,12 @@ const SecurityPasswordDialogContent: React.FC<SecurityPasswordDialogContentProps
   const cancel = React.useCallback(() => {
     setStage(SecurityPasswordDialogContentStage.UnlockPasswordStage)
   }, [setStage])
-
-  const { unlockWallets } = useWalletsContext()
   const [error, setError] = React.useState('')
   const [password, setPassword] = React.useState('')
 
   const onButtonClick = React.useCallback(async () => {
     try {
       setError('')
-      await unlockWallets(password)
       onConfirm(password)
     } catch (err) {
       setError(t(err.message))

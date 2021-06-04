@@ -16,26 +16,32 @@ jest.mock('../../../components/PasswordInput', () => 'input')
 
 describe('component: CreateAccountDialog', () => {
   it('renders opened state correctly', () => {
-    const component = renderer.create(<CreateAccountDialog walletId="123" open onClose={onClose} />)
+    const component = renderer.create(
+      <CreateAccountDialog walletType="mnemonic" walletId="123" open onClose={onClose} />
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders closed state correctly', () => {
     const component = renderer.create(
-      <CreateAccountDialog walletId="123" open={false} onClose={onClose} />
+      <CreateAccountDialog walletType="mnemonic" walletId="123" open={false} onClose={onClose} />
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('calls onClose on close button click', () => {
-    const component = renderer.create(<CreateAccountDialog walletId="123" open onClose={onClose} />)
+    const component = renderer.create(
+      <CreateAccountDialog walletType="mnemonic" walletId="123" open onClose={onClose} />
+    )
     renderer.act(() => {
       component.root.findAllByType('button')[0].props.onClick({ currentTarget: 'anchor' })
     })
     expect(onClose).toBeCalled()
   })
   it('moves to next stage on next button click, then goes back on back button click', async () => {
-    const component = renderer.create(<CreateAccountDialog walletId="123" open onClose={onClose} />)
+    const component = renderer.create(
+      <CreateAccountDialog walletType="mnemonic" walletId="123" open onClose={onClose} />
+    )
     renderer.act(() => undefined)
     renderer.act(() => {
       component.root.findAllByType('input')[0].props.onChange({ target: { value: 'DSM' } })
@@ -53,7 +59,9 @@ describe('component: CreateAccountDialog', () => {
     expect(tree2).toMatchSnapshot()
   })
   it('calls addAccount on confirm button click', async () => {
-    const component = renderer.create(<CreateAccountDialog walletId="123" open onClose={onClose} />)
+    const component = renderer.create(
+      <CreateAccountDialog walletType="mnemonic" walletId="123" open onClose={onClose} />
+    )
     renderer.act(() => undefined)
     renderer.act(() => {
       component.root.findAllByType('input')[0].props.onChange({ target: { value: 'DSM' } })
@@ -66,14 +74,16 @@ describe('component: CreateAccountDialog', () => {
       component.root.findByType('input').props.onChange({ target: { value: 'password' } })
     })
     await renderer.act(async () => {
-      await last(component.root.findAllByType('button')).props.onClick()
+      await component.root.findAllByType('button')[2].props.onClick()
     })
     expect(addAccount).toBeCalledWith({ walletId: '123', crypto: 'DSM', name: 'name' }, 'password')
     expect(onClose).toBeCalled()
   })
   it('handles error on next button click', async () => {
     addAccount.mockRejectedValueOnce(new Error('error'))
-    const component = renderer.create(<CreateAccountDialog walletId="123" open onClose={onClose} />)
+    const component = renderer.create(
+      <CreateAccountDialog walletType="mnemonic" walletId="123" open onClose={onClose} />
+    )
     renderer.act(() => undefined)
     renderer.act(() => {
       component.root.findAllByType('input')[0].props.onChange({ target: { value: 'DSM' } })

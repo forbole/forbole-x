@@ -1,6 +1,7 @@
 import { Button, IconButton, Menu, MenuItem, Box } from '@material-ui/core'
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
+import get from 'lodash/get'
 import useStyles from './styles'
 import EditIcon from '../../assets/images/icons/icon_edit.svg'
 import useIconProps from '../../misc/useIconProps'
@@ -9,11 +10,14 @@ import ChangeSecurityPasswordDialog from './ChangeSecurityPasswordDialog'
 import ViewMnemonicPhraseDialog from './ViewMnemonicPhraseDialog'
 import DeleteWalletDialog from './DeleteWalletDialog'
 import CreateAccountDialog from './CreateAccountDialog'
+import { useWalletsContext } from '../../contexts/WalletsContext'
 
 const WalletMenuButton: React.FC<{ walletId: string }> = ({ walletId }) => {
   const { t } = useTranslation('common')
   const iconProps = useIconProps()
   const classes = useStyles()
+  const { wallets } = useWalletsContext()
+  const wallet = wallets.find((w) => w.id === walletId)
   const [anchor, setAnchor] = React.useState<Element>()
 
   const [changeWalletNameOpen, setChangeWalletNameOpen] = React.useState(false)
@@ -117,6 +121,7 @@ const WalletMenuButton: React.FC<{ walletId: string }> = ({ walletId }) => {
         open={createAccountOpen}
         onClose={() => setCreateAccountOpen(false)}
         walletId={walletId}
+        walletType={get(wallet, 'type', 'mnemonic')}
       />
       <DeleteWalletDialog
         open={deleteWalletOpen}

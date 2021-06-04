@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   IconButton,
   ListItemAvatar,
@@ -15,8 +14,6 @@ import {
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { Cosmos } from 'ledger-app-cosmos'
-import LedgerImage from '../../assets/images/ledger.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
@@ -24,10 +21,10 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useStateHistory from '../../misc/useStateHistory'
-import PasswordInput from '../PasswordInput'
 import useIsMobile from '../../misc/useIsMobile'
 import SecurityPasswordDialogContent from '../SecurityPasswordDialogContent'
 import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
+import { connectLedger } from '../../misc/ledger'
 
 enum Stage {
   CreateAccount = 'create account',
@@ -36,7 +33,7 @@ enum Stage {
 
 interface CreateAccountDialogProps {
   walletId: string
-  walletType: 'mnemonic' | 'ledger'
+  walletType: WalletType
   open: boolean
   onClose(): void
 }
@@ -71,17 +68,15 @@ const CreateAccountDialog: React.FC<CreateAccountDialogProps> = ({
     [name, addAccount, walletId, crypto, onClose, setError]
   )
 
-  const onSubmitLedger = React.useCallback(
-    async (ledgerApp: Cosmos) => {
-      try {
-        await addAccount({ name, crypto, walletId }, undefined, ledgerApp)
-        onClose()
-      } catch (err) {
-        setError(err.message)
-      }
-    },
-    [name, addAccount, walletId, crypto, onClose, setError]
-  )
+  const onSubmitLedger = React.useCallback(async () => {
+    try {
+      const ledgerApp = await connectLedger()
+      await addAccount({ name, crypto, walletId }, undefined, ledgerApp)
+      onClose()
+    } catch (err) {
+      setError(err.message)
+    }
+  }, [name, addAccount, walletId, crypto, onClose, setError])
 
   React.useEffect(() => {
     if (open) {
@@ -102,9 +97,7 @@ const CreateAccountDialog: React.FC<CreateAccountDialogProps> = ({
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
-      <DialogTitle>
-        {t(stage === Stage.CreateAccount ? 'create account' : 'security password title')}
-      </DialogTitle>
+      {stage === Stage.CreateAccount ? <DialogTitle>{t('create account')}</DialogTitle> : null}
       {stage === Stage.CreateAccount ? (
         <>
           <DialogContent>
