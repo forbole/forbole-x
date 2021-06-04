@@ -33,7 +33,6 @@ const useStyles = makeStyles(
     socialMediaButton: {
       width: theme.spacing(5),
       height: theme.spacing(7),
-      // marginRight: theme.spacing(10),
       background: 'white',
     },
     passwordRequirement: {

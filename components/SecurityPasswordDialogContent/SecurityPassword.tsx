@@ -34,7 +34,7 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({
   return (
     <>
       <DialogContent>
-        <DialogContentText>{t('security password description')}</DialogContentText>
+        <DialogContentText>{t('enter security password')}</DialogContentText>
         <PasswordInput
           placeholder={t('password')}
           value={password}

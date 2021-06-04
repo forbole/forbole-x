@@ -28,8 +28,6 @@ enum MenuStage {
 interface MenuDialogProps {
   walletId: string
   walletName: string
-  // open: boolean
-  // onClose(): void
 }
 
 interface Content {
@@ -123,14 +121,13 @@ const WalletMenuButton: React.FC<MenuDialogProps> = ({ walletId, walletName }) =
       setIsSettingNewPassword(false)
     }
   }, [dialogOpen])
-  // console.log('isPrevStageAvailable_W', isPrevStageAvailable)
 
   return (
     <>
       <IconButton onClick={() => onClick()}>
         <EditIcon {...iconProps} />
       </IconButton>
-      <Dialog fullWidth open={dialogOpen} onClose={onClose}>
+      <Dialog fullWidth open={dialogOpen} onClose={onClose} fullScreen={isMobile}>
         {isPrevStageAvailable ? (
           <IconButton className={classes.backButton} onClick={toPrevStage}>
             <BackIcon {...iconProps} />
@@ -139,18 +136,7 @@ const WalletMenuButton: React.FC<MenuDialogProps> = ({ walletId, walletName }) =
         <IconButton className={classes.closeButton} onClick={onClose}>
           <CloseIcon {...iconProps} />
         </IconButton>
-        {/* <DialogTitle>{t('change security password')}</DialogTitle> */}
         {content.content}
-        {/* <DialogActions>
-          <Button
-            className={classes.dialogButton}
-            variant="contained"
-            color="primary"
-            // onClick={onButtonClick}
-          >
-            {t(isSettingNewPassword ? 'save' : 'next')}
-          </Button>
-        </DialogActions> */}
       </Dialog>
     </>
   )

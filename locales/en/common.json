@@ -222,5 +222,19 @@
   "twitter": "Twitter",
   "gmail": "gmail",
   "whatsapp": "Whatsapp",
-  "telegram": "Telegram"
+  "telegram": "Telegram",
+  "reward address detail": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo \n\nduo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.\n\nLorem ipsum dolor sit amet, consetetur\n\nduo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lore",
+  "account info title": "Account Info",
+  "reward address intro title": "What is Reward Address?",
+  "address sharing title": "Address",
+  "edit reward address": "Edit Reward Address",
+  "remove account": "Remove Account",
+  "share to": "Share to",
+  "scan for address": "Scan for Address",
+  "reward address": "Reward Address",
+  "new reward address": "New Reward Address",
+  "confirm edit title": "Confirm",
+  "current reward address": "Current Reward Address",
+  "successfully updated": "Reward address was successfully edited",
+  "remove wallet warning": "Are you sure you would like to remove this account ? "
 }
