@@ -10,7 +10,6 @@ import useIconProps from '../../misc/useIconProps'
 import SelectValidators from './SelectValidators'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import { formatTransactionMsg } from '../../misc/formatTransactionMsg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIsMobile from '../../misc/useIsMobile'
 import useSignerInfo from '../../misc/useSignerInfo'
@@ -57,12 +56,14 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
         )
         await invoke(window, 'forboleX.sendTransaction', password, account.address, {
           msgs: [
-            formatTransactionMsg(account.crypto, {
-              type: 'undelegate',
-              delegator: account.address,
-              validator: validator.address,
-              ...coinsToSend,
-            }),
+            {
+              type: 'cosmos-sdk/MsgUndelegate',
+              value: {
+                delegator_address: account.address,
+                validator_address: validator.address,
+                amount: { amount: coinsToSend.amount.toString(), denom: coinsToSend.denom },
+              },
+            },
           ],
           fee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
           memo,

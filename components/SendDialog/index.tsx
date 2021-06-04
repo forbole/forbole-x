@@ -8,7 +8,6 @@ import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import SelectRecipients from './SelectRecipients'
-import { formatTransactionMsg } from '../../misc/formatTransactionMsg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
 import cryptocurrencies from '../../misc/cryptocurrencies'
@@ -50,12 +49,14 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
               availableTokens.coins,
               availableTokens.tokens_prices
             )
-            return formatTransactionMsg(account.crypto, {
-              type: 'send',
-              from: account.address,
-              to: r.address,
-              ...coinsToSend,
-            })
+            return {
+              type: 'cosmos-sdk/MsgSend',
+              value: {
+                from_address: account.address,
+                to_address: r.address,
+                amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
+              },
+            }
           })
           .filter((a) => a),
         fee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),

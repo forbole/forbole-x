@@ -13,7 +13,6 @@ import SelectValidators from './SelectValidators'
 import useStateHistory from '../../misc/useStateHistory'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import { formatTransactionMsg } from '../../misc/formatTransactionMsg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIsMobile from '../../misc/useIsMobile'
 import useSignerInfo from '../../misc/useSignerInfo'
@@ -91,12 +90,14 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
                 availableTokens.coins,
                 availableTokens.tokens_prices
               )
-              return formatTransactionMsg(account.crypto, {
-                type: 'delegate',
-                delegator: account.address,
-                validator: r.validator.address,
-                ...coinsToSend,
-              })
+              return {
+                type: 'cosmos-sdk/MsgDelegate',
+                value: {
+                  delegator_address: account.address,
+                  validator_address: r.validator.address,
+                  amount: { amount: coinsToSend.amount.toString(), denom: coinsToSend.denom },
+                },
+              }
             })
             .filter((a) => a),
           fee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),

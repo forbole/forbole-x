@@ -16,7 +16,7 @@ const cryptocurrencies = {
           denom: 'udaric',
         },
       ],
-      gas: '100000',
+      gas: '200000',
     },
   },
   // SOL: { name: 'SOL', image: '/static/images/cryptocurrencies/sol.png', coinType: 501 },

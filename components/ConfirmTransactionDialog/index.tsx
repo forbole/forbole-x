@@ -112,7 +112,6 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
           window,
           'forboleX.signAndBroadcastTransaction',
           process.env.NEXT_PUBLIC_CHROME_EXT_ID,
-          window.location.origin,
           password,
           address,
           transactionData,

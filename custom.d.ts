@@ -301,23 +301,6 @@ type ChromeMessage =
       }
     }
   | {
-      event: 'signAndBroadcastTransactions'
-      data: {
-        address: string
-        securityPassword: string
-        password: string
-        transactionData: Transaction
-      }
-    }
-  | {
-      event: 'broadcastTransactions'
-      data: {
-        address: string
-        password: string
-        signed: Uint8Array
-      }
-    }
-  | {
       event: 'getSequenceAndChainId'
       data: {
         address: string
