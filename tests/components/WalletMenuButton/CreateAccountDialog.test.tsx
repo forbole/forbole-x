@@ -6,13 +6,14 @@ import CreateAccountDialog from '../../../components/WalletMenuButton/CreateAcco
 
 const onClose = jest.fn()
 const addAccount = jest.fn()
+const viewMnemonicPhrase = jest.fn()
 
 jest.mock('@material-ui/core/Dialog', () => (props) => <div id="dialog" {...props} />)
 jest.mock('../../../contexts/WalletsContext', () => ({
   useWalletsContext: jest.fn(),
 }))
 jest.mock('../../../components/PasswordInput', () => 'input')
-;(useWalletsContext as jest.Mock).mockReturnValue({ addAccount })
+;(useWalletsContext as jest.Mock).mockReturnValue({ addAccount, viewMnemonicPhrase })
 
 describe('component: CreateAccountDialog', () => {
   it('renders opened state correctly', () => {

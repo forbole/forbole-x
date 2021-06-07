@@ -59,9 +59,10 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const wallet = account ? wallets.find((w) => w.id === account.walletId) : undefined
   const crypto = account ? account.crypto : Object.keys(cryptocurrencies)[0]
 
-  const { data: denoms } = useSubscription(gql`
+  const { data: denomsData } = useSubscription(gql`
     ${getTokensPrices(crypto)}
   `)
+  const denoms = get(denomsData, 'token_price', [])
 
   const validatorsAddresses = flatten(
     transactionData.msgs.map((m) => {
@@ -91,26 +92,26 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
     switch (get(transactionData, 'msgs[0].type', '')) {
       case 'cosmos-sdk/MsgSend':
         return t('successfully sent', {
-          title: formatTokenAmount(totalAmount, account.crypto, lang),
+          title: formatTokenAmount(totalAmount, crypto, lang),
         })
       case 'cosmos-sdk/MsgDelegate':
         return t('successfully delegated', {
-          title: formatTokenAmount(totalAmount, account.crypto, lang),
+          title: formatTokenAmount(totalAmount, crypto, lang),
         })
       case 'cosmos-sdk/MsgBeginRedelegate':
         return t('successfully redelegated', {
-          title: formatTokenAmount(totalAmount, account.crypto, lang),
+          title: formatTokenAmount(totalAmount, crypto, lang),
         })
       case 'cosmos-sdk/MsgUndelegate':
         return t('successfully undelegated', {
-          title: formatTokenAmount(totalAmount, account.crypto, lang),
+          title: formatTokenAmount(totalAmount, crypto, lang),
         })
       case 'cosmos-sdk/MsgWithdrawDelegationReward':
         return t('rewards was successfully withdrew')
       default:
         return ''
     }
-  }, [transactionData, t, totalAmount, account, lang])
+  }, [transactionData, t, totalAmount, crypto, lang])
 
   const { data: validatorsData } = useSubscription(
     gql`
@@ -165,7 +166,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
           content: (
             <ConfirmStageContent
               totalAmount={totalAmount}
-              denoms={get(denoms, 'token_price', [])}
+              denoms={denoms}
               transactionData={transactionData}
               account={account}
               validators={validators}
@@ -193,7 +194,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         }
       case ConfirmTransactionStage.ConnectLedgerStage:
         return {
-          title: t('connect ledger'),
+          title: '',
           dialogWidth: 'sm',
           content: <ConnectLedgerDialogContent onConnect={confirm} />,
         }

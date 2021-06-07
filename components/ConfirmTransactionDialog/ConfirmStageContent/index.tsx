@@ -92,11 +92,6 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
     }
   }, [type, validators, account, transactionData, totalAmount, denoms])
 
-  // TODO
-
-  // 4. redirect to enter security password / connect ledger
-  // 5. send transaction by calling chrome ext
-
   return (
     <>
       <DialogContent className={classes.dialogContent}>

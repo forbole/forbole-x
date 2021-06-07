@@ -211,7 +211,7 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
     <p
       className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
     >
-      common:security password description
+      common:enter security password
     </p>
     <input
       error={false}
