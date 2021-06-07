@@ -23,7 +23,6 @@ import {
 } from '../../misc/utils'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
 import SendDialog from '../SendDialog'
-import AccountMenuButton from '../AccountMenuButton'
 import useIsMobile from '../../misc/useIsMobile'
 import EditAccountDialog from '../EditAccountDialog'
 
@@ -74,6 +73,10 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
     updateAccount(account.address, { fav: !account.fav })
   }, [account.address, account.fav, updateAccount])
 
+  const displayItems =
+    getTokenAmountBalance(get(accountBalance, 'balance.commissions', {})) === 0
+      ? ['available', 'delegated', 'unbonding', 'rewards']
+      : ['available', 'delegated', 'unbonding', 'rewards', 'commissions']
   return (
     <>
       <Card className={classes.container}>
@@ -148,7 +151,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
           />
           <Box mt={isMobile ? 6 : 10}>
             <Grid container spacing={4}>
-              {['available', 'delegated', 'unbonding', 'rewards', 'commissions'].map((key) => (
+              {displayItems.map((key) => (
                 <StatBox
                   key={key}
                   title={t(key)}

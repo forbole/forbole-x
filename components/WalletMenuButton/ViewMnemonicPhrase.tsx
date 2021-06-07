@@ -30,7 +30,6 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
 import PasswordInput from '../PasswordInput'
 import useStateHistory from '../../misc/useStateHistory'
-import useIsMobile from '../../misc/useIsMobile'
 import MnemonicPhraseInput from '../MnemonicPhraseInput'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import { CustomTheme } from '../../misc/theme'
@@ -53,7 +52,6 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
   const theme: CustomTheme = useTheme()
   const classes = useStyles()
   const iconProps = useIconProps()
-  const isMobile = useIsMobile()
   const [error, setError] = React.useState('')
   const [securityPassword, setSecurityPassword] = React.useState('')
   const [backupPassword, setBackupPassword] = React.useState('')

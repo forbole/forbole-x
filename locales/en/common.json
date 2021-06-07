@@ -236,5 +236,13 @@
   "confirm edit title": "Confirm",
   "current reward address": "Current Reward Address",
   "successfully updated": "Reward address was successfully edited",
-  "remove wallet warning": "Are you sure you would like to remove this account ? "
+  "remove wallet warning": "Are you sure you would like to remove this account ? ",
+  "year": "Year",
+  "add account title": "Add Account",
+  "import account": "Import Account",
+  "create account title": "Create Account",
+  "success title": "Success",
+  "success created accout": "Account was successfully created",
+  "set an account name": "Set an account name",
+  "confirm import title": "Confirm"
 }

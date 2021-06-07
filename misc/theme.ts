@@ -24,6 +24,7 @@ interface CustomPalette extends Palette {
       border: string
     }
   }
+  dialogBackground: string
 }
 
 export interface CustomTheme extends Theme {
@@ -199,6 +200,7 @@ const lightTheme = ({
         border: '#646464',
       },
     },
+    dialogBackground: '#FFFFFF',
   },
 } as unknown) as ThemeOptions
 
@@ -302,6 +304,7 @@ const darkTheme = ({
         border: '#9D9D9D',
       },
     },
+    dialogBackground: '#1D1E22',
   },
 } as unknown) as ThemeOptions
 

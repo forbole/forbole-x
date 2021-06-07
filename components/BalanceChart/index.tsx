@@ -1,7 +1,7 @@
 import { Box, Button, CircularProgress, Typography, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { addDays, addHours, format } from 'date-fns'
+import { addDays, addHours, format, addYears } from 'date-fns'
 import {
   ResponsiveContainer,
   LineChart,
@@ -41,6 +41,11 @@ export const dateRanges: DateRange[] = [
     title: 'month',
     format: 'd MMM',
     timestamps: new Array(30).fill(null).map((_a, i) => addDays(now, -1 * i).getTime()),
+  },
+  {
+    title: 'year',
+    format: 'd MMM',
+    timestamps: new Array(10).fill(null).map((_a, i) => addYears(now, -1 * i).getTime()),
   },
 ]
 

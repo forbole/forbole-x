@@ -127,7 +127,13 @@ const WalletMenuButton: React.FC<MenuDialogProps> = ({ walletId, walletName }) =
       <IconButton onClick={() => onClick()}>
         <EditIcon {...iconProps} />
       </IconButton>
-      <Dialog fullWidth open={dialogOpen} onClose={onClose} fullScreen={isMobile}>
+      <Dialog
+        fullWidth
+        open={dialogOpen}
+        onClose={onClose}
+        fullScreen={isMobile}
+        PaperProps={{ classes: { root: classes.dialog } }}
+      >
         {isPrevStageAvailable ? (
           <IconButton className={classes.backButton} onClick={toPrevStage}>
             <BackIcon {...iconProps} />
