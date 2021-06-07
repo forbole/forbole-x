@@ -6,10 +6,6 @@ const useStyles = makeStyles(
     dialog: {
       background: theme.palette.dialogBackground,
     },
-    // menuItem: {
-    //   padding: theme.spacing(1, 3),
-    //   borderBottom: `1px solid ${theme.palette.grey[100]}`,
-    // },
     itemButton: {
       flex: '1',
       justifyContent: 'flex-start',
