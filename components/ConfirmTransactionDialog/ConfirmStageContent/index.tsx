@@ -2,7 +2,6 @@ import { Box, Button, DialogActions, DialogContent, Divider, Typography } from '
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import dynamic from 'next/dynamic'
-import flatten from 'lodash/flatten'
 import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils'
 import useStyles from '../styles'
 import SendContent from './SendContent'
@@ -20,6 +19,7 @@ interface ConfirmStageContentProps {
   validators: { [address: string]: Validator }
   transactionData: Transaction
   onConfirm(): void
+  totalAmount: TokenAmount
 }
 
 const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
@@ -28,15 +28,11 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
   validators,
   transactionData,
   onConfirm,
+  totalAmount,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const { theme } = useGeneralContext()
-
-  const totalAmount = getTokenAmountFromDenoms(
-    flatten(transactionData.msgs.map((msg) => (msg.value as any).amount).filter((a) => a)),
-    denoms
-  )
 
   const [viewingData, setViewingData] = React.useState(false)
 

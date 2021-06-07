@@ -1,4 +1,4 @@
-import { Box, DialogContent, DialogContentText, Typography } from '@material-ui/core'
+import { Box, DialogContent, DialogContentText, DialogTitle, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import LedgerImage from '../../assets/images/ledger.svg'
@@ -18,6 +18,7 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
 
   return (
     <DialogContent className={classes.dialogContent}>
+      <DialogTitle>{t('connect ledger')}</DialogTitle>
       <DialogContentText>{t('connect ledger description')}</DialogContentText>
       <Box display="flex" flexDirection="column" alignItems="center" mb={6}>
         <LedgerImage />

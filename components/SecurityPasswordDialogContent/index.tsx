@@ -22,11 +22,13 @@ interface Content {
 interface SecurityPasswordDialogContentProps {
   onConfirm(password: string): void
   loading: boolean
+  walletId: string
 }
 
 const SecurityPasswordDialogContent: React.FC<SecurityPasswordDialogContentProps> = ({
   onConfirm,
   loading,
+  walletId,
 }) => {
   const { t } = useTranslation('common')
   const { reset } = useWalletsContext()
@@ -80,6 +82,7 @@ const SecurityPasswordDialogContent: React.FC<SecurityPasswordDialogContentProps
               password={password}
               setPassword={setPassword}
               loading={loading}
+              walletId={walletId}
             />
           ),
           title: t('security password title'),

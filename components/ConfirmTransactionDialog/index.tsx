@@ -7,7 +7,7 @@ import get from 'lodash/get'
 import { gql, useSubscription } from '@apollo/client'
 import invoke from 'lodash/invoke'
 import useStateHistory from '../../misc/useStateHistory'
-import { transformValidators } from '../../misc/utils'
+import { formatTokenAmount, getTokenAmountFromDenoms, transformValidators } from '../../misc/utils'
 import useStyles from './styles'
 import useIsMobile from '../../misc/useIsMobile'
 import { useWalletsContext } from '../../contexts/WalletsContext'
@@ -49,7 +49,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   open,
   onClose,
 }) => {
-  const { t } = useTranslation('common')
+  const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const isMobile = useIsMobile()
   const iconProps = useIconProps()
@@ -81,6 +81,36 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
       }
     })
   )
+
+  const totalAmount = getTokenAmountFromDenoms(
+    flatten(transactionData.msgs.map((msg) => (msg.value as any).amount).filter((a) => a)),
+    denoms
+  )
+
+  const successMessage = React.useMemo(() => {
+    switch (get(transactionData, 'msgs[0].type', '')) {
+      case 'cosmos-sdk/MsgSend':
+        return t('successfully sent', {
+          title: formatTokenAmount(totalAmount, account.crypto, lang),
+        })
+      case 'cosmos-sdk/MsgDelegate':
+        return t('successfully delegated', {
+          title: formatTokenAmount(totalAmount, account.crypto, lang),
+        })
+      case 'cosmos-sdk/MsgBeginRedelegate':
+        return t('successfully redelegated', {
+          title: formatTokenAmount(totalAmount, account.crypto, lang),
+        })
+      case 'cosmos-sdk/MsgUndelegate':
+        return t('successfully undelegated', {
+          title: formatTokenAmount(totalAmount, account.crypto, lang),
+        })
+      case 'cosmos-sdk/MsgWithdrawDelegationReward':
+        return t('rewards was successfully withdrew')
+      default:
+        return ''
+    }
+  }, [transactionData, t, totalAmount, account, lang])
 
   const { data: validatorsData } = useSubscription(
     gql`
@@ -134,6 +164,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
           dialogWidth: 'sm',
           content: (
             <ConfirmStageContent
+              totalAmount={totalAmount}
               denoms={get(denoms, 'token_price', [])}
               transactionData={transactionData}
               account={account}
@@ -152,7 +183,13 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         return {
           title: '',
           dialogWidth: 'sm',
-          content: <SecurityPasswordDialogContent onConfirm={confirm} loading={loading} />,
+          content: (
+            <SecurityPasswordDialogContent
+              walletId={account.walletId}
+              onConfirm={confirm}
+              loading={loading}
+            />
+          ),
         }
       case ConfirmTransactionStage.ConnectLedgerStage:
         return {
@@ -167,13 +204,13 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
           dialogWidth: 'sm',
           content: (
             <SuccessContent
-              message=""
+              message={successMessage}
               onClose={() => sendMsgToChromeExt({ event: 'closeChromeExtension' })}
             />
           ),
         }
     }
-  }, [stage, t, transactionData, account, validators, wallet, confirm])
+  }, [stage, t, transactionData, account, validators, wallet, confirm, successMessage, totalAmount])
 
   return (
     <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose} fullScreen={isMobile}>

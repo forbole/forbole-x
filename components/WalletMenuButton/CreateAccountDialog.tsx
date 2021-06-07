@@ -151,7 +151,11 @@ const CreateAccountDialog: React.FC<CreateAccountDialogProps> = ({
       ) : (
         <>
           {walletType === 'mnemonic' ? (
-            <SecurityPasswordDialogContent onConfirm={onSubmitMnemonic} loading={false} />
+            <SecurityPasswordDialogContent
+              walletId={walletId}
+              onConfirm={onSubmitMnemonic}
+              loading={false}
+            />
           ) : (
             <ConnectLedgerDialogContent onConnect={onSubmitLedger} />
           )}

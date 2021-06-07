@@ -148,7 +148,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
         }
       case ImportStage.ConnectLedgerDeviceStage:
         return {
-          title: t('connect ledger'),
+          title: '',
           content: (
             <ConnectLedgerDialogContent
               onConnect={async () => {
