@@ -215,7 +215,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
           fullWidth
           variant="filled"
           value={value}
-          placeholder={t('description')}
+          placeholder={t('description optional')}
           multiline
           rows={4}
           onChange={(e) => setValue(e.target.value)}
