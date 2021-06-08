@@ -239,39 +239,43 @@ export const transformValidatorsWithTokenAmount = (data: any, balanceData: any) 
 export const transformUnbonding = (data: any, balanceData: any): Unbonding[] => {
   const validators = keyBy(transformValidators(data), 'address')
   const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
-  return get(balanceData, 'account[0].unbonding.nodes', []).map((u) => ({
-    validator: validators[get(u, 'validator.validator_info.operator_address', '')],
-    amount: getTokenAmountFromDenoms([u.amount], tokensPrices),
-    height: Number(u.height),
-    completionDate: new Date(u.completion_timestamp),
-  }))
+  return get(balanceData, 'account[0].unbonding.nodes', [])
+    .map((u) => ({
+      validator: validators[get(u, 'validator.validator_info.operator_address', '')],
+      amount: getTokenAmountFromDenoms([u.amount], tokensPrices),
+      height: Number(u.height),
+      completionDate: new Date(u.completion_timestamp),
+    }))
+    .sort((a, b) => b.height - a.height)
 }
 
 export const transformRedelegations = (data: any, balanceData: any): Redelegation[] => {
   const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
-  return get(data, 'redelegations', []).map((u) => ({
-    fromValidator: {
-      name: get(
-        u,
-        'from_validator.description[0].moniker',
-        get(u, 'from_validator.info.operator_address', '')
-      ),
-      address: get(u, 'from_validator.info.operator_address', ''),
-      image: get(u, 'from_validator.description[0].avatar_url', ''),
-    },
-    toValidator: {
-      name: get(
-        u,
-        'to_validator.description[0].moniker',
-        get(u, 'to_validator.info.operator_address', '')
-      ),
-      address: get(u, 'to_validator.info.operator_address', ''),
-      image: get(u, 'to_validator.description[0].avatar_url', ''),
-    },
-    amount: getTokenAmountFromDenoms([u.amount], tokensPrices),
-    height: Number(u.height),
-    completionDate: new Date(u.completion_timestamp),
-  }))
+  return get(data, 'redelegations', [])
+    .map((u) => ({
+      fromValidator: {
+        name: get(
+          u,
+          'from_validator.description[0].moniker',
+          get(u, 'from_validator.info.operator_address', '')
+        ),
+        address: get(u, 'from_validator.info.operator_address', ''),
+        image: get(u, 'from_validator.description[0].avatar_url', ''),
+      },
+      toValidator: {
+        name: get(
+          u,
+          'to_validator.description[0].moniker',
+          get(u, 'to_validator.info.operator_address', '')
+        ),
+        address: get(u, 'to_validator.info.operator_address', ''),
+        image: get(u, 'to_validator.description[0].avatar_url', ''),
+      },
+      amount: getTokenAmountFromDenoms([u.amount], tokensPrices),
+      height: Number(u.height),
+      completionDate: new Date(u.completion_timestamp),
+    }))
+    .sort((a, b) => b.height - a.height)
 }
 
 export const transformTransactions = (
