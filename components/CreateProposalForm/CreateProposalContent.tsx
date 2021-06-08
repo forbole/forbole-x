@@ -1,14 +1,15 @@
 import React from 'react'
-import { Box, Button, InputAdornment, TextField, Typography, Grid, Avatar } from '@material-ui/core'
+import { Box, Button, InputAdornment, TextField, Typography, Grid } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
 import keyBy from 'lodash/keyBy'
 import useIconProps from '../../misc/useIconProps'
 import { useGetStyles } from './styles'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
+import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface CreateProposalContentProps {
-  accounts: Account[]
+  account: Account
   onNext(
     proposalAccount: Account,
     network: { name: string; id: string },
@@ -20,12 +21,13 @@ interface CreateProposalContentProps {
 }
 
 const CreateProposalContent: React.FC<CreateProposalContentProps> = ({
-  accounts,
+  account,
   onNext,
   networks,
 }) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
+  const { accounts } = useWalletsContext()
 
   const iconProps = useIconProps()
 
@@ -52,7 +54,7 @@ const CreateProposalContent: React.FC<CreateProposalContentProps> = ({
 
   const [type, setType] = React.useState<{ name: string; id: string }>()
 
-  const [proposalAccount, setProposalAccount] = React.useState<Account>(accounts[0])
+  const [proposalAccount, setProposalAccount] = React.useState<Account>(account)
 
   const accountsMap = keyBy(accounts, 'address')
 

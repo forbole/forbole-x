@@ -6,11 +6,15 @@ import { Proposal } from './index'
 
 interface ConfirmProposalContentProps {
   proposal: Proposal
-  accounts: Account[]
+  account: Account
   onConfirm: () => void
 }
 
-const ConfirmProposalContent: React.FC<ConfirmProposalContentProps> = ({ proposal, onConfirm }) => {
+const ConfirmProposalContent: React.FC<ConfirmProposalContentProps> = ({
+  proposal,
+  account,
+  onConfirm,
+}) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
 

@@ -19,9 +19,10 @@ import useStyles from './styles'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import TokenAmountInput from '../TokenAmountInput'
 import { getTokenAmountFromDenoms, formatCrypto } from '../../misc/utils'
+import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface InputAmountProps {
-  accounts: Account[]
+  account: Account
   crypto: Cryptocurrency
   onNext(voteAccount: Account, amount: number, memo?: string): void
   proposal: Proposal
@@ -30,13 +31,15 @@ interface InputAmountProps {
 
 const InputAmount: React.FC<InputAmountProps> = ({
   crypto,
-  accounts,
+  account,
   onNext,
   availableTokens,
   proposal,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
+  const { accounts: allAccounts } = useWalletsContext()
+  const accounts = allAccounts.filter((a) => a.crypto === account.crypto)
 
   const iconProps = useIconProps()
   const remainingTime = intervalToDuration({
@@ -46,7 +49,7 @@ const InputAmount: React.FC<InputAmountProps> = ({
   const accountsMap = keyBy(accounts, 'address')
   const [memo, setMemo] = React.useState('')
   const [amount, setAmount] = React.useState('')
-  const [voteAccount, setVoteAccount] = React.useState<Account>(accounts[0])
+  const [voteAccount, setVoteAccount] = React.useState<Account>(account)
   const { availableAmount } = React.useMemo(
     () => ({
       availableAmount: getTokenAmountFromDenoms(

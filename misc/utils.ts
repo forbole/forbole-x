@@ -471,7 +471,11 @@ export const transformProposals = (proposalData: any): Proposal[] => {
   }))
 }
 
-export const transformProposal = (proposalData: any, balanceData: any): Proposal => {
+export const transformProposal = (
+  proposalData: any,
+  balanceData: any,
+  depositParams: any
+): Proposal => {
   const p = get(proposalData, 'proposal[0]')
   const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
   let totalDepositsList = []
@@ -522,9 +526,9 @@ export const transformProposal = (proposalData: any, balanceData: any): Proposal
       }
     }),
     totalDeposits: getTokenAmountFromDenoms(totalDepositsList, tokensPrices),
-    minDeposit: proposalData
+    minDeposit: depositParams
       ? getTokenAmountFromDenoms(
-          get(proposalData, 'gov_params[0].deposit_params.min_deposit'),
+          get(depositParams, 'gov_params[0].deposit_params.min_deposit'),
           tokensPrices
         )
       : null,

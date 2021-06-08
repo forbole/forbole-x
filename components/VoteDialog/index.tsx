@@ -25,23 +25,8 @@ enum VotingStage {
   SuccessStage = 'success',
 }
 
-export interface Proposal {
-  id: number
-  proposer: {
-    name: string
-    image: string
-    address: string
-  }
-  title: string
-  description: string
-  votingEndTime: string
-  duration?: number
-  isActive?: boolean
-  tag?: string
-}
-
 interface VoteDialogProps {
-  accounts: Account[]
+  account: Account
   open: boolean
   onClose(): void
   proposal: Proposal
@@ -53,7 +38,7 @@ interface Content {
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-const VoteDialog: React.FC<VoteDialogProps> = ({ accounts, open, onClose, proposal }) => {
+const VoteDialog: React.FC<VoteDialogProps> = ({ account, open, onClose, proposal }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
@@ -62,7 +47,7 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ accounts, open, onClose, propos
     name: undefined,
     id: undefined,
   })
-  const [voteAccount, setVoteAccount] = React.useState<Account>(accounts[0])
+  const [voteAccount, setVoteAccount] = React.useState<Account>(account)
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
 
@@ -145,7 +130,13 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ accounts, open, onClose, propos
         return {
           title: '',
           dialogWidth: 'sm',
-          content: <SecurityPassword onConfirm={confirmWithPassword} loading={loading} />,
+          content: (
+            <SecurityPassword
+              walletId={voteAccount.walletId}
+              onConfirm={confirmWithPassword}
+              loading={loading}
+            />
+          ),
         }
       case VotingStage.ConfirmAnswerStage:
         return {
@@ -175,7 +166,7 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ accounts, open, onClose, propos
         return {
           title: t('vote'),
           dialogWidth: 'sm',
-          content: <SelectAnswer accounts={accounts} onNext={chooseAnswer} proposal={proposal} />,
+          content: <SelectAnswer account={account} onNext={chooseAnswer} proposal={proposal} />,
         }
     }
   }, [stage, t])

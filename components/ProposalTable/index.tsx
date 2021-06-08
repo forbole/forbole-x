@@ -8,28 +8,12 @@ import InActive from './InActive'
 import VoteDialog from '../VoteDialog'
 import DepositDialog from '../DepositDialog'
 
-interface Proposal {
-  id: number
-  proposer: {
-    name: string
-    image: string
-    address: string
-  }
-  title: string
-  description: string
-  votingStartTime: string
-  votingEndTime: string
-  duration: number
-  isActive?: boolean
-  tag: string
-}
-
 interface ProposalsTableProps {
   proposals: Proposal[]
-  accounts: Account[]
+  account: Account
 }
 
-const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, accounts }) => {
+const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, account }) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
 
@@ -54,11 +38,11 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, accounts }) =
       <Card>
         {proposals.map((x) => {
           return (
-            <Box className={classes.box}>
+            <Box key={x.id} className={classes.box}>
               <Box p={4} display="flex" justifyContent="flex-end">
                 <Box
                   onClick={() => {
-                    router.push(`/proposals/${x.id}`)
+                    router.push(`/proposals/${account.address}/${x.id}`)
                   }}
                 >
                   <Typography variant="h6">{`#${x.id}`}</Typography>
@@ -67,7 +51,7 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, accounts }) =
                   pl={3}
                   flex={1}
                   onClick={() => {
-                    router.push(`/proposals/${x.id}`)
+                    router.push(`/proposals/${account.address}/${x.id}`)
                   }}
                 >
                   <Box display="flex" mb={2}>
@@ -109,13 +93,13 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, accounts }) =
       </Card>
       <VoteDialog
         proposal={selectedProposal}
-        accounts={accounts}
+        account={account}
         open={voteDialogOpen}
         onClose={() => setVoteDialogOpen(false)}
       />
       <DepositDialog
         proposal={selectedProposal}
-        accounts={accounts}
+        account={account}
         open={depositDialogOpen}
         onClose={() => setDepositDialogOpen(false)}
       />

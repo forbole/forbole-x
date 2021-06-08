@@ -13,17 +13,19 @@ import React from 'react'
 import useIconProps from '../../misc/useIconProps'
 import useStyles from './styles'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
-import { Proposal } from './index'
+import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface SelectAnswerProps {
-  accounts: Account[]
+  account: Account
   onNext(voteAccount: Account, answer: { name: string; id: string }, memo?: string): void
   proposal: Proposal
 }
 
-const SelectAnswer: React.FC<SelectAnswerProps> = ({ accounts, onNext, proposal }) => {
+const SelectAnswer: React.FC<SelectAnswerProps> = ({ account, onNext, proposal }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
+  const { accounts: allAccounts } = useWalletsContext()
+  const accounts = allAccounts.filter((a) => a.crypto === account.crypto)
   const answers = [
     {
       name: 'Yes',
@@ -46,26 +48,11 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ accounts, onNext, proposal 
   const answersMap = keyBy(answers, 'id')
 
   const iconProps = useIconProps()
-  const testAccount = [
-    ...accounts,
-    {
-      walletId: '1111',
-      address: 'desmos111111',
-      createdAt: 111111,
-      crypto: 'DSM',
-      fav: false,
-      index: 0,
-      name: 'DSM',
-      displayName: '',
-      id: '',
-      rpDisplayName: '',
-    },
-  ]
 
-  const accountsMap = keyBy(testAccount, 'address')
+  const accountsMap = keyBy(accounts, 'address')
   const [answer, setAnswer] = React.useState<{ name: string; id: string }>()
   const [memo, setMemo] = React.useState('')
-  const [voteAccount, setVoteAccount] = React.useState<Account>(testAccount[0])
+  const [voteAccount, setVoteAccount] = React.useState<Account>(account)
 
   return (
     <>
@@ -77,7 +64,7 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ accounts, onNext, proposal 
             </Typography>
             <Box display="flex" alignItems="center" mb={4}>
               <Autocomplete
-                options={testAccount.map(({ address }) => address)}
+                options={accounts.map(({ address }) => address)}
                 getOptionLabel={(option) =>
                   `${accountsMap[option].name} \n ${accountsMap[option].address}`
                 }
@@ -91,6 +78,7 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ accounts, onNext, proposal 
                     .slice(0, 10)
                 }}
                 onChange={(_e, address: string) => setVoteAccount(accountsMap[address])}
+                value={voteAccount.address}
                 renderOption={(address) => (
                   <Box display="flex" alignItems="center">
                     <Typography>{`${accountsMap[address].name}\n${accountsMap[address].address}`}</Typography>

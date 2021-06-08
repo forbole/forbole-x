@@ -49,11 +49,21 @@ interface ProposalDetailProps {
   voteSummary?: VoteSummary
   colors?: [string, string, string, string]
   voteDetails?: VoteDetail[]
-  accounts: Account[]
+  account: Account
+}
+
+const TimeContent: React.FC<{ proposal: Proposal }> = ({ proposal }) => {
+  if (proposal.tag === 'vote') {
+    return <VoteTime proposal={proposal} />
+  }
+  if (proposal.tag === 'deposit') {
+    return <DepositTime proposal={proposal} />
+  }
+  return <InactiveTime proposal={proposal} />
 }
 
 const ProposalDetail: React.FC<ProposalDetailProps> = ({
-  accounts,
+  account,
   proposal,
   crypto,
   voteSummary,
@@ -62,16 +72,6 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
   const [voteDialogOpen, setVoteDialogOpen] = React.useState(false)
-
-  const timeContent = (p: Proposal) => {
-    if (p.tag === 'vote') {
-      return <VoteTime proposal={p} />
-    }
-    if (p.tag === 'deposit') {
-      return <DepositTime proposal={p} />
-    }
-    return <InactiveTime proposal={p} />
-  }
 
   return (
     <>
@@ -94,7 +94,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
                 </Typography>
               </Box>
               <Typography variant="h6">{proposal.title}</Typography>
-              {timeContent(proposal)}
+              <TimeContent proposal={proposal} />
             </Box>
             <Box display="flex-end">
               {proposal.isActive ? null : <InActiveStatus status={proposal.tag} />}
@@ -131,11 +131,11 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
         </Card>
       ) : null}
       {proposal.tag !== 'vote' ? (
-        <DepositTable accounts={accounts} proposal={proposal} crypto={crypto} tag={proposal.tag} />
+        <DepositTable account={account} proposal={proposal} crypto={crypto} tag={proposal.tag} />
       ) : null}
       <VoteDialog
         proposal={proposal}
-        accounts={accounts}
+        account={account}
         open={voteDialogOpen}
         onClose={() => setVoteDialogOpen(false)}
       />

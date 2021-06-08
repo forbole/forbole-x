@@ -4,16 +4,15 @@ import useTranslation from 'next-translate/useTranslation'
 import groupBy from 'lodash/groupBy'
 import { useRouter } from 'next/router'
 import { gql, useSubscription } from '@apollo/client'
-import Layout from '../components/Layout'
-import ProposalTable from '../components/ProposalTable'
-import { useWalletsContext } from '../contexts/WalletsContext'
-import cryptocurrencies from '../misc/cryptocurrencies'
-import AccountAvatar from '../components/AccountAvatar'
-import DropDownIcon from '../assets/images/icons/icon_arrow_down_input_box.svg'
-import useIconProps from '../misc/useIconProps'
-import CreateProposalButton from '../components/CreateProposalButton'
-import { getProposals } from '../graphql/queries/proposals'
-import { transformProposals } from '../misc/utils'
+import Layout from '../../components/Layout'
+import ProposalTable from '../../components/ProposalTable'
+import { useWalletsContext } from '../../contexts/WalletsContext'
+import cryptocurrencies from '../../misc/cryptocurrencies'
+import AccountAvatar from '../../components/AccountAvatar'
+import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
+import useIconProps from '../../misc/useIconProps'
+import { getProposals } from '../../graphql/queries/proposals'
+import { transformProposals } from '../../misc/utils'
 
 const Proposals: React.FC = () => {
   const { t } = useTranslation('common')
@@ -96,12 +95,16 @@ const Proposals: React.FC = () => {
           </Box>
         ) : null}
         <Box justifyContent="flex-end" display="flex" flex="1">
-          <Button onClick={() => router.push('/createProposal')}>
-            <CreateProposalButton />
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => router.push(`/proposals/create?address=${activeAccount.address}`)}
+          >
+            {t('create proposal')}
           </Button>
         </Box>
       </Box>
-      <ProposalTable accounts={accounts} proposals={proposalList} />
+      <ProposalTable account={activeAccount} proposals={proposalList} />
     </Layout>
   )
 }

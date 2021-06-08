@@ -26,7 +26,7 @@ enum DepositStage {
 }
 
 interface DepositDialogProps {
-  accounts: Account[]
+  account: Account
   open: boolean
   onClose(): void
   proposal: Proposal
@@ -40,7 +40,7 @@ interface Content {
 }
 
 const DepositDialog: React.FC<DepositDialogProps> = ({
-  accounts,
+  account,
   open,
   onClose,
   proposal,
@@ -59,7 +59,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<DepositStage>(
     DepositStage.InputAmountStage
   )
-  const [voteAccount, setVoteAccount] = React.useState<Account>(accounts ? accounts[0] : null)
+  const [voteAccount, setVoteAccount] = React.useState<Account>(account)
   const crypto = voteAccount
     ? cryptocurrencies[voteAccount.crypto]
     : Object.values(cryptocurrencies)[0]
@@ -96,7 +96,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({
   const confirmWithPassword = React.useCallback(async (securityPassword: string) => {
     try {
       setLoading(true)
-      // handle transaction part later
+      // TODO: handle transaction part later
       setLoading(false)
       setStage(DepositStage.SuccessStage, true)
     } catch (err) {
@@ -132,7 +132,13 @@ const DepositDialog: React.FC<DepositDialogProps> = ({
         return {
           title: '',
           dialogWidth: 'sm',
-          content: <SecurityPassword onConfirm={confirmWithPassword} loading={loading} />,
+          content: (
+            <SecurityPassword
+              walletId={account.walletId}
+              onConfirm={confirmWithPassword}
+              loading={loading}
+            />
+          ),
         }
       case DepositStage.ConfirmAnswerStage:
         return {
@@ -164,7 +170,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({
           dialogWidth: 'sm',
           content: (
             <InputAmount
-              accounts={accounts}
+              account={account}
               onNext={confirmAmount}
               proposal={proposal}
               crypto={crypto}

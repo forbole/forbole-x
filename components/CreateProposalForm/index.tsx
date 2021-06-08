@@ -1,10 +1,9 @@
 import React from 'react'
-import { Dialog, Breadcrumbs, Link as MLink } from '@material-ui/core'
+import { Dialog } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import useStateHistory from '../../misc/useStateHistory'
-import CreateProposalForm from './CreateProposalContent'
+import CreateProposalContent from './CreateProposalContent'
 import ConfirmProposalContent from './ConfirmProposalContent'
-import Layout from '../Layout'
 import SecurityPassword from '../SecurityPasswordDialogContent'
 
 enum CreateProposalStage {
@@ -21,8 +20,8 @@ export interface Proposal {
   memo?: string
 }
 
-interface CreateProposlProps {
-  accounts: Account[]
+interface CreateProposalFormProps {
+  account: Account
   networks: { name: string; id: string }[]
 }
 
@@ -31,7 +30,7 @@ interface Content {
   content: React.ReactNode
 }
 
-const CreateProposal: React.FC<CreateProposlProps> = ({ accounts, networks }) => {
+const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account, networks }) => {
   const { t } = useTranslation('common')
   const [open, setOpen] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
@@ -80,7 +79,7 @@ const CreateProposal: React.FC<CreateProposlProps> = ({ accounts, networks }) =>
           title: 'proposal/create proposal/confirm proposal',
           content: (
             <ConfirmProposalContent
-              accounts={accounts}
+              account={account}
               proposal={proposal}
               onConfirm={enterPassword}
             />
@@ -91,28 +90,24 @@ const CreateProposal: React.FC<CreateProposlProps> = ({ accounts, networks }) =>
         return {
           title: 'proposal/create proposal',
           content: (
-            <CreateProposalForm accounts={accounts} onNext={createDraft} networks={networks} />
+            <CreateProposalContent account={account} onNext={createDraft} networks={networks} />
           ),
         }
     }
   }, [stage, t])
 
   return (
-    <Layout
-      passwordRequired
-      activeItem="/proposals"
-      HeaderLeftComponent={
-        <Breadcrumbs>
-          <MLink color="textPrimary">{t(content.title)}</MLink>
-        </Breadcrumbs>
-      }
-    >
+    <>
       {content.content}
       <Dialog fullWidth maxWidth="sm" open={open}>
-        <SecurityPassword onConfirm={confirmWithPassword} loading={loading} />
+        <SecurityPassword
+          walletId={account.walletId}
+          onConfirm={confirmWithPassword}
+          loading={loading}
+        />
       </Dialog>
-    </Layout>
+    </>
   )
 }
 
-export default CreateProposal
+export default CreateProposalForm

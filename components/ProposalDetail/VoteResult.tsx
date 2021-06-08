@@ -1,11 +1,14 @@
 import { Box, Typography, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { PieChart, Pie, Cell } from 'recharts'
+import { PieChart, Pie, Cell as RawCell } from 'recharts'
 import { useGetStyles } from './styles'
 import Diagram from './Diagram'
 import { VoteSummary } from './index'
 import { formatCrypto } from '../../misc/utils'
+
+// HACK: bypass incorrect prop types
+const Cell = RawCell as any
 
 interface VoteResultProps {
   voteSummary: VoteSummary
