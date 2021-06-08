@@ -3,6 +3,7 @@ declare module '*.svg' {
   const content: any
   export default content
 }
+declare module '@ledgerhq/hw-transport-webusb'
 
 interface Account {
   walletId: string
@@ -40,6 +41,8 @@ interface CreateAccountParams {
   walletId: string
   crypto: string
   name: string
+  address?: string
+  index?: number
 }
 
 interface UpdateAccountParams {
@@ -47,7 +50,10 @@ interface UpdateAccountParams {
   fav?: boolean
 }
 
+type WalletType = 'ledger' | 'mnemonic'
+
 interface Wallet {
+  type: WalletType
   name: string
   id: string
   createdAt: number
@@ -146,9 +152,11 @@ interface TokenPrice {
 }
 
 interface CreateWalletParams {
+  type: WalletType
   name: string
   cryptos: string[]
-  mnemonic: string
+  mnemonic?: string // For mnemonic type
+  addresses?: string[] // For ledger type
   securityPassword: string
 }
 
@@ -159,42 +167,48 @@ interface UpdateWalletParams {
 }
 
 interface TransactionMsgDelegate {
-  type: 'delegate'
-  delegator: string
-  validator: string
-  amount: number
-  denom: string
+  type: 'cosmos-sdk/MsgDelegate'
+  value: {
+    delegator_address: string
+    validator_address: string
+    amount: { amount: string; denom: string }
+  }
 }
 
 interface TransactionMsgUndelegate {
-  type: 'undelegate'
-  delegator: string
-  validator: string
-  amount: number
-  denom: string
+  type: 'cosmos-sdk/MsgUndelegate'
+  value: {
+    delegator_address: string
+    validator_address: string
+    amount: { amount: string; denom: string }
+  }
 }
 
 interface TransactionMsgRedelegate {
-  type: 'redelegate'
-  delegator: string
-  fromValidator: string
-  toValidator: string
-  amount: number
-  denom: string
+  type: 'cosmos-sdk/MsgBeginRedelegate'
+  value: {
+    delegator_address: string
+    validator_src_address: string
+    validator_dst_address: string
+    amount: { amount: string; denom: string }
+  }
 }
 
 interface TransactionMsgWithdrawReward {
-  type: 'withdraw reward'
-  delegator: string
-  validator: string
+  type: 'cosmos-sdk/MsgWithdrawDelegationReward'
+  value: {
+    delegator_address: string
+    validator_address: string
+  }
 }
 
 interface TransactionMsgSend {
-  type: 'send'
-  from: string
-  to: string
-  amount: number
-  denom: string
+  type: 'cosmos-sdk/MsgSend'
+  value: {
+    from_address: string
+    to_address: string
+    amount: Array<{ amount: string; denom: string }>
+  }
 }
 
 type TransactionMsg =
@@ -203,6 +217,18 @@ type TransactionMsg =
   | TransactionMsgRedelegate
   | TransactionMsgWithdrawReward
   | TransactionMsgSend
+
+interface Transaction {
+  account_number?: string
+  chain_id?: string
+  sequence?: string
+  msgs: TransactionMsg[]
+  memo: string
+  fee?: {
+    amount: Array<{ amount: string; denom: string }>
+    gas: string
+  }
+}
 
 type ChromeMessage =
   | {
@@ -275,13 +301,10 @@ type ChromeMessage =
       }
     }
   | {
-      event: 'signAndBroadcastTransactions'
+      event: 'getSequenceAndChainId'
       data: {
         address: string
-        securityPassword: string
-        password: string
-        transactions: any[]
-        gasFee: any
-        memo?: string
+        crypto: string
       }
     }
+  | { event: 'closeChromeExtension' }

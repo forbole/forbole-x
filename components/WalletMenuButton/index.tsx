@@ -1,10 +1,10 @@
+import React from 'react'
 import { Dialog, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
+import useStyles from './styles'
 import EditIcon from '../../assets/images/icons/icon_edit.svg'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
-import useStyles from './styles'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
 import useIsMobile from '../../misc/useIsMobile'
@@ -29,6 +29,7 @@ interface MenuDialogProps {
   walletId: string
   walletName: string
 }
+
 
 interface Content {
   content: React.ReactNode

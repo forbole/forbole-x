@@ -2,6 +2,7 @@ const cryptocurrencies = {
   // ATOM: { name: 'ATOM', image: '/static/images/cryptocurrencies/atom.png', coinType: 118 },
   DSM: {
     name: 'DSM',
+    prefix: 'desmos',
     ecosystem: 'cosmos',
     image: '/static/images/cryptocurrencies/dsm.png',
     coinType: 852,
@@ -15,7 +16,7 @@ const cryptocurrencies = {
           denom: 'udaric',
         },
       ],
-      gas: '400000',
+      gas: '200000',
     },
   },
   // SOL: { name: 'SOL', image: '/static/images/cryptocurrencies/sol.png', coinType: 501 },

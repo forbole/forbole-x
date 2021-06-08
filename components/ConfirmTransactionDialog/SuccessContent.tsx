@@ -6,12 +6,12 @@ import SuccessDark from '../../assets/images/tx_success_dark.svg'
 import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 
-interface ConfirmSendProps {
+interface SuccessProps {
   onClose(): void
-  denom: string
+  message: string
 }
 
-const Success: React.FC<ConfirmSendProps> = ({ onClose, denom }) => {
+const Success: React.FC<SuccessProps> = ({ onClose, message }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const { theme } = useGeneralContext()
@@ -24,7 +24,7 @@ const Success: React.FC<ConfirmSendProps> = ({ onClose, denom }) => {
           <Typography variant="h4" gutterBottom>
             {t('success')}
           </Typography>
-          <Typography>{t('successfully undelegated', { denom: denom.toUpperCase() })}</Typography>
+          <Typography>{message}</Typography>
         </Box>
       </DialogContent>
       <DialogActions>

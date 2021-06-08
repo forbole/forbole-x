@@ -4,11 +4,24 @@ import last from 'lodash/last'
 
 const useStateHistory = <P>(
   initialState: P
-): [P, (state: P, resetHistory?: boolean) => void, () => void, boolean] => {
+): [
+  P,
+  (state: P, resetHistory?: boolean, replaceHistory?: boolean) => void,
+  () => void,
+  boolean
+] => {
   const [states, setStates] = React.useState([initialState])
   const setNextState = React.useCallback(
-    (state: P, resetHistory?: boolean) => {
-      setStates((s) => (resetHistory ? [state] : [...s, state]))
+    (state: P, resetHistory?: boolean, replaceHistory?: boolean) => {
+      setStates((s) => {
+        if (resetHistory) {
+          return [state]
+        }
+        if (replaceHistory) {
+          return [...dropRight(s), state]
+        }
+        return [...s, state]
+      })
     },
     [setStates]
   )
