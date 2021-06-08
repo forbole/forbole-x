@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import useStyles from './styles'
 import { formatTokenAmount } from '../../misc/utils'
-import { Proposal } from './index'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
@@ -54,7 +53,7 @@ const ConfirmAnswer: React.FC<ConfirmWithdrawProps> = ({
         </Box>
         <Divider />
         <Box pt={1.5} pb={1.5}>
-          <Typography variant="h6">{`${t('vote proposal')} #${proposal.no}`}</Typography>
+          <Typography variant="h6">{`${t('vote proposal')} #${proposal.id}`}</Typography>
           <Typography variant="subtitle1" color="textSecondary">
             {answer.name}
           </Typography>
