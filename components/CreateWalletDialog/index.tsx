@@ -141,11 +141,6 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
-      case CommonStage.AccessMyWalletStage:
-        return {
-          title: t('access my wallet title'),
-          content: <AccessMyWallet onConfirm={setStage} onCreateWallet={createWallet} />,
-        }
       case ImportStage.ConnectLedgerDeviceStage:
         return {
           title: '',
@@ -223,16 +218,21 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
         }
       case CommonStage.StartStage:
       default:
+      case CommonStage.AccessMyWalletStage:
         return {
-          title: t('create wallet title'),
-          content: (
-            <Start
-              onWhatIsMnemonicClick={() => setStage(CommonStage.WhatIsMnemonicStage)}
-              onCreateWalletClick={createWallet}
-              onImportWalletClick={() => setStage(CommonStage.AccessMyWalletStage)}
-            />
-          ),
+          title: t('access my wallet title'),
+          content: <AccessMyWallet onConfirm={setStage} onCreateWallet={createWallet} />,
         }
+      // return {
+      //   title: t('create wallet title'),
+      //   content: (
+      //     <Start
+      //       onWhatIsMnemonicClick={() => setStage(CommonStage.WhatIsMnemonicStage)}
+      //       onCreateWalletClick={createWallet}
+      //       onImportWalletClick={() => setStage(CommonStage.AccessMyWalletStage)}
+      //     />
+      //   ),
+      // }
     }
   }, [stage, t])
 

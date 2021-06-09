@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { useWalletsContext } from '../../../contexts/WalletsContext'
-import ChangeSecurityPasswordDialog from '../../../components/WalletMenuButton/ChangeSecurityPasswordDialog'
+import ChangeSecurityPasswordDialog from '../../../components/WalletMenuButton/ChangeSecurityPassword'
 
 const onClose = jest.fn()
 const updateWallet = jest.fn()

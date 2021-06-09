@@ -9,7 +9,7 @@ exports[`component: CreateAccountDialog handles error on next button click 1`] =
   open={true}
 >
   <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-5"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-7"
     disabled={false}
     onBlur={[Function]}
     onClick={[Function]}
@@ -41,7 +41,7 @@ exports[`component: CreateAccountDialog handles error on next button click 1`] =
     />
   </button>
   <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-4"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-6"
     disabled={false}
     onBlur={[Function]}
     onClick={[MockFunction]}
@@ -91,10 +91,10 @@ exports[`component: CreateAccountDialog handles error on next button click 1`] =
     </p>
   </div>
   <div
-    className="MuiDialogActions-root HookGlobalStyles-action-33 MuiDialogActions-spacing"
+    className="MuiDialogActions-root HookGlobalStyles-action-38 MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-resetButton-31 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-resetButton-36 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -133,7 +133,7 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
   open={true}
 >
   <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-5"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-7"
     disabled={false}
     onBlur={[Function]}
     onClick={[Function]}
@@ -165,7 +165,7 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
     />
   </button>
   <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-4"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-6"
     disabled={false}
     onBlur={[Function]}
     onClick={[MockFunction]}
@@ -222,10 +222,10 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
     />
   </div>
   <div
-    className="MuiDialogActions-root HookGlobalStyles-action-22 MuiDialogActions-spacing"
+    className="MuiDialogActions-root HookGlobalStyles-action-27 MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-19 MuiButton-containedPrimary Mui-disabled Mui-disabled"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-24 MuiButton-containedPrimary Mui-disabled Mui-disabled"
       disabled={true}
       onBlur={[Function]}
       onClick={[Function]}
@@ -249,7 +249,7 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
       </span>
     </button>
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-21"
+      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-26"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -288,7 +288,7 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
   open={true}
 >
   <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-4"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-6"
     disabled={false}
     onBlur={[Function]}
     onClick={[MockFunction]}
@@ -332,7 +332,7 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
     className="MuiDialogContent-root"
   >
     <div
-      className="MuiBox-root MuiBox-root-25"
+      className="MuiBox-root MuiBox-root-30"
     >
       <p
         className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
@@ -357,10 +357,10 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
             tabIndex={0}
           >
             <div
-              className="MuiListItemAvatar-root HookGlobalStyles-cryptoMenuItemAvatar-9"
+              className="MuiListItemAvatar-root HookGlobalStyles-cryptoMenuItemAvatar-12"
             >
               <div
-                className="MuiAvatar-root MuiAvatar-circle HookGlobalStyles-smallAvatar-8"
+                className="MuiAvatar-root MuiAvatar-circle HookGlobalStyles-smallAvatar-11"
               >
                 <img
                   alt="DSM"
@@ -399,7 +399,7 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-26"
+      className="MuiBox-root MuiBox-root-31"
     >
       <p
         className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
@@ -435,7 +435,7 @@ exports[`component: CreateAccountDialog moves to next stage on next button click
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-3 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-4 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -474,7 +474,7 @@ exports[`component: CreateAccountDialog renders closed state correctly 1`] = `
   open={false}
 >
   <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-4"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-6"
     disabled={false}
     onBlur={[Function]}
     onClick={[MockFunction]}
@@ -518,7 +518,7 @@ exports[`component: CreateAccountDialog renders closed state correctly 1`] = `
     className="MuiDialogContent-root"
   >
     <div
-      className="MuiBox-root MuiBox-root-12"
+      className="MuiBox-root MuiBox-root-17"
     >
       <p
         className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
@@ -574,7 +574,7 @@ exports[`component: CreateAccountDialog renders closed state correctly 1`] = `
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-13"
+      className="MuiBox-root MuiBox-root-18"
     >
       <p
         className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
@@ -610,7 +610,7 @@ exports[`component: CreateAccountDialog renders closed state correctly 1`] = `
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-3 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-4 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -649,7 +649,7 @@ exports[`component: CreateAccountDialog renders opened state correctly 1`] = `
   open={true}
 >
   <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-4"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-6"
     disabled={false}
     onBlur={[Function]}
     onClick={[MockFunction]}
@@ -690,7 +690,7 @@ exports[`component: CreateAccountDialog renders opened state correctly 1`] = `
     className="MuiDialogContent-root"
   >
     <div
-      className="MuiBox-root MuiBox-root-10"
+      className="MuiBox-root MuiBox-root-15"
     >
       <p
         className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
@@ -746,7 +746,7 @@ exports[`component: CreateAccountDialog renders opened state correctly 1`] = `
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-11"
+      className="MuiBox-root MuiBox-root-16"
     >
       <p
         className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
@@ -782,7 +782,7 @@ exports[`component: CreateAccountDialog renders opened state correctly 1`] = `
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-3 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-4 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}

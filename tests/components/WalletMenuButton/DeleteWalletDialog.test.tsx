@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { useWalletsContext } from '../../../contexts/WalletsContext'
-import DeleteWalletDialog from '../../../components/WalletMenuButton/DeleteWalletDialog'
+import DeleteWalletDialog from '../../../components/WalletMenuButton/DeleteWallet'
 
 const onClose = jest.fn()
 const deleteWallet = jest.fn()

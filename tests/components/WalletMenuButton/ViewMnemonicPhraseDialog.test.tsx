@@ -2,7 +2,7 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import last from 'lodash/last'
 import { useWalletsContext } from '../../../contexts/WalletsContext'
-import ViewMnemonicPhraseDialog from '../../../components/WalletMenuButton/ViewMnemonicPhraseDialog'
+import ViewMnemonicPhrase from '../../../components/WalletMenuButton/ViewMnemonicPhrase'
 
 const onClose = jest.fn()
 const viewMnemonicPhraseBackup = jest.fn().mockResolvedValue('encrypted mnemonic')
@@ -16,6 +16,9 @@ Object.defineProperty(navigator, 'clipboard', {
   },
 })
 
+jest.mock('react-share', () => ({
+  default: jest.fn(),
+}))
 jest.mock('@material-ui/core/Dialog', () => (props) => <div id="dialog" {...props} />)
 jest.mock('../../../contexts/WalletsContext', () => ({
   useWalletsContext: jest.fn(),
@@ -25,32 +28,25 @@ jest.mock('../../../components/PasswordInput', () => 'input')
 
 describe('component: ViewMnemonicPhraseDialog', () => {
   it('renders opened state correctly', () => {
-    const component = renderer.create(
-      <ViewMnemonicPhraseDialog walletId="123" open onClose={onClose} />
-    )
+    const component = renderer.create(<ViewMnemonicPhrase walletId="123" onClose={onClose} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders closed state correctly', () => {
-    const component = renderer.create(
-      <ViewMnemonicPhraseDialog walletId="123" open={false} onClose={onClose} />
-    )
+    const component = renderer.create(<ViewMnemonicPhrase walletId="123" onClose={onClose} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
-  it('calls onClose on close button click', () => {
-    const component = renderer.create(
-      <ViewMnemonicPhraseDialog walletId="123" open onClose={onClose} />
-    )
-    renderer.act(() => {
-      component.root.findAllByType('button')[0].props.onClick({ currentTarget: 'anchor' })
-    })
-    expect(onClose).toBeCalled()
-  })
+  // onClose button does not exist now
+  // it('calls onClose on close button click', () => {
+  //   const component = renderer.create(<ViewMnemonicPhrase walletId="123" onClose={onClose} />)
+  //   renderer.act(() => {
+  //     component.root.findAllByType('button')[0].props.onClick({ currentTarget: 'anchor' })
+  //   })
+  //   expect(onClose).toBeCalled()
+  // })
   it('calls viewMnemonicPhrase on next button click, then goes back on back button click', async () => {
-    const component = renderer.create(
-      <ViewMnemonicPhraseDialog walletId="123" open onClose={onClose} />
-    )
+    const component = renderer.create(<ViewMnemonicPhrase walletId="123" onClose={onClose} />)
     renderer.act(() => undefined)
     renderer.act(() => {
       component.root.findByType('input').props.onChange({ target: { value: 'password' } })
@@ -60,15 +56,13 @@ describe('component: ViewMnemonicPhraseDialog', () => {
     })
     expect(viewMnemonicPhrase).toBeCalledWith('123', 'password')
     renderer.act(() => {
-      component.root.findAllByType('button')[0].props.onClick()
+      component.root.findAllByType('button')[1].props.onClick()
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('calls viewMnemonicPhrase on next button click, then calls viewMnemonicPhraseBackup on next button click, then calls onClose on next button click', async () => {
-    const component = renderer.create(
-      <ViewMnemonicPhraseDialog walletId="123" open onClose={onClose} />
-    )
+    const component = renderer.create(<ViewMnemonicPhrase walletId="123" onClose={onClose} />)
     renderer.act(() => undefined)
     renderer.act(() => {
       component.root.findByType('input').props.onChange({ target: { value: 'password' } })
@@ -100,9 +94,7 @@ describe('component: ViewMnemonicPhraseDialog', () => {
   })
   it('handles error on next button click', async () => {
     viewMnemonicPhrase.mockRejectedValueOnce(new Error('error'))
-    const component = renderer.create(
-      <ViewMnemonicPhraseDialog walletId="123" open onClose={onClose} />
-    )
+    const component = renderer.create(<ViewMnemonicPhrase walletId="123" onClose={onClose} />)
     renderer.act(() => undefined)
     renderer.act(() => {
       component.root.findByType('input').props.onChange({ target: { value: 'password' } })

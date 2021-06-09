@@ -30,7 +30,6 @@ interface MenuDialogProps {
   walletName: string
 }
 
-
 interface Content {
   content: React.ReactNode
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
