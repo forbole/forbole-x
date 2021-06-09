@@ -3,7 +3,7 @@ import last from 'lodash/last'
 import cloneDeep from 'lodash/cloneDeep'
 import drop from 'lodash/drop'
 import keyBy from 'lodash/keyBy'
-import format from 'date-fns/format'
+import { format, differenceInDays } from 'date-fns'
 
 export const formatPercentage = (percent: number, lang: string): string =>
   new Intl.NumberFormat(lang, {
@@ -239,39 +239,43 @@ export const transformValidatorsWithTokenAmount = (data: any, balanceData: any) 
 export const transformUnbonding = (data: any, balanceData: any): Unbonding[] => {
   const validators = keyBy(transformValidators(data), 'address')
   const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
-  return get(balanceData, 'account[0].unbonding.nodes', []).map((u) => ({
-    validator: validators[get(u, 'validator.validator_info.operator_address', '')],
-    amount: getTokenAmountFromDenoms([u.amount], tokensPrices),
-    height: Number(u.height),
-    completionDate: new Date(u.completion_timestamp),
-  }))
+  return get(balanceData, 'account[0].unbonding.nodes', [])
+    .map((u) => ({
+      validator: validators[get(u, 'validator.validator_info.operator_address', '')],
+      amount: getTokenAmountFromDenoms([u.amount], tokensPrices),
+      height: Number(u.height),
+      completionDate: new Date(u.completion_timestamp),
+    }))
+    .sort((a, b) => b.height - a.height)
 }
 
 export const transformRedelegations = (data: any, balanceData: any): Redelegation[] => {
   const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
-  return get(data, 'redelegations', []).map((u) => ({
-    fromValidator: {
-      name: get(
-        u,
-        'from_validator.description[0].moniker',
-        get(u, 'from_validator.info.operator_address', '')
-      ),
-      address: get(u, 'from_validator.info.operator_address', ''),
-      image: get(u, 'from_validator.description[0].avatar_url', ''),
-    },
-    toValidator: {
-      name: get(
-        u,
-        'to_validator.description[0].moniker',
-        get(u, 'to_validator.info.operator_address', '')
-      ),
-      address: get(u, 'to_validator.info.operator_address', ''),
-      image: get(u, 'to_validator.description[0].avatar_url', ''),
-    },
-    amount: getTokenAmountFromDenoms([u.amount], tokensPrices),
-    height: Number(u.height),
-    completionDate: new Date(u.completion_timestamp),
-  }))
+  return get(data, 'redelegations', [])
+    .map((u) => ({
+      fromValidator: {
+        name: get(
+          u,
+          'from_validator.description[0].moniker',
+          get(u, 'from_validator.info.operator_address', '')
+        ),
+        address: get(u, 'from_validator.info.operator_address', ''),
+        image: get(u, 'from_validator.description[0].avatar_url', ''),
+      },
+      toValidator: {
+        name: get(
+          u,
+          'to_validator.description[0].moniker',
+          get(u, 'to_validator.info.operator_address', '')
+        ),
+        address: get(u, 'to_validator.info.operator_address', ''),
+        image: get(u, 'to_validator.description[0].avatar_url', ''),
+      },
+      amount: getTokenAmountFromDenoms([u.amount], tokensPrices),
+      height: Number(u.height),
+      completionDate: new Date(u.completion_timestamp),
+    }))
+    .sort((a, b) => b.height - a.height)
 }
 
 export const transformTransactions = (
@@ -422,3 +426,184 @@ export const getCoinPrice = (coin: string): Promise<number> =>
     const data = await result.json()
     return get(last(get(data, 'prices', [])), 1)
   })
+
+const getTag = (status: string) => {
+  if (status === 'PROPOSAL_STATUS_REJECTED') {
+    return 'rejected'
+  }
+  if (status === 'PROPOSAL_STATUS_INVALID') {
+    return 'removed'
+  }
+  if (status === 'PROPOSAL_STATUS_PASSED') {
+    return 'passed'
+  }
+  if (status === 'PROPOSAL_STATUS_VOTING_PERIOD') {
+    return 'vote'
+  }
+  if (status === 'PROPOSAL_STATUS_DEPOSIT_PERIOD') {
+    return 'deposit'
+  }
+  if (status === 'PROPOSAL_STATUS_FAILED') {
+    return 'failed'
+  }
+  return ''
+}
+
+export const transformProposals = (proposalData: any): Proposal[] => {
+  return get(proposalData, 'proposal', []).map((p) => ({
+    id: get(p, 'id'),
+    proposer: {
+      name: get(p, 'proposer.validator_infos[0].validator.validator_descriptions[0].moniker'),
+      image: get(p, 'proposer.validator_infos[0].validator.validator_descriptions[0].avatar_url'),
+      address: get(p, 'proposer.address'),
+    },
+    title: get(p, 'title'),
+    description: get(p, 'description'),
+    type: get(p, 'proposal_type'),
+    votingStartTime: `${format(new Date(get(p, 'voting_start_time')), 'dd MMM yyyy HH:mm')} UTC`,
+    votingEndTime: `${format(new Date(get(p, 'voting_end_time')), 'dd MMM yyyy HH:mm')} UTC`,
+    isActive: !!(
+      get(p, 'status') === 'PROPOSAL_STATUS_VOTING' ||
+      get(p, 'status') === 'PROPOSAL_STATUS_DEPOSIT'
+    ),
+    tag: getTag(get(p, 'status')),
+    duration: differenceInDays(new Date(get(p, 'voting_end_time')), Date.now()),
+  }))
+}
+
+export const transformProposal = (
+  proposalData: any,
+  balanceData: any,
+  depositParams: any
+): Proposal => {
+  const p = get(proposalData, 'proposal[0]')
+  const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
+  let totalDepositsList = []
+  return {
+    id: get(p, 'id'),
+    proposer: {
+      name: get(p, 'proposer.validator_infos[0].validator.validator_descriptions[0].moniker'),
+      image: get(p, 'proposer.validator_infos[0].validator.validator_descriptions[0].avatar_url'),
+      address: get(p, 'proposer.address'),
+    },
+    title: get(p, 'title'),
+    description: get(p, 'description'),
+    type: get(p, 'proposal_type'),
+    votingStartTime: get(p, 'voting_start_time')
+      ? `${format(new Date(get(p, 'voting_start_time')), 'dd MMM yyyy HH:mm')} UTC`
+      : '',
+    votingEndTime: get(p, 'voting_end_time')
+      ? `${format(new Date(get(p, 'voting_end_time')), 'dd MMM yyyy HH:mm')} UTC`
+      : '',
+    depositEndTime: get(p, 'deposit_end_time')
+      ? `${format(new Date(get(p, 'deposit_end_time')), 'dd MMM yyyy HH:mm')} UTC`
+      : '',
+    depositEndTimeRaw: get(p, 'deposit_end_time'),
+    submitTime: get(p, 'submit_time')
+      ? `${format(new Date(get(p, 'submit_time')), 'dd MMM yyyy HH:mm')} UTC`
+      : '',
+    isActive: !!(
+      get(p, 'status') === 'PROPOSAL_STATUS_VOTING_PERIOD' ||
+      get(p, 'status') === 'PROPOSAL_STATUS_DEPOSIT_PERIOD'
+    ),
+    tag: getTag(get(p, 'status')),
+    duration: differenceInDays(new Date(get(p, 'voting_end_time')), Date.now()),
+    depositDetails: get(p, 'proposal_deposits', []).map((x) => {
+      if (get(x, 'denom') === tokensPrices.unit_name) {
+        totalDepositsList = [...totalDepositsList, get(x, 'amount[0]')]
+      }
+      return {
+        depositor: {
+          name: get(x, 'depositor.validator_infos[0].validator.validator_descriptions[0].moniker'),
+          image: get(
+            x,
+            'depositor.validator_infos[0].validator.validator_descriptions[0].avatar_url'
+          ),
+          address: get(x, 'depositor.address'),
+        },
+        amount: getTokenAmountFromDenoms(get(x, 'amount'), tokensPrices),
+        time: `${format(new Date(x.block.timestamp), 'dd MMM yyyy HH:mm')} UTC`,
+      }
+    }),
+    totalDeposits: getTokenAmountFromDenoms(totalDepositsList, tokensPrices),
+    minDeposit: depositParams
+      ? getTokenAmountFromDenoms(
+          get(depositParams, 'gov_params[0].deposit_params.min_deposit'),
+          tokensPrices
+        )
+      : null,
+  }
+}
+
+export const transformVoteSummary = (proposalResult: any): any => {
+  let abstain = 0
+  let no = 0
+  let veto = 0
+  let yes = 0
+
+  get(proposalResult, 'proposal_tally_result', []).forEach((p) => {
+    abstain += get(p, 'abstain')
+    no += get(p, 'no')
+    veto += get(p, 'no_with_veto')
+    yes += get(p, 'yes')
+  })
+
+  const totalAmount = abstain + no + veto + yes
+
+  const voteSummary = {
+    percentage: 0.0,
+    amount: totalAmount,
+    description: '',
+    data: [
+      {
+        title: 'yes',
+        percentage: totalAmount === 0 ? 0 : yes / totalAmount,
+        value: yes,
+      },
+      {
+        title: 'no',
+        percentage: totalAmount === 0 ? 0 : no / totalAmount,
+        value: no,
+      },
+      {
+        title: 'veto',
+        percentage: totalAmount === 0 ? 0 : veto / totalAmount,
+        value: veto,
+      },
+      {
+        title: 'abstain',
+        percentage: totalAmount === 0 ? 0 : abstain / totalAmount,
+        value: abstain,
+      },
+    ],
+  }
+
+  return voteSummary
+}
+
+export const transformVoteDetail = (voteDetail: any): any => {
+  const getVoteAnswer = (answer: string) => {
+    if (answer === 'VOTE_OPTION_YES') {
+      return 'yes'
+    }
+    if (answer === 'VOTE_OPTION_NO') {
+      return 'no'
+    }
+    if (answer === 'VOTE_OPTION_ABSTAIN') {
+      return 'abstain'
+    }
+    return 'veto'
+  }
+
+  return get(voteDetail, 'proposal_vote', []).map((d) => ({
+    voter: {
+      name: get(d, 'account.validator_infos[0].validator.validator_descriptions[0].moniker'),
+      image: get(d, 'account.validator_infos[0].validator.validator_descriptions[0].avatar_url'),
+      address: get(d, 'voter_address'),
+    },
+    votingPower: 0,
+    votingPowerPercentage: 0.1,
+    votingPowerOverride: 0.1,
+    answer: getVoteAnswer(get(d, 'option')),
+  }))
+}

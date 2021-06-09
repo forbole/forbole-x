@@ -14,7 +14,7 @@ import { useApollo } from '../graphql/client'
 
 function InnerApp({ Component, pageProps }: AppProps) {
   const { theme } = useGeneralContext()
-  const { lang } = useTranslation()
+  const { lang } = useTranslation('common')
   const router = useRouter()
 
   const muiTheme = React.useMemo(() => {

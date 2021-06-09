@@ -1,4 +1,7 @@
+import { Cosmos } from 'ledger-app-cosmos'
+import cloneDeep from 'lodash/cloneDeep'
 import React from 'react'
+import { getAddress } from '../misc/ledger'
 import sendMsgToChromeExt from '../misc/sendMsgToChromeExt'
 
 interface WalletsState {
@@ -8,10 +11,10 @@ interface WalletsState {
   accounts: Account[]
   password: string
   unlockWallets?: (password: string) => void
-  addWallet?: (wallet: CreateWalletParams) => void
+  addWallet?: (wallet: CreateWalletParams, ledgerApp?: Cosmos) => void
   updateWallet?: (id: string, wallet: UpdateWalletParams) => void
   deleteWallet?: (id: string) => void
-  addAccount?: (account: CreateAccountParams, securityPassword: string) => void
+  addAccount?: (account: CreateAccountParams, securityPassword: string, ledgerApp?: Cosmos) => void
   updateAccount?: (address: string, account: UpdateAccountParams) => void
   deleteAccount?: (address: string) => void
   viewMnemonicPhrase?: (
@@ -83,7 +86,12 @@ const WalletsProvider: React.FC = ({ children }) => {
   )
 
   const addWallet = React.useCallback(
-    async (wallet: CreateWalletParams) => {
+    async (params: CreateWalletParams, ledgerApp?: Cosmos) => {
+      const wallet = cloneDeep(params)
+      if (wallet.type === 'ledger') {
+        const addresses = await Promise.all(wallet.cryptos.map((c) => getAddress(ledgerApp, c, 0)))
+        wallet.addresses = addresses
+      }
       const result = await sendMsgToChromeExt({
         event: 'addWallet',
         data: {
@@ -148,7 +156,18 @@ const WalletsProvider: React.FC = ({ children }) => {
   )
 
   const addAccount = React.useCallback(
-    async (account: CreateAccountParams, securityPassword: string) => {
+    async (params: CreateAccountParams, securityPassword: string, ledgerApp?: Cosmos) => {
+      const account = cloneDeep(params)
+      if (ledgerApp) {
+        account.index =
+          Math.max(
+            -1,
+            ...accounts
+              .filter((a) => a.walletId === account.walletId && a.crypto === account.crypto)
+              .map((a) => a.index)
+          ) + 1
+        account.address = await getAddress(ledgerApp, account.crypto, account.index)
+      }
       const result = await sendMsgToChromeExt({
         event: 'addAccount',
         data: {
@@ -159,7 +178,7 @@ const WalletsProvider: React.FC = ({ children }) => {
       })
       setAccounts((acs) => [result.account, ...acs])
     },
-    [password, setAccounts]
+    [password, accounts, setAccounts]
   )
 
   const updateAccount = React.useCallback(

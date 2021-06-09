@@ -27,6 +27,10 @@ const ValidatorAvatar: React.FC<ValidatorAvatarProps> = ({
     titleVariant = 'h3'
   }
 
+  if (!validator) {
+    return null
+  }
+
   return withoutLink ? (
     <Box display="flex" alignItems="center">
       <Avatar className={avatarClass} alt={validator.name} src={validator.image} />

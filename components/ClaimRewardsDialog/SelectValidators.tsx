@@ -10,6 +10,8 @@ import {
   Checkbox,
   FormControlLabel,
   FilledTextFieldProps,
+  CircularProgress,
+  useTheme,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -22,11 +24,12 @@ import { ValidatorTag } from './index'
 import ValidatorAvatar from '../ValidatorAvatar'
 
 interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
-  onConfirm(amount: TokenAmount, delegations: ValidatorTag[], m: string): void
+  onConfirm(delegations: ValidatorTag[], m: string): void
   account: Account
   crypto: Cryptocurrency
   validators: Validator[]
   preselectedValidatorAddresses?: string[]
+  loading: boolean
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
@@ -35,6 +38,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   onConfirm,
   validators,
   preselectedValidatorAddresses,
+  loading,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
@@ -45,6 +49,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   // const [currentTab, setCurrentTab] = React.useState(0)
   const [state, setState] = React.useState({})
+  const theme = useTheme()
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked })
@@ -210,7 +215,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
           fullWidth
           variant="filled"
           value={value}
-          placeholder={t('description')}
+          placeholder={t('description optional')}
           multiline
           rows={4}
           onChange={(e) => setValue(e.target.value)}
@@ -234,19 +239,19 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             className={classes.button}
             color="primary"
             disabled={
+              loading ||
               !Object.values(amount)
                 .map((a) => a.amount)
                 .reduce((a, b) => a + b, 0)
             }
             onClick={() =>
               onConfirm(
-                amount,
                 validatorList.filter((v) => v.isSelected === true),
                 value
               )
             }
           >
-            {t('next')}
+            {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </DialogActions>

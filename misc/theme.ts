@@ -161,6 +161,8 @@ const lightTheme = ({
     },
     translucent: 'rgba(255, 255, 255, 0.5)',
     indicator: '#5C7BFF',
+    validator: '#007FFF',
+    divider: '#E4E4E4',
     pieChart: {
       color1: {
         main: '#007FFF',
@@ -188,7 +190,6 @@ const lightTheme = ({
       fill: '#FFFFFF',
     },
     iconBorder: '#9D9D9D',
-    divider: '#E4E4E4',
     dataChangeButton: {
       clicked: {
         text: '#007FFF',
@@ -269,6 +270,8 @@ const darkTheme = ({
     },
     translucent: 'rgba(0, 0, 0, 0.5)',
     indicator: '#E6E6E6',
+    validator: '#379AFE',
+    divider: '#34383E',
     pieChart: {
       color1: {
         main: '#007FFF',
@@ -296,7 +299,6 @@ const darkTheme = ({
       fill: '#25282D',
     },
     iconBorder: '#9D9D9D',
-    divider: '#34383E',
     dataChangeButton: {
       clicked: {
         text: '#E6E6E6',
