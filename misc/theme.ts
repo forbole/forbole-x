@@ -7,9 +7,25 @@ interface CustomPalette extends Palette {
   translucent: string
   indicator: string
   pieChart: { [key: string]: PaletteColor }
-  validator: string
-  divider: string
   button: string
+  menuBackground: string
+  socialMediaIcon: { background: string; fill: string }
+  iconBorder: string
+  divider: string
+  dataChangeButton: {
+    clicked: {
+      text: string
+      background: string
+      border: string
+    }
+    unClicked: {
+      text: string
+      background: string
+      border: string
+    }
+  }
+  dialogBackground: string
+  validator: string
 }
 
 export interface CustomTheme extends Theme {
@@ -169,6 +185,24 @@ const lightTheme = ({
       },
     },
     button: '#007FFF',
+    menuBackground: '#F7F7F7',
+    socialMediaIcon: {
+      background: '#999999',
+      fill: '#FFFFFF',
+    },
+    iconBorder: '#9D9D9D',
+    dataChangeButton: {
+      clicked: {
+        text: '#007FFF',
+        background: 'rgba(119, 186, 253, 0.5)',
+        border: '#6DB0FE',
+      },
+      unClicked: {
+        text: '#646464',
+        border: '#646464',
+      },
+    },
+    dialogBackground: '#FFFFFF',
   },
 } as unknown) as ThemeOptions
 
@@ -260,6 +294,20 @@ const darkTheme = ({
       },
     },
     button: '#FFFFFF',
+    menuBackground: '#282f35',
+    socialMediaIcon: {
+      background: '#999999',
+      fill: '#25282D',
+    },
+    iconBorder: '#9D9D9D',
+    dataChangeButton: {
+      clicked: {
+        text: '#E6E6E6',
+        background: '#3D4047',
+        border: '#9D9D9D',
+      },
+    },
+    dialogBackground: '#1D1E22',
   },
 } as unknown) as ThemeOptions
 

@@ -28,10 +28,12 @@
     "next": "10.0.4",
     "next-translate": "^1.0.1",
     "postcss": "^8.2.15",
+    "qrcode.react": "^1.0.1",
     "query-string": "^7.0.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-json-view": "^1.21.3",
+    "react-share": "^4.4.0",
     "recharts": "^2.0.3",
     "secp256k1": "^4.0.2",
     "subscriptions-transport-ws": "^0.9.18"

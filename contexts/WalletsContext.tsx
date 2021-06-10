@@ -17,7 +17,7 @@ interface WalletsState {
   addAccount?: (account: CreateAccountParams, securityPassword: string, ledgerApp?: Cosmos) => void
   updateAccount?: (address: string, account: UpdateAccountParams) => void
   deleteAccount?: (address: string) => void
-  viewMnemonicPhrase?: (id: string, securityPassword: string) => Promise<{ success: boolean }>
+  viewMnemonicPhrase?: (id: string, securityPassword: string) => Promise<string>
   viewMnemonicPhraseBackup?: (
     id: string,
     securityPassword: string,

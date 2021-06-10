@@ -14,7 +14,7 @@ exports[`page: Wallets renders correctly 1`] = `
       common:wallet manage
     </h1>
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-outlined"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -28,6 +28,12 @@ exports[`page: Wallets renders correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "border": "1px solid",
+          "color": undefined,
+        }
+      }
       tabIndex={0}
       type="button"
     >
@@ -51,6 +57,7 @@ exports[`page: Wallets renders correctly 1`] = `
       </h4>
       <WalletMenuButton
         walletId="123"
+        walletName="test"
       />
     </div>
     <div
@@ -96,7 +103,7 @@ exports[`page: Wallets renders correctly with missing wallet id 1`] = `
       common:wallet manage
     </h1>
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-outlined"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -110,6 +117,12 @@ exports[`page: Wallets renders correctly with missing wallet id 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "border": "1px solid",
+          "color": undefined,
+        }
+      }
       tabIndex={0}
       type="button"
     >
@@ -136,6 +149,7 @@ exports[`page: Wallets renders correctly with missing wallet id 1`] = `
       </h4>
       <WalletMenuButton
         walletId="123"
+        walletName="test"
       />
     </div>
     <div

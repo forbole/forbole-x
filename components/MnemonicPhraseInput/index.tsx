@@ -7,19 +7,20 @@ interface MnemonicPhraseInputProps {
   mnemonic: string
   onChange?(mnemonic: string): void
   disabled?: boolean
+  mnemonicAmount?: number
 }
 
 const MnemonicPhraseInput: React.FC<MnemonicPhraseInputProps> = ({
   mnemonic,
   onChange,
   disabled,
+  mnemonicAmount,
 }) => {
   const classes = useStyles()
-
   const mnemonicArr = React.useMemo(() => {
     const arr = mnemonic.split(/\s+/)
-    return times(24).map((i) => arr[i] || '')
-  }, [mnemonic])
+    return times(mnemonicAmount || 24).map((i) => arr[i] || '')
+  }, [mnemonic, mnemonicAmount])
 
   const moveToNextInput = React.useCallback((i: number) => {
     const nextInput = document.getElementById(`mnemonic-${i + 1}`)
@@ -31,7 +32,7 @@ const MnemonicPhraseInput: React.FC<MnemonicPhraseInputProps> = ({
   }, [])
   return (
     <Grid container spacing={2}>
-      {times(24).map((i) => (
+      {times(mnemonicAmount || 24).map((i) => (
         <Grid item xs={3} key={`mnemonic-${i}`}>
           <Box position="relative">
             {disabled ? (

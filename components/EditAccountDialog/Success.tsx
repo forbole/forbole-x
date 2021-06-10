@@ -8,11 +8,10 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface ConfirmSendProps {
   onClose(): void
-  content: string
-  hideButton?: boolean
+  denom: string
 }
 
-const Success: React.FC<ConfirmSendProps> = ({ onClose, content, hideButton }) => {
+const Success: React.FC<ConfirmSendProps> = ({ onClose, denom }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const { theme } = useGeneralContext()
@@ -25,24 +24,16 @@ const Success: React.FC<ConfirmSendProps> = ({ onClose, content, hideButton }) =
           <Typography variant="h4" gutterBottom>
             {t('success')}
           </Typography>
-          <Typography>{t(content)}</Typography>
+          <Typography>{t('successfully delegated', { denom: denom.toUpperCase() })}</Typography>
         </Box>
       </DialogContent>
-
-      {hideButton ? null : (
-        <DialogActions>
-          <Box display="flex" justifyContent="center" flex={1} my={2}>
-            <Button
-              variant="contained"
-              className={classes.button}
-              color="primary"
-              onClick={onClose}
-            >
-              {t('close')}
-            </Button>
-          </Box>
-        </DialogActions>
-      )}
+      <DialogActions>
+        <Box display="flex" justifyContent="center" flex={1} my={2}>
+          <Button variant="contained" className={classes.button} color="primary" onClick={onClose}>
+            {t('close')}
+          </Button>
+        </Box>
+      </DialogActions>
     </>
   )
 }

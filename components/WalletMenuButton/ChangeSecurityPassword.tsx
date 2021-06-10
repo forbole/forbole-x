@@ -1,37 +1,25 @@
 import {
   Button,
-  Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  IconButton,
   Typography,
   Box,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import useIconProps from '../../misc/useIconProps'
 import PasswordInput from '../PasswordInput'
-import useIsMobile from '../../misc/useIsMobile'
 
-interface ChangeSecurityPasswordDialogProps {
+interface ChangeSecurityPasswordProps {
   walletId: string
-  open: boolean
   onClose(): void
 }
 
-const ChangeSecurityPasswordDialog: React.FC<ChangeSecurityPasswordDialogProps> = ({
-  walletId,
-  open,
-  onClose,
-}) => {
+const ChangeSecurityPassword: React.FC<ChangeSecurityPasswordProps> = ({ walletId, onClose }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
-  const iconProps = useIconProps()
-  const isMobile = useIsMobile()
   const [error, setError] = React.useState('')
   const [isSettingNewPassword, setIsSettingNewPassword] = React.useState(false)
   const [securityPassword, setSecurityPassword] = React.useState('')
@@ -60,20 +48,8 @@ const ChangeSecurityPasswordDialog: React.FC<ChangeSecurityPasswordDialogProps> 
     setError,
   ])
 
-  React.useEffect(() => {
-    if (open) {
-      setError('')
-      setSecurityPassword('')
-      setNewSecurityPassword('')
-      setIsSettingNewPassword(false)
-    }
-  }, [open])
-
   return (
-    <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
-      <IconButton className={classes.closeButton} onClick={onClose}>
-        <CloseIcon {...iconProps} />
-      </IconButton>
+    <>
       <DialogTitle>{t('change security password')}</DialogTitle>
       <DialogContent>
         <Box mb={18}>
@@ -102,8 +78,8 @@ const ChangeSecurityPasswordDialog: React.FC<ChangeSecurityPasswordDialogProps> 
           {t(isSettingNewPassword ? 'save' : 'next')}
         </Button>
       </DialogActions>
-    </Dialog>
+    </>
   )
 }
 
-export default ChangeSecurityPasswordDialog
+export default ChangeSecurityPassword
