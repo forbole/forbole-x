@@ -212,7 +212,6 @@
   "commission": "[zh] Commission",
   "rewards was successfully withdrew": "[zh] Rewards was successfully withdrew",
   "copied to clipboard": "[zh] Copied to Clipboard!",
-  "`s wallet": "[zh] 's Wallet",
   "set security details": "[zh] In oder to export your mnemonic properly, we need a password with it will be encrypted for security reasons. Please insert below passwords that you will also be required later when importing it.",
   "export mnemomic details": "[zh] You can export this data whenever you want, even sending it to a friend of yours for backup, if you have used a strong enough password.",
   "display mnemomic details": "[zh] Please write down and safe your mnemonic phrase\nIt’s the ONLY WAY to restore your account",
@@ -292,5 +291,6 @@
   "SoftwareUpgrade": "[zh] Software Upgrade Proposal",
   "CommunityPoolSpend": "[zh] Community Pool Spend Proposal",
   "remaining deposit amount": "[zh] Remaining deposit amount",
-  "deposit end in": "[zh] Deposit end in"
+  "deposit end in": "[zh] Deposit end in",
+  "import account title": "[zh] Import Account"
 }

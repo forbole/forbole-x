@@ -171,7 +171,13 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({
         }
       case EditAccountStage.SecurityPasswordStage:
         return {
-          content: <SecurityPassword onConfirm={sendTransactionMessage} loading={loading} />,
+          content: (
+            <SecurityPassword
+              walletId={account.walletId}
+              onConfirm={sendTransactionMessage}
+              loading={loading}
+            />
+          ),
         }
       case EditAccountStage.RewardAddressIntroStage:
         return {

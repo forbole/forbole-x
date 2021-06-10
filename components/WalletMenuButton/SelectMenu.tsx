@@ -26,7 +26,7 @@ const SelectMenu: React.FC<SelectMenuProps> = ({
 
   return (
     <>
-      <DialogTitle>{`${walletName}${t('`s wallet')} `}</DialogTitle>
+      <DialogTitle>{walletName}</DialogTitle>
       <DialogContent>
         <Box mt={2}>
           <Divider />

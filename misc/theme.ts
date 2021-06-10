@@ -25,6 +25,7 @@ interface CustomPalette extends Palette {
     }
   }
   dialogBackground: string
+  validator: string
 }
 
 export interface CustomTheme extends Theme {

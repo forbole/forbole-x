@@ -63,6 +63,11 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": undefined,
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -105,6 +110,11 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -147,6 +157,11 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -189,6 +204,11 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -278,6 +298,11 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": undefined,
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -317,6 +342,11 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -356,6 +386,11 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -395,6 +430,11 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -481,6 +521,11 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -520,6 +565,11 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -559,6 +609,11 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -598,6 +653,11 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div

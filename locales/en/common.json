@@ -212,7 +212,6 @@
   "commission": "Commission",
   "rewards was successfully withdrew": "Rewards was successfully withdrew",
   "copied to clipboard": "Copied to Clipboard!",
-  "`s wallet": "'s Wallet",
   "set security details": "In oder to export your mnemonic properly, we need a password with it will be encrypted for security reasons. Please insert below passwords that you will also be required later when importing it.",
   "export mnemomic details": "You can export this data whenever you want, even sending it to a friend of yours for backup, if you have used a strong enough password.",
   "display mnemomic details": "Please write down and safe your mnemonic phrase\nIt’s the ONLY WAY to restore your account",
@@ -292,5 +291,6 @@
   "SoftwareUpgrade": "Software Upgrade Proposal",
   "CommunityPoolSpend": "Community Pool Spend Proposal",
   "remaining deposit amount": "Remaining deposit amount",
-  "deposit end in": "Deposit end in"
+  "deposit end in": "Deposit end in",
+  "import account title": "Import Account"
 }
