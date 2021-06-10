@@ -28,7 +28,7 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
   const classes = useStyles()
   const theme = useTheme()
   const iconProps = useIconProps()
-  const { lang } = useTranslation()
+  const { lang } = useTranslation('common')
   const { currency } = useGeneralContext()
   const { updateAccount } = useWalletsContext()
   const router = useRouter()

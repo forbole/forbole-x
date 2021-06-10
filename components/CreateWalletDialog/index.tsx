@@ -1,6 +1,7 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import { Cosmos } from 'ledger-app-cosmos'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
@@ -16,7 +17,11 @@ import WhatIsMnemonic from './WhatIsMnemonic'
 import ImportMnemonicBackup from './ImportMnemonicBackup'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import useStateHistory from '../../misc/useStateHistory'
+import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 import useIsMobile from '../../misc/useIsMobile'
+import { connectLedger } from '../../misc/ledger'
+
+let ledgerApp: Cosmos
 
 export enum ImportStage {
   ImportMnemonicPhraseStage = 'import mnemonic phrase',
@@ -31,6 +36,7 @@ enum CommonStage {
   ConfirmMnemonicStage = 'confirm mnemonic',
   SetSecurityPasswordStage = 'set security password',
   ImportWalletStage = 'import wallet',
+  ImportLedgerWalletStage = 'import ledger wallet',
   WhatIsMnemonicStage = 'what is mnemonic',
 }
 
@@ -117,13 +123,17 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
   )
 
   const saveWallet = React.useCallback(
-    async (name: string, cryptos: string[]) => {
-      await addWallet({
-        name,
-        cryptos,
-        mnemonic,
-        securityPassword,
-      })
+    async (name: string, cryptos: string[], type = 'mnemonic') => {
+      await addWallet(
+        {
+          type,
+          name,
+          cryptos,
+          mnemonic,
+          securityPassword,
+        },
+        ledgerApp
+      )
       onClose()
     },
     [addWallet, mnemonic, securityPassword, onClose]
@@ -135,6 +145,18 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
         return {
           title: t('access my wallet title'),
           content: <AccessMyWallet onConfirm={setStage} onCreateWallet={createWallet} />,
+        }
+      case ImportStage.ConnectLedgerDeviceStage:
+        return {
+          title: '',
+          content: (
+            <ConnectLedgerDialogContent
+              onConnect={async () => {
+                ledgerApp = await connectLedger()
+                setStage(CommonStage.ImportLedgerWalletStage, undefined, true)
+              }}
+            />
+          ),
         }
       case ImportStage.ImportMnemonicPhraseStage:
         return {
@@ -179,9 +201,20 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
           content: <SecurityPassword onConfirm={confirmSecurityPassword} />,
         }
       case CommonStage.ImportWalletStage:
+      case CommonStage.ImportLedgerWalletStage:
         return {
           title: t('import wallet title'),
-          content: <ImportWallet onConfirm={saveWallet} />,
+          content: (
+            <ImportWallet
+              onConfirm={(name, cryptos) =>
+                saveWallet(
+                  name,
+                  cryptos,
+                  stage === CommonStage.ImportLedgerWalletStage ? 'ledger' : 'mnemonic'
+                )
+              }
+            />
+          ),
         }
       case CommonStage.WhatIsMnemonicStage:
         return {

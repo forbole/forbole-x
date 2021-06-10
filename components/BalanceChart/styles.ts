@@ -1,8 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CustomTheme } from '../../misc/theme'
 
 const useStyles = makeStyles(
-  (theme) => ({
+  (theme: CustomTheme) => ({
     timeRangeButton: {
+      borderColor: theme.palette.iconBorder,
       margin: theme.spacing(0, 1),
     },
   }),

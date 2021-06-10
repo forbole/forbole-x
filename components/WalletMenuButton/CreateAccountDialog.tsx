@@ -21,8 +21,10 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useStateHistory from '../../misc/useStateHistory'
-import PasswordInput from '../PasswordInput'
 import useIsMobile from '../../misc/useIsMobile'
+import SecurityPasswordDialogContent from '../SecurityPasswordDialogContent'
+import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
+import { connectLedger } from '../../misc/ledger'
 
 enum Stage {
   CreateAccount = 'create account',
@@ -31,38 +33,55 @@ enum Stage {
 
 interface CreateAccountDialogProps {
   walletId: string
+  walletType: WalletType
   open: boolean
   onClose(): void
 }
 
-const CreateAccountDialog: React.FC<CreateAccountDialogProps> = ({ walletId, open, onClose }) => {
+const CreateAccountDialog: React.FC<CreateAccountDialogProps> = ({
+  walletId,
+  walletType,
+  open,
+  onClose,
+}) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
   const isMobile = useIsMobile()
   const [crypto, setCrypto] = React.useState('')
   const [name, setName] = React.useState('')
-  const [securityPassword, setSecurityPassword] = React.useState('')
   const [error, setError] = React.useState('')
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
     Stage.CreateAccount
   )
   const { addAccount } = useWalletsContext()
 
-  const onSubmit = React.useCallback(async () => {
+  const onSubmitMnemonic = React.useCallback(
+    async (securityPassword: string) => {
+      try {
+        await addAccount({ name, crypto, walletId }, securityPassword)
+        onClose()
+      } catch (err) {
+        setError(err.message)
+      }
+    },
+    [name, addAccount, walletId, crypto, onClose, setError]
+  )
+
+  const onSubmitLedger = React.useCallback(async () => {
     try {
-      await addAccount({ name, crypto, walletId }, securityPassword)
+      const ledgerApp = await connectLedger()
+      await addAccount({ name, crypto, walletId }, undefined, ledgerApp)
       onClose()
     } catch (err) {
       setError(err.message)
     }
-  }, [name, addAccount, walletId, crypto, securityPassword, onClose, setError])
+  }, [name, addAccount, walletId, crypto, onClose, setError])
 
   React.useEffect(() => {
     if (open) {
       setName('')
       setCrypto('')
-      setSecurityPassword('')
       setError('')
       setStage(Stage.CreateAccount, true)
     }
@@ -78,12 +97,10 @@ const CreateAccountDialog: React.FC<CreateAccountDialogProps> = ({ walletId, ope
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
-      <DialogTitle>
-        {t(stage === Stage.CreateAccount ? 'create account' : 'security password title')}
-      </DialogTitle>
-      <DialogContent>
-        {stage === Stage.CreateAccount ? (
-          <>
+      {stage === Stage.CreateAccount ? <DialogTitle>{t('create account')}</DialogTitle> : null}
+      {stage === Stage.CreateAccount ? (
+        <>
+          <DialogContent>
             <Box mb={2}>
               <Typography gutterBottom>{t('network')}</Typography>
               <TextField
@@ -119,32 +136,31 @@ const CreateAccountDialog: React.FC<CreateAccountDialogProps> = ({ walletId, ope
                 onChange={(e) => setName(e.target.value)}
               />
             </Box>
-          </>
-        ) : (
-          <Box mb={18}>
-            <Typography gutterBottom>{t('password')}</Typography>
-            <PasswordInput
-              value={securityPassword}
-              onChange={(e) => setSecurityPassword(e.target.value)}
-              placeholder={t('password')}
-              error={!!error}
-              helperText={error}
+          </DialogContent>
+          <DialogActions>
+            <Button
+              className={classes.dialogButton}
+              variant="contained"
+              color="primary"
+              onClick={() => setStage(Stage.SecurityPassword)}
+            >
+              {t(stage === Stage.CreateAccount ? 'next' : 'confirm')}
+            </Button>
+          </DialogActions>
+        </>
+      ) : (
+        <>
+          {walletType === 'mnemonic' ? (
+            <SecurityPasswordDialogContent
+              walletId={walletId}
+              onConfirm={onSubmitMnemonic}
+              loading={false}
             />
-          </Box>
-        )}
-      </DialogContent>
-      <DialogActions>
-        <Button
-          className={classes.dialogButton}
-          variant="contained"
-          color="primary"
-          onClick={
-            stage === Stage.CreateAccount ? () => setStage(Stage.SecurityPassword) : onSubmit
-          }
-        >
-          {t(stage === Stage.CreateAccount ? 'next' : 'confirm')}
-        </Button>
-      </DialogActions>
+          ) : (
+            <ConnectLedgerDialogContent onConnect={onSubmitLedger} />
+          )}
+        </>
+      )}
     </Dialog>
   )
 }

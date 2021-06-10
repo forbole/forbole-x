@@ -7,6 +7,25 @@ interface CustomPalette extends Palette {
   translucent: string
   indicator: string
   pieChart: { [key: string]: PaletteColor }
+  button: string
+  menuBackground: string
+  socialMediaIcon: { background: string; fill: string }
+  iconBorder: string
+  divider: string
+  dataChangeButton: {
+    clicked: {
+      text: string
+      background: string
+      border: string
+    }
+    unClicked: {
+      text: string
+      background: string
+      border: string
+    }
+  }
+  dialogBackground: string
+  validator: string
 }
 
 export interface CustomTheme extends Theme {
@@ -143,6 +162,8 @@ const lightTheme = ({
     },
     translucent: 'rgba(255, 255, 255, 0.5)',
     indicator: '#5C7BFF',
+    validator: '#007FFF',
+    divider: '#E4E4E4',
     pieChart: {
       color1: {
         main: '#007FFF',
@@ -163,6 +184,25 @@ const lightTheme = ({
         main: '#F4B65A',
       },
     },
+    button: '#007FFF',
+    menuBackground: '#F7F7F7',
+    socialMediaIcon: {
+      background: '#999999',
+      fill: '#FFFFFF',
+    },
+    iconBorder: '#9D9D9D',
+    dataChangeButton: {
+      clicked: {
+        text: '#007FFF',
+        background: 'rgba(119, 186, 253, 0.5)',
+        border: '#6DB0FE',
+      },
+      unClicked: {
+        text: '#646464',
+        border: '#646464',
+      },
+    },
+    dialogBackground: '#FFFFFF',
   },
 } as unknown) as ThemeOptions
 
@@ -231,6 +271,8 @@ const darkTheme = ({
     },
     translucent: 'rgba(0, 0, 0, 0.5)',
     indicator: '#E6E6E6',
+    validator: '#379AFE',
+    divider: '#34383E',
     pieChart: {
       color1: {
         main: '#007FFF',
@@ -251,6 +293,21 @@ const darkTheme = ({
         main: '#F4B65A',
       },
     },
+    button: '#FFFFFF',
+    menuBackground: '#282f35',
+    socialMediaIcon: {
+      background: '#999999',
+      fill: '#25282D',
+    },
+    iconBorder: '#9D9D9D',
+    dataChangeButton: {
+      clicked: {
+        text: '#E6E6E6',
+        background: '#3D4047',
+        border: '#9D9D9D',
+      },
+    },
+    dialogBackground: '#1D1E22',
   },
 } as unknown) as ThemeOptions
 

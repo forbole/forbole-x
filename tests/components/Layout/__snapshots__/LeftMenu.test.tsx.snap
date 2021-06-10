@@ -63,6 +63,11 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": undefined,
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -105,6 +110,11 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -147,6 +157,11 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -166,6 +181,53 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
           className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
         >
           common:delegate
+        </span>
+      </div>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </a>
+    <a
+      aria-disabled={false}
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
+      href="/proposals"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
+      tabIndex={0}
+    >
+      <div
+        className="MuiListItemIcon-root"
+      >
+        <svg
+          data-file-name="SvgIcon_proposal"
+          fill="#e0e0e0"
+          height={24}
+          width={24}
+        />
+      </div>
+      <div
+        className="MuiListItemText-root"
+      >
+        <span
+          className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+        >
+          common:proposals
         </span>
       </div>
       <span
@@ -236,6 +298,11 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": undefined,
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -275,6 +342,11 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -314,6 +386,11 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -333,6 +410,50 @@ exports[`component: Layout - LeftMenu renders collapsed menu correctly 1`] = `
           className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
         >
           common:delegate
+        </span>
+      </div>
+    </a>
+    <a
+      aria-disabled={false}
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
+      href="/proposals"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
+      tabIndex={0}
+    >
+      <div
+        className="MuiListItemIcon-root"
+      >
+        <svg
+          data-file-name="SvgIcon_proposal"
+          fill="#e0e0e0"
+          height={24}
+          width={24}
+        />
+      </div>
+      <div
+        className="MuiListItemText-root"
+      >
+        <span
+          className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+        >
+          common:proposals
         </span>
       </div>
     </a>
@@ -400,6 +521,11 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -439,6 +565,11 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -478,6 +609,11 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
       tabIndex={0}
     >
       <div
@@ -497,6 +633,50 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
         >
           common:delegate
+        </span>
+      </div>
+    </a>
+    <a
+      aria-disabled={false}
+      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
+      href="/proposals"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "background": "inherits",
+        }
+      }
+      tabIndex={0}
+    >
+      <div
+        className="MuiListItemIcon-root"
+      >
+        <svg
+          data-file-name="SvgIcon_proposal"
+          fill="#e0e0e0"
+          height={24}
+          width={24}
+        />
+      </div>
+      <div
+        className="MuiListItemText-root"
+      >
+        <span
+          className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+        >
+          common:proposals
         </span>
       </div>
     </a>

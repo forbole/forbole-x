@@ -264,15 +264,20 @@ describe('component: CreateWalletDialog', () => {
         .findByProps({
           id: 'ImportWallet',
         })
-        .props.onConfirm('wallet name')
+        .props.onConfirm('wallet name', ['DSM'])
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
-    expect(mockWalletsContext.addWallet).toBeCalledWith({
-      mnemonic: 'mnemonic',
-      name: 'wallet name',
-      securityPassword: '123123',
-    })
+    expect(mockWalletsContext.addWallet).toBeCalledWith(
+      {
+        mnemonic: 'mnemonic',
+        name: 'wallet name',
+        securityPassword: '123123',
+        type: 'mnemonic',
+        cryptos: ['DSM'],
+      },
+      undefined
+    )
     expect(onClose).toBeCalled()
   })
   it('renders access my wallet stage correctly when onImportWalletClick is called from Start', async () => {

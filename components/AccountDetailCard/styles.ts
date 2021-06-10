@@ -1,7 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CustomTheme } from '../../misc/theme'
 
 const useStyles = makeStyles(
-  (theme) => ({
+  (theme: CustomTheme) => ({
     container: {
       marginBottom: theme.spacing(4),
     },
@@ -21,9 +22,10 @@ const useStyles = makeStyles(
       padding: theme.spacing(0.5),
     },
     iconButton: {
+      borderColor: theme.palette.iconBorder,
       minWidth: 0,
       marginLeft: theme.spacing(2),
-      width: theme.spacing(6),
+      width: theme.spacing(5),
       height: theme.spacing(5),
       padding: 0,
       [theme.breakpoints.down('sm')]: {
