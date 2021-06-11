@@ -46,6 +46,7 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
 
   return (
     <form
+      novalidate
       onSubmit={(e) => {
         e.preventDefault()
         onConfirm(Number(amount), denom)

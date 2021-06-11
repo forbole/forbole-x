@@ -73,6 +73,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
 
   return (
     <form
+      noValidate
       onSubmit={(e) => {
         e.preventDefault()
         onConfirm(

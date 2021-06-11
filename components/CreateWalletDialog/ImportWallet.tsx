@@ -28,6 +28,7 @@ const ImportWallet: React.FC<ImportWalletProps> = ({ onConfirm }) => {
 
   return (
     <form
+      novalidate
       onSubmit={(e) => {
         e.preventDefault()
         onConfirm(name, selectedCryptos)

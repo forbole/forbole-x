@@ -29,6 +29,7 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({ account, onNext }
 
   return (
     <form
+      noValidate
       onSubmit={(e) => {
         e.preventDefault()
         onNext(rewardAddress, memo)

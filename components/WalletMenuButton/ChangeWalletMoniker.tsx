@@ -34,6 +34,7 @@ const ChangeWalletMoniker: React.FC<ChangeWalletMonikerProps> = ({ walletId, onC
 
   return (
     <form
+      noValidate
       onSubmit={(e) => {
         e.preventDefault()
         onButtonClick()

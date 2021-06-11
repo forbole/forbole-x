@@ -24,6 +24,7 @@ const ConfirmMnemonic: React.FC<ConfirmMnemonicProps> = ({ onConfirm, error, des
 
   return (
     <form
+      noValidate
       onSubmit={(e) => {
         e.preventDefault()
         onConfirm(mnemonic)

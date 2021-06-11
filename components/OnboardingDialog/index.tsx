@@ -55,6 +55,7 @@ const OnboardingDialog: React.FC<OnboardingDialogProps> = ({ open, onClose, onSu
         {isConfirmingPassword ? t('confirm password title') : t('set password title')}
       </DialogTitle>
       <form
+        noValidate
         onSubmit={(e) => {
           e.preventDefault()
           onButtonClick()

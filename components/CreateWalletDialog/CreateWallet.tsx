@@ -22,6 +22,7 @@ const CreateWallet: React.FC<CreateWalletProps> = ({ mnemonic, onConfirm }) => {
 
   return (
     <form
+      noValidate
       onSubmit={(e) => {
         e.preventDefault()
         onConfirm()

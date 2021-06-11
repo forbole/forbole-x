@@ -56,6 +56,7 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ account, onNext, proposal }
 
   return (
     <form
+      noValidate
       onSubmit={(e) => {
         e.preventDefault()
         onNext(voteAccount, answer, memo)

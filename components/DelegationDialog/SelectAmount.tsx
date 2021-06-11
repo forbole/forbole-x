@@ -24,6 +24,7 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availab
 
   return (
     <form
+      noValidate
       onSubmit={(e) => {
         e.preventDefault()
         onConfirm(Number(amount), denom)

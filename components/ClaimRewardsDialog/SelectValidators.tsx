@@ -135,6 +135,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
 
   return (
     <form
+      novalidate
       onSubmit={(e) => {
         e.preventDefault()
         onConfirm(

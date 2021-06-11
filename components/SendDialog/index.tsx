@@ -69,6 +69,12 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
     [signerInfo, availableTokens]
   )
 
+  React.useEffect(() => {
+    if (open) {
+      setLoading(false)
+    }
+  }, [open])
+
   return (
     <Dialog fullWidth maxWidth="md" open={open} onClose={onClose} fullScreen={isMobile}>
       <IconButton className={classes.closeButton} onClick={onClose}>

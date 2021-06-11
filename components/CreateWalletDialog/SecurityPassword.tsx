@@ -15,6 +15,7 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({ onConfirm }) => {
 
   return (
     <form
+      noValidate
       onSubmit={(e) => {
         e.preventDefault()
         onConfirm(password)

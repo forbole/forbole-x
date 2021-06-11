@@ -45,6 +45,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
 
   return (
     <form
+      noValidate
       onSubmit={(e) => {
         e.preventDefault()
         onConfirm(Number(amount), denom, memo)

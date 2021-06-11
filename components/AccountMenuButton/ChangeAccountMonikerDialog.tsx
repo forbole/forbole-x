@@ -60,7 +60,7 @@ const ChangeAccountMonikerDialog: React.FC<ChangeAccountMonikerDialogProps> = ({
         <CloseIcon {...iconProps} />
       </IconButton>
       <DialogTitle>{t('change account moniker')}</DialogTitle>
-      <form onSubmit={onButtonClick}>
+      <form noValidate onSubmit={onButtonClick}>
         <DialogContent>
           <Box mb={18}>
             <Typography gutterBottom>{t('account moniker')}</Typography>

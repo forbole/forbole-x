@@ -46,6 +46,7 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({
 
   return (
     <form
+      novalidate
       onSubmit={(e) => {
         e.preventDefault()
         confirm()

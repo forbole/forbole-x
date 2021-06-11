@@ -50,6 +50,7 @@ const ChangeSecurityPassword: React.FC<ChangeSecurityPasswordProps> = ({ walletI
 
   return (
     <form
+      noValidate
       onSubmit={(e) => {
         e.preventDefault()
         onButtonClick()

@@ -37,6 +37,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
 
   return (
     <form
+      noValidate
       onSubmit={(e) => {
         e.preventDefault()
         onSave(moniker)
