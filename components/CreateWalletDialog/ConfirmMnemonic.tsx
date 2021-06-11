@@ -23,7 +23,12 @@ const ConfirmMnemonic: React.FC<ConfirmMnemonicProps> = ({ onConfirm, error, des
   const [mnemonic, setMnemonic] = React.useState('')
 
   return (
-    <>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        onConfirm(mnemonic)
+      }}
+    >
       <DialogContent className={classes.dialogContent}>
         <DialogContentText>{description}</DialogContentText>
         <MnemonicPhraseInput mnemonic={mnemonic} onChange={setMnemonic} />
@@ -35,17 +40,12 @@ const ConfirmMnemonic: React.FC<ConfirmMnemonicProps> = ({ onConfirm, error, des
       </DialogContent>
       <DialogActions>
         <Box flex={1} display="flex" flexDirection="column" mb={3}>
-          <Button
-            className={classes.button}
-            variant="contained"
-            color="primary"
-            onClick={() => onConfirm(mnemonic)}
-          >
+          <Button className={classes.button} variant="contained" color="primary" type="submit">
             {t('next')}
           </Button>
         </Box>
       </DialogActions>
-    </>
+    </form>
   )
 }
 

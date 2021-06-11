@@ -36,7 +36,12 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
   const [moniker, setMoniker] = React.useState(account.name)
 
   return (
-    <>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        onSave(moniker)
+      }}
+    >
       <DialogContent className={classes.dialogContent}>
         <Box mb={6}>
           <Box mb={4}>
@@ -103,17 +108,13 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
             </Button>
           </Box>
           <Box display="flex">
-            <Button
-              className={classes.saveButton}
-              variant="outlined"
-              onClick={() => onSave(moniker)}
-            >
+            <Button className={classes.saveButton} variant="outlined" type="submit">
               {t('save')}
             </Button>
           </Box>
         </Box>
       </DialogActions>
-    </>
+    </form>
   )
 }
 

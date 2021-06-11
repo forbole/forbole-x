@@ -54,33 +54,37 @@ const OnboardingDialog: React.FC<OnboardingDialogProps> = ({ open, onClose, onSu
       <DialogTitle>
         {isConfirmingPassword ? t('confirm password title') : t('set password title')}
       </DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          {isConfirmingPassword ? t('confirm password description') : t('set password description')}
-        </DialogContentText>
-        <PasswordInput
-          placeholder={t('password')}
-          value={isConfirmingPassword ? confirmPassword : password}
-          error={!!error}
-          helperText={error}
-          onChange={(e) =>
-            (isConfirmingPassword ? setConfirmPassword : setPassword)(e.target.value)
-          }
-        />
-        <Typography className={classes.passwordRequirement} variant="body2">
-          {isConfirmingPassword ? t('confirm password caption') : t('password caption')}
-        </Typography>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          className={classes.button}
-          variant="contained"
-          color="primary"
-          onClick={onButtonClick}
-        >
-          {isConfirmingPassword ? t('confirm') : t('next')}
-        </Button>
-      </DialogActions>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          onButtonClick()
+        }}
+      >
+        <DialogContent>
+          <DialogContentText>
+            {isConfirmingPassword
+              ? t('confirm password description')
+              : t('set password description')}
+          </DialogContentText>
+          <PasswordInput
+            placeholder={t('password')}
+            value={isConfirmingPassword ? confirmPassword : password}
+            error={!!error}
+            helperText={error}
+            onChange={(e) =>
+              (isConfirmingPassword ? setConfirmPassword : setPassword)(e.target.value)
+            }
+          />
+          <Typography className={classes.passwordRequirement} variant="body2">
+            {isConfirmingPassword ? t('confirm password caption') : t('password caption')}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button className={classes.button} variant="contained" color="primary" type="submit">
+            {isConfirmingPassword ? t('confirm') : t('next')}
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   )
 }

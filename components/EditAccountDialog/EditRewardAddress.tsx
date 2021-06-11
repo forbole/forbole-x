@@ -28,7 +28,12 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({ account, onNext }
   const theme = useTheme()
 
   return (
-    <>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        onNext(rewardAddress, memo)
+      }}
+    >
       <DialogContent className={classes.dialogContent}>
         <Box my={2}>
           <Box>
@@ -80,12 +85,12 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({ account, onNext }
           className={classes.nextButton}
           color="primary"
           disabled={rewardAddress === ''}
-          onClick={() => onNext(rewardAddress, memo)}
+          type="submit"
         >
           {t('next')}
         </Button>
       </DialogActions>
-    </>
+    </form>
   )
 }
 

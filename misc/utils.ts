@@ -193,7 +193,10 @@ export const transformValidators = (data: any): Validator[] => {
       name: get(validator, 'description[0].moniker', get(validator, 'address', '')),
       commission: get(validator, 'commission[0].commission', 0),
       votingPower: get(validator, 'voting_power[0].voting_power', 0),
-      selfRatio: 0, // TODO: solve performance issue on BDJuno
+      selfRatio:
+        get(validator, 'self_delegations[0].amount.amount', 0) /
+        get(validator, 'voting_power[0].voting_power', 0) /
+        10 ** 6, // TODO: use tokens_prices to handle denoms
       status: getValidatorStatus(
         get(validator, 'status[0].status', 0),
         get(validator, 'status[0].jailed', false)

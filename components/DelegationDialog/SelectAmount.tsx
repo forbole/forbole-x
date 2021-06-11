@@ -23,7 +23,12 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availab
   const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount)
 
   return (
-    <>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        onConfirm(Number(amount), denom)
+      }}
+    >
       <DialogContent className={classes.dialogContent}>
         <Box mb={32}>
           <Typography className={classes.marginBottom}>
@@ -62,13 +67,13 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availab
             className={classes.button}
             color="primary"
             disabled={!Number(amount) || insufficientFund}
-            onClick={() => onConfirm(Number(amount), denom)}
+            type="submit"
           >
             {t('next')}
           </Button>
         </Box>
       </DialogActions>
-    </>
+    </form>
   )
 }
 

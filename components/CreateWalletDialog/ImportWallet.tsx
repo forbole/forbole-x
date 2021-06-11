@@ -27,7 +27,12 @@ const ImportWallet: React.FC<ImportWalletProps> = ({ onConfirm }) => {
   const [selectedCryptos, setSelectedCryptos] = React.useState<string[]>([])
 
   return (
-    <>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        onConfirm(name, selectedCryptos)
+      }}
+    >
       <DialogContent className={classes.dialogContent}>
         <Typography>{t('moniker')}</Typography>
         <TextField
@@ -79,13 +84,13 @@ const ImportWallet: React.FC<ImportWalletProps> = ({ onConfirm }) => {
             variant="contained"
             color="primary"
             disabled={!name || selectedCryptos.length === 0}
-            onClick={() => onConfirm(name, selectedCryptos)}
+            type="submit"
           >
             {t('import')}
           </Button>
         </Box>
       </DialogActions>
-    </>
+    </form>
   )
 }
 

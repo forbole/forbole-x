@@ -55,7 +55,12 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ account, onNext, proposal }
   const [voteAccount, setVoteAccount] = React.useState<Account>(account)
 
   return (
-    <>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        onNext(voteAccount, answer, memo)
+      }}
+    >
       <DialogContent>
         <Box pb={2}>
           <Box>
@@ -179,7 +184,7 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ account, onNext, proposal }
                 className={classes.button}
                 color="primary"
                 disabled={!!(answer === undefined)}
-                onClick={() => onNext(voteAccount, answer, memo)}
+                type="submit"
               >
                 {t('next')}
               </Button>
@@ -187,7 +192,7 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ account, onNext, proposal }
           </Box>
         </Box>
       </DialogContent>
-    </>
+    </form>
   )
 }
 

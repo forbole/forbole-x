@@ -45,10 +45,16 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({
   }, [walletId, onUnlock, password])
 
   return (
-    <>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        confirm()
+      }}
+    >
       <DialogContent>
         <DialogContentText>{t('enter security password')}</DialogContentText>
         <PasswordInput
+          autoFocus
           placeholder={t('password')}
           value={password}
           error={!!error}
@@ -62,7 +68,7 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({
           variant="contained"
           color="primary"
           disabled={!password.length || loading}
-          onClick={confirm}
+          type="submit"
         >
           {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
         </Button>
@@ -70,7 +76,7 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({
           {t('forgot password?')}
         </Button>
       </DialogActions>
-    </>
+    </form>
   )
 }
 
