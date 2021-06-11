@@ -25,6 +25,9 @@ interface CustomPalette extends Palette {
     }
   }
   dialogBackground: string
+  createWalletButton: string
+  reactJsonBackground: string
+  buttonDisabled: string
 }
 
 export interface CustomTheme extends Theme {
@@ -201,6 +204,9 @@ const lightTheme = ({
       },
     },
     dialogBackground: '#FFFFFF',
+    createWalletButton: '#007FFF',
+    reactJsonBackground: '#F7F7F7',
+    buttonDisabled: '#BFDFFF',
   },
 } as unknown) as ThemeOptions
 
@@ -305,6 +311,9 @@ const darkTheme = ({
       },
     },
     dialogBackground: '#1D1E22',
+    createWalletButton: '#379AFE',
+    reactJsonBackground: '#25282D',
+    buttonDisabled: '#273746',
   },
 } as unknown) as ThemeOptions
 

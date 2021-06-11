@@ -11,7 +11,7 @@ import Unbonding from './Unbonding'
 import RedelegationDialog from '../RedelegateDialog'
 import Redelegations from './Redelegations'
 import DelegationDialog from '../DelegationDialog'
-import ClaimRewardsDialog from '../ClaimRewardsDialog'
+import ClaimRewardsDialog from '../WithdrawRewardsDialog'
 
 interface DelegationsTableProps {
   account: Account

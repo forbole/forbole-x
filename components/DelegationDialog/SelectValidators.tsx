@@ -11,6 +11,8 @@ import {
   Grid,
   CircularProgress,
   useTheme,
+  Slider,
+  Card,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
@@ -51,23 +53,47 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const isMobile = useIsMobile()
   const theme = useTheme()
   const [delegations, setDelegations] = React.useState<
-    Array<{ amount: string; validator: any; percentage: string }>
+    Array<{ amount: string; validator: any; percentage: string; showSlider: boolean }>
   >(
     defaultDelegations
       ? defaultDelegations.map((d) => ({
           amount: d.amount.toString(),
           validator: d.validator,
           percentage: ((100 * d.amount) / amount).toFixed(2),
+          showSlider: false,
         }))
-      : [{ amount: amount.toString(), validator: {}, percentage: '100' }]
+      : [{ amount: amount.toString(), validator: {}, percentage: '100', showSlider: false }]
   )
   const [memo, setMemo] = React.useState('')
 
   const validatorsMap = keyBy(validators, 'address')
 
+  React.useMemo(() => {
+    setDelegations((d) =>
+      d.map((a, j) =>
+        j < delegations.length - 1
+          ? {
+              ...a,
+              percentage: String(((1 / delegations.length) * 100).toFixed(2)) || '',
+              amount: (amount * (1 / delegations.length)).toFixed(2),
+            }
+          : {
+              ...a,
+              percentage:
+                String(
+                  (100 - (1 / delegations.length) * (delegations.length - 1) * 100).toFixed(2)
+                ) || '',
+              amount: (amount * (1 - (1 / delegations.length) * (delegations.length - 1))).toFixed(
+                2
+              ),
+            }
+      )
+    )
+  }, [delegations.length])
+
   return (
     <>
-      <DialogContent className={classes.dialogContent}>
+      <DialogContent>
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
             {t('total delegated amount')}{' '}
@@ -85,7 +111,13 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                   mt={i === 0 ? 0 : 1}
                 >
                   {delegations.length <= 1 ? null : (
-                    <IconButton onClick={() => setDelegations((d) => d.filter((a, j) => j !== i))}>
+                    <IconButton
+                      onClick={() => {
+                        setDelegations((d) => d.filter((a, j) => j !== i))
+                        // React.useCallback(() => updateAmount(), [delegations])
+                        // updateAmount()
+                      }}
+                    >
                       <RemoveIcon {...iconProps} />
                     </IconButton>
                   )}
@@ -101,13 +133,13 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                         )
                         .slice(0, 10)
                     }
-                    onChange={(e, address) =>
+                    onChange={(e, address) => {
                       setDelegations((d) =>
                         d.map((a, j) =>
                           j === i ? { ...a, validator: validatorsMap[address] || {} } : a
                         )
                       )
-                    }
+                    }}
                     renderOption={(address) => (
                       <ValidatorAvatar
                         crypto={crypto}
@@ -155,7 +187,10 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                   variant="text"
                   color="secondary"
                   onClick={() =>
-                    setDelegations((d) => [...d, { validator: '', amount: '', percentage: '' }])
+                    setDelegations((d) => [
+                      ...d,
+                      { validator: '', amount: '', percentage: '', showSlider: false },
+                    ])
                   }
                 >
                   {t('add validator')}
@@ -180,63 +215,105 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             <Grid item xs={6}>
               <Typography gutterBottom>{t('amount')}</Typography>
               {delegations.map((v, i) => (
-                <Box key={i.toString()} display="flex" alignItems="center" mt={i === 0 ? 0 : 1}>
-                  <TextField
-                    fullWidth
-                    variant="filled"
-                    placeholder="0"
-                    type="number"
-                    InputProps={{
-                      disableUnderline: true,
-                      endAdornment: (
-                        <InputAdornment position="end">{denom.toUpperCase()}</InputAdornment>
-                      ),
-                    }}
-                    value={v.amount}
-                    onChange={(e) =>
-                      setDelegations((d) =>
-                        d.map((a, j) =>
-                          j === i
-                            ? {
-                                ...a,
-                                amount: e.target.value,
-                                percentage: ((100 * Number(e.target.value)) / amount).toFixed(2),
-                              }
-                            : a
-                        )
-                      )
-                    }
-                  />
-                  {isMobile ? null : (
+                <Box>
+                  <Box key={i.toString()} display="flex" alignItems="center" mt={i === 0 ? 0 : 1}>
                     <TextField
-                      className={classes.percentageTextField}
+                      fullWidth
                       variant="filled"
                       placeholder="0"
                       type="number"
                       InputProps={{
                         disableUnderline: true,
-                        endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                        endAdornment: (
+                          <InputAdornment position="end">{denom.toUpperCase()}</InputAdornment>
+                        ),
                       }}
-                      // eslint-disable-next-line react/jsx-no-duplicate-props
-                      inputProps={{
-                        className: classes.numberInput,
-                      }}
-                      value={v.percentage}
+                      value={v.amount}
                       onChange={(e) =>
                         setDelegations((d) =>
                           d.map((a, j) =>
                             j === i
                               ? {
                                   ...a,
-                                  percentage: e.target.value,
-                                  amount: ((amount * Number(e.target.value)) / 100).toFixed(2),
+                                  amount: e.target.value,
+                                  percentage: ((100 * Number(e.target.value)) / amount).toFixed(2),
                                 }
                               : a
                           )
                         )
                       }
                     />
-                  )}
+                    {isMobile ? null : (
+                      <TextField
+                        onClick={() =>
+                          setDelegations((d) =>
+                            d.map((a, j) =>
+                              j === i
+                                ? {
+                                    ...a,
+                                    showSlider: !a.showSlider,
+                                  }
+                                : a
+                            )
+                          )
+                        }
+                        className={classes.percentageTextField}
+                        variant="filled"
+                        placeholder="0"
+                        type="number"
+                        InputProps={{
+                          disableUnderline: true,
+                          endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                        }}
+                        // eslint-disable-next-line react/jsx-no-duplicate-props
+                        inputProps={{
+                          className: classes.numberInput,
+                        }}
+                        value={v.percentage}
+                        onChange={(e) =>
+                          setDelegations((d) =>
+                            d.map((a, j) =>
+                              j === i
+                                ? {
+                                    ...a,
+                                    percentage: e.target.value,
+                                    amount: ((amount * Number(e.target.value)) / 100).toFixed(2),
+                                  }
+                                : a
+                            )
+                          )
+                        }
+                      />
+                    )}
+                  </Box>
+                  {v.showSlider ? (
+                    <Card className={classes.card}>
+                      <Slider
+                        value={Number(v.percentage) / 100}
+                        defaultValue={0.25}
+                        aria-labelledby="input-slider"
+                        step={0.25}
+                        marks
+                        min={0}
+                        max={1}
+                        onChange={(_event, newValue) => {
+                          setDelegations((d) =>
+                            d.map((a, j) =>
+                              j === i
+                                ? {
+                                    ...a,
+                                    percentage: String(
+                                      typeof newValue === 'number' ? newValue * 100 : ''
+                                    ),
+                                    amount: String((amount * Number(newValue || '') * 100) / 100),
+                                  }
+                                : a
+                            )
+                          )
+                        }}
+                      />
+                    </Card>
+                  ) : null}
                 </Box>
               ))}
             </Grid>
@@ -263,7 +340,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             disabled={
               loading ||
               !delegations.filter((v) => v.validator.name && Number(v.amount)).length ||
-              delegations.map((v) => Number(v.amount)).reduce((a, b) => a + b, 0) > amount
+              delegations.map((v) => Number(v.amount)).reduce((a, b) => a + b, 0) > amount ||
+              delegations.filter((v) => v.validator === '').length !== 0
             }
             onClick={() =>
               onConfirm(

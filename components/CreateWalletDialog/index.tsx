@@ -223,16 +223,6 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
           title: t('access my wallet title'),
           content: <AccessMyWallet onConfirm={setStage} onCreateWallet={createWallet} />,
         }
-      // return {
-      //   title: t('create wallet title'),
-      //   content: (
-      //     <Start
-      //       onWhatIsMnemonicClick={() => setStage(CommonStage.WhatIsMnemonicStage)}
-      //       onCreateWalletClick={createWallet}
-      //       onImportWalletClick={() => setStage(CommonStage.AccessMyWalletStage)}
-      //     />
-      //   ),
-      // }
     }
   }, [stage, t])
 

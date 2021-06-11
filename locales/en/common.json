@@ -167,7 +167,7 @@
   "fee": "Fee",
   "view data": "View Data",
   "hide data": "Hide data",
-  "claim rewards": "Claim Rewards",
+  "withdraw rewards": "Withdraw Rewards",
   "active validators": "Active Validators",
   "inactive validators": "Inactive Validators",
   "favourite": "Favourite",
@@ -247,5 +247,6 @@
   "success title": "Success",
   "success created accout": "Account was successfully created",
   "set an account name": "Set an account name",
-  "confirm import title": "Confirm"
+  "confirm import title": "Confirm",
+  "delegationHelpText": "*Please set aside some amount for the gas fee"
 }

@@ -1,10 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CustomTheme } from '../../misc/theme'
 
 const useStyles = makeStyles(
-  (theme) => ({
+  (theme: CustomTheme) => ({
     button: {
       flex: 1,
       margin: theme.spacing(2),
+      color: theme.palette.createWalletButton,
     },
     closeButton: {
       position: 'absolute',

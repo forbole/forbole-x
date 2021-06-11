@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@material-ui/core'
+import { Box, Button, Typography, useTheme } from '@material-ui/core'
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import GetStartedLightImage from '../../assets/images/get_started_light.svg'
@@ -8,18 +8,32 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 import OnboardingDialog from '../OnboardingDialog'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import CreateWalletDialog from '../CreateWalletDialog'
+import useIsMobile from '../../misc/useIsMobile'
 
 const GetStarted: React.FC = () => {
   const classes = useStyles()
   const { theme } = useGeneralContext()
+  const themeStyle = useTheme()
+  const isMobile = useIsMobile()
   const { unlockWallets } = useWalletsContext()
   const { t } = useTranslation('common')
   const [isOnboardingDialogOpen, setIsOnboardingDialogOpen] = React.useState(false)
   const [isCreateWalletDialogOpen, setIsCreateWalletDialogOpen] = React.useState(false)
+  // 10/06/2021
   return (
     <>
-      <Box className={classes.container}>
-        {theme === 'light' ? <GetStartedLightImage /> : <GetStartedDarkImage />}
+      <Box className={classes.container} mt={isMobile ? themeStyle.spacing(0) : 'inherits'}>
+        {theme === 'light' ? (
+          <GetStartedLightImage
+            width={isMobile ? themeStyle.spacing(40) : 'inherits'}
+            height={isMobile ? themeStyle.spacing(24.12) : 'inherits'}
+          />
+        ) : (
+          <GetStartedDarkImage
+            width={isMobile ? themeStyle.spacing(40) : 'inherits'}
+            height={isMobile ? themeStyle.spacing(24.12) : 'inherits'}
+          />
+        )}
         <Typography className={classes.marginTop} variant="h4" align="center">
           {t('get started line1')}
         </Typography>
