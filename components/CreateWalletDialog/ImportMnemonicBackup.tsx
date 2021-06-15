@@ -17,7 +17,7 @@ const ImportMnemonicBackup: React.FC<ImportMnemonicBackupProps> = ({ onConfirm, 
 
   return (
     <form
-      novalidate
+      noValidate
       onSubmit={(e) => {
         e.preventDefault()
         onConfirm({ password, backupPhrase })
