@@ -2,7 +2,7 @@
 
 exports[`component: CreateWalletDialog - ImportWallet renders correctly 1`] = `
 <form
-  novalidate={true}
+  noValidate={true}
   onSubmit={[Function]}
 >
   <div
@@ -128,7 +128,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly 1`] = `
 
 exports[`component: CreateWalletDialog - ImportWallet renders correctly with wallet name 1`] = `
 <form
-  novalidate={true}
+  noValidate={true}
   onSubmit={[Function]}
 >
   <div

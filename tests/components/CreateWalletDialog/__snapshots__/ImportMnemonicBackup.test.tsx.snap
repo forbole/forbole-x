@@ -2,7 +2,7 @@
 
 exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 1`] = `
 <form
-  novalidate={true}
+  noValidate={true}
   onSubmit={[Function]}
 >
   <div
@@ -92,7 +92,7 @@ exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 
 
 exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly with error 1`] = `
 <form
-  novalidate={true}
+  noValidate={true}
   onSubmit={[Function]}
 >
   <div
