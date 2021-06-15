@@ -18,6 +18,7 @@ const useStyles = makeStyles(
     },
     dialogContent: {
       overflowY: 'auto',
+      background: theme.palette.dialogBackground,
     },
     marginLeft: {
       marginLeft: theme.spacing(1),
@@ -72,6 +73,10 @@ const useStyles = makeStyles(
       padding: 0,
       [theme.breakpoints.down('sm')]: {
         marginLeft: 0,
+      },
+      '&:disabled': {
+        backgroundColor: theme.palette.buttonDisabled,
+        color: 'white',
       },
     },
     dialogButton: {

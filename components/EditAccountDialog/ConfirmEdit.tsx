@@ -34,7 +34,7 @@ const ConfirmEdit: React.FC<ConfirmEditProps> = ({
 
   return (
     <>
-      <DialogContent className={classes.dialogContent}>
+      <DialogContent>
         <Box my={2}>
           <Box>
             <Box my={1.5}>

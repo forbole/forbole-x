@@ -83,7 +83,14 @@ const UnlockPasswordDialog: React.FC = () => {
   }, [defaultPassword, unlockWallets])
 
   return (
-    <Dialog fullWidth open={!(wallets.length !== 0 || isReset)} fullScreen={isMobile}>
+    <Dialog
+      fullWidth
+      open={!(wallets.length !== 0 || isReset)}
+      fullScreen={isMobile}
+      PaperProps={{
+        className: classes.dialogContent,
+      }}
+    >
       {isPrevStageAvailable && stage !== 'unlock' ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

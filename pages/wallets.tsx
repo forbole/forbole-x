@@ -19,7 +19,7 @@ const Wallets: React.FC = () => {
     <Layout passwordRequired activeItem="/wallets">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Typography gutterBottom variant="h1">
-          {t('wallet manage')}
+          {t('wallet')}
         </Typography>
         <Button
           style={{ color: theme.palette.button, border: '1px solid' }}

@@ -1,9 +1,14 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CustomTheme } from '../../misc/theme'
 
 const useStyles = makeStyles(
-  (theme) => ({
+  (theme: CustomTheme) => ({
     button: {
       width: theme.spacing(16),
+      '&:disabled': {
+        backgroundColor: theme.palette.buttonDisabled,
+        color: 'white',
+      },
     },
     closeButton: {
       position: 'absolute',
@@ -17,6 +22,7 @@ const useStyles = makeStyles(
     },
     dialogContent: {
       overflowY: 'auto',
+      background: theme.palette.dialogBackground,
     },
     marginLeft: {
       marginLeft: theme.spacing(1),

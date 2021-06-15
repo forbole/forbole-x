@@ -1,11 +1,11 @@
 import React from 'react'
-import { Dialog, IconButton } from '@material-ui/core'
+import { Dialog, IconButton, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import useStyles from './styles'
 import EditIcon from '../../assets/images/icons/icon_edit.svg'
+import AddIcon from '../../assets/images/icons/icon_add wallet.svg'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
-import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
 import useIsMobile from '../../misc/useIsMobile'
 import useStateHistory from '../../misc/useStateHistory'
@@ -40,31 +40,19 @@ const WalletMenuButton: React.FC<MenuDialogProps> = ({ walletId, walletName }) =
   const classes = useStyles()
   const iconProps = useIconProps()
   const isMobile = useIsMobile()
-  const [error, setError] = React.useState('')
-  const [isSettingNewPassword, setIsSettingNewPassword] = React.useState(false)
-  const [securityPassword, setSecurityPassword] = React.useState('')
-  const [newSecurityPassword, setNewSecurityPassword] = React.useState('')
-  const { updateWallet, viewMnemonicPhrase } = useWalletsContext()
+  const theme = useTheme()
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<MenuStage>(
     MenuStage.SelectMenuStage
   )
+  const [openedDialog, setOpenedDialog] = React.useState('')
 
-  // const changeWallet = React.useCallback() => {
-  //     setDelegations(d)
-  //     setMemo(m)
-  //     setStage(DelegationStage.ConfirmDelegationStage)
-  //   },
-  //   [setStage]
-  // )
   const [dialogOpen, setDialogOpen] = React.useState(false)
-
-  // const [anchor, setAnchor] = React.useState<Element>()
-  // const onClose = React.useCallback(() => setAnchor(undefined), [setAnchor])
   const onClose = () => {
     setDialogOpen(false)
   }
-  const onClick = () => {
-    // setAnchor(e.currentTarget)
+
+  const onOpenDialog = (dialog: string) => {
+    setOpenedDialog(dialog)
     setDialogOpen(true)
   }
 
@@ -83,11 +71,6 @@ const WalletMenuButton: React.FC<MenuDialogProps> = ({ walletId, walletName }) =
         return {
           dialogWidth: 'sm',
           content: <ViewMnemonicPhrase walletId={walletId} onClose={onClose} />,
-        }
-      case MenuStage.AddAccountToWalletStage:
-        return {
-          dialogWidth: 'xs',
-          content: <CreateAccount walletId={walletId} onClose={onClose} />,
         }
       case MenuStage.DeleteWalletStage:
         return {
@@ -115,17 +98,19 @@ const WalletMenuButton: React.FC<MenuDialogProps> = ({ walletId, walletName }) =
   React.useEffect(() => {
     if (dialogOpen) {
       setStage(MenuStage.SelectMenuStage, true)
-      setError('')
-      setSecurityPassword('')
-      setNewSecurityPassword('')
-      setIsSettingNewPassword(false)
     }
   }, [dialogOpen])
 
   return (
     <>
-      <IconButton onClick={() => onClick()}>
+      <IconButton
+        onClick={() => onOpenDialog('edit account')}
+        style={{ paddingRight: theme.spacing(0) }}
+      >
         <EditIcon {...iconProps} />
+      </IconButton>
+      <IconButton onClick={() => onOpenDialog('add account')}>
+        <AddIcon {...iconProps} />
       </IconButton>
       <Dialog
         fullWidth
@@ -142,7 +127,11 @@ const WalletMenuButton: React.FC<MenuDialogProps> = ({ walletId, walletName }) =
         <IconButton className={classes.closeButton} onClick={onClose}>
           <CloseIcon {...iconProps} />
         </IconButton>
-        {content.content}
+        {openedDialog === 'edit account' ? (
+          content.content
+        ) : (
+          <CreateAccount walletId={walletId} onClose={onClose} />
+        )}
       </Dialog>
     </>
   )

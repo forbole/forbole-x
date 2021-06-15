@@ -145,7 +145,7 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
             setAnchor(undefined)
           }}
         >
-          {t('claim rewards')}
+          {t('withdraw')}
         </MenuItem>
       </Menu>
       {account && managingValidator && availableTokens ? (

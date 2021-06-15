@@ -36,7 +36,7 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availab
           <Typography>{t('total delegated amount')}</Typography>
           <TokenAmountInput
             value={amount}
-            denom={denom}
+            denom={denom || ''}
             onValueChange={setAmount}
             onDenomChange={setDenom}
             availableAmount={availableAmount}
@@ -58,7 +58,7 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availab
           <Box>
             <Typography variant="h5">{formatCrypto(Number(amount), denom, lang)}</Typography>
             <Typography>
-              {formatCurrency(Number(amount) * availableAmount[denom].price, currency, lang)}
+              {formatCurrency(Number(amount) * availableAmount[denom]?.price, currency, lang)}
             </Typography>
           </Box>
           <Button

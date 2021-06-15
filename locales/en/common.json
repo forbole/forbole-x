@@ -1,8 +1,8 @@
 {
   "en": "ENG",
   "zh": "中文",
-  "overview": "Overview",
-  "wallet manage": "Wallet Manage",
+  "portfolio": "Portfolio",
+  "wallet": "Wallet",
   "delegate": "Delegate",
   "market": "Market",
   "proposals": "Proposals",

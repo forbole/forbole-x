@@ -32,12 +32,12 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
   const items = React.useMemo(
     () => [
       {
-        title: t('overview'),
+        title: t('portfolio'),
         icon: <OverviewIcon {...iconProps} />,
         href: '/',
       },
       {
-        title: t('wallet manage'),
+        title: t('wallet'),
         icon: <WalletManageIcon {...iconProps} />,
         href: '/wallets',
       },

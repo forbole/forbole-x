@@ -19,25 +19,37 @@ const GetStarted: React.FC = () => {
   const { t } = useTranslation('common')
   const [isOnboardingDialogOpen, setIsOnboardingDialogOpen] = React.useState(false)
   const [isCreateWalletDialogOpen, setIsCreateWalletDialogOpen] = React.useState(false)
-  // 10/06/2021
+
   return (
     <>
-      <Box className={classes.container} mt={isMobile ? themeStyle.spacing(0) : 'inherits'}>
+      <Box
+        className={classes.container}
+        mt={isMobile ? '5vh' : '15vh'}
+        width={isMobile ? themeStyle.spacing(40) : 'inherits'}
+      >
         {theme === 'light' ? (
           <GetStartedLightImage
-            width={isMobile ? themeStyle.spacing(40) : 'inherits'}
+            width={isMobile ? themeStyle.spacing(40) : themeStyle.spacing(60)}
             height={isMobile ? themeStyle.spacing(24.12) : 'inherits'}
           />
         ) : (
           <GetStartedDarkImage
-            width={isMobile ? themeStyle.spacing(40) : 'inherits'}
+            width={isMobile ? themeStyle.spacing(40) : themeStyle.spacing(60)}
             height={isMobile ? themeStyle.spacing(24.12) : 'inherits'}
           />
         )}
-        <Typography className={classes.marginTop} variant="h4" align="center">
+        <Typography
+          className={classes.marginTop}
+          variant={isMobile ? 'subtitle1' : 'h4'}
+          align="center"
+        >
           {t('get started line1')}
         </Typography>
-        <Typography className={classes.marginTop} variant="h6" align="center">
+        <Typography
+          className={classes.marginTopSub}
+          variant={isMobile ? 'subtitle1' : 'h6'}
+          align="center"
+        >
           {t('get started line2')}
         </Typography>
         <Button

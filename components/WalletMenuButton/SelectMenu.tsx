@@ -47,12 +47,6 @@ const SelectMenu: React.FC<SelectMenuProps> = ({
               {t('view mnemonic phrase')}
             </Button>
           </Box>
-          <Divider />
-          <Box my={1} display="flex">
-            <Button className={classes.itemButton} onClick={() => addAccountToWallet()}>
-              {t('add account to wallet')}
-            </Button>
-          </Box>
         </Box>
       </DialogContent>
       <DialogActions>

@@ -44,6 +44,7 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
           variant="contained"
           color="primary"
           onClick={onButtonClick}
+          disabled={password.length < 6}
         >
           {t('next')}
         </Button>

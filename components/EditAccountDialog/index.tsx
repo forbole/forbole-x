@@ -67,7 +67,6 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({
   const saveMoniker = React.useCallback(
     async (n: string) => {
       try {
-        // setName(n)
         await updateAccount(account.address, { name: n })
         onClose()
       } catch (err) {
@@ -171,7 +170,13 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({
         }
       case EditAccountStage.SecurityPasswordStage:
         return {
-          content: <SecurityPassword onConfirm={sendTransactionMessage} loading={loading} />,
+          content: (
+            <SecurityPassword
+              onConfirm={sendTransactionMessage}
+              loading={loading}
+              walletId={account.walletId}
+            />
+          ),
         }
       case EditAccountStage.RewardAddressIntroStage:
         return {
@@ -246,6 +251,9 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({
       open={open}
       onClose={onClose}
       fullScreen={isMobile}
+      PaperProps={{
+        className: classes.dialogContent,
+      }}
     >
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
