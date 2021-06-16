@@ -97,7 +97,10 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
               },
             },
           ],
-          fee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
+          fee: {
+            amount: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
+            gas: get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.redelegate`, 0),
+          },
           memo,
           ...signerInfo,
         })
