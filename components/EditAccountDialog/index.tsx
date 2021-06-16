@@ -172,9 +172,9 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({
         return {
           content: (
             <SecurityPassword
+              walletId={account.walletId}
               onConfirm={sendTransactionMessage}
               loading={loading}
-              walletId={account.walletId}
             />
           ),
         }

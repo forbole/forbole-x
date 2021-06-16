@@ -81,7 +81,6 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ walletId, onClose }) => {
     }
   }
 
-
   return (
     <>
       {stage === Stage.SuccessStage ? null : <DialogTitle>{t(`${stage} title`)}</DialogTitle>}
@@ -161,7 +160,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ walletId, onClose }) => {
               />
             </Box>
             <Box mb={8}>
-              <Typography gutterBottom>{t('set moniker')}</Typography>
+              <Typography gutterBottom>{t('moniker')}</Typography>
               <TextField
                 fullWidth
                 variant="filled"

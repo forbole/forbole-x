@@ -56,6 +56,7 @@ const WalletMenuButton: React.FC<MenuDialogProps> = ({ walletId, walletName }) =
     setDialogOpen(true)
   }
 
+
   const content: Content = React.useMemo(() => {
     switch (stage) {
       case MenuStage.ChangeWalletMonikerStage:

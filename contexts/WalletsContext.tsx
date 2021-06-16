@@ -17,10 +17,7 @@ interface WalletsState {
   addAccount?: (account: CreateAccountParams, securityPassword: string, ledgerApp?: Cosmos) => void
   updateAccount?: (address: string, account: UpdateAccountParams) => void
   deleteAccount?: (address: string) => void
-  viewMnemonicPhrase?: (
-    id: string,
-    securityPassword: string
-  ) => Promise<{ success: boolean; mnenomic: any }>
+  viewMnemonicPhrase?: (id: string, securityPassword: string) => Promise<string>
   viewMnemonicPhraseBackup?: (
     id: string,
     securityPassword: string,
@@ -221,7 +218,6 @@ const WalletsProvider: React.FC = ({ children }) => {
           password,
         },
       })
-      console.log('mnemonic', mnemonic)
       return mnemonic
     },
     [password]
