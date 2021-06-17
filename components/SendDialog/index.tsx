@@ -41,25 +41,32 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
       memo: string
     ) => {
       setLoading(true)
+      const msgs = recipients
+        .map((r) => {
+          const coinsToSend = getEquivalentCoinToSend(
+            r.amount,
+            availableTokens.coins,
+            availableTokens.tokens_prices
+          )
+          return {
+            type: 'cosmos-sdk/MsgSend',
+            value: {
+              from_address: account.address,
+              to_address: r.address,
+              amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
+            },
+          }
+        })
+        .filter((a) => a)
       await invoke(window, 'forboleX.sendTransaction', password, account.address, {
-        msgs: recipients
-          .map((r) => {
-            const coinsToSend = getEquivalentCoinToSend(
-              r.amount,
-              availableTokens.coins,
-              availableTokens.tokens_prices
-            )
-            return {
-              type: 'cosmos-sdk/MsgSend',
-              value: {
-                from_address: account.address,
-                to_address: r.address,
-                amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
-              },
-            }
-          })
-          .filter((a) => a),
-        fee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
+        msgs,
+        fee: {
+          amount: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
+          gas: String(
+            msgs.length *
+              Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.send`, 0))
+          ),
+        },
         memo,
         ...signerInfo,
       })
@@ -68,6 +75,12 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
     },
     [signerInfo, availableTokens]
   )
+
+  React.useEffect(() => {
+    if (open) {
+      setLoading(false)
+    }
+  }, [open])
 
   return (
     <Dialog fullWidth maxWidth="md" open={open} onClose={onClose} fullScreen={isMobile}>

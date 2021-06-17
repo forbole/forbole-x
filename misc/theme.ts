@@ -96,7 +96,7 @@ const common = {
   shadows: [...Array(7).fill('none'), ...Array(18).fill('0px 3px 16px #00000029')],
 }
 
-const lightTheme = ({
+const lightTheme = {
   ...common,
   palette: {
     primary: {
@@ -204,9 +204,9 @@ const lightTheme = ({
     },
     dialogBackground: '#FFFFFF',
   },
-} as unknown) as ThemeOptions
+} as unknown as ThemeOptions
 
-const darkTheme = ({
+const darkTheme = {
   ...common,
   palette: {
     primary: {
@@ -309,6 +309,6 @@ const darkTheme = ({
     },
     dialogBackground: '#1D1E22',
   },
-} as unknown) as ThemeOptions
+} as unknown as ThemeOptions
 
 export { lightTheme, darkTheme }

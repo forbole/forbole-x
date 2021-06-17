@@ -193,7 +193,10 @@ export const transformValidators = (data: any): Validator[] => {
       name: get(validator, 'description[0].moniker', get(validator, 'address', '')),
       commission: get(validator, 'commission[0].commission', 0),
       votingPower: get(validator, 'voting_power[0].voting_power', 0),
-      selfRatio: 0, // TODO: solve performance issue on BDJuno
+      selfRatio:
+        get(validator, 'self_delegations[0].amount.amount', 0) /
+        get(validator, 'voting_power[0].voting_power', 0) /
+        10 ** 6, // TODO: use tokens_prices to handle denoms
       status: getValidatorStatus(
         get(validator, 'status[0].status', 0),
         get(validator, 'status[0].jailed', false)
@@ -212,21 +215,18 @@ export const transformValidatorsWithTokenAmount = (data: any, balanceData: any) 
   const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
   const delegatedByValidator = {}
   get(balanceData, 'account[0].delegated.nodes', []).forEach((d) => {
-    delegatedByValidator[
-      get(d, 'validator.validator_info.operator_address', '')
-    ] = getTokenAmountFromDenoms([d.amount], tokensPrices)
+    delegatedByValidator[get(d, 'validator.validator_info.operator_address', '')] =
+      getTokenAmountFromDenoms([d.amount], tokensPrices)
   })
   const rewardsByValidator = {}
   get(balanceData, 'account[0].rewards.nodes', []).forEach((d) => {
-    rewardsByValidator[
-      get(d, 'validator.validator_info.operator_address', '')
-    ] = getTokenAmountFromDenoms(d.amount, tokensPrices)
+    rewardsByValidator[get(d, 'validator.validator_info.operator_address', '')] =
+      getTokenAmountFromDenoms(d.amount, tokensPrices)
   })
   const unbondingByValidator = {}
   get(balanceData, 'account[0].unbonding.nodes', []).forEach((d) => {
-    unbondingByValidator[
-      get(d, 'validator.validator_info.operator_address', '')
-    ] = getTokenAmountFromDenoms([d.amount], tokensPrices)
+    unbondingByValidator[get(d, 'validator.validator_info.operator_address', '')] =
+      getTokenAmountFromDenoms([d.amount], tokensPrices)
   })
   return validators.map((v) => ({
     ...v,
