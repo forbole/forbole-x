@@ -67,7 +67,6 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [memo, setMemo] = React.useState('')
 
   const validatorsMap = keyBy(validators, 'address')
-  console.log('delegations', delegations)
 
   React.useMemo(() => {
     setDelegations((d) =>
@@ -115,8 +114,6 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                     <IconButton
                       onClick={() => {
                         setDelegations((d) => d.filter((a, j) => j !== i))
-                        // React.useCallback(() => updateAmount(), [delegations])
-                        // updateAmount()
                       }}
                     >
                       <RemoveIcon {...iconProps} />
