@@ -28,8 +28,8 @@ export enum ImportStage {
   ConnectLedgerDeviceStage = 'connect ledger device',
 }
 
-enum CommonStage {
-  StartStage = 'start',
+export enum CommonStage {
+  // StartStage = 'start',
   AccessMyWalletStage = 'access my wallet',
   CreateWalletStage = 'create wallet',
   ConfirmMnemonicStage = 'confirm mnemonic',
@@ -58,7 +58,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
   const { addWallet } = useWalletsContext()
   const isMobile = useIsMobile()
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
-    CommonStage.StartStage
+    CommonStage.AccessMyWalletStage
   )
   const [mnemonic, setMnemonic] = React.useState('')
   const [securityPassword, setSecurityPassword] = React.useState('')
@@ -215,7 +215,6 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
           title: t('what is mnemonic phrase'),
           content: <WhatIsMnemonic />,
         }
-      case CommonStage.StartStage:
       default:
       case CommonStage.AccessMyWalletStage:
         return {

@@ -25,7 +25,7 @@ Array [
       className="MuiBox-root MuiBox-root-9"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary"
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1"
         disabled={false}
         onBlur={[Function]}
         onClick={[MockFunction]}

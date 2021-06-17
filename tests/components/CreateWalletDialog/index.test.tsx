@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import CreateWalletDialog, { ImportStage } from '../../../components/CreateWalletDialog'
+import CreateWalletDialog, { ImportStage, CommonStage } from '../../../components/CreateWalletDialog'
 import sendMsgToChromeExt from '../../../misc/sendMsgToChromeExt'
 
 const mockWalletsContext = {
@@ -15,9 +15,6 @@ jest.mock('../../../contexts/WalletsContext', () => ({
 
 jest.mock('../../../misc/sendMsgToChromeExt', () => jest.fn())
 
-jest.mock('../../../components/CreateWalletDialog/Start', () => (props) => (
-  <div id="Start" {...props} />
-))
 jest.mock('../../../components/CreateWalletDialog/CreateWallet', () => (props) => (
   <div id="CreateWallet" {...props} />
 ))
@@ -57,9 +54,9 @@ describe('component: CreateWalletDialog', () => {
     renderer.act(() => {
       component.root
         .findByProps({
-          id: 'Start',
+          id: 'AccessMyWallet',
         })
-        .props.onImportWalletClick()
+        .props.onClick()
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -69,7 +66,7 @@ describe('component: CreateWalletDialog', () => {
     renderer.act(() => {
       component.root
         .findByProps({
-          id: 'Start',
+          id: 'AccessMyWallet',
         })
         .props.onWhatIsMnemonicClick()
     })
@@ -81,9 +78,9 @@ describe('component: CreateWalletDialog', () => {
     renderer.act(() => {
       component.root
         .findByProps({
-          id: 'Start',
+          id: 'AccessMyWallet',
         })
-        .props.onImportWalletClick()
+        .props.onConfirm(ImportStage)
     })
     renderer.act(() => {
       component.root
@@ -112,7 +109,7 @@ describe('component: CreateWalletDialog', () => {
     await renderer.act(async () => {
       await component.root
         .findByProps({
-          id: 'Start',
+          id: 'AccessMyWallet',
         })
         .props.onCreateWalletClick()
     })
@@ -126,7 +123,7 @@ describe('component: CreateWalletDialog', () => {
     await renderer.act(async () => {
       await component.root
         .findByProps({
-          id: 'Start',
+          id: 'AccessMyWallet',
         })
         .props.onCreateWalletClick()
     })
@@ -146,7 +143,7 @@ describe('component: CreateWalletDialog', () => {
     await renderer.act(async () => {
       await component.root
         .findByProps({
-          id: 'Start',
+          id: 'AccessMyWallet',
         })
         .props.onCreateWalletClick()
     })
@@ -173,7 +170,7 @@ describe('component: CreateWalletDialog', () => {
     await renderer.act(async () => {
       await component.root
         .findByProps({
-          id: 'Start',
+          id: 'AccessMyWallet',
         })
         .props.onCreateWalletClick()
     })
@@ -200,7 +197,7 @@ describe('component: CreateWalletDialog', () => {
     await renderer.act(async () => {
       await component.root
         .findByProps({
-          id: 'Start',
+          id: 'AccessMyWallet',
         })
         .props.onCreateWalletClick()
     })
@@ -234,7 +231,7 @@ describe('component: CreateWalletDialog', () => {
     await renderer.act(async () => {
       await component.root
         .findByProps({
-          id: 'Start',
+          id: 'AccessMyWallet',
         })
         .props.onCreateWalletClick()
     })
@@ -285,9 +282,9 @@ describe('component: CreateWalletDialog', () => {
     await renderer.act(async () => {
       await component.root
         .findByProps({
-          id: 'Start',
+          id: 'AccessMyWallet',
         })
-        .props.onImportWalletClick()
+        .props.onClick()
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -297,9 +294,9 @@ describe('component: CreateWalletDialog', () => {
     await renderer.act(async () => {
       await component.root
         .findByProps({
-          id: 'Start',
+          id: 'AccessMyWallet',
         })
-        .props.onImportWalletClick()
+        .props.onClick()
     })
     renderer.act(() => {
       component.root
@@ -317,9 +314,9 @@ describe('component: CreateWalletDialog', () => {
     await renderer.act(async () => {
       await component.root
         .findByProps({
-          id: 'Start',
+          id: 'AccessMyWallet',
         })
-        .props.onImportWalletClick()
+        .props.onClick()
     })
     renderer.act(() => {
       component.root
@@ -348,17 +345,17 @@ describe('component: CreateWalletDialog', () => {
     await renderer.act(async () => {
       await component.root
         .findByProps({
-          id: 'Start',
-        })
-        .props.onImportWalletClick()
-    })
-    renderer.act(() => {
-      component.root
-        .findByProps({
           id: 'AccessMyWallet',
         })
         .props.onConfirm(ImportStage.ImportMnemonicPhraseStage)
     })
+    // renderer.act(() => {
+    //   component.root
+    //     .findByProps({
+    //       id: 'AccessMyWallet',
+    //     })
+    //     .props.onConfirm(ImportStage.ImportMnemonicPhraseStage)
+    // })
     await renderer.act(async () => {
       await component.root
         .findByProps({
@@ -378,17 +375,17 @@ describe('component: CreateWalletDialog', () => {
     await renderer.act(async () => {
       await component.root
         .findByProps({
-          id: 'Start',
-        })
-        .props.onImportWalletClick()
-    })
-    renderer.act(() => {
-      component.root
-        .findByProps({
           id: 'AccessMyWallet',
         })
         .props.onConfirm(ImportStage.MnemonicPhraseBackupStage)
     })
+    // renderer.act(() => {
+    //   component.root
+    //     .findByProps({
+    //       id: 'AccessMyWallet',
+    //     })
+    //     .props.onConfirm(ImportStage.MnemonicPhraseBackupStage)
+    // })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
@@ -398,9 +395,9 @@ describe('component: CreateWalletDialog', () => {
     await renderer.act(async () => {
       await component.root
         .findByProps({
-          id: 'Start',
+          id: 'AccessMyWallet',
         })
-        .props.onImportWalletClick()
+        .props.onConfirm()
     })
     renderer.act(() => {
       component.root
@@ -425,13 +422,13 @@ describe('component: CreateWalletDialog', () => {
   it('renders error state when invalid mnemonic phrase backup is imported', async () => {
     ;(sendMsgToChromeExt as jest.Mock).mockRejectedValueOnce(new Error('invalid mnemonic'))
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
-    await renderer.act(async () => {
-      await component.root
-        .findByProps({
-          id: 'Start',
-        })
-        .props.onImportWalletClick()
-    })
+    // await renderer.act(async () => {
+    //   await component.root
+    //     .findByProps({
+    //       id: 'AccessMyWallet',
+    //     })
+    //     .props.onImportWalletClick()
+    // })
     renderer.act(() => {
       component.root
         .findByProps({

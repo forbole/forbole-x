@@ -31,6 +31,7 @@ describe('component: ChangeAccountMonikerDialog', () => {
     const component = renderer.create(
       <ChangeAccountMonikerDialog accountAddress="123" open onClose={onClose} />
     )
+    console.log('component', component.root.findAllByType('button')[0].props)
     renderer.act(() => {
       component.root.findAllByType('button')[0].props.onClick({ currentTarget: 'anchor' })
     })

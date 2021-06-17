@@ -512,14 +512,13 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
     <h2
       className="MuiTypography-root MuiTypography-h6"
     >
-      common:create wallet title
+      common:access my wallet title
     </h2>
   </div>
   <div
-    id="Start"
-    onCreateWalletClick={[Function]}
-    onImportWalletClick={[Function]}
-    onWhatIsMnemonicClick={[Function]}
+    id="AccessMyWallet"
+    onConfirm={[Function]}
+    onCreateWallet={[Function]}
   />
 </div>
 `;
@@ -660,14 +659,13 @@ exports[`component: CreateWalletDialog renders correctly when back button is cli
     <h2
       className="MuiTypography-root MuiTypography-h6"
     >
-      common:create wallet title
+      common:access my wallet title
     </h2>
   </div>
   <div
-    id="Start"
-    onCreateWalletClick={[Function]}
-    onImportWalletClick={[Function]}
-    onWhatIsMnemonicClick={[Function]}
+    id="AccessMyWallet"
+    onConfirm={[Function]}
+    onCreateWallet={[Function]}
   />
 </div>
 `;
@@ -840,12 +838,11 @@ exports[`component: CreateWalletDialog renders error state when invalid mnemonic
     <h2
       className="MuiTypography-root MuiTypography-h6"
     >
-      common:mnemonic phrase backup title
+      common:security password title
     </h2>
   </div>
   <div
-    error="common:invalid mnemonic"
-    id="ImportMnemonicBackup"
+    id="SecurityPassword"
     onConfirm={[Function]}
   />
 </div>
@@ -1340,14 +1337,13 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
     <h2
       className="MuiTypography-root MuiTypography-h6"
     >
-      common:create wallet title
+      common:access my wallet title
     </h2>
   </div>
   <div
-    id="Start"
-    onCreateWalletClick={[Function]}
-    onImportWalletClick={[Function]}
-    onWhatIsMnemonicClick={[Function]}
+    id="AccessMyWallet"
+    onConfirm={[Function]}
+    onCreateWallet={[Function]}
   />
 </div>
 `;
