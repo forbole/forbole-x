@@ -25,7 +25,6 @@ interface CustomPalette extends Palette {
     }
   }
   dialogBackground: string
-  createWalletButton: string
   reactJsonBackground: string
   buttonDisabled: string
   validator: string
@@ -206,7 +205,6 @@ const lightTheme = {
       },
     },
     dialogBackground: '#FFFFFF',
-    createWalletButton: '#007FFF',
     reactJsonBackground: '#F7F7F7',
     buttonDisabled: '#BFDFFF',
   },
@@ -314,7 +312,6 @@ const darkTheme = {
       },
     },
     dialogBackground: '#1D1E22',
-    createWalletButton: '#379AFE',
     reactJsonBackground: '#25282D',
     buttonDisabled: '#273746',
   },

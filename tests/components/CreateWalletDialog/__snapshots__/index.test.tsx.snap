@@ -4,7 +4,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
 <div
   PaperProps={
     Object {
-      "className": "HookGlobalStyles-dialog-9",
+      "className": "HookGlobalStyles-dialog-8",
     }
   }
   fullScreen={false}
@@ -14,7 +14,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
   open={false}
 >
   <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-3"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
     disabled={false}
     onBlur={[Function]}
     onClick={[MockFunction]}
@@ -51,14 +51,129 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
     <h2
       className="MuiTypography-root MuiTypography-h6"
     >
-      common:access my wallet title
+      common:create wallet title
     </h2>
   </div>
   <div
-    id="AccessMyWallet"
-    onConfirm={[Function]}
-    onCreateWallet={[Function]}
-  />
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
+  >
+    <p
+      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    >
+      common:create wallet description
+    </p>
+    <div
+      className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-5"
+    >
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+      >
+        <button
+          className="MuiButtonBase-root HookGlobalStyles-selectionBox-4"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <div
+            className="MuiBox-root MuiBox-root-11"
+          >
+            <svg
+              data-file-name="SvgLogin_light"
+            />
+          </div>
+          <p
+            className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+          >
+            common:i have mnemonic phrase
+          </p>
+          <span
+            className="MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+      >
+        <button
+          className="MuiButtonBase-root HookGlobalStyles-selectionBox-4"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <div
+            className="MuiBox-root MuiBox-root-12"
+          >
+            <svg
+              data-file-name="SvgCreate_wallet_light"
+            />
+          </div>
+          <p
+            className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+          >
+            common:i dont have mnemonic phrase
+          </p>
+          <span
+            className="MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-button-1 MuiButton-textPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:what is mnemonic phrase
+      </span>
+      <span
+        className="MuiTouchRipple-root"
+      />
+    </button>
+  </div>
 </div>
 `;
 
@@ -66,7 +181,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
 <div
   PaperProps={
     Object {
-      "className": "HookGlobalStyles-dialog-9",
+      "className": "HookGlobalStyles-dialog-8",
     }
   }
   fullScreen={false}
@@ -76,7 +191,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
   open={true}
 >
   <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-3"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
     disabled={false}
     onBlur={[Function]}
     onClick={[MockFunction]}
@@ -110,13 +225,119 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
     <h2
       className="MuiTypography-root MuiTypography-h6"
     >
-      common:access my wallet title
+      common:create wallet title
     </h2>
   </div>
   <div
-    id="AccessMyWallet"
-    onConfirm={[Function]}
-    onCreateWallet={[Function]}
-  />
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
+  >
+    <p
+      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    >
+      common:create wallet description
+    </p>
+    <div
+      className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-5"
+    >
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+      >
+        <button
+          className="MuiButtonBase-root HookGlobalStyles-selectionBox-4"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <div
+            className="MuiBox-root MuiBox-root-9"
+          >
+            <svg
+              data-file-name="SvgLogin_light"
+            />
+          </div>
+          <p
+            className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+          >
+            common:i have mnemonic phrase
+          </p>
+        </button>
+      </div>
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+      >
+        <button
+          className="MuiButtonBase-root HookGlobalStyles-selectionBox-4"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <div
+            className="MuiBox-root MuiBox-root-10"
+          >
+            <svg
+              data-file-name="SvgCreate_wallet_light"
+            />
+          </div>
+          <p
+            className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+          >
+            common:i dont have mnemonic phrase
+          </p>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-button-1 MuiButton-textPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        common:what is mnemonic phrase
+      </span>
+    </button>
+  </div>
 </div>
 `;

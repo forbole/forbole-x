@@ -35,7 +35,7 @@ const CreateWallet: React.FC<CreateWalletProps> = ({ mnemonic, onConfirm }) => {
       </DialogContent>
       <DialogActions>
         <Box flex={1} display="flex" flexDirection="column" mb={3}>
-          <Button className={classes.createWalletButton} variant="contained" type="submit">
+          <Button className={classes.button} color="primary" variant="contained" type="submit">
             {t('create new wallet button')}
           </Button>
           <Typography align="center">{t('create new wallet caption')}</Typography>

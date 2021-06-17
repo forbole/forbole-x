@@ -6,13 +6,6 @@ const useStyles = makeStyles(
     button: {
       flex: 1,
       margin: theme.spacing(2),
-      color: theme.palette.createWalletButton,
-    },
-    createWalletButton: {
-      flex: 1,
-      margin: theme.spacing(2),
-      background: theme.palette.createWalletButton,
-      color: 'white',
     },
     closeButton: {
       position: 'absolute',

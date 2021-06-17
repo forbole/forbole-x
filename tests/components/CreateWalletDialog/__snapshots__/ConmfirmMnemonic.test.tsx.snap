@@ -6,7 +6,7 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic calls onConfirm with co
   onSubmit={[Function]}
 >
   <div
-    className="MuiDialogContent-root HookGlobalStyles-dialogContent-8"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
     <p
       className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -19,7 +19,7 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic calls onConfirm with co
       onChange={[Function]}
     />
     <div
-      className="MuiBox-root MuiBox-root-14"
+      className="MuiBox-root MuiBox-root-13"
     >
       <p
         className="MuiTypography-root MuiTypography-body2 MuiTypography-colorError"
@@ -32,7 +32,7 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic calls onConfirm with co
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-15"
+      className="MuiBox-root MuiBox-root-14"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
@@ -71,7 +71,7 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic renders default state c
   onSubmit={[Function]}
 >
   <div
-    className="MuiDialogContent-root HookGlobalStyles-dialogContent-8"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
     <p
       className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -84,7 +84,7 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic renders default state c
       onChange={[Function]}
     />
     <div
-      className="MuiBox-root MuiBox-root-10"
+      className="MuiBox-root MuiBox-root-9"
     >
       <p
         className="MuiTypography-root MuiTypography-body2 MuiTypography-colorError"
@@ -97,7 +97,7 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic renders default state c
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-11"
+      className="MuiBox-root MuiBox-root-10"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
@@ -133,7 +133,7 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic renders error state cor
   onSubmit={[Function]}
 >
   <div
-    className="MuiDialogContent-root HookGlobalStyles-dialogContent-8"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
     <p
       className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -146,7 +146,7 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic renders error state cor
       onChange={[Function]}
     />
     <div
-      className="MuiBox-root MuiBox-root-12"
+      className="MuiBox-root MuiBox-root-11"
     >
       <p
         className="MuiTypography-root MuiTypography-body2 MuiTypography-colorError"
@@ -159,7 +159,7 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic renders error state cor
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-13"
+      className="MuiBox-root MuiBox-root-12"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"

@@ -3,7 +3,7 @@
 exports[`component: CreateWalletDialog - AccessMyWallet renders correctly 1`] = `
 Array [
   <div
-    className="MuiDialogContent-root HookGlobalStyles-dialogContent-8"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
     <p
       className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -11,10 +11,10 @@ Array [
       common:access my wallet description
     </p>
     <div
-      className="MuiBox-root MuiBox-root-10"
+      className="MuiBox-root MuiBox-root-9"
     >
       <button
-        className="MuiButtonBase-root HookGlobalStyles-borderedButton-6"
+        className="MuiButtonBase-root HookGlobalStyles-borderedButton-5"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -43,7 +43,7 @@ Array [
         </p>
       </button>
       <button
-        className="MuiButtonBase-root HookGlobalStyles-borderedButton-6"
+        className="MuiButtonBase-root HookGlobalStyles-borderedButton-5"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -72,7 +72,7 @@ Array [
         </p>
       </button>
       <button
-        className="MuiButtonBase-root HookGlobalStyles-borderedButton-6"
+        className="MuiButtonBase-root HookGlobalStyles-borderedButton-5"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -106,7 +106,7 @@ Array [
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-button-1 MuiButton-textSecondary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-button-1 MuiButton-textPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[MockFunction]}

@@ -6,7 +6,7 @@ exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 
   onSubmit={[Function]}
 >
   <div
-    className="MuiDialogContent-root HookGlobalStyles-dialogContent-8"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
     <p
       className="MuiTypography-root MuiTypography-body1"
@@ -37,7 +37,7 @@ exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-10"
+      className="MuiBox-root MuiBox-root-9"
     >
       <p
         className="MuiTypography-root MuiTypography-body1"
@@ -60,7 +60,7 @@ exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-11"
+      className="MuiBox-root MuiBox-root-10"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary Mui-disabled Mui-disabled"
@@ -96,7 +96,7 @@ exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 
   onSubmit={[Function]}
 >
   <div
-    className="MuiDialogContent-root HookGlobalStyles-dialogContent-8"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
     <p
       className="MuiTypography-root MuiTypography-body1"
@@ -127,7 +127,7 @@ exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-12"
+      className="MuiBox-root MuiBox-root-11"
     >
       <p
         className="MuiTypography-root MuiTypography-body1"
@@ -150,7 +150,7 @@ exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-13"
+      className="MuiBox-root MuiBox-root-12"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary Mui-disabled Mui-disabled"

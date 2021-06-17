@@ -13,6 +13,7 @@ import SecurityPassword from './SecurityPassword'
 import ImportWallet from './ImportWallet'
 import AccessMyWallet from './AccessMyWallet'
 import WhatIsMnemonic from './WhatIsMnemonic'
+import Start from './Start'
 import ImportMnemonicBackup from './ImportMnemonicBackup'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import useStateHistory from '../../misc/useStateHistory'
@@ -29,7 +30,7 @@ export enum ImportStage {
 }
 
 export enum CommonStage {
-  // StartStage = 'start',
+  StartStage = 'start',
   AccessMyWalletStage = 'access my wallet',
   CreateWalletStage = 'create wallet',
   ConfirmMnemonicStage = 'confirm mnemonic',
@@ -44,6 +45,7 @@ type Stage = CommonStage | ImportStage
 interface CreateWalletDialogProps {
   open: boolean
   onClose(): void
+  initialStage?: Stage
 }
 
 interface Content {
@@ -51,14 +53,14 @@ interface Content {
   content: React.ReactNode
 }
 
-const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }) => {
+const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, initialStage }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
   const { addWallet } = useWalletsContext()
   const isMobile = useIsMobile()
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
-    CommonStage.AccessMyWalletStage
+    initialStage || CommonStage.StartStage
   )
   const [mnemonic, setMnemonic] = React.useState('')
   const [securityPassword, setSecurityPassword] = React.useState('')
@@ -69,9 +71,9 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
       setMnemonic('')
       setSecurityPassword('')
       setError('')
-      setStage(CommonStage.AccessMyWalletStage, true)
+      setStage(initialStage || CommonStage.StartStage, true)
     }
-  }, [open])
+  }, [open, initialStage])
 
   const createWallet = React.useCallback(async () => {
     const wallet = await sendMsgToChromeExt({ event: 'generateMnemonic' })
@@ -224,11 +226,22 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
           title: t('what is mnemonic phrase'),
           content: <WhatIsMnemonic />,
         }
-      default:
       case CommonStage.AccessMyWalletStage:
         return {
           title: t('access my wallet title'),
           content: <AccessMyWallet onConfirm={setStage} onCreateWallet={createWallet} />,
+        }
+      case CommonStage.StartStage:
+      default:
+        return {
+          title: t('create wallet title'),
+          content: (
+            <Start
+              onWhatIsMnemonicClick={() => setStage(CommonStage.WhatIsMnemonicStage)}
+              onCreateWalletClick={createWallet}
+              onImportWalletClick={() => setStage(CommonStage.AccessMyWalletStage)}
+            />
+          ),
         }
     }
   }, [stage, t])

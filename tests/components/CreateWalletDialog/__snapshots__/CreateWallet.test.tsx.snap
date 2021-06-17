@@ -6,7 +6,7 @@ exports[`component: CreateWalletDialog - CreateWallet renders correctly 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="MuiDialogContent-root HookGlobalStyles-dialogContent-8"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
     <p
       className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -18,17 +18,17 @@ exports[`component: CreateWalletDialog - CreateWallet renders correctly 1`] = `
       mnemonic="mnemonic"
     />
     <div
-      className="MuiBox-root MuiBox-root-10"
+      className="MuiBox-root MuiBox-root-9"
     />
   </div>
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-11"
+      className="MuiBox-root MuiBox-root-10"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-createWalletButton-2"
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary"
         disabled={false}
         onBlur={[Function]}
         onDragLeave={[Function]}

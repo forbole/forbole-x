@@ -5,10 +5,6 @@ const useStyles = makeStyles(
   (theme: CustomTheme) => ({
     button: {
       width: theme.spacing(16),
-      '&:disabled': {
-        backgroundColor: theme.palette.buttonDisabled,
-        color: 'white',
-      },
     },
     card: {
       marginTop: theme.spacing(1),

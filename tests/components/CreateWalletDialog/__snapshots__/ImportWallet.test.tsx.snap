@@ -6,7 +6,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="MuiDialogContent-root HookGlobalStyles-dialogContent-8"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
     <p
       className="MuiTypography-root MuiTypography-body1"
@@ -37,7 +37,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly 1`] = `
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-10"
+      className="MuiBox-root MuiBox-root-9"
     >
       <p
         className="MuiTypography-root MuiTypography-body1"
@@ -52,7 +52,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly 1`] = `
           className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-4"
         >
           <button
-            className="MuiButtonBase-root HookGlobalStyles-cryptoButton-7"
+            className="MuiButtonBase-root HookGlobalStyles-cryptoButton-6"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -71,7 +71,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly 1`] = `
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-11"
+              className="MuiBox-root MuiBox-root-10"
             >
               <div
                 className="MuiAvatar-root MuiAvatar-circle"
@@ -96,7 +96,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly 1`] = `
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-12"
+      className="MuiBox-root MuiBox-root-11"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary Mui-disabled Mui-disabled"
@@ -132,7 +132,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly with wal
   onSubmit={[Function]}
 >
   <div
-    className="MuiDialogContent-root HookGlobalStyles-dialogContent-8"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
     <p
       className="MuiTypography-root MuiTypography-body1"
@@ -163,7 +163,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly with wal
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-13"
+      className="MuiBox-root MuiBox-root-12"
     >
       <p
         className="MuiTypography-root MuiTypography-body1"
@@ -178,7 +178,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly with wal
           className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-4"
         >
           <button
-            className="MuiButtonBase-root HookGlobalStyles-cryptoButton-7"
+            className="MuiButtonBase-root HookGlobalStyles-cryptoButton-6"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -197,7 +197,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly with wal
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-14"
+              className="MuiBox-root MuiBox-root-13"
             >
               <div
                 className="MuiAvatar-root MuiAvatar-circle"
@@ -225,7 +225,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly with wal
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-15"
+      className="MuiBox-root MuiBox-root-14"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary Mui-disabled Mui-disabled"

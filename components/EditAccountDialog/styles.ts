@@ -76,10 +76,6 @@ const useStyles = makeStyles(
       [theme.breakpoints.down('sm')]: {
         marginLeft: 0,
       },
-      '&:disabled': {
-        backgroundColor: theme.palette.buttonDisabled,
-        color: 'white',
-      },
     },
     dialogButton: {
       flex: 1,
