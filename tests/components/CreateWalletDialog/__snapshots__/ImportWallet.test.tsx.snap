@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component: CreateWalletDialog - ImportWallet renders correctly 1`] = `
-Array [
+<form
+  noValidate={true}
+  onSubmit={[Function]}
+>
   <div
     className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
@@ -34,7 +37,7 @@ Array [
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-8"
+      className="MuiBox-root MuiBox-root-9"
     >
       <p
         className="MuiTypography-root MuiTypography-body1"
@@ -68,7 +71,7 @@ Array [
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-9"
+              className="MuiBox-root MuiBox-root-10"
             >
               <div
                 className="MuiAvatar-root MuiAvatar-circle"
@@ -88,18 +91,17 @@ Array [
         </div>
       </div>
     </div>
-  </div>,
+  </div>
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-10"
+      className="MuiBox-root MuiBox-root-11"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary Mui-disabled Mui-disabled"
         disabled={true}
         onBlur={[Function]}
-        onClick={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
@@ -111,7 +113,7 @@ Array [
         onTouchMove={[Function]}
         onTouchStart={[Function]}
         tabIndex={-1}
-        type="button"
+        type="submit"
       >
         <span
           className="MuiButton-label"
@@ -120,12 +122,15 @@ Array [
         </span>
       </button>
     </div>
-  </div>,
-]
+  </div>
+</form>
 `;
 
 exports[`component: CreateWalletDialog - ImportWallet renders correctly with wallet name 1`] = `
-Array [
+<form
+  noValidate={true}
+  onSubmit={[Function]}
+>
   <div
     className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
@@ -158,7 +163,7 @@ Array [
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-11"
+      className="MuiBox-root MuiBox-root-12"
     >
       <p
         className="MuiTypography-root MuiTypography-body1"
@@ -192,7 +197,7 @@ Array [
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-12"
+              className="MuiBox-root MuiBox-root-13"
             >
               <div
                 className="MuiAvatar-root MuiAvatar-circle"
@@ -215,18 +220,17 @@ Array [
         </div>
       </div>
     </div>
-  </div>,
+  </div>
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-13"
+      className="MuiBox-root MuiBox-root-14"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary Mui-disabled Mui-disabled"
         disabled={true}
         onBlur={[Function]}
-        onClick={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
@@ -238,7 +242,7 @@ Array [
         onTouchMove={[Function]}
         onTouchStart={[Function]}
         tabIndex={-1}
-        type="button"
+        type="submit"
       >
         <span
           className="MuiButton-label"
@@ -247,6 +251,6 @@ Array [
         </span>
       </button>
     </div>
-  </div>,
-]
+  </div>
+</form>
 `;

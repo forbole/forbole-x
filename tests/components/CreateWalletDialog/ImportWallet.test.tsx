@@ -37,16 +37,16 @@ describe('component: CreateWalletDialog - ImportWallet', () => {
     renderer.act(() => {
       component.root.findAllByType('button')[0].props.onClick()
     })
-    // Click second crypto
+    // // Click second crypto
+    // renderer.act(() => {
+    //   component.root.findAllByType('button')[1].props.onClick()
+    // })
+    // // Click second crypto again
+    // renderer.act(() => {
+    //   component.root.findAllByType('button')[1].props.onClick()
+    // })
     renderer.act(() => {
-      component.root.findAllByType('button')[1].props.onClick()
-    })
-    // Click second crypto again
-    renderer.act(() => {
-      component.root.findAllByType('button')[1].props.onClick()
-    })
-    renderer.act(() => {
-      last(component.root.findAllByType('button')).props.onClick()
+      component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
     })
     expect(onConfirm).toBeCalledWith('wallet', [Object.values(cryptocurrencies)[0].name])
   })

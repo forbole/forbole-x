@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component: CreateWalletDialog - ConfirmMnemonic calls onConfirm with correct params 1`] = `
-Array [
+<form
+  noValidate={true}
+  onSubmit={[Function]}
+>
   <div
     className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
@@ -16,7 +19,7 @@ Array [
       onChange={[Function]}
     />
     <div
-      className="MuiBox-root MuiBox-root-12"
+      className="MuiBox-root MuiBox-root-13"
     >
       <p
         className="MuiTypography-root MuiTypography-body2 MuiTypography-colorError"
@@ -24,18 +27,17 @@ Array [
         
       </p>
     </div>
-  </div>,
+  </div>
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-13"
+      className="MuiBox-root MuiBox-root-14"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary"
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
         disabled={false}
         onBlur={[Function]}
-        onClick={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
@@ -47,7 +49,7 @@ Array [
         onTouchMove={[Function]}
         onTouchStart={[Function]}
         tabIndex={0}
-        type="button"
+        type="submit"
       >
         <span
           className="MuiButton-label"
@@ -59,12 +61,15 @@ Array [
         />
       </button>
     </div>
-  </div>,
-]
+  </div>
+</form>
 `;
 
 exports[`component: CreateWalletDialog - ConfirmMnemonic renders default state correctly 1`] = `
-Array [
+<form
+  noValidate={true}
+  onSubmit={[Function]}
+>
   <div
     className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
@@ -79,7 +84,7 @@ Array [
       onChange={[Function]}
     />
     <div
-      className="MuiBox-root MuiBox-root-8"
+      className="MuiBox-root MuiBox-root-9"
     >
       <p
         className="MuiTypography-root MuiTypography-body2 MuiTypography-colorError"
@@ -87,18 +92,17 @@ Array [
         
       </p>
     </div>
-  </div>,
+  </div>
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-9"
+      className="MuiBox-root MuiBox-root-10"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary"
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
         disabled={false}
         onBlur={[Function]}
-        onClick={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
@@ -110,7 +114,7 @@ Array [
         onTouchMove={[Function]}
         onTouchStart={[Function]}
         tabIndex={0}
-        type="button"
+        type="submit"
       >
         <span
           className="MuiButton-label"
@@ -119,12 +123,15 @@ Array [
         </span>
       </button>
     </div>
-  </div>,
-]
+  </div>
+</form>
 `;
 
 exports[`component: CreateWalletDialog - ConfirmMnemonic renders error state correctly 1`] = `
-Array [
+<form
+  noValidate={true}
+  onSubmit={[Function]}
+>
   <div
     className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
@@ -139,7 +146,7 @@ Array [
       onChange={[Function]}
     />
     <div
-      className="MuiBox-root MuiBox-root-10"
+      className="MuiBox-root MuiBox-root-11"
     >
       <p
         className="MuiTypography-root MuiTypography-body2 MuiTypography-colorError"
@@ -147,18 +154,17 @@ Array [
         error
       </p>
     </div>
-  </div>,
+  </div>
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-11"
+      className="MuiBox-root MuiBox-root-12"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary"
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
         disabled={false}
         onBlur={[Function]}
-        onClick={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
@@ -170,7 +176,7 @@ Array [
         onTouchMove={[Function]}
         onTouchStart={[Function]}
         tabIndex={0}
-        type="button"
+        type="submit"
       >
         <span
           className="MuiButton-label"
@@ -182,6 +188,6 @@ Array [
         />
       </button>
     </div>
-  </div>,
-]
+  </div>
+</form>
 `;

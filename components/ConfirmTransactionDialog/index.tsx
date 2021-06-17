@@ -126,12 +126,8 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
 
   const validators = keyBy(transformValidators(validatorsData), 'address')
 
-  const [
-    stage,
-    setStage,
-    toPrevStage,
-    isPrevStageAvailable,
-  ] = useStateHistory<ConfirmTransactionStage>(ConfirmTransactionStage.ConfirmStage)
+  const [stage, setStage, toPrevStage, isPrevStageAvailable] =
+    useStateHistory<ConfirmTransactionStage>(ConfirmTransactionStage.ConfirmStage)
 
   const [loading, setLoading] = React.useState(false)
 
@@ -214,7 +210,16 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   }, [stage, t, transactionData, account, validators, wallet, confirm, successMessage, totalAmount])
 
   return (
-    <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose} fullScreen={isMobile}>
+    <Dialog
+      fullWidth
+      maxWidth="sm"
+      open={open}
+      onClose={onClose}
+      fullScreen={isMobile}
+      PaperProps={{
+        className: classes.dialog,
+      }}
+    >
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

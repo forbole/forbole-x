@@ -43,7 +43,7 @@ const AccessMyWallet: React.FC<AccessMyWalletProps> = ({ onConfirm, onCreateWall
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onCreateWallet} className={classes.button} color="secondary">
+        <Button onClick={onCreateWallet} className={classes.button} color="primary">
           {t('create a wallet')}
         </Button>
       </DialogActions>
