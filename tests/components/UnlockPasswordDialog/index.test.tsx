@@ -7,7 +7,11 @@ const mockWalletsContext = {
   unlockWallets: jest.fn().mockResolvedValue('done'),
   wallets: [],
 }
-
+jest.mock('next/router', () => ({
+  useRouter: () => ({
+    query: {},
+  }),
+}))
 jest.mock('@material-ui/core/Dialog', () => (props) => <div id="dialog" {...props} />)
 jest.mock('../../../components/PasswordInput', () => (props) => (
   <div id="PasswordInput" {...props} />

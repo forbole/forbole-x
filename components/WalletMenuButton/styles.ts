@@ -1,17 +1,31 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CustomTheme } from '../../misc/theme'
 
 const useStyles = makeStyles(
-  (theme) => ({
-    iconButton: {
-      marginLeft: theme.spacing(1),
+  (theme: CustomTheme) => ({
+    dialog: {
+      background: theme.palette.dialogBackground,
     },
-    menuItem: {
-      padding: theme.spacing(1, 3),
-      borderBottom: `1px solid ${theme.palette.grey[100]}`,
+    itemButton: {
+      flex: '1',
+      justifyContent: 'flex-start',
+    },
+    addAccountButton: {
+      backgroundColor:
+        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.background.paper,
+      flex: 1,
+      display: 'flex',
+      padding: theme.spacing(2, 2.5),
     },
     dialogButton: {
       flex: 1,
       margin: theme.spacing(4, 2),
+      color: 'white',
+    },
+    copyButton: {
+      flex: 1,
+      margin: theme.spacing(-1, 2),
+      color: 'white',
     },
     closeButton: {
       position: 'absolute',
@@ -22,6 +36,11 @@ const useStyles = makeStyles(
       position: 'absolute',
       top: theme.spacing(2),
       left: theme.spacing(2),
+    },
+    socialMediaButton: {
+      width: theme.spacing(5),
+      height: theme.spacing(7),
+      background: 'white',
     },
     passwordRequirement: {
       marginTop: theme.spacing(1),
@@ -35,6 +54,12 @@ const useStyles = makeStyles(
     },
     cryptoMenuItemAvatar: {
       minWidth: theme.spacing(4),
+    },
+    icon: {
+      color: theme.palette.grey[300],
+    },
+    networkText: {
+      marginLeft: theme.spacing(1),
     },
   }),
   {

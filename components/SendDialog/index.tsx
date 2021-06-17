@@ -3,32 +3,16 @@ import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
+import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import SelectRecipients from './SelectRecipients'
-import ConfirmSend from './ConfirmSend'
-import useStateHistory from '../../misc/useStateHistory'
-import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
-import {
-  formatTransactionMsg,
-  formatRawTransactionData,
-  formatTypeUrlTransactionMsg,
-} from '../../misc/formatTransactionMsg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import SecurityPassword from '../SecurityPasswordDialogContent'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import Success from './Success'
 import useIsMobile from '../../misc/useIsMobile'
-
-enum SendStage {
-  SelectRecipientsStage = 'select recipients',
-  ConfirmSendStage = 'confirm send',
-  SecurityPasswordStage = 'security password',
-  SuccessStage = 'success',
-}
+import useSignerInfo from '../../misc/useSignerInfo'
 
 interface SendDialogProps {
   account: Account
@@ -37,179 +21,66 @@ interface SendDialogProps {
   onClose(): void
 }
 
-interface Content {
-  title: string
-  content: React.ReactNode
-  dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-}
-
 const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open, onClose }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
   const isMobile = useIsMobile()
-  const [recipients, setRecipients] = React.useState<
-    Array<{ amount: { amount: number; denom: string }; address: string }>
-  >([])
-  const [memo, setMemo] = React.useState('')
-  const [totalAmount, setTotalAmount] = React.useState<TokenAmount>()
+  const signerInfo = useSignerInfo(account)
   const [loading, setLoading] = React.useState(false)
 
-  const { availableAmount, defaultGasFee } = React.useMemo(
-    () => ({
-      availableAmount: getTokenAmountFromDenoms(
-        availableTokens.coins,
-        availableTokens.tokens_prices
-      ),
-      defaultGasFee: getTokenAmountFromDenoms(
-        get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
-        availableTokens.tokens_prices
-      ),
-    }),
+  const availableAmount = React.useMemo(
+    () => getTokenAmountFromDenoms(availableTokens.coins, availableTokens.tokens_prices),
     [availableTokens]
   )
 
-  const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<SendStage>(
-    SendStage.SelectRecipientsStage
-  )
-
-  const transactionData = React.useMemo(
-    () => ({
-      address: account.address,
-      password,
-      transactions: recipients
-        .map((r) => {
-          const coinsToSend = getEquivalentCoinToSend(
-            r.amount,
-            availableTokens.coins,
-            availableTokens.tokens_prices
-          )
-          return formatTransactionMsg(account.crypto, {
-            type: 'send',
-            from: account.address,
-            to: r.address,
-            ...coinsToSend,
-          })
-        })
-        .filter((a) => a),
-      gasFee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
-      memo,
-    }),
-    [recipients, availableTokens, account, password, memo]
-  )
-
-  const confirmRecipients = React.useCallback(
-    (
-      r: Array<{ amount: { amount: number; denom: string }; address: string }>,
-      m: string,
-      ta: TokenAmount
+  const confirm = React.useCallback(
+    async (
+      recipients: Array<{ amount: { amount: number; denom: string }; address: string }>,
+      memo: string
     ) => {
-      setRecipients(r)
-      setMemo(m)
-      setTotalAmount(ta)
-      setStage(SendStage.ConfirmSendStage)
-    },
-    [setStage]
-  )
-
-  const sendTransactionMessage = React.useCallback(
-    async (securityPassword: string) => {
-      try {
-        setLoading(true)
-        await sendMsgToChromeExt({
-          event: 'signAndBroadcastTransactions',
-          data: {
-            securityPassword,
-            ...transactionData,
-            transactions: transactionData.transactions.map((msg) =>
-              formatTypeUrlTransactionMsg(msg)
-            ),
-          },
-        })
-        setLoading(false)
-        setStage(SendStage.SuccessStage, true)
-      } catch (err) {
-        setLoading(false)
-        console.log(err)
-      }
-    },
-    [transactionData]
-  )
-
-  const content: Content = React.useMemo(() => {
-    switch (stage) {
-      case SendStage.ConfirmSendStage:
-        return {
-          title: '',
-          dialogWidth: 'xs',
-          content: (
-            <ConfirmSend
-              account={account}
-              recipients={recipients}
-              totalAmount={totalAmount}
-              memo={memo}
-              gasFee={defaultGasFee}
-              rawTransactionData={formatRawTransactionData(account.crypto, transactionData)}
-              onConfirm={() => setStage(SendStage.SecurityPasswordStage)}
-            />
-          ),
-        }
-      case SendStage.SecurityPasswordStage:
-        return {
-          title: '',
-          dialogWidth: 'sm',
-          content: <SecurityPassword onConfirm={sendTransactionMessage} loading={loading} />,
-        }
-      case SendStage.SuccessStage:
-        return {
-          title: '',
-          dialogWidth: 'xs',
-          content: <Success onClose={onClose} account={account} totalAmount={totalAmount} />,
-        }
-      case SendStage.SelectRecipientsStage:
-      default:
-        return {
-          title: t('send'),
-          content: (
-            <SelectRecipients
-              account={account}
-              availableAmount={availableAmount}
-              onConfirm={confirmRecipients}
-            />
-          ),
-        }
-    }
-  }, [stage, t])
-
-  React.useEffect(() => {
-    if (open) {
-      setRecipients([])
-      setMemo('')
-      setTotalAmount(undefined)
+      setLoading(true)
+      await invoke(window, 'forboleX.sendTransaction', password, account.address, {
+        msgs: recipients
+          .map((r) => {
+            const coinsToSend = getEquivalentCoinToSend(
+              r.amount,
+              availableTokens.coins,
+              availableTokens.tokens_prices
+            )
+            return {
+              type: 'cosmos-sdk/MsgSend',
+              value: {
+                from_address: account.address,
+                to_address: r.address,
+                amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
+              },
+            }
+          })
+          .filter((a) => a),
+        fee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
+        memo,
+        ...signerInfo,
+      })
       setLoading(false)
-      setStage(SendStage.SelectRecipientsStage, true)
-    }
-  }, [open])
+      onClose()
+    },
+    [signerInfo, availableTokens]
+  )
 
   return (
-    <Dialog
-      fullWidth
-      maxWidth={content.dialogWidth || 'md'}
-      open={open}
-      onClose={onClose}
-      fullScreen={isMobile}
-    >
-      {isPrevStageAvailable ? (
-        <IconButton className={classes.backButton} onClick={toPrevStage}>
-          <BackIcon {...iconProps} />
-        </IconButton>
-      ) : null}
+    <Dialog fullWidth maxWidth="md" open={open} onClose={onClose} fullScreen={isMobile}>
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
-      {content.title ? <DialogTitle>{content.title}</DialogTitle> : null}
-      {content.content}
+      <DialogTitle>{t('send')}</DialogTitle>
+      <SelectRecipients
+        loading={loading}
+        account={account}
+        availableAmount={availableAmount}
+        onConfirm={confirm}
+      />
     </Dialog>
   )
 }

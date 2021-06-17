@@ -8,6 +8,7 @@ import {
   Typography,
   Grid,
   useTheme,
+  CircularProgress,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -22,6 +23,7 @@ interface SelectValidatorsProps {
   crypto: Cryptocurrency
   validator: Validator
   availableAmount: TokenAmount
+  loading: boolean
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
@@ -29,6 +31,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   availableAmount,
   onConfirm,
   crypto,
+  loading,
 }) => {
   const { amount: totalAmount, price } = Object.values(availableAmount)[0]
   const { t, lang } = useTranslation('common')
@@ -131,10 +134,10 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             variant="contained"
             className={classes.button}
             color="primary"
-            disabled={!Number(amount) || Number(amount) > totalAmount}
+            disabled={loading || !Number(amount) || Number(amount) > totalAmount}
             onClick={() => onConfirm(Number(amount), denom, memo)}
           >
-            {t('next')}
+            {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </DialogActions>

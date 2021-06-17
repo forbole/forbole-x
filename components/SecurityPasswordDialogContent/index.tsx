@@ -22,11 +22,13 @@ interface Content {
 interface SecurityPasswordDialogContentProps {
   onConfirm(password: string): void
   loading: boolean
+  walletId: string
 }
 
 const SecurityPasswordDialogContent: React.FC<SecurityPasswordDialogContentProps> = ({
   onConfirm,
   loading,
+  walletId,
 }) => {
   const { t } = useTranslation('common')
   const { reset } = useWalletsContext()
@@ -45,15 +47,12 @@ const SecurityPasswordDialogContent: React.FC<SecurityPasswordDialogContentProps
   const cancel = React.useCallback(() => {
     setStage(SecurityPasswordDialogContentStage.UnlockPasswordStage)
   }, [setStage])
-
-  const { unlockWallets } = useWalletsContext()
   const [error, setError] = React.useState('')
   const [password, setPassword] = React.useState('')
 
   const onButtonClick = React.useCallback(async () => {
     try {
       setError('')
-      await unlockWallets(password)
       onConfirm(password)
     } catch (err) {
       setError(t(err.message))
@@ -83,6 +82,7 @@ const SecurityPasswordDialogContent: React.FC<SecurityPasswordDialogContentProps
               password={password}
               setPassword={setPassword}
               loading={loading}
+              walletId={walletId}
             />
           ),
           title: t('security password title'),
