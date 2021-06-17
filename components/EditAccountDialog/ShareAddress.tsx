@@ -43,7 +43,7 @@ const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
 
   return (
     <>
-      <DialogContent>
+      <DialogContent className={classes.dialogContent}>
         <Box my={2} display="flex">
           <Box>
             <Typography>{t('address')}</Typography>

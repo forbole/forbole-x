@@ -164,7 +164,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
       onClose={onClose}
       fullScreen={isMobile}
       PaperProps={{
-        className: classes.dialogContent,
+        className: classes.dialog,
       }}
     >
       {isPrevStageAvailable ? (

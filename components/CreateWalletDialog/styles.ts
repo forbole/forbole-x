@@ -6,6 +6,12 @@ const useStyles = makeStyles(
     button: {
       flex: 1,
       margin: theme.spacing(2),
+      color: theme.palette.createWalletButton,
+    },
+    createWalletButton: {
+      flex: 1,
+      margin: theme.spacing(2),
+      background: theme.palette.createWalletButton,
       color: 'white',
     },
     closeButton: {
@@ -58,6 +64,9 @@ const useStyles = makeStyles(
     },
     dialogContent: {
       overflowY: 'initial',
+    },
+    dialog: {
+      background: theme.palette.dialogBackground,
     },
   }),
   {

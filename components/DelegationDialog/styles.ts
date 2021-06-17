@@ -27,6 +27,8 @@ const useStyles = makeStyles(
     },
     dialogContent: {
       overflowY: 'auto',
+    },
+    dialog: {
       background: theme.palette.dialogBackground,
     },
     marginLeft: {

@@ -56,19 +56,7 @@ describe('component: CreateWalletDialog', () => {
         .findByProps({
           id: 'AccessMyWallet',
         })
-        .props.onClick()
-    })
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
-  it('renders what is mnemonic stage correctly', async () => {
-    const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
-    renderer.act(() => {
-      component.root
-        .findByProps({
-          id: 'AccessMyWallet',
-        })
-        .props.onWhatIsMnemonicClick()
+        .props.onConfirm(ImportStage)
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -111,7 +99,7 @@ describe('component: CreateWalletDialog', () => {
         .findByProps({
           id: 'AccessMyWallet',
         })
-        .props.onCreateWalletClick()
+        .props.onCreateWallet()
     })
     expect(sendMsgToChromeExt).toBeCalledWith({ event: 'generateMnemonic' })
     const tree = component.toJSON()
@@ -125,7 +113,7 @@ describe('component: CreateWalletDialog', () => {
         .findByProps({
           id: 'AccessMyWallet',
         })
-        .props.onCreateWalletClick()
+        .props.onCreateWallet()
     })
     renderer.act(() => {
       component.root
@@ -145,7 +133,7 @@ describe('component: CreateWalletDialog', () => {
         .findByProps({
           id: 'AccessMyWallet',
         })
-        .props.onCreateWalletClick()
+        .props.onCreateWallet()
     })
     renderer.act(() => {
       component.root
@@ -172,7 +160,7 @@ describe('component: CreateWalletDialog', () => {
         .findByProps({
           id: 'AccessMyWallet',
         })
-        .props.onCreateWalletClick()
+        .props.onCreateWallet()
     })
     renderer.act(() => {
       component.root
@@ -199,7 +187,7 @@ describe('component: CreateWalletDialog', () => {
         .findByProps({
           id: 'AccessMyWallet',
         })
-        .props.onCreateWalletClick()
+        .props.onCreateWallet()
     })
     renderer.act(() => {
       component.root
@@ -233,7 +221,7 @@ describe('component: CreateWalletDialog', () => {
         .findByProps({
           id: 'AccessMyWallet',
         })
-        .props.onCreateWalletClick()
+        .props.onCreateWallet()
     })
     renderer.act(() => {
       component.root
@@ -277,18 +265,6 @@ describe('component: CreateWalletDialog', () => {
     )
     expect(onClose).toBeCalled()
   })
-  it('renders access my wallet stage correctly when onImportWalletClick is called from Start', async () => {
-    const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
-    await renderer.act(async () => {
-      await component.root
-        .findByProps({
-          id: 'AccessMyWallet',
-        })
-        .props.onClick()
-    })
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
   it('renders import mnemonic phrase stage correctly when onConfirm is called from AccessMyWallet', async () => {
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
     await renderer.act(async () => {
@@ -296,15 +272,15 @@ describe('component: CreateWalletDialog', () => {
         .findByProps({
           id: 'AccessMyWallet',
         })
-        .props.onClick()
-    })
-    renderer.act(() => {
-      component.root
-        .findByProps({
-          id: 'AccessMyWallet',
-        })
         .props.onConfirm(ImportStage.ImportMnemonicPhraseStage)
     })
+    // renderer.act(() => {
+    //   component.root
+    //     .findByProps({
+    //       id: 'AccessMyWallet',
+    //     })
+    //     .props.onConfirm(ImportStage.ImportMnemonicPhraseStage)
+    // })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
@@ -313,13 +289,6 @@ describe('component: CreateWalletDialog', () => {
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
     await renderer.act(async () => {
       await component.root
-        .findByProps({
-          id: 'AccessMyWallet',
-        })
-        .props.onClick()
-    })
-    renderer.act(() => {
-      component.root
         .findByProps({
           id: 'AccessMyWallet',
         })
@@ -349,13 +318,6 @@ describe('component: CreateWalletDialog', () => {
         })
         .props.onConfirm(ImportStage.ImportMnemonicPhraseStage)
     })
-    // renderer.act(() => {
-    //   component.root
-    //     .findByProps({
-    //       id: 'AccessMyWallet',
-    //     })
-    //     .props.onConfirm(ImportStage.ImportMnemonicPhraseStage)
-    // })
     await renderer.act(async () => {
       await component.root
         .findByProps({
@@ -379,13 +341,6 @@ describe('component: CreateWalletDialog', () => {
         })
         .props.onConfirm(ImportStage.MnemonicPhraseBackupStage)
     })
-    // renderer.act(() => {
-    //   component.root
-    //     .findByProps({
-    //       id: 'AccessMyWallet',
-    //     })
-    //     .props.onConfirm(ImportStage.MnemonicPhraseBackupStage)
-    // })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
@@ -422,22 +377,15 @@ describe('component: CreateWalletDialog', () => {
   it('renders error state when invalid mnemonic phrase backup is imported', async () => {
     ;(sendMsgToChromeExt as jest.Mock).mockRejectedValueOnce(new Error('invalid mnemonic'))
     const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
-    // await renderer.act(async () => {
-    //   await component.root
-    //     .findByProps({
-    //       id: 'AccessMyWallet',
-    //     })
-    //     .props.onImportWalletClick()
-    // })
-    renderer.act(() => {
+    await renderer.act(async () => {
       component.root
         .findByProps({
           id: 'AccessMyWallet',
         })
         .props.onConfirm(ImportStage.MnemonicPhraseBackupStage)
     })
-    await renderer.act(async () => {
-      await component.root
+    renderer.act(() => {
+      component.root
         .findByProps({
           id: 'ImportMnemonicBackup',
         })

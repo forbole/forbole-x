@@ -24,7 +24,7 @@ const RemoveAccount: React.FC<RemoveAccountProps> = ({ onClose, address }) => {
 
   return (
     <>
-      <DialogContent>
+      <DialogContent className={classes.dialogContent}>
         <Typography>{t('remove wallet warning')}</Typography>
       </DialogContent>
       <DialogActions>

@@ -34,9 +34,9 @@ const ConfirmMnemonic: React.FC<ConfirmMnemonicProps> = ({ onConfirm, error, des
         </Box>
       </DialogContent>
       <DialogActions>
-        <Box flex={1} display="flex" flexDirection="column" mb={3}>
+        <Box flex={1} px={2} display="flex" flexDirection="column" mb={3}>
           <Button
-            className={classes.button}
+            // className={classes.button}
             variant="contained"
             color="primary"
             onClick={() => onConfirm(mnemonic)}

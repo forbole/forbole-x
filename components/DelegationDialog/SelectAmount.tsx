@@ -25,7 +25,7 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availab
 
   return (
     <>
-      <DialogContent>
+      <DialogContent className={classes.dialogContent}>
         <Box mb={32}>
           <Typography className={classes.marginBottom}>
             {t('available amount')}{' '}

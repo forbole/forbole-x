@@ -137,19 +137,6 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
     <>
       <DialogContent className={classes.dialogContent}>
         <Box mb={10}>
-          {/* <Tabs
-            className={classes.tabs}
-            value={currentTab}
-            classes={{
-              indicator: classes.tabIndicator,
-            }}
-            centered
-            onChange={(e, v) => setCurrentTab(v)}
-          >
-            {tabs.map((tab) => (
-              <Tab className={classes.tab} key={tab.label} label={t(tab.label)} />
-            ))}
-          </Tabs> */}
           <Box mt={4} mb={2}>
             <Typography className={classes.totalReward}>
               {t('total reward amount')}&nbsp;

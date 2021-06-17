@@ -252,7 +252,7 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({
       onClose={onClose}
       fullScreen={isMobile}
       PaperProps={{
-        className: classes.dialogContent,
+        className: classes.dialog,
       }}
     >
       {isPrevStageAvailable ? (

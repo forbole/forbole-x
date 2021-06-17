@@ -16,7 +16,7 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({ account, onNext }
 
   return (
     <>
-      <DialogContent>
+      <DialogContent className={classes.dialogContent}>
         <Box my={2}>
           <Box>
             <Box mb={2}>

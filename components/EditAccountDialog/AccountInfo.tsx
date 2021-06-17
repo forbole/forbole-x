@@ -35,7 +35,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
 
   return (
     <>
-      <DialogContent>
+      <DialogContent className={classes.dialogContent}>
         <Box mb={6}>
           <Box mb={4}>
             <Typography className={classes.marginBottom}>{t('moniker')}</Typography>

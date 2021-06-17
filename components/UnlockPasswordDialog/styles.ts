@@ -14,7 +14,7 @@ const useStyles = makeStyles(
         color: 'white',
       },
     },
-    dialogContent: {
+    dialog: {
       background: theme.palette.dialogBackground,
     },
     resetButton: {

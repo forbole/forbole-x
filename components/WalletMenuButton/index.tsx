@@ -105,6 +105,7 @@ const WalletMenuButton: React.FC<MenuDialogProps> = ({ walletId, walletName }) =
   return (
     <>
       <IconButton
+        id="123"
         onClick={() => onOpenDialog('edit account')}
         style={{ paddingRight: theme.spacing(0) }}
       >

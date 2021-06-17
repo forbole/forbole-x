@@ -88,7 +88,7 @@ const UnlockPasswordDialog: React.FC = () => {
       open={!(wallets.length !== 0 || isReset)}
       fullScreen={isMobile}
       PaperProps={{
-        className: classes.dialogContent,
+        className: classes.dialog,
       }}
     >
       {isPrevStageAvailable && stage !== 'unlock' ? (

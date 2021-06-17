@@ -64,6 +64,15 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
   const [securityPassword, setSecurityPassword] = React.useState('')
   const [error, setError] = React.useState('')
 
+  React.useEffect(() => {
+    if (open) {
+      setMnemonic('')
+      setSecurityPassword('')
+      setError('')
+      setStage(CommonStage.AccessMyWalletStage, true)
+    }
+  }, [open])
+
   const createWallet = React.useCallback(async () => {
     const wallet = await sendMsgToChromeExt({ event: 'generateMnemonic' })
     setMnemonic(wallet.mnemonic)
@@ -225,7 +234,15 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
   }, [stage, t])
 
   return (
-    <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
+    <Dialog
+      fullWidth
+      open={open}
+      onClose={onClose}
+      fullScreen={isMobile}
+      PaperProps={{
+        className: classes.dialog,
+      }}
+    >
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

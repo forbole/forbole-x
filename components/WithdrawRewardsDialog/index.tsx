@@ -83,7 +83,7 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
       onClose={onClose}
       fullScreen={isMobile}
       PaperProps={{
-        className: classes.dialogContent,
+        className: classes.dialog,
       }}
     >
       <IconButton className={classes.closeButton} onClick={onClose}>

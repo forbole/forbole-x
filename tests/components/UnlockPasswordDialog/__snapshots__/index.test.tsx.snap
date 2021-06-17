@@ -4,7 +4,7 @@ exports[`component: UnlockPasswordDialog renders correctly 1`] = `
 <div
   PaperProps={
     Object {
-      "className": "HookGlobalStyles-dialogContent-3",
+      "className": "HookGlobalStyles-dialog-3",
     }
   }
   fullScreen={false}
@@ -97,7 +97,7 @@ exports[`component: UnlockPasswordDialog renders correctly when password is chan
 <div
   PaperProps={
     Object {
-      "className": "HookGlobalStyles-dialogContent-3",
+      "className": "HookGlobalStyles-dialog-3",
     }
   }
   fullScreen={false}
@@ -196,7 +196,7 @@ exports[`component: UnlockPasswordDialog renders error state correctly 1`] = `
 <div
   PaperProps={
     Object {
-      "className": "HookGlobalStyles-dialogContent-3",
+      "className": "HookGlobalStyles-dialog-3",
     }
   }
   fullScreen={false}
@@ -292,7 +292,7 @@ exports[`component: UnlockPasswordDialog renders non empty password correctly 1`
 <div
   PaperProps={
     Object {
-      "className": "HookGlobalStyles-dialogContent-3",
+      "className": "HookGlobalStyles-dialog-3",
     }
   }
   fullScreen={false}
@@ -388,7 +388,7 @@ exports[`component: UnlockPasswordDialog renders non empty wallets correctly 1`]
 <div
   PaperProps={
     Object {
-      "className": "HookGlobalStyles-dialogContent-3",
+      "className": "HookGlobalStyles-dialog-3",
     }
   }
   fullScreen={false}

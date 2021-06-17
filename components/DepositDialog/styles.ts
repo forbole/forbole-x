@@ -8,18 +8,12 @@ const useStyles = makeStyles(
       marginTop: theme.spacing(2),
     },
     button: {
-      // width: theme.spacing(16),
       flex: 1,
     },
     closeButton: {
       position: 'absolute',
       top: theme.spacing(2),
       right: theme.spacing(2),
-    },
-    voteButton: {
-      // position: 'absolute',
-      // top: theme.spacing(2),
-      // right: theme.spacing(2),
     },
     backButton: {
       position: 'absolute',
@@ -28,6 +22,9 @@ const useStyles = makeStyles(
     },
     dialogContent: {
       overflowY: 'auto',
+    },
+    dialog: {
+      background: theme.palette.dialogBackground,
     },
     validatorAvatar: {
       width: theme.spacing(3.5),
