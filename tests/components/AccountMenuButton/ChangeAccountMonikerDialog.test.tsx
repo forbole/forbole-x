@@ -46,7 +46,7 @@ describe('component: ChangeAccountMonikerDialog', () => {
       component.root.findByType('input').props.onChange({ target: { value: 'new name' } })
     })
     await renderer.act(async () => {
-      await component.root.findAllByType('button')[1].props.onClick()
+      await component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
     })
     expect(updateAccount).toBeCalledWith('123', { name: 'new name' })
     expect(onClose).toBeCalled()
@@ -61,7 +61,7 @@ describe('component: ChangeAccountMonikerDialog', () => {
       component.root.findByType('input').props.onChange({ target: { value: 'new name' } })
     })
     await renderer.act(async () => {
-      await component.root.findAllByType('button')[1].props.onClick()
+      await component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
     })
     expect(updateAccount).toBeCalledWith('123', { name: 'new name' })
     expect(onClose).toBeCalledTimes(0)

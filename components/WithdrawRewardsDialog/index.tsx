@@ -45,17 +45,24 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
     async (delegations: Array<ValidatorTag>, memo: string) => {
       try {
         setLoading(true)
+        const msgs = delegations
+          .map((r) => ({
+            type: 'cosmos-sdk/MsgWithdrawDelegationReward',
+            value: {
+              delegator_address: account.address,
+              validator_address: r.address,
+            },
+          }))
+          .filter((a) => a)
         await invoke(window, 'forboleX.sendTransaction', password, account.address, {
-          msgs: delegations
-            .map((r) => ({
-              type: 'cosmos-sdk/MsgWithdrawDelegationReward',
-              value: {
-                delegator_address: account.address,
-                validator_address: r.address,
-              },
-            }))
-            .filter((a) => a),
-          fee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
+          msgs,
+          fee: {
+            amount: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
+            gas: String(
+              msgs.length *
+                Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.claimRewards`, 0))
+            ),
+          },
           memo,
           ...signerInfo,
         })

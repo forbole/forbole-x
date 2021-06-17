@@ -12,14 +12,14 @@ jest.mock('../../../contexts/WalletsContext', () => ({
 }))
 ;(useWalletsContext as jest.Mock).mockReturnValue({ updateWallet })
 
-// describe('component: ChangeWalletMonikerDialog', () => {
-  // it('renders opened state correctly', () => {
-  //   const component = renderer.create(
-  //     <ChangeWalletMonikerDialog walletId="123" open onClose={onClose} />
-  //   )
-  //   const tree = component.toJSON()
-  //   expect(tree).toMatchSnapshot()
-  // })
+describe('component: ChangeWalletMonikerDialog', () => {
+  it('renders opened state correctly', () => {
+    const component = renderer.create(
+      <ChangeWalletMonikerDialog walletId="123" onClose={onClose} />
+    )
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
   // it('renders closed state correctly', () => {
   //   const component = renderer.create(
   //     <ChangeWalletMonikerDialog walletId="123" open={false} onClose={onClose} />
@@ -65,8 +65,8 @@ jest.mock('../../../contexts/WalletsContext', () => ({
   //   expect(updateWallet).toBeCalledWith('123', { name: 'new name' })
   //   expect(onClose).toBeCalledTimes(0)
   // })
-// })
+})
 
-// afterEach(() => {
-//   jest.clearAllMocks()
-// })
+afterEach(() => {
+  jest.clearAllMocks()
+})

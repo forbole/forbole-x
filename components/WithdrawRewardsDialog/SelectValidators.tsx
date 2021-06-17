@@ -134,7 +134,16 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   }, [])
 
   return (
-    <>
+    <form
+      noValidate
+      onSubmit={(e) => {
+        e.preventDefault()
+        onConfirm(
+          validatorList.filter((v) => v.isSelected === true),
+          value
+        )
+      }}
+    >
       <DialogContent className={classes.dialogContent}>
         <Box mb={10}>
           <Box mt={4} mb={2}>
@@ -231,18 +240,13 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                 .map((a) => a.amount)
                 .reduce((a, b) => a + b, 0)
             }
-            onClick={() =>
-              onConfirm(
-                validatorList.filter((v) => v.isSelected === true),
-                value
-              )
-            }
+            type="submit"
           >
             {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </DialogActions>
-    </>
+    </form>
   )
 }
 

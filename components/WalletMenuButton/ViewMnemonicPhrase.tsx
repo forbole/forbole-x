@@ -126,7 +126,13 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
   }, [encryptionPhrase])
 
   return (
-    <>
+    <form
+      noValidate
+      onSubmit={(e) => {
+        e.preventDefault()
+        onButtonClick()
+      }}
+    >
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={() => onPrev()}>
           <BackIcon {...iconProps} />
@@ -304,7 +310,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
                 className={classes.dialogButton}
                 variant="contained"
                 color="primary"
-                onClick={onButtonClick}
+                type="submit"
                 disabled={stage === Stage.BackupPassword && backupPassword.length < 6}
               >
                 {t(buttonText)}
@@ -322,7 +328,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
           {t('copied to clipboard')}
         </Alert>
       </Snackbar>
-    </>
+    </form>
   )
 }
 

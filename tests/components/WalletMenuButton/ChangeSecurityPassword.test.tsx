@@ -32,14 +32,14 @@ describe('component: ChangeSecurityPasswordDialog', () => {
       component.root.findByType('input').props.onChange({ target: { value: 'password' } })
     })
     await renderer.act(async () => {
-      await component.root.findAllByType('button')[0].props.onClick()
+      await component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
     })
     expect(viewMnemonicPhrase).toBeCalledWith('123', 'password')
     renderer.act(() => {
       component.root.findByType('input').props.onChange({ target: { value: 'new password' } })
     })
     await renderer.act(async () => {
-      await component.root.findAllByType('button')[0].props.onClick()
+      await component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
     })
     expect(updateWallet).toBeCalledWith('123', {
       securityPassword: 'password',
@@ -55,7 +55,7 @@ describe('component: ChangeSecurityPasswordDialog', () => {
       component.root.findByType('input').props.onChange({ target: { value: 'password' } })
     })
     await renderer.act(async () => {
-      await component.root.findAllByType('button')[0].props.onClick()
+      await component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
     })
     expect(viewMnemonicPhrase).toBeCalledWith('123', 'password')
     const tree = component.toJSON()

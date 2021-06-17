@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component: CreateWalletDialog - ImportWallet renders correctly 1`] = `
-Array [
+<form
+  noValidate={true}
+  onSubmit={[Function]}
+>
   <div
     className="MuiDialogContent-root HookGlobalStyles-dialogContent-8"
   >
@@ -88,7 +91,7 @@ Array [
         </div>
       </div>
     </div>
-  </div>,
+  </div>
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
@@ -99,7 +102,6 @@ Array [
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary Mui-disabled Mui-disabled"
         disabled={true}
         onBlur={[Function]}
-        onClick={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
@@ -111,7 +113,7 @@ Array [
         onTouchMove={[Function]}
         onTouchStart={[Function]}
         tabIndex={-1}
-        type="button"
+        type="submit"
       >
         <span
           className="MuiButton-label"
@@ -120,12 +122,15 @@ Array [
         </span>
       </button>
     </div>
-  </div>,
-]
+  </div>
+</form>
 `;
 
 exports[`component: CreateWalletDialog - ImportWallet renders correctly with wallet name 1`] = `
-Array [
+<form
+  noValidate={true}
+  onSubmit={[Function]}
+>
   <div
     className="MuiDialogContent-root HookGlobalStyles-dialogContent-8"
   >
@@ -215,7 +220,7 @@ Array [
         </div>
       </div>
     </div>
-  </div>,
+  </div>
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
@@ -226,7 +231,6 @@ Array [
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary Mui-disabled Mui-disabled"
         disabled={true}
         onBlur={[Function]}
-        onClick={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
@@ -238,7 +242,7 @@ Array [
         onTouchMove={[Function]}
         onTouchStart={[Function]}
         tabIndex={-1}
-        type="button"
+        type="submit"
       >
         <span
           className="MuiButton-label"
@@ -247,6 +251,6 @@ Array [
         </span>
       </button>
     </div>
-  </div>,
-]
+  </div>
+</form>
 `;

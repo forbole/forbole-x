@@ -65,7 +65,10 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
               },
             },
           ],
-          fee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
+          fee: {
+            amount: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
+            gas: get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.undelegate`, 0),
+          },
           memo,
           ...signerInfo,
         })

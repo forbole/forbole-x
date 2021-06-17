@@ -126,12 +126,8 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
 
   const validators = keyBy(transformValidators(validatorsData), 'address')
 
-  const [
-    stage,
-    setStage,
-    toPrevStage,
-    isPrevStageAvailable,
-  ] = useStateHistory<ConfirmTransactionStage>(ConfirmTransactionStage.ConfirmStage)
+  const [stage, setStage, toPrevStage, isPrevStageAvailable] =
+    useStateHistory<ConfirmTransactionStage>(ConfirmTransactionStage.ConfirmStage)
 
   const [loading, setLoading] = React.useState(false)
 

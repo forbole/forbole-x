@@ -12,12 +12,12 @@ jest.mock('../../../contexts/WalletsContext', () => ({
 }))
 ;(useWalletsContext as jest.Mock).mockReturnValue({ deleteWallet })
 
-// describe('component: DeleteWalletDialog', () => {
-  // it('renders opened state correctly', () => {
-  //   const component = renderer.create(<DeleteWalletDialog walletId="123" open onClose={onClose} />)
-  //   const tree = component.toJSON()
-  //   expect(tree).toMatchSnapshot()
-  // })
+describe('component: DeleteWalletDialog', () => {
+  it('renders opened state correctly', () => {
+    const component = renderer.create(<DeleteWalletDialog walletId="123" onClose={onClose} />)
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
   // it('renders closed state correctly', () => {
   //   const component = renderer.create(
   //     <DeleteWalletDialog walletId="123" open={false} onClose={onClose} />
@@ -57,8 +57,8 @@ jest.mock('../../../contexts/WalletsContext', () => ({
   //   expect(deleteWallet).toBeCalledWith('123')
   //   expect(console.log).toBeCalledWith(new Error('error'))
   // })
-// })
+})
 
-// afterEach(() => {
-//   jest.clearAllMocks()
-// })
+afterEach(() => {
+  jest.clearAllMocks()
+})
