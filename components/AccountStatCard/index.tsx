@@ -88,9 +88,9 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
       >
         <Box mb={3} display="flex" alignItems="center" justifyContent="space-between">
           <AccountAvatar account={account} hideAddress />
-          <Button variant="outlined" className={classes.timeRangeButton}>
+          {/* <Button variant="outlined" className={classes.timeRangeButton}>
             {t('delegate')}
-          </Button>
+          </Button> */}
         </Box>
         <Box>
           {Object.keys(tokenAmounts).length ? (

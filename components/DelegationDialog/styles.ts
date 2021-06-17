@@ -9,7 +9,11 @@ const useStyles = makeStyles(
     card: {
       marginTop: theme.spacing(1),
       padding: theme.spacing(1, 2),
-      boxShadow: `${theme.spacing(0, 1, 5, -1.5)} rgb(0 0 0 / 30%)`,
+      boxShadow: theme.shadows[7],
+      position: 'absolute',
+      zIndex: 1000,
+      left: 0,
+      right: 0,
     },
     closeButton: {
       position: 'absolute',

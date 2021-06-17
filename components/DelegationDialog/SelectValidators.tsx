@@ -227,7 +227,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             <Grid item xs={6}>
               <Typography gutterBottom>{t('amount')}</Typography>
               {delegations.map((v, i) => (
-                <Box>
+                <Box position="relative">
                   <Box key={i.toString()} display="flex" alignItems="center" mt={i === 0 ? 0 : 1}>
                     <TextField
                       fullWidth
@@ -257,13 +257,25 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                     />
                     {isMobile ? null : (
                       <TextField
-                        onClick={() =>
+                        onFocus={() =>
                           setDelegations((d) =>
                             d.map((a, j) =>
                               j === i
                                 ? {
                                     ...a,
-                                    showSlider: !a.showSlider,
+                                    showSlider: true,
+                                  }
+                                : a
+                            )
+                          )
+                        }
+                        onBlur={() =>
+                          setDelegations((d) =>
+                            d.map((a, j) =>
+                              j === i
+                                ? {
+                                    ...a,
+                                    showSlider: false,
                                   }
                                 : a
                             )
