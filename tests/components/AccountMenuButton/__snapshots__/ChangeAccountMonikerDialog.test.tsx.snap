@@ -49,74 +49,70 @@ exports[`component: ChangeAccountMonikerDialog renders closed state correctly 1`
       common:change account moniker
     </h2>
   </div>
-  <form
-    noValidate={true}
-    onSubmit={[Function]}
+  <div
+    className="MuiDialogContent-root"
   >
     <div
-      className="MuiDialogContent-root"
+      className="MuiBox-root MuiBox-root-10"
     >
-      <div
-        className="MuiBox-root MuiBox-root-10"
+      <p
+        className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
       >
-        <p
-          className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
-        >
-          common:account moniker
-        </p>
+        common:account moniker
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
         <div
-          className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+          className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          onClick={[Function]}
         >
-          <div
-            className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
-            onClick={[Function]}
-          >
-            <input
-              aria-invalid={false}
-              autoFocus={true}
-              className="MuiInputBase-input MuiFilledInput-input"
-              disabled={false}
-              onAnimationStart={[Function]}
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              placeholder="common:account moniker"
-              required={false}
-              type="text"
-              value=""
-            />
-          </div>
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiFilledInput-input"
+            disabled={false}
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="common:account moniker"
+            required={false}
+            type="text"
+            value=""
+          />
         </div>
       </div>
     </div>
-    <div
-      className="MuiDialogActions-root MuiDialogActions-spacing"
+  </div>
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-2 MuiButton-containedPrimary Mui-disabled Mui-disabled"
+      disabled={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={-1}
+      type="button"
     >
-      <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-2 MuiButton-containedPrimary Mui-disabled Mui-disabled"
-        disabled={true}
-        onBlur={[Function]}
-        onDragLeave={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onMouseDown={[Function]}
-        onMouseLeave={[Function]}
-        onMouseUp={[Function]}
-        onTouchEnd={[Function]}
-        onTouchMove={[Function]}
-        onTouchStart={[Function]}
-        tabIndex={-1}
-        type="submit"
+      <span
+        className="MuiButton-label"
       >
-        <span
-          className="MuiButton-label"
-        >
-          common:next
-        </span>
-      </button>
-    </div>
-  </form>
+        common:next
+      </span>
+    </button>
+  </div>
 </div>
 `;
 
@@ -166,73 +162,69 @@ exports[`component: ChangeAccountMonikerDialog renders opened state correctly 1`
       common:change account moniker
     </h2>
   </div>
-  <form
-    noValidate={true}
-    onSubmit={[Function]}
+  <div
+    className="MuiDialogContent-root"
   >
     <div
-      className="MuiDialogContent-root"
+      className="MuiBox-root MuiBox-root-9"
     >
-      <div
-        className="MuiBox-root MuiBox-root-9"
+      <p
+        className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
       >
-        <p
-          className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
-        >
-          common:account moniker
-        </p>
+        common:account moniker
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
         <div
-          className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+          className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          onClick={[Function]}
         >
-          <div
-            className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
-            onClick={[Function]}
-          >
-            <input
-              aria-invalid={false}
-              autoFocus={true}
-              className="MuiInputBase-input MuiFilledInput-input"
-              disabled={false}
-              onAnimationStart={[Function]}
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              placeholder="common:account moniker"
-              required={false}
-              type="text"
-              value=""
-            />
-          </div>
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiFilledInput-input"
+            disabled={false}
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="common:account moniker"
+            required={false}
+            type="text"
+            value=""
+          />
         </div>
       </div>
     </div>
-    <div
-      className="MuiDialogActions-root MuiDialogActions-spacing"
+  </div>
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-2 MuiButton-containedPrimary Mui-disabled Mui-disabled"
+      disabled={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={-1}
+      type="button"
     >
-      <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-2 MuiButton-containedPrimary Mui-disabled Mui-disabled"
-        disabled={true}
-        onBlur={[Function]}
-        onDragLeave={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onMouseDown={[Function]}
-        onMouseLeave={[Function]}
-        onMouseUp={[Function]}
-        onTouchEnd={[Function]}
-        onTouchMove={[Function]}
-        onTouchStart={[Function]}
-        tabIndex={-1}
-        type="submit"
+      <span
+        className="MuiButton-label"
       >
-        <span
-          className="MuiButton-label"
-        >
-          common:next
-        </span>
-      </button>
-    </div>
-  </form>
+        common:next
+      </span>
+    </button>
+  </div>
 </div>
 `;

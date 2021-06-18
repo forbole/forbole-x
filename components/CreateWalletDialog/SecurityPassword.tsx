@@ -14,13 +14,7 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({ onConfirm }) => {
   const [password, setPassword] = React.useState('')
 
   return (
-    <form
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(password)
-      }}
-    >
+    <>
       <DialogContent className={classes.dialogContent}>
         <DialogContentText>{t('security password description')}</DialogContentText>
         <Box mb={30}>
@@ -39,13 +33,13 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({ onConfirm }) => {
             variant="contained"
             color="primary"
             disabled={password.length < 6}
-            type="submit"
+            onClick={() => onConfirm(password)}
           >
             {t('next')}
           </Button>
         </Box>
       </DialogActions>
-    </form>
+    </>
   )
 }
 

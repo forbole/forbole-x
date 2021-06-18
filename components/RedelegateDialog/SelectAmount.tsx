@@ -4,6 +4,7 @@ import {
   DialogActions,
   DialogContent,
   Typography,
+  Avatar,
   Grid,
   useTheme,
   TextField,
@@ -44,13 +45,7 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
   const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount)
 
   return (
-    <form
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(Number(amount), denom)
-      }}
-    >
+    <>
       <DialogContent className={classes.dialogContent}>
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
@@ -126,13 +121,13 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
             className={classes.button}
             color="primary"
             disabled={!Number(amount) || insufficientFund}
-            type="submit"
+            onClick={() => onConfirm(Number(amount), denom)}
           >
             {t('next')}
           </Button>
         </Box>
       </DialogActions>
-    </form>
+    </>
   )
 }
 

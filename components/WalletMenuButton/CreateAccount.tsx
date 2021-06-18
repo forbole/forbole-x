@@ -82,13 +82,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ walletId, onClose }) => {
   }
 
   return (
-    <form
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onNext()
-      }}
-    >
+    <>
       {stage === Stage.SuccessStage ? null : <DialogTitle>{t(`${stage} title`)}</DialogTitle>}
 
       <DialogContent>
@@ -277,7 +271,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ walletId, onClose }) => {
             className={classes.dialogButton}
             variant="contained"
             color="primary"
-            type="submit"
+            onClick={() => onNext()}
             disabled={!(crypto !== '' && name !== '')}
           >
             {t('next')}
@@ -288,7 +282,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ walletId, onClose }) => {
             className={classes.dialogButton}
             variant="contained"
             color="primary"
-            type="submit"
+            onClick={() => onNext()}
             disabled={!(importedCrypto !== '' && importedName !== '' && importedAddress !== '')}
           >
             {t('next')}
@@ -299,13 +293,13 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ walletId, onClose }) => {
             className={classes.dialogButton}
             variant="contained"
             color="primary"
-            type="submit"
+            onClick={() => onNext()}
           >
             {t('confirm')}
           </Button>
         ) : null}
       </DialogActions>
-    </form>
+    </>
   )
 }
 

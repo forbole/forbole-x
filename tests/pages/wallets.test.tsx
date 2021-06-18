@@ -6,13 +6,7 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 jest.mock('../../components/Layout', () => 'Layout')
 jest.mock('../../components/AccountCard', () => 'AccountCard')
 jest.mock('../../components/WalletMenuButton', () => 'WalletMenuButton')
-jest.mock('../../components/CreateWalletDialog', () => ({
-  __esModule: true,
-  default: 'CreateWalletDialog',
-  CommonStage: {
-    AccessMyWallet: 'access my wallet',
-  },
-}))
+jest.mock('../../components/CreateWalletDialog', () => 'CreateWalletDialog')
 jest.mock('../../contexts/WalletsContext', () => ({
   useWalletsContext: jest.fn(),
 }))

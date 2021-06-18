@@ -65,10 +65,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
               },
             },
           ],
-          fee: {
-            amount: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
-            gas: get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.undelegate`, 0),
-          },
+          fee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
           memo,
           ...signerInfo,
         })
@@ -89,16 +86,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
   }, [open])
 
   return (
-    <Dialog
-      fullWidth
-      maxWidth="md"
-      open={open}
-      onClose={onClose}
-      fullScreen={isMobile}
-      PaperProps={{
-        className: classes.dialog,
-      }}
-    >
+    <Dialog fullWidth maxWidth="md" open={open} onClose={onClose} fullScreen={isMobile}>
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>

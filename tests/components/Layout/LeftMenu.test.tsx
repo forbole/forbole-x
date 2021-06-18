@@ -19,24 +19,24 @@ describe('component: Layout - LeftMenu', () => {
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
-  // it('renders collapsed menu correctly', () => {
-  //   const component = renderer.create(
-  //     <LeftMenu activeItem="/" isMenuExpanded={false} setIsMenuExpanded={setIsMenuExpanded} />
-  //   )
-  //   const tree = component.toJSON()
-  //   expect(tree).toMatchSnapshot()
-  // })
-  // it('calls setIsMenuExpanded on logo click', () => {
-  //   const component = renderer.create(
-  //     <LeftMenu activeItem="/" isMenuExpanded={false} setIsMenuExpanded={setIsMenuExpanded} />
-  //   )
-  //   renderer.act(() => {
-  //     component.root
-  //       .findAllByProps({ className: 'MuiListItemIcon-root' })[0]
-  //       .parent.parent.parent.props.onClick()
-  //   })
-  //   expect(setIsMenuExpanded).toBeCalledWith(true)
-  // })
+  it('renders collapsed menu correctly', () => {
+    const component = renderer.create(
+      <LeftMenu activeItem="/" isMenuExpanded={false} setIsMenuExpanded={setIsMenuExpanded} />
+    )
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+  it('calls setIsMenuExpanded on logo click', () => {
+    const component = renderer.create(
+      <LeftMenu activeItem="/" isMenuExpanded={false} setIsMenuExpanded={setIsMenuExpanded} />
+    )
+    renderer.act(() => {
+      component.root
+        .findAllByProps({ className: 'MuiListItemIcon-root' })[0]
+        .parent.parent.parent.props.onClick()
+    })
+    expect(setIsMenuExpanded).toBeCalledWith(true)
+  })
 })
 
 afterEach(() => {

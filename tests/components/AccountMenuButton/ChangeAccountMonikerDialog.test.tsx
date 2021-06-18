@@ -31,7 +31,6 @@ describe('component: ChangeAccountMonikerDialog', () => {
     const component = renderer.create(
       <ChangeAccountMonikerDialog accountAddress="123" open onClose={onClose} />
     )
-    console.log('component', component.root.findAllByType('button')[0].props)
     renderer.act(() => {
       component.root.findAllByType('button')[0].props.onClick({ currentTarget: 'anchor' })
     })
@@ -46,7 +45,7 @@ describe('component: ChangeAccountMonikerDialog', () => {
       component.root.findByType('input').props.onChange({ target: { value: 'new name' } })
     })
     await renderer.act(async () => {
-      await component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
+      await component.root.findAllByType('button')[1].props.onClick()
     })
     expect(updateAccount).toBeCalledWith('123', { name: 'new name' })
     expect(onClose).toBeCalled()
@@ -61,7 +60,7 @@ describe('component: ChangeAccountMonikerDialog', () => {
       component.root.findByType('input').props.onChange({ target: { value: 'new name' } })
     })
     await renderer.act(async () => {
-      await component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
+      await component.root.findAllByType('button')[1].props.onClick()
     })
     expect(updateAccount).toBeCalledWith('123', { name: 'new name' })
     expect(onClose).toBeCalledTimes(0)

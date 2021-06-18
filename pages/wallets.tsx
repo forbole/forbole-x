@@ -6,7 +6,7 @@ import Layout from '../components/Layout'
 import AccountCard from '../components/AccountCard'
 import { useWalletsContext } from '../contexts/WalletsContext'
 import WalletMenuButton from '../components/WalletMenuButton/index'
-import CreateWalletDialog, { CommonStage } from '../components/CreateWalletDialog'
+import CreateWalletDialog from '../components/CreateWalletDialog'
 import { CustomTheme } from '../misc/theme'
 
 const Wallets: React.FC = () => {
@@ -19,7 +19,7 @@ const Wallets: React.FC = () => {
     <Layout passwordRequired activeItem="/wallets">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Typography gutterBottom variant="h1">
-          {t('wallet')}
+          {t('wallet manage')}
         </Typography>
         <Button
           style={{ color: theme.palette.button, border: '1px solid' }}
@@ -47,7 +47,6 @@ const Wallets: React.FC = () => {
       <CreateWalletDialog
         open={isCreateWalletDialogOpen}
         onClose={() => setIsCreateWalletDialogOpen(false)}
-        initialStage={CommonStage.AccessMyWalletStage}
       />
     </Layout>
   )

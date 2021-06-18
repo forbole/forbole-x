@@ -41,7 +41,12 @@ describe('component: OnboardingDialog', () => {
       <OnboardingDialog open onClose={onClose} onSubmit={onSubmit} />
     )
     renderer.act(() => {
-      component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
+      component.root
+        .findByProps({
+          variant: 'contained',
+          color: 'primary',
+        })
+        .props.onClick()
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -58,7 +63,12 @@ describe('component: OnboardingDialog', () => {
       })
     })
     renderer.act(() => {
-      component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
+      component.root
+        .findByProps({
+          variant: 'contained',
+          color: 'primary',
+        })
+        .props.onClick()
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -75,7 +85,12 @@ describe('component: OnboardingDialog', () => {
       })
     })
     renderer.act(() => {
-      component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
+      component.root
+        .findByProps({
+          variant: 'contained',
+          color: 'primary',
+        })
+        .props.onClick()
     })
     renderer.act(() => {
       component.root.findByType('PasswordInput' as any).props.onChange({
@@ -85,7 +100,12 @@ describe('component: OnboardingDialog', () => {
       })
     })
     renderer.act(() => {
-      component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
+      component.root
+        .findByProps({
+          variant: 'contained',
+          color: 'primary',
+        })
+        .props.onClick()
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -102,7 +122,12 @@ describe('component: OnboardingDialog', () => {
       })
     })
     renderer.act(() => {
-      component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
+      component.root
+        .findByProps({
+          variant: 'contained',
+          color: 'primary',
+        })
+        .props.onClick()
     })
     renderer.act(() => {
       component.root.findByType('PasswordInput' as any).props.onChange({
@@ -112,7 +137,12 @@ describe('component: OnboardingDialog', () => {
       })
     })
     renderer.act(() => {
-      component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
+      component.root
+        .findByProps({
+          variant: 'contained',
+          color: 'primary',
+        })
+        .props.onClick()
     })
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
