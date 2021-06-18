@@ -75,7 +75,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
           ? {
               ...a,
               percentage: String(((1 / delegations.length) * 100).toFixed(2)) || '',
-              amount: (amount * (1 / delegations.length)).toFixed(2),
+              amount: String(amount * (1 / delegations.length)),
             }
           : {
               ...a,
@@ -83,9 +83,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                 String(
                   (100 - (1 / delegations.length) * (delegations.length - 1) * 100).toFixed(2)
                 ) || '',
-              amount: (amount * (1 - (1 / delegations.length) * (delegations.length - 1))).toFixed(
-                2
-              ),
+              amount: String(amount * (1 - (1 / delegations.length) * (delegations.length - 1))),
             }
       )
     )
@@ -257,7 +255,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                     />
                     {isMobile ? null : (
                       <TextField
-                        onFocus={() =>
+                        onFocus={() => {
                           setDelegations((d) =>
                             d.map((a, j) =>
                               j === i
@@ -268,19 +266,19 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                                 : a
                             )
                           )
-                        }
-                        onBlur={() =>
-                          setDelegations((d) =>
-                            d.map((a, j) =>
-                              j === i
-                                ? {
-                                    ...a,
-                                    showSlider: false,
-                                  }
-                                : a
-                            )
-                          )
-                        }
+                          const closeSlider = (e) => {
+                            if (!e.target.className.includes('MuiSlider')) {
+                              window.removeEventListener('click', closeSlider)
+                              setDelegations((d) =>
+                                d.map((a, j) => ({
+                                  ...a,
+                                  showSlider: false,
+                                }))
+                              )
+                            }
+                          }
+                          setTimeout(() => window.addEventListener('click', closeSlider), 100)
+                        }}
                         className={classes.percentageTextField}
                         variant="filled"
                         placeholder="0"
