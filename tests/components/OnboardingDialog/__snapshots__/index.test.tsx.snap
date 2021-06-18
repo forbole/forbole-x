@@ -78,8 +78,8 @@ exports[`component: OnboardingDialog renders closed state correctly 1`] = `
       className="MuiDialogActions-root MuiDialogActions-spacing"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
-        disabled={false}
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary Mui-disabled Mui-disabled"
+        disabled={true}
         onBlur={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
@@ -91,7 +91,7 @@ exports[`component: OnboardingDialog renders closed state correctly 1`] = `
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
         onTouchStart={[Function]}
-        tabIndex={0}
+        tabIndex={-1}
         type="submit"
       >
         <span
@@ -99,9 +99,6 @@ exports[`component: OnboardingDialog renders closed state correctly 1`] = `
         >
           common:next
         </span>
-        <span
-          className="MuiTouchRipple-root"
-        />
       </button>
     </div>
   </form>
@@ -109,6 +106,111 @@ exports[`component: OnboardingDialog renders closed state correctly 1`] = `
 `;
 
 exports[`component: OnboardingDialog renders confirming password state when submit valid password 1`] = `
+<div
+  fullScreen={false}
+  fullWidth={true}
+  id="dialog"
+  onClose={[MockFunction]}
+  open={true}
+>
+  <button
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-3"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[MockFunction]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label"
+    >
+      <svg
+        data-file-name="SvgIcon_cross"
+        fill="#e0e0e0"
+        height={16}
+        width={16}
+      />
+    </span>
+    <span
+      className="MuiTouchRipple-root"
+    />
+  </button>
+  <div
+    className="MuiDialogTitle-root"
+  >
+    <h2
+      className="MuiTypography-root MuiTypography-h6"
+    >
+      common:set password title
+    </h2>
+  </div>
+  <form
+    noValidate={true}
+    onSubmit={[Function]}
+  >
+    <div
+      className="MuiDialogContent-root"
+    >
+      <p
+        className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+      >
+        common:set password description
+      </p>
+      <PasswordInput
+        error={true}
+        helperText="common:invalid password"
+        onChange={[Function]}
+        placeholder="common:password"
+        value=""
+      />
+      <p
+        className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
+      >
+        common:password caption
+      </p>
+    </div>
+    <div
+      className="MuiDialogActions-root MuiDialogActions-spacing"
+    >
+      <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary Mui-disabled Mui-disabled"
+        disabled={true}
+        onBlur={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={-1}
+        type="submit"
+      >
+        <span
+          className="MuiButton-label"
+        >
+          common:next
+        </span>
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`component: OnboardingDialog renders correctly when submit valid confirm password 1`] = `
 <div
   fullScreen={false}
   fullWidth={true}
@@ -186,8 +288,8 @@ exports[`component: OnboardingDialog renders confirming password state when subm
       className="MuiDialogActions-root MuiDialogActions-spacing"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
-        disabled={false}
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary Mui-disabled Mui-disabled"
+        disabled={true}
         onBlur={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
@@ -199,7 +301,7 @@ exports[`component: OnboardingDialog renders confirming password state when subm
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
         onTouchStart={[Function]}
-        tabIndex={0}
+        tabIndex={-1}
         type="submit"
       >
         <span
@@ -207,117 +309,6 @@ exports[`component: OnboardingDialog renders confirming password state when subm
         >
           common:confirm
         </span>
-        <span
-          className="MuiTouchRipple-root"
-        />
-      </button>
-    </div>
-  </form>
-</div>
-`;
-
-exports[`component: OnboardingDialog renders correctly when submit valid confirm password 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={[MockFunction]}
-  open={true}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-3"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[MockFunction]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:confirm password title
-    </h2>
-  </div>
-  <form
-    noValidate={true}
-    onSubmit={[Function]}
-  >
-    <div
-      className="MuiDialogContent-root"
-    >
-      <p
-        className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
-      >
-        common:confirm password description
-      </p>
-      <PasswordInput
-        error={false}
-        helperText=""
-        onChange={[Function]}
-        placeholder="common:password"
-        value="123456"
-      />
-      <p
-        className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
-      >
-        common:confirm password caption
-      </p>
-    </div>
-    <div
-      className="MuiDialogActions-root MuiDialogActions-spacing"
-    >
-      <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
-        disabled={false}
-        onBlur={[Function]}
-        onDragLeave={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onMouseDown={[Function]}
-        onMouseLeave={[Function]}
-        onMouseUp={[Function]}
-        onTouchEnd={[Function]}
-        onTouchMove={[Function]}
-        onTouchStart={[Function]}
-        tabIndex={0}
-        type="submit"
-      >
-        <span
-          className="MuiButton-label"
-        >
-          common:confirm
-        </span>
-        <span
-          className="MuiTouchRipple-root"
-        />
       </button>
     </div>
   </form>
@@ -386,11 +377,11 @@ exports[`component: OnboardingDialog renders error state when submit invalid con
         common:confirm password description
       </p>
       <PasswordInput
-        error={true}
-        helperText="common:invalid confirm password"
+        error={false}
+        helperText=""
         onChange={[Function]}
         placeholder="common:password"
-        value="123455"
+        value=""
       />
       <p
         className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
@@ -402,8 +393,8 @@ exports[`component: OnboardingDialog renders error state when submit invalid con
       className="MuiDialogActions-root MuiDialogActions-spacing"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
-        disabled={false}
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary Mui-disabled Mui-disabled"
+        disabled={true}
         onBlur={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
@@ -415,7 +406,7 @@ exports[`component: OnboardingDialog renders error state when submit invalid con
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
         onTouchStart={[Function]}
-        tabIndex={0}
+        tabIndex={-1}
         type="submit"
       >
         <span
@@ -423,9 +414,6 @@ exports[`component: OnboardingDialog renders error state when submit invalid con
         >
           common:confirm
         </span>
-        <span
-          className="MuiTouchRipple-root"
-        />
       </button>
     </div>
   </form>
@@ -510,8 +498,8 @@ exports[`component: OnboardingDialog renders error state when submit invalid pas
       className="MuiDialogActions-root MuiDialogActions-spacing"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
-        disabled={false}
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary Mui-disabled Mui-disabled"
+        disabled={true}
         onBlur={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
@@ -523,7 +511,7 @@ exports[`component: OnboardingDialog renders error state when submit invalid pas
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
         onTouchStart={[Function]}
-        tabIndex={0}
+        tabIndex={-1}
         type="submit"
       >
         <span
@@ -531,9 +519,6 @@ exports[`component: OnboardingDialog renders error state when submit invalid pas
         >
           common:next
         </span>
-        <span
-          className="MuiTouchRipple-root"
-        />
       </button>
     </div>
   </form>
@@ -615,8 +600,8 @@ exports[`component: OnboardingDialog renders open state correctly 1`] = `
       className="MuiDialogActions-root MuiDialogActions-spacing"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
-        disabled={false}
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary Mui-disabled Mui-disabled"
+        disabled={true}
         onBlur={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
@@ -628,7 +613,7 @@ exports[`component: OnboardingDialog renders open state correctly 1`] = `
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
         onTouchStart={[Function]}
-        tabIndex={0}
+        tabIndex={-1}
         type="submit"
       >
         <span
