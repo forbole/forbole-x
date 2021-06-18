@@ -33,13 +33,7 @@ const ChangeWalletMoniker: React.FC<ChangeWalletMonikerProps> = ({ walletId, onC
   }, [name, updateWallet, walletId])
 
   return (
-    <form
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onButtonClick()
-      }}
-    >
+    <>
       <DialogTitle>{t('change wallet moniker')}</DialogTitle>
       <DialogContent>
         <Box mb={18}>
@@ -57,11 +51,16 @@ const ChangeWalletMoniker: React.FC<ChangeWalletMonikerProps> = ({ walletId, onC
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button className={classes.dialogButton} variant="contained" color="primary" type="submit">
+        <Button
+          className={classes.dialogButton}
+          variant="contained"
+          color="primary"
+          onClick={onButtonClick}
+        >
           {t('save')}
         </Button>
       </DialogActions>
-    </form>
+    </>
   )
 }
 

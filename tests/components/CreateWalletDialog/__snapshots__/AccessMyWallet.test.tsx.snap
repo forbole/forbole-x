@@ -11,7 +11,7 @@ Array [
       common:access my wallet description
     </p>
     <div
-      className="MuiBox-root MuiBox-root-9"
+      className="MuiBox-root MuiBox-root-8"
     >
       <button
         className="MuiButtonBase-root HookGlobalStyles-borderedButton-5"
@@ -106,7 +106,7 @@ Array [
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-button-1 MuiButton-textPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-button-1 MuiButton-textSecondary"
       disabled={false}
       onBlur={[Function]}
       onClick={[MockFunction]}

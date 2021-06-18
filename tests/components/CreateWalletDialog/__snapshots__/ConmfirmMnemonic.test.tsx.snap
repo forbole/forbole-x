@@ -1,10 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component: CreateWalletDialog - ConfirmMnemonic calls onConfirm with correct params 1`] = `
-<form
-  noValidate={true}
-  onSubmit={[Function]}
->
+Array [
   <div
     className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
@@ -19,7 +16,7 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic calls onConfirm with co
       onChange={[Function]}
     />
     <div
-      className="MuiBox-root MuiBox-root-13"
+      className="MuiBox-root MuiBox-root-12"
     >
       <p
         className="MuiTypography-root MuiTypography-body2 MuiTypography-colorError"
@@ -27,17 +24,18 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic calls onConfirm with co
         
       </p>
     </div>
-  </div>
+  </div>,
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-14"
+      className="MuiBox-root MuiBox-root-13"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary"
         disabled={false}
         onBlur={[Function]}
+        onClick={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
@@ -49,7 +47,7 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic calls onConfirm with co
         onTouchMove={[Function]}
         onTouchStart={[Function]}
         tabIndex={0}
-        type="submit"
+        type="button"
       >
         <span
           className="MuiButton-label"
@@ -61,15 +59,12 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic calls onConfirm with co
         />
       </button>
     </div>
-  </div>
-</form>
+  </div>,
+]
 `;
 
 exports[`component: CreateWalletDialog - ConfirmMnemonic renders default state correctly 1`] = `
-<form
-  noValidate={true}
-  onSubmit={[Function]}
->
+Array [
   <div
     className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
@@ -84,7 +79,7 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic renders default state c
       onChange={[Function]}
     />
     <div
-      className="MuiBox-root MuiBox-root-9"
+      className="MuiBox-root MuiBox-root-8"
     >
       <p
         className="MuiTypography-root MuiTypography-body2 MuiTypography-colorError"
@@ -92,17 +87,18 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic renders default state c
         
       </p>
     </div>
-  </div>
+  </div>,
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-10"
+      className="MuiBox-root MuiBox-root-9"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary"
         disabled={false}
         onBlur={[Function]}
+        onClick={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
@@ -114,7 +110,7 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic renders default state c
         onTouchMove={[Function]}
         onTouchStart={[Function]}
         tabIndex={0}
-        type="submit"
+        type="button"
       >
         <span
           className="MuiButton-label"
@@ -123,15 +119,12 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic renders default state c
         </span>
       </button>
     </div>
-  </div>
-</form>
+  </div>,
+]
 `;
 
 exports[`component: CreateWalletDialog - ConfirmMnemonic renders error state correctly 1`] = `
-<form
-  noValidate={true}
-  onSubmit={[Function]}
->
+Array [
   <div
     className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
@@ -146,7 +139,7 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic renders error state cor
       onChange={[Function]}
     />
     <div
-      className="MuiBox-root MuiBox-root-11"
+      className="MuiBox-root MuiBox-root-10"
     >
       <p
         className="MuiTypography-root MuiTypography-body2 MuiTypography-colorError"
@@ -154,17 +147,18 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic renders error state cor
         error
       </p>
     </div>
-  </div>
+  </div>,
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-12"
+      className="MuiBox-root MuiBox-root-11"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary"
         disabled={false}
         onBlur={[Function]}
+        onClick={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
@@ -176,7 +170,7 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic renders error state cor
         onTouchMove={[Function]}
         onTouchStart={[Function]}
         tabIndex={0}
-        type="submit"
+        type="button"
       >
         <span
           className="MuiButton-label"
@@ -188,6 +182,6 @@ exports[`component: CreateWalletDialog - ConfirmMnemonic renders error state cor
         />
       </button>
     </div>
-  </div>
-</form>
+  </div>,
+]
 `;

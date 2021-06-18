@@ -50,13 +50,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const validatorsMap = keyBy(validators, 'address')
 
   return (
-    <form
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(toValidator, memo)
-      }}
-    >
+    <>
       <DialogContent className={classes.dialogContent}>
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
@@ -170,13 +164,13 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             className={classes.button}
             color="primary"
             disabled={loading || !toValidator}
-            type="submit"
+            onClick={() => onConfirm(toValidator, memo)}
           >
             {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </DialogActions>
-    </form>
+    </>
   )
 }
 

@@ -7,12 +7,11 @@ const useStyles = makeStyles(
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      marginTop: '15vh',
+      width: theme.spacing(60),
     },
     marginTop: {
       marginTop: theme.spacing(3),
-    },
-    marginTopSub: {
-      marginTop: theme.spacing(6),
     },
     button: {
       marginTop: theme.spacing(3),

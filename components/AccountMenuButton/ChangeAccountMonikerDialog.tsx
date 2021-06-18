@@ -35,18 +35,14 @@ const ChangeAccountMonikerDialog: React.FC<ChangeAccountMonikerDialogProps> = ({
   const { updateAccount } = useWalletsContext()
   const isMobile = useIsMobile()
 
-  const onButtonClick = React.useCallback(
-    async (e) => {
-      try {
-        e.preventDefault()
-        await updateAccount(accountAddress, { name })
-        onClose()
-      } catch (err) {
-        console.log(err)
-      }
-    },
-    [name, updateAccount, accountAddress]
-  )
+  const onButtonClick = React.useCallback(async () => {
+    try {
+      await updateAccount(accountAddress, { name })
+      onClose()
+    } catch (err) {
+      console.log(err)
+    }
+  }, [name, updateAccount, accountAddress])
 
   React.useEffect(() => {
     if (open) {
@@ -60,35 +56,32 @@ const ChangeAccountMonikerDialog: React.FC<ChangeAccountMonikerDialogProps> = ({
         <CloseIcon {...iconProps} />
       </IconButton>
       <DialogTitle>{t('change account moniker')}</DialogTitle>
-      <form noValidate onSubmit={onButtonClick}>
-        <DialogContent>
-          <Box mb={18}>
-            <Typography gutterBottom>{t('account moniker')}</Typography>
-            <TextField
-              fullWidth
-              autoFocus
-              variant="filled"
-              InputProps={{
-                disableUnderline: true,
-              }}
-              placeholder={t('account moniker')}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            type="submit"
-            className={classes.dialogButton}
-            variant="contained"
-            color="primary"
-            disabled={!name}
-          >
-            {t('next')}
-          </Button>
-        </DialogActions>
-      </form>
+      <DialogContent>
+        <Box mb={18}>
+          <Typography gutterBottom>{t('account moniker')}</Typography>
+          <TextField
+            fullWidth
+            variant="filled"
+            InputProps={{
+              disableUnderline: true,
+            }}
+            placeholder={t('account moniker')}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </Box>
+      </DialogContent>
+      <DialogActions>
+        <Button
+          className={classes.dialogButton}
+          variant="contained"
+          color="primary"
+          onClick={onButtonClick}
+          disabled={!name}
+        >
+          {t('next')}
+        </Button>
+      </DialogActions>
     </Dialog>
   )
 }

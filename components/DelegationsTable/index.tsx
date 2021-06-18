@@ -11,7 +11,7 @@ import Unbonding from './Unbonding'
 import RedelegationDialog from '../RedelegateDialog'
 import Redelegations from './Redelegations'
 import DelegationDialog from '../DelegationDialog'
-import ClaimRewardsDialog from '../WithdrawRewardsDialog'
+import ClaimRewardsDialog from '../ClaimRewardsDialog'
 
 interface DelegationsTableProps {
   account: Account
@@ -145,7 +145,7 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
             setAnchor(undefined)
           }}
         >
-          {t('withdraw')}
+          {t('claim rewards')}
         </MenuItem>
       </Menu>
       {account && managingValidator && availableTokens ? (

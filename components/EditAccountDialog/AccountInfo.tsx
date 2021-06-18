@@ -10,6 +10,7 @@ import {
 import { HelpOutline } from '@material-ui/icons'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import useStyles from './styles'
 
 interface AccountInfoProps {
@@ -29,18 +30,13 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
   onShare,
   onDetail,
 }) => {
-  const { t } = useTranslation('common')
+  const { t, lang } = useTranslation('common')
   const classes = useStyles()
+  const { currency } = useGeneralContext()
   const [moniker, setMoniker] = React.useState(account.name)
 
   return (
-    <form
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onSave(moniker)
-      }}
-    >
+    <>
       <DialogContent className={classes.dialogContent}>
         <Box mb={6}>
           <Box mb={4}>
@@ -107,13 +103,17 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
             </Button>
           </Box>
           <Box display="flex">
-            <Button className={classes.saveButton} variant="outlined" type="submit">
+            <Button
+              className={classes.saveButton}
+              variant="outlined"
+              onClick={() => onSave(moniker)}
+            >
               {t('save')}
             </Button>
           </Box>
         </Box>
       </DialogActions>
-    </form>
+    </>
   )
 }
 

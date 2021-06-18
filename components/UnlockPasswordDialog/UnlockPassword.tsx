@@ -27,14 +27,7 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
   }, [password, setError, setPassword])
 
   return (
-    <form
-      noValidate
-      className={classes.action}
-      onSubmit={(e) => {
-        e.preventDefault()
-        onButtonClick()
-      }}
-    >
+    <>
       <DialogContent>
         <DialogContentText>{t('unlock password description')}</DialogContentText>
         <PasswordInput
@@ -47,11 +40,10 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
       </DialogContent>
       <DialogActions className={classes.action}>
         <Button
-          disabled={password.length < 6}
           className={classes.button}
           variant="contained"
           color="primary"
-          type="submit"
+          onClick={onButtonClick}
         >
           {t('next')}
         </Button>
@@ -59,7 +51,7 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
           {t('forgot password?')}
         </Button>
       </DialogActions>
-    </form>
+    </>
   )
 }
 

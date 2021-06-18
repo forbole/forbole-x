@@ -144,7 +144,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({
         return {
           title: (
             <Box>
-              <DepositIcon {...voteIconProps} />
+              <DepositIcon {...voteIconProps} className={classes.voteButton} />
               <Typography className={classes.title} variant="h1">
                 {`${t('deposit')} ${formatCrypto(amount, voteAccount.crypto, lang)}`}
               </Typography>
@@ -182,15 +182,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({
   }, [stage, t])
 
   return (
-    <Dialog
-      fullWidth
-      maxWidth={content.dialogWidth || 'md'}
-      open={open}
-      onClose={onClose}
-      PaperProps={{
-        className: classes.dialog,
-      }}
-    >
+    <Dialog fullWidth maxWidth={content.dialogWidth || 'md'} open={open} onClose={onClose}>
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

@@ -126,13 +126,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
   }, [encryptionPhrase])
 
   return (
-    <form
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onButtonClick()
-      }}
-    >
+    <>
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={() => onPrev()}>
           <BackIcon {...iconProps} />
@@ -141,18 +135,16 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
       <DialogTitle>{t(`${stage} title`)}</DialogTitle>
       <DialogContent>
         {stage === Stage.SecurityPassword ? (
-          <>
-            <Box mb={18}>
-              <Typography gutterBottom>{t('enter security password')}</Typography>
-              <PasswordInput
-                value={securityPassword}
-                onChange={(e) => setSecurityPassword(e.target.value)}
-                placeholder={t('password')}
-                error={!!error}
-                helperText={error}
-              />
-            </Box>
-          </>
+          <Box mb={18}>
+            <Typography gutterBottom>{t('enter security password')}</Typography>
+            <PasswordInput
+              value={securityPassword}
+              onChange={(e) => setSecurityPassword(e.target.value)}
+              placeholder={t('password')}
+              error={!!error}
+              helperText={error}
+            />
+          </Box>
         ) : null}
         {stage === Stage.BackupPassword ? (
           <Box mb={6}>
@@ -310,7 +302,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
                 className={classes.dialogButton}
                 variant="contained"
                 color="primary"
-                type="submit"
+                onClick={onButtonClick}
                 disabled={stage === Stage.BackupPassword && backupPassword.length < 6}
               >
                 {t(buttonText)}
@@ -328,7 +320,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
           {t('copied to clipboard')}
         </Alert>
       </Snackbar>
-    </form>
+    </>
   )
 }
 

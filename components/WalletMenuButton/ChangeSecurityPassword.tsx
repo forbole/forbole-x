@@ -49,13 +49,7 @@ const ChangeSecurityPassword: React.FC<ChangeSecurityPasswordProps> = ({ walletI
   ])
 
   return (
-    <form
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onButtonClick()
-      }}
-    >
+    <>
       <DialogTitle>{t('change security password')}</DialogTitle>
       <DialogContent>
         <Box mb={18}>
@@ -75,11 +69,16 @@ const ChangeSecurityPassword: React.FC<ChangeSecurityPasswordProps> = ({ walletI
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button className={classes.dialogButton} variant="contained" color="primary" type="submit">
+        <Button
+          className={classes.dialogButton}
+          variant="contained"
+          color="primary"
+          onClick={onButtonClick}
+        >
           {t(isSettingNewPassword ? 'save' : 'next')}
         </Button>
       </DialogActions>
-    </form>
+    </>
   )
 }
 

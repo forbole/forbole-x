@@ -44,13 +44,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [memo, setMemo] = React.useState('')
 
   return (
-    <form
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(Number(amount), denom, memo)
-      }}
-    >
+    <>
       <DialogContent className={classes.dialogContent}>
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
@@ -141,13 +135,13 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             className={classes.button}
             color="primary"
             disabled={loading || !Number(amount) || Number(amount) > totalAmount}
-            type="submit"
+            onClick={() => onConfirm(Number(amount), denom, memo)}
           >
             {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </DialogActions>
-    </form>
+    </>
   )
 }
 

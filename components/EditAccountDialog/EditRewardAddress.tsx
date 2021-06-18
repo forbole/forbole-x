@@ -1,7 +1,19 @@
-import { Box, DialogContent, Typography, TextField, DialogActions, Button } from '@material-ui/core'
+import {
+  Box,
+  DialogContent,
+  Typography,
+  TextField,
+  DialogActions,
+  Button,
+  Divider,
+  useTheme,
+} from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
+import useIconProps from '../../misc/useIconProps'
+import { useGeneralContext } from '../../contexts/GeneralContext'
+import useIsMobile from '../../misc/useIsMobile'
 
 interface EditRewardAddressProps {
   account: Account
@@ -9,19 +21,14 @@ interface EditRewardAddressProps {
 }
 
 const EditRewardAddress: React.FC<EditRewardAddressProps> = ({ account, onNext }) => {
-  const { t } = useTranslation('common')
+  const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const [rewardAddress, setRewardAddress] = React.useState('')
   const [memo, setMemo] = React.useState('')
+  const theme = useTheme()
 
   return (
-    <form
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onNext(rewardAddress, memo)
-      }}
-    >
+    <>
       <DialogContent className={classes.dialogContent}>
         <Box my={2}>
           <Box>
@@ -73,12 +80,12 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({ account, onNext }
           className={classes.nextButton}
           color="primary"
           disabled={rewardAddress === ''}
-          type="submit"
+          onClick={() => onNext(rewardAddress, memo)}
         >
           {t('next')}
         </Button>
       </DialogActions>
-    </form>
+    </>
   )
 }
 

@@ -1,4 +1,4 @@
-import { Box, Button, DialogActions, DialogContent, Divider, Typography, useTheme } from '@material-ui/core'
+import { Box, Button, DialogActions, DialogContent, Divider, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import dynamic from 'next/dynamic'
@@ -10,7 +10,6 @@ import RedelegateContent from './RedelegateContent'
 import UndelegateContent from './UndelegateContent'
 import ClaimRewardsContent from './ClaimRewardsContent'
 import { useGeneralContext } from '../../../contexts/GeneralContext'
-import { CustomTheme } from '../../../misc/theme'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
@@ -34,7 +33,6 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const { theme } = useGeneralContext()
-  const themeStyle: CustomTheme = useTheme()
 
   const [viewingData, setViewingData] = React.useState(false)
 
@@ -123,12 +121,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
           <Box flex={1} overflow="auto">
             <ReactJson
               src={transactionData}
-              style={{
-                backgroundColor: themeStyle.palette.reactJsonBackground,
-                borderRadius: themeStyle.spacing(1),
-                padding: themeStyle.spacing(1),
-                overflowX: 'auto',
-              }}
+              style={{ backgroundColor: 'transparent' }}
               displayDataTypes={false}
               displayObjectSize={false}
               enableClipboard={false}
@@ -139,7 +132,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
           </Box>
         ) : null}
       </DialogContent>
-      <DialogActions className={classes.dialogContent}>
+      <DialogActions>
         <Button
           variant="contained"
           className={classes.fullWidthButton}

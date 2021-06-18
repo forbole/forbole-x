@@ -82,32 +82,25 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
     async (d: Array<{ amount: number; validator: Validator }>, memo: string) => {
       try {
         setLoading(true)
-        const msgs = d
-          .map((r) => {
-            const coinsToSend = getEquivalentCoinToSend(
-              { amount: r.amount, denom },
-              availableTokens.coins,
-              availableTokens.tokens_prices
-            )
-            return {
-              type: 'cosmos-sdk/MsgDelegate',
-              value: {
-                delegator_address: account.address,
-                validator_address: r.validator.address,
-                amount: { amount: coinsToSend.amount.toString(), denom: coinsToSend.denom },
-              },
-            }
-          })
-          .filter((a) => a)
         await invoke(window, 'forboleX.sendTransaction', password, account.address, {
-          msgs,
-          fee: {
-            amount: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
-            gas: String(
-              msgs.length *
-                Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.delegate`, 0))
-            ),
-          },
+          msgs: d
+            .map((r) => {
+              const coinsToSend = getEquivalentCoinToSend(
+                { amount: r.amount, denom },
+                availableTokens.coins,
+                availableTokens.tokens_prices
+              )
+              return {
+                type: 'cosmos-sdk/MsgDelegate',
+                value: {
+                  delegator_address: account.address,
+                  validator_address: r.validator.address,
+                  amount: { amount: coinsToSend.amount.toString(), denom: coinsToSend.denom },
+                },
+              }
+            })
+            .filter((a) => a),
+          fee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
           memo,
           ...signerInfo,
         })
@@ -170,9 +163,6 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
       open={open}
       onClose={onClose}
       fullScreen={isMobile}
-      PaperProps={{
-        className: classes.dialog,
-      }}
     >
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>

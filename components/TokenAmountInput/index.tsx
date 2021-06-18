@@ -1,16 +1,9 @@
-import {
-  Button,
-  InputAdornment,
-  Menu,
-  MenuItem,
-  TextField,
-  FilledTextFieldProps,
-} from '@material-ui/core'
+import { Button, InputAdornment, Menu, MenuItem, TextField } from '@material-ui/core'
 import React from 'react'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import useIconProps from '../../misc/useIconProps'
 
-interface TokenAmountInputProps extends Partial<FilledTextFieldProps> {
+interface TokenAmountInputProps {
   value: string
   denom: string
   onValueChange(value: string): void
@@ -24,8 +17,6 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
   onValueChange,
   onDenomChange,
   availableAmount,
-  error,
-  helperText,
 }) => {
   const iconProps = useIconProps()
   const [anchor, setAnchor] = React.useState<Element>()
@@ -80,8 +71,6 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
       type="number"
       value={value}
       onChange={(e) => onValueChange(e.target.value)}
-      error={error}
-      helperText={helperText}
     />
   )
 }
