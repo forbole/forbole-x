@@ -24,6 +24,9 @@ const useStyles = makeStyles(
     action: {
       display: 'contents',
     },
+    form: {
+      display: 'contents',
+    },
     closeButton: {
       position: 'absolute',
       top: theme.spacing(2),

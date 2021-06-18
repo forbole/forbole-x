@@ -67,7 +67,21 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   console.log('delegations', delegations)
 
   return (
-    <>
+    <form
+      noValidate
+      onSubmit={(e) => {
+        e.preventDefault()
+        onConfirm(
+          delegations
+            .filter((v) => v.validator.name && Number(v.amount))
+            .map((v) => ({
+              validator: v.validator,
+              amount: Number(v.amount),
+            })),
+          memo
+        )
+      }}
+    >
       <DialogContent className={classes.dialogContent}>
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
@@ -266,23 +280,13 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               !delegations.filter((v) => v.validator.name && Number(v.amount)).length ||
               delegations.map((v) => Number(v.amount)).reduce((a, b) => a + b, 0) > amount
             }
-            onClick={() =>
-              onConfirm(
-                delegations
-                  .filter((v) => v.validator.name && Number(v.amount))
-                  .map((v) => ({
-                    validator: v.validator,
-                    amount: Number(v.amount),
-                  })),
-                memo
-              )
-            }
+            type="submit"
           >
             {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </DialogActions>
-    </>
+    </form>
   )
 }
 

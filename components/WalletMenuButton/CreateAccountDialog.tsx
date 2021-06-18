@@ -99,7 +99,13 @@ const CreateAccountDialog: React.FC<CreateAccountDialogProps> = ({
       </IconButton>
       {stage === Stage.CreateAccount ? <DialogTitle>{t('create account')}</DialogTitle> : null}
       {stage === Stage.CreateAccount ? (
-        <>
+        <form
+          noValidate
+          onSubmit={(e) => {
+            e.preventDefault()
+            setStage(Stage.SecurityPassword)
+          }}
+        >
           <DialogContent>
             <Box mb={2}>
               <Typography gutterBottom>{t('network')}</Typography>
@@ -142,12 +148,12 @@ const CreateAccountDialog: React.FC<CreateAccountDialogProps> = ({
               className={classes.dialogButton}
               variant="contained"
               color="primary"
-              onClick={() => setStage(Stage.SecurityPassword)}
+              type="submit"
             >
               {t(stage === Stage.CreateAccount ? 'next' : 'confirm')}
             </Button>
           </DialogActions>
-        </>
+        </form>
       ) : (
         <>
           {walletType === 'mnemonic' ? (
