@@ -3,12 +3,10 @@
 exports[`component: GetStarted closes CreateWalletDialog when onClose is called from CreateWalletDialog 1`] = `
 Array [
   <div
-    className="MuiBox-root MuiBox-root-10 HookGlobalStyles-container-1"
+    className="MuiBox-root MuiBox-root-9 HookGlobalStyles-container-1"
   >
     <svg
       data-file-name="SvgGet_started_dark"
-      height="inherits"
-      width={480}
     />
     <h4
       className="MuiTypography-root HookGlobalStyles-marginTop-2 MuiTypography-h4 MuiTypography-alignCenter"
@@ -16,12 +14,12 @@ Array [
       common:get started line1
     </h4>
     <h6
-      className="MuiTypography-root HookGlobalStyles-marginTopSub-3 MuiTypography-h6 MuiTypography-alignCenter"
+      className="MuiTypography-root HookGlobalStyles-marginTop-2 MuiTypography-h6 MuiTypography-alignCenter"
     >
       common:get started line2
     </h6>
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-4 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-3 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -63,12 +61,10 @@ Array [
 exports[`component: GetStarted closes OnboardingDialog when onClose is called from Dialog 1`] = `
 Array [
   <div
-    className="MuiBox-root MuiBox-root-8 HookGlobalStyles-container-1"
+    className="MuiBox-root MuiBox-root-7 HookGlobalStyles-container-1"
   >
     <svg
       data-file-name="SvgGet_started_dark"
-      height="inherits"
-      width={480}
     />
     <h4
       className="MuiTypography-root HookGlobalStyles-marginTop-2 MuiTypography-h4 MuiTypography-alignCenter"
@@ -76,12 +72,12 @@ Array [
       common:get started line1
     </h4>
     <h6
-      className="MuiTypography-root HookGlobalStyles-marginTopSub-3 MuiTypography-h6 MuiTypography-alignCenter"
+      className="MuiTypography-root HookGlobalStyles-marginTop-2 MuiTypography-h6 MuiTypography-alignCenter"
     >
       common:get started line2
     </h6>
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-4 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-3 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -123,12 +119,10 @@ Array [
 exports[`component: GetStarted opens CreateWalletDialog and calls setPassword when onSubmit is called from OnboardingDialog 1`] = `
 Array [
   <div
-    className="MuiBox-root MuiBox-root-9 HookGlobalStyles-container-1"
+    className="MuiBox-root MuiBox-root-8 HookGlobalStyles-container-1"
   >
     <svg
       data-file-name="SvgGet_started_dark"
-      height="inherits"
-      width={480}
     />
     <h4
       className="MuiTypography-root HookGlobalStyles-marginTop-2 MuiTypography-h4 MuiTypography-alignCenter"
@@ -136,12 +130,12 @@ Array [
       common:get started line1
     </h4>
     <h6
-      className="MuiTypography-root HookGlobalStyles-marginTopSub-3 MuiTypography-h6 MuiTypography-alignCenter"
+      className="MuiTypography-root HookGlobalStyles-marginTop-2 MuiTypography-h6 MuiTypography-alignCenter"
     >
       common:get started line2
     </h6>
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-4 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-3 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -183,12 +177,10 @@ Array [
 exports[`component: GetStarted opens Onboarding Dialog on click 1`] = `
 Array [
   <div
-    className="MuiBox-root MuiBox-root-7 HookGlobalStyles-container-1"
+    className="MuiBox-root MuiBox-root-6 HookGlobalStyles-container-1"
   >
     <svg
       data-file-name="SvgGet_started_dark"
-      height="inherits"
-      width={480}
     />
     <h4
       className="MuiTypography-root HookGlobalStyles-marginTop-2 MuiTypography-h4 MuiTypography-alignCenter"
@@ -196,12 +188,12 @@ Array [
       common:get started line1
     </h4>
     <h6
-      className="MuiTypography-root HookGlobalStyles-marginTopSub-3 MuiTypography-h6 MuiTypography-alignCenter"
+      className="MuiTypography-root HookGlobalStyles-marginTop-2 MuiTypography-h6 MuiTypography-alignCenter"
     >
       common:get started line2
     </h6>
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-4 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-3 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -243,12 +235,10 @@ Array [
 exports[`component: GetStarted renders dark theme correctly 1`] = `
 Array [
   <div
-    className="MuiBox-root MuiBox-root-6 HookGlobalStyles-container-1"
+    className="MuiBox-root MuiBox-root-5 HookGlobalStyles-container-1"
   >
     <svg
       data-file-name="SvgGet_started_dark"
-      height="inherits"
-      width={480}
     />
     <h4
       className="MuiTypography-root HookGlobalStyles-marginTop-2 MuiTypography-h4 MuiTypography-alignCenter"
@@ -256,12 +246,12 @@ Array [
       common:get started line1
     </h4>
     <h6
-      className="MuiTypography-root HookGlobalStyles-marginTopSub-3 MuiTypography-h6 MuiTypography-alignCenter"
+      className="MuiTypography-root HookGlobalStyles-marginTop-2 MuiTypography-h6 MuiTypography-alignCenter"
     >
       common:get started line2
     </h6>
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-4 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-3 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -303,12 +293,10 @@ Array [
 exports[`component: GetStarted renders light theme correctly 1`] = `
 Array [
   <div
-    className="MuiBox-root MuiBox-root-5 HookGlobalStyles-container-1"
+    className="MuiBox-root MuiBox-root-4 HookGlobalStyles-container-1"
   >
     <svg
       data-file-name="SvgGet_started_light"
-      height="inherits"
-      width={480}
     />
     <h4
       className="MuiTypography-root HookGlobalStyles-marginTop-2 MuiTypography-h4 MuiTypography-alignCenter"
@@ -316,12 +304,12 @@ Array [
       common:get started line1
     </h4>
     <h6
-      className="MuiTypography-root HookGlobalStyles-marginTopSub-3 MuiTypography-h6 MuiTypography-alignCenter"
+      className="MuiTypography-root HookGlobalStyles-marginTop-2 MuiTypography-h6 MuiTypography-alignCenter"
     >
       common:get started line2
     </h6>
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-4 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-3 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}

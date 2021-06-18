@@ -1,10 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 1`] = `
-<form
-  noValidate={true}
-  onSubmit={[Function]}
->
+Array [
   <div
     className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
@@ -37,7 +34,7 @@ exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-9"
+      className="MuiBox-root MuiBox-root-8"
     >
       <p
         className="MuiTypography-root MuiTypography-body1"
@@ -55,17 +52,18 @@ exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 
         
       </p>
     </div>
-  </div>
+  </div>,
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-10"
+      className="MuiBox-root MuiBox-root-9"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary Mui-disabled Mui-disabled"
         disabled={true}
         onBlur={[Function]}
+        onClick={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
@@ -77,7 +75,7 @@ exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 
         onTouchMove={[Function]}
         onTouchStart={[Function]}
         tabIndex={-1}
-        type="submit"
+        type="button"
       >
         <span
           className="MuiButton-label"
@@ -86,15 +84,12 @@ exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 
         </span>
       </button>
     </div>
-  </div>
-</form>
+  </div>,
+]
 `;
 
 exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly with error 1`] = `
-<form
-  noValidate={true}
-  onSubmit={[Function]}
->
+Array [
   <div
     className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
@@ -127,7 +122,7 @@ exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-11"
+      className="MuiBox-root MuiBox-root-10"
     >
       <p
         className="MuiTypography-root MuiTypography-body1"
@@ -145,17 +140,18 @@ exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 
         error
       </p>
     </div>
-  </div>
+  </div>,
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-12"
+      className="MuiBox-root MuiBox-root-11"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary Mui-disabled Mui-disabled"
         disabled={true}
         onBlur={[Function]}
+        onClick={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
@@ -167,7 +163,7 @@ exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 
         onTouchMove={[Function]}
         onTouchStart={[Function]}
         tabIndex={-1}
-        type="submit"
+        type="button"
       >
         <span
           className="MuiButton-label"
@@ -176,6 +172,6 @@ exports[`component: CreateWalletDialog - ImportMnemonicBackup renders correctly 
         </span>
       </button>
     </div>
-  </div>
-</form>
+  </div>,
+]
 `;

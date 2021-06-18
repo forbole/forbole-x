@@ -32,7 +32,7 @@ describe('component: CreateWalletDialog - ImportMnemonicBackup', () => {
       })
     })
     renderer.act(() => {
-      component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
+      last(component.root.findAllByType('button')).props.onClick()
     })
 
     expect(onConfirm).toBeCalledWith({

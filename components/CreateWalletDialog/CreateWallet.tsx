@@ -21,13 +21,7 @@ const CreateWallet: React.FC<CreateWalletProps> = ({ mnemonic, onConfirm }) => {
   const classes = useStyles()
 
   return (
-    <form
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm()
-      }}
-    >
+    <>
       <DialogContent className={classes.dialogContent}>
         <DialogContentText>{t('create new wallet description')}</DialogContentText>
         <MnemonicPhraseInput disabled mnemonic={mnemonic} />
@@ -35,13 +29,18 @@ const CreateWallet: React.FC<CreateWalletProps> = ({ mnemonic, onConfirm }) => {
       </DialogContent>
       <DialogActions>
         <Box flex={1} display="flex" flexDirection="column" mb={3}>
-          <Button className={classes.button} color="primary" variant="contained" type="submit">
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="primary"
+            onClick={onConfirm}
+          >
             {t('create new wallet button')}
           </Button>
           <Typography align="center">{t('create new wallet caption')}</Typography>
         </Box>
       </DialogActions>
-    </form>
+    </>
   )
 }
 

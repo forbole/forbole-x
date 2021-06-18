@@ -70,7 +70,7 @@ describe('component: UnlockPasswordDialog', () => {
         })
     })
     await renderer.act(async () => {
-      await component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
+      await component.root.findAllByType('button')[0].props.onClick()
     })
     expect(mockWalletsContext.unlockWallets).toBeCalledWith('password')
   })
@@ -89,7 +89,7 @@ describe('component: UnlockPasswordDialog', () => {
         })
     })
     await renderer.act(async () => {
-      await component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
+      await component.root.findAllByType('button')[0].props.onClick()
     })
     expect(mockWalletsContext.unlockWallets).toBeCalledWith('password')
     const tree = component.toJSON()

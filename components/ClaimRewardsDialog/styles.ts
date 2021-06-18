@@ -18,10 +18,6 @@ const useStyles = makeStyles(
     },
     dialogContent: {
       overflowY: 'auto',
-      background: theme.palette.dialogBackground,
-    },
-    dialog: {
-      background: theme.palette.dialogBackground,
     },
     validatorAvatar: {
       width: theme.spacing(3.5),

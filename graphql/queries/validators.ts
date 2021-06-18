@@ -1,9 +1,6 @@
 export const getValidators = (crypto: string): string => `
 subscription Validators @${crypto} {
   validator {
-    self_delegations(limit: 1, order_by: {height: desc}) {
-      amount
-    }
     info: validator_info {
       operator_address
     }

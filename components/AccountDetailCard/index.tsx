@@ -13,7 +13,7 @@ import useIconProps from '../../misc/useIconProps'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import StatBox from './StatBox'
 import DelegationDialog from '../DelegationDialog'
-import WithdrawRewardsDialog from '../WithdrawRewardsDialog'
+import ClaimRewardsDialog from '../ClaimRewardsDialog'
 import {
   formatCurrency,
   formatTokenAmount,
@@ -47,7 +47,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
   const isMobile = useIsMobile()
   const { updateAccount } = useWalletsContext()
   const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
-  const [withdrawRewardsDialogOpen, setWithdrawRewardsDialogOpen] = React.useState(false)
+  const [claimRewardsDialogOpen, setClaimRewardsDialogOpen] = React.useState(false)
   const [sendDialogOpen, setSendDialogOpen] = React.useState(false)
   const [editAccountDialogOpen, setEditAccountDialogOpen] = React.useState(false)
   const [timestamps, setTimestamps] = React.useState<Date[]>(
@@ -101,9 +101,9 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                 classes={{ root: classes.fixedWidthButton }}
                 variant="contained"
                 color="secondary"
-                onClick={() => setWithdrawRewardsDialogOpen(true)}
+                onClick={() => setClaimRewardsDialogOpen(true)}
               >
-                {t('withdraw')}
+                {t('claim rewards')}
               </Button>
               <Button
                 classes={{ root: classes.sendButton }}
@@ -178,9 +178,9 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
         availableTokens={availableTokens}
         validators={validators.filter(({ status }) => status === 'active')}
       />
-      <WithdrawRewardsDialog
-        open={withdrawRewardsDialogOpen}
-        onClose={() => setWithdrawRewardsDialogOpen(false)}
+      <ClaimRewardsDialog
+        open={claimRewardsDialogOpen}
+        onClose={() => setClaimRewardsDialogOpen(false)}
         account={account}
         tokensPrices={availableTokens.tokens_prices}
         validators={validators.filter((v) => !!v.delegated)}

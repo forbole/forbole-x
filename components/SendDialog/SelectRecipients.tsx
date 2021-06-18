@@ -72,24 +72,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
   }, [totalAmount, availableAmount])
 
   return (
-    <form
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(
-          recipients
-            .filter((v) => v.address && Number(v.amount))
-            .map((v) => ({
-              address: v.address,
-              amount: {
-                amount: Number(v.amount),
-                denom: v.denom,
-              },
-            })),
-          memo
-        )
-      }}
-    >
+    <>
       <DialogContent className={classes.dialogContent}>
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
@@ -201,20 +184,33 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
           </Box>
           <Button
             variant="contained"
-            classes={{ root: classes.button }}
+            className={classes.button}
             color="primary"
             disabled={
               loading ||
               !!insufficientTokens.length ||
               !recipients.filter((v) => v.address && Number(v.amount)).length
             }
-            type="submit"
+            onClick={() =>
+              onConfirm(
+                recipients
+                  .filter((v) => v.address && Number(v.amount))
+                  .map((v) => ({
+                    address: v.address,
+                    amount: {
+                      amount: Number(v.amount),
+                      denom: v.denom,
+                    },
+                  })),
+                memo
+              )
+            }
           >
             {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </DialogActions>
-    </form>
+    </>
   )
 }
 

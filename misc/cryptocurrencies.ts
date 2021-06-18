@@ -12,17 +12,11 @@ const cryptocurrencies = {
     defaultGasFee: {
       amount: [
         {
-          amount: '2000',
+          amount: '20000',
           denom: 'udaric',
         },
       ],
-      gas: {
-        send: '100000',
-        delegate: '200000',
-        redelegate: '200000',
-        claimRewards: '100000',
-        undelegate: '200000',
-      },
+      gas: '200000',
     },
   },
   // SOL: { name: 'SOL', image: '/static/images/cryptocurrencies/sol.png', coinType: 501 },

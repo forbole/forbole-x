@@ -92,7 +92,7 @@ describe('component: CreateWalletDialog - SecurityPassword', () => {
         })
     })
     renderer.act(() => {
-      component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
+      component.root.findByType('button').props.onClick()
     })
     expect(onConfirm).toBeCalledWith('123123qweQWE!@#')
   })

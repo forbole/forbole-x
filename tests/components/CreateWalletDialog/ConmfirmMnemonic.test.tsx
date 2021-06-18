@@ -35,7 +35,7 @@ describe('component: CreateWalletDialog - ConfirmMnemonic', () => {
         .props.onChange('mnemonic')
     })
     renderer.act(() => {
-      component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
+      component.root.findByType('button').props.onClick()
     })
     expect(onConfirm).toBeCalledWith('mnemonic')
     const tree = component.toJSON()

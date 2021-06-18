@@ -97,10 +97,7 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
               },
             },
           ],
-          fee: {
-            amount: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
-            gas: get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.redelegate`, 0),
-          },
+          fee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
           memo,
           ...signerInfo,
         })
@@ -163,9 +160,6 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
       open={open}
       onClose={onClose}
       fullScreen={isMobile}
-      PaperProps={{
-        className: classes.dialog,
-      }}
     >
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>

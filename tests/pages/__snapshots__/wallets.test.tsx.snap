@@ -11,7 +11,7 @@ exports[`page: Wallets renders correctly 1`] = `
     <h1
       className="MuiTypography-root MuiTypography-h1 MuiTypography-gutterBottom"
     >
-      common:wallet
+      common:wallet manage
     </h1>
     <button
       className="MuiButtonBase-root MuiButton-root MuiButton-outlined"
@@ -100,7 +100,7 @@ exports[`page: Wallets renders correctly with missing wallet id 1`] = `
     <h1
       className="MuiTypography-root MuiTypography-h1 MuiTypography-gutterBottom"
     >
-      common:wallet
+      common:wallet manage
     </h1>
     <button
       className="MuiButtonBase-root MuiButton-root MuiButton-outlined"
