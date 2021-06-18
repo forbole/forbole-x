@@ -16,7 +16,7 @@ export interface ValidatorTag extends Validator {
   isSelected: boolean
 }
 
-interface ClaimRewardsDialogProps {
+interface WithdrawRewardsDialogProps {
   account: Account
   tokensPrices: TokenPrice[]
   open: boolean
@@ -25,7 +25,7 @@ interface ClaimRewardsDialogProps {
   preselectedValidatorAddresses?: string[]
 }
 
-const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
+const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
   account,
   open,
   onClose,
@@ -83,7 +83,16 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
   }, [open])
 
   return (
-    <Dialog fullWidth maxWidth="md" open={open} onClose={onClose} fullScreen={isMobile}>
+    <Dialog
+      fullWidth
+      maxWidth="md"
+      open={open}
+      onClose={onClose}
+      fullScreen={isMobile}
+      PaperProps={{
+        className: classes.dialog,
+      }}
+    >
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
@@ -100,4 +109,4 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
   )
 }
 
-export default ClaimRewardsDialog
+export default WithdrawRewardsDialog

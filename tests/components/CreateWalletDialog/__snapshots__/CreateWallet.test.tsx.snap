@@ -18,14 +18,14 @@ exports[`component: CreateWalletDialog - CreateWallet renders correctly 1`] = `
       mnemonic="mnemonic"
     />
     <div
-      className="MuiBox-root MuiBox-root-8"
+      className="MuiBox-root MuiBox-root-9"
     />
   </div>
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-9"
+      className="MuiBox-root MuiBox-root-10"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary"

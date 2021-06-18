@@ -1,7 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CustomTheme } from '../../misc/theme'
 
 const useStyles = makeStyles(
-  (theme) => ({
+  (theme: CustomTheme) => ({
     button: {
       width: theme.spacing(16),
     },
@@ -17,6 +18,9 @@ const useStyles = makeStyles(
     },
     dialogContent: {
       overflowY: 'auto',
+    },
+    dialog: {
+      background: theme.palette.dialogBackground,
     },
     marginLeft: {
       marginLeft: theme.spacing(1),

@@ -67,7 +67,6 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({
   const saveMoniker = React.useCallback(
     async (n: string) => {
       try {
-        // setName(n)
         await updateAccount(account.address, { name: n })
         onClose()
       } catch (err) {
@@ -252,6 +251,9 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({
       open={open}
       onClose={onClose}
       fullScreen={isMobile}
+      PaperProps={{
+        className: classes.dialog,
+      }}
     >
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
