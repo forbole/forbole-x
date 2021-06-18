@@ -25,6 +25,7 @@
     "lodash": "^4.17.21",
     "next": "^10.0.4",
     "next-translate": "^1.0.1",
+    "postcss": "^8.2.15",
     "qrcode.react": "^1.0.1",
     "query-string": "^7.0.0",
     "react": "^17.0.1",

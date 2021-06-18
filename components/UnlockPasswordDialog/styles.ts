@@ -7,8 +7,11 @@ const useStyles = makeStyles(
       marginTop: theme.spacing(1),
     },
     button: {
-      margin: theme.spacing(1, 2),
+      margin: theme.spacing(1, 3),
       marginTop: theme.spacing(20),
+    },
+    dialog: {
+      background: theme.palette.dialogBackground,
     },
     resetButton: {
       flex: 1,

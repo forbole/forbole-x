@@ -47,7 +47,7 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
       </DialogContent>
       <DialogActions className={classes.action}>
         <Button
-          disabled={!password}
+          disabled={password.length < 6}
           className={classes.button}
           variant="contained"
           color="primary"

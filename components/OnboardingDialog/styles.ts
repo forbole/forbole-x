@@ -9,6 +9,7 @@ const useStyles = makeStyles(
       flex: 1,
       margin: theme.spacing(4, 2),
       marginTop: theme.spacing(20),
+      color: 'white',
     },
     closeButton: {
       position: 'absolute',

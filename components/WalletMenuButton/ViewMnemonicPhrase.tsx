@@ -141,16 +141,18 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
       <DialogTitle>{t(`${stage} title`)}</DialogTitle>
       <DialogContent>
         {stage === Stage.SecurityPassword ? (
-          <Box mb={18}>
-            <Typography gutterBottom>{t('enter security password')}</Typography>
-            <PasswordInput
-              value={securityPassword}
-              onChange={(e) => setSecurityPassword(e.target.value)}
-              placeholder={t('password')}
-              error={!!error}
-              helperText={error}
-            />
-          </Box>
+          <>
+            <Box mb={18}>
+              <Typography gutterBottom>{t('enter security password')}</Typography>
+              <PasswordInput
+                value={securityPassword}
+                onChange={(e) => setSecurityPassword(e.target.value)}
+                placeholder={t('password')}
+                error={!!error}
+                helperText={error}
+              />
+            </Box>
+          </>
         ) : null}
         {stage === Stage.BackupPassword ? (
           <Box mb={6}>

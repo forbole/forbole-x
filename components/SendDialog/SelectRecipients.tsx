@@ -201,7 +201,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
           </Box>
           <Button
             variant="contained"
-            className={classes.button}
+            classes={{ root: classes.button }}
             color="primary"
             disabled={
               loading ||
