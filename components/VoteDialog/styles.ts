@@ -9,6 +9,10 @@ const useStyles = makeStyles(
     },
     button: {
       flex: 1,
+      '&:disabled': {
+        backgroundColor: theme.palette.buttonDisabled,
+        color: 'white',
+      },
     },
     closeButton: {
       position: 'absolute',

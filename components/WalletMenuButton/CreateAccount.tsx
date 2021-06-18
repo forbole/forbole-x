@@ -283,6 +283,17 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ walletId, onClose }) => {
             {t('next')}
           </Button>
         ) : null}
+        {stage === Stage.SecurityPassword ? (
+          <Button
+            className={classes.dialogButton}
+            variant="contained"
+            color="primary"
+            type="submit"
+            disabled={securityPassword.length < 6}
+          >
+            {t('next')}
+          </Button>
+        ) : null}
         {stage === Stage.ImportAccount ? (
           <Button
             className={classes.dialogButton}

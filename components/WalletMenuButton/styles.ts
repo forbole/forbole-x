@@ -21,6 +21,10 @@ const useStyles = makeStyles(
       flex: 1,
       margin: theme.spacing(4, 2),
       color: 'white',
+      '&:disabled': {
+        backgroundColor: theme.palette.buttonDisabled,
+        color: 'white',
+      },
     },
     copyButton: {
       flex: 1,
