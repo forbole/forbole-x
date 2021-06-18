@@ -9,10 +9,6 @@ const useStyles = makeStyles(
     },
     button: {
       flex: 1,
-      '&:disabled': {
-        backgroundColor: theme.palette.buttonDisabled,
-        color: 'white',
-      },
     },
     closeButton: {
       position: 'absolute',
@@ -26,9 +22,6 @@ const useStyles = makeStyles(
     },
     dialogContent: {
       overflowY: 'auto',
-    },
-    dialog: {
-      background: theme.palette.dialogBackground,
     },
     fullWidthButton: {
       flex: 1,

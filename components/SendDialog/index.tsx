@@ -89,9 +89,6 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
       open={open}
       onClose={onClose}
       fullScreen={isMobile}
-      PaperProps={{
-        className: classes.dialog,
-      }}
     >
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />

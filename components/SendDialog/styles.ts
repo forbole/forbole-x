@@ -5,10 +5,6 @@ const useStyles = makeStyles(
   (theme: CustomTheme) => ({
     button: {
       width: theme.spacing(16),
-      '&:disabled': {
-        backgroundColor: theme.palette.buttonDisabled,
-        color: 'white',
-      },
     },
     closeButton: {
       position: 'absolute',
@@ -22,9 +18,6 @@ const useStyles = makeStyles(
     },
     dialogContent: {
       overflowY: 'auto',
-    },
-    dialog: {
-      background: theme.palette.dialogBackground,
     },
     marginLeft: {
       marginLeft: theme.spacing(1),

@@ -3,9 +3,6 @@ import { CustomTheme } from '../../misc/theme'
 
 const useStyles = makeStyles(
   (theme: CustomTheme) => ({
-    dialog: {
-      background: theme.palette.dialogBackground,
-    },
     itemButton: {
       flex: '1',
       justifyContent: 'flex-start',
@@ -21,10 +18,6 @@ const useStyles = makeStyles(
       flex: 1,
       margin: theme.spacing(4, 2),
       color: 'white',
-      '&:disabled': {
-        backgroundColor: theme.palette.buttonDisabled,
-        color: 'white',
-      },
     },
     copyButton: {
       flex: 1,

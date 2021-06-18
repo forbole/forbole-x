@@ -11,10 +11,6 @@ const useStyles = makeStyles(
       margin: theme.spacing(4, 2),
       marginTop: theme.spacing(20),
       color: 'white',
-      '&:disabled': {
-        backgroundColor: theme.palette.buttonDisabled,
-        color: 'white',
-      },
     },
     closeButton: {
       position: 'absolute',

@@ -1,7 +1,8 @@
 import { withStyles } from '@material-ui/core'
+import { CustomTheme } from './theme'
 
 const GlobalCss = withStyles(
-  (theme) => ({
+  (theme: CustomTheme) => ({
     '@global': {
       '@font-face': [
         {
@@ -17,6 +18,9 @@ const GlobalCss = withStyles(
           src: 'url("/fonts/HindMadurai-Medium.ttf")',
         },
       ],
+      '.MuiDialog-paper': {
+        backgroundColor: theme.palette.dialogBackground,
+      },
       '.MuiDialogTitle-root': {
         marginTop: theme.spacing(3),
         textAlign: 'center',
@@ -54,6 +58,12 @@ const GlobalCss = withStyles(
       },
       '.MuiAutocomplete-popper': {
         boxShadow: theme.shadows[7],
+      },
+      '.MuiButton-root': {
+        '&:disabled': {
+          backgroundColor: theme.palette.buttonDisabled,
+          color: 'white',
+        },
       },
     },
   }),

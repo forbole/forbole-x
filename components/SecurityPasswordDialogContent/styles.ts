@@ -9,10 +9,6 @@ const useStyles = makeStyles(
     button: {
       margin: theme.spacing(1, 2),
       marginTop: theme.spacing(20),
-      '&:disabled': {
-        backgroundColor: theme.palette.buttonDisabled,
-        color: 'white',
-      },
     },
     resetButton: {
       flex: 1,
