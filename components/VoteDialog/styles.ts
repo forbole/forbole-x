@@ -23,6 +23,9 @@ const useStyles = makeStyles(
     dialogContent: {
       overflowY: 'auto',
     },
+    dialog: {
+      background: theme.palette.dialogBackground,
+    },
     fullWidthButton: {
       flex: 1,
       margin: theme.spacing(2, 1),

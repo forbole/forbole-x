@@ -1,7 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CustomTheme } from '../../misc/theme'
 
 const useStyles = makeStyles(
-  (theme) => ({
+  (theme: CustomTheme) => ({
     button: {
       flex: 1,
       margin: theme.spacing(2),
@@ -56,6 +57,9 @@ const useStyles = makeStyles(
     },
     dialogContent: {
       overflowY: 'initial',
+    },
+    dialog: {
+      background: theme.palette.dialogBackground,
     },
   }),
   {

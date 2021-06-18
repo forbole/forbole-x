@@ -23,9 +23,6 @@ import {
   EmailShareButton,
   EmailIcon,
 } from 'react-share'
-import DelegateIcon from '../../assets/images/icons/icon_delegate_tx.svg'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import { formatCrypto, formatTokenAmount } from '../../misc/utils'
 import useStyles from './styles'
 import { CustomTheme } from '../../misc/theme'
 
@@ -34,10 +31,9 @@ interface ShareAddressProps {
 }
 
 const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
-  const { t, lang } = useTranslation('common')
+  const { t } = useTranslation('common')
   const classes = useStyles()
   const theme: CustomTheme = useTheme()
-  const { theme: themeSetting } = useGeneralContext()
   const [isCopySuccess, setIsCopySuccess] = React.useState(false)
 
   const copyText = React.useCallback(() => {

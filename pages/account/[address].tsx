@@ -85,7 +85,7 @@ const Account: React.FC = () => {
         account ? (
           <Breadcrumbs>
             <Link href="/wallets" passHref>
-              <MLink color="textPrimary">{t('wallet manage')}</MLink>
+              <MLink color="textPrimary">{t('wallet')}</MLink>
             </Link>
             <AccountAvatar account={account} hideAddress size="small" />
           </Breadcrumbs>

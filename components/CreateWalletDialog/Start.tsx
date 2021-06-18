@@ -60,7 +60,7 @@ const Start: React.FC<StartProps> = ({
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button className={classes.button} color="secondary" onClick={onWhatIsMnemonicClick}>
+        <Button className={classes.button} color="primary" onClick={onWhatIsMnemonicClick}>
           {t('what is mnemonic phrase')}
         </Button>
       </DialogActions>
