@@ -5,7 +5,8 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 
 jest.mock('../../components/Layout', () => 'Layout')
 jest.mock('../../components/AccountCard', () => 'AccountCard')
-jest.mock('../../components/WalletMenuButton', () => 'WalletMenuButton')
+jest.mock('../../components/EditWalletButton', () => 'EditWalletButton')
+jest.mock('../../components/CreateWalletButton', () => 'CreateWalletButton')
 jest.mock('../../components/CreateWalletDialog', () => ({
   __esModule: true,
   default: 'CreateWalletDialog',

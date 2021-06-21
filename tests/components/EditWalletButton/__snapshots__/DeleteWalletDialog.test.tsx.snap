@@ -48,7 +48,7 @@ Array [
       </span>
     </button>
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-4 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-3 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
