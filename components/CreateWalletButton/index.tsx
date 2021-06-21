@@ -94,6 +94,17 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ walletId }) => {
     }
   }
 
+  React.useEffect(() => {
+    if (dialogOpen) {
+      setImportedCrypto('')
+      setImportedName('')
+      setImportedAddress('')
+      setSecurityPassword('')
+      setError('')
+      setStage(Stage.AddAccount, true)
+    }
+  }, [dialogOpen])
+
   return (
     <>
       <IconButton onClick={() => setDialogOpen(true)} style={{ marginLeft: theme.spacing(-1) }}>
