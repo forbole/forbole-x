@@ -55,9 +55,12 @@ exports[`page: Wallets renders correctly 1`] = `
       >
         test
       </h4>
-      <WalletMenuButton
+      <EditWalletButton
         walletId="123"
         walletName="test"
+      />
+      <AddAccountButton
+        walletId="123"
       />
     </div>
     <div
@@ -147,9 +150,12 @@ exports[`page: Wallets renders correctly with missing wallet id 1`] = `
       >
         test
       </h4>
-      <WalletMenuButton
+      <EditWalletButton
         walletId="123"
         walletName="test"
+      />
+      <AddAccountButton
+        walletId="123"
       />
     </div>
     <div

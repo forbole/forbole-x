@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { useWalletsContext } from '../../../contexts/WalletsContext'
-import ChangeWalletMonikerDialog from '../../../components/WalletMenuButton/ChangeWalletMoniker'
+import ChangeWalletMonikerDialog from '../../../components/EditWalletButton/ChangeWalletMoniker'
 
 const onClose = jest.fn()
 const updateWallet = jest.fn()

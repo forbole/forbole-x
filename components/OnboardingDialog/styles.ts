@@ -1,7 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CustomTheme } from '../../misc/theme'
 
 const useStyles = makeStyles(
-  (theme) => ({
+  (theme: CustomTheme) => ({
     passwordRequirement: {
       marginTop: theme.spacing(1),
     },

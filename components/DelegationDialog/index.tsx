@@ -170,9 +170,6 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
       open={open}
       onClose={onClose}
       fullScreen={isMobile}
-      PaperProps={{
-        className: classes.dialog,
-      }}
     >
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>

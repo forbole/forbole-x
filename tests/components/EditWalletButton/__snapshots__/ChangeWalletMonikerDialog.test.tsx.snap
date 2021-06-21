@@ -18,7 +18,7 @@ exports[`component: ChangeWalletMonikerDialog renders opened state correctly 1`]
     className="MuiDialogContent-root"
   >
     <div
-      className="MuiBox-root MuiBox-root-15"
+      className="MuiBox-root MuiBox-root-14"
     >
       <p
         className="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
@@ -54,7 +54,7 @@ exports[`component: ChangeWalletMonikerDialog renders opened state correctly 1`]
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-4 MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-dialogButton-3 MuiButton-containedPrimary"
       disabled={false}
       onBlur={[Function]}
       onDragLeave={[Function]}

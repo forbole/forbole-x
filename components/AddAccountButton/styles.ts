@@ -3,9 +3,6 @@ import { CustomTheme } from '../../misc/theme'
 
 const useStyles = makeStyles(
   (theme: CustomTheme) => ({
-    dialog: {
-      background: theme.palette.dialogBackground,
-    },
     itemButton: {
       flex: '1',
       justifyContent: 'flex-start',

@@ -177,9 +177,6 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ account, open, onClose, proposa
       maxWidth={content.dialogWidth || 'md'}
       open={open}
       onClose={onClose}
-      PaperProps={{
-        className: classes.dialog,
-      }}
     >
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>

@@ -182,15 +182,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({
   }, [stage, t])
 
   return (
-    <Dialog
-      fullWidth
-      maxWidth={content.dialogWidth || 'md'}
-      open={open}
-      onClose={onClose}
-      PaperProps={{
-        className: classes.dialog,
-      }}
-    >
+    <Dialog fullWidth maxWidth={content.dialogWidth || 'md'} open={open} onClose={onClose}>
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

@@ -46,6 +46,15 @@ const OnboardingDialog: React.FC<OnboardingDialogProps> = ({ open, onClose, onSu
       onSubmit(password)
     }
   }, [isConfirmingPassword, password, confirmPassword])
+
+  React.useEffect(() => {
+    if (open) {
+      setPassword('')
+      setConfirmPassword('')
+      setIsConfirmingPassword(false)
+    }
+  }, [open])
+
   return (
     <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
       <IconButton className={classes.closeButton} onClick={onClose}>
@@ -81,7 +90,16 @@ const OnboardingDialog: React.FC<OnboardingDialogProps> = ({ open, onClose, onSu
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button className={classes.button} variant="contained" color="primary" type="submit">
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="primary"
+            type="submit"
+            disabled={
+              (!isConfirmingPassword && password.length < 6) ||
+              (isConfirmingPassword && confirmPassword.length < 6)
+            }
+          >
             {isConfirmingPassword ? t('confirm') : t('next')}
           </Button>
         </DialogActions>

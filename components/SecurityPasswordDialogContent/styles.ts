@@ -11,6 +11,7 @@ const useStyles = makeStyles(
       marginTop: theme.spacing(20),
     },
     resetButton: {
+      flex: 1,
       margin: theme.spacing(4, 2),
       marginTop: theme.spacing(6),
       color: 'white',
