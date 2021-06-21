@@ -41,7 +41,6 @@ enum Stage {
 
 interface CreateAccountProps {
   walletId: string
-  onClose(): void
 }
 
 const CreateAccount: React.FC<CreateAccountProps> = ({ walletId }) => {

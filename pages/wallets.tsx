@@ -35,7 +35,7 @@ const Wallets: React.FC = () => {
           <Box display="flex" alignItems="center" mb={1}>
             <Typography variant="h4">{w.name}</Typography>
             <EditWalletButton walletId={w.id} walletName={w.name} />
-            <CreateWalletButton walletId={w.id} walletName={w.name} />
+            <CreateWalletButton walletId={w.id} />
           </Box>
           <Grid container spacing={3}>
             {(accountsMap[w.id] || []).map((a) => (
