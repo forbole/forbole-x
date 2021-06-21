@@ -39,11 +39,11 @@ enum Stage {
   SuccessStage = 'success',
 }
 
-interface CreateAccountProps {
+interface AddAccountButtonProps {
   walletId: string
 }
 
-const CreateAccount: React.FC<CreateAccountProps> = ({ walletId }) => {
+const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
   const { t } = useTranslation('common')
   const smallIconProps = useIconProps()
   const iconProps = useIconProps(3)
@@ -359,4 +359,4 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ walletId }) => {
   )
 }
 
-export default CreateAccount
+export default AddAccountButton

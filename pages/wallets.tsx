@@ -5,7 +5,7 @@ import useTranslation from 'next-translate/useTranslation'
 import Layout from '../components/Layout'
 import AccountCard from '../components/AccountCard'
 import { useWalletsContext } from '../contexts/WalletsContext'
-import CreateWalletButton from '../components/CreateWalletButton/index'
+import AddAccountButton from '../components/AddAccountButton/index'
 import EditWalletButton from '../components/EditWalletButton/index'
 import CreateWalletDialog, { CommonStage } from '../components/CreateWalletDialog'
 import { CustomTheme } from '../misc/theme'
@@ -35,7 +35,7 @@ const Wallets: React.FC = () => {
           <Box display="flex" alignItems="center" mb={1}>
             <Typography variant="h4">{w.name}</Typography>
             <EditWalletButton walletId={w.id} walletName={w.name} />
-            <CreateWalletButton walletId={w.id} />
+            <AddAccountButton walletId={w.id} />
           </Box>
           <Grid container spacing={3}>
             {(accountsMap[w.id] || []).map((a) => (

@@ -59,7 +59,7 @@ exports[`page: Wallets renders correctly 1`] = `
         walletId="123"
         walletName="test"
       />
-      <CreateWalletButton
+      <AddAccountButton
         walletId="123"
       />
     </div>
@@ -154,7 +154,7 @@ exports[`page: Wallets renders correctly with missing wallet id 1`] = `
         walletId="123"
         walletName="test"
       />
-      <CreateWalletButton
+      <AddAccountButton
         walletId="123"
       />
     </div>
