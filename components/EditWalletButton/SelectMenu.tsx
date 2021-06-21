@@ -18,7 +18,6 @@ const SelectMenu: React.FC<SelectMenuProps> = ({
   changeWalletMoniker,
   changeSecurityPassword,
   checkMnemonicPhrase,
-  addAccountToWallet,
   deleteWallet,
 }) => {
   const { t } = useTranslation('common')
