@@ -13,6 +13,10 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.12",
+    "@cosmjs/crypto": "^0.25.4",
+    "@cosmjs/ledger-amino": "^0.25.4",
+    "@cosmjs/proto-signing": "^0.25.4",
+    "@cosmjs/stargate": "^0.25.4",
     "@ledgerhq/hw-transport-webusb": "^5.50.0",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",

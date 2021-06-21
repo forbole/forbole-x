@@ -349,11 +349,4 @@ type ChromeMessage =
         password: string
       }
     }
-  | {
-      event: 'getSequenceAndChainId'
-      data: {
-        address: string
-        crypto: string
-      }
-    }
   | { event: 'closeChromeExtension' }

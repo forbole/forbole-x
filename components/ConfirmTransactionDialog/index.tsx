@@ -5,7 +5,6 @@ import flatten from 'lodash/flatten'
 import keyBy from 'lodash/keyBy'
 import get from 'lodash/get'
 import { gql, useSubscription } from '@apollo/client'
-import invoke from 'lodash/invoke'
 import useStateHistory from '../../misc/useStateHistory'
 import { formatTokenAmount, getTokenAmountFromDenoms, transformValidators } from '../../misc/utils'
 import useStyles from './styles'
@@ -22,6 +21,8 @@ import SuccessContent from './SuccessContent'
 import SecurityPasswordDialogContent from '../SecurityPasswordDialogContent'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import useSignerInfo from '../../misc/useSignerInfo'
+import signAndBroadcastTransaction from '../../misc/signAndBroadcastTransaction'
 
 enum ConfirmTransactionStage {
   ConfirmStage = 'confirm',
@@ -45,7 +46,7 @@ interface ConfirmTransactionDialogProps {
 
 const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   address,
-  transactionData,
+  transactionData: defaultTransactionData,
   open,
   onClose,
 }) => {
@@ -63,6 +64,32 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
     ${getTokensPrices(crypto)}
   `)
   const denoms = get(denomsData, 'token_price', [])
+  const signerInfo = useSignerInfo(account)
+  const transactionData = React.useMemo(() => {
+    return account
+      ? {
+          fee: {
+            amount: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
+            gas: String(
+              defaultTransactionData.msgs
+                .map((m) =>
+                  Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.${m.type}`, 0))
+                )
+                .reduce((a, b) => a + b, 0)
+            ),
+          },
+          ...signerInfo,
+          ...defaultTransactionData,
+        }
+      : {
+          msgs: [],
+          fee: {
+            amount: '0',
+            gas: '0',
+          },
+          memo: '',
+        }
+  }, [account, signerInfo, defaultTransactionData])
 
   const validatorsAddresses = flatten(
     transactionData.msgs.map((m) => {
@@ -135,22 +162,14 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
     async (securityPassword?: string) => {
       try {
         setLoading(true)
-        await invoke(
-          window,
-          'forboleX.signAndBroadcastTransaction',
-          process.env.NEXT_PUBLIC_CHROME_EXT_ID,
-          password,
-          address,
-          transactionData,
-          securityPassword
-        )
+        await signAndBroadcastTransaction(password, account, transactionData, securityPassword)
         setLoading(false)
         setStage(ConfirmTransactionStage.SuccessStage, true)
       } catch (err) {
         console.log(err)
       }
     },
-    [address, transactionData, password]
+    [account, transactionData, password]
   )
 
   const content: Content = React.useMemo(() => {
