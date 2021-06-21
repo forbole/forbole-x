@@ -2,11 +2,6 @@
 
 exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
 <div
-  PaperProps={
-    Object {
-      "className": "HookGlobalStyles-dialog-8",
-    }
-  }
   fullScreen={false}
   fullWidth={true}
   id="dialog"
@@ -87,7 +82,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
           type="button"
         >
           <div
-            className="MuiBox-root MuiBox-root-11"
+            className="MuiBox-root MuiBox-root-10"
           >
             <svg
               data-file-name="SvgLogin_light"
@@ -125,7 +120,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
           type="button"
         >
           <div
-            className="MuiBox-root MuiBox-root-12"
+            className="MuiBox-root MuiBox-root-11"
           >
             <svg
               data-file-name="SvgCreate_wallet_light"
@@ -179,11 +174,6 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
 
 exports[`component: CreateWalletDialog renders open state correctly 1`] = `
 <div
-  PaperProps={
-    Object {
-      "className": "HookGlobalStyles-dialog-8",
-    }
-  }
   fullScreen={false}
   fullWidth={true}
   id="dialog"
@@ -261,7 +251,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
           type="button"
         >
           <div
-            className="MuiBox-root MuiBox-root-9"
+            className="MuiBox-root MuiBox-root-8"
           >
             <svg
               data-file-name="SvgLogin_light"
@@ -296,7 +286,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
           type="button"
         >
           <div
-            className="MuiBox-root MuiBox-root-10"
+            className="MuiBox-root MuiBox-root-9"
           >
             <svg
               data-file-name="SvgCreate_wallet_light"
