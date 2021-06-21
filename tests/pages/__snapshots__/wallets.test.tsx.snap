@@ -61,7 +61,6 @@ exports[`page: Wallets renders correctly 1`] = `
       />
       <CreateWalletButton
         walletId="123"
-        walletName="test"
       />
     </div>
     <div
@@ -157,7 +156,6 @@ exports[`page: Wallets renders correctly with missing wallet id 1`] = `
       />
       <CreateWalletButton
         walletId="123"
-        walletName="test"
       />
     </div>
     <div
