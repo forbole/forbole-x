@@ -10,10 +10,6 @@ export const useGetStyles = () => {
         },
         button: {
           width: theme.spacing(16),
-          '&:disabled': {
-            backgroundColor: theme.palette.buttonDisabled,
-            color: 'white',
-          },
         },
         confirmTitle: {
           fontSize: theme.spacing(4),

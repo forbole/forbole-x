@@ -59,7 +59,7 @@ const GlobalCss = withStyles(
       '.MuiAutocomplete-popper': {
         boxShadow: theme.shadows[7],
       },
-      '.MuiButton-root': {
+      '.MuiButton-root.MuiButton-containedPrimary': {
         '&:disabled': {
           backgroundColor: theme.palette.buttonDisabled,
           color: 'white',
