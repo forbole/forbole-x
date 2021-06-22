@@ -290,7 +290,7 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
                   <Typography>{t('select account(s) you want too add')}</Typography>
                 </Box>
 
-                <Table className={classes.table}>
+                <Table>
                   <TableHead>
                     <TableRow className={classes.tableRow}>
                       <TableCell className={classes.tableCell}> </TableCell>
