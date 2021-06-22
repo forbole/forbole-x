@@ -58,6 +58,22 @@ const useStyles = makeStyles(
     networkText: {
       marginLeft: theme.spacing(1),
     },
+    table: {
+
+    },
+    tableLabel: {
+
+    },
+    tableCell: {
+      borderBottom: 'none',
+    },
+    tableRow: {
+      borderBottom: `1px solid ${theme.palette.divider}`,
+    },
+    checkbox: {
+      padding: 0,
+      marginLeft: theme.spacing(-1.5),
+    },
   }),
   {
     name: 'HookGlobalStyles',
