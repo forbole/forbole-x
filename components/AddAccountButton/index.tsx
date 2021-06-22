@@ -29,6 +29,7 @@ import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import AddIcon from '../../assets/images/icons/icon_add wallet.svg'
 import useIsMobile from '../../misc/useIsMobile'
+import getWalletAddress from '../../misc/getWalletAddress'
 
 enum Stage {
   AddAccount = 'add account',
@@ -68,16 +69,34 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
     Stage.AddAccount
   )
-  const { addAccount } = useWalletsContext()
+  const { addAccount, accounts, wallets, viewMnemonicPhrase } = useWalletsContext()
+  const wallet = wallets.find((w) => w.id === walletId)
 
   const onSubmit = React.useCallback(async () => {
     try {
-      await addAccount({ name, crypto, walletId }, securityPassword)
+      const mnemonic = await viewMnemonicPhrase(walletId, securityPassword)
+      const index =
+        accounts
+          .filter((a) => a.walletId === walletId)
+          .map((a) => a.index)
+          .reduce((a, b) => Math.max(a, b), 0) + 1
+      const address = await getWalletAddress(mnemonic, crypto, index)
+      await addAccount({ name, crypto, walletId, index, address }, securityPassword)
       setStage(Stage.SuccessStage)
     } catch (err) {
       setError(err.message)
     }
-  }, [name, addAccount, walletId, crypto, securityPassword, setError])
+  }, [
+    accounts,
+    name,
+    addAccount,
+    walletId,
+    wallet,
+    crypto,
+    securityPassword,
+    setError,
+    viewMnemonicPhrase,
+  ])
 
   const onNext = () => {
     if (stage === Stage.CreateAccount) {

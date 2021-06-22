@@ -2,7 +2,6 @@ import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 import { stringToPath } from '@cosmjs/crypto'
 import { LedgerSigner } from '@cosmjs/ledger-amino'
 import { SigningStargateClient } from '@cosmjs/stargate'
-import TransportWebUSB from '@ledgerhq/hw-transport-webusb'
 import camelCase from 'lodash/camelCase'
 import cryptocurrencies from './cryptocurrencies'
 import sendMsgToChromeExt from './sendMsgToChromeExt'
@@ -30,18 +29,18 @@ const signAndBroadcastCosmosTransaction = async (
   mnemonic: string,
   crypto: string,
   index: number,
-  transactionData: any
+  transactionData: any,
+  ledgerTransport?: any
 ): Promise<any> => {
   let signer
   const signerOptions = {
     hdPaths: [stringToPath(`m/44'/${cryptocurrencies[crypto].coinType}'/0'/0/${index}`)],
     prefix: cryptocurrencies[crypto].prefix,
   }
-  if (mnemonic) {
+  if (!ledgerTransport) {
     signer = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, signerOptions)
   } else {
-    const transport = await TransportWebUSB.create()
-    signer = new LedgerSigner(transport, signerOptions as any)
+    signer = new LedgerSigner(ledgerTransport, signerOptions as any)
   }
   const accounts = await signer.getAccounts()
   const client = await SigningStargateClient.connectWithSigner(
@@ -61,7 +60,8 @@ const signAndBroadcastTransaction = async (
   password: string,
   account: Account,
   transactionData: any,
-  securityPassword: string
+  securityPassword: string,
+  ledgerTransport?: any
 ): Promise<any> => {
   const channel = new BroadcastChannel('forbole-x')
   try {
@@ -74,7 +74,8 @@ const signAndBroadcastTransaction = async (
       mnemonic,
       account.crypto,
       account.index,
-      transactionData
+      transactionData,
+      ledgerTransport
     )
     channel.postMessage({
       event: 'transactionSuccess',

@@ -159,10 +159,16 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const [loading, setLoading] = React.useState(false)
 
   const confirm = React.useCallback(
-    async (securityPassword?: string) => {
+    async (securityPassword?: string, ledgerSigner?: any) => {
       try {
         setLoading(true)
-        await signAndBroadcastTransaction(password, account, transactionData, securityPassword)
+        await signAndBroadcastTransaction(
+          password,
+          account,
+          transactionData,
+          securityPassword,
+          ledgerSigner
+        )
         setLoading(false)
         setStage(ConfirmTransactionStage.SuccessStage, true)
       } catch (err) {
@@ -211,7 +217,11 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         return {
           title: '',
           dialogWidth: 'sm',
-          content: <ConnectLedgerDialogContent onConnect={confirm} />,
+          content: (
+            <ConnectLedgerDialogContent
+              onConnect={(ledgerSigner) => confirm(undefined, ledgerSigner)}
+            />
+          ),
         }
       case ConfirmTransactionStage.SuccessStage:
       default:
