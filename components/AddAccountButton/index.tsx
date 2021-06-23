@@ -5,38 +5,36 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  ListItemAvatar,
-  MenuItem,
-  TextField,
+  Checkbox,
   Typography,
-  Divider,
   Dialog,
   IconButton,
   useTheme,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  TableHead,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
-import cryptocurrencies from '../../misc/cryptocurrencies'
 import useStateHistory from '../../misc/useStateHistory'
 import PasswordInput from '../PasswordInput'
-import CreateAccountIcon from '../../assets/images/icons/icon_create account.svg'
-import ImportAccountIcon from '../../assets/images/icons/icon_import account.svg'
 import Success from '../Success'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import AddIcon from '../../assets/images/icons/icon_add wallet.svg'
 import useIsMobile from '../../misc/useIsMobile'
+import TablePagination from '../TablePagination'
 import getWalletAddress from '../../misc/getWalletAddress'
 
 enum Stage {
-  AddAccount = 'add account',
-  ImportAccount = 'import account',
-  CreateAccount = 'create account',
-  ConfirmImport = 'confirm import',
   SecurityPassword = 'security password',
+  SelectNetwork = 'select network',
+  SelectAddress = 'select address',
   SuccessStage = 'success',
 }
 
@@ -47,9 +45,7 @@ interface AddAccountButtonProps {
 const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
   const { t } = useTranslation('common')
   const smallIconProps = useIconProps()
-  const iconProps = useIconProps(3)
   const classes = useStyles()
-  // for create account
   const [crypto, setCrypto] = React.useState('')
   const [name, setName] = React.useState('')
   const [dialogOpen, setDialogOpen] = React.useState(false)
@@ -58,19 +54,26 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
   }
   const theme = useTheme()
   const isMobile = useIsMobile()
-
-  // for import account
-  const [importedCrypto, setImportedCrypto] = React.useState('')
-  const [importedName, setImportedName] = React.useState('')
-  const [importedAddress, setImportedAddress] = React.useState('')
-
   const [securityPassword, setSecurityPassword] = React.useState('')
   const [error, setError] = React.useState('')
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
-    Stage.AddAccount
+    Stage.SecurityPassword
   )
   const { addAccount, accounts, wallets, viewMnemonicPhrase } = useWalletsContext()
   const wallet = wallets.find((w) => w.id === walletId)
+  const [state, setState] = React.useState({})
+
+  const [page, setPage] = React.useState(0)
+  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+
+  const onSubmitSecurityPassword = React.useCallback(async () => {
+    try {
+      await viewMnemonicPhrase(walletId, securityPassword)
+      setStage(Stage.SelectNetwork)
+    } catch (err) {
+      setError(err.message)
+    }
+  }, [walletId, securityPassword, setError])
 
   const onSubmit = React.useCallback(async () => {
     try {
@@ -99,30 +102,147 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
   ])
 
   const onNext = () => {
-    if (stage === Stage.CreateAccount) {
-      setStage(Stage.SecurityPassword)
-    }
     if (stage === Stage.SecurityPassword) {
+      onSubmitSecurityPassword()
+    }
+    if (stage === Stage.SelectNetwork) {
       onSubmit()
+      setStage(Stage.SelectAddress)
     }
-    if (stage === Stage.ImportAccount) {
-      setStage(Stage.ConfirmImport)
-    }
-    if (stage === Stage.ConfirmImport) {
+    if (stage === Stage.SelectAddress) {
       setStage(Stage.SuccessStage)
     }
   }
 
+  // fake data for testing
+  const networkList = [
+    {
+      name: 'Akash - AKT',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/akash.svg?sanitize=true',
+    },
+    {
+      name: 'Band Protocol - BAND',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/band.svg?sanitize=true',
+    },
+    {
+      name: 'Cosmos - ATOM',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/cosmoshub.svg?sanitize=true',
+    },
+    {
+      name: 'Desmos- DSM',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/desmos.svg?sanitize=true',
+    },
+    {
+      name: 'e-Money- NGM',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/e-money.svg?sanitize=true',
+    },
+    {
+      name: 'Flow- FLOW',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/flow.svg?sanitize=true',
+    },
+  ]
+
+  // fake data for testing
+  const addressList = [
+    {
+      ref: 0,
+      isSelected: false,
+      address: 'cosmos14kn24s...mswhp',
+      balance: 110,
+    },
+    {
+      ref: 1,
+      isSelected: false,
+      address: 'cosmos147fn50...40vndi',
+      balance: 11000,
+    },
+    {
+      ref: 2,
+      isSelected: false,
+      address: 'cosmos147fn50...40vndi',
+      balance: 12.0,
+    },
+    {
+      ref: 3,
+      isSelected: false,
+      address: 'cosmos14kn24s...mswhp',
+      balance: 110,
+    },
+    {
+      ref: 4,
+      isSelected: false,
+      address: 'cosmos147fn50...40vndi',
+      balance: 11000,
+    },
+    {
+      ref: 5,
+      isSelected: false,
+      address: 'cosmos147fn50...40vndi',
+      balance: 12.0,
+    },
+    {
+      ref: 6,
+      isSelected: false,
+      address: 'cosmos14kn24s...mswhp',
+      balance: 110,
+    },
+    {
+      ref: 7,
+      isSelected: false,
+      address: 'cosmos147fn50...40vndi',
+      balance: 11000,
+    },
+    {
+      ref: 8,
+      isSelected: false,
+      address: 'cosmos147fn50...40vndi',
+      balance: 12.0,
+    },
+    {
+      ref: 9,
+      isSelected: false,
+      address: 'cosmos14kn24s...mswhp',
+      balance: 110,
+    },
+    {
+      ref: 10,
+      isSelected: false,
+      address: 'cosmos147fn50...40vndi',
+      balance: 11000,
+    },
+    {
+      ref: 11,
+      isSelected: false,
+      address: 'cosmos147fn50...40vndi',
+      balance: 12.0,
+    },
+  ]
+
+  const [latestAddressList, setLatestAddressList] = React.useState(addressList)
+
   React.useEffect(() => {
     if (dialogOpen) {
-      setImportedCrypto('')
-      setImportedName('')
-      setImportedAddress('')
       setSecurityPassword('')
       setError('')
-      setStage(Stage.AddAccount, true)
+      setStage(Stage.SecurityPassword, true)
     }
   }, [dialogOpen])
+
+  const onSelect = (ref) => {
+    const index = latestAddressList.findIndex((v) => v.ref === ref)
+    const updatedList = latestAddressList
+
+    if (updatedList[index].isSelected === true) {
+      updatedList[index].isSelected = false
+    } else {
+      updatedList[index].isSelected = true
+    }
+    setLatestAddressList(updatedList)
+  }
+
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked })
+  }
 
   return (
     <>
@@ -145,138 +265,93 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
             onNext()
           }}
         >
-          {stage === Stage.SuccessStage ? null : <DialogTitle>{t(`${stage} title`)}</DialogTitle>}
-
+          {stage === Stage.SecurityPassword ? (
+            <DialogTitle>{t('security password')}</DialogTitle>
+          ) : null}
+          {stage === Stage.SelectNetwork || stage === Stage.SelectAddress ? (
+            <DialogTitle>{t('add account')}</DialogTitle>
+          ) : null}
           <DialogContent>
-            {stage === Stage.AddAccount ? (
+            {stage === Stage.SelectNetwork ? (
               <>
-                <Box mt={2} mb={3} display="flex" flex={1}>
-                  <Button
-                    variant="contained"
-                    className={classes.addAccountButton}
-                    onClick={() => setStage(Stage.CreateAccount)}
-                  >
-                    <Box display="flex" flex={1}>
-                      <CreateAccountIcon {...iconProps} />
-                      <Box ml={1}>
-                        <Typography color="textPrimary">{t('create account')}</Typography>
-                      </Box>
-                    </Box>
-                  </Button>
+                <Box mt={2} mb={1} display="flex" flex={1}>
+                  <Typography>{t('select network')}</Typography>
                 </Box>
-                <Box mb={30} display="flex" flex={1}>
-                  <Button
-                    variant="contained"
-                    className={classes.addAccountButton}
-                    onClick={() => setStage(Stage.ImportAccount)}
-                  >
-                    <Box display="flex" flex={1}>
-                      <ImportAccountIcon {...iconProps} />
-                      <Box ml={1}>
-                        <Typography color="textPrimary">{t('import account')}</Typography>
+
+                {networkList.map((x) => (
+                  <Box mb={1} display="flex" flex={1}>
+                    <Button
+                      variant="contained"
+                      className={classes.addAccountButton}
+                      onClick={() => setStage(Stage.SelectAddress)}
+                    >
+                      <Box display="flex" flex={1}>
+                        <Avatar className={classes.smallAvatar} alt={x.name} src={x.img} />
+                        <Box ml={1}>
+                          <Typography color="textPrimary">{x.name}</Typography>
+                        </Box>
                       </Box>
-                    </Box>
-                  </Button>
-                </Box>
+                    </Button>
+                  </Box>
+                ))}
               </>
             ) : null}
-            {stage === Stage.ImportAccount ? (
+            {stage === Stage.SelectAddress ? (
               <>
-                <Box mb={2}>
-                  <Typography gutterBottom>{t('select network')}</Typography>
-                  <TextField
-                    fullWidth
-                    variant="filled"
-                    placeholder={t('select network')}
-                    InputProps={{
-                      disableUnderline: true,
-                    }}
-                    SelectProps={{
-                      classes: { icon: classes.icon },
-                    }}
-                    value={importedCrypto}
-                    onChange={(e) => setImportedCrypto(e.target.value)}
-                    select
-                  >
-                    {Object.values(cryptocurrencies).map((c) => (
-                      <MenuItem key={c.name} value={c.name}>
-                        <ListItemAvatar className={classes.cryptoMenuItemAvatar}>
-                          <Avatar alt={c.name} src={c.image} className={classes.smallAvatar} />
-                        </ListItemAvatar>
-                        <Typography>{c.name}</Typography>
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                <Box mt={2} mb={2} display="flex" flex={1}>
+                  <Typography>{t('select account(s) you want too add')}</Typography>
                 </Box>
-                <Box mb={2}>
-                  <Typography gutterBottom>{t('insert address')}</Typography>
-                  <TextField
-                    fullWidth
-                    variant="filled"
-                    InputProps={{
-                      disableUnderline: true,
-                    }}
-                    placeholder={t('insert address')}
-                    value={importedAddress}
-                    onChange={(e) => setImportedAddress(e.target.value)}
-                  />
-                </Box>
-                <Box mb={8}>
-                  <Typography gutterBottom>{t('moniker')}</Typography>
-                  <TextField
-                    fullWidth
-                    variant="filled"
-                    InputProps={{
-                      disableUnderline: true,
-                    }}
-                    placeholder={t('set an account name')}
-                    value={importedName}
-                    onChange={(e) => setImportedName(e.target.value)}
-                  />
-                </Box>
-              </>
-            ) : null}
-            {stage === Stage.CreateAccount ? (
-              <>
-                <Box mb={2}>
-                  <Typography gutterBottom>{t('network')}</Typography>
-                  <TextField
-                    fullWidth
-                    variant="filled"
-                    placeholder={t('select network')}
-                    InputProps={{
-                      disableUnderline: true,
-                    }}
-                    SelectProps={{
-                      classes: { icon: classes.icon },
-                    }}
-                    value={crypto}
-                    onChange={(e) => setCrypto(e.target.value)}
-                    select
-                  >
-                    {Object.values(cryptocurrencies).map((c) => (
-                      <MenuItem key={c.name} value={c.name}>
-                        <ListItemAvatar className={classes.cryptoMenuItemAvatar}>
-                          <Avatar alt={c.name} src={c.image} className={classes.smallAvatar} />
-                        </ListItemAvatar>
-                        <Typography>{c.name}</Typography>
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Box>
-                <Box mb={8}>
-                  <Typography gutterBottom>{t('moniker')}</Typography>
-                  <TextField
-                    fullWidth
-                    variant="filled"
-                    InputProps={{
-                      disableUnderline: true,
-                    }}
-                    placeholder={t('account moniker')}
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </Box>
+
+                <Table>
+                  <TableHead>
+                    <TableRow className={classes.tableRow}>
+                      <TableCell className={classes.tableCell}> </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        <Typography>#</Typography>
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>{t('address')}</TableCell>
+                      <TableCell className={classes.tableCell} align="right">
+                        {t('balance')}
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+
+                  <TableBody>
+                    {latestAddressList
+                      .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+                      .map((x) => (
+                        <TableRow className={classes.tableRow}>
+                          <TableCell className={classes.tableCell}>
+                            <Checkbox
+                              className={classes.checkbox}
+                              checked={x.isSelected}
+                              onClick={() => onSelect(x.ref)}
+                              onChange={handleChange}
+                              color="primary"
+                              size="small"
+                              name={String(x.ref)}
+                            />
+                          </TableCell>
+                          <TableCell className={classes.tableCell}>
+                            <Typography>{x.ref}</Typography>
+                          </TableCell>
+                          <TableCell className={classes.tableCell}>
+                            <Typography>{x.address}</Typography>
+                          </TableCell>
+                          <TableCell className={classes.tableCell} align="right">
+                            <Typography>{x.balance}</Typography>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+                <TablePagination
+                  page={page}
+                  rowsPerPage={rowsPerPage}
+                  rowsCount={addressList.length}
+                  onPageChange={setPage}
+                  onRowsPerPageChange={setRowsPerPage}
+                />
               </>
             ) : null}
             {stage === Stage.SecurityPassword ? (
@@ -292,53 +367,10 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
               </Box>
             ) : null}
             {stage === Stage.SuccessStage ? (
-              <Success onClose={onClose} content="success created accout" hideButton />
-            ) : null}
-            {stage === Stage.ConfirmImport ? (
-              <Box mb={6}>
-                <Box my={2}>
-                  <Typography gutterBottom>{t('network')}</Typography>
-                  <Box display="flex" alignItems="center" my={1.5}>
-                    <Avatar
-                      alt={cryptocurrencies[importedCrypto].name}
-                      src={cryptocurrencies[importedCrypto].image}
-                      className={classes.smallAvatar}
-                    />
-                    <Typography color="textSecondary" className={classes.networkText}>
-                      {cryptocurrencies[importedCrypto].name}
-                    </Typography>
-                  </Box>
-                </Box>
-                <Divider />
-                <Box my={2}>
-                  <Typography gutterBottom>{t('address')}</Typography>
-                  <Box display="flex" alignItems="center" my={1.5}>
-                    <Typography color="textSecondary">{importedAddress}</Typography>
-                  </Box>
-                </Box>
-                <Divider />
-                <Box my={2}>
-                  <Typography gutterBottom>{t('moniker')}</Typography>
-                  <Box display="flex" alignItems="center" my={1.5}>
-                    <Typography color="textSecondary">{importedName}</Typography>
-                  </Box>
-                </Box>
-                <Divider />
-              </Box>
+              <Success onClose={onClose} content="success added accout" hideButton />
             ) : null}
           </DialogContent>
           <DialogActions>
-            {stage === Stage.CreateAccount ? (
-              <Button
-                className={classes.dialogButton}
-                variant="contained"
-                color="primary"
-                type="submit"
-                disabled={!(crypto !== '' && name !== '')}
-              >
-                {t('next')}
-              </Button>
-            ) : null}
             {stage === Stage.SecurityPassword ? (
               <Button
                 className={classes.dialogButton}
@@ -350,25 +382,15 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
                 {t('next')}
               </Button>
             ) : null}
-            {stage === Stage.ImportAccount ? (
+            {stage === Stage.SelectAddress ? (
               <Button
                 className={classes.dialogButton}
                 variant="contained"
                 color="primary"
                 type="submit"
-                disabled={!(importedCrypto !== '' && importedName !== '' && importedAddress !== '')}
+                disabled={latestAddressList.filter((x) => x.isSelected).length === 0}
               >
                 {t('next')}
-              </Button>
-            ) : null}
-            {stage === Stage.ConfirmImport ? (
-              <Button
-                className={classes.dialogButton}
-                variant="contained"
-                color="primary"
-                type="submit"
-              >
-                {t('confirm')}
               </Button>
             ) : null}
           </DialogActions>
