@@ -2,7 +2,6 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import get from 'lodash/get'
 import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
@@ -12,7 +11,6 @@ import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/ut
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIsMobile from '../../misc/useIsMobile'
-import useSignerInfo from '../../misc/useSignerInfo'
 
 interface UndelegationDialogProps {
   account: Account
@@ -38,7 +36,6 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
   const isMobile = useIsMobile()
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
   const [loading, setLoading] = React.useState(false)
-  const signerInfo = useSignerInfo(account)
 
   const availableAmount = React.useMemo(
     () => getTokenAmountFromDenoms(delegatedTokens, tokensPrices),
@@ -65,12 +62,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
               },
             },
           ],
-          fee: {
-            amount: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
-            gas: get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.undelegate`, 0),
-          },
           memo,
-          ...signerInfo,
         })
         setLoading(false)
         onClose()
@@ -79,7 +71,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
         console.log(err)
       }
     },
-    [delegatedTokens, tokensPrices, account, password, account, signerInfo]
+    [delegatedTokens, tokensPrices, account, password, account]
   )
 
   React.useEffect(() => {
@@ -89,13 +81,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
   }, [open])
 
   return (
-    <Dialog
-      fullWidth
-      maxWidth="md"
-      open={open}
-      onClose={onClose}
-      fullScreen={isMobile}
-    >
+    <Dialog fullWidth maxWidth="md" open={open} onClose={onClose} fullScreen={isMobile}>
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>

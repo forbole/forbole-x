@@ -29,6 +29,7 @@ import BackIcon from '../../assets/images/icons/icon_back.svg'
 import AddIcon from '../../assets/images/icons/icon_add wallet.svg'
 import useIsMobile from '../../misc/useIsMobile'
 import TablePagination from '../TablePagination'
+import getWalletAddress from '../../misc/getWalletAddress'
 
 enum Stage {
   SecurityPassword = 'security password',
@@ -53,14 +54,14 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
   }
   const theme = useTheme()
   const isMobile = useIsMobile()
-  const { viewMnemonicPhrase } = useWalletsContext()
   const [securityPassword, setSecurityPassword] = React.useState('')
   const [error, setError] = React.useState('')
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
     Stage.SecurityPassword
   )
+  const { addAccount, accounts, wallets, viewMnemonicPhrase } = useWalletsContext()
+  const wallet = wallets.find((w) => w.id === walletId)
   const [state, setState] = React.useState({})
-  const { addAccount } = useWalletsContext()
 
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
@@ -76,12 +77,29 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
 
   const onSubmit = React.useCallback(async () => {
     try {
-      await addAccount({ name, crypto, walletId }, securityPassword)
+      const mnemonic = await viewMnemonicPhrase(walletId, securityPassword)
+      const index =
+        accounts
+          .filter((a) => a.walletId === walletId)
+          .map((a) => a.index)
+          .reduce((a, b) => Math.max(a, b), 0) + 1
+      const address = await getWalletAddress(mnemonic, crypto, index)
+      await addAccount({ name, crypto, walletId, index, address }, securityPassword)
       setStage(Stage.SuccessStage)
     } catch (err) {
       setError(err.message)
     }
-  }, [name, addAccount, walletId, crypto, securityPassword, setError])
+  }, [
+    accounts,
+    name,
+    addAccount,
+    walletId,
+    wallet,
+    crypto,
+    securityPassword,
+    setError,
+    viewMnemonicPhrase,
+  ])
 
   const onNext = () => {
     if (stage === Stage.SecurityPassword) {
@@ -100,33 +118,27 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
   const networkList = [
     {
       name: 'Akash - AKT',
-      img:
-        'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/akash.svg?sanitize=true',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/akash.svg?sanitize=true',
     },
     {
       name: 'Band Protocol - BAND',
-      img:
-        'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/band.svg?sanitize=true',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/band.svg?sanitize=true',
     },
     {
       name: 'Cosmos - ATOM',
-      img:
-        'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/cosmoshub.svg?sanitize=true',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/cosmoshub.svg?sanitize=true',
     },
     {
       name: 'Desmos- DSM',
-      img:
-        'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/desmos.svg?sanitize=true',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/desmos.svg?sanitize=true',
     },
     {
       name: 'e-Money- NGM',
-      img:
-        'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/e-money.svg?sanitize=true',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/e-money.svg?sanitize=true',
     },
     {
       name: 'Flow- FLOW',
-      img:
-        'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/flow.svg?sanitize=true',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/flow.svg?sanitize=true',
     },
   ]
 

@@ -2,7 +2,6 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import get from 'lodash/get'
 import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
@@ -15,7 +14,6 @@ import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/ut
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIsMobile from '../../misc/useIsMobile'
-import useSignerInfo from '../../misc/useSignerInfo'
 
 enum RedelegationStage {
   SelectAmountStage = 'select amount',
@@ -56,7 +54,6 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
   const [amount, setAmount] = React.useState(0)
   const [denom, setDenom] = React.useState('')
   const [loading, setLoading] = React.useState(false)
-  const signerInfo = useSignerInfo(account)
 
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<RedelegationStage>(
     RedelegationStage.SelectAmountStage
@@ -97,12 +94,7 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
               },
             },
           ],
-          fee: {
-            amount: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
-            gas: get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.redelegate`, 0),
-          },
           memo,
-          ...signerInfo,
         })
         setLoading(false)
         onClose()
@@ -111,7 +103,7 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
         setLoading(false)
       }
     },
-    [amount, denom, delegatedTokens, tokensPrices, password, account, fromValidator, signerInfo]
+    [amount, denom, delegatedTokens, tokensPrices, password, account, fromValidator]
   )
 
   const content: Content = React.useMemo(() => {
