@@ -9,7 +9,8 @@
     "prettier": "prettier --config .prettierrc --write '**/*.{ts,tsx,json,yaml}'",
     "lint": "eslint '**/*.{ts,tsx}'",
     "test": "jest",
-    "e2e": "cypress run"
+    "e2e": "cypress run",
+    "e2e-open": "cypress open"
   },
   "dependencies": {
     "@apollo/client": "^3.3.12",
