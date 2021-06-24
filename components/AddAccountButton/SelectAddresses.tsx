@@ -32,6 +32,7 @@ interface SelectAddressesProps {
   onSelect: (addresses: Array<{ address: string; index: number }>) => void
   walletId: string
   securityPassword: string
+  ledgerTransport?: any
   crypto: string
 }
 
@@ -40,6 +41,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
   walletId,
   securityPassword,
   crypto,
+  ledgerTransport,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
@@ -62,7 +64,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
       const newAddresses = []
       const mnemonic = await viewMnemonicPhrase(walletId, securityPassword)
       for (let i = page * rowsPerPage; i < (page + 1) * rowsPerPage; i += 1) {
-        const address = await getWalletAddress(mnemonic, crypto, i)
+        const address = await getWalletAddress(mnemonic, crypto, i, ledgerTransport)
         const balance = await fetchAccountBalance(address, crypto)
         newAddresses.push({ address, balance })
       }
@@ -71,7 +73,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
     } catch (err) {
       console.log(err)
     }
-  }, [page, rowsPerPage, securityPassword, crypto, walletId])
+  }, [page, rowsPerPage, securityPassword, crypto, walletId, ledgerTransport])
 
   React.useEffect(() => {
     updateAddresses()
@@ -129,7 +131,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
                     <Typography>{index}</Typography>
                   </TableCell>
                   <TableCell className={classes.tableCell}>
-                    <Typography>{address}</Typography>
+                    <Typography>{`${address.slice(0, 10)}......${address.slice(-10)}`}</Typography>
                   </TableCell>
                   <TableCell className={classes.tableCell} align="right">
                     <Typography>{formatTokenAmount(balance, crypto, lang)}</Typography>

@@ -14,9 +14,13 @@ import SelectNetworkContent from './SelectNetwork'
 import SelectAddressesContent from './SelectAddresses'
 import SecurityPasswordDialogContent from '../SecurityPasswordDialogContent'
 import SuccessContent from '../Success'
+import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
+
+let ledgerTransport
 
 enum Stage {
   SecurityPassword = 'security password',
+  ConnectLedger = 'connect ledger',
   SelectNetwork = 'select network',
   SelectAddresses = 'select addresses',
   SuccessStage = 'success',
@@ -65,9 +69,9 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
   React.useEffect(() => {
     if (dialogOpen) {
       setSecurityPassword('')
-      setStage(Stage.SecurityPassword, true)
+      setStage(wallet.type === 'ledger' ? Stage.ConnectLedger : Stage.SecurityPassword, true)
     }
-  }, [dialogOpen])
+  }, [dialogOpen, wallet])
 
   return (
     <>
@@ -83,6 +87,14 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
         <IconButton className={classes.closeButton} onClick={onClose}>
           <CloseIcon {...smallIconProps} />
         </IconButton>
+        {stage === Stage.ConnectLedger ? (
+          <ConnectLedgerDialogContent
+            onConnect={(transport) => {
+              ledgerTransport = transport
+              setStage(Stage.SelectNetwork)
+            }}
+          />
+        ) : null}
         {stage === Stage.SecurityPassword ? (
           <SecurityPasswordDialogContent
             loading={false}
@@ -107,6 +119,7 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
             walletId={walletId}
             crypto={crypto}
             securityPassword={securityPassword}
+            ledgerTransport={ledgerTransport}
           />
         ) : null}
         {stage === Stage.SuccessStage ? (
