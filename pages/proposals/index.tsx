@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, Menu, MenuItem, Typography } from '@material-ui/core'
+import { Box, Button, Menu, MenuItem, Typography, Avatar, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import groupBy from 'lodash/groupBy'
 import { useRouter } from 'next/router'
@@ -18,6 +18,7 @@ const Proposals: React.FC = () => {
   const { t } = useTranslation('common')
   const iconProps = useIconProps()
   const { accounts, wallets } = useWalletsContext()
+  const theme = useTheme()
   const accountsMap = React.useMemo(
     () =>
       groupBy(
@@ -28,32 +29,106 @@ const Proposals: React.FC = () => {
   )
 
   const [accountMenuAnchor, setAccountMenuAnchor] = React.useState<Element>()
-  const [activeAccountIndex, setActiveAccountIndex] = React.useState(0)
-  const activeAccount = accounts[activeAccountIndex]
   const router = useRouter()
-  const crypto = activeAccount
-    ? cryptocurrencies[activeAccount.crypto]
-    : Object.values(cryptocurrencies)[0]
+
+
+  const networkList = [
+    {
+      id: 0,
+      crypto: 'AKT',
+      name: 'Akash',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/akash.svg?sanitize=true',
+    },
+    {
+      id: 1,
+      crypto: 'BAND',
+      name: 'Band Protocol',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/band.svg?sanitize=true',
+    },
+    {
+      id: 2,
+      crypto: 'ATOM',
+      name: 'Cosmos',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/cosmoshub.svg?sanitize=true',
+    },
+    {
+      id: 3,
+      crypto: 'DSM',
+      name: 'Desmos',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/desmos.svg?sanitize=true',
+    },
+    {
+      id: 4,
+      crypto: 'NGM',
+      name: 'e-Money',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/e-money.svg?sanitize=true',
+    },
+    {
+      id: 5,
+      crypto: 'FLOW',
+      name: 'Flow',
+      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/flow.svg?sanitize=true',
+    },
+  ]
+
+  const networksMap = React.useMemo(
+    () =>
+      groupBy(
+        networkList.map((a, index) => ({ ...a, index })),
+        'id'
+      ),
+    [networkList]
+  )
+
+  const [activeNetworkIndex, setActiveNetworkIndex] = React.useState(0)
+  const activeNetwork = networkList[activeNetworkIndex]
+
+  const crypto = activeNetwork
+  ? cryptocurrencies[activeNetwork.crypto]
+  : Object.values(cryptocurrencies)[0]
 
   const { data: proposalData } = useSubscription(
-    gql`
-      ${getProposals(crypto.name)}
-    `
-  )
-  const proposalList = transformProposals(proposalData)
+  gql`
+    ${getProposals(crypto)}
+  `
+)
+
+const proposalList = transformProposals(proposalData)
+
+console.log('crypto', crypto)
 
   return (
     <Layout passwordRequired activeItem="/proposals">
       <Box display="flex" alignItems="center" mb={2}>
         <Typography variant="h1">{t('proposal')}</Typography>
-        {activeAccount ? (
-          <Box ml={2}>
+        {networkList ? (
+          <Box ml={2} px={2} py={0.5}>
             <Button
               onClick={(e) => setAccountMenuAnchor(e.currentTarget)}
               size="small"
               endIcon={<DropDownIcon {...iconProps} />}
+              style={{
+                background: 'white',
+                borderRadius: theme.spacing(0.5),
+                padding: theme.spacing(1),
+                paddingLeft: theme.spacing(2),
+                paddingRight: theme.spacing(2),
+              }}
             >
-              <AccountAvatar account={activeAccount} hideAddress size="small" />
+              <Box display="flex">
+                <Avatar
+                  src={activeNetwork.img}
+                  alt={activeNetwork.name}
+                  style={{
+                    width: theme.spacing(3),
+                    height: theme.spacing(3),
+                    marginRight: theme.spacing(2),
+                  }}
+                />
+                <Typography variant="body2" color="textSecondary" style={{ display: 'contents' }}>
+                  {activeNetwork.name}
+                </Typography>
+              </Box>
             </Button>
             <Menu
               anchorEl={accountMenuAnchor}
@@ -70,23 +145,35 @@ const Proposals: React.FC = () => {
               open={!!accountMenuAnchor}
               onClose={() => setAccountMenuAnchor(undefined)}
             >
-              {wallets.map((w) => (
+              {networkList.map((w) => (
                 <Box mb={2} key={w.id}>
-                  <Box px={2}>
-                    <Typography gutterBottom variant="body2" color="textSecondary">
-                      {w.name}
-                    </Typography>
-                  </Box>
-                  {accountsMap[w.id].map((a) => (
+                  {networksMap[w.id].map((a) => (
                     <MenuItem
-                      key={a.address}
+                      key={a.id}
                       button
                       onClick={() => {
-                        setActiveAccountIndex(a.index)
+                        setActiveNetworkIndex(a.index)
                         setAccountMenuAnchor(undefined)
                       }}
                     >
-                      <AccountAvatar account={a} hideAddress size="small" />
+                      <Box px={2} display="flex">
+                        <Avatar
+                          src={w.img}
+                          alt={w.name}
+                          style={{
+                            width: theme.spacing(3),
+                            height: theme.spacing(3),
+                            marginRight: theme.spacing(2),
+                          }}
+                        />
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          style={{ display: 'contents' }}
+                        >
+                          {w.name}
+                        </Typography>
+                      </Box>
                     </MenuItem>
                   ))}
                 </Box>
@@ -98,13 +185,13 @@ const Proposals: React.FC = () => {
           <Button
             variant="outlined"
             color="primary"
-            onClick={() => router.push(`/proposals/create?address=${activeAccount.address}`)}
+            onClick={() => router.push(`/proposals/create?network=${activeNetwork.id}`)}
           >
             {t('create proposal')}
           </Button>
         </Box>
       </Box>
-      <ProposalTable account={activeAccount} proposals={proposalList} />
+      {/* <ProposalTable account={activeNetwork} proposals={proposalList} /> */}
     </Layout>
   )
 }
