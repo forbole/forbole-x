@@ -58,7 +58,7 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
             securityPassword
           )
         }
-        setStage(Stage.SuccessStage)
+        setStage(Stage.SuccessStage, true)
       } catch (err) {
         console.log(err)
       }
@@ -123,7 +123,7 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
           />
         ) : null}
         {stage === Stage.SuccessStage ? (
-          <SuccessContent onClose={onClose} content={t('success added account')} />
+          <SuccessContent onClose={onClose} content="success added account" />
         ) : null}
       </Dialog>
     </>

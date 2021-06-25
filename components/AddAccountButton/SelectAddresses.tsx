@@ -115,7 +115,10 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
                     <Checkbox
                       className={classes.checkbox}
                       disabled={existingAddresses.includes(address)}
-                      checked={!!selectedAddresses.find((a) => a.index === index)}
+                      checked={
+                        !!selectedAddresses.find((a) => a.index === index) ||
+                        existingAddresses.includes(address)
+                      }
                       onChange={(e) =>
                         setSelectedAddresses((a) =>
                           e.target.checked
