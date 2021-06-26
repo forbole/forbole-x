@@ -41,6 +41,7 @@ const MnemonicPhraseInput: React.FC<MnemonicPhraseInputProps> = ({
               <input
                 id={`mnemonic-${i}`}
                 value={mnemonicArr[i]}
+                autoComplete="off"
                 onChange={
                   onChange
                     ? (e) =>
