@@ -7,15 +7,19 @@ import Active from './Active'
 import InActive from './InActive'
 import VoteDialog from '../VoteDialog'
 import DepositDialog from '../DepositDialog'
+import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface ProposalsTableProps {
   proposals: Proposal[]
-  account: Account
+  // account: Account
+  network: { id: number; crypto: string; name: string; img: string }
 }
 
-const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, account }) => {
+const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, network }) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
+  const { accounts } = useWalletsContext()
+  const test = accounts.filter((x) => x.crypto === 'DSM')
 
   const router = useRouter()
 
@@ -42,7 +46,7 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, account }) =>
               <Box p={4} display="flex" justifyContent="flex-end">
                 <Box
                   onClick={() => {
-                    router.push(`/proposals/${account.address}/${x.id}`)
+                    router.push(`/proposals/${x.id}`)
                   }}
                 >
                   <Typography variant="h6">{`#${x.id}`}</Typography>
@@ -51,7 +55,7 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, account }) =>
                   pl={3}
                   flex={1}
                   onClick={() => {
-                    router.push(`/proposals/${account.address}/${x.id}`)
+                    router.push(`/proposals/${x.id}`)
                   }}
                 >
                   <Box display="flex" mb={2}>
@@ -93,13 +97,13 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, account }) =>
       </Card>
       <VoteDialog
         proposal={selectedProposal}
-        account={account}
+        network={network}
         open={voteDialogOpen}
         onClose={() => setVoteDialogOpen(false)}
       />
       <DepositDialog
         proposal={selectedProposal}
-        account={account}
+        network={network}
         open={depositDialogOpen}
         onClose={() => setDepositDialogOpen(false)}
       />

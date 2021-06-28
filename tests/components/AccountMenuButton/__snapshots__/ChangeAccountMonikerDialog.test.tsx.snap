@@ -112,7 +112,7 @@ exports[`component: ChangeAccountMonikerDialog renders closed state correctly 1`
         <span
           className="MuiButton-label"
         >
-          common:next
+          common:save
         </span>
       </button>
     </div>
@@ -229,7 +229,7 @@ exports[`component: ChangeAccountMonikerDialog renders opened state correctly 1`
         <span
           className="MuiButton-label"
         >
-          common:next
+          common:save
         </span>
       </button>
     </div>

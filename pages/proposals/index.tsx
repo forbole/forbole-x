@@ -6,9 +6,7 @@ import { useRouter } from 'next/router'
 import { gql, useSubscription } from '@apollo/client'
 import Layout from '../../components/Layout'
 import ProposalTable from '../../components/ProposalTable'
-import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import AccountAvatar from '../../components/AccountAvatar'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import useIconProps from '../../misc/useIconProps'
 import { getProposals } from '../../graphql/queries/proposals'
@@ -17,58 +15,49 @@ import { transformProposals } from '../../misc/utils'
 const Proposals: React.FC = () => {
   const { t } = useTranslation('common')
   const iconProps = useIconProps()
-  const { accounts, wallets } = useWalletsContext()
   const theme = useTheme()
-  const accountsMap = React.useMemo(
-    () =>
-      groupBy(
-        accounts.map((a, index) => ({ ...a, index })),
-        'walletId'
-      ),
-    [accounts]
-  )
 
   const [accountMenuAnchor, setAccountMenuAnchor] = React.useState<Element>()
   const router = useRouter()
 
-
   const networkList = [
-    {
-      id: 0,
-      crypto: 'AKT',
-      name: 'Akash',
-      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/akash.svg?sanitize=true',
-    },
-    {
-      id: 1,
-      crypto: 'BAND',
-      name: 'Band Protocol',
-      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/band.svg?sanitize=true',
-    },
-    {
-      id: 2,
-      crypto: 'ATOM',
-      name: 'Cosmos',
-      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/cosmoshub.svg?sanitize=true',
-    },
     {
       id: 3,
       crypto: 'DSM',
       name: 'Desmos',
       img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/desmos.svg?sanitize=true',
     },
-    {
-      id: 4,
-      crypto: 'NGM',
-      name: 'e-Money',
-      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/e-money.svg?sanitize=true',
-    },
-    {
-      id: 5,
-      crypto: 'FLOW',
-      name: 'Flow',
-      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/flow.svg?sanitize=true',
-    },
+    // {
+    //   id: 0,
+    //   crypto: 'AKT',
+    //   name: 'Akash',
+    //   img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/akash.svg?sanitize=true',
+    // },
+    // {
+    //   id: 1,
+    //   crypto: 'BAND',
+    //   name: 'Band Protocol',
+    //   img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/band.svg?sanitize=true',
+    // },
+    // {
+    //   id: 2,
+    //   crypto: 'ATOM',
+    //   name: 'Cosmos',
+    //   img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/cosmoshub.svg?sanitize=true',
+    // },
+
+    // {
+    //   id: 4,
+    //   crypto: 'NGM',
+    //   name: 'e-Money',
+    //   img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/e-money.svg?sanitize=true',
+    // },
+    // {
+    //   id: 5,
+    //   crypto: 'FLOW',
+    //   name: 'Flow',
+    //   img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/flow.svg?sanitize=true',
+    // },
   ]
 
   const networksMap = React.useMemo(
@@ -84,18 +73,16 @@ const Proposals: React.FC = () => {
   const activeNetwork = networkList[activeNetworkIndex]
 
   const crypto = activeNetwork
-  ? cryptocurrencies[activeNetwork.crypto]
-  : Object.values(cryptocurrencies)[0]
+    ? cryptocurrencies[activeNetwork.crypto]
+    : Object.values(cryptocurrencies)[0]
 
   const { data: proposalData } = useSubscription(
-  gql`
-    ${getProposals(crypto)}
-  `
-)
+    gql`
+      ${getProposals(crypto.name)}
+    `
+  )
 
-const proposalList = transformProposals(proposalData)
-
-console.log('crypto', crypto)
+  const proposalList = transformProposals(proposalData)
 
   return (
     <Layout passwordRequired activeItem="/proposals">
@@ -108,7 +95,7 @@ console.log('crypto', crypto)
               size="small"
               endIcon={<DropDownIcon {...iconProps} />}
               style={{
-                background: 'white',
+                background: theme.palette.background.paper,
                 borderRadius: theme.spacing(0.5),
                 padding: theme.spacing(1),
                 paddingLeft: theme.spacing(2),
@@ -125,7 +112,7 @@ console.log('crypto', crypto)
                     marginRight: theme.spacing(2),
                   }}
                 />
-                <Typography variant="body2" color="textSecondary" style={{ display: 'contents' }}>
+                <Typography variant="body1" color="textPrimary">
                   {activeNetwork.name}
                 </Typography>
               </Box>
@@ -167,8 +154,8 @@ console.log('crypto', crypto)
                           }}
                         />
                         <Typography
-                          variant="body2"
-                          color="textSecondary"
+                          variant="body1"
+                          color="textPrimary"
                           style={{ display: 'contents' }}
                         >
                           {w.name}
@@ -191,7 +178,7 @@ console.log('crypto', crypto)
           </Button>
         </Box>
       </Box>
-      {/* <ProposalTable account={activeNetwork} proposals={proposalList} /> */}
+      <ProposalTable network={activeNetwork} proposals={proposalList} />
     </Layout>
   )
 }
