@@ -19,7 +19,11 @@ import {
 import { transformProposal, transformVoteSummary, transformVoteDetail } from '../../../misc/utils'
 import { getLatestAccountBalance } from '../../../graphql/queries/accountBalances'
 
-const Proposal: React.FC = () => {
+interface ProposalProps {
+  network: { id: number; crypto: string; name: string; img: string }
+}
+
+const Proposal: React.FC<ProposalProps> = ({ network }) => {
   const router = useRouter()
   const { t } = useTranslation('common')
   const { accounts } = useWalletsContext()
@@ -83,7 +87,7 @@ const Proposal: React.FC = () => {
       }
     >
       <ProposalDetail
-        account={account}
+        network={network}
         proposal={proposal}
         crypto={crypto}
         colors={['#28C989', '#1C86FC', '#FD248C', '#FD7522']}

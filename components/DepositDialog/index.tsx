@@ -26,7 +26,7 @@ enum DepositStage {
 }
 
 interface DepositDialogProps {
-  account: Account
+  network: { id: number; crypto: string; name: string; img: string }
   open: boolean
   onClose(): void
   proposal: Proposal
@@ -40,7 +40,7 @@ interface Content {
 }
 
 const DepositDialog: React.FC<DepositDialogProps> = ({
-  account,
+  network,
   open,
   onClose,
   proposal,
@@ -55,11 +55,12 @@ const DepositDialog: React.FC<DepositDialogProps> = ({
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
 
-  const { password } = useWalletsContext()
+  const { password, accounts: allAccounts } = useWalletsContext()
+  const accounts = allAccounts.filter((a) => a.crypto === network?.crypto)
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<DepositStage>(
     DepositStage.InputAmountStage
   )
-  const [voteAccount, setVoteAccount] = React.useState<Account>(account)
+  const [voteAccount, setVoteAccount] = React.useState<Account>(accounts[0])
   const crypto = voteAccount
     ? cryptocurrencies[voteAccount.crypto]
     : Object.values(cryptocurrencies)[0]
@@ -134,7 +135,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({
           dialogWidth: 'sm',
           content: (
             <SecurityPassword
-              walletId={account.walletId}
+              walletId={voteAccount.walletId}
               onConfirm={confirmWithPassword}
               loading={loading}
             />
@@ -170,7 +171,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({
           dialogWidth: 'sm',
           content: (
             <InputAmount
-              account={account}
+              account={voteAccount}
               onNext={confirmAmount}
               proposal={proposal}
               crypto={crypto}

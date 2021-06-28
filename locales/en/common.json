@@ -296,5 +296,7 @@
   "import account title": "Import Account",
   "security password": "Security Password",
   "select account(s) you want to add": "select account(s) you want to add",
-  "balance": "Balance"
+  "balance": "Balance",
+  "no rewards yet": "No Rewards Yet",
+  "delegate your token and get some rewards": "Delegate your token and get some rewards"
 }
