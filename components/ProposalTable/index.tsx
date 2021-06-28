@@ -11,7 +11,6 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface ProposalsTableProps {
   proposals: Proposal[]
-  // account: Account
   network: { id: number; crypto: string; name: string; img: string }
 }
 
