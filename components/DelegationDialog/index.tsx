@@ -25,7 +25,7 @@ interface DelegationDialogProps {
   account: Account
   validators: Validator[]
   defaultValidator?: Validator
-  availableTokens: { coins: Array<{ amount: string; denom: string }>; tokens_prices: TokenPrice[] }
+  availableTokens: AvailableTokens
   open: boolean
   onClose(): void
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import { Box, Card, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -6,49 +7,58 @@ import SectoredByButton from './SectoredByButton'
 import { SectoredBy, sectoredByTypes } from './types'
 import Chart from './Chart'
 import EmptyState from './EmptyState'
+import fetchAccountBalance from '../../graphql/fetch/fetchAccountBalance'
+import { sumTokenAmounts } from '../../misc/utils'
+import { useWalletsContext } from '../../contexts/WalletsContext'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 const AssetDistributionChart: React.FC = () => {
   const classes = useStyles()
   const { t } = useTranslation('common')
+  const { accounts } = useWalletsContext()
   const [sectoredBy, setSectoredBy] = React.useState<SectoredBy>(sectoredByTypes[0])
-  // TODO: fetch data from backend
-  const rawData = [
-    {
-      name: 'Forbole',
-      value: 35,
-    },
-    {
-      name: 'Binance Staking',
-      value: 18,
-    },
-    {
-      name: 'DokiaCapital',
-      value: 12,
-    },
-    {
-      name: '🐠stake.fish',
-      value: 10,
-    },
-    {
-      name: 'CCN',
-      value: 10,
-    },
-    {
-      name: 'Sikka',
-      value: 8,
-    },
-    {
-      name: 'Zero Knowledge Validator (ZKV)',
-      value: 7,
-    },
-  ]
+  const [data, setData] = React.useState([])
+
+  const fetchData = React.useCallback(async () => {
+    try {
+      if (sectoredBy === 'by assets') {
+        let balances = {}
+        for (let i = 0; i < accounts.length; i += 1) {
+          const balance = await fetchAccountBalance(accounts[i].address, accounts[i].crypto)
+          balances = sumTokenAmounts([balances, balance])
+        }
+        const rawData = []
+        Object.keys(balances).forEach((denom) => {
+          rawData.push({
+            name: denom.toUpperCase(),
+            value: balances[denom].amount * balances[denom].price,
+          })
+        })
+        const total = rawData.map((d) => d.value).reduce((a, b) => a + b, 0)
+        setData(
+          rawData.map((d) => ({
+            name: d.name,
+            image: cryptocurrencies[d.name].image,
+            value: d.value === total ? 100 : Math.round((100 * d.value) / total),
+          }))
+        )
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }, [sectoredBy, accounts])
+
+  React.useEffect(() => {
+    fetchData()
+  }, [fetchData])
+
   return (
     <Card className={classes.container}>
       <Box display="flex" flexDirection="column" alignItems="center" my={2}>
         <Typography variant="h1">{t('asset distribution')}</Typography>
         <SectoredByButton sectoredBy={sectoredBy} onChange={setSectoredBy} />
       </Box>
-      {rawData.length > 0 ? <Chart rawData={rawData} /> : <EmptyState />}
+      {data.length > 0 ? <Chart data={data} /> : <EmptyState />}
     </Card>
   )
 }

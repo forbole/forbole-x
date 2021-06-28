@@ -1,4 +1,12 @@
-import { Box, Button, DialogActions, DialogContent, Divider, Typography, useTheme } from '@material-ui/core'
+import {
+  Box,
+  Button,
+  DialogActions,
+  DialogContent,
+  Divider,
+  Typography,
+  useTheme,
+} from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import dynamic from 'next/dynamic'

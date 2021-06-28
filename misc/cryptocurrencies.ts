@@ -1,6 +1,6 @@
 const cryptocurrencies = {
-  DSM: {
-    name: 'DSM',
+  DARIC: {
+    name: 'DARIC',
     prefix: 'desmos',
     ecosystem: 'cosmos',
     image: '/static/images/cryptocurrencies/dsm.png',

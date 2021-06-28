@@ -133,25 +133,23 @@ export const getBalanceAtHeight = (crypto: string): string => `
 `
 
 export const getBalance = (crypto: string, availableBalanceOnly?: boolean): string => `
-  query AccountBalance($address: String!) @${crypto} {
-    account(where: { address: { _eq: $address } }) {
-      address
-      available: account_balance_histories(limit: 1, order_by: { height: desc }) {
-        coins
-        height
-        block { timestamp }
-        tokens_prices: token_prices_history {
-          unit_name
-          price
-          timestamp
-          token_unit {
-            denom
-            exponent
-            token {
-              token_units {
-                denom
-                exponent
-              }
+query AccountBalance($address: String!) @${crypto} {
+  account(where: {address: {_eq: $address}}) {
+    address
+    available: account_balances(limit: 1, order_by: {height: desc}) {
+      coins
+      height
+      tokens_prices {
+        unit_name
+        price
+        timestamp
+        token_unit {
+          denom
+          exponent
+          token {
+            token_units {
+              denom
+              exponent
             }
           }
         }
@@ -161,23 +159,38 @@ export const getBalance = (crypto: string, availableBalanceOnly?: boolean): stri
       availableBalanceOnly
         ? ''
         : `
-    delegated: delegation_histories_aggregate(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}], where: { height: { _lte: $height } }) {
+    delegated: delegations_aggregate(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}]) {
       nodes {
         amount
+        validator {
+          validator_info {
+            operator_address
+          }
+        }
         validator_address
       }
     }
-    unbonding: unbonding_delegation_histories_aggregate(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}], where: { height: { _lte: $height } }) {
+    unbonding: unbonding_delegations_aggregate(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}]) {
       nodes {
         amount
         completion_timestamp
         height
+        validator {
+          validator_info {
+            operator_address
+          }
+        }
         validator_address
       }
     }
-    rewards: delegation_reward_histories_aggregate(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}], where: { height: { _lte: $height } }) {
+    rewards: delegation_rewards_aggregate(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}]) {
       nodes {
         amount
+        validator {
+          validator_info {
+            operator_address
+          }
+        }
         validator_address
       }
     }
@@ -186,15 +199,15 @@ export const getBalance = (crypto: string, availableBalanceOnly?: boolean): stri
       operator_address
       self_delegate_address
       validator {
-        commissions: validator_commission_amount_histories_aggregate(limit: 1, order_by: {height: desc}, where: { height: { _lte: $height } }) {
+        commissions: validator_commission_amounts_aggregate(limit: 1, order_by: {height: desc}) {
           nodes {
             amount
           }
         }
       }
     }
-  }
-`
+    `
     }
   }
+}  
 `

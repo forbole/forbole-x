@@ -5,6 +5,7 @@ import Layout from '../components/Layout'
 import WalletBalanceChart from '../components/WalletBalanceChart'
 import AccountStatCard from '../components/AccountStatCard'
 import { useWalletsContext } from '../contexts/WalletsContext'
+import AssetDistributionChart from '../components/AssetDistributionChart'
 
 const Home: React.FC = () => {
   const { t } = useTranslation('common')
@@ -13,12 +14,12 @@ const Home: React.FC = () => {
   return (
     <Layout passwordRequired activeItem="/">
       <Grid container spacing={3}>
-        <Grid item md={12}>
+        <Grid item md={6} sm={12} xs={12}>
           <WalletBalanceChart />
         </Grid>
-        {/* <Grid item md={6}>
+        <Grid item md={6} sm={12} xs={12}>
           <AssetDistributionChart />
-        </Grid> */}
+        </Grid>
       </Grid>
       <Box mt={2}>
         <Typography gutterBottom variant="h4">

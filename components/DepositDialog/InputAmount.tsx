@@ -26,7 +26,7 @@ interface InputAmountProps {
   crypto: Cryptocurrency
   onNext(voteAccount: Account, amount: number, memo?: string): void
   proposal: Proposal
-  availableTokens: { coins: Array<{ amount: string; denom: string }>; tokens_prices: TokenPrice[] }
+  availableTokens: AvailableTokens
 }
 
 const InputAmount: React.FC<InputAmountProps> = ({
@@ -68,7 +68,7 @@ const InputAmount: React.FC<InputAmountProps> = ({
   }
 
   const remainAmount = () => {
-    // crypto.name = "DSM", but data is "daric", need to fix it
+    // crypto.name = "DARIC", but data is "daric", need to fix it
     // if (proposal.totalDeposits[crypto.name].amount > proposal.minDeposit[crypto.name].amount) {
     //   return 0
     // }

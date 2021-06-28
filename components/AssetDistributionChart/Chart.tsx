@@ -1,16 +1,17 @@
 import React from 'react'
 import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
-import { Box, Typography, useTheme } from '@material-ui/core'
+import { Avatar, Box, Typography, useTheme } from '@material-ui/core'
 import useStyles from './styles'
 import { CustomTheme } from '../../misc/theme'
 
 interface ChartProp {
-  rawData: {
+  data: {
     name: string
+    image: string
     value: number
   }[]
 }
-const Chart: React.FC<ChartProp> = ({ rawData }) => {
+const Chart: React.FC<ChartProp> = ({ data: rawData }) => {
   const classes = useStyles()
   const data = []
   const [activeIndex, setActiveIndex] = React.useState(0)
@@ -83,7 +84,10 @@ const Chart: React.FC<ChartProp> = ({ rawData }) => {
         <Typography className={classes.percentText} variant="h2" gutterBottom>
           {data[activeIndex].value}%
         </Typography>
-        <Typography>{data[activeIndex].name}</Typography>
+        <Box display="flex" alignItems="center">
+          <Avatar className={classes.avatar} src={data[activeIndex].image} />
+          <Typography>{data[activeIndex].name}</Typography>
+        </Box>
       </Box>
     </Box>
   )

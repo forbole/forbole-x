@@ -35,7 +35,7 @@ interface EditAccountDialogProps {
   account: Account
   open: boolean
   onClose(): void
-  availableTokens: { coins: Array<{ amount: string; denom: string }>; tokens_prices: TokenPrice[] }
+  availableTokens: AvailableTokens
 }
 
 interface Content {
