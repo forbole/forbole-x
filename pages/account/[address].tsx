@@ -76,7 +76,12 @@ const Account: React.FC = () => {
     validatorsMap,
     availableTokens.tokens_prices
   )
-
+  // console.log(
+  //   // redelegations,
+  //   new Date(Date.now()),
+  //   redelegations.map((x) => x.completionDate),
+  //   redelegations.map((x) => new Date(Date.now()) > x.completionDate)
+  // )
   return (
     <Layout
       passwordRequired

@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { format, formatRelative } from 'date-fns'
+import { format, formatRelative, compareAsc } from 'date-fns'
 import ToIcon from '../../assets/images/icons/icon_arrow down_title.svg'
 import useStyles from './styles'
 import { formatTokenAmount } from '../../misc/utils'
@@ -68,35 +68,39 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
                 </TableCell>
               ) : (
                 <>
-                  <TableCell className={classes.tableCell}>
-                    <ValidatorAvatar
-                      crypto={crypto}
-                      validator={u.fromValidator as Validator}
-                      size="small"
-                    />
-                  </TableCell>
-                  <TableCell className={classes.tableCell}>
-                    <ValidatorAvatar
-                      crypto={crypto}
-                      validator={u.toValidator as Validator}
-                      size="small"
-                    />
-                  </TableCell>
+                  {compareAsc(u.completionDate, new Date(Date.now())) === -1 ? null : (
+                    <>
+                      <TableCell className={classes.tableCell}>
+                        <ValidatorAvatar
+                          crypto={crypto}
+                          validator={u.fromValidator as Validator}
+                          size="small"
+                        />
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        <ValidatorAvatar
+                          crypto={crypto}
+                          validator={u.toValidator as Validator}
+                          size="small"
+                        />
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {formatTokenAmount(u.amount, crypto.name, lang)}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        <Box display="flex" alignItems="center">
+                          {isMobile ? null : format(u.completionDate, 'dd MMM yyyy, HH:mm:ss')}
+                          <Box ml={isMobile ? 0 : 2}>
+                            <Typography color="primary">
+                              {formatRelative(u.completionDate, new Date())}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </TableCell>
+                    </>
+                  )}
                 </>
               )}
-              <TableCell className={classes.tableCell}>
-                {formatTokenAmount(u.amount, crypto.name, lang)}
-              </TableCell>
-              <TableCell className={classes.tableCell}>
-                <Box display="flex" alignItems="center">
-                  {isMobile ? null : format(u.completionDate, 'dd MMM yyyy, HH:mm:ss')}
-                  <Box ml={isMobile ? 0 : 2}>
-                    <Typography color="primary">
-                      {formatRelative(u.completionDate, new Date())}
-                    </Typography>
-                  </Box>
-                </Box>
-              </TableCell>
             </TableRow>
           )
         })}
