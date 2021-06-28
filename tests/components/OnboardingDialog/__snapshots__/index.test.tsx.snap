@@ -49,58 +49,62 @@ exports[`component: OnboardingDialog renders closed state correctly 1`] = `
       common:set password title
     </h2>
   </div>
-  <div
-    className="MuiDialogContent-root"
+  <form
+    noValidate={true}
+    onSubmit={[Function]}
   >
-    <p
-      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    <div
+      className="MuiDialogContent-root"
     >
-      common:set password description
-    </p>
-    <PasswordInput
-      error={false}
-      helperText=""
-      onChange={[Function]}
-      placeholder="common:password"
-      value=""
-    />
-    <p
-      className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
-    >
-      common:password caption
-    </p>
-  </div>
-  <div
-    className="MuiDialogActions-root MuiDialogActions-spacing"
-  >
-    <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
-      disabled={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      tabIndex={0}
-      type="button"
-    >
-      <span
-        className="MuiButton-label"
+      <p
+        className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
       >
-        common:next
-      </span>
-      <span
-        className="MuiTouchRipple-root"
+        common:set password description
+      </p>
+      <PasswordInput
+        error={false}
+        helperText=""
+        onChange={[Function]}
+        placeholder="common:password"
+        value=""
       />
-    </button>
-  </div>
+      <p
+        className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
+      >
+        common:password caption
+      </p>
+    </div>
+    <div
+      className="MuiDialogActions-root MuiDialogActions-spacing"
+    >
+      <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
+        disabled={false}
+        onBlur={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="submit"
+      >
+        <span
+          className="MuiButton-label"
+        >
+          common:next
+        </span>
+        <span
+          className="MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+  </form>
 </div>
 `;
 
@@ -153,58 +157,62 @@ exports[`component: OnboardingDialog renders confirming password state when subm
       common:confirm password title
     </h2>
   </div>
-  <div
-    className="MuiDialogContent-root"
+  <form
+    noValidate={true}
+    onSubmit={[Function]}
   >
-    <p
-      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    <div
+      className="MuiDialogContent-root"
     >
-      common:confirm password description
-    </p>
-    <PasswordInput
-      error={false}
-      helperText=""
-      onChange={[Function]}
-      placeholder="common:password"
-      value=""
-    />
-    <p
-      className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
-    >
-      common:confirm password caption
-    </p>
-  </div>
-  <div
-    className="MuiDialogActions-root MuiDialogActions-spacing"
-  >
-    <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
-      disabled={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      tabIndex={0}
-      type="button"
-    >
-      <span
-        className="MuiButton-label"
+      <p
+        className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
       >
-        common:confirm
-      </span>
-      <span
-        className="MuiTouchRipple-root"
+        common:confirm password description
+      </p>
+      <PasswordInput
+        error={false}
+        helperText=""
+        onChange={[Function]}
+        placeholder="common:password"
+        value=""
       />
-    </button>
-  </div>
+      <p
+        className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
+      >
+        common:confirm password caption
+      </p>
+    </div>
+    <div
+      className="MuiDialogActions-root MuiDialogActions-spacing"
+    >
+      <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
+        disabled={false}
+        onBlur={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="submit"
+      >
+        <span
+          className="MuiButton-label"
+        >
+          common:confirm
+        </span>
+        <span
+          className="MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+  </form>
 </div>
 `;
 
@@ -257,58 +265,62 @@ exports[`component: OnboardingDialog renders correctly when submit valid confirm
       common:confirm password title
     </h2>
   </div>
-  <div
-    className="MuiDialogContent-root"
+  <form
+    noValidate={true}
+    onSubmit={[Function]}
   >
-    <p
-      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    <div
+      className="MuiDialogContent-root"
     >
-      common:confirm password description
-    </p>
-    <PasswordInput
-      error={false}
-      helperText=""
-      onChange={[Function]}
-      placeholder="common:password"
-      value="123456"
-    />
-    <p
-      className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
-    >
-      common:confirm password caption
-    </p>
-  </div>
-  <div
-    className="MuiDialogActions-root MuiDialogActions-spacing"
-  >
-    <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
-      disabled={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      tabIndex={0}
-      type="button"
-    >
-      <span
-        className="MuiButton-label"
+      <p
+        className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
       >
-        common:confirm
-      </span>
-      <span
-        className="MuiTouchRipple-root"
+        common:confirm password description
+      </p>
+      <PasswordInput
+        error={false}
+        helperText=""
+        onChange={[Function]}
+        placeholder="common:password"
+        value="123456"
       />
-    </button>
-  </div>
+      <p
+        className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
+      >
+        common:confirm password caption
+      </p>
+    </div>
+    <div
+      className="MuiDialogActions-root MuiDialogActions-spacing"
+    >
+      <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
+        disabled={false}
+        onBlur={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="submit"
+      >
+        <span
+          className="MuiButton-label"
+        >
+          common:confirm
+        </span>
+        <span
+          className="MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+  </form>
 </div>
 `;
 
@@ -361,58 +373,62 @@ exports[`component: OnboardingDialog renders error state when submit invalid con
       common:confirm password title
     </h2>
   </div>
-  <div
-    className="MuiDialogContent-root"
+  <form
+    noValidate={true}
+    onSubmit={[Function]}
   >
-    <p
-      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    <div
+      className="MuiDialogContent-root"
     >
-      common:confirm password description
-    </p>
-    <PasswordInput
-      error={true}
-      helperText="common:invalid confirm password"
-      onChange={[Function]}
-      placeholder="common:password"
-      value="123455"
-    />
-    <p
-      className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
-    >
-      common:confirm password caption
-    </p>
-  </div>
-  <div
-    className="MuiDialogActions-root MuiDialogActions-spacing"
-  >
-    <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
-      disabled={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      tabIndex={0}
-      type="button"
-    >
-      <span
-        className="MuiButton-label"
+      <p
+        className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
       >
-        common:confirm
-      </span>
-      <span
-        className="MuiTouchRipple-root"
+        common:confirm password description
+      </p>
+      <PasswordInput
+        error={true}
+        helperText="common:invalid confirm password"
+        onChange={[Function]}
+        placeholder="common:password"
+        value="123455"
       />
-    </button>
-  </div>
+      <p
+        className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
+      >
+        common:confirm password caption
+      </p>
+    </div>
+    <div
+      className="MuiDialogActions-root MuiDialogActions-spacing"
+    >
+      <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
+        disabled={false}
+        onBlur={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="submit"
+      >
+        <span
+          className="MuiButton-label"
+        >
+          common:confirm
+        </span>
+        <span
+          className="MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+  </form>
 </div>
 `;
 
@@ -465,58 +481,62 @@ exports[`component: OnboardingDialog renders error state when submit invalid pas
       common:set password title
     </h2>
   </div>
-  <div
-    className="MuiDialogContent-root"
+  <form
+    noValidate={true}
+    onSubmit={[Function]}
   >
-    <p
-      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    <div
+      className="MuiDialogContent-root"
     >
-      common:set password description
-    </p>
-    <PasswordInput
-      error={true}
-      helperText="common:invalid password"
-      onChange={[Function]}
-      placeholder="common:password"
-      value=""
-    />
-    <p
-      className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
-    >
-      common:password caption
-    </p>
-  </div>
-  <div
-    className="MuiDialogActions-root MuiDialogActions-spacing"
-  >
-    <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
-      disabled={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      tabIndex={0}
-      type="button"
-    >
-      <span
-        className="MuiButton-label"
+      <p
+        className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
       >
-        common:next
-      </span>
-      <span
-        className="MuiTouchRipple-root"
+        common:set password description
+      </p>
+      <PasswordInput
+        error={true}
+        helperText="common:invalid password"
+        onChange={[Function]}
+        placeholder="common:password"
+        value=""
       />
-    </button>
-  </div>
+      <p
+        className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
+      >
+        common:password caption
+      </p>
+    </div>
+    <div
+      className="MuiDialogActions-root MuiDialogActions-spacing"
+    >
+      <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
+        disabled={false}
+        onBlur={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="submit"
+      >
+        <span
+          className="MuiButton-label"
+        >
+          common:next
+        </span>
+        <span
+          className="MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+  </form>
 </div>
 `;
 
@@ -566,54 +586,58 @@ exports[`component: OnboardingDialog renders open state correctly 1`] = `
       common:set password title
     </h2>
   </div>
-  <div
-    className="MuiDialogContent-root"
+  <form
+    noValidate={true}
+    onSubmit={[Function]}
   >
-    <p
-      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    <div
+      className="MuiDialogContent-root"
     >
-      common:set password description
-    </p>
-    <PasswordInput
-      error={false}
-      helperText=""
-      onChange={[Function]}
-      placeholder="common:password"
-      value=""
-    />
-    <p
-      className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
-    >
-      common:password caption
-    </p>
-  </div>
-  <div
-    className="MuiDialogActions-root MuiDialogActions-spacing"
-  >
-    <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
-      disabled={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      tabIndex={0}
-      type="button"
-    >
-      <span
-        className="MuiButton-label"
+      <p
+        className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
       >
-        common:next
-      </span>
-    </button>
-  </div>
+        common:set password description
+      </p>
+      <PasswordInput
+        error={false}
+        helperText=""
+        onChange={[Function]}
+        placeholder="common:password"
+        value=""
+      />
+      <p
+        className="MuiTypography-root HookGlobalStyles-passwordRequirement-1 MuiTypography-body2"
+      >
+        common:password caption
+      </p>
+    </div>
+    <div
+      className="MuiDialogActions-root MuiDialogActions-spacing"
+    >
+      <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
+        disabled={false}
+        onBlur={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="submit"
+      >
+        <span
+          className="MuiButton-label"
+        >
+          common:next
+        </span>
+      </button>
+    </div>
+  </form>
 </div>
 `;

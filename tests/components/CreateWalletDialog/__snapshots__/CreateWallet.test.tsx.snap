@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component: CreateWalletDialog - CreateWallet renders correctly 1`] = `
-Array [
+<form
+  noValidate={true}
+  onSubmit={[Function]}
+>
   <div
     className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
@@ -15,20 +18,19 @@ Array [
       mnemonic="mnemonic"
     />
     <div
-      className="MuiBox-root MuiBox-root-8"
+      className="MuiBox-root MuiBox-root-9"
     />
-  </div>,
+  </div>
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-9"
+      className="MuiBox-root MuiBox-root-10"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary"
         disabled={false}
         onBlur={[Function]}
-        onClick={[MockFunction]}
         onDragLeave={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
@@ -40,7 +42,7 @@ Array [
         onTouchMove={[Function]}
         onTouchStart={[Function]}
         tabIndex={0}
-        type="button"
+        type="submit"
       >
         <span
           className="MuiButton-label"
@@ -54,6 +56,6 @@ Array [
         common:create new wallet caption
       </p>
     </div>
-  </div>,
-]
+  </div>
+</form>
 `;

@@ -70,6 +70,8 @@ interface WalletWithBalance extends Wallet {
 
 interface Cryptocurrency {
   name: string
+  prefix?: string
+  ecosystem: 'cosmos'
   image: string
   coinType: number
   graphqlHttpUrl: string
@@ -77,7 +79,9 @@ interface Cryptocurrency {
   blockExplorerBaseUrl: string
   defaultGasFee: {
     amount: Array<{ amount: string; denom: string }>
-    gas: string
+    gas: {
+      [txType: string]: string
+    }
   }
 }
 

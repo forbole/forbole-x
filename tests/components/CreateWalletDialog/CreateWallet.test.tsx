@@ -15,7 +15,7 @@ describe('component: CreateWalletDialog - CreateWallet', () => {
   it('calls onConfirm when button is clicked', () => {
     const component = renderer.create(<CreateWallet onConfirm={onConfirm} mnemonic="mnemonic" />)
     renderer.act(() => {
-      component.root.findByType('button').props.onClick()
+      component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
     })
     expect(onConfirm).toBeCalled()
   })

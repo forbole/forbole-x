@@ -16,7 +16,7 @@ export interface ValidatorTag extends Validator {
   isSelected: boolean
 }
 
-interface ClaimRewardsDialogProps {
+interface WithdrawRewardsDialogProps {
   account: Account
   tokensPrices: TokenPrice[]
   open: boolean
@@ -25,7 +25,7 @@ interface ClaimRewardsDialogProps {
   preselectedValidatorAddresses?: string[]
 }
 
-const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
+const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
   account,
   open,
   onClose,
@@ -45,17 +45,24 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
     async (delegations: Array<ValidatorTag>, memo: string) => {
       try {
         setLoading(true)
+        const msgs = delegations
+          .map((r) => ({
+            type: 'cosmos-sdk/MsgWithdrawDelegationReward',
+            value: {
+              delegator_address: account.address,
+              validator_address: r.address,
+            },
+          }))
+          .filter((a) => a)
         await invoke(window, 'forboleX.sendTransaction', password, account.address, {
-          msgs: delegations
-            .map((r) => ({
-              type: 'cosmos-sdk/MsgWithdrawDelegationReward',
-              value: {
-                delegator_address: account.address,
-                validator_address: r.address,
-              },
-            }))
-            .filter((a) => a),
-          fee: get(cryptocurrencies, `${account.crypto}.defaultGasFee`, {}),
+          msgs,
+          fee: {
+            amount: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
+            gas: String(
+              msgs.length *
+                Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.claimRewards`, 0))
+            ),
+          },
           memo,
           ...signerInfo,
         })
@@ -76,7 +83,16 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
   }, [open])
 
   return (
-    <Dialog fullWidth maxWidth="md" open={open} onClose={onClose} fullScreen={isMobile}>
+    <Dialog
+      fullWidth
+      maxWidth="md"
+      open={open}
+      onClose={onClose}
+      fullScreen={isMobile}
+      PaperProps={{
+        className: classes.dialog,
+      }}
+    >
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
@@ -93,4 +109,4 @@ const ClaimRewardsDialog: React.FC<ClaimRewardsDialogProps> = ({
   )
 }
 
-export default ClaimRewardsDialog
+export default WithdrawRewardsDialog
