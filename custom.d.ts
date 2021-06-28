@@ -281,79 +281,79 @@ interface Transaction {
 
 type ChromeMessage =
   | {
-      event: 'ping'
-    }
+    event: 'ping'
+  }
   | { event: 'reset' }
   | {
-      event: 'getWallets'
-      data: { password: string }
-    }
+    event: 'getWallets'
+    data: { password: string }
+  }
   | {
-      event: 'getAccounts'
-      data: { password: string }
-    }
+    event: 'getAccounts'
+    data: { password: string }
+  }
   | {
-      event: 'addWallet'
-      data: { wallet: CreateWalletParams; password: string }
-    }
+    event: 'addWallet'
+    data: { wallet: CreateWalletParams; password: string }
+  }
   | {
-      event: 'updateWallet'
-      data: { wallet: UpdateWalletParams; id: string; password: string }
-    }
+    event: 'updateWallet'
+    data: { wallet: UpdateWalletParams; id: string; password: string }
+  }
   | {
-      event: 'deleteWallet'
-      data: { id: string; password: string }
-    }
+    event: 'deleteWallet'
+    data: { id: string; password: string }
+  }
   | {
-      event: 'addAccount'
-      data: { account: CreateAccountParams; password: string; securityPassword: string }
-    }
+    event: 'addAccount'
+    data: { account: CreateAccountParams; password: string; securityPassword: string }
+  }
   | {
-      event: 'updateAccount'
-      data: { account: UpdateAccountParams; address: string; password: string }
-    }
+    event: 'updateAccount'
+    data: { account: UpdateAccountParams; address: string; password: string }
+  }
   | {
-      event: 'deleteAccount'
-      data: { address: string; password: string }
-    }
+    event: 'deleteAccount'
+    data: { address: string; password: string }
+  }
   | {
-      event: 'generateMnemonic'
-    }
+    event: 'generateMnemonic'
+  }
   | {
-      event: 'verifyMnemonic'
-      data: {
-        mnemonic: string
-      }
+    event: 'verifyMnemonic'
+    data: {
+      mnemonic: string
     }
+  }
   | {
-      event: 'verifyMnemonicBackup'
-      data: {
-        backupPhrase: string
-        password: string
-      }
+    event: 'verifyMnemonicBackup'
+    data: {
+      backupPhrase: string
+      password: string
     }
+  }
   | {
-      event: 'viewMnemonicPhrase'
-      data: {
-        id: string
-        securityPassword: string
-        password: string
-      }
+    event: 'viewMnemonicPhrase'
+    data: {
+      id: string
+      securityPassword: string
+      password: string
     }
+  }
   | {
-      event: 'viewMnemonicPhraseBackup'
-      data: {
-        id: string
-        securityPassword: string
-        backupPassword: string
-        password: string
-      }
+    event: 'viewMnemonicPhraseBackup'
+    data: {
+      id: string
+      securityPassword: string
+      backupPassword: string
+      password: string
     }
+  }
   | {
-      event: 'getSequenceAndChainId'
-      data: {
-        address: string
-        crypto: string
-      }
+    event: 'getSequenceAndChainId'
+    data: {
+      address: string
+      crypto: string
     }
+  }
   | { event: 'closeChromeExtension' }

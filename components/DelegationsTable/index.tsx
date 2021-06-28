@@ -17,7 +17,7 @@ interface DelegationsTableProps {
   account: Account
   validators: Validator[]
   unbondings: Unbonding[]
-  redelegations: Redelegation[]
+  redelegations?: Redelegation[]
   delegatedTokens: { [address: string]: Array<{ amount: string; denom: string }> }
   crypto: Cryptocurrency
   availableTokens: any

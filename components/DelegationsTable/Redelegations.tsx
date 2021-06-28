@@ -18,7 +18,7 @@ import useIconProps from '../../misc/useIconProps'
 import ValidatorAvatar from '../ValidatorAvatar'
 
 interface RedelegationsProps {
-  redelegations: Redelegation[]
+  redelegations?: Redelegation[]
   crypto: Cryptocurrency
 }
 
@@ -68,37 +68,33 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
                 </TableCell>
               ) : (
                 <>
-                  {compareAsc(u.completionDate, new Date(Date.now())) === -1 ? null : (
-                    <>
-                      <TableCell className={classes.tableCell}>
-                        <ValidatorAvatar
-                          crypto={crypto}
-                          validator={u.fromValidator as Validator}
-                          size="small"
-                        />
-                      </TableCell>
-                      <TableCell className={classes.tableCell}>
-                        <ValidatorAvatar
-                          crypto={crypto}
-                          validator={u.toValidator as Validator}
-                          size="small"
-                        />
-                      </TableCell>
-                      <TableCell className={classes.tableCell}>
-                        {formatTokenAmount(u.amount, crypto.name, lang)}
-                      </TableCell>
-                      <TableCell className={classes.tableCell}>
-                        <Box display="flex" alignItems="center">
-                          {isMobile ? null : format(u.completionDate, 'dd MMM yyyy, HH:mm:ss')}
-                          <Box ml={isMobile ? 0 : 2}>
-                            <Typography color="primary">
-                              {formatRelative(u.completionDate, new Date())}
-                            </Typography>
-                          </Box>
-                        </Box>
-                      </TableCell>
-                    </>
-                  )}
+                  <TableCell className={classes.tableCell}>
+                    <ValidatorAvatar
+                      crypto={crypto}
+                      validator={u.fromValidator as Validator}
+                      size="small"
+                    />
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    <ValidatorAvatar
+                      crypto={crypto}
+                      validator={u.toValidator as Validator}
+                      size="small"
+                    />
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {formatTokenAmount(u.amount, crypto.name, lang)}
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    <Box display="flex" alignItems="center">
+                      {isMobile ? null : format(u.completionDate, 'dd MMM yyyy, HH:mm:ss')}
+                      <Box ml={isMobile ? 0 : 2}>
+                        <Typography color="primary">
+                          {formatRelative(u.completionDate, new Date())}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </TableCell>
                 </>
               )}
             </TableRow>

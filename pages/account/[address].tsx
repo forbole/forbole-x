@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import get from 'lodash/get'
 import keyBy from 'lodash/keyBy'
+import { differenceInMinutes } from 'date-fns'
 import { gql, useSubscription } from '@apollo/client'
 import AccountAvatar from '../../components/AccountAvatar'
 import AccountDetailCard from '../../components/AccountDetailCard'
@@ -76,12 +77,6 @@ const Account: React.FC = () => {
     validatorsMap,
     availableTokens.tokens_prices
   )
-  // console.log(
-  //   // redelegations,
-  //   new Date(Date.now()),
-  //   redelegations.map((x) => x.completionDate),
-  //   redelegations.map((x) => new Date(Date.now()) > x.completionDate)
-  // )
   return (
     <Layout
       passwordRequired
@@ -109,7 +104,9 @@ const Account: React.FC = () => {
         account={account}
         validators={validators}
         unbondings={unbondings}
-        redelegations={redelegations}
+        redelegations={redelegations.filter(
+          (x) => differenceInMinutes(x.completionDate, new Date().getTime()) >= 0
+        )}
         delegatedTokens={delegatedTokens}
         crypto={crypto}
         availableTokens={availableTokens}

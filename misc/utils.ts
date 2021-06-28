@@ -72,8 +72,8 @@ export const formatTokenAmount = (
 ): string =>
   tokenAmount && Object.keys(tokenAmount).length
     ? Object.keys(tokenAmount)
-        .map((ta) => formatCrypto(tokenAmount[ta].amount, ta.toUpperCase(), lang))
-        .join(delimiter || '\n')
+      .map((ta) => formatCrypto(tokenAmount[ta].amount, ta.toUpperCase(), lang))
+      .join(delimiter || '\n')
     : formatCrypto(0, defaultUnit, lang)
 
 export const getTotalTokenAmount = (
@@ -528,9 +528,9 @@ export const transformProposal = (
     totalDeposits: getTokenAmountFromDenoms(totalDepositsList, tokensPrices),
     minDeposit: depositParams
       ? getTokenAmountFromDenoms(
-          get(depositParams, 'gov_params[0].deposit_params.min_deposit'),
-          tokensPrices
-        )
+        get(depositParams, 'gov_params[0].deposit_params.min_deposit'),
+        tokensPrices
+      )
       : null,
   }
 }
