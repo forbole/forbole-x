@@ -20,10 +20,11 @@ interface DepositTableProps {
   proposal: Proposal
   crypto: Cryptocurrency
   tag: string
-  account: Account
+  // account: Account
+  network: { id: number; crypto: string; name: string; img: string }
 }
 
-const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto, account }) => {
+const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto, network }) => {
   const { classes } = useGetStyles()
   const { t, lang } = useTranslation('common')
   const [depositDialogOpen, setDepositDialogOpen] = React.useState(false)
@@ -102,7 +103,8 @@ const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto, acco
         </Table>
         <DepositDialog
           proposal={proposal}
-          account={account}
+          // account={account}
+          network={network}
           open={depositDialogOpen}
           onClose={() => setDepositDialogOpen(false)}
         />

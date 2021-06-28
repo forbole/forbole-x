@@ -5,19 +5,19 @@ import { useRouter } from 'next/router'
 import { gql, useSubscription } from '@apollo/client'
 import React from 'react'
 import get from 'lodash/get'
-import AccountAvatar from '../../../components/AccountAvatar'
-import Layout from '../../../components/Layout'
-import { useWalletsContext } from '../../../contexts/WalletsContext'
-import cryptocurrencies from '../../../misc/cryptocurrencies'
-import ProposalDetail from '../../../components/ProposalDetail'
+import AccountAvatar from '../../components/AccountAvatar'
+import Layout from '../../components/Layout'
+import { useWalletsContext } from '../../contexts/WalletsContext'
+import cryptocurrencies from '../../misc/cryptocurrencies'
+import ProposalDetail from '../../components/ProposalDetail'
 import {
   getDepositParams,
   getProposal,
   getProposalResult,
   getVoteDetail,
-} from '../../../graphql/queries/proposals'
-import { transformProposal, transformVoteSummary, transformVoteDetail } from '../../../misc/utils'
-import { getLatestAccountBalance } from '../../../graphql/queries/accountBalances'
+} from '../../graphql/queries/proposals'
+import { transformProposal, transformVoteSummary, transformVoteDetail } from '../../misc/utils'
+import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 
 interface ProposalProps {
   network: { id: number; crypto: string; name: string; img: string }

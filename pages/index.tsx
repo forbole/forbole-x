@@ -10,7 +10,6 @@ const Home: React.FC = () => {
   const { t } = useTranslation('common')
   const { accounts } = useWalletsContext()
 
-
   return (
     <Layout passwordRequired activeItem="/">
       <Grid container spacing={3}>
