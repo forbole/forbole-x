@@ -131,3 +131,31 @@ export const getBalanceAtHeight = (crypto: string): string => `
     }
   }
 `
+
+export const getBalance = (crypto: string): string => `
+  query AccountBalance($address: String!) @${crypto} {
+    account(where: { address: { _eq: $address } }) {
+      address
+      available: account_balance_histories(limit: 1, order_by: { height: desc }) {
+        coins
+        height
+        block { timestamp }
+        tokens_prices: token_prices_history {
+          unit_name
+          price
+          timestamp
+          token_unit {
+            denom
+            exponent
+            token {
+              token_units {
+                denom
+                exponent
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`

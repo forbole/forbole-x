@@ -6,13 +6,13 @@ import SuccessDark from '../../assets/images/tx_success_dark.svg'
 import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 
-interface ConfirmSendProps {
+interface SuccessProps {
   onClose(): void
   content: string
   hideButton?: boolean
 }
 
-const Success: React.FC<ConfirmSendProps> = ({ onClose, content, hideButton }) => {
+const Success: React.FC<SuccessProps> = ({ onClose, content, hideButton }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const { theme } = useGeneralContext()

@@ -243,7 +243,7 @@
   "import account": "Import Account",
   "create account title": "Create Account",
   "success title": "Success",
-  "success added accout": "Account(s) was successfully added",
+  "success added account": "Account(s) was successfully added",
   "set an account name": "Set an account name",
   "confirm import title": "Confirm",
   "delegationHelpText": "*Please set aside some amount for the gas fee",
@@ -295,8 +295,6 @@
   "deposit end in": "Deposit end in",
   "import account title": "Import Account",
   "security password": "Security Password",
-  "select account(s) you want too add": "select account(s) you want too add",
-  "balance": "Balance",
-  "no rewards yet": "no rewards yet",
-  "delegate your token and get some rewards": "delegate your token and get some rewards"
+  "select account(s) you want to add": "select account(s) you want to add",
+  "balance": "Balance"
 }
