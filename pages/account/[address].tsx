@@ -103,6 +103,7 @@ const Account: React.FC = () => {
         />
       ) : null}
       <DelegationsTable
+        wallet={wallet}
         account={account}
         validators={validators}
         unbondings={unbondings}
