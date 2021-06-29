@@ -70,13 +70,11 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const tokenAmounts = getTotalTokenAmount(latestBalance).amount
   const usdBalance = getTotalBalance(latestBalance).balance
 
-
   const validators = transformValidatorsWithTokenAmount(validatorsData, latestBalance)
   const availableTokens = get(latestBalance, 'account[0].available[0]', {
     coins: [],
     tokens_prices: [],
   })
-
 
   const data = createEmptyChartData(
     (get(accountWithBalance, 'balances', []) as AccountBalance[]).map((b) => getTotalBalance(b)),
@@ -106,7 +104,11 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
       >
         <Box mb={3} display="flex" alignItems="center" justifyContent="space-between">
           <AccountAvatar account={account} hideAddress />
-          <Button variant="outlined" className={classes.timeRangeButton} onClick={() => setDelegateDialogOpen(true)}>
+          <Button
+            variant="outlined"
+            className={classes.timeRangeButton}
+            onClick={() => setDelegateDialogOpen(true)}
+          >
             {t('delegate')}
           </Button>
         </Box>

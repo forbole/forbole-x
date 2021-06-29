@@ -28,8 +28,9 @@ import { getTransactions } from '../../graphql/queries/transactions'
 const Account: React.FC = () => {
   const router = useRouter()
   const { t } = useTranslation('common')
-  const { accounts } = useWalletsContext()
+  const { accounts, wallets } = useWalletsContext()
   const account = accounts.find((a) => a.address === router.query.address)
+  const wallet = wallets.filter((x) => x.id === account?.walletId)[0]
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
   const { data: validatorsData } = useSubscription(
     gql`
@@ -94,6 +95,7 @@ const Account: React.FC = () => {
     >
       {account ? (
         <AccountDetailCard
+          wallet={wallet}
           account={account}
           validators={validators}
           accountBalance={accountBalance}
