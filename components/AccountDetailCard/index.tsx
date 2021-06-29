@@ -27,6 +27,7 @@ import useIsMobile from '../../misc/useIsMobile'
 import EditAccountDialog from '../EditAccountDialog'
 
 interface AccountDetailCardProps {
+  wallet: Wallet
   account: Account
   validators: Validator[]
   accountBalance: AccountBalance
@@ -34,6 +35,7 @@ interface AccountDetailCardProps {
 }
 
 const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
+  wallet,
   account,
   accountBalance,
   availableTokens,
@@ -179,6 +181,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
         validators={validators.filter(({ status }) => status === 'active')}
       />
       <WithdrawRewardsDialog
+        wallet={wallet}
         open={withdrawRewardsDialogOpen}
         onClose={() => setWithdrawRewardsDialogOpen(false)}
         account={account}

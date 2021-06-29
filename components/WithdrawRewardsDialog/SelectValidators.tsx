@@ -5,8 +5,6 @@ import {
   DialogContent,
   TextField,
   Typography,
-  // Tabs,
-  // Tab,
   Checkbox,
   FormControlLabel,
   FilledTextFieldProps,
@@ -26,6 +24,7 @@ import ImageDefaultDark from '../../assets/images/image_default_dark.svg'
 import ImageDefaultLight from '../../assets/images/image_default_light.svg'
 
 interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
+  wallet: Wallet
   onConfirm(delegations: ValidatorTag[], m: string): void
   account: Account
   crypto: Cryptocurrency
@@ -35,6 +34,7 @@ interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
+  wallet,
   account,
   crypto,
   onConfirm,
@@ -138,7 +138,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
 
   return (
     <>
-      {totalAmount[account.crypto] ? (
+      {/* {totalAmount[account.crypto].amount !== 0 ? (
+        update it when the unit of account.crypto(or cryptocurrencies) and the unit in the data are the same */}
+      {totalAmount.daric.amount !== 0 ? (
         <form
           noValidate
           onSubmit={(e) => {
@@ -150,7 +152,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
           }}
         >
           <DialogContent className={classes.dialogContent}>
-            <Box mb={10}>
+            <Box mb={4}>
               <Box mt={4} mb={2}>
                 <Typography className={classes.totalReward}>
                   {t('total reward amount')}&nbsp;
@@ -207,7 +209,17 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                 onPageChange={setPage}
                 onRowsPerPageChange={setRowsPerPage}
               />
+              {validatorList.filter((x) => x.isSelected === true).length > 5 ? (
+                <Box mt={2}>
+                  <Typography color="secondary">
+                    {wallet.type === 'mnemonic'
+                      ? t('withdraw warning mnemonic')
+                      : t('withdraw warning ledger')}
+                  </Typography>
+                </Box>
+              ) : null}
             </Box>
+
             <Typography>{t('memo')}</Typography>
             <TextField
               InputProps={{

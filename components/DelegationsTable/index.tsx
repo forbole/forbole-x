@@ -14,6 +14,7 @@ import DelegationDialog from '../DelegationDialog'
 import ClaimRewardsDialog from '../WithdrawRewardsDialog'
 
 interface DelegationsTableProps {
+  wallet: Wallet
   account: Account
   validators: Validator[]
   unbondings: Unbonding[]
@@ -24,6 +25,7 @@ interface DelegationsTableProps {
 }
 
 const DelegationsTable: React.FC<DelegationsTableProps> = ({
+  wallet,
   account,
   validators,
   unbondings,
@@ -185,6 +187,7 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
             availableTokens={availableTokens}
           />
           <ClaimRewardsDialog
+            wallet={wallet}
             open={claimingRewards}
             onClose={() => setClaimingRewards(false)}
             account={account}
