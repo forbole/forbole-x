@@ -10,8 +10,10 @@ interface ChartProp {
     image: string
     value: number
   }[]
+  setPopoverIndex(i: number): void
+  setAnchorEl(t: EventTarget): void
 }
-const Chart: React.FC<ChartProp> = ({ data: rawData }) => {
+const Chart: React.FC<ChartProp> = ({ data: rawData, setPopoverIndex, setAnchorEl }) => {
   const classes = useStyles()
   const data = []
   const [activeIndex, setActiveIndex] = React.useState(0)
@@ -65,7 +67,12 @@ const Chart: React.FC<ChartProp> = ({ data: rawData }) => {
               animationEasing="linear"
             >
               <Cell
+                style={{ cursor: 'pointer' }}
                 onMouseEnter={() => setActiveIndex(i)}
+                onClick={(e) => {
+                  setPopoverIndex(i)
+                  setAnchorEl(e.currentTarget)
+                }}
                 fill={COLORS[i % COLORS.length].main}
                 opacity={activeIndex === i ? 0.8 : 1}
               />
@@ -73,14 +80,7 @@ const Chart: React.FC<ChartProp> = ({ data: rawData }) => {
           ))}
         </PieChart>
       </ResponsiveContainer>
-      <Box
-        className={classes.divider}
-        style={{
-          top,
-          left,
-          background: 'red',
-        }}
-      >
+      <Box className={classes.divider} style={{ top, left }}>
         <Typography className={classes.percentText} variant="h2" gutterBottom>
           {data[activeIndex].value}%
         </Typography>

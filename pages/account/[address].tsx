@@ -40,19 +40,31 @@ const Account: React.FC = () => {
     gql`
       ${getLatestAccountBalance(crypto.name)}
     `,
-    { variables: { address: account ? account.address : '' } }
+    {
+      variables: {
+        address: account ? account.address : '',
+      },
+    }
   )
   const { data: redelegationsData } = useSubscription(
     gql`
       ${getRedelegations(crypto.name)}
     `,
-    { variables: { address: account ? account.address : '' } }
+    {
+      variables: {
+        address: account ? account.address : '',
+      },
+    }
   )
   const { data: transactionsData } = useSubscription(
     gql`
       ${getTransactions(crypto.name)}
     `,
-    { variables: { address: account ? `{${account.address}}` : '' } }
+    {
+      variables: {
+        address: account ? `{${account.address}}` : '',
+      },
+    }
   )
 
   const validators = transformValidatorsWithTokenAmount(validatorsData, balanceData)

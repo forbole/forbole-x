@@ -11,6 +11,7 @@ import fetchAccountBalance from '../../graphql/fetch/fetchAccountBalance'
 import { sumTokenAmounts } from '../../misc/utils'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import AssetPopover from './AssetPopover'
 
 const AssetDistributionChart: React.FC = () => {
   const classes = useStyles()
@@ -18,11 +19,13 @@ const AssetDistributionChart: React.FC = () => {
   const { accounts } = useWalletsContext()
   const [sectoredBy, setSectoredBy] = React.useState<SectoredBy>(sectoredByTypes[0])
   const [data, setData] = React.useState([])
+  const [popoverIndex, setPopoverIndex] = React.useState<number | undefined>()
+  const [anchorEl, setAnchorEl] = React.useState(null)
 
   const fetchData = React.useCallback(async () => {
     try {
       if (sectoredBy === 'by assets') {
-        let balances = {}
+        let balances: TokenAmount = {}
         for (let i = 0; i < accounts.length; i += 1) {
           const balance = await fetchAccountBalance(accounts[i].address, accounts[i].crypto)
           balances = sumTokenAmounts([balances, balance])
@@ -58,7 +61,16 @@ const AssetDistributionChart: React.FC = () => {
         <Typography variant="h1">{t('asset distribution')}</Typography>
         <SectoredByButton sectoredBy={sectoredBy} onChange={setSectoredBy} />
       </Box>
-      {data.length > 0 ? <Chart data={data} /> : <EmptyState />}
+      {data.length > 0 ? (
+        <Chart data={data} setAnchorEl={setAnchorEl} setPopoverIndex={setPopoverIndex} />
+      ) : (
+        <EmptyState />
+      )}
+      {/* <AssetPopover
+        anchorEl={anchorEl}
+        onClose={() => setAnchorEl(null)}
+        accountBalance={}
+      /> */}
     </Card>
   )
 }
