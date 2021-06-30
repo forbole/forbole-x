@@ -299,5 +299,6 @@
   "select account(s) you want to add": "select account(s) you want to add",
   "balance": "Balance",
   "no rewards yet": "No Rewards Yet",
-  "delegate your token and get some rewards": "Delegate your token and get some rewards"
+  "delegate your token and get some rewards": "Delegate your token and get some rewards",
+  "total": "Total Amount"
 }

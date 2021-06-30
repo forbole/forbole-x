@@ -1,15 +1,23 @@
 import React from 'react'
-import { Box, Popover, Typography, Avatar, Divider } from '@material-ui/core'
+import { Box, Popover, Typography, Avatar, Divider, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import get from 'lodash/get'
 import useStyles from './styles'
-import { formatCurrency, formatTokenAmount } from '../../misc/utils'
+import { formatCurrency, formatPercentage, formatTokenAmount } from '../../misc/utils'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface AssetPopoverProps {
-  accountBalance: AccountBalance
+  accountBalance: {
+    available: TokenAmount
+    delegated: TokenAmount
+    rewards: TokenAmount
+    commissions: TokenAmount
+    unbonding: TokenAmount
+    total: TokenAmount
+  }
   cryptocurrency: Cryptocurrency
-  percentage: string
-  anchorEl: any
+  percentage: number
+  anchorPosition?: { top: number; left: number }
   onClose(): void
 }
 
@@ -17,56 +25,61 @@ const AssetPopover: React.FC<AssetPopoverProps> = ({
   accountBalance,
   cryptocurrency,
   percentage,
-  anchorEl,
+  anchorPosition,
   onClose,
 }) => {
   const classes = useStyles()
-  const { t, lang } = useTranslation()
+  const { t, lang } = useTranslation('common')
+  const { currency } = useGeneralContext()
+  const theme = useTheme()
+  console.log(accountBalance, cryptocurrency)
+
   return (
     <Popover
-      open={!!anchorEl}
-      anchorEl={anchorEl}
+      open={!!anchorPosition}
+      anchorReference="anchorPosition"
+      anchorPosition={anchorPosition}
       onClose={onClose}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'center',
-      }}
       transformOrigin={{
         vertical: 'top',
-        horizontal: 'center',
+        horizontal: 'left',
       }}
     >
-      <Box p={2} display="flex" alignItems="center" justifyContent="space-between">
+      <Box
+        width={theme.spacing(30)}
+        p={2}
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+      >
         <Box display="flex" alignItems="center">
           <Avatar className={classes.avatar} src={cryptocurrency.image} />
           <Typography>{cryptocurrency.name}</Typography>
         </Box>
-        <Typography>{percentage}</Typography>
+        <Typography>{formatPercentage(percentage, lang)}</Typography>
       </Box>
-      {['available', 'delegated', 'unbonding', 'reward'].map((key) => (
-        <>
+      {['available', 'delegated', 'unbonding', 'rewards', 'total'].map((key) => (
+        <React.Fragment key={key}>
           <Divider />
-          <Box p={2} display="flex" alignItems="center" justifyContent="space-between">
-            <Typography>{t(key)}</Typography>
-            <Box display="flex" flexDirection="column" justifyContent="flex-end">
+          <Box p={2} display="flex" justifyContent="space-between">
+            <Typography variant="body2" color="textSecondary">
+              {t(key)}
+            </Typography>
+            <Box display="flex" flexDirection="column" alignItems="flex-end">
               <Typography>
-                {formatTokenAmount(
-                  get(accountBalance, `balance.${key}.${cryptocurrency.name}`),
-                  cryptocurrency.name,
-                  lang
-                )}
+                {formatTokenAmount(get(accountBalance, key, {}), cryptocurrency.name, lang)}
               </Typography>
-              <Typography>
+              <Typography variant="body2" color="textSecondary">
                 {formatCurrency(
-                  get(accountBalance, `balance.${key}.${cryptocurrency.name}.amount`, 0) *
-                    get(accountBalance, `balance.${key}.${cryptocurrency.name}.price`, 0),
-                  cryptocurrency.name,
+                  get(accountBalance, `${key}.${cryptocurrency.name.toLowerCase()}.amount`, 0) *
+                    get(accountBalance, `${key}.${cryptocurrency.name.toLowerCase()}.price`, 0),
+                  currency,
                   lang
                 )}
               </Typography>
             </Box>
           </Box>
-        </>
+        </React.Fragment>
       ))}
     </Popover>
   )

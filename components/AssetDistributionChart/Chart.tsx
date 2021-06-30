@@ -1,8 +1,10 @@
 import React from 'react'
 import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import { Avatar, Box, Typography, useTheme } from '@material-ui/core'
+import useTranslation from 'next-translate/useTranslation'
 import useStyles from './styles'
 import { CustomTheme } from '../../misc/theme'
+import { formatPercentage } from '../../misc/utils'
 
 interface ChartProp {
   data: {
@@ -11,10 +13,11 @@ interface ChartProp {
     value: number
   }[]
   setPopoverIndex(i: number): void
-  setAnchorEl(t: EventTarget): void
+  setAnchorPosition(position: { top: number; left: number }): void
 }
-const Chart: React.FC<ChartProp> = ({ data: rawData, setPopoverIndex, setAnchorEl }) => {
+const Chart: React.FC<ChartProp> = ({ data: rawData, setPopoverIndex, setAnchorPosition }) => {
   const classes = useStyles()
+  const { lang } = useTranslation('common')
   const data = []
   const [activeIndex, setActiveIndex] = React.useState(0)
   const theme: CustomTheme = useTheme()
@@ -31,7 +34,7 @@ const Chart: React.FC<ChartProp> = ({ data: rawData, setPopoverIndex, setAnchorE
 
   rawData.forEach((d, i) => {
     const startAngle = i === 0 ? 0 : data[i - 1].endAngle
-    const endAngle = startAngle + (360 * d.value) / 100
+    const endAngle = startAngle + 360 * d.value
     const outerRadius = `${100 * (1 - 0.6 * (i / rawData.length))}%`
     data.push({
       ...d,
@@ -71,9 +74,10 @@ const Chart: React.FC<ChartProp> = ({ data: rawData, setPopoverIndex, setAnchorE
                 onMouseEnter={() => setActiveIndex(i)}
                 onClick={(e) => {
                   setPopoverIndex(i)
-                  setAnchorEl(e.currentTarget)
+                  setAnchorPosition({ top: e.clientY, left: e.clientX })
                 }}
                 fill={COLORS[i % COLORS.length].main}
+                stroke={theme.palette.background.default}
                 opacity={activeIndex === i ? 0.8 : 1}
               />
             </Pie>
@@ -82,7 +86,7 @@ const Chart: React.FC<ChartProp> = ({ data: rawData, setPopoverIndex, setAnchorE
       </ResponsiveContainer>
       <Box className={classes.divider} style={{ top, left }}>
         <Typography className={classes.percentText} variant="h2" gutterBottom>
-          {data[activeIndex].value}%
+          {formatPercentage(data[activeIndex].value, lang)}
         </Typography>
         <Box display="flex" alignItems="center">
           <Avatar className={classes.avatar} src={data[activeIndex].image} />

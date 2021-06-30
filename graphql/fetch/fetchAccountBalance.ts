@@ -6,7 +6,16 @@ const fetchAccountBalance = async (
   address: string,
   crypto: string,
   availableBalanceOnly?: boolean
-): Promise<TokenAmount> => {
+): Promise<{
+  accountBalance: {
+    available: TokenAmount
+    delegated: TokenAmount
+    rewards: TokenAmount
+    commissions: TokenAmount
+    unbonding: TokenAmount
+  }
+  total: TokenAmount
+}> => {
   const balance = await fetch(cryptocurrencies[crypto].graphqlHttpUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -15,8 +24,11 @@ const fetchAccountBalance = async (
       variables: { address },
     }),
   }).then((r) => r.json())
-
-  return getTotalTokenAmount(transformGqlAcountBalance(balance.data, Date.now())).amount
+  const accountBalance = transformGqlAcountBalance(balance.data, Date.now())
+  return {
+    accountBalance: accountBalance.balance,
+    total: getTotalTokenAmount(accountBalance).amount,
+  }
 }
 
 export default fetchAccountBalance

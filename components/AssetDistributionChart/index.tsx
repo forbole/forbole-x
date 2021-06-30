@@ -2,6 +2,7 @@
 import { Box, Card, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import get from 'lodash/get'
 import useStyles from './styles'
 import SectoredByButton from './SectoredByButton'
 import { SectoredBy, sectoredByTypes } from './types'
@@ -20,21 +21,30 @@ const AssetDistributionChart: React.FC = () => {
   const [sectoredBy, setSectoredBy] = React.useState<SectoredBy>(sectoredByTypes[0])
   const [data, setData] = React.useState([])
   const [popoverIndex, setPopoverIndex] = React.useState<number | undefined>()
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [anchorPosition, setAnchorPosition] = React.useState(null)
 
   const fetchData = React.useCallback(async () => {
     try {
       if (sectoredBy === 'by assets') {
-        let balances: TokenAmount = {}
+        const accountBalances: any = { total: {}, accountBalance: {} }
         for (let i = 0; i < accounts.length; i += 1) {
-          const balance = await fetchAccountBalance(accounts[i].address, accounts[i].crypto)
-          balances = sumTokenAmounts([balances, balance])
+          const { accountBalance, total } = await fetchAccountBalance(
+            accounts[i].address,
+            accounts[i].crypto
+          )
+          accountBalances.total = sumTokenAmounts([accountBalances.total || {}, total])
+          Object.keys(accountBalance).forEach((key) => {
+            accountBalances.accountBalance[key] = sumTokenAmounts([
+              accountBalances.accountBalance[key] || {},
+              accountBalance[key],
+            ])
+          })
         }
         const rawData = []
-        Object.keys(balances).forEach((denom) => {
+        Object.keys(accountBalances.total).forEach((denom) => {
           rawData.push({
             name: denom.toUpperCase(),
-            value: balances[denom].amount * balances[denom].price,
+            value: accountBalances.total[denom].amount * accountBalances.total[denom].price,
           })
         })
         const total = rawData.map((d) => d.value).reduce((a, b) => a + b, 0)
@@ -42,7 +52,8 @@ const AssetDistributionChart: React.FC = () => {
           rawData.map((d) => ({
             name: d.name,
             image: cryptocurrencies[d.name].image,
-            value: d.value === total ? 100 : Math.round((100 * d.value) / total),
+            value: d.value === total ? 1 : Math.round(d.value / total),
+            extraData: { ...accountBalances.accountBalance, total: accountBalances.total },
           }))
         )
       }
@@ -54,6 +65,7 @@ const AssetDistributionChart: React.FC = () => {
   React.useEffect(() => {
     fetchData()
   }, [fetchData])
+  console.log(data)
 
   return (
     <Card className={classes.container}>
@@ -62,15 +74,24 @@ const AssetDistributionChart: React.FC = () => {
         <SectoredByButton sectoredBy={sectoredBy} onChange={setSectoredBy} />
       </Box>
       {data.length > 0 ? (
-        <Chart data={data} setAnchorEl={setAnchorEl} setPopoverIndex={setPopoverIndex} />
+        <Chart
+          data={data}
+          setAnchorPosition={setAnchorPosition}
+          setPopoverIndex={setPopoverIndex}
+        />
       ) : (
         <EmptyState />
       )}
-      {/* <AssetPopover
-        anchorEl={anchorEl}
-        onClose={() => setAnchorEl(null)}
-        accountBalance={}
-      /> */}
+      <AssetPopover
+        anchorPosition={anchorPosition}
+        onClose={() => setAnchorPosition(null)}
+        accountBalance={get(data, `[${popoverIndex}].extraData`, {})}
+        cryptocurrency={
+          cryptocurrencies[get(data, `[${popoverIndex}].name`, '')] ||
+          Object.values(cryptocurrencies)[0]
+        }
+        percentage={get(data, `[${popoverIndex}].value`, 0)}
+      />
     </Card>
   )
 }
