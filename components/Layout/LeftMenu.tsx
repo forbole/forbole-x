@@ -5,16 +5,15 @@ import Link from 'next/link'
 import OverviewIcon from '../../assets/images/icons/icon_overview.svg'
 import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg'
 import DelegateIcon from '../../assets/images/icons/icon_delegate_08.svg'
-import MarketIcon from '../../assets/images/icons/icon_market.svg'
 import ProposalIcon from '../../assets/images/icons/icon_proposal.svg'
 import AddressBookIcon from '../../assets/images/icons/icon_address_book.svg'
-import ExplorerIcon from '../../assets/images/icons/icon_explorer.svg'
 import Logo from '../../assets/images/logo.svg'
 import LogoExpended from '../../assets/images/logo_expended.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { MenuWidth } from '.'
 import { useGeneralContext } from '../../contexts/GeneralContext'
+import { CustomTheme } from '../../misc/theme'
 
 interface LeftMenuProps {
   activeItem: string
@@ -24,19 +23,19 @@ interface LeftMenuProps {
 
 const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMenuExpanded }) => {
   const { t } = useTranslation('common')
-  const themeStyle = useTheme()
+  const themeStyle: CustomTheme = useTheme()
   const iconProps = useIconProps(3)
   const classes = useStyles()
   const { theme } = useGeneralContext()
   const items = React.useMemo(
     () => [
       {
-        title: t('overview'),
+        title: t('portfolio'),
         icon: <OverviewIcon {...iconProps} />,
         href: '/',
       },
       {
-        title: t('wallet manage'),
+        title: t('wallet'),
         icon: <WalletManageIcon {...iconProps} />,
         href: '/wallets',
       },
@@ -50,15 +49,15 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
       //   icon: <MarketIcon {...iconProps} />,
       //   href: '/market',
       // },
-      // {
-      //   title: t('proposals'),
-      //   icon: <ProposalIcon {...iconProps} />,
-      //   href: '/proposals',
-      // },
       {
         title: t('address book'),
         icon: <AddressBookIcon {...iconProps} />,
         href: '/address-book',
+      },
+      {
+        title: t('proposals'),
+        icon: <ProposalIcon {...iconProps} />,
+        href: '/proposals',
       },
       // {
       //   title: t('explorer'),
@@ -108,7 +107,13 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
           const selected = item.href === activeItem
           return (
             <Link key={item.title} href={item.href} passHref>
-              <ListItem selected={selected} className={classes.menuItem} button component="a">
+              <ListItem
+                selected={selected}
+                className={classes.menuItem}
+                button
+                component="a"
+                style={{ background: selected ? themeStyle.palette.menuBackground : 'inherits' }}
+              >
                 <ListItemIcon>
                   {React.cloneElement(item.icon, {
                     fill: selected ? themeStyle.palette.primary.main : themeStyle.palette.grey[300],

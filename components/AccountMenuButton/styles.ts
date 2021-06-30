@@ -9,6 +9,7 @@ const useStyles = makeStyles(
     dialogButton: {
       flex: 1,
       margin: theme.spacing(4, 2),
+      color: 'white',
     },
     closeButton: {
       position: 'absolute',

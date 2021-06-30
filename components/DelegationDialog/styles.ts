@@ -1,9 +1,19 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CustomTheme } from '../../misc/theme'
 
 const useStyles = makeStyles(
-  (theme) => ({
+  (theme: CustomTheme) => ({
     button: {
       width: theme.spacing(16),
+    },
+    card: {
+      marginTop: theme.spacing(1),
+      padding: theme.spacing(1, 2),
+      boxShadow: theme.shadows[7],
+      position: 'absolute',
+      zIndex: 1000,
+      left: 0,
+      right: 0,
     },
     closeButton: {
       position: 'absolute',

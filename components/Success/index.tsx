@@ -6,12 +6,13 @@ import SuccessDark from '../../assets/images/tx_success_dark.svg'
 import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 
-interface ConfirmSendProps {
+interface SuccessProps {
   onClose(): void
   content: string
+  hideButton?: boolean
 }
 
-const Success: React.FC<ConfirmSendProps> = ({ onClose, content }) => {
+const Success: React.FC<SuccessProps> = ({ onClose, content, hideButton }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const { theme } = useGeneralContext()
@@ -27,13 +28,21 @@ const Success: React.FC<ConfirmSendProps> = ({ onClose, content }) => {
           <Typography>{t(content)}</Typography>
         </Box>
       </DialogContent>
-      <DialogActions>
-        <Box display="flex" justifyContent="center" flex={1} my={2}>
-          <Button variant="contained" className={classes.button} color="primary" onClick={onClose}>
-            {t('close')}
-          </Button>
-        </Box>
-      </DialogActions>
+
+      {hideButton ? null : (
+        <DialogActions>
+          <Box display="flex" justifyContent="center" flex={1} my={2}>
+            <Button
+              variant="contained"
+              className={classes.button}
+              color="primary"
+              onClick={onClose}
+            >
+              {t('close')}
+            </Button>
+          </Box>
+        </DialogActions>
+      )}
     </>
   )
 }

@@ -14,7 +14,7 @@ interface WalletsState {
   addAccount?: (account: CreateAccountParams, securityPassword: string) => void
   updateAccount?: (address: string, account: UpdateAccountParams) => void
   deleteAccount?: (address: string) => void
-  viewMnemonicPhrase?: (id: string, securityPassword: string) => Promise<{ success: boolean }>
+  viewMnemonicPhrase?: (id: string, securityPassword: string) => Promise<string>
   viewMnemonicPhraseBackup?: (
     id: string,
     securityPassword: string,
@@ -156,7 +156,7 @@ const WalletsProvider: React.FC = ({ children }) => {
       })
       setAccounts((acs) => [result.account, ...acs])
     },
-    [password, setAccounts]
+    [password, accounts, setAccounts]
   )
 
   const updateAccount = React.useCallback(

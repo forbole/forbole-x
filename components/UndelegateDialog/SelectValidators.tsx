@@ -8,6 +8,7 @@ import {
   Typography,
   Grid,
   useTheme,
+  CircularProgress,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -22,6 +23,7 @@ interface SelectValidatorsProps {
   crypto: Cryptocurrency
   validator: Validator
   availableAmount: TokenAmount
+  loading: boolean
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
@@ -29,6 +31,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   availableAmount,
   onConfirm,
   crypto,
+  loading,
 }) => {
   const { amount: totalAmount, price } = Object.values(availableAmount)[0]
   const { t, lang } = useTranslation('common')
@@ -41,7 +44,13 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [memo, setMemo] = React.useState('')
 
   return (
-    <>
+    <form
+      noValidate
+      onSubmit={(e) => {
+        e.preventDefault()
+        onConfirm(Number(amount), denom, memo)
+      }}
+    >
       <DialogContent className={classes.dialogContent}>
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
@@ -131,14 +140,14 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             variant="contained"
             className={classes.button}
             color="primary"
-            disabled={!Number(amount) || Number(amount) > totalAmount}
-            onClick={() => onConfirm(Number(amount), denom, memo)}
+            disabled={loading || !Number(amount) || Number(amount) > totalAmount}
+            type="submit"
           >
-            {t('next')}
+            {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </DialogActions>
-    </>
+    </form>
   )
 }
 

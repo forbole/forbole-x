@@ -7,7 +7,11 @@ const mockWalletsContext = {
   unlockWallets: jest.fn().mockResolvedValue('done'),
   wallets: [],
 }
-
+jest.mock('next/router', () => ({
+  useRouter: () => ({
+    query: {},
+  }),
+}))
 jest.mock('@material-ui/core/Dialog', () => (props) => <div id="dialog" {...props} />)
 jest.mock('../../../components/PasswordInput', () => (props) => (
   <div id="PasswordInput" {...props} />
@@ -66,7 +70,7 @@ describe('component: UnlockPasswordDialog', () => {
         })
     })
     await renderer.act(async () => {
-      await component.root.findAllByType('button')[0].props.onClick()
+      await component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
     })
     expect(mockWalletsContext.unlockWallets).toBeCalledWith('password')
   })
@@ -85,7 +89,7 @@ describe('component: UnlockPasswordDialog', () => {
         })
     })
     await renderer.act(async () => {
-      await component.root.findAllByType('button')[0].props.onClick()
+      await component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
     })
     expect(mockWalletsContext.unlockWallets).toBeCalledWith('password')
     const tree = component.toJSON()

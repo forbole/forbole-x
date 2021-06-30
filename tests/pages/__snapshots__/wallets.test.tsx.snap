@@ -11,10 +11,10 @@ exports[`page: Wallets renders correctly 1`] = `
     <h1
       className="MuiTypography-root MuiTypography-h1 MuiTypography-gutterBottom"
     >
-      common:wallet manage
+      common:wallet
     </h1>
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-outlined"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -28,6 +28,12 @@ exports[`page: Wallets renders correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "border": "1px solid",
+          "color": undefined,
+        }
+      }
       tabIndex={0}
       type="button"
     >
@@ -49,7 +55,11 @@ exports[`page: Wallets renders correctly 1`] = `
       >
         test
       </h4>
-      <WalletMenuButton
+      <EditWalletButton
+        walletId="123"
+        walletName="test"
+      />
+      <AddAccountButton
         walletId="123"
       />
     </div>
@@ -93,10 +103,10 @@ exports[`page: Wallets renders correctly with missing wallet id 1`] = `
     <h1
       className="MuiTypography-root MuiTypography-h1 MuiTypography-gutterBottom"
     >
-      common:wallet manage
+      common:wallet
     </h1>
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-outlined"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -110,6 +120,12 @@ exports[`page: Wallets renders correctly with missing wallet id 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
+      style={
+        Object {
+          "border": "1px solid",
+          "color": undefined,
+        }
+      }
       tabIndex={0}
       type="button"
     >
@@ -134,7 +150,11 @@ exports[`page: Wallets renders correctly with missing wallet id 1`] = `
       >
         test
       </h4>
-      <WalletMenuButton
+      <EditWalletButton
+        walletId="123"
+        walletName="test"
+      />
+      <AddAccountButton
         walletId="123"
       />
     </div>

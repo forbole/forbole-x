@@ -60,54 +60,6 @@ const AddressBook: React.FC = () => {
     <Layout passwordRequired activeItem="/address-book">
       <Box display="flex" alignItems="center" mb={2}>
         <Typography variant="h1">{t('address book')}</Typography>
-        {activeAccount ? (
-          <Box ml={2}>
-            <Button
-              onClick={(e) => setAccountMenuAnchor(e.currentTarget)}
-              size="small"
-              endIcon={<DropDownIcon {...iconProps} />}
-            >
-              <AccountAvatar account={activeAccount} hideAddress size="small" />
-            </Button>
-            <Menu
-              anchorEl={accountMenuAnchor}
-              getContentAnchorEl={null}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
-              }}
-              keepMounted
-              open={!!accountMenuAnchor}
-              onClose={() => setAccountMenuAnchor(undefined)}
-            >
-              {wallets.map((w) => (
-                <Box mb={2} key={w.id}>
-                  <Box px={2}>
-                    <Typography gutterBottom variant="body2" color="textSecondary">
-                      {w.name}
-                    </Typography>
-                  </Box>
-                  {accountsMap[w.id].map((a) => (
-                    <MenuItem
-                      key={a.address}
-                      button
-                      onClick={() => {
-                        setActiveAccountIndex(a.index)
-                        setAccountMenuAnchor(undefined)
-                      }}
-                    >
-                      <AccountAvatar account={a} hideAddress size="small" />
-                    </MenuItem>
-                  ))}
-                </Box>
-              ))}
-            </Menu>
-          </Box>
-        ) : null}
         <Box justifyContent="flex-end" display="flex" flex="1">
           <Button onClick={() => router.push('/createProposal')}>
             <CreateButton text="create proposal" />

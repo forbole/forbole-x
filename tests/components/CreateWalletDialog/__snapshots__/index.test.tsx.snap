@@ -1,471 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component: CreateWalletDialog calls Secp256k1HdWallet.generate(24) and renders create wallet stage correctly when onCreateWalletClick is called 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={[MockFunction]}
-  open={true}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-3"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_back"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[MockFunction]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:create new wallet title
-    </h2>
-  </div>
-  <div
-    id="CreateWallet"
-    mnemonic="mnemonic"
-    onConfirm={[Function]}
-  />
-</div>
-`;
-
-exports[`component: CreateWalletDialog calls addWallet and onClose when wallet name is set 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={
-    [MockFunction] {
-      "calls": Array [
-        Array [],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
-    }
-  }
-  open={true}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-3"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_back"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={
-      [MockFunction] {
-        "calls": Array [
-          Array [],
-        ],
-        "results": Array [
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-        ],
-      }
-    }
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:import wallet title
-    </h2>
-  </div>
-  <div
-    id="ImportWallet"
-    onConfirm={[Function]}
-  />
-</div>
-`;
-
-exports[`component: CreateWalletDialog calls verify mnemonic and renders set security password stage correctly when onConfirm is called from ConfirmMnemonic 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={[MockFunction]}
-  open={true}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-3"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_back"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[MockFunction]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:security password title
-    </h2>
-  </div>
-  <div
-    id="SecurityPassword"
-    onConfirm={[Function]}
-  />
-</div>
-`;
-
-exports[`component: CreateWalletDialog calls verify mnemonic backup and renders set security password stage correctly when onConfirm is called from ImportMnemonicBackup 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={[MockFunction]}
-  open={true}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-3"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_back"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[MockFunction]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:security password title
-    </h2>
-  </div>
-  <div
-    id="SecurityPassword"
-    onConfirm={[Function]}
-  />
-</div>
-`;
-
-exports[`component: CreateWalletDialog renders access my wallet stage correctly when onImportWalletClick is called from Start 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={[MockFunction]}
-  open={true}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-3"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_back"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[MockFunction]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:access my wallet title
-    </h2>
-  </div>
-  <div
-    id="AccessMyWallet"
-    onConfirm={[Function]}
-    onCreateWallet={[Function]}
-  />
-</div>
-`;
-
 exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
 <div
   fullScreen={false}
@@ -516,784 +50,125 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
     </h2>
   </div>
   <div
-    id="Start"
-    onCreateWalletClick={[Function]}
-    onImportWalletClick={[Function]}
-    onWhatIsMnemonicClick={[Function]}
-  />
-</div>
-`;
-
-exports[`component: CreateWalletDialog renders confirm mnemonic stage correctly when onConfirm is called from CreateWallet 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={[MockFunction]}
-  open={true}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-3"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
-    <span
-      className="MuiIconButton-label"
+    <p
+      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
     >
-      <svg
-        data-file-name="SvgIcon_back"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[MockFunction]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
+      common:create wallet description
+    </p>
+    <div
+      className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-5"
     >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:create new wallet title
-    </h2>
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+      >
+        <button
+          className="MuiButtonBase-root HookGlobalStyles-selectionBox-4"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <div
+            className="MuiBox-root MuiBox-root-10"
+          >
+            <svg
+              data-file-name="SvgLogin_light"
+            />
+          </div>
+          <p
+            className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+          >
+            common:i have mnemonic phrase
+          </p>
+          <span
+            className="MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+      >
+        <button
+          className="MuiButtonBase-root HookGlobalStyles-selectionBox-4"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <div
+            className="MuiBox-root MuiBox-root-11"
+          >
+            <svg
+              data-file-name="SvgCreate_wallet_light"
+            />
+          </div>
+          <p
+            className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+          >
+            common:i dont have mnemonic phrase
+          </p>
+          <span
+            className="MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+    </div>
   </div>
   <div
-    description="common:confirm mnemonic description"
-    error=""
-    id="ConfirmMnemonic"
-    onConfirm={[Function]}
-  />
-</div>
-`;
-
-exports[`component: CreateWalletDialog renders correctly when back button is clicked on import wallets stage 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={[MockFunction]}
-  open={false}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[MockFunction]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
+    className="MuiDialogActions-root MuiDialogActions-spacing"
   >
-    <span
-      className="MuiIconButton-label"
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-button-1 MuiButton-textPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
     >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
+      <span
+        className="MuiButton-label"
+      >
+        common:what is mnemonic phrase
+      </span>
+      <span
+        className="MuiTouchRipple-root"
       />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:create wallet title
-    </h2>
+    </button>
   </div>
-  <div
-    id="Start"
-    onCreateWalletClick={[Function]}
-    onImportWalletClick={[Function]}
-    onWhatIsMnemonicClick={[Function]}
-  />
-</div>
-`;
-
-exports[`component: CreateWalletDialog renders correctly when confirm mnemonic is invalid 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={[MockFunction]}
-  open={true}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-3"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_back"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[MockFunction]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:create new wallet title
-    </h2>
-  </div>
-  <div
-    description="common:confirm mnemonic description"
-    error="common:invalid mnemonic"
-    id="ConfirmMnemonic"
-    onConfirm={[Function]}
-  />
-</div>
-`;
-
-exports[`component: CreateWalletDialog renders error state when invalid mnemonic phrase backup is imported 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={[MockFunction]}
-  open={true}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-3"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_back"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[MockFunction]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:mnemonic phrase backup title
-    </h2>
-  </div>
-  <div
-    error="common:invalid mnemonic"
-    id="ImportMnemonicBackup"
-    onConfirm={[Function]}
-  />
-</div>
-`;
-
-exports[`component: CreateWalletDialog renders error state when invalid mnemonic phrase is imported 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={[MockFunction]}
-  open={true}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-3"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_back"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[MockFunction]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:mnemonic
-    </h2>
-  </div>
-  <div
-    description="common:mnemonic description"
-    error="common:invalid mnemonic"
-    id="ConfirmMnemonic"
-    onConfirm={[Function]}
-  />
-</div>
-`;
-
-exports[`component: CreateWalletDialog renders import mnemonic phrase stage correctly when onConfirm is called from AccessMyWallet 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={[MockFunction]}
-  open={true}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-3"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_back"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[MockFunction]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:mnemonic
-    </h2>
-  </div>
-  <div
-    description="common:mnemonic description"
-    error=""
-    id="ConfirmMnemonic"
-    onConfirm={[Function]}
-  />
-</div>
-`;
-
-exports[`component: CreateWalletDialog renders import wallet stage correctly when security password is set 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={[MockFunction]}
-  open={true}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-3"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_back"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[MockFunction]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:import wallet title
-    </h2>
-  </div>
-  <div
-    id="ImportWallet"
-    onConfirm={[Function]}
-  />
-</div>
-`;
-
-exports[`component: CreateWalletDialog renders import wallets stage correctly 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={[MockFunction]}
-  open={false}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-3"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_back"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[MockFunction]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:access my wallet title
-    </h2>
-  </div>
-  <div
-    id="AccessMyWallet"
-    onConfirm={[Function]}
-    onCreateWallet={[Function]}
-  />
-</div>
-`;
-
-exports[`component: CreateWalletDialog renders mnemonic phrase backup stage correctly when onConfirm is called from AccessMyWallet 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={[MockFunction]}
-  open={true}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-3"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_back"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[MockFunction]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:mnemonic phrase backup title
-    </h2>
-  </div>
-  <div
-    error=""
-    id="ImportMnemonicBackup"
-    onConfirm={[Function]}
-  />
 </div>
 `;
 
@@ -1344,185 +219,115 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
     </h2>
   </div>
   <div
-    id="Start"
-    onCreateWalletClick={[Function]}
-    onImportWalletClick={[Function]}
-    onWhatIsMnemonicClick={[Function]}
-  />
-</div>
-`;
-
-exports[`component: CreateWalletDialog renders set security password stage correctly when mnemonic is confirmed to be correct 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={[MockFunction]}
-  open={true}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-3"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
   >
-    <span
-      className="MuiIconButton-label"
+    <p
+      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
     >
-      <svg
-        data-file-name="SvgIcon_back"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[MockFunction]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
+      common:create wallet description
+    </p>
+    <div
+      className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-5"
     >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:security password title
-    </h2>
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+      >
+        <button
+          className="MuiButtonBase-root HookGlobalStyles-selectionBox-4"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <div
+            className="MuiBox-root MuiBox-root-8"
+          >
+            <svg
+              data-file-name="SvgLogin_light"
+            />
+          </div>
+          <p
+            className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+          >
+            common:i have mnemonic phrase
+          </p>
+        </button>
+      </div>
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+      >
+        <button
+          className="MuiButtonBase-root HookGlobalStyles-selectionBox-4"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <div
+            className="MuiBox-root MuiBox-root-9"
+          >
+            <svg
+              data-file-name="SvgCreate_wallet_light"
+            />
+          </div>
+          <p
+            className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+          >
+            common:i dont have mnemonic phrase
+          </p>
+        </button>
+      </div>
+    </div>
   </div>
   <div
-    id="SecurityPassword"
-    onConfirm={[Function]}
-  />
-</div>
-`;
-
-exports[`component: CreateWalletDialog renders what is mnemonic stage correctly 1`] = `
-<div
-  fullScreen={false}
-  fullWidth={true}
-  id="dialog"
-  onClose={[MockFunction]}
-  open={true}
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-backButton-3"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
+    className="MuiDialogActions-root MuiDialogActions-spacing"
   >
-    <span
-      className="MuiIconButton-label"
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-button-1 MuiButton-textPrimary"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
     >
-      <svg
-        data-file-name="SvgIcon_back"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <button
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-closeButton-2"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[MockFunction]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        data-file-name="SvgIcon_cross"
-        fill="#e0e0e0"
-        height={16}
-        width={16}
-      />
-    </span>
-    <span
-      className="MuiTouchRipple-root"
-    />
-  </button>
-  <div
-    className="MuiDialogTitle-root"
-  >
-    <h2
-      className="MuiTypography-root MuiTypography-h6"
-    >
-      common:what is mnemonic phrase
-    </h2>
+      <span
+        className="MuiButton-label"
+      >
+        common:what is mnemonic phrase
+      </span>
+    </button>
   </div>
-  <div
-    id="WhatIsMnemonic"
-  />
 </div>
 `;

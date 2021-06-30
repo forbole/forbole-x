@@ -106,7 +106,7 @@ Array [
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-button-1 MuiButton-textSecondary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-button-1 MuiButton-textPrimary"
       disabled={false}
       onBlur={[Function]}
       onClick={[MockFunction]}

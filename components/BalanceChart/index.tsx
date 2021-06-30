@@ -1,7 +1,7 @@
-import { Box, Button, Card, CircularProgress, Typography, useTheme } from '@material-ui/core'
+import { Box, Button, CircularProgress, Typography, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { addDays, addHours, format } from 'date-fns'
+import { addDays, addHours, format, addYears } from 'date-fns'
 import {
   ResponsiveContainer,
   LineChart,
@@ -42,6 +42,11 @@ export const dateRanges: DateRange[] = [
     format: 'd MMM',
     timestamps: new Array(30).fill(null).map((_a, i) => addDays(now, -1 * i).getTime()),
   },
+  {
+    title: 'year',
+    format: 'd MMM',
+    timestamps: new Array(10).fill(null).map((_a, i) => addYears(now, -1 * i).getTime()),
+  },
 ]
 
 interface BalanceChartProps {
@@ -61,13 +66,13 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
   loading,
   hideChart,
 }) => {
-  const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const { currency } = useGeneralContext()
   const theme: CustomTheme = useTheme()
   const [currentDateRange, setCurrentDateRange] = React.useState(
     dateRanges.find((d) => d.isDefault)
   )
+  const classes = useStyles(currentDateRange.title)
 
   return (
     <>
@@ -86,7 +91,20 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
                 className={classes.timeRangeButton}
                 size="small"
                 variant="outlined"
-                color={currentDateRange.title === d.title ? 'primary' : 'default'}
+                style={{
+                  color:
+                    currentDateRange.title === d.title
+                      ? theme.palette.dataChangeButton.clicked.text
+                      : theme.palette.dataChangeButton.unClicked?.text || 'inherit',
+                  background:
+                    currentDateRange.title === d.title
+                      ? theme.palette.dataChangeButton.clicked.background
+                      : 'inherit',
+                  borderColor:
+                    currentDateRange.title === d.title
+                      ? theme.palette.dataChangeButton.clicked.border
+                      : theme.palette.dataChangeButton.unClicked?.border || 'inherit',
+                }}
                 onClick={() => {
                   setCurrentDateRange(d)
                   if (onDateRangeChange) {

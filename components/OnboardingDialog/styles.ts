@@ -1,7 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CustomTheme } from '../../misc/theme'
 
 const useStyles = makeStyles(
-  (theme) => ({
+  (theme: CustomTheme) => ({
     passwordRequirement: {
       marginTop: theme.spacing(1),
     },
@@ -9,6 +10,7 @@ const useStyles = makeStyles(
       flex: 1,
       margin: theme.spacing(4, 2),
       marginTop: theme.spacing(20),
+      color: 'white',
     },
     closeButton: {
       position: 'absolute',

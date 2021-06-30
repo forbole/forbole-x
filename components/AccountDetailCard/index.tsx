@@ -13,7 +13,7 @@ import useIconProps from '../../misc/useIconProps'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import StatBox from './StatBox'
 import DelegationDialog from '../DelegationDialog'
-import ClaimRewardsDialog from '../ClaimRewardsDialog'
+import WithdrawRewardsDialog from '../WithdrawRewardsDialog'
 import {
   formatCurrency,
   formatTokenAmount,
@@ -23,10 +23,11 @@ import {
 } from '../../misc/utils'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
 import SendDialog from '../SendDialog'
-import AccountMenuButton from '../AccountMenuButton'
 import useIsMobile from '../../misc/useIsMobile'
+import EditAccountDialog from '../EditAccountDialog'
 
 interface AccountDetailCardProps {
+  wallet: Wallet
   account: Account
   validators: Validator[]
   accountBalance: AccountBalance
@@ -34,6 +35,7 @@ interface AccountDetailCardProps {
 }
 
 const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
+  wallet,
   account,
   accountBalance,
   availableTokens,
@@ -47,8 +49,9 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
   const isMobile = useIsMobile()
   const { updateAccount } = useWalletsContext()
   const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
-  const [claimRewardsDialogOpen, setClaimRewardsDialogOpen] = React.useState(false)
+  const [withdrawRewardsDialogOpen, setWithdrawRewardsDialogOpen] = React.useState(false)
   const [sendDialogOpen, setSendDialogOpen] = React.useState(false)
+  const [editAccountDialogOpen, setEditAccountDialogOpen] = React.useState(false)
   const [timestamps, setTimestamps] = React.useState<Date[]>(
     dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
   )
@@ -68,14 +71,14 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
     }
   }, [accountBalance])
 
-  const isAvailableTokenEmpty = React.useMemo(() => !get(availableTokens, 'coins.length', 0), [
-    availableTokens,
-  ])
-
   const toggleFav = React.useCallback(() => {
     updateAccount(account.address, { fav: !account.fav })
   }, [account.address, account.fav, updateAccount])
 
+  const displayItems =
+    getTokenAmountBalance(get(accountBalance, 'balance.commissions', {})) === 0
+      ? ['available', 'delegated', 'unbonding', 'rewards']
+      : ['available', 'delegated', 'unbonding', 'rewards', 'commissions']
   return (
     <>
       <Card className={classes.container}>
@@ -92,7 +95,6 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                 classes={{ root: classes.fixedWidthButton }}
                 variant="contained"
                 color="primary"
-                disabled={isAvailableTokenEmpty}
                 onClick={() => setDelegateDialogOpen(true)}
               >
                 {t('delegate')}
@@ -101,14 +103,13 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                 classes={{ root: classes.fixedWidthButton }}
                 variant="contained"
                 color="secondary"
-                onClick={() => setClaimRewardsDialogOpen(true)}
+                onClick={() => setWithdrawRewardsDialogOpen(true)}
               >
-                {t('claim rewards')}
+                {t('withdraw')}
               </Button>
               <Button
                 classes={{ root: classes.sendButton }}
                 variant="contained"
-                disabled={isAvailableTokenEmpty}
                 onClick={() => setSendDialogOpen(true)}
               >
                 {t('send')}
@@ -130,17 +131,13 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                     <StarIcon {...iconProps} />
                   )}
                 </Button>
-                <AccountMenuButton
-                  accountAddress={account.address}
-                  buttonComponent={
-                    <Button
-                      classes={{ root: classes.iconButton }}
-                      variant={isMobile ? 'text' : 'outlined'}
-                    >
-                      <EditIcon {...iconProps} />
-                    </Button>
-                  }
-                />
+                <Button
+                  classes={{ root: classes.iconButton }}
+                  variant={isMobile ? 'text' : 'outlined'}
+                  onClick={() => setEditAccountDialogOpen(true)}
+                >
+                  <EditIcon {...iconProps} />
+                </Button>
               </Box>
             </Box>
           </Box>
@@ -156,7 +153,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
           />
           <Box mt={isMobile ? 6 : 10}>
             <Grid container spacing={4}>
-              {['available', 'delegated', 'unbonding', 'rewards', 'commissions'].map((key) => (
+              {displayItems.map((key) => (
                 <StatBox
                   key={key}
                   title={t(key)}
@@ -183,9 +180,10 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
         availableTokens={availableTokens}
         validators={validators.filter(({ status }) => status === 'active')}
       />
-      <ClaimRewardsDialog
-        open={claimRewardsDialogOpen}
-        onClose={() => setClaimRewardsDialogOpen(false)}
+      <WithdrawRewardsDialog
+        wallet={wallet}
+        open={withdrawRewardsDialogOpen}
+        onClose={() => setWithdrawRewardsDialogOpen(false)}
         account={account}
         tokensPrices={availableTokens.tokens_prices}
         validators={validators.filter((v) => !!v.delegated)}
@@ -193,6 +191,12 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
       <SendDialog
         open={sendDialogOpen}
         onClose={() => setSendDialogOpen(false)}
+        account={account}
+        availableTokens={availableTokens}
+      />
+      <EditAccountDialog
+        open={editAccountDialogOpen}
+        onClose={() => setEditAccountDialogOpen(false)}
         account={account}
         availableTokens={availableTokens}
       />

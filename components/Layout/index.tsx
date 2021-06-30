@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, useTheme } from '@material-ui/core'
 import { useRouter } from 'next/router'
 import get from 'lodash/get'
+import qs from 'query-string'
 import useStyles from './styles'
 import LeftMenu from './LeftMenu'
 import NavBar from './NavBar'
@@ -9,6 +10,7 @@ import GetStarted from '../GetStarted'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import UnlockPasswordDialog from '../UnlockPasswordDialog'
 import usePersistedState from '../../misc/usePersistedState'
+import ConfirmTransactionDialog from '../ConfirmTransactionDialog'
 
 export enum MenuWidth {
   Expanded = 32,
@@ -35,7 +37,7 @@ const Layout: React.FC<LayoutProps> = ({
 
   // Hide menu for chrome extension
   const router = useRouter()
-  const hideMenuQueryParam = get(router, 'query["hide-menu"]', '')
+  const hideMenuQueryParam = get(router, 'query.hideMenu', '')
   const isHideMenu = hideMenuQueryParam || (process.browser && (window as any).hideMenu)
   React.useEffect(() => {
     if (hideMenuQueryParam) {
@@ -43,6 +45,23 @@ const Layout: React.FC<LayoutProps> = ({
       ;(window as any).hideMenu = true
     }
   }, [hideMenuQueryParam])
+
+  // Open ConfirmTransactionDialog with correct query params
+  const { address, transactionData, open, onClose } = React.useMemo(() => {
+    const { url, query } = qs.parseUrl(router.asPath)
+    return {
+      address: get(router, 'query.address', ''),
+      transactionData: JSON.parse(get(router, 'query.transactionData', '""')),
+      open: !!get(router, 'query.transactionData', ''),
+      onClose: () =>
+        router.replace(
+          qs.stringifyUrl({
+            url,
+            query: { ...query, transactionData: undefined, address: undefined },
+          })
+        ),
+    }
+  }, [router])
 
   return loaded ? (
     <>
@@ -70,6 +89,14 @@ const Layout: React.FC<LayoutProps> = ({
         {!passwordRequired || isUnlocked ? children : null}
       </Box>
       {passwordRequired && !isFirstTimeUser ? <UnlockPasswordDialog /> : null}
+      {open ? (
+        <ConfirmTransactionDialog
+          address={address}
+          transactionData={transactionData}
+          open={open}
+          onClose={onClose}
+        />
+      ) : null}
     </>
   ) : null
 }

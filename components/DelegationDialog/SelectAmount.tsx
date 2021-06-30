@@ -21,9 +21,16 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availab
   const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
 
   const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount)
+  const ifError = get(availableAmount, `${denom}.amount`, 0) <= Number(amount)
 
   return (
-    <>
+    <form
+      noValidate
+      onSubmit={(e) => {
+        e.preventDefault()
+        onConfirm(Number(amount), denom)
+      }}
+    >
       <DialogContent className={classes.dialogContent}>
         <Box mb={32}>
           <Typography className={classes.marginBottom}>
@@ -35,10 +42,13 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availab
           <Typography>{t('total delegated amount')}</Typography>
           <TokenAmountInput
             value={amount}
-            denom={denom}
+            denom={denom || ''}
             onValueChange={setAmount}
             onDenomChange={setDenom}
             availableAmount={availableAmount}
+            type="number"
+            helperText={ifError ? t('delegationHelpText') : null}
+            error={ifError}
           />
         </Box>
       </DialogContent>
@@ -54,21 +64,21 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availab
           <Box>
             <Typography variant="h5">{formatCrypto(Number(amount), denom, lang)}</Typography>
             <Typography>
-              {formatCurrency(Number(amount) * availableAmount[denom].price, currency, lang)}
+              {formatCurrency(Number(amount) * availableAmount[denom]?.price, currency, lang)}
             </Typography>
           </Box>
           <Button
             variant="contained"
-            className={classes.button}
             color="primary"
+            classes={{ root: classes.button }}
             disabled={!Number(amount) || insufficientFund}
-            onClick={() => onConfirm(Number(amount), denom)}
+            type="submit"
           >
             {t('next')}
           </Button>
         </Box>
       </DialogActions>
-    </>
+    </form>
   )
 }
 

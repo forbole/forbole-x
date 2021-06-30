@@ -2,34 +2,22 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import get from 'lodash/get'
+import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import SelectAmount from './SelectAmount'
 import SelectValidators from './SelectValidators'
-import ConfirmRedelegation from './ConfirmRedelegation'
 import useStateHistory from '../../misc/useStateHistory'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import {
-  formatRawTransactionData,
-  formatTransactionMsg,
-  formatTypeUrlTransactionMsg,
-} from '../../misc/formatTransactionMsg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
-import SecurityPassword from '../SecurityPasswordDialogContent'
-import Success from './Success'
 import useIsMobile from '../../misc/useIsMobile'
 
 enum RedelegationStage {
   SelectAmountStage = 'select amount',
   SelectValidatorsStage = 'select validators',
-  ConfirmRedelegationStage = 'confirm redelegation',
-  SecurityPasswordStage = 'security password',
-  SuccessStage = 'success',
 }
 
 interface RedelegationDialogProps {
@@ -65,43 +53,14 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
   const [amount, setAmount] = React.useState(0)
   const [denom, setDenom] = React.useState('')
-  const [toValidator, setToValidator] = React.useState<Validator>()
-  const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
 
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<RedelegationStage>(
     RedelegationStage.SelectAmountStage
   )
 
-  const transactionData = React.useMemo(() => {
-    const coinsToSend = getEquivalentCoinToSend({ amount, denom }, delegatedTokens, tokensPrices)
-    return {
-      address: account.address,
-      password,
-      transactions: toValidator
-        ? [
-            formatTransactionMsg(account.crypto, {
-              type: 'redelegate',
-              delegator: account.address,
-              fromValidator: fromValidator.address,
-              toValidator: toValidator.address,
-              ...coinsToSend,
-            }),
-          ]
-        : [],
-      gasFee: get(crypto, 'defaultGasFee', {}),
-      memo,
-    }
-  }, [toValidator, delegatedTokens, tokensPrices, account, crypto, password, memo])
-
-  const { availableAmount, defaultGasFee } = React.useMemo(
-    () => ({
-      availableAmount: getTokenAmountFromDenoms(delegatedTokens, tokensPrices),
-      defaultGasFee: getTokenAmountFromDenoms(
-        get(crypto, 'defaultGasFee.amount', []),
-        tokensPrices
-      ),
-    }),
+  const availableAmount = React.useMemo(
+    () => getTokenAmountFromDenoms(delegatedTokens, tokensPrices),
     [delegatedTokens, tokensPrices, crypto]
   )
 
@@ -115,37 +74,36 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
   )
 
   const confirmRedelegations = React.useCallback(
-    (v: Validator, m: string) => {
-      setToValidator(v)
-      setMemo(m)
-      setStage(RedelegationStage.ConfirmRedelegationStage)
-    },
-    [setStage, setMemo, setToValidator]
-  )
-
-  const sendTransactionMessage = React.useCallback(
-    async (securityPassword: string) => {
+    async (toValidator: Validator, memo: string) => {
       try {
         setLoading(true)
-        const result = await sendMsgToChromeExt({
-          event: 'signAndBroadcastTransactions',
-          data: {
-            securityPassword,
-            ...transactionData,
-            transactions: transactionData.transactions.map((msg) =>
-              formatTypeUrlTransactionMsg(msg)
-            ),
-          },
+        const coinsToSend = getEquivalentCoinToSend(
+          { amount, denom },
+          delegatedTokens,
+          tokensPrices
+        )
+        await invoke(window, 'forboleX.sendTransaction', password, account.address, {
+          msgs: [
+            {
+              type: 'cosmos-sdk/MsgBeginRedelegate',
+              value: {
+                delegator_address: account.address,
+                validator_src_address: fromValidator.address,
+                validator_dst_address: toValidator.address,
+                amount: { amount: coinsToSend.amount.toString(), denom: coinsToSend.denom },
+              },
+            },
+          ],
+          memo,
         })
-        console.log(result)
         setLoading(false)
-        setStage(RedelegationStage.SuccessStage, true)
+        onClose()
       } catch (err) {
-        setLoading(false)
         console.log(err)
+        setLoading(false)
       }
     },
-    [transactionData]
+    [amount, denom, delegatedTokens, tokensPrices, password, account, fromValidator]
   )
 
   const content: Content = React.useMemo(() => {
@@ -160,39 +118,9 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
               validators={validators}
               denom={denom}
               onConfirm={confirmRedelegations}
+              loading={loading}
             />
           ),
-        }
-      case RedelegationStage.ConfirmRedelegationStage:
-        return {
-          title: '',
-          dialogWidth: 'xs',
-          content: (
-            <ConfirmRedelegation
-              account={account}
-              crypto={crypto}
-              amount={amount}
-              denom={denom}
-              gasFee={defaultGasFee}
-              fromValidator={fromValidator}
-              toValidator={toValidator}
-              memo={memo}
-              rawTransactionData={formatRawTransactionData(account.crypto, transactionData)}
-              onConfirm={() => setStage(RedelegationStage.SecurityPasswordStage)}
-            />
-          ),
-        }
-      case RedelegationStage.SecurityPasswordStage:
-        return {
-          title: '',
-          dialogWidth: 'sm',
-          content: <SecurityPassword onConfirm={sendTransactionMessage} loading={loading} />,
-        }
-      case RedelegationStage.SuccessStage:
-        return {
-          title: '',
-          dialogWidth: 'xs',
-          content: <Success onClose={onClose} denom={denom} />,
         }
       case RedelegationStage.SelectAmountStage:
       default:
@@ -215,8 +143,6 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
     if (open) {
       setAmount(0)
       setDenom('')
-      setToValidator(undefined)
-      setMemo('')
       setLoading(false)
       setStage(RedelegationStage.SelectAmountStage)
     }

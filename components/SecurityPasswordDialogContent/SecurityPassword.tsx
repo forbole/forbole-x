@@ -10,13 +10,15 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
 import PasswordInput from '../PasswordInput'
+import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface SecurityPasswordProps {
   onForgot: () => void
-  onUnlock: (password) => void
+  onUnlock: (password: string) => void
   password: string
   setPassword: any
   loading: boolean
+  walletId: string
 }
 
 const SecurityPassword: React.FC<SecurityPasswordProps> = ({
@@ -25,17 +27,36 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({
   password,
   setPassword,
   loading,
+  walletId,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const [error, setError] = React.useState('')
   const theme = useTheme()
+  const { viewMnemonicPhrase } = useWalletsContext()
+
+  const confirm = React.useCallback(async () => {
+    try {
+      await viewMnemonicPhrase(walletId, password)
+      onUnlock(password)
+    } catch (err) {
+      setError(t(err.message))
+    }
+  }, [walletId, onUnlock, password])
 
   return (
-    <>
+    <form
+      noValidate
+      className={classes.form}
+      onSubmit={(e) => {
+        e.preventDefault()
+        confirm()
+      }}
+    >
       <DialogContent>
-        <DialogContentText>{t('security password description')}</DialogContentText>
+        <DialogContentText>{t('enter security password')}</DialogContentText>
         <PasswordInput
+          autoFocus
           placeholder={t('password')}
           value={password}
           error={!!error}
@@ -49,15 +70,15 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({
           variant="contained"
           color="primary"
           disabled={!password.length || loading}
-          onClick={() => onUnlock(password)}
+          type="submit"
         >
           {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
         </Button>
-        <Button className={classes.forgotButton} onClick={() => onForgot()}>
+        <Button className={classes.forgotButton} onClick={onForgot}>
           {t('forgot password?')}
         </Button>
       </DialogActions>
-    </>
+    </form>
   )
 }
 

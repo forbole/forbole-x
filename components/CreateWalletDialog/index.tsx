@@ -5,7 +5,6 @@ import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
-import Start from './Start'
 import CreateWallet from './CreateWallet'
 import ConfirmMnemonic from './ConfirmMnemonic'
 import { useWalletsContext } from '../../contexts/WalletsContext'
@@ -13,10 +12,15 @@ import SecurityPassword from './SecurityPassword'
 import ImportWallet from './ImportWallet'
 import AccessMyWallet from './AccessMyWallet'
 import WhatIsMnemonic from './WhatIsMnemonic'
+import Start from './Start'
 import ImportMnemonicBackup from './ImportMnemonicBackup'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import useStateHistory from '../../misc/useStateHistory'
+import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 import useIsMobile from '../../misc/useIsMobile'
+import getWalletAddress from '../../misc/getWalletAddress'
+
+let ledgerSigner
 
 export enum ImportStage {
   ImportMnemonicPhraseStage = 'import mnemonic phrase',
@@ -24,13 +28,14 @@ export enum ImportStage {
   ConnectLedgerDeviceStage = 'connect ledger device',
 }
 
-enum CommonStage {
+export enum CommonStage {
   StartStage = 'start',
   AccessMyWalletStage = 'access my wallet',
   CreateWalletStage = 'create wallet',
   ConfirmMnemonicStage = 'confirm mnemonic',
   SetSecurityPasswordStage = 'set security password',
   ImportWalletStage = 'import wallet',
+  ImportLedgerWalletStage = 'import ledger wallet',
   WhatIsMnemonicStage = 'what is mnemonic',
 }
 
@@ -39,6 +44,7 @@ type Stage = CommonStage | ImportStage
 interface CreateWalletDialogProps {
   open: boolean
   onClose(): void
+  initialStage?: Stage
 }
 
 interface Content {
@@ -46,18 +52,27 @@ interface Content {
   content: React.ReactNode
 }
 
-const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }) => {
+const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, initialStage }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
   const { addWallet } = useWalletsContext()
   const isMobile = useIsMobile()
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
-    CommonStage.StartStage
+    initialStage || CommonStage.StartStage
   )
   const [mnemonic, setMnemonic] = React.useState('')
   const [securityPassword, setSecurityPassword] = React.useState('')
   const [error, setError] = React.useState('')
+
+  React.useEffect(() => {
+    if (open) {
+      setMnemonic('')
+      setSecurityPassword('')
+      setError('')
+      setStage(initialStage || CommonStage.StartStage, true)
+    }
+  }, [open, initialStage])
 
   const createWallet = React.useCallback(async () => {
     const wallet = await sendMsgToChromeExt({ event: 'generateMnemonic' })
@@ -117,12 +132,17 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
   )
 
   const saveWallet = React.useCallback(
-    async (name: string, cryptos: string[]) => {
+    async (name: string, cryptos: string[], type = 'mnemonic') => {
+      const addresses = await Promise.all(
+        cryptos.map((c) => getWalletAddress(mnemonic, c, 0, ledgerSigner))
+      )
       await addWallet({
+        type,
         name,
         cryptos,
         mnemonic,
         securityPassword,
+        addresses,
       })
       onClose()
     },
@@ -131,10 +151,17 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
-      case CommonStage.AccessMyWalletStage:
+      case ImportStage.ConnectLedgerDeviceStage:
         return {
-          title: t('access my wallet title'),
-          content: <AccessMyWallet onConfirm={setStage} onCreateWallet={createWallet} />,
+          title: '',
+          content: (
+            <ConnectLedgerDialogContent
+              onConnect={async (signer) => {
+                ledgerSigner = signer
+                setStage(CommonStage.ImportLedgerWalletStage, undefined, true)
+              }}
+            />
+          ),
         }
       case ImportStage.ImportMnemonicPhraseStage:
         return {
@@ -179,14 +206,30 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose }
           content: <SecurityPassword onConfirm={confirmSecurityPassword} />,
         }
       case CommonStage.ImportWalletStage:
+      case CommonStage.ImportLedgerWalletStage:
         return {
           title: t('import wallet title'),
-          content: <ImportWallet onConfirm={saveWallet} />,
+          content: (
+            <ImportWallet
+              onConfirm={(name, cryptos) =>
+                saveWallet(
+                  name,
+                  cryptos,
+                  stage === CommonStage.ImportLedgerWalletStage ? 'ledger' : 'mnemonic'
+                )
+              }
+            />
+          ),
         }
       case CommonStage.WhatIsMnemonicStage:
         return {
           title: t('what is mnemonic phrase'),
           content: <WhatIsMnemonic />,
+        }
+      case CommonStage.AccessMyWalletStage:
+        return {
+          title: t('access my wallet title'),
+          content: <AccessMyWallet onConfirm={setStage} onCreateWallet={createWallet} />,
         }
       case CommonStage.StartStage:
       default:
