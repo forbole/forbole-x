@@ -22,7 +22,7 @@ import TablePagination from '../TablePagination'
 import useStyles from './styles'
 import getWalletAddress from '../../misc/getWalletAddress'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import fetchAccountBalance from '../../graphql/fetch/fetchAccountBalance'
+import { fetchAccountBalance } from '../../graphql/fetch/accountBalances'
 import { formatTokenAmount } from '../../misc/utils'
 import { CustomTheme } from '../../misc/theme'
 

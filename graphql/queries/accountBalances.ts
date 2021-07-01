@@ -166,6 +166,11 @@ query AccountBalance($address: String!) @${crypto} {
           validator_info {
             operator_address
           }
+          validator_descriptions {
+            moniker
+            avatar_url
+            height
+          }
         }
         validator_address
       }
@@ -179,6 +184,11 @@ query AccountBalance($address: String!) @${crypto} {
           validator_info {
             operator_address
           }
+          validator_descriptions {
+            moniker
+            avatar_url
+            height
+          }
         }
         validator_address
       }
@@ -189,6 +199,11 @@ query AccountBalance($address: String!) @${crypto} {
         validator {
           validator_info {
             operator_address
+          }
+          validator_descriptions {
+            moniker
+            avatar_url
+            height
           }
         }
         validator_address

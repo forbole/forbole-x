@@ -8,8 +8,8 @@ import SectoredByButton from './SectoredByButton'
 import { SectoredBy, sectoredByTypes } from './types'
 import Chart from './Chart'
 import EmptyState from './EmptyState'
-import fetchAccountBalance from '../../graphql/fetch/fetchAccountBalance'
-import { sumTokenAmounts } from '../../misc/utils'
+import { fetchAccountBalance, fetchBalancesByValidators } from '../../graphql/fetch/accountBalances'
+import { getTokenAmountBalance, sumTokenAmounts } from '../../misc/utils'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import AssetPopover from './AssetPopover'
@@ -56,6 +56,42 @@ const AssetDistributionChart: React.FC = () => {
             extraData: { ...accountBalances.accountBalance, total: accountBalances.total },
           }))
         )
+      } else if (sectoredBy === 'by validators') {
+        const balancesByValidator = {}
+        for (let i = 0; i < accounts.length; i += 1) {
+          const result = await fetchBalancesByValidators(accounts[i].address, accounts[i].crypto)
+          Object.keys(result).forEach((key) => {
+            balancesByValidator[key] = {
+              ...result[key],
+              amount: sumTokenAmounts([
+                get(balancesByValidator, `${key}.amount`, {}),
+                get(result, `${key}.amount`, {}),
+              ]),
+            }
+          })
+          const rawData = []
+          Object.keys(balancesByValidator).forEach((moniker) => {
+            rawData.push({
+              name: moniker,
+              value: getTokenAmountBalance(balancesByValidator[moniker].amount),
+            })
+          })
+          const total = rawData.map((d) => d.value).reduce((a, b) => a + b, 0)
+          setData(
+            rawData.map((d) => ({
+              name: d.name,
+              image: balancesByValidator[d.name].avatar,
+              value:
+                // eslint-disable-next-line no-nested-ternary
+                total === 0
+                  ? 1 / rawData.length
+                  : d.value === total
+                  ? 1
+                  : Math.round(d.value / total),
+              // extraData: { ...accountBalances.accountBalance, total: accountBalances.total },
+            }))
+          )
+        }
       }
     } catch (err) {
       console.log(err)
@@ -65,7 +101,6 @@ const AssetDistributionChart: React.FC = () => {
   React.useEffect(() => {
     fetchData()
   }, [fetchData])
-  console.log(data)
 
   return (
     <Card className={classes.container}>
