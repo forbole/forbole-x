@@ -6,7 +6,7 @@ import {
   sumTokenAmounts,
   transformGqlAcountBalance,
 } from '../../misc/utils'
-import { getBalance } from '../queries/accountBalances'
+import { getBalance, getDelegatedBalance } from '../queries/accountBalances'
 
 export const fetchAccountBalance = async (
   address: string,
@@ -40,21 +40,23 @@ export const fetchAccountBalance = async (
 export const fetchBalancesByValidators = async (
   address: string,
   crypto: string
-): Promise<{ [moniker: string]: { amount: TokenAmount; moniker: string; avatar: string } }> => {
+): Promise<{
+  [moniker: string]: {
+    amount: TokenAmount
+    moniker: string
+    avatar: string
+  }
+}> => {
   const balance = await fetch(cryptocurrencies[crypto].graphqlHttpUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      query: getBalance(crypto),
+      query: getDelegatedBalance(crypto),
       variables: { address },
     }),
   }).then((r) => r.json())
   const result = {}
-  ;[
-    ...get(balance, 'data.account[0].delegated.nodes', []),
-    ...get(balance, 'data.account[0].unbonding.nodes', []),
-    ...get(balance, 'data.account[0].rewards.nodes', []),
-  ].forEach((d) => {
+  get(balance, 'data.account[0].delegated.nodes', []).forEach((d) => {
     const moniker = get(d, 'validator.validator_descriptions[0].moniker', '')
     const avatar = get(d, 'validator.validator_descriptions[0].avatar_url', '')
     const amount = getTokenAmountFromDenoms(
@@ -67,6 +69,5 @@ export const fetchBalancesByValidators = async (
       amount: sumTokenAmounts([get(result, `${moniker}.amount`, {}), amount]),
     }
   })
-
   return result
 }

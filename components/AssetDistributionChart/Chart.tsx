@@ -18,7 +18,21 @@ interface ChartProp {
 const Chart: React.FC<ChartProp> = ({ data: rawData, setPopoverIndex, setAnchorPosition }) => {
   const classes = useStyles()
   const { lang } = useTranslation('common')
-  const data = []
+  const data = React.useMemo(() => {
+    const result = []
+    rawData.forEach((d, i) => {
+      const startAngle = i === 0 ? 0 : result[i - 1].endAngle
+      const endAngle = startAngle + 360 * d.value
+      const outerRadius = `${100 * (1 - 0.6 * (i / rawData.length))}%`
+      result.push({
+        ...d,
+        startAngle,
+        endAngle,
+        outerRadius,
+      })
+    })
+    return result
+  }, [rawData])
   const [activeIndex, setActiveIndex] = React.useState(0)
   const theme: CustomTheme = useTheme()
   const COLORS = [
@@ -32,17 +46,6 @@ const Chart: React.FC<ChartProp> = ({ data: rawData, setPopoverIndex, setAnchorP
 
   // todo: how to override light mode color of the pie? it shows black when it is activeIndex
 
-  rawData.forEach((d, i) => {
-    const startAngle = i === 0 ? 0 : data[i - 1].endAngle
-    const endAngle = startAngle + 360 * d.value
-    const outerRadius = `${100 * (1 - 0.6 * (i / rawData.length))}%`
-    data.push({
-      ...d,
-      startAngle,
-      endAngle,
-      outerRadius,
-    })
-  })
   const { top, left } = React.useMemo(() => {
     const midAngle =
       (((data[activeIndex].startAngle + data[activeIndex].endAngle) / 2) * Math.PI) / 180
@@ -52,6 +55,7 @@ const Chart: React.FC<ChartProp> = ({ data: rawData, setPopoverIndex, setAnchorP
       left: `calc(30% + ${Math.cos(midAngle) * radius}px)`,
     }
   }, [activeIndex, data])
+
   return (
     <Box position="relative" height={theme.spacing(33.5)} maxWidth={theme.spacing(64)} mx="auto">
       <ResponsiveContainer width="100%" height="100%">

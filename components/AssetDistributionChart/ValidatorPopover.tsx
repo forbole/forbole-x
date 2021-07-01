@@ -3,27 +3,29 @@ import { Box, Popover, Typography, Avatar, Divider, useTheme } from '@material-u
 import useTranslation from 'next-translate/useTranslation'
 import get from 'lodash/get'
 import useStyles from './styles'
-import { formatCurrency, formatPercentage, formatTokenAmount } from '../../misc/utils'
+import {
+  formatCrypto,
+  formatCurrency,
+  formatPercentage,
+  formatTokenAmount,
+  getTokenAmountBalance,
+} from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 
-interface AssetPopoverProps {
-  accountBalance: {
-    available: TokenAmount
-    delegated: TokenAmount
-    rewards: TokenAmount
-    commissions: TokenAmount
-    unbonding: TokenAmount
-    total: TokenAmount
+interface ValidatorPopoverProps {
+  balance: TokenAmount
+  validator: {
+    moniker: string
+    avatar: string
   }
-  cryptocurrency: Cryptocurrency
   percentage: number
   anchorPosition?: { top: number; left: number }
   onClose(): void
 }
 
-const AssetPopover: React.FC<AssetPopoverProps> = ({
-  accountBalance,
-  cryptocurrency,
+const ValidatorPopover: React.FC<ValidatorPopoverProps> = ({
+  balance,
+  validator,
   percentage,
   anchorPosition,
   onClose,
@@ -45,33 +47,38 @@ const AssetPopover: React.FC<AssetPopoverProps> = ({
       }}
     >
       <Box
-        width={theme.spacing(30)}
+        width={theme.spacing(40)}
         p={2}
         display="flex"
         alignItems="center"
         justifyContent="space-between"
       >
         <Box display="flex" alignItems="center">
-          <Avatar className={classes.avatar} src={cryptocurrency.image} />
-          <Typography>{cryptocurrency.name}</Typography>
+          <Avatar className={classes.avatar} src={validator.avatar} />
+          <Typography>{validator.moniker}</Typography>
         </Box>
         <Typography>{formatPercentage(percentage, lang)}</Typography>
       </Box>
-      {['available', 'delegated', 'unbonding', 'rewards', 'total'].map((key) => (
+      <Box p={2} pt={0}>
+        <Typography variant="body2" color="textSecondary">
+          {t('total delegated amount')}
+        </Typography>
+        <Typography>{formatCurrency(getTokenAmountBalance(balance), currency, lang)}</Typography>
+      </Box>
+      {Object.keys(balance).map((key) => (
         <React.Fragment key={key}>
           <Divider />
           <Box p={2} display="flex" justifyContent="space-between">
             <Typography variant="body2" color="textSecondary">
-              {t(key)}
+              {t('delegated')}
             </Typography>
             <Box display="flex" flexDirection="column" alignItems="flex-end">
               <Typography>
-                {formatTokenAmount(get(accountBalance, key, {}), cryptocurrency.name, lang)}
+                {formatCrypto(get(balance, `${key}.amount`, 0) as number, key, lang)}
               </Typography>
               <Typography variant="body2" color="textSecondary">
                 {formatCurrency(
-                  get(accountBalance, `${key}.${cryptocurrency.name.toLowerCase()}.amount`, 0) *
-                    get(accountBalance, `${key}.${cryptocurrency.name.toLowerCase()}.price`, 0),
+                  get(balance as any, `${key}.amount`, 0) * get(balance as any, `${key}.price`, 0),
                   currency,
                   lang
                 )}
@@ -84,4 +91,4 @@ const AssetPopover: React.FC<AssetPopoverProps> = ({
   )
 }
 
-export default AssetPopover
+export default ValidatorPopover

@@ -226,3 +226,46 @@ query AccountBalance($address: String!) @${crypto} {
   }
 }  
 `
+
+export const getDelegatedBalance = (crypto: string): string => `
+query AccountBalance($address: String!) @${crypto} {
+  account(where: {address: {_eq: $address}}) {
+    address
+    available: account_balances(limit: 1, order_by: {height: desc}) {
+      coins
+      height
+      tokens_prices {
+        unit_name
+        price
+        timestamp
+        token_unit {
+          denom
+          exponent
+          token {
+            token_units {
+              denom
+              exponent
+            }
+          }
+        }
+      }
+    }
+    delegated: delegations_aggregate(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}]) {
+      nodes {
+        amount
+        validator {
+          validator_info {
+            operator_address
+          }
+          validator_descriptions {
+            moniker
+            avatar_url
+            height
+          }
+        }
+        validator_address
+      }
+    }
+  }
+}  
+`

@@ -13,6 +13,7 @@ import { getTokenAmountBalance, sumTokenAmounts } from '../../misc/utils'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import AssetPopover from './AssetPopover'
+import ValidatorPopover from './ValidatorPopover'
 
 const AssetDistributionChart: React.FC = () => {
   const classes = useStyles()
@@ -64,8 +65,8 @@ const AssetDistributionChart: React.FC = () => {
             balancesByValidator[key] = {
               ...result[key],
               amount: sumTokenAmounts([
-                get(balancesByValidator, `${key}.amount`, {}),
-                get(result, `${key}.amount`, {}),
+                get(balancesByValidator, `['${key}'].amount`, {}),
+                get(result, `['${key}'].amount`, {}),
               ]),
             }
           })
@@ -88,7 +89,7 @@ const AssetDistributionChart: React.FC = () => {
                   : d.value === total
                   ? 1
                   : Math.round(d.value / total),
-              // extraData: { ...accountBalances.accountBalance, total: accountBalances.total },
+              extraData: balancesByValidator[d.name],
             }))
           )
         }
@@ -117,16 +118,29 @@ const AssetDistributionChart: React.FC = () => {
       ) : (
         <EmptyState />
       )}
-      <AssetPopover
-        anchorPosition={anchorPosition}
-        onClose={() => setAnchorPosition(null)}
-        accountBalance={get(data, `[${popoverIndex}].extraData`, {})}
-        cryptocurrency={
-          cryptocurrencies[get(data, `[${popoverIndex}].name`, '')] ||
-          Object.values(cryptocurrencies)[0]
-        }
-        percentage={get(data, `[${popoverIndex}].value`, 0)}
-      />
+      {sectoredBy === 'by assets' ? (
+        <AssetPopover
+          anchorPosition={anchorPosition}
+          onClose={() => setAnchorPosition(null)}
+          accountBalance={get(data, `[${popoverIndex}].extraData`, {})}
+          cryptocurrency={
+            cryptocurrencies[get(data, `[${popoverIndex}].name`, '')] ||
+            Object.values(cryptocurrencies)[0]
+          }
+          percentage={get(data, `[${popoverIndex}].value`, 0)}
+        />
+      ) : (
+        <ValidatorPopover
+          anchorPosition={anchorPosition}
+          onClose={() => setAnchorPosition(null)}
+          balance={get(data, `[${popoverIndex}].extraData.amount`, {})}
+          validator={{
+            moniker: get(data, `[${popoverIndex}].extraData.moniker`, ''),
+            avatar: get(data, `[${popoverIndex}].extraData.avatar`, ''),
+          }}
+          percentage={get(data, `[${popoverIndex}].value`, 0)}
+        />
+      )}
     </Card>
   )
 }
