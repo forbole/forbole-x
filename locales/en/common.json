@@ -300,5 +300,7 @@
   "balance": "Balance",
   "no rewards yet": "No Rewards Yet",
   "delegate your token and get some rewards": "Delegate your token and get some rewards",
-  "total": "Total Amount"
+  "total": "Total Amount",
+  "withdraw warning ledger": "Due to the limitation of Ledgr device, using Ledger Nano S, Forbole X  can olny withdraw rewards from 5 validators at a time. Using Ledger Nano X, Forbole X  can olny withdraw rewards from 20 validators at a time.",
+  "withdraw warning mnemonic": "Forbole X  can olny withdraw rewards from 20 validators at a time."
 }

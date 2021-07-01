@@ -16,6 +16,7 @@ export interface ValidatorTag extends Validator {
 }
 
 interface WithdrawRewardsDialogProps {
+  wallet: Wallet
   account: Account
   tokensPrices: TokenPrice[]
   open: boolean
@@ -25,6 +26,7 @@ interface WithdrawRewardsDialogProps {
 }
 
 const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
+  wallet,
   account,
   open,
   onClose,
@@ -79,6 +81,7 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
       </IconButton>
       <DialogTitle>{t('withdraw reward')}</DialogTitle>
       <SelectValidators
+        wallet={wallet}
         account={account}
         crypto={crypto}
         onConfirm={confirm}
