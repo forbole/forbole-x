@@ -58,9 +58,6 @@ const useStyles = makeStyles(
     dialogContent: {
       overflowY: 'initial',
     },
-    dialog: {
-      background: theme.palette.dialogBackground,
-    },
   }),
   {
     name: 'HookGlobalStyles',

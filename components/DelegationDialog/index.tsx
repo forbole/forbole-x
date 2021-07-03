@@ -15,7 +15,6 @@ import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/ut
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIsMobile from '../../misc/useIsMobile'
-import useSignerInfo from '../../misc/useSignerInfo'
 
 enum DelegationStage {
   SelectAmountStage = 'select amount',
@@ -57,7 +56,6 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
     Array<{ amount: number; validator: Validator }>
   >([])
   const [loading, setLoading] = React.useState(false)
-  const signerInfo = useSignerInfo(account)
 
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<DelegationStage>(
     DelegationStage.SelectAmountStage
@@ -101,15 +99,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
           .filter((a) => a)
         await invoke(window, 'forboleX.sendTransaction', password, account.address, {
           msgs,
-          fee: {
-            amount: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
-            gas: String(
-              msgs.length *
-                Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.delegate`, 0))
-            ),
-          },
           memo,
-          ...signerInfo,
         })
         setLoading(false)
         onClose()
@@ -118,7 +108,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
         setLoading(false)
       }
     },
-    [setStage, password, availableTokens, account, signerInfo]
+    [setStage, password, availableTokens, account]
   )
 
   const content: Content = React.useMemo(() => {
@@ -170,9 +160,6 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
       open={open}
       onClose={onClose}
       fullScreen={isMobile}
-      PaperProps={{
-        className: classes.dialog,
-      }}
     >
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>

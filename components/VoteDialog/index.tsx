@@ -26,7 +26,7 @@ enum VotingStage {
 }
 
 interface VoteDialogProps {
-  account: Account
+  network: { id: number; crypto: string; name: string; img: string }
   open: boolean
   onClose(): void
   proposal: Proposal
@@ -38,7 +38,7 @@ interface Content {
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-const VoteDialog: React.FC<VoteDialogProps> = ({ account, open, onClose, proposal }) => {
+const VoteDialog: React.FC<VoteDialogProps> = ({ network, open, onClose, proposal }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
@@ -47,11 +47,12 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ account, open, onClose, proposa
     name: undefined,
     id: undefined,
   })
-  const [voteAccount, setVoteAccount] = React.useState<Account>(account)
+  const { password, accounts: allAccounts } = useWalletsContext()
+  const accounts = allAccounts.filter((a) => a.crypto === network?.crypto)
+  const [voteAccount, setVoteAccount] = React.useState<Account>(accounts[0])
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
 
-  const { password } = useWalletsContext()
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<VotingStage>(
     VotingStage.SelectAnswerStage
   )
@@ -166,21 +167,13 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ account, open, onClose, proposa
         return {
           title: t('vote'),
           dialogWidth: 'sm',
-          content: <SelectAnswer account={account} onNext={chooseAnswer} proposal={proposal} />,
+          content: <SelectAnswer network={network} onNext={chooseAnswer} proposal={proposal} />,
         }
     }
   }, [stage, t])
 
   return (
-    <Dialog
-      fullWidth
-      maxWidth={content.dialogWidth || 'md'}
-      open={open}
-      onClose={onClose}
-      PaperProps={{
-        className: classes.dialog,
-      }}
-    >
+    <Dialog fullWidth maxWidth={content.dialogWidth || 'md'} open={open} onClose={onClose}>
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

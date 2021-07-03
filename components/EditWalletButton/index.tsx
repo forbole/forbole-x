@@ -1,9 +1,8 @@
 import React from 'react'
-import { Dialog, IconButton, useTheme } from '@material-ui/core'
+import { Dialog, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import useStyles from './styles'
 import EditIcon from '../../assets/images/icons/icon_edit.svg'
-import AddIcon from '../../assets/images/icons/icon_add wallet.svg'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useIconProps from '../../misc/useIconProps'
@@ -12,11 +11,10 @@ import useStateHistory from '../../misc/useStateHistory'
 import ChangeWalletMonikerDialog from './ChangeWalletMoniker'
 import ChangeSecurityPassword from './ChangeSecurityPassword'
 import ViewMnemonicPhrase from './ViewMnemonicPhrase'
-import CreateAccount from './CreateAccount'
 import SelectMenu from './SelectMenu'
 import DeleteWallet from './DeleteWallet'
 
-enum MenuStage {
+enum Stage {
   SelectMenuStage = 'select menu',
   ChangeWalletMonikerStage = 'change wallet moniker',
   ChangeSecurityPasswordStage = 'change security password',
@@ -25,7 +23,7 @@ enum MenuStage {
   DeleteWalletStage = 'delete wallet stage',
 }
 
-interface MenuDialogProps {
+interface EditWalletButtonProps {
   walletId: string
   walletName: string
 }
@@ -35,60 +33,53 @@ interface Content {
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-const WalletMenuButton: React.FC<MenuDialogProps> = ({ walletId, walletName }) => {
+const EditWalletButton: React.FC<EditWalletButtonProps> = ({ walletId, walletName }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
   const isMobile = useIsMobile()
-  const theme = useTheme()
-  const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<MenuStage>(
-    MenuStage.SelectMenuStage
+  const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
+    Stage.SelectMenuStage
   )
-  const [openedDialog, setOpenedDialog] = React.useState('')
 
   const [dialogOpen, setDialogOpen] = React.useState(false)
   const onClose = () => {
     setDialogOpen(false)
   }
 
-  const onOpenDialog = (dialog: string) => {
-    setOpenedDialog(dialog)
-    setDialogOpen(true)
-  }
-
   const content: Content = React.useMemo(() => {
     switch (stage) {
-      case MenuStage.ChangeWalletMonikerStage:
+      case Stage.ChangeWalletMonikerStage:
         return {
           content: <ChangeWalletMonikerDialog walletId={walletId} onClose={onClose} />,
         }
-      case MenuStage.ChangeSecurityPasswordStage:
+      case Stage.ChangeSecurityPasswordStage:
         return {
           dialogWidth: 'xs',
           content: <ChangeSecurityPassword walletId={walletId} onClose={onClose} />,
         }
-      case MenuStage.ViewMnenomicPhraseStage:
+      case Stage.ViewMnenomicPhraseStage:
         return {
           dialogWidth: 'sm',
           content: <ViewMnemonicPhrase walletId={walletId} onClose={onClose} />,
         }
-      case MenuStage.DeleteWalletStage:
+      case Stage.DeleteWalletStage:
         return {
           dialogWidth: 'xs',
           content: <DeleteWallet walletId={walletId} onClose={onClose} />,
         }
-      case MenuStage.SelectMenuStage:
+      case Stage.SelectMenuStage:
       default:
         return {
           content: (
             <SelectMenu
               walletId={walletId}
               walletName={walletName}
-              changeWalletMoniker={() => setStage(MenuStage.ChangeWalletMonikerStage)}
-              changeSecurityPassword={() => setStage(MenuStage.ChangeSecurityPasswordStage)}
-              checkMnemonicPhrase={() => setStage(MenuStage.ViewMnenomicPhraseStage)}
-              addAccountToWallet={() => setStage(MenuStage.AddAccountToWalletStage)}
-              deleteWallet={() => setStage(MenuStage.DeleteWalletStage)}
+              changeWalletMoniker={() => setStage(Stage.ChangeWalletMonikerStage)}
+              changeSecurityPassword={() => setStage(Stage.ChangeSecurityPasswordStage)}
+              checkMnemonicPhrase={() => setStage(Stage.ViewMnenomicPhraseStage)}
+              addAccountToWallet={() => setStage(Stage.AddAccountToWalletStage)}
+              deleteWallet={() => setStage(Stage.DeleteWalletStage)}
             />
           ),
         }
@@ -97,25 +88,16 @@ const WalletMenuButton: React.FC<MenuDialogProps> = ({ walletId, walletName }) =
 
   React.useEffect(() => {
     if (dialogOpen) {
-      setStage(MenuStage.SelectMenuStage, true)
+      setStage(Stage.SelectMenuStage, true)
     }
   }, [dialogOpen])
 
   return (
     <>
-      <IconButton onClick={() => onOpenDialog('edit account')}>
+      <IconButton onClick={() => setDialogOpen(true)}>
         <EditIcon {...iconProps} />
       </IconButton>
-      <IconButton onClick={() => onOpenDialog('add account')}>
-        <AddIcon {...iconProps} />
-      </IconButton>
-      <Dialog
-        fullWidth
-        open={dialogOpen}
-        onClose={onClose}
-        fullScreen={isMobile}
-        PaperProps={{ classes: { root: classes.dialog } }}
-      >
+      <Dialog fullWidth open={dialogOpen} onClose={onClose} fullScreen={isMobile}>
         {isPrevStageAvailable ? (
           <IconButton className={classes.backButton} onClick={toPrevStage}>
             <BackIcon {...iconProps} />
@@ -124,14 +106,10 @@ const WalletMenuButton: React.FC<MenuDialogProps> = ({ walletId, walletName }) =
         <IconButton className={classes.closeButton} onClick={onClose}>
           <CloseIcon {...iconProps} />
         </IconButton>
-        {openedDialog === 'edit account' ? (
-          content.content
-        ) : (
-          <CreateAccount walletId={walletId} onClose={onClose} />
-        )}
+        {content.content}
       </Dialog>
     </>
   )
 }
 
-export default React.memo(WalletMenuButton)
+export default React.memo(EditWalletButton)

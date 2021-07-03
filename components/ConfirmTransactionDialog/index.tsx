@@ -5,7 +5,6 @@ import flatten from 'lodash/flatten'
 import keyBy from 'lodash/keyBy'
 import get from 'lodash/get'
 import { gql, useSubscription } from '@apollo/client'
-import invoke from 'lodash/invoke'
 import useStateHistory from '../../misc/useStateHistory'
 import { formatTokenAmount, getTokenAmountFromDenoms, transformValidators } from '../../misc/utils'
 import useStyles from './styles'
@@ -22,6 +21,8 @@ import SuccessContent from './SuccessContent'
 import SecurityPasswordDialogContent from '../SecurityPasswordDialogContent'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import useSignerInfo from '../../misc/useSignerInfo'
+import signAndBroadcastTransaction from '../../misc/signAndBroadcastTransaction'
 
 enum ConfirmTransactionStage {
   ConfirmStage = 'confirm',
@@ -45,7 +46,7 @@ interface ConfirmTransactionDialogProps {
 
 const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   address,
-  transactionData,
+  transactionData: defaultTransactionData,
   open,
   onClose,
 }) => {
@@ -63,6 +64,32 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
     ${getTokensPrices(crypto)}
   `)
   const denoms = get(denomsData, 'token_price', [])
+  const signerInfo = useSignerInfo(account)
+  const transactionData = React.useMemo(() => {
+    return account
+      ? {
+          fee: {
+            amount: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
+            gas: String(
+              defaultTransactionData.msgs
+                .map((m) =>
+                  Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.${m.type}`, 0))
+                )
+                .reduce((a, b) => a + b, 0)
+            ),
+          },
+          ...signerInfo,
+          ...defaultTransactionData,
+        }
+      : {
+          msgs: [],
+          fee: {
+            amount: '0',
+            gas: '0',
+          },
+          memo: '',
+        }
+  }, [account, signerInfo, defaultTransactionData])
 
   const validatorsAddresses = flatten(
     transactionData.msgs.map((m) => {
@@ -132,17 +159,15 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const [loading, setLoading] = React.useState(false)
 
   const confirm = React.useCallback(
-    async (securityPassword?: string) => {
+    async (securityPassword?: string, ledgerSigner?: any) => {
       try {
         setLoading(true)
-        await invoke(
-          window,
-          'forboleX.signAndBroadcastTransaction',
-          process.env.NEXT_PUBLIC_CHROME_EXT_ID,
+        await signAndBroadcastTransaction(
           password,
-          address,
+          account,
           transactionData,
-          securityPassword
+          securityPassword,
+          ledgerSigner
         )
         setLoading(false)
         setStage(ConfirmTransactionStage.SuccessStage, true)
@@ -150,7 +175,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         console.log(err)
       }
     },
-    [address, transactionData, password]
+    [account, transactionData, password]
   )
 
   const content: Content = React.useMemo(() => {
@@ -192,7 +217,11 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         return {
           title: '',
           dialogWidth: 'sm',
-          content: <ConnectLedgerDialogContent onConnect={confirm} />,
+          content: (
+            <ConnectLedgerDialogContent
+              onConnect={(ledgerSigner) => confirm(undefined, ledgerSigner)}
+            />
+          ),
         }
       case ConfirmTransactionStage.SuccessStage:
       default:
@@ -210,16 +239,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   }, [stage, t, transactionData, account, validators, wallet, confirm, successMessage, totalAmount])
 
   return (
-    <Dialog
-      fullWidth
-      maxWidth="sm"
-      open={open}
-      onClose={onClose}
-      fullScreen={isMobile}
-      PaperProps={{
-        className: classes.dialog,
-      }}
-    >
+    <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose} fullScreen={isMobile}>
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

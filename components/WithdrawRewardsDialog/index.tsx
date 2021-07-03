@@ -10,13 +10,13 @@ import SelectValidators from './SelectValidators'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useIsMobile from '../../misc/useIsMobile'
-import useSignerInfo from '../../misc/useSignerInfo'
 
 export interface ValidatorTag extends Validator {
   isSelected: boolean
 }
 
 interface WithdrawRewardsDialogProps {
+  wallet: Wallet
   account: Account
   tokensPrices: TokenPrice[]
   open: boolean
@@ -26,6 +26,7 @@ interface WithdrawRewardsDialogProps {
 }
 
 const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
+  wallet,
   account,
   open,
   onClose,
@@ -38,7 +39,6 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
   const isMobile = useIsMobile()
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
   const [loading, setLoading] = React.useState(false)
-  const signerInfo = useSignerInfo(account)
   const { password } = useWalletsContext()
 
   const confirm = React.useCallback(
@@ -56,15 +56,7 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
           .filter((a) => a)
         await invoke(window, 'forboleX.sendTransaction', password, account.address, {
           msgs,
-          fee: {
-            amount: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
-            gas: String(
-              msgs.length *
-                Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.claimRewards`, 0))
-            ),
-          },
           memo,
-          ...signerInfo,
         })
         setLoading(false)
         onClose()
@@ -73,7 +65,7 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
         console.log(err)
       }
     },
-    [password, account, signerInfo]
+    [password, account]
   )
 
   React.useEffect(() => {
@@ -83,21 +75,13 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
   }, [open])
 
   return (
-    <Dialog
-      fullWidth
-      maxWidth="md"
-      open={open}
-      onClose={onClose}
-      fullScreen={isMobile}
-      PaperProps={{
-        className: classes.dialog,
-      }}
-    >
+    <Dialog fullWidth maxWidth="md" open={open} onClose={onClose} fullScreen={isMobile}>
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
       <DialogTitle>{t('withdraw reward')}</DialogTitle>
       <SelectValidators
+        wallet={wallet}
         account={account}
         crypto={crypto}
         onConfirm={confirm}

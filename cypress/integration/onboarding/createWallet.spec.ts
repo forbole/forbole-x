@@ -23,7 +23,10 @@ describe('Create wallet on first visit', () => {
             } else if (msg.event === 'addWallet') {
               callback({ wallet: testWallet, accounts: [testAccount] })
             } else if (msg.event === 'generateMnemonic') {
-              callback({ mnemonic: 'mnemonic mnemonic mnemonic' })
+              callback({
+                mnemonic:
+                  'olive praise state suggest leader scan weekend exhibit glance gravity rebel kingdom',
+              })
             }
           },
         }

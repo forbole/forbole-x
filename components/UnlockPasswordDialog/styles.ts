@@ -10,9 +10,6 @@ const useStyles = makeStyles(
       margin: theme.spacing(1, 3),
       marginTop: theme.spacing(20),
     },
-    dialog: {
-      background: theme.palette.dialogBackground,
-    },
     resetButton: {
       flex: 1,
       margin: theme.spacing(4, 2),

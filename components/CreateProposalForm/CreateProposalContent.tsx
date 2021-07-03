@@ -74,7 +74,7 @@ const CreateProposalContent: React.FC<CreateProposalContentProps> = ({
         <Typography variant="h1">{t('create proposal')}</Typography>
       </Box>
       <Box pt={4}>
-        <Typography variant="button" className={classes.button}>
+        <Typography variant="button" className={classes.itemButton}>
           {t('address')}
         </Typography>
         <Box display="flex" alignItems="center" ml={0} mb={4}>
@@ -122,7 +122,7 @@ const CreateProposalContent: React.FC<CreateProposalContentProps> = ({
         </Box>
         <Grid container spacing={1}>
           <Grid item xs={6}>
-            <Typography variant="button" className={classes.button}>
+            <Typography variant="button" className={classes.itemButton}>
               {t('network')}
             </Typography>
             <Box display="flex" alignItems="center" mr={4}>
@@ -169,7 +169,7 @@ const CreateProposalContent: React.FC<CreateProposalContentProps> = ({
             </Box>
           </Grid>
           <Grid item xs={6}>
-            <Typography variant="button" className={classes.button}>
+            <Typography variant="button" className={classes.itemButton}>
               {t('type')}
             </Typography>
             <Box display="flex" alignItems="center">
@@ -218,7 +218,7 @@ const CreateProposalContent: React.FC<CreateProposalContentProps> = ({
         </Grid>
 
         <Box mt={4}>
-          <Typography variant="button" className={classes.button}>
+          <Typography variant="button" className={classes.itemButton}>
             {t('title')}
           </Typography>
           <TextField
@@ -234,7 +234,7 @@ const CreateProposalContent: React.FC<CreateProposalContentProps> = ({
         </Box>
 
         <Box mt={4}>
-          <Typography variant="button" className={classes.button}>
+          <Typography variant="button" className={classes.itemButton}>
             {t('description')}
           </Typography>
           <TextField
@@ -252,7 +252,7 @@ const CreateProposalContent: React.FC<CreateProposalContentProps> = ({
         </Box>
 
         <Box mt={4}>
-          <Typography variant="button" className={classes.button}>
+          <Typography variant="button" className={classes.itemButton}>
             {t('memo')}
           </Typography>
           <TextField

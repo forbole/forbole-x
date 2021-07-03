@@ -2,7 +2,6 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import get from 'lodash/get'
 import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
@@ -10,9 +9,7 @@ import useIconProps from '../../misc/useIconProps'
 import SelectRecipients from './SelectRecipients'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
-import cryptocurrencies from '../../misc/cryptocurrencies'
 import useIsMobile from '../../misc/useIsMobile'
-import useSignerInfo from '../../misc/useSignerInfo'
 
 interface SendDialogProps {
   account: Account
@@ -27,7 +24,6 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
   const isMobile = useIsMobile()
-  const signerInfo = useSignerInfo(account)
   const [loading, setLoading] = React.useState(false)
 
   const availableAmount = React.useMemo(
@@ -60,20 +56,12 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
         .filter((a) => a)
       await invoke(window, 'forboleX.sendTransaction', password, account.address, {
         msgs,
-        fee: {
-          amount: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
-          gas: String(
-            msgs.length *
-              Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.send`, 0))
-          ),
-        },
         memo,
-        ...signerInfo,
       })
       setLoading(false)
       onClose()
     },
-    [signerInfo, availableTokens]
+    [availableTokens]
   )
 
   React.useEffect(() => {
@@ -83,16 +71,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
   }, [open])
 
   return (
-    <Dialog
-      fullWidth
-      maxWidth="md"
-      open={open}
-      onClose={onClose}
-      fullScreen={isMobile}
-      PaperProps={{
-        className: classes.dialog,
-      }}
-    >
+    <Dialog fullWidth maxWidth="md" open={open} onClose={onClose} fullScreen={isMobile}>
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>

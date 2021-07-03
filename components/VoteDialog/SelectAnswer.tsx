@@ -16,16 +16,16 @@ import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.sv
 import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface SelectAnswerProps {
-  account: Account
+  network: { id: number; crypto: string; name: string; img: string }
   onNext(voteAccount: Account, answer: { name: string; id: string }, memo?: string): void
   proposal: Proposal
 }
 
-const SelectAnswer: React.FC<SelectAnswerProps> = ({ account, onNext, proposal }) => {
+const SelectAnswer: React.FC<SelectAnswerProps> = ({ network, onNext, proposal }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const { accounts: allAccounts } = useWalletsContext()
-  const accounts = allAccounts.filter((a) => a.crypto === account.crypto)
+  const accounts = allAccounts.filter((a) => a.crypto === network.crypto)
   const answers = [
     {
       name: 'Yes',
@@ -52,7 +52,7 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ account, onNext, proposal }
   const accountsMap = keyBy(accounts, 'address')
   const [answer, setAnswer] = React.useState<{ name: string; id: string }>()
   const [memo, setMemo] = React.useState('')
-  const [voteAccount, setVoteAccount] = React.useState<Account>(account)
+  const [voteAccount, setVoteAccount] = React.useState<Account>(accounts[0])
 
   return (
     <form

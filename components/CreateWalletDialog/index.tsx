@@ -1,7 +1,6 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { Cosmos } from 'ledger-app-cosmos'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
@@ -19,9 +18,9 @@ import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import useStateHistory from '../../misc/useStateHistory'
 import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 import useIsMobile from '../../misc/useIsMobile'
-import { connectLedger } from '../../misc/ledger'
+import getWalletAddress from '../../misc/getWalletAddress'
 
-let ledgerApp: Cosmos
+let ledgerSigner
 
 export enum ImportStage {
   ImportMnemonicPhraseStage = 'import mnemonic phrase',
@@ -134,16 +133,17 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
 
   const saveWallet = React.useCallback(
     async (name: string, cryptos: string[], type = 'mnemonic') => {
-      await addWallet(
-        {
-          type,
-          name,
-          cryptos,
-          mnemonic,
-          securityPassword,
-        },
-        ledgerApp
+      const addresses = await Promise.all(
+        cryptos.map((c) => getWalletAddress(mnemonic, c, 0, ledgerSigner))
       )
+      await addWallet({
+        type,
+        name,
+        cryptos,
+        mnemonic,
+        securityPassword,
+        addresses,
+      })
       onClose()
     },
     [addWallet, mnemonic, securityPassword, onClose]
@@ -156,8 +156,8 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           title: '',
           content: (
             <ConnectLedgerDialogContent
-              onConnect={async () => {
-                ledgerApp = await connectLedger()
+              onConnect={async (signer) => {
+                ledgerSigner = signer
                 setStage(CommonStage.ImportLedgerWalletStage, undefined, true)
               }}
             />
@@ -247,15 +247,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
   }, [stage, t])
 
   return (
-    <Dialog
-      fullWidth
-      open={open}
-      onClose={onClose}
-      fullScreen={isMobile}
-      PaperProps={{
-        className: classes.dialog,
-      }}
-    >
+    <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

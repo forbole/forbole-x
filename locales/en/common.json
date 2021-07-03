@@ -239,11 +239,11 @@
   "successfully updated": "Reward address was successfully edited",
   "remove wallet warning": "Are you sure you would like to remove this account ? ",
   "year": "Year",
-  "add account title": "Add Account",
+  "add account": "Add Account",
   "import account": "Import Account",
   "create account title": "Create Account",
   "success title": "Success",
-  "success created accout": "Account was successfully created",
+  "success added account": "Account(s) was successfully added",
   "set an account name": "Set an account name",
   "confirm import title": "Confirm",
   "delegationHelpText": "*Please set aside some amount for the gas fee",
@@ -293,5 +293,12 @@
   "CommunityPoolSpend": "Community Pool Spend Proposal",
   "remaining deposit amount": "Remaining deposit amount",
   "deposit end in": "Deposit end in",
-  "import account title": "Import Account"
+  "import account title": "Import Account",
+  "security password": "Security Password",
+  "select account(s) you want to add": "select account(s) you want to add",
+  "balance": "Balance",
+  "no rewards yet": "No Rewards Yet",
+  "delegate your token and get some rewards": "Delegate your token and get some rewards",
+  "withdraw warning ledger": "Due to the limitation of Ledgr device, using Ledger Nano S, Forbole X  can olny withdraw rewards from 5 validators at a time. Using Ledger Nano X, Forbole X  can olny withdraw rewards from 20 validators at a time.",
+  "withdraw warning mnemonic": "Forbole X  can olny withdraw rewards from 20 validators at a time."
 }

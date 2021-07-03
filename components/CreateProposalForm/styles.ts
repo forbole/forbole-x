@@ -5,6 +5,9 @@ export const useGetStyles = () => {
   const useStyles = makeStyles(
     (theme: CustomTheme) =>
       createStyles({
+        itemButton: {
+          width: theme.spacing(16),
+        },
         button: {
           width: theme.spacing(16),
         },

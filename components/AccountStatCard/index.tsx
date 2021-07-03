@@ -15,6 +15,7 @@ import useTranslation from 'next-translate/useTranslation'
 import last from 'lodash/last'
 import get from 'lodash/get'
 import { useRouter } from 'next/router'
+import { gql, useSubscription } from '@apollo/client'
 import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
@@ -25,6 +26,7 @@ import {
   formatPercentage,
   getTotalBalance,
   getTotalTokenAmount,
+  transformValidatorsWithTokenAmount,
 } from '../../misc/utils'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
 import { dateRanges } from '../BalanceChart'
@@ -33,6 +35,8 @@ import StarIcon from '../../assets/images/icons/icon_star.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
+import DelegationDialog from '../DelegationDialog'
+import { getValidators } from '../../graphql/queries/validators'
 
 const dailyTimestamps = dateRanges
   .find((d) => d.title === 'day')
@@ -55,10 +59,22 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
     data: [accountWithBalance],
     loading,
   } = useAccountsBalancesWithinPeriod([account], dailyTimestamps)
+  const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
+  const { data: validatorsData } = useSubscription(
+    gql`
+      ${getValidators(crypto.name)}
+    `
+  )
 
   const latestBalance = last(get(accountWithBalance, 'balances', []))
   const tokenAmounts = getTotalTokenAmount(latestBalance).amount
   const usdBalance = getTotalBalance(latestBalance).balance
+
+  const validators = transformValidatorsWithTokenAmount(validatorsData, latestBalance)
+  const availableTokens = get(latestBalance, 'account[0].available[0]', {
+    coins: [],
+    tokens_prices: [],
+  })
 
   const data = createEmptyChartData(
     (get(accountWithBalance, 'balances', []) as AccountBalance[]).map((b) => getTotalBalance(b)),
@@ -88,7 +104,11 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
       >
         <Box mb={3} display="flex" alignItems="center" justifyContent="space-between">
           <AccountAvatar account={account} hideAddress />
-          <Button variant="outlined" className={classes.timeRangeButton}>
+          <Button
+            variant="outlined"
+            className={classes.timeRangeButton}
+            onClick={() => setDelegateDialogOpen(true)}
+          >
             {t('delegate')}
           </Button>
         </Box>
@@ -156,6 +176,13 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
           </Box>
         </Box>
       </Card>
+      <DelegationDialog
+        open={delegateDialogOpen}
+        onClose={() => setDelegateDialogOpen(false)}
+        account={account}
+        availableTokens={availableTokens}
+        validators={validators.filter(({ status }) => status === 'active')}
+      />
     </>
   )
 }

@@ -2,11 +2,6 @@
 
 exports[`component: UnlockPasswordDialog renders correctly 1`] = `
 <div
-  PaperProps={
-    Object {
-      "className": "HookGlobalStyles-dialog-3",
-    }
-  }
   fullScreen={false}
   fullWidth={true}
   id="dialog"
@@ -22,7 +17,7 @@ exports[`component: UnlockPasswordDialog renders correctly 1`] = `
     </h2>
   </div>
   <form
-    className="HookGlobalStyles-action-6"
+    className="HookGlobalStyles-action-5"
     noValidate={true}
     onSubmit={[Function]}
   >
@@ -44,7 +39,7 @@ exports[`component: UnlockPasswordDialog renders correctly 1`] = `
       />
     </div>
     <div
-      className="MuiDialogActions-root HookGlobalStyles-action-6 MuiDialogActions-spacing"
+      className="MuiDialogActions-root HookGlobalStyles-action-5 MuiDialogActions-spacing"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary Mui-disabled Mui-disabled"
@@ -70,7 +65,7 @@ exports[`component: UnlockPasswordDialog renders correctly 1`] = `
         </span>
       </button>
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-5"
+        className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-4"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -100,11 +95,6 @@ exports[`component: UnlockPasswordDialog renders correctly 1`] = `
 
 exports[`component: UnlockPasswordDialog renders correctly when password is changed 1`] = `
 <div
-  PaperProps={
-    Object {
-      "className": "HookGlobalStyles-dialog-3",
-    }
-  }
   fullScreen={false}
   fullWidth={true}
   id="dialog"
@@ -120,7 +110,7 @@ exports[`component: UnlockPasswordDialog renders correctly when password is chan
     </h2>
   </div>
   <form
-    className="HookGlobalStyles-action-6"
+    className="HookGlobalStyles-action-5"
     noValidate={true}
     onSubmit={[Function]}
   >
@@ -142,7 +132,7 @@ exports[`component: UnlockPasswordDialog renders correctly when password is chan
       />
     </div>
     <div
-      className="MuiDialogActions-root HookGlobalStyles-action-6 MuiDialogActions-spacing"
+      className="MuiDialogActions-root HookGlobalStyles-action-5 MuiDialogActions-spacing"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary"
@@ -171,7 +161,7 @@ exports[`component: UnlockPasswordDialog renders correctly when password is chan
         />
       </button>
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-5"
+        className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-4"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -204,11 +194,6 @@ exports[`component: UnlockPasswordDialog renders correctly when password is chan
 
 exports[`component: UnlockPasswordDialog renders error state correctly 1`] = `
 <div
-  PaperProps={
-    Object {
-      "className": "HookGlobalStyles-dialog-3",
-    }
-  }
   fullScreen={false}
   fullWidth={true}
   id="dialog"
@@ -224,7 +209,7 @@ exports[`component: UnlockPasswordDialog renders error state correctly 1`] = `
     </h2>
   </div>
   <form
-    className="HookGlobalStyles-action-6"
+    className="HookGlobalStyles-action-5"
     noValidate={true}
     onSubmit={[Function]}
   >
@@ -246,7 +231,7 @@ exports[`component: UnlockPasswordDialog renders error state correctly 1`] = `
       />
     </div>
     <div
-      className="MuiDialogActions-root HookGlobalStyles-action-6 MuiDialogActions-spacing"
+      className="MuiDialogActions-root HookGlobalStyles-action-5 MuiDialogActions-spacing"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary Mui-disabled Mui-disabled"
@@ -272,7 +257,7 @@ exports[`component: UnlockPasswordDialog renders error state correctly 1`] = `
         </span>
       </button>
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-5"
+        className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-4"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -305,11 +290,6 @@ exports[`component: UnlockPasswordDialog renders error state correctly 1`] = `
 
 exports[`component: UnlockPasswordDialog renders non empty password correctly 1`] = `
 <div
-  PaperProps={
-    Object {
-      "className": "HookGlobalStyles-dialog-3",
-    }
-  }
   fullScreen={false}
   fullWidth={true}
   id="dialog"
@@ -325,7 +305,7 @@ exports[`component: UnlockPasswordDialog renders non empty password correctly 1`
     </h2>
   </div>
   <form
-    className="HookGlobalStyles-action-6"
+    className="HookGlobalStyles-action-5"
     noValidate={true}
     onSubmit={[Function]}
   >
@@ -347,7 +327,7 @@ exports[`component: UnlockPasswordDialog renders non empty password correctly 1`
       />
     </div>
     <div
-      className="MuiDialogActions-root HookGlobalStyles-action-6 MuiDialogActions-spacing"
+      className="MuiDialogActions-root HookGlobalStyles-action-5 MuiDialogActions-spacing"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary Mui-disabled Mui-disabled"
@@ -373,7 +353,7 @@ exports[`component: UnlockPasswordDialog renders non empty password correctly 1`
         </span>
       </button>
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-5"
+        className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-4"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -406,11 +386,6 @@ exports[`component: UnlockPasswordDialog renders non empty password correctly 1`
 
 exports[`component: UnlockPasswordDialog renders non empty wallets correctly 1`] = `
 <div
-  PaperProps={
-    Object {
-      "className": "HookGlobalStyles-dialog-3",
-    }
-  }
   fullScreen={false}
   fullWidth={true}
   id="dialog"
@@ -426,7 +401,7 @@ exports[`component: UnlockPasswordDialog renders non empty wallets correctly 1`]
     </h2>
   </div>
   <form
-    className="HookGlobalStyles-action-6"
+    className="HookGlobalStyles-action-5"
     noValidate={true}
     onSubmit={[Function]}
   >
@@ -448,7 +423,7 @@ exports[`component: UnlockPasswordDialog renders non empty wallets correctly 1`]
       />
     </div>
     <div
-      className="MuiDialogActions-root HookGlobalStyles-action-6 MuiDialogActions-spacing"
+      className="MuiDialogActions-root HookGlobalStyles-action-5 MuiDialogActions-spacing"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-2 MuiButton-containedPrimary Mui-disabled Mui-disabled"
@@ -474,7 +449,7 @@ exports[`component: UnlockPasswordDialog renders non empty wallets correctly 1`]
         </span>
       </button>
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-5"
+        className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-forgotButton-4"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
