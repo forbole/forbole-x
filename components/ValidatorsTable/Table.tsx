@@ -38,8 +38,7 @@ interface ValidatorsTableProps {
   pagination?: {
     rowsPerPage: number | undefined
   }
-  // eslint-disable-next-line camelcase
-  availableTokens: { coins: Array<{ amount: string; denom: string }>; tokens_prices: TokenPrice[] }
+  availableTokens: AvailableTokens
 }
 
 const ValidatorsTable: React.FC<ValidatorsTableProps> = ({

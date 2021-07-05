@@ -4,12 +4,12 @@ describe('Create wallet by importing mnemonic phrase on first visit', () => {
   const testWallet = {
     id: '123',
     name: 'test wallet name',
-    cryptos: ['DSM'],
+    cryptos: ['DARIC'],
   }
   const testAccount = {
     walletId: '123',
     address: 'address',
-    crypto: 'DSM',
+    crypto: 'DARIC',
     index: 0,
   }
   const mnemonic =

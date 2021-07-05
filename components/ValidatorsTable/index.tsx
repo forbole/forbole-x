@@ -9,8 +9,7 @@ interface ValidatorsTableProps {
   validators: Validator[]
   crypto: Cryptocurrency
   account: Account
-  // eslint-disable-next-line camelcase
-  availableTokens: { coins: Array<{ amount: string; denom: string }>; tokens_prices: TokenPrice[] }
+  availableTokens: AvailableTokens
   onRowClick?: (validatorInfo: Validator) => void
 }
 

@@ -76,6 +76,20 @@ export const formatTokenAmount = (
         .join(delimiter || '\n')
     : formatCrypto(0, defaultUnit, lang)
 
+export const sumTokenAmounts = (tokenAmounts: TokenAmount[]): TokenAmount => {
+  const amount: TokenAmount = {}
+  tokenAmounts.forEach((ba) => {
+    Object.keys(ba).forEach((t) => {
+      if (!amount[t]) {
+        amount[t] = { amount: 0, price: 0 }
+      }
+      amount[t].amount = (amount[t].amount || 0) + ba[t].amount
+      amount[t].price = ba[t].price
+    })
+  })
+  return amount
+}
+
 export const getTotalTokenAmount = (
   accountBalance?: AccountBalance
 ): { amount: TokenAmount; timestamp: number } => {
@@ -85,17 +99,8 @@ export const getTotalTokenAmount = (
       timestamp: 0,
     }
   }
-  const amount = {}
   const { balance, timestamp } = accountBalance
-  Object.values(balance).forEach((ba) => {
-    Object.keys(ba).forEach((t) => {
-      if (!amount[t]) {
-        amount[t] = { amount: 0, price: 0 }
-      }
-      amount[t].amount = (amount[t].amount || 0) + ba[t].amount
-      amount[t].price = ba[t].price
-    })
-  })
+  const amount = sumTokenAmounts(Object.values(balance))
   return {
     amount,
     timestamp,
@@ -170,6 +175,7 @@ export const transformGqlAcountBalance = (data: any, timestamp: number): Account
   return {
     balance,
     timestamp,
+    availableTokens: get(data, 'account[0].available[0]', { coins: [], tokens_prices: [] }),
   }
 }
 

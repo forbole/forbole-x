@@ -248,7 +248,7 @@ describe('component: CreateWalletDialog', () => {
   //       .findByProps({
   //         id: 'ImportWallet',
   //       })
-  //       .props.onConfirm('wallet name', ['DSM'])
+  //       .props.onConfirm('wallet name', ['DARIC'])
   //   })
   //   const tree = component.toJSON()
   //   expect(tree).toMatchSnapshot()
@@ -258,7 +258,7 @@ describe('component: CreateWalletDialog', () => {
   //       name: 'wallet name',
   //       securityPassword: '123123',
   //       type: 'mnemonic',
-  //       cryptos: ['DSM'],
+  //       cryptos: ['DARIC'],
   //     },
   //     undefined
   //   )
