@@ -11,11 +11,12 @@ import { useWalletsContext } from '../contexts/WalletsContext'
 import cryptocurrencies from '../misc/cryptocurrencies'
 import { getValidators } from '../graphql/queries/validators'
 import { transformValidators } from '../misc/utils'
-import AccountAvatar from '../components/AccountAvatar'
+import AddressBookTable from '../components/AddressBook'
 import DropDownIcon from '../assets/images/icons/icon_arrow_down_input_box.svg'
 import useIconProps from '../misc/useIconProps'
 import { getLatestAccountBalance } from '../graphql/queries/accountBalances'
 import CreateButton from '../components/CreateButton'
+import AddAddressDialog from '../components/AddAddressDialog'
 
 const AddressBook: React.FC = () => {
   const { t } = useTranslation('common')
@@ -30,6 +31,8 @@ const AddressBook: React.FC = () => {
       ),
     [accounts]
   )
+
+  const [addAddressOpen, setAddAddressOpen] = React.useState(false)
   const [accountMenuAnchor, setAccountMenuAnchor] = React.useState<Element>()
   const [activeAccountIndex, setActiveAccountIndex] = React.useState(0)
   const { data } = useSubscription(
@@ -56,21 +59,35 @@ const AddressBook: React.FC = () => {
     tokens_prices: [],
   })
 
+  const networks = [
+    {
+      name: 'Cosmoshub - ATOM',
+      id: '01',
+      crypto: 'ATOM',
+    },
+    {
+      name: 'Desmoshub - DSM',
+      id: '02',
+      crypto: 'DSM',
+    },
+  ]
+
   return (
     <Layout passwordRequired activeItem="/address-book">
       <Box display="flex" alignItems="center" mb={2}>
         <Typography variant="h1">{t('address book')}</Typography>
         <Box justifyContent="flex-end" display="flex" flex="1">
-          <Button onClick={() => router.push('/createProposal')}>
-            <CreateButton text="create proposal" />
+          <Button onClick={() => setAddAddressOpen(true)}>
+            <CreateButton text="add address" />
           </Button>
         </Box>
       </Box>
-      <ValidatorsTable
-        account={activeAccount}
-        validators={validators}
-        crypto={crypto}
-        availableTokens={availableTokens}
+
+      <AddressBookTable />
+      <AddAddressDialog
+        networks={networks}
+        open={addAddressOpen}
+        onClose={() => setAddAddressOpen(false)}
       />
     </Layout>
   )

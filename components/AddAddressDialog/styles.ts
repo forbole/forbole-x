@@ -5,6 +5,9 @@ export const useGetStyles = (status?: string, alignRight?: boolean) => {
   const useStyles = makeStyles(
     (theme: CustomTheme) =>
       createStyles({
+        itemButton: {
+          width: theme.spacing(16),
+        },
         menuItem: {
           padding: theme.spacing(1),
           width: theme.spacing(20),
@@ -20,30 +23,8 @@ export const useGetStyles = (status?: string, alignRight?: boolean) => {
           top: theme.spacing(2),
           right: theme.spacing(2),
         },
-        table: {
-          border: `1px solid ${theme.palette.grey[100]}`,
-          borderRadius: theme.shape.borderRadius,
-          '& .MuiTableCell-root': {
-            borderBottom: 'none',
-          },
-        },
-        tableRow: {
-          '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.grey[400],
-          },
-        },
-        tableCell: {
-          borderBottom: 'none',
-          padding: theme.spacing(1.5, 2),
-          maxWidth: theme.spacing(20),
-          whiteSpace: 'nowrap',
-        },
-        box: {
-          cursor: 'point',
-        },
-        status: {
-          marginRight: '35%',
-        },
+
+
         validatorAvatar: {
           width: theme.spacing(3.5),
           height: theme.spacing(3.5),
