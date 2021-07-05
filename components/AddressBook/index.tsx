@@ -56,7 +56,7 @@ const AddressBook: React.FC<AddressBookProps> = ({ networks }) => {
   const tabs = React.useMemo(
     () => [
       {
-        label: 'all',
+        label: 'All',
         address: favAddresses,
       },
       {
@@ -106,19 +106,16 @@ const AddressBook: React.FC<AddressBookProps> = ({ networks }) => {
       <Box p={4} pt={2}>
         <Tabs
           value={currentTab}
-          classes={{ indicator: classes.tabIndicator }}
+          classes={{ indicator: classes.tabIndicator, root: classes.tab }}
           onChange={(e, v) => setCurrentTab(v)}
         >
           {tabs.map((tab) => (
-            <Tab
-              key={tab.label}
-              label={`${tab.label === 'all' ? t(tab.label) : tab.label} (${tab.address.length})`}
-            />
+            <Tab key={tab.label} label={`${tab.label} (${tab.address.length})`} />
           ))}
         </Tabs>
         {tabs[currentTab].address.map((a) => {
           return (
-            <Box onClick={() => toAddressDetail(a)}>
+            <Box onClick={() => toAddressDetail(a)} mt={3}>
               <Divider />
               <Box display="flex" alignItems="flex-start" justifyContent="space-between">
                 <Box display="flex" my={2} ml={2}>

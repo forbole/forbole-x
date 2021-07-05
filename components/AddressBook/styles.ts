@@ -18,6 +18,15 @@ const useStyles = makeStyles(
         top: theme.spacing(2),
         right: theme.spacing(2),
       },
+      tabIndicator: {
+        backgroundColor: theme.palette.indicator,
+        width: theme.spacing(1),
+      },
+      tab: {
+        '& .Mui-selected': {
+          color: theme.palette.indicator,
+        },
+      },
     }),
   {
     name: 'HookGlobalStyles',
