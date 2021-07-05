@@ -23,7 +23,7 @@ const Proposals: React.FC = () => {
   const networkList = [
     {
       id: 3,
-      crypto: 'DSM',
+      crypto: 'DARIC',
       name: 'Desmos',
       img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/desmos.svg?sanitize=true',
     },

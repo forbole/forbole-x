@@ -4,12 +4,12 @@ describe('Unlock app with unlock password', () => {
   const testWallet = {
     id: '123',
     name: 'test wallet name',
-    cryptos: ['DSM'],
+    cryptos: ['DARIC'],
   }
   const testAccount = {
     walletId: '123',
     address: 'address',
-    crypto: 'DSM',
+    crypto: 'DARIC',
     index: 0,
   }
   it('successfully loads and unlock app with password', () => {

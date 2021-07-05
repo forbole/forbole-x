@@ -18,10 +18,16 @@ const useStyles = makeStyles(
       height: 0,
     },
     percentText: {
-      marginTop: theme.spacing(-5),
+      marginTop: theme.spacing(-5.5),
+      marginBottom: theme.spacing(2),
     },
     noAsset: {
       marginTop: theme.spacing(6),
+    },
+    avatar: {
+      width: theme.spacing(4),
+      height: theme.spacing(4),
+      marginRight: theme.spacing(1),
     },
   }),
   {
