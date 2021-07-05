@@ -10,7 +10,7 @@ import {
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import { useGetStyles } from './styles'
+import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIconProps from '../../misc/useIconProps'
 
@@ -26,7 +26,7 @@ const DeleteAddressDialog: React.FC<DeleteAddressDialogProps> = ({
   onClose,
 }) => {
   const { t } = useTranslation('common')
-  const { classes } = useGetStyles()
+  const classes = useStyles()
   const iconProps = useIconProps()
   const { deleteFavAddresses } = useGeneralContext()
 

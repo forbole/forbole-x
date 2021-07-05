@@ -36,7 +36,6 @@ const GeneralProvider: React.FC = ({ children }) => {
   const [theme, setTheme] = usePersistedState('theme', initialState.theme)
   const [favValidators, setFavValidators] = usePersistedState('fav', initialState.favValidators)
   const [favAddresses, setFavAddresses] = usePersistedState('favAddress', initialState.favAddresses)
-  console.log('favInit', favAddresses)
   const addFavValidators = React.useCallback(
     (address: string) => {
       setFavValidators((vs) => [address, ...vs])
@@ -66,9 +65,28 @@ const GeneralProvider: React.FC = ({ children }) => {
   )
 
   const updateFavAddresses = React.useCallback(
-    (editedAddress: FavAddress) => {
+    (editedAddress: {
+      address: string
+      crypto: string
+      moniker: string
+      notes: string
+      img: string
+      newAddress: string
+    }) => {
+      console.log('editedAddress', editedAddress)
+
       setFavAddresses((vs) =>
-        vs.map((a) => (a.address === editedAddress.address ? editedAddress : a))
+        vs.map((a) =>
+          a.address === editedAddress.address
+            ? {
+                address: editedAddress.newAddress,
+                crypto: editedAddress.crypto,
+                moniker: editedAddress.moniker,
+                notes: editedAddress.notes,
+                img: editedAddress.img,
+              }
+            : a
+        )
       )
     },
     [setFavAddresses]

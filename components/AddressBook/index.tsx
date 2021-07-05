@@ -13,23 +13,18 @@ import {
   MenuItem,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-import { useRouter } from 'next/router'
-import { useGetStyles } from './styles'
-import Table from './Table'
+// import { useRouter } from 'next/router'
+import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import MoreIcon from '../../assets/images/icons/icon_more.svg'
 import useIconProps from '../../misc/useIconProps'
 import EditAddressDialog from './EditAddressDialog'
 import DeleteAddressDialog from './DeleteAddressDialog'
+import AddAddressDialog from '../AddAddressDialog'
 
-// interface AddressBookProps {
-//   // address: Validator[]
-//   // crypto: Cryptocurrency
-//   // account: Account
-//   // // eslint-disable-next-line camelcase
-//   // availableTokens: { coins: Array<{ amount: string; denom: string }>; tokens_prices: TokenPrice[] }
-//   // onRowClick?: (validatorInfo: Validator) => void
-// }
+interface AddressBookProps {
+  networks: { name: string; id: string; crypto: string }[]
+}
 
 export type FavAddress = {
   address: string
@@ -39,10 +34,9 @@ export type FavAddress = {
   img?: string
 }
 
-const AddressBook: React.FC = () => {
-  const { favAddresses, addFavAddresses, deleteFavAddresses } = useGeneralContext()
-  console.log('favAddresses', favAddresses)
-  const { classes } = useGetStyles()
+const AddressBook: React.FC<AddressBookProps> = ({ networks }) => {
+  const { favAddresses } = useGeneralContext()
+  const classes = useStyles()
   const { t } = useTranslation('common')
   const iconProps = useIconProps()
   const [currentTab, setCurrentTab] = React.useState(0)
@@ -52,55 +46,12 @@ const AddressBook: React.FC = () => {
   const [editAddressOpen, setEditAddressOpen] = React.useState(false)
   const [deleteAddressOpen, setDeleteAddressOpen] = React.useState(false)
   const [addAddressOpen, setAddAddressOpen] = React.useState(false)
-  const [currentAddress, setCurrentAddress] = React.useState<FavAddress>({})
-  const router = useRouter()
+  const [currentAddress, setCurrentAddress] = React.useState<FavAddress>(
+    favAddresses[0] || { address: '', crypto: '', moniker: '' }
+  )
+  // const router = useRouter()
 
   const onClose = React.useCallback(() => setAnchor(undefined), [setAnchor])
-  const addressList = [
-    {
-      address: 'akash1zn2ff2x9usmdp44cxhxj80th8e9p3ure8nq9hw',
-      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/desmos.svg?sanitize=true',
-      moniker: 'Danny',
-      crypto: 'AKT',
-      notes: 'send it tokens',
-    },
-    {
-      address: 'akash1zn2ff2x9usmdp44cxhxj80th8e9p3ure8nq9hw',
-      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/desmos.svg?sanitize=true',
-      moniker: 'Danny',
-      crypto: 'AKT',
-      notes: 'send it tokens',
-    },
-    {
-      address: 'akash1zn2ff2x9usmdp44cxhxj80th8e9p3ure8nq9hw',
-      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/desmos.svg?sanitize=true',
-      moniker: 'Danny',
-      crypto: 'AKT',
-      notes: 'send it tokens',
-    },
-    {
-      address: 'akash1zn2ff2x9usmdp44cxhxj80th8e9p3ure8nq9hw',
-      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/desmos.svg?sanitize=true',
-      moniker: 'Danny',
-      crypto: 'AKT',
-      notes: 'send it tokens',
-    },
-    {
-      address: 'akash1zn2ff2x9usmdp44cxhxj80th8e9p3ure8nq9hw',
-      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/desmos.svg?sanitize=true',
-      moniker: 'Danny',
-      crypto: 'ATOM',
-      notes: 'send it tokens',
-    },
-    {
-      address: 'akash1zn2ff2x9usmdp44cxhxj80th8e9p3ure8nq9hw',
-      img: 'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/desmos.svg?sanitize=true',
-      moniker: 'Danny',
-      crypto: 'KAVA',
-      notes: 'send it tokens',
-    },
-  ]
-  // deleteFavAddresses('akash1zn2ff2x9usmdp44cxhxj80th8e9p3ure8nq9hw')
 
   const tabs = React.useMemo(
     () => [
@@ -147,8 +98,7 @@ const AddressBook: React.FC = () => {
 
   const toAddressDetail = async (a: FavAddress) => {
     await setCurrentAddress(a)
-    console.log('currentAddress', currentAddress)
-    // router.push(`/account/${currentAddress}`)
+    // router.push(`/address-book/${currentAddress}`)
   }
 
   return (
@@ -241,12 +191,17 @@ const AddressBook: React.FC = () => {
         <EditAddressDialog
           open={editAddressOpen}
           onClose={() => setEditAddressOpen(false)}
-          address={currentAddress}
+          currentAddress={currentAddress}
         />
         <DeleteAddressDialog
           open={deleteAddressOpen}
           onClose={() => setDeleteAddressOpen(false)}
           accountAddress={currentAddress.address}
+        />
+        <AddAddressDialog
+          networks={networks}
+          open={addAddressOpen}
+          onClose={() => setAddAddressOpen(false)}
         />
         {tabs[currentTab].address.length === 0 ? (
           <Box height={600} textAlign="center" style={{ position: 'relative' }}>
@@ -254,7 +209,7 @@ const AddressBook: React.FC = () => {
               <Typography style={{ marginBottom: theme.spacing(1.5) }}>
                 {t('you have not added any address')}
               </Typography>
-              <Button color="primary" variant="contained">
+              <Button color="primary" variant="contained" onClick={() => setAddAddressOpen(true)}>
                 {t('add address')}
               </Button>
             </Box>

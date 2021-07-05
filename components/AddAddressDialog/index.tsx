@@ -89,7 +89,6 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose, netw
       })
     }
   }, [open])
-  console.log('editedAddress', editedAddress)
 
   return (
     <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
