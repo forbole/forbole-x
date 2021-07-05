@@ -8,7 +8,7 @@ const cryptocurrencies = {
     graphqlHttpUrl: 'https://gql.morpheus.desmos.network/v1/graphql',
     graphqlWsUrl: 'wss://gql.morpheus.desmos.network/v1/graphql',
     blockExplorerBaseUrl: 'https://morpheus.desmos.network',
-    rpcEndpoint: 'http://rpc.morpheus.desmos.network:26657',
+    rpcEndpoint: 'https://rpc.morpheus.desmos.network',
     defaultGasFee: {
       amount: [
         {
