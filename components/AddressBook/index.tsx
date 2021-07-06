@@ -13,7 +13,7 @@ import {
   MenuItem,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-// import { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import MoreIcon from '../../assets/images/icons/icon_more.svg'
@@ -21,16 +21,17 @@ import useIconProps from '../../misc/useIconProps'
 import EditAddressDialog from './EditAddressDialog'
 import DeleteAddressDialog from './DeleteAddressDialog'
 import AddAddressDialog from '../AddAddressDialog'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 interface AddressBookProps {
-  networks: { name: string; id: string; crypto: string }[]
+  networks: { name: string; id: string; crypto: string; img: string }[]
 }
 
 export type FavAddress = {
   address: string
   crypto: string
   moniker: string
-  notes?: string
+  note?: string
   img?: string
 }
 
@@ -46,58 +47,26 @@ const AddressBook: React.FC<AddressBookProps> = ({ networks }) => {
   const [editAddressOpen, setEditAddressOpen] = React.useState(false)
   const [deleteAddressOpen, setDeleteAddressOpen] = React.useState(false)
   const [addAddressOpen, setAddAddressOpen] = React.useState(false)
-  const [currentAddress, setCurrentAddress] = React.useState<FavAddress>(
-    favAddresses[0] || { address: '', crypto: '', moniker: '' }
-  )
-  // const router = useRouter()
+  const [currentAddress, setCurrentAddress] = React.useState<FavAddress>({
+    address: '',
+    crypto: '',
+    moniker: '',
+  })
+  const router = useRouter()
 
   const onClose = React.useCallback(() => setAnchor(undefined), [setAnchor])
+  const tabList = [{ label: 'All', address: favAddresses }]
 
-  const tabs = React.useMemo(
-    () => [
-      {
-        label: 'All',
-        address: favAddresses,
-      },
-      {
-        label: 'ATOM',
-        address: favAddresses.filter((x) => x.crypto === 'ATOM'),
-      },
-      {
-        label: 'AKT',
-        address: favAddresses.filter((x) => x.crypto === 'AKT'),
-      },
-      {
-        label: 'BAND',
-        address: favAddresses.filter((x) => x.crypto === 'BAND'),
-      },
-      {
-        label: 'DSM',
-        address: favAddresses.filter((x) => x.crypto === 'DSM'),
-      },
-      {
-        label: 'FLOW',
-        address: favAddresses.filter((x) => x.crypto === 'FLOW'),
-      },
-      {
-        label: 'KAVA',
-        address: favAddresses.filter((x) => x.crypto === 'KAVA'),
-      },
-      {
-        label: 'SOL',
-        address: favAddresses.filter((x) => x.crypto === 'SOL'),
-      },
-    ],
-    [favAddresses]
-  )
-
-  const editAddress = (a: FavAddress) => {
-    setCurrentAddress(a)
-    setEditAddressOpen(true)
-  }
+  const cryptocurrenciesType = Object.keys(cryptocurrencies)
+  const tabs = React.useMemo(() => {
+    cryptocurrenciesType.forEach((x) => {
+      tabList.push({ label: x, address: favAddresses.filter((v) => v.crypto === x) })
+    })
+    return tabList
+  }, [favAddresses, cryptocurrencies])
 
   const toAddressDetail = async (a: FavAddress) => {
-    await setCurrentAddress(a)
+    // await setCurrentAddress(a)
     // router.push(`/address-book/${currentAddress}`)
   }
 
@@ -119,7 +88,7 @@ const AddressBook: React.FC<AddressBookProps> = ({ networks }) => {
               <Divider />
               <Box display="flex" alignItems="flex-start" justifyContent="space-between">
                 <Box display="flex" my={2} ml={2}>
-                  <Avatar src={a.img} alt={a.address} />
+                  <Avatar src={a.img ? a.img : cryptocurrencies[a.crypto]?.image} alt={a.address} />
                   <Box ml={2}>
                     <Typography>{a.moniker}</Typography>
                     <Box display="flex">
@@ -132,13 +101,18 @@ const AddressBook: React.FC<AddressBookProps> = ({ networks }) => {
                         {a.address}
                       </Typography>
                     </Box>
-                    <Typography variant="subtitle2" color="textSecondary">
-                      {`${t('note')}: ${a.notes}`}
-                    </Typography>
+                    {a.note ? (
+                      <Typography variant="subtitle2" color="textSecondary">
+                        {`${t('note')}: ${a.note}`}
+                      </Typography>
+                    ) : null}
                   </Box>
                 </Box>
                 <IconButton
-                  onClick={(e) => setAnchor(e.currentTarget)}
+                  onClick={(e) => {
+                    setAnchor(e.currentTarget)
+                    setCurrentAddress(a)
+                  }}
                   style={{ marginTop: theme.spacing(1) }}
                 >
                   <MoreIcon {...iconProps} />
@@ -162,8 +136,7 @@ const AddressBook: React.FC<AddressBookProps> = ({ networks }) => {
                     className={classes.menuItem}
                     button
                     onClick={() => {
-                      // setEditAddressOpen(true)
-                      editAddress(a)
+                      setEditAddressOpen(true)
                       onClose()
                     }}
                   >
