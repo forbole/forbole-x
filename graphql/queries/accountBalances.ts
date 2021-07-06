@@ -1,4 +1,6 @@
-const now = new Date().toISOString().split('.')[0]
+const getGqlDateFormat = (date: Date) => date.toISOString().split('.')[0]
+
+const now = getGqlDateFormat(new Date())
 
 export const getLatestAccountBalance = (crypto: string): string => `
   subscription AccountBalance($address: String!) @${crypto} {
@@ -66,7 +68,7 @@ export const getLatestAccountBalance = (crypto: string): string => `
   }  
 `
 
-export const getBalanceAtHeight = (crypto: string): string => `
+export const getBalanceAtHeight = (crypto: string, timestamp: Date): string => `
   query AccountBalance($address: String!, $height: bigint! ) @${crypto} {
     account(where: { address: { _eq: $address } }) {
       address
@@ -94,7 +96,9 @@ export const getBalanceAtHeight = (crypto: string): string => `
         amount
         validator_address
       }
-      unbonding: unbonding_delegation_histories(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}], where: { height: { _lte: $height } }) {
+      unbonding: unbonding_delegation_histories(order_by: [{validator_address: desc}, {height: desc}], where: { height: { _lte: $height }, completion_timestamp: {_gt: "${getGqlDateFormat(
+        timestamp
+      )}"} }) {
         amount
         completion_timestamp
         height
@@ -165,7 +169,7 @@ query AccountBalance($address: String!) @${crypto} {
       }
       validator_address
     }
-    unbonding: unbonding_delegations(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}]) {
+    unbonding: unbonding_delegations(where: {completion_timestamp: {_gt: "${now}"}}, order_by: [{validator_address: desc}, {height: desc}]) {
       amount
       completion_timestamp
       height
