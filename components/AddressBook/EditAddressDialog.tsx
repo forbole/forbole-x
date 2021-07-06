@@ -145,7 +145,6 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
             className={classes.dialogButton}
             variant="contained"
             color="primary"
-            // disabled={!name}
           >
             {t('save')}
           </Button>
