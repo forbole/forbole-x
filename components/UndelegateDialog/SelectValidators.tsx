@@ -91,7 +91,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                   type="number"
                   InputProps={{
                     disableUnderline: true,
-                    endAdornment: <InputAdornment position="end">{denom}</InputAdornment>,
+                    endAdornment: (
+                      <InputAdornment position="end">{denom.toUpperCase()}</InputAdornment>
+                    ),
                   }}
                   value={amount}
                   onChange={(e) => {
