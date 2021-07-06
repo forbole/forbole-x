@@ -56,7 +56,7 @@ export const fetchBalancesByValidators = async (
     }),
   }).then((r) => r.json())
   const result = {}
-  get(balance, 'data.account[0].delegated.nodes', []).forEach((d) => {
+  get(balance, 'data.account[0].delegated', []).forEach((d) => {
     const moniker = get(d, 'validator.validator_descriptions[0].moniker', '')
     const avatar = get(d, 'validator.validator_descriptions[0].avatar_url', '')
     const amount = getTokenAmountFromDenoms(

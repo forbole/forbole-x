@@ -80,7 +80,7 @@ const Account: React.FC = () => {
   })
 
   const delegatedTokens = {}
-  get(balanceData, 'account[0].delegated.nodes', []).forEach((d) => {
+  get(balanceData, 'account[0].delegated', []).forEach((d) => {
     delegatedTokens[get(d, 'validator.validator_info.operator_address', '')] = [d.amount]
   })
 

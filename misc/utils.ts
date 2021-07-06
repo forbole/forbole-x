@@ -156,19 +156,19 @@ export const transformGqlAcountBalance = (data: any, timestamp: number): Account
   const balance = {
     available: getTokenAmountFromDenoms(get(data, 'account[0].available[0].coins', []), denoms),
     delegated: getTokenAmountFromDenoms(
-      get(data, 'account[0].delegated.nodes', []).map((d) => d.amount),
+      get(data, 'account[0].delegated', []).map((d) => d.amount),
       denoms
     ),
     unbonding: getTokenAmountFromDenoms(
-      get(data, 'account[0].unbonding.nodes', []).map((d) => d.amount),
+      get(data, 'account[0].unbonding', []).map((d) => d.amount),
       denoms
     ),
     rewards: getTokenAmountFromDenoms(
-      get(data, 'account[0].rewards.nodes', []).map((d) => get(d, 'amount[0]')),
+      get(data, 'account[0].rewards', []).map((d) => get(d, 'amount[0]')),
       denoms
     ),
     commissions: getTokenAmountFromDenoms(
-      get(data, 'account[0].validator.validator.commissions.nodes', []).map((d) => d.amount),
+      get(data, 'account[0].validator.validator.commissions', []).map((d) => d.amount),
       denoms
     ),
   }
@@ -220,17 +220,17 @@ export const transformValidatorsWithTokenAmount = (data: any, balanceData: any) 
   const validators = transformValidators(data)
   const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
   const delegatedByValidator = {}
-  get(balanceData, 'account[0].delegated.nodes', []).forEach((d) => {
+  get(balanceData, 'account[0].delegated', []).forEach((d) => {
     delegatedByValidator[get(d, 'validator.validator_info.operator_address', '')] =
       getTokenAmountFromDenoms([d.amount], tokensPrices)
   })
   const rewardsByValidator = {}
-  get(balanceData, 'account[0].rewards.nodes', []).forEach((d) => {
+  get(balanceData, 'account[0].rewards', []).forEach((d) => {
     rewardsByValidator[get(d, 'validator.validator_info.operator_address', '')] =
       getTokenAmountFromDenoms(d.amount, tokensPrices)
   })
   const unbondingByValidator = {}
-  get(balanceData, 'account[0].unbonding.nodes', []).forEach((d) => {
+  get(balanceData, 'account[0].unbonding', []).forEach((d) => {
     unbondingByValidator[get(d, 'validator.validator_info.operator_address', '')] =
       getTokenAmountFromDenoms([d.amount], tokensPrices)
   })
@@ -245,7 +245,7 @@ export const transformValidatorsWithTokenAmount = (data: any, balanceData: any) 
 export const transformUnbonding = (data: any, balanceData: any): Unbonding[] => {
   const validators = keyBy(transformValidators(data), 'address')
   const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
-  return get(balanceData, 'account[0].unbonding.nodes', [])
+  return get(balanceData, 'account[0].unbonding', [])
     .map((u) => ({
       validator: validators[get(u, 'validator.validator_info.operator_address', '')],
       amount: getTokenAmountFromDenoms([u.amount], tokensPrices),
