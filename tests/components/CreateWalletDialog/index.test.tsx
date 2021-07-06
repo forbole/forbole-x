@@ -1,10 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import CreateWalletDialog, {
-  ImportStage,
-  CommonStage,
-} from '../../../components/CreateWalletDialog'
-import sendMsgToChromeExt from '../../../misc/sendMsgToChromeExt'
+import CreateWalletDialog from '../../../components/CreateWalletDialog'
 
 const mockWalletsContext = {
   addWallet: jest.fn(),

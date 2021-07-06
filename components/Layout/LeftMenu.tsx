@@ -5,10 +5,8 @@ import Link from 'next/link'
 import OverviewIcon from '../../assets/images/icons/icon_overview.svg'
 import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg'
 import DelegateIcon from '../../assets/images/icons/icon_delegate_08.svg'
-import MarketIcon from '../../assets/images/icons/icon_market.svg'
 import ProposalIcon from '../../assets/images/icons/icon_proposal.svg'
 import AddressBookIcon from '../../assets/images/icons/icon_address_book.svg'
-import ExplorerIcon from '../../assets/images/icons/icon_explorer.svg'
 import Logo from '../../assets/images/logo.svg'
 import LogoExpended from '../../assets/images/logo_expended.svg'
 import useStyles from './styles'
@@ -52,15 +50,15 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
       //   href: '/market',
       // },
       {
+        title: t('address book'),
+        icon: <AddressBookIcon {...iconProps} />,
+        href: '/address-book',
+      },
+      {
         title: t('proposals'),
         icon: <ProposalIcon {...iconProps} />,
         href: '/proposals',
       },
-      // {
-      //   title: t('address book'),
-      //   icon: <AddressBookIcon {...iconProps} />,
-      //   href: '/address-book',
-      // },
       // {
       //   title: t('explorer'),
       //   icon: <ExplorerIcon {...iconProps} />,
