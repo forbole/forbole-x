@@ -1,3 +1,5 @@
+const now = new Date().toISOString().split('.')[0]
+
 export const getLatestAccountBalance = (crypto: string): string => `
   subscription AccountBalance($address: String!) @${crypto} {
     account(where: {address: {_eq: $address}}) {
@@ -30,7 +32,7 @@ export const getLatestAccountBalance = (crypto: string): string => `
         }
         validator_address
       }
-      unbonding: unbonding_delegations(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}]) {
+      unbonding: unbonding_delegations(where: {completion_timestamp: {_gt: "${now}"}}, order_by: [{validator_address: desc}, {height: desc}]) {
         amount
         completion_timestamp
         height

@@ -20,7 +20,7 @@ export const formatCrypto = (
 ): string =>
   `${new Intl.NumberFormat(lang, {
     signDisplay: 'never',
-    maximumFractionDigits: 4,
+    maximumFractionDigits: 6,
   }).format(amount || 0)}${hideUnit ? '' : ` ${(unit || '').toUpperCase()}`}`
 
 export const formatCurrency = (
@@ -49,10 +49,14 @@ export const getTokenAmountFromDenoms = (
       if (unit) {
         const base = get(d, 'token_unit.token.token_units', []).find((t) => t.denom === d.unit_name)
         if (result[base.denom]) {
-          result[base.denom].amount += Number(coin.amount) * 10 ** (unit.exponent - base.exponent)
+          result[base.denom].amount += Number(
+            (Number(coin.amount) * 10 ** (unit.exponent - base.exponent)).toPrecision(6)
+          )
         } else {
           result[base.denom] = {
-            amount: Number(coin.amount) * 10 ** (unit.exponent - base.exponent),
+            amount: Number(
+              (Number(coin.amount) * 10 ** (unit.exponent - base.exponent)).toPrecision(6)
+            ),
             price: d.price,
           }
         }
@@ -160,7 +164,9 @@ export const transformGqlAcountBalance = (data: any, timestamp: number): Account
       denoms
     ),
     unbonding: getTokenAmountFromDenoms(
-      get(data, 'account[0].unbonding', []).map((d) => d.amount),
+      get(data, 'account[0].unbonding', [])
+        .filter((d) => new Date(d.completion_timestamp).getTime() > Date.now())
+        .map((d) => d.amount),
       denoms
     ),
     rewards: getTokenAmountFromDenoms(
@@ -231,8 +237,10 @@ export const transformValidatorsWithTokenAmount = (data: any, balanceData: any) 
   })
   const unbondingByValidator = {}
   get(balanceData, 'account[0].unbonding', []).forEach((d) => {
-    unbondingByValidator[get(d, 'validator.validator_info.operator_address', '')] =
-      getTokenAmountFromDenoms([d.amount], tokensPrices)
+    if (new Date(d.completion_timestamp).getTime() > Date.now()) {
+      unbondingByValidator[get(d, 'validator.validator_info.operator_address', '')] =
+        getTokenAmountFromDenoms([d.amount], tokensPrices)
+    }
   })
   return validators.map((v) => ({
     ...v,
@@ -252,6 +260,7 @@ export const transformUnbonding = (data: any, balanceData: any): Unbonding[] => 
       height: Number(u.height),
       completionDate: new Date(u.completion_timestamp),
     }))
+    .filter((r) => r.completionDate.getTime() > Date.now())
     .sort((a, b) => b.height - a.height)
 }
 
@@ -281,6 +290,7 @@ export const transformRedelegations = (data: any, balanceData: any): Redelegatio
       height: Number(u.height),
       completionDate: new Date(u.completion_timestamp),
     }))
+    .filter((r) => r.completionDate.getTime() > Date.now())
     .sort((a, b) => b.height - a.height)
 }
 
