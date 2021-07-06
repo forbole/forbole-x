@@ -22,6 +22,11 @@ type TokenAmount = {
   }
 }
 
+interface AvailableTokens {
+  coins: Array<{ amount: string; denom: string }>
+  tokens_prices: TokenPrice[]
+}
+
 interface AccountBalance {
   balance: {
     available: TokenAmount
@@ -30,6 +35,7 @@ interface AccountBalance {
     commissions: TokenAmount
     unbonding: TokenAmount
   }
+  availableTokens: AvailableTokens
   timestamp: number
 }
 

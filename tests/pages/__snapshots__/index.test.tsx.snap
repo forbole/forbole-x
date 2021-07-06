@@ -9,9 +9,14 @@ exports[`page: Home renders correctly 1`] = `
     className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
   >
     <div
-      className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-12"
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6"
     >
       <WalletBalanceChart />
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6"
+    >
+      <AssetDistributionChart />
     </div>
   </div>
   <div

@@ -41,19 +41,31 @@ const Account: React.FC = () => {
     gql`
       ${getLatestAccountBalance(crypto.name)}
     `,
-    { variables: { address: account ? account.address : '' } }
+    {
+      variables: {
+        address: account ? account.address : '',
+      },
+    }
   )
   const { data: redelegationsData } = useSubscription(
     gql`
       ${getRedelegations(crypto.name)}
     `,
-    { variables: { address: account ? account.address : '' } }
+    {
+      variables: {
+        address: account ? account.address : '',
+      },
+    }
   )
   const { data: transactionsData } = useSubscription(
     gql`
       ${getTransactions(crypto.name)}
     `,
-    { variables: { address: account ? `{${account.address}}` : '' } }
+    {
+      variables: {
+        address: account ? `{${account.address}}` : '',
+      },
+    }
   )
 
   const validators = transformValidatorsWithTokenAmount(validatorsData, balanceData)
@@ -68,7 +80,7 @@ const Account: React.FC = () => {
   })
 
   const delegatedTokens = {}
-  get(balanceData, 'account[0].delegated.nodes', []).forEach((d) => {
+  get(balanceData, 'account[0].delegated', []).forEach((d) => {
     delegatedTokens[get(d, 'validator.validator_info.operator_address', '')] = [d.amount]
   })
 

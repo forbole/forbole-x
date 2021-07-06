@@ -71,7 +71,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const usdBalance = getTotalBalance(latestBalance).balance
 
   const validators = transformValidatorsWithTokenAmount(validatorsData, latestBalance)
-  const availableTokens = get(latestBalance, 'account[0].available[0]', {
+  const availableTokens = get(latestBalance, 'availableTokens', {
     coins: [],
     tokens_prices: [],
   })

@@ -22,7 +22,7 @@ import TablePagination from '../TablePagination'
 import useStyles from './styles'
 import getWalletAddress from '../../misc/getWalletAddress'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import fetchAccountBalance from '../../graphql/fetch/fetchAccountBalance'
+import { fetchAccountBalance } from '../../graphql/fetch/accountBalances'
 import { formatTokenAmount } from '../../misc/utils'
 import { CustomTheme } from '../../misc/theme'
 
@@ -65,7 +65,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
       const mnemonic = await viewMnemonicPhrase(walletId, securityPassword)
       for (let i = page * rowsPerPage; i < (page + 1) * rowsPerPage; i += 1) {
         const address = await getWalletAddress(mnemonic, crypto, i, ledgerTransport)
-        const balance = await fetchAccountBalance(address, crypto, true)
+        const { total: balance } = await fetchAccountBalance(address, crypto, true)
         newAddresses.push({ address, balance })
       }
       setAddresses(newAddresses)

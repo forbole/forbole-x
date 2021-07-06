@@ -13,7 +13,7 @@ import useIsMobile from '../../misc/useIsMobile'
 
 interface SendDialogProps {
   account: Account
-  availableTokens: { coins: Array<{ amount: string; denom: string }>; tokens_prices: TokenPrice[] }
+  availableTokens: AvailableTokens
   open: boolean
   onClose(): void
 }

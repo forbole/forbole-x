@@ -15,7 +15,7 @@ const CreateProposal: React.FC = () => {
       id: '01',
     },
     {
-      name: 'Desmoshub - DSM',
+      name: 'Desmoshub - DARIC',
       id: '02',
     },
   ]

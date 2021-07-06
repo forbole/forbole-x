@@ -18,7 +18,7 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, network }) =>
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
   const { accounts } = useWalletsContext()
-  const test = accounts.filter((x) => x.crypto === 'DSM')
+  const test = accounts.filter((x) => x.crypto === 'DARIC')
 
   const router = useRouter()
 
