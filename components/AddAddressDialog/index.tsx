@@ -9,6 +9,8 @@ import {
   TextField,
   Typography,
   InputAdornment,
+  Avatar,
+  useTheme,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
@@ -25,20 +27,21 @@ export type FavAddress = {
   address: string
   crypto: string
   moniker: string
-  notes?: string
+  note?: string
   img?: string
 }
 
 interface AddAddressDialogProps {
   open: boolean
   onClose(): void
-  networks: { name: string; id: string; crypto: string }[]
+  networks: { name: string; id: string; crypto: string; img: string }[]
 }
 
 const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose, networks }) => {
   const { t } = useTranslation('common')
   const { classes } = useGetStyles()
   const iconProps = useIconProps()
+  const theme = useTheme()
   const [editedAddress, setEditedAddress] = React.useState<FavAddress>({
     address: '',
     crypto: '',
@@ -53,16 +56,19 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose, netw
 
   const { addFavAddresses } = useGeneralContext()
   const isMobile = useIsMobile()
-  const [network, setNetwork] = React.useState<{ name: string; id: string; crypto: string }>(
-    networks[0]
-  )
+  const [network, setNetwork] = React.useState<{
+    name: string
+    id: string
+    crypto: string
+    img: string
+  }>(networks[0])
   React.useEffect(() => {
     setEditedAddress({
       address,
       img: editedAddress.img,
       moniker,
       crypto: network.crypto,
-      notes: note,
+      note,
     })
   }, [network, address, moniker, note])
 
@@ -118,6 +124,11 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose, netw
                 onChange={(_e, id: string) => setNetwork(networksMap[id])}
                 renderOption={(id) => (
                   <Box display="flex" alignItems="center">
+                    <Avatar
+                      className={classes.smallAvatar}
+                      src={networksMap[id].img}
+                      alt={networksMap[id].name}
+                    />
                     <Typography>{networksMap[id].name}</Typography>
                   </Box>
                 )}
@@ -156,7 +167,6 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose, netw
               InputProps={{
                 disableUnderline: true,
               }}
-              // placeholder={t('account moniker')}
               value={editedAddress.address}
               onChange={(e) => setAddress(e.target.value)}
             />
@@ -187,7 +197,7 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose, netw
                 disableUnderline: true,
               }}
               placeholder={t('optional')}
-              value={editedAddress.notes}
+              value={editedAddress.note}
               onChange={(e) => setNote(e.target.value)}
             />
           </Box>

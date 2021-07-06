@@ -34,9 +34,7 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
   const iconProps = useIconProps()
   const { updateFavAddresses } = useGeneralContext()
   const isMobile = useIsMobile()
-  const [newAddress, setNewAddress] = React.useState(currentAddress.address)
-  const [moniker, setMoniker] = React.useState(currentAddress.moniker)
-  const [note, setNote] = React.useState(currentAddress.notes)
+
   const [updatedAddress, setUpdatedAddress] = React.useState<UpdatedAddress>({
     ...currentAddress,
     newAddress: currentAddress.address,
@@ -63,17 +61,6 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
     }
   }, [open])
 
-  React.useEffect(() => {
-    setUpdatedAddress({
-      address: currentAddress.address,
-      img: currentAddress.img,
-      moniker,
-      crypto: currentAddress.crypto,
-      notes: note,
-      newAddress,
-    })
-  }, [newAddress, moniker, note])
-
   return (
     <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
       <IconButton className={classes.closeButton} onClick={onClose}>
@@ -91,8 +78,17 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
               InputProps={{
                 disableUnderline: true,
               }}
-              value={moniker}
-              onChange={(e) => setMoniker(e.target.value)}
+              value={updatedAddress.moniker}
+              onChange={(e) =>
+                setUpdatedAddress({
+                  address: updatedAddress.address,
+                  img: updatedAddress.img,
+                  moniker: e.target.value,
+                  crypto: updatedAddress.crypto,
+                  newAddress: updatedAddress.newAddress,
+                  note: updatedAddress.note,
+                })
+              }
             />
           </Box>
           <Box mb={2.5}>
@@ -104,8 +100,17 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
               InputProps={{
                 disableUnderline: true,
               }}
-              value={newAddress}
-              onChange={(e) => setNewAddress(e.target.value)}
+              value={updatedAddress.newAddress}
+              onChange={(e) =>
+                setUpdatedAddress({
+                  address: updatedAddress.address,
+                  img: updatedAddress.img,
+                  moniker: updatedAddress.moniker,
+                  crypto: updatedAddress.crypto,
+                  newAddress: e.target.value,
+                  note: updatedAddress.note,
+                })
+              }
             />
           </Box>
           <Box mb={2.5}>
@@ -120,8 +125,17 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
                 disableUnderline: true,
               }}
               placeholder={t('optional')}
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
+              value={updatedAddress.note}
+              onChange={(e) =>
+                setUpdatedAddress({
+                  address: updatedAddress.address,
+                  img: updatedAddress.img,
+                  moniker: updatedAddress.moniker,
+                  crypto: updatedAddress.crypto,
+                  newAddress: updatedAddress.newAddress,
+                  note: e.target.value,
+                })
+              }
             />
           </Box>
         </DialogContent>
@@ -131,7 +145,7 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
             className={classes.dialogButton}
             variant="contained"
             color="primary"
-          // disabled={!name}
+            // disabled={!name}
           >
             {t('save')}
           </Button>

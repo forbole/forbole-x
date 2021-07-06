@@ -23,7 +23,14 @@ export const useGetStyles = (status?: string, alignRight?: boolean) => {
           top: theme.spacing(2),
           right: theme.spacing(2),
         },
-
+        smallAvatar: {
+          width: theme.spacing(3),
+          height: theme.spacing(3),
+          marginRight: theme.spacing(1),
+          // position: "absolute",
+          // transform: "translateY(10%)",
+          // marginLeft: "5px",
+        },
 
         validatorAvatar: {
           width: theme.spacing(3.5),

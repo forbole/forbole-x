@@ -5,7 +5,7 @@ import usePersistedState from '../misc/usePersistedState'
 type Theme = 'light' | 'dark'
 type Currency = typeof currencies[number]
 type FavValidators = string[]
-type FavAddress = { address: string; crypto: string; moniker: string; notes?: string; img?: string }
+type FavAddress = { address: string; crypto: string; moniker: string; note?: string; img?: string }
 interface GeneralState {
   currency: Currency
   theme: Theme
@@ -69,11 +69,10 @@ const GeneralProvider: React.FC = ({ children }) => {
       address: string
       crypto: string
       moniker: string
-      notes: string
+      note: string
       img: string
       newAddress: string
     }) => {
-      console.log('editedAddress', editedAddress)
 
       setFavAddresses((vs) =>
         vs.map((a) =>
@@ -82,7 +81,7 @@ const GeneralProvider: React.FC = ({ children }) => {
                 address: editedAddress.newAddress,
                 crypto: editedAddress.crypto,
                 moniker: editedAddress.moniker,
-                notes: editedAddress.notes,
+                note: editedAddress.note,
                 img: editedAddress.img,
               }
             : a
@@ -91,7 +90,6 @@ const GeneralProvider: React.FC = ({ children }) => {
     },
     [setFavAddresses]
   )
-  console.log('fav', favAddresses)
 
   return (
     <GeneralContext.Provider
