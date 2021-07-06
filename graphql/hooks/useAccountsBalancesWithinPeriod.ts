@@ -18,7 +18,7 @@ const fetchBalance = async (address: string, crypto: string, timestamp: Date) =>
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      query: getBalanceAtHeight(crypto),
+      query: getBalanceAtHeight(crypto, timestamp),
       variables: { address, height: get(block, 'data.block[0].height', 0) },
     }),
   }).then((r) => r.json())
