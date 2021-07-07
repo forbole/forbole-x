@@ -309,5 +309,6 @@
   "delete address warning": "Are you sure you would like to delete this address ?",
   "note": "Note",
   "optional": "Optional",
-  "address type": "Address Type"
+  "address type": "Address Type",
+  "overview": "Overview"
 }

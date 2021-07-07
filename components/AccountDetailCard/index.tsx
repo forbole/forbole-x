@@ -1,4 +1,4 @@
-import { Box, Button, Card, Grid, useTheme } from '@material-ui/core'
+import { Box, Button, Card, Grid, useTheme, Tabs, Tab } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
@@ -55,6 +55,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
   const [timestamps, setTimestamps] = React.useState<Date[]>(
     dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
   )
+  const [currentTab, setCurrentTab] = React.useState(0)
   // Chart Data
   const { data: accountsWithBalance, loading } = useAccountsBalancesWithinPeriod(
     [account],
@@ -140,6 +141,20 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                 </Button>
               </Box>
             </Box>
+          </Box>
+          <Box mb={5}>
+            <Tabs
+              value={currentTab}
+              classes={{ indicator: classes.tabIndicator, root: classes.tab }}
+              onChange={(e, v) => setCurrentTab(v)}
+            >
+              {[
+                t('overview'),
+                ...Object.keys(totalTokenAmount).map((key) => key.toUpperCase()),
+              ].map((key) => (
+                <Tab key={key} label={key} />
+              ))}
+            </Tabs>
           </Box>
           <BalanceChart
             data={chartData}

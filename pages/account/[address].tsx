@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import get from 'lodash/get'
 import keyBy from 'lodash/keyBy'
-import { gql, useSubscription } from '@apollo/client'
+import { gql, useQuery, useSubscription } from '@apollo/client'
 import AccountAvatar from '../../components/AccountAvatar'
 import AccountDetailCard from '../../components/AccountDetailCard'
 import Layout from '../../components/Layout'
@@ -57,7 +57,7 @@ const Account: React.FC = () => {
       },
     }
   )
-  const { data: transactionsData } = useSubscription(
+  const { data: transactionsData } = useQuery(
     gql`
       ${getTransactions(crypto.name)}
     `,
