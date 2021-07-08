@@ -7,7 +7,6 @@ import AccountAvatar from '../AccountAvatar'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import BalanceChart, { dateRanges } from '../BalanceChart'
 import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import StatBox from './StatBox'
 import {
@@ -30,24 +29,16 @@ export type FavAddress = {
 }
 
 interface AddressDetailCardProps {
-  // wallet: Wallet
   address: FavAddress
   validators: Validator[]
   accountBalance: AccountBalance
   availableTokens: any
 }
 
-const AddressDetailCard: React.FC<AddressDetailCardProps> = ({
-  // wallet,
-  address,
-  accountBalance,
-  // availableTokens,
-  // validators,
-}) => {
+const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountBalance }) => {
   const { lang, t } = useTranslation('common')
   const { currency } = useGeneralContext()
   const classes = useStyles()
-  const iconProps = useIconProps()
   const theme = useTheme()
   const isMobile = useIsMobile()
 
