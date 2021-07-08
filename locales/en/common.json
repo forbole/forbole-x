@@ -310,5 +310,7 @@
   "note": "Note",
   "optional": "Optional",
   "address type": "Address Type",
-  "overview": "Overview"
+  "overview": "Overview",
+  "ibc transfer": "IBC Transfer",
+  "ibc transfer description": "Send tokens over IBC"
 }
