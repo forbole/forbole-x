@@ -116,7 +116,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
           {Object.keys(tokenAmounts).length ? (
             Object.keys(tokenAmounts).map((ta) => (
               <Typography key={ta} variant="h4">
-                {formatCrypto(tokenAmounts[ta].amount, ta.toUpperCase(), lang)}
+                {formatCrypto(tokenAmounts[ta].amount, ta, lang)}
               </Typography>
             ))
           ) : (
