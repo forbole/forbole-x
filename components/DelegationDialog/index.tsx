@@ -22,7 +22,7 @@ enum DelegationStage {
 }
 
 interface DelegationDialogProps {
-  account: Account
+  account?: Account
   validators: Validator[]
   defaultValidator?: Validator
   availableTokens: AvailableTokens

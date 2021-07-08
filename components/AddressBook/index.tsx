@@ -13,6 +13,7 @@ import {
   MenuItem,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
+import { useRouter } from 'next/router'
 import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import MoreIcon from '../../assets/images/icons/icon_more.svg'
@@ -38,7 +39,7 @@ const AddressBook: React.FC = () => {
   const [currentTab, setCurrentTab] = React.useState(0)
   const theme = useTheme()
   const [anchor, setAnchor] = React.useState<Element>()
-
+  const router = useRouter()
   const [editAddressOpen, setEditAddressOpen] = React.useState(false)
   const [deleteAddressOpen, setDeleteAddressOpen] = React.useState(false)
   const [addAddressOpen, setAddAddressOpen] = React.useState(false)
@@ -61,7 +62,7 @@ const AddressBook: React.FC = () => {
 
   const toAddressDetail = async (a: FavAddress) => {
     // await setCurrentAddress(a)
-    // router.push(`/address-book/${currentAddress}`)
+    router.push(`/address-book/${currentAddress.address}`)
   }
 
   return (
@@ -75,12 +76,28 @@ const AddressBook: React.FC = () => {
           <Tab key={tab.label} label={`${tab.label} (${tab.address.length})`} />
         ))}
       </Tabs>
+      <Box pt={3} />
       {tabs[currentTab].address.map((a) => {
         return (
-          <Box onClick={() => toAddressDetail(a)} mt={3}>
+          <Box
+            onClick={() => {
+              // setCurrentAddress(a)
+              // toAddressDetail(a)
+            }}
+          >
             <Divider />
             <Box display="flex" alignItems="flex-start" justifyContent="space-between">
-              <Box display="flex" my={2} ml={2}>
+              <Box
+                display="flex"
+                my={2}
+                ml={2}
+                onClick={() => {
+                  setCurrentAddress(a)
+                  toAddressDetail(a)
+                }}
+                style={{ background: 'red' }}
+                flex={1}
+              >
                 <Avatar src={a.img ? a.img : cryptocurrencies[a.crypto]?.image} alt={a.address} />
                 <Box ml={2}>
                   <Typography>{a.moniker}</Typography>
@@ -103,8 +120,8 @@ const AddressBook: React.FC = () => {
               </Box>
               <IconButton
                 onClick={(e) => {
-                  setAnchor(e.currentTarget)
                   setCurrentAddress(a)
+                  setAnchor(e.currentTarget)
                 }}
                 style={{ marginTop: theme.spacing(1) }}
               >

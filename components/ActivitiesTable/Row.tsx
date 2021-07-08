@@ -7,9 +7,18 @@ import useIsMobile from '../../misc/useIsMobile'
 import AccountAvatar from '../AccountAvatar'
 import ValidatorAvatar from '../ValidatorAvatar'
 
+export type FavAddress = {
+  address: string
+  crypto: string
+  moniker: string
+  note?: string
+  img?: string
+}
+
 interface RowProps {
+  address?: FavAddress
   activity: Activity
-  account: Account
+  account?: Account
   crypto: Cryptocurrency
 }
 
@@ -17,7 +26,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
   const { classes } = useGetStyles(activity.tag)
   const { t, lang } = useTranslation('common')
   const isMobile = useIsMobile()
-
+  console.log('activity', activity)
   const Content = () => {
     if (activity.tag === 'delegate') {
       return (
@@ -42,6 +51,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto }) => {
       return (
         <>
           <Box mr={1}>
+            111
             <AccountAvatar account={account} hideAddress size="small" />
           </Box>
           <Typography>
