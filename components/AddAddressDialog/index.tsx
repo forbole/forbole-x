@@ -42,13 +42,9 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
 
   // need to veritfy if this address exist
   // need to get the img of the address
-  // const [address, setAddress] = React.useState('')
-  // const [moniker, setMoniker] = React.useState('')
-  // const [note, setNote] = React.useState('')
 
   const { addFavAddresses } = useGeneralContext()
   const isMobile = useIsMobile()
-  // const [network, setNetwork] = React.useState(Object.values(cryptocurrencies)[0])
   const [editedAddress, setEditedAddress] = React.useState<FavAddress>({
     address: '',
     moniker: '',
@@ -111,7 +107,6 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
                       note: editedAddress.note,
                       crypto: cryptocurrencies[id].name,
                     })
-                  // setNetwork(cryptocurrencies[id])
                 }
                 renderOption={(id) => (
                   <Box display="flex" alignItems="center">

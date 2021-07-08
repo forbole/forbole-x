@@ -115,7 +115,6 @@ const Account: React.FC = () => {
         />
       ) : null}
       <DelegationsTable
-        // isAddressDetail={false}
         wallet={wallet}
         account={account}
         validators={validators}

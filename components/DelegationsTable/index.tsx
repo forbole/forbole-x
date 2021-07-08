@@ -13,16 +13,7 @@ import Redelegations from './Redelegations'
 import DelegationDialog from '../DelegationDialog'
 import ClaimRewardsDialog from '../WithdrawRewardsDialog'
 
-// export type FavAddress = {
-//   address: string
-//   crypto: string
-//   moniker: string
-//   note?: string
-//   img?: string
-// }
-
 interface DelegationsTableProps {
-  // address?: FavAddress
   isAddressDetail?: boolean
   wallet?: Wallet
   account?: Account
@@ -65,10 +56,7 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
   ]
 
   const rows = tabs[currentTab].rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-  // console.log(
-  //   'validators_r',
-  //   validators.filter((v) => v.address === 'desmosvaloper16v6pcp6tjqk9np20jv0zw7wy7ehqy7g3rawlsv')
-  // )
+
   return (
     <Card className={classes.container}>
       <Box p={4}>
