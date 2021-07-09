@@ -310,5 +310,7 @@
   "note": "Note",
   "optional": "Optional",
   "address type": "Address Type",
-  "sender address": "Sender address"
+  "sender address": "Sender address",
+  "moniker warning": "Moniker can not be empty",
+  "invalid": "Invalid"
 }

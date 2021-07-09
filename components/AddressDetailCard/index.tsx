@@ -1,4 +1,4 @@
-import { Box, Button, Card, Grid, useTheme } from '@material-ui/core'
+import { Box, Card, Grid, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
@@ -17,7 +17,6 @@ import {
   getTotalTokenAmount,
 } from '../../misc/utils'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
-// import SendToAddressDialog from '../SendToAddressDialog'
 import useIsMobile from '../../misc/useIsMobile'
 
 export type FavAddress = {
@@ -46,8 +45,6 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
   const { accounts } = useWalletsContext()
   const account = accounts.find((a) => a.address === router.query.address)
   accounts.filter((a) => a.crypto === address.crypto)
-
-  const [sendDialogOpen, setSendDialogOpen] = React.useState(false)
   const [timestamps, setTimestamps] = React.useState<Date[]>(
     dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
   )
@@ -82,21 +79,6 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
             alignItems="flex-start"
           >
             <AccountAvatar size="large" address={address} />
-            <Box display="flex" mt={isMobile ? 2 : 0} ml={isMobile ? -2 : 0}>
-              <Button
-                classes={{ root: classes.sendButton }}
-                variant="contained"
-                onClick={() => setSendDialogOpen(true)}
-              >
-                {t('send')}
-              </Button>
-              <Box
-                display="flex"
-                position={isMobile ? 'absolute' : 'static'}
-                top={theme.spacing(2)}
-                right={theme.spacing(2)}
-              />
-            </Box>
           </Box>
           <BalanceChart
             data={chartData}
@@ -130,13 +112,6 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
           </Box>
         </Box>
       </Card>
-      {/* <SendToAddressDialog
-        crypto={address.crypto}
-        open={sendDialogOpen}
-        onClose={() => setSendDialogOpen(false)}
-        accounts={accounts.filter((a) => a.crypto === address.crypto)}
-        availableTokens={availableTokens}
-      /> */}
     </>
   )
 }

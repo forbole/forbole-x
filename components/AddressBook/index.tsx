@@ -61,7 +61,6 @@ const AddressBook: React.FC = () => {
   }, [favAddresses, cryptocurrencies])
 
   const toAddressDetail = async (a: FavAddress) => {
-    // await setCurrentAddress(a)
     router.push(`/address-book/${currentAddress.address}`)
   }
 
@@ -95,14 +94,13 @@ const AddressBook: React.FC = () => {
                   setCurrentAddress(a)
                   toAddressDetail(a)
                 }}
-                style={{ background: 'red' }}
                 flex={1}
               >
                 <Avatar src={a.img ? a.img : cryptocurrencies[a.crypto]?.image} alt={a.address} />
                 <Box ml={2}>
                   <Typography>{a.moniker}</Typography>
                   <Box display="flex">
-                    <Typography variant="subtitle2">{a.crypto}</Typography>{' '}
+                    <Typography variant="subtitle2">{a.crypto}:</Typography>
                     <Typography
                       variant="subtitle2"
                       color="textSecondary"

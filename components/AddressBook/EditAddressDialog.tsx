@@ -34,23 +34,34 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
   const iconProps = useIconProps()
   const { updateFavAddresses } = useGeneralContext()
   const isMobile = useIsMobile()
+  const [monikerError, setMonikerError] = React.useState('')
+  // verify if the address exists
+  const [addressError, setAddressError] = React.useState('')
 
   const [updatedAddress, setUpdatedAddress] = React.useState<UpdatedAddress>({
     ...currentAddress,
     newAddress: currentAddress.address,
   })
-  const onButtonClick = React.useCallback(
-    async (e) => {
-      try {
-        e.preventDefault()
-        await updateFavAddresses(updatedAddress)
-        onClose()
-      } catch (err) {
-        console.log(err)
-      }
-    },
-    [updateFavAddresses, updatedAddress]
-  )
+  const onButtonClick = () => {
+    if (updatedAddress.moniker === '') {
+      setMonikerError(t('moniker warning'))
+    } else if (updatedAddress.newAddress === '') {
+      setAddressError(`${t('invalid')} ${updatedAddress.crypto} ${t('address')}`)
+    } else {
+      React.useCallback(
+        async (e) => {
+          try {
+            e.preventDefault()
+            await updateFavAddresses(updatedAddress)
+            onClose()
+          } catch (err) {
+            console.log(err)
+          }
+        },
+        [updateFavAddresses, updatedAddress]
+      )
+    }
+  }
 
   React.useEffect(() => {
     if (open) {
@@ -67,7 +78,13 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
         <CloseIcon {...iconProps} />
       </IconButton>
       <DialogTitle>{t('edit address')}</DialogTitle>
-      <form noValidate onSubmit={onButtonClick}>
+      <form
+        noValidate
+        onSubmit={(e) => {
+          e.preventDefault()
+          onButtonClick()
+        }}
+      >
         <DialogContent>
           <Box mb={2.5}>
             <Typography gutterBottom>{t('moniker')}</Typography>
@@ -78,6 +95,8 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
               InputProps={{
                 disableUnderline: true,
               }}
+              error={!!monikerError}
+              helperText={monikerError}
               value={updatedAddress.moniker}
               onChange={(e) =>
                 setUpdatedAddress({
@@ -100,6 +119,8 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
               InputProps={{
                 disableUnderline: true,
               }}
+              error={!!addressError}
+              helperText={addressError}
               value={updatedAddress.newAddress}
               onChange={(e) =>
                 setUpdatedAddress({
