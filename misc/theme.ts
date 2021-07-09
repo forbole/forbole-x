@@ -1,5 +1,5 @@
 import { ThemeOptions, Theme } from '@material-ui/core'
-import { Palette, PaletteColor } from '@material-ui/core/styles/createPalette'
+import { Palette } from '@material-ui/core/styles/createPalette'
 
 interface CustomPalette extends Palette {
   tagColor: { [key: string]: string }
