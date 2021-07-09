@@ -167,6 +167,7 @@ const lightTheme = {
     validator: '#007FFF',
     divider: '#E4E4E4',
     pieChart: ['#007FFF', '#6ED588', '#2DCBE0', '#74CDFF', '#DEC053', '#F4B65A'],
+    pieChart2: ['#007FFF', '#6ED588', '#F4B65A', '#DB39F5', '#FF7448'],
     button: '#007FFF',
     menuBackground: '#F7F7F7',
     socialMediaIcon: {
@@ -259,6 +260,7 @@ const darkTheme = {
     validator: '#379AFE',
     divider: '#34383E',
     pieChart: ['#007FFF', '#6ED588', '#2DCBE0', '#74CDFF', '#DEC053', '#F4B65A'],
+    pieChart2: ['#007FFF', '#6ED588', '#F4B65A', '#DB39F5', '#FF7448'],
     button: '#FFFFFF',
     menuBackground: '#282f35',
     socialMediaIcon: {

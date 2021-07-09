@@ -1,4 +1,4 @@
-import { Box, Button, Card, Grid, useTheme, Tabs, Tab } from '@material-ui/core'
+import { Box, Button, Card, Divider, Grid, useTheme, Tabs, Tab } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
@@ -145,7 +145,8 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
               </Box>
             </Box>
           </Box>
-          <Box mb={5}>
+          <Divider />
+          <Box mb={5} mt={3}>
             <Tabs
               value={currentTab}
               classes={{ indicator: classes.tabIndicator, root: classes.tab }}

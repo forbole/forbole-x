@@ -34,7 +34,7 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({ accountBalance,
   const data = Object.keys(accountBalance.balance).map((k, i) => ({
     name: t(k),
     value: get(accountBalance, `balance.${k}.${account.crypto}.amount`, 0),
-    color: theme.palette.pieChart[i % theme.palette.pieChart.length],
+    color: theme.palette.pieChart2[i % theme.palette.pieChart2.length],
   }))
   const usdPrice = get(accountBalance, `balance.available.${account.crypto}.price`, 0)
   const totalBalance = data.map((d) => d.value).reduce((a, b) => a + b, 0)
