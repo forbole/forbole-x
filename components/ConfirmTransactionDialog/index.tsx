@@ -245,9 +245,9 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
           <BackIcon {...iconProps} />
         </IconButton>
       ) : null}
-      <IconButton className={classes.closeButton} onClick={onClose}>
+      {/* <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
-      </IconButton>
+      </IconButton> */}
       {content.title ? <DialogTitle>{content.title}</DialogTitle> : null}
       {account && wallet && denoms ? content.content : null}
     </Dialog>

@@ -24,6 +24,7 @@ import {
 import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import { getRedelegations } from '../../graphql/queries/redelegations'
 import { getTransactions } from '../../graphql/queries/transactions'
+import AccountBalanceCard from '../../components/AccountBalanceCard'
 
 const Account: React.FC = () => {
   const router = useRouter()
@@ -127,6 +128,7 @@ const Account: React.FC = () => {
           </Box>
         </Card>
       </Box>
+      {account ? <AccountBalanceCard accountBalance={accountBalance} account={account} /> : null}
       <DelegationsTable
         wallet={wallet}
         account={account}

@@ -396,7 +396,9 @@ export const getEquivalentCoinToSend = (
   availableCoins: Array<{ amount: string; denom: string }>,
   tokensPrices: TokenPrice[]
 ): { amount: number; denom: string } => {
-  const tokenPrice = tokensPrices.find((tp) => tp.unit_name === amount.denom)
+  const tokenPrice = tokensPrices.find(
+    (tp) => tp.unit_name.toLowerCase() === amount.denom.toLowerCase()
+  )
   if (!tokenPrice) {
     return { amount: 0, denom: '' }
   }
@@ -404,7 +406,7 @@ export const getEquivalentCoinToSend = (
     tokenPrice,
     'token_unit.token.token_units',
     []
-  ).find((unit) => !!availableCoins.find((c) => c.denom === unit.denom))
+  ).find((unit) => !!availableCoins.find((c) => c.denom.toLowerCase() === unit.denom.toLowerCase()))
   return {
     amount: amount.amount * 10 ** (get(tokenPrice, 'token_unit.exponent', 0) - coinDenom.exponent),
     denom: coinDenom.denom,

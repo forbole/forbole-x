@@ -6,7 +6,7 @@ interface CustomPalette extends Palette {
   statusColor: { [key: string]: string }
   translucent: string
   indicator: string
-  pieChart: { [key: string]: PaletteColor }
+  pieChart: string[]
   button: string
   menuBackground: string
   socialMediaIcon: { background: string; fill: string }
@@ -166,26 +166,7 @@ const lightTheme = {
     indicator: '#5C7BFF',
     validator: '#007FFF',
     divider: '#E4E4E4',
-    pieChart: {
-      color1: {
-        main: '#007FFF',
-      },
-      color2: {
-        main: '#6ED588',
-      },
-      color3: {
-        main: '#2DCBE0',
-      },
-      color4: {
-        main: '#74CDFF',
-      },
-      color5: {
-        main: '#DEC053',
-      },
-      color6: {
-        main: '#F4B65A',
-      },
-    },
+    pieChart: ['#007FFF', '#6ED588', '#2DCBE0', '#74CDFF', '#DEC053', '#F4B65A'],
     button: '#007FFF',
     menuBackground: '#F7F7F7',
     socialMediaIcon: {
@@ -277,26 +258,7 @@ const darkTheme = {
     indicator: '#E6E6E6',
     validator: '#379AFE',
     divider: '#34383E',
-    pieChart: {
-      color1: {
-        main: '#007FFF',
-      },
-      color2: {
-        main: '#6ED588',
-      },
-      color3: {
-        main: '#2DCBE0',
-      },
-      color4: {
-        main: '#74CDFF',
-      },
-      color5: {
-        main: '#DEC053',
-      },
-      color6: {
-        main: '#F4B65A',
-      },
-    },
+    pieChart: ['#007FFF', '#6ED588', '#2DCBE0', '#74CDFF', '#DEC053', '#F4B65A'],
     button: '#FFFFFF',
     menuBackground: '#282f35',
     socialMediaIcon: {

@@ -312,5 +312,6 @@
   "address type": "Address Type",
   "overview": "Overview",
   "ibc transfer": "IBC Transfer",
-  "ibc transfer description": "Send tokens over IBC"
+  "ibc transfer description": "Send tokens over IBC",
+  "total balance": "Total balance"
 }
