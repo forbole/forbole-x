@@ -7,6 +7,7 @@ interface CustomPalette extends Palette {
   translucent: string
   indicator: string
   pieChart: string[]
+  pieChart2: string[]
   button: string
   menuBackground: string
   socialMediaIcon: { background: string; fill: string }
