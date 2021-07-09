@@ -313,5 +313,8 @@
   "overview": "Overview",
   "ibc transfer": "IBC Transfer",
   "ibc transfer description": "Send tokens over IBC",
-  "total balance": "Total balance"
+  "total balance": "Total balance",
+  "other token balance": "Other Token Balance",
+  "index": "Index",
+  "token": "Token"
 }

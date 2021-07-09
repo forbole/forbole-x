@@ -7,7 +7,7 @@ const useStyles = makeStyles(
       marginBottom: theme.spacing(2),
     },
     table: {
-      border: `1px solid ${theme.palette.grey[100]}`,
+      // border: `1px solid ${theme.palette.grey[100]}`,
       borderRadius: theme.shape.borderRadius,
     },
     tableRow: {
