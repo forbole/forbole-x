@@ -4,10 +4,10 @@ import { CustomTheme } from '../../misc/theme'
 const useStyles = makeStyles(
   (theme: CustomTheme) => ({
     container: {
-      marginBottom: theme.spacing(4),
+      marginBottom: theme.spacing(2),
     },
     table: {
-      border: `1px solid ${theme.palette.grey[100]}`,
+      // border: `1px solid ${theme.palette.grey[100]}`,
       borderRadius: theme.shape.borderRadius,
     },
     tableRow: {

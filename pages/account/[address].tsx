@@ -1,11 +1,11 @@
-import { Breadcrumbs, Link as MLink } from '@material-ui/core'
+import { Breadcrumbs, Link as MLink, Card, Box, Typography, Button } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import get from 'lodash/get'
 import keyBy from 'lodash/keyBy'
-import { gql, useSubscription } from '@apollo/client'
+import { gql, useQuery, useSubscription } from '@apollo/client'
 import AccountAvatar from '../../components/AccountAvatar'
 import AccountDetailCard from '../../components/AccountDetailCard'
 import Layout from '../../components/Layout'
@@ -24,6 +24,7 @@ import {
 import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import { getRedelegations } from '../../graphql/queries/redelegations'
 import { getTransactions } from '../../graphql/queries/transactions'
+import AccountBalanceCard from '../../components/AccountBalanceCard'
 
 const Account: React.FC = () => {
   const router = useRouter()
@@ -57,7 +58,7 @@ const Account: React.FC = () => {
       },
     }
   )
-  const { data: transactionsData } = useSubscription(
+  const { data: transactionsData } = useQuery(
     gql`
       ${getTransactions(crypto.name)}
     `,
@@ -114,6 +115,20 @@ const Account: React.FC = () => {
           availableTokens={availableTokens}
         />
       ) : null}
+      <Box mb={2}>
+        <Card>
+          <Box p={2} display="flex" justifyContent="space-between" alignItems="center">
+            <Box>
+              <Typography variant="h4">{t('ibc transfer')}</Typography>
+              <Typography color="textSecondary">{t('ibc transfer description')}</Typography>
+            </Box>
+            <Button variant="contained" color="primary">
+              {t('ibc transfer')}
+            </Button>
+          </Box>
+        </Card>
+      </Box>
+      {account ? <AccountBalanceCard accountBalance={accountBalance} account={account} /> : null}
       <DelegationsTable
         wallet={wallet}
         account={account}

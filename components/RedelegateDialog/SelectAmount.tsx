@@ -76,9 +76,7 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
                   type="number"
                   InputProps={{
                     disableUnderline: true,
-                    endAdornment: (
-                      <InputAdornment position="end">{denom.toUpperCase()}</InputAdornment>
-                    ),
+                    endAdornment: <InputAdornment position="end">{denom}</InputAdornment>,
                   }}
                   value={amount}
                   onChange={(e) => {

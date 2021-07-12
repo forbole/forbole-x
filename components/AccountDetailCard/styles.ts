@@ -4,7 +4,7 @@ import { CustomTheme } from '../../misc/theme'
 const useStyles = makeStyles(
   (theme: CustomTheme) => ({
     container: {
-      marginBottom: theme.spacing(4),
+      marginBottom: theme.spacing(2),
     },
     sendButton: {
       color: 'white',
@@ -30,6 +30,15 @@ const useStyles = makeStyles(
       padding: 0,
       [theme.breakpoints.down('sm')]: {
         marginLeft: 0,
+      },
+    },
+    tabIndicator: {
+      backgroundColor: theme.palette.indicator,
+      width: theme.spacing(1),
+    },
+    tab: {
+      '& .Mui-selected': {
+        color: theme.palette.indicator,
       },
     },
   }),

@@ -43,7 +43,7 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
               endIcon={<DropDownIcon {...iconProps} />}
               onClick={(e) => setAnchor(e.currentTarget)}
             >
-              {denom.toUpperCase()}
+              {denom}
             </Button>
             <Menu
               anchorEl={anchor}
@@ -69,7 +69,7 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
                     setAnchor(undefined)
                   }}
                 >
-                  {d.toUpperCase()}
+                  {d}
                 </MenuItem>
               ))}
             </Menu>
