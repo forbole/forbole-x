@@ -108,7 +108,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
         setLoading(false)
       }
     },
-    [setStage, password, availableTokens, account]
+    [setStage, password, availableTokens, account, denom]
   )
 
   const content: Content = React.useMemo(() => {
