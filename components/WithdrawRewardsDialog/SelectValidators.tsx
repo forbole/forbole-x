@@ -138,9 +138,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
 
   return (
     <>
-      {/* {totalAmount[account.crypto].amount !== 0 ? (
-        update it when the unit of account.crypto(or cryptocurrencies) and the unit in the data are the same */}
-      {totalAmount.daric.amount !== 0 ? (
+      {totalAmount[account.crypto].amount !== 0 ? (
         <form
           noValidate
           onSubmit={(e) => {

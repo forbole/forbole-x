@@ -68,15 +68,10 @@ const InputAmount: React.FC<InputAmountProps> = ({
   }
 
   const remainAmount = () => {
-    // crypto.name = "DARIC", but data is "daric", need to fix it
-    // if (proposal.totalDeposits[crypto.name].amount > proposal.minDeposit[crypto.name].amount) {
-    //   return 0
-    // }
-    // return proposal.minDeposit[crypto.name].amount - proposal.totalDeposits[crypto.name].amount
-    if (proposal.totalDeposits.daric.amount > proposal.minDeposit.daric.amount) {
+    if (proposal.totalDeposits[crypto.name].amount > proposal.minDeposit[crypto.name].amount) {
       return 0
     }
-    return proposal.minDeposit.daric.amount - proposal.totalDeposits.daric.amount
+    return proposal.minDeposit[crypto.name].amount - proposal.totalDeposits[crypto.name].amount
   }
 
   return (

@@ -23,7 +23,7 @@ export const useGetStyles = (tag?: string) => {
         padding: theme.spacing(3.25, 2),
       },
       table: {
-        border: `1px solid ${theme.palette.grey[100]}`,
+        // border: `1px solid ${theme.palette.grey[100]}`,
         borderRadius: theme.shape.borderRadius,
       },
       checkIcon: {
