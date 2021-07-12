@@ -312,7 +312,7 @@
   "address type": "Address Type",
   "sender address": "Sender address",
   "moniker warning": "Moniker can not be empty",
-  "invalid": "Invalid",
+  "invalid address": "Invalid {{crypto}} address",
   "overview": "Overview",
   "ibc transfer": "IBC Transfer",
   "ibc transfer description": "Send tokens over IBC",

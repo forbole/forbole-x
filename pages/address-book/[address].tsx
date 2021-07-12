@@ -3,6 +3,9 @@ import React from 'react'
 import get from 'lodash/get'
 import keyBy from 'lodash/keyBy'
 import { gql, useSubscription } from '@apollo/client'
+import { Breadcrumbs, Link as MLink } from '@material-ui/core'
+import Link from 'next/link'
+import useTranslation from 'next-translate/useTranslation'
 import AddressDetailCard from '../../components/AddressDetailCard'
 import Layout from '../../components/Layout'
 import DelegationsTable from '../../components/DelegationsTable'
@@ -20,10 +23,12 @@ import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import { getRedelegations } from '../../graphql/queries/redelegations'
 import { getTransactions } from '../../graphql/queries/transactions'
 import { useGeneralContext } from '../../contexts/GeneralContext'
+import AccountAvatar from '../../components/AccountAvatar'
 
 const Account: React.FC = () => {
   const { favAddresses } = useGeneralContext()
   const router = useRouter()
+  const { t } = useTranslation('common')
   const { address } = router.query
   const addressDetail = favAddresses.find((x) => x.address === address)
   const crypto = addressDetail
@@ -66,8 +71,6 @@ const Account: React.FC = () => {
     }
   )
 
-  console.log('transactionsData', transactionsData)
-
   const validators = transformValidatorsWithTokenAmount(validatorsData, balanceData)
   const unbondings = transformUnbonding(validatorsData, balanceData)
   const redelegations = transformRedelegations(redelegationsData, balanceData)
@@ -91,7 +94,20 @@ const Account: React.FC = () => {
   )
 
   return (
-    <Layout passwordRequired activeItem="/address-book">
+    <Layout
+      HeaderLeftComponent={
+        addressDetail ? (
+          <Breadcrumbs>
+            <Link href="/address-book" passHref>
+              <MLink color="textPrimary">{t('address book')}</MLink>
+            </Link>
+            <AccountAvatar address={addressDetail} hideAddress size="small" />
+          </Breadcrumbs>
+        ) : null
+      }
+      passwordRequired
+      activeItem="/address-book"
+    >
       {addressDetail ? (
         <AddressDetailCard
           address={addressDetail}

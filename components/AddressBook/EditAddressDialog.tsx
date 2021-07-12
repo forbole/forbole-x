@@ -18,6 +18,7 @@ import useIconProps from '../../misc/useIconProps'
 import useIsMobile from '../../misc/useIsMobile'
 import { FavAddress } from './index'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import { isAddressValid } from '../../misc/utils'
 
 interface UpdatedAddress extends FavAddress {
   newAddress: string
@@ -37,8 +38,6 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
   const isMobile = useIsMobile()
   const [monikerError, setMonikerError] = React.useState('')
   const [addressError, setAddressError] = React.useState('')
-  const { prefix } = currentAddress ? cryptocurrencies[currentAddress.crypto] : ''
-  const prefixLength = prefix.length
 
   const [updatedAddress, setUpdatedAddress] = React.useState<UpdatedAddress>({
     ...currentAddress,
@@ -48,11 +47,8 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
   const onButtonClick = (e) => {
     if (updatedAddress.moniker === '') {
       setMonikerError(t('moniker warning'))
-    } else if (
-      updatedAddress.newAddress.substr(0, prefixLength) !== prefix ||
-      updatedAddress.newAddress.substr(prefixLength, updatedAddress.newAddress.length).length !== 39
-    ) {
-      setAddressError(`${t('invalid')} ${updatedAddress.crypto} ${t('address')}`)
+    } else if (!isAddressValid(updatedAddress.crypto, updatedAddress.newAddress)) {
+      setAddressError(t('invalid address', { crypto: updatedAddress.crypto }))
     } else {
       onSubmit(e)
     }
@@ -73,6 +69,8 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
 
   React.useEffect(() => {
     if (open) {
+      setMonikerError('')
+      setAddressError('')
       setUpdatedAddress({
         ...currentAddress,
         newAddress: currentAddress.address,

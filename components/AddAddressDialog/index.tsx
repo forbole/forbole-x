@@ -21,6 +21,7 @@ import useIconProps from '../../misc/useIconProps'
 import useIsMobile from '../../misc/useIsMobile'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import { isAddressValid } from '../../misc/utils'
 
 export type FavAddress = {
   address: string
@@ -40,23 +41,29 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
   const { classes } = useGetStyles()
   const iconProps = useIconProps()
 
-  // need to veritfy if this address exist
-  // need to get the img of the address
-
   const { addFavAddresses } = useGeneralContext()
   const isMobile = useIsMobile()
+  const [monikerError, setMonikerError] = React.useState('')
+  const [addressError, setAddressError] = React.useState('')
+
   const [editedAddress, setEditedAddress] = React.useState<FavAddress>({
     address: '',
     moniker: '',
     crypto: Object.values(cryptocurrencies)[0].name,
   })
 
-  const onButtonClick = React.useCallback(
+  const onSubmit = React.useCallback(
     async (e) => {
       try {
         e.preventDefault()
-        await addFavAddresses(editedAddress)
-        onClose()
+        if (!editedAddress.moniker) {
+          setMonikerError(t('moniker warning'))
+        } else if (!isAddressValid(editedAddress.crypto, editedAddress.address)) {
+          setAddressError(t('invalid address', { crypto: editedAddress.crypto }))
+        } else {
+          await addFavAddresses(editedAddress)
+          onClose()
+        }
       } catch (err) {
         console.log(err)
       }
@@ -66,6 +73,8 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
 
   React.useEffect(() => {
     if (open) {
+      setMonikerError('')
+      setAddressError('')
       setEditedAddress({
         address: '',
         crypto: Object.values(cryptocurrencies)[0].name,
@@ -80,7 +89,7 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
         <CloseIcon {...iconProps} />
       </IconButton>
       <DialogTitle>{t('add address')}</DialogTitle>
-      <form noValidate onSubmit={onButtonClick}>
+      <form noValidate onSubmit={onSubmit}>
         <DialogContent>
           <Box mb={2.5}>
             <Typography variant="button" className={classes.itemButton}>
@@ -99,14 +108,11 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
                     )
                     .slice(0, 10)
                 }
-                onChange={
-                  (_e, id: string) =>
-                    setEditedAddress({
-                      address: editedAddress.address,
-                      moniker: editedAddress.moniker,
-                      note: editedAddress.note,
-                      crypto: cryptocurrencies[id].name,
-                    })
+                onChange={(_e, id: string) =>
+                  setEditedAddress((a) => ({
+                    ...a,
+                    crypto: cryptocurrencies[id].name,
+                  }))
                 }
                 renderOption={(id) => (
                   <Box display="flex" alignItems="center">
@@ -132,6 +138,15 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
                       ...InputProps,
                       className: '',
                       disableUnderline: true,
+                      startAdornment: editedAddress.crypto ? (
+                        <Box mr={-1}>
+                          <Avatar
+                            className={classes.validatorAvatar}
+                            alt={editedAddress.crypto}
+                            src={cryptocurrencies[editedAddress.crypto].image}
+                          />
+                        </Box>
+                      ) : null,
                       endAdornment: (
                         <InputAdornment position="end">
                           <DropDownIcon {...iconProps} />
@@ -150,17 +165,17 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
               autoFocus
               variant="filled"
               placeholder={t('insert address')}
+              error={!!addressError}
+              helperText={addressError}
               InputProps={{
                 disableUnderline: true,
               }}
               value={editedAddress.address}
               onChange={(e) =>
-                setEditedAddress({
+                setEditedAddress((a) => ({
+                  ...a,
                   address: e.target.value,
-                  moniker: editedAddress.moniker,
-                  note: editedAddress.note,
-                  crypto: editedAddress.crypto,
-                })
+                }))
               }
             />
           </Box>
@@ -171,17 +186,17 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
               autoFocus
               variant="filled"
               placeholder={t('moniker')}
+              error={!!monikerError}
+              helperText={monikerError}
               InputProps={{
                 disableUnderline: true,
               }}
               value={editedAddress.moniker}
               onChange={(e) =>
-                setEditedAddress({
-                  address: editedAddress.address,
+                setEditedAddress((a) => ({
+                  ...a,
                   moniker: e.target.value,
-                  note: editedAddress.note,
-                  crypto: editedAddress.crypto,
-                })
+                }))
               }
             />
           </Box>
@@ -199,12 +214,10 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
               placeholder={t('optional')}
               value={editedAddress.note}
               onChange={(e) =>
-                setEditedAddress({
-                  address: editedAddress.address,
-                  moniker: editedAddress.moniker,
+                setEditedAddress((a) => ({
+                  ...a,
                   note: e.target.value,
-                  crypto: editedAddress.crypto,
-                })
+                }))
               }
             />
           </Box>
