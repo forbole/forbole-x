@@ -43,11 +43,7 @@ const AddressBook: React.FC = () => {
   const [editAddressOpen, setEditAddressOpen] = React.useState(false)
   const [deleteAddressOpen, setDeleteAddressOpen] = React.useState(false)
   const [addAddressOpen, setAddAddressOpen] = React.useState(false)
-  const [currentAddress, setCurrentAddress] = React.useState<FavAddress>({
-    address: '',
-    crypto: '',
-    moniker: '',
-  })
+
 
   const onClose = React.useCallback(() => setAnchor(undefined), [setAnchor])
   const tabList = [{ label: 'All', address: favAddresses }]
@@ -60,9 +56,15 @@ const AddressBook: React.FC = () => {
     return tabList
   }, [favAddresses, cryptocurrencies])
 
-  const toAddressDetail = async (a: FavAddress) => {
+  const toAddressDetail = async () => {
     router.push(`/address-book/${currentAddress.address}`)
   }
+
+  const [currentAddress, setCurrentAddress] = React.useState<FavAddress>({
+    address: tabs[currentTab].address[0].address,
+    crypto: tabs[currentTab].address[0].crypto,
+    moniker: tabs[currentTab].address[0].moniker,
+  })
 
   return (
     <Box pt={2}>
@@ -78,21 +80,21 @@ const AddressBook: React.FC = () => {
       <Box pt={3} />
       {tabs[currentTab].address.map((a) => {
         return (
-          <Box
-            onClick={() => {
-              // setCurrentAddress(a)
-              // toAddressDetail(a)
-            }}
-          >
+          <Box>
             <Divider />
-            <Box display="flex" alignItems="flex-start" justifyContent="space-between">
+            <Box
+              display="flex"
+              alignItems="flex-start"
+              justifyContent="space-between"
+              className={classes.row}
+            >
               <Box
                 display="flex"
                 my={2}
                 ml={2}
                 onClick={() => {
                   setCurrentAddress(a)
-                  toAddressDetail(a)
+                  toAddressDetail()
                 }}
                 flex={1}
               >

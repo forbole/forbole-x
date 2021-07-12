@@ -17,6 +17,7 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIconProps from '../../misc/useIconProps'
 import useIsMobile from '../../misc/useIsMobile'
 import { FavAddress } from './index'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 interface UpdatedAddress extends FavAddress {
   newAddress: string
@@ -35,33 +36,40 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
   const { updateFavAddresses } = useGeneralContext()
   const isMobile = useIsMobile()
   const [monikerError, setMonikerError] = React.useState('')
-  // verify if the address exists
   const [addressError, setAddressError] = React.useState('')
+  const { prefix } = currentAddress ? cryptocurrencies[currentAddress.crypto] : ''
+  const prefixLength = prefix.length
 
   const [updatedAddress, setUpdatedAddress] = React.useState<UpdatedAddress>({
     ...currentAddress,
     newAddress: currentAddress.address,
   })
-  const onButtonClick = () => {
+
+  const onButtonClick = (e) => {
     if (updatedAddress.moniker === '') {
       setMonikerError(t('moniker warning'))
-    } else if (updatedAddress.newAddress === '') {
+    } else if (
+      updatedAddress.newAddress.substr(0, prefixLength) !== prefix ||
+      updatedAddress.newAddress.substr(prefixLength, updatedAddress.newAddress.length).length !== 39
+    ) {
       setAddressError(`${t('invalid')} ${updatedAddress.crypto} ${t('address')}`)
     } else {
-      React.useCallback(
-        async (e) => {
-          try {
-            e.preventDefault()
-            await updateFavAddresses(updatedAddress)
-            onClose()
-          } catch (err) {
-            console.log(err)
-          }
-        },
-        [updateFavAddresses, updatedAddress]
-      )
+      onSubmit(e)
     }
   }
+
+  const onSubmit = React.useCallback(
+    async (e) => {
+      try {
+        e.preventDefault()
+        await updateFavAddresses(updatedAddress)
+        onClose()
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    [updateFavAddresses, updatedAddress]
+  )
 
   React.useEffect(() => {
     if (open) {
@@ -82,7 +90,7 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
         noValidate
         onSubmit={(e) => {
           e.preventDefault()
-          onButtonClick()
+          onButtonClick(e)
         }}
       >
         <DialogContent>

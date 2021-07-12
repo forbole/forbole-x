@@ -26,8 +26,9 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
   const { classes } = useGetStyles(activity.tag)
   const { t, lang } = useTranslation('common')
   const isMobile = useIsMobile()
-  console.log('account_Row', account)
-  const accountDetail = account ? {name: account.name, address: account.address } : {name: address.moniker, address: address.address}
+  const accountDetail = account
+    ? { name: account.name, address: account.address }
+    : { name: address.moniker, address: address.address }
   const Content = () => {
     if (activity.tag === 'delegate') {
       return (
