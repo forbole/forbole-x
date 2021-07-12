@@ -25,6 +25,7 @@ import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import { getRedelegations } from '../../graphql/queries/redelegations'
 import { getTransactions } from '../../graphql/queries/transactions'
 import AccountBalanceCard from '../../components/AccountBalanceCard'
+import IBCTransferDialog from '../../components/IBCTransferDialog'
 
 const Account: React.FC = () => {
   const router = useRouter()
@@ -91,6 +92,8 @@ const Account: React.FC = () => {
     availableTokens.tokens_prices
   )
 
+  const [isIBCDialogOpen, setIsIBCDialogOpen] = React.useState(false)
+
   return (
     <Layout
       passwordRequired
@@ -122,7 +125,7 @@ const Account: React.FC = () => {
               <Typography variant="h4">{t('ibc transfer')}</Typography>
               <Typography color="textSecondary">{t('ibc transfer description')}</Typography>
             </Box>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={() => setIsIBCDialogOpen(true)}>
               {t('ibc transfer')}
             </Button>
           </Box>
@@ -140,6 +143,12 @@ const Account: React.FC = () => {
         availableTokens={availableTokens}
       />
       <ActivitiesTable account={account} activities={activities} crypto={crypto} />
+      <IBCTransferDialog
+        account={account}
+        availableTokens={availableTokens}
+        open={isIBCDialogOpen}
+        onClose={() => setIsIBCDialogOpen(false)}
+      />
     </Layout>
   )
 }
