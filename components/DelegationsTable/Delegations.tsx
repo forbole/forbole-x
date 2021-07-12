@@ -18,12 +18,18 @@ import useIsMobile from '../../misc/useIsMobile'
 import ValidatorAvatar from '../ValidatorAvatar'
 
 interface DelegationsProps {
+  isAddressDetail?: boolean
   validators: Validator[]
   crypto: Cryptocurrency
   onManageClick(e: any, v: Validator): void
 }
 
-const Delegations: React.FC<DelegationsProps> = ({ validators, crypto, onManageClick }) => {
+const Delegations: React.FC<DelegationsProps> = ({
+  validators,
+  crypto,
+  onManageClick,
+  isAddressDetail,
+}) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   // const themeStyle = useTheme()
@@ -48,7 +54,9 @@ const Delegations: React.FC<DelegationsProps> = ({ validators, crypto, onManageC
           {/* <TableCell className={classes.tableCell}>{t('amt ratio')}</TableCell> */}
           <TableCell className={classes.tableCell}>{t('rewards')}</TableCell>
           {/* <TableCell className={classes.tableCell}>{t('last 7 days')}</TableCell> */}
-          <TableCell className={classes.tableCell}>{t('manage')}</TableCell>
+          {isAddressDetail ? null : (
+            <TableCell className={classes.tableCell}>{t('manage')}</TableCell>
+          )}
         </TableRow>
       </TableHead>
       <TableBody>
@@ -99,13 +107,15 @@ const Delegations: React.FC<DelegationsProps> = ({ validators, crypto, onManageC
                   </LineChart>
                 </Box>
               </TableCell> */}
-              <TableCell className={classes.tableCell}>
-                <Box my={-2}>
-                  <IconButton onClick={(e) => onManageClick(e, v)}>
-                    <MoreIcon {...iconProps} />
-                  </IconButton>
-                </Box>
-              </TableCell>
+              {isAddressDetail ? null : (
+                <TableCell className={classes.tableCell}>
+                  <Box my={-2}>
+                    <IconButton onClick={(e) => onManageClick(e, v)}>
+                      <MoreIcon {...iconProps} />
+                    </IconButton>
+                  </Box>
+                </TableCell>
+              )}
             </TableRow>
           )
         })}

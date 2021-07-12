@@ -8,13 +8,26 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 import useStyles from './styles'
 
 interface AccountAvatarProps {
-  account: Account
+  address?: {
+    address: string
+    crypto: string
+    moniker: string
+    note?: string
+    img?: string
+  }
+  account?: Account
   hideAddress?: boolean
   size?: 'small' | 'base' | 'large'
 }
 
-const AccountAvatar: React.FC<AccountAvatarProps> = ({ account, hideAddress, size = 'base' }) => {
-  const crypto = cryptocurrencies[account.crypto]
+const AccountAvatar: React.FC<AccountAvatarProps> = ({
+  account,
+  hideAddress,
+  size = 'base',
+  address,
+}) => {
+  console.log('address_ava', address)
+  const crypto = cryptocurrencies[account ? account.crypto : address.crypto]
   const { t } = useTranslation('common')
   const iconProps = useIconProps()
   const classes = useStyles()
@@ -31,9 +44,9 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({ account, hideAddress, siz
   }
 
   const copyText = React.useCallback(() => {
-    navigator.clipboard.writeText(account.address)
+    navigator.clipboard.writeText(account ? account.address : address.address)
     setIsCopySuccess(true)
-  }, [account.address])
+  }, [account?.address, address?.address])
 
   return (
     <>
@@ -41,7 +54,7 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({ account, hideAddress, siz
         <Avatar className={avatarClass} alt={crypto.name} src={crypto.image} />
         <Box ml={1}>
           <Typography color="textPrimary" variant={titleVariant}>
-            {account.name}
+            {account ? account.name : address.moniker}
           </Typography>
           {hideAddress ? null : (
             <Link
@@ -56,7 +69,7 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({ account, hideAddress, siz
                 component="button"
                 className={classes.address}
               >
-                {account.address}
+                {account ? account.address : address.address}
               </Link>
               <Box display="inline" ml={1}>
                 <CopyIcon {...iconProps} />

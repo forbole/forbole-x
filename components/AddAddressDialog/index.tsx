@@ -14,7 +14,6 @@ import {
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import keyBy from 'lodash/keyBy'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import { useGetStyles } from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
@@ -22,6 +21,7 @@ import useIconProps from '../../misc/useIconProps'
 import useIsMobile from '../../misc/useIsMobile'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import { isAddressValid } from '../../misc/utils'
 
 export type FavAddress = {
   address: string
@@ -40,37 +40,30 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
   const { t } = useTranslation('common')
   const { classes } = useGetStyles()
   const iconProps = useIconProps()
-  const [editedAddress, setEditedAddress] = React.useState<FavAddress>({
-    address: '',
-    crypto: '',
-    moniker: '',
-  })
-
-  // need to veritfy if this address exist
-  // need to get the img of the address
-  const [address, setAddress] = React.useState('')
-  const [moniker, setMoniker] = React.useState('')
-  const [note, setNote] = React.useState('')
 
   const { addFavAddresses } = useGeneralContext()
   const isMobile = useIsMobile()
-  const [network, setNetwork] = React.useState(Object.values(cryptocurrencies)[0])
-  React.useEffect(() => {
-    setEditedAddress({
-      address,
-      img: editedAddress.img,
-      moniker,
-      crypto: network.name,
-      note,
-    })
-  }, [network, address, moniker, note])
+  const [monikerError, setMonikerError] = React.useState('')
+  const [addressError, setAddressError] = React.useState('')
 
-  const onButtonClick = React.useCallback(
+  const [editedAddress, setEditedAddress] = React.useState<FavAddress>({
+    address: '',
+    moniker: '',
+    crypto: Object.values(cryptocurrencies)[0].name,
+  })
+
+  const onSubmit = React.useCallback(
     async (e) => {
       try {
         e.preventDefault()
-        await addFavAddresses(editedAddress)
-        onClose()
+        if (!editedAddress.moniker) {
+          setMonikerError(t('moniker warning'))
+        } else if (!isAddressValid(editedAddress.crypto, editedAddress.address)) {
+          setAddressError(t('invalid address', { crypto: editedAddress.crypto }))
+        } else {
+          await addFavAddresses(editedAddress)
+          onClose()
+        }
       } catch (err) {
         console.log(err)
       }
@@ -80,9 +73,11 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
 
   React.useEffect(() => {
     if (open) {
+      setMonikerError('')
+      setAddressError('')
       setEditedAddress({
         address: '',
-        crypto: '',
+        crypto: Object.values(cryptocurrencies)[0].name,
         moniker: '',
       })
     }
@@ -94,7 +89,7 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
         <CloseIcon {...iconProps} />
       </IconButton>
       <DialogTitle>{t('add address')}</DialogTitle>
-      <form noValidate onSubmit={onButtonClick}>
+      <form noValidate onSubmit={onSubmit}>
         <DialogContent>
           <Box mb={2.5}>
             <Typography variant="button" className={classes.itemButton}>
@@ -113,7 +108,12 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
                     )
                     .slice(0, 10)
                 }
-                onChange={(_e, id: string) => setNetwork(cryptocurrencies[id])}
+                onChange={(_e, id: string) =>
+                  setEditedAddress((a) => ({
+                    ...a,
+                    crypto: cryptocurrencies[id].name,
+                  }))
+                }
                 renderOption={(id) => (
                   <Box display="flex" alignItems="center">
                     <Avatar
@@ -131,13 +131,22 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
                     placeholder={t('select network')}
                     inputProps={{
                       ...inputProps,
-                      value: `${network.name}`,
+                      value: `${Object.values(cryptocurrencies)[0].name}`,
                     }}
                     // eslint-disable-next-line react/jsx-no-duplicate-props
                     InputProps={{
                       ...InputProps,
                       className: '',
                       disableUnderline: true,
+                      startAdornment: editedAddress.crypto ? (
+                        <Box mr={-1}>
+                          <Avatar
+                            className={classes.validatorAvatar}
+                            alt={editedAddress.crypto}
+                            src={cryptocurrencies[editedAddress.crypto].image}
+                          />
+                        </Box>
+                      ) : null,
                       endAdornment: (
                         <InputAdornment position="end">
                           <DropDownIcon {...iconProps} />
@@ -156,11 +165,18 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
               autoFocus
               variant="filled"
               placeholder={t('insert address')}
+              error={!!addressError}
+              helperText={addressError}
               InputProps={{
                 disableUnderline: true,
               }}
               value={editedAddress.address}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={(e) =>
+                setEditedAddress((a) => ({
+                  ...a,
+                  address: e.target.value,
+                }))
+              }
             />
           </Box>
           <Box mb={2.5}>
@@ -170,11 +186,18 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
               autoFocus
               variant="filled"
               placeholder={t('moniker')}
+              error={!!monikerError}
+              helperText={monikerError}
               InputProps={{
                 disableUnderline: true,
               }}
               value={editedAddress.moniker}
-              onChange={(e) => setMoniker(e.target.value)}
+              onChange={(e) =>
+                setEditedAddress((a) => ({
+                  ...a,
+                  moniker: e.target.value,
+                }))
+              }
             />
           </Box>
           <Box mb={2.5}>
@@ -190,7 +213,12 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
               }}
               placeholder={t('optional')}
               value={editedAddress.note}
-              onChange={(e) => setNote(e.target.value)}
+              onChange={(e) =>
+                setEditedAddress((a) => ({
+                  ...a,
+                  note: e.target.value,
+                }))
+              }
             />
           </Box>
         </DialogContent>
@@ -200,7 +228,7 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
             className={classes.dialogButton}
             variant="contained"
             color="primary"
-            disabled={address === '' || moniker === ''}
+            disabled={editedAddress.address === '' || editedAddress.moniker === ''}
           >
             {t('save')}
           </Button>
