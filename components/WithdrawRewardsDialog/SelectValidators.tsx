@@ -96,7 +96,6 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
     })
     return total
   }, [validatorList])
-  console.log('totalAmount', totalAmount)
 
   const onSelect = (address) => {
     const index = validatorList.findIndex((v) => v.address === address)
