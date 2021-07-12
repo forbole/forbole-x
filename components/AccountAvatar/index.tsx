@@ -26,6 +26,7 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
   size = 'base',
   address,
 }) => {
+  console.log('address_ava', address)
   const crypto = cryptocurrencies[account ? account.crypto : address.crypto]
   const { t } = useTranslation('common')
   const iconProps = useIconProps()

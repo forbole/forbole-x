@@ -63,6 +63,7 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
       usdBalance: getTotalBalance(accountBalance).balance,
     }
   }, [accountBalance])
+  console.log('address', address)
 
   const displayItems =
     getTokenAmountBalance(get(accountBalance, 'balance.commissions', {})) === 0

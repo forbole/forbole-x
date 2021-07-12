@@ -61,10 +61,12 @@ const Account: React.FC = () => {
     `,
     {
       variables: {
-        address: address || '',
+        address: `{${address}}` || '',
       },
     }
   )
+
+  console.log('transactionsData', transactionsData)
 
   const validators = transformValidatorsWithTokenAmount(validatorsData, balanceData)
   const unbondings = transformUnbonding(validatorsData, balanceData)
