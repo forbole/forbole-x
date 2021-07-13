@@ -1,27 +1,54 @@
-import { Box, Button, DialogActions, DialogContent, Typography } from '@material-ui/core'
+import {
+  Avatar,
+  Box,
+  Button,
+  DialogActions,
+  DialogContent,
+  InputAdornment,
+  TextField,
+  Typography,
+} from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
+import { Autocomplete } from '@material-ui/lab'
+import ArrowIcon from '../../assets/images/icons/icon_arrow_right.svg'
+import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { formatCrypto, formatCurrency, formatTokenAmount } from '../../misc/utils'
 import TokenAmountInput from '../TokenAmountInput'
 import useStyles from './styles'
+import chains from '../../misc/chains'
+import cryptocurrencies from '../../misc/cryptocurrencies'
+import useIconProps from '../../misc/useIconProps'
 
-interface SelectAmountProps {
+interface SelectDetailsProps {
   onConfirm(amount: number, denom: string): void
   account: Account
+  chainId: string
   availableAmount: TokenAmount
 }
 
-const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availableAmount }) => {
+const SelectDetails: React.FC<SelectDetailsProps> = ({
+  account,
+  onConfirm,
+  availableAmount,
+  chainId,
+}) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const { currency } = useGeneralContext()
+  const iconProps = useIconProps()
   const [amount, setAmount] = React.useState('')
   const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
+  const [address, setAddress] = React.useState('')
+  const [memo, setMemo] = React.useState('')
 
   const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount)
   const ifError = get(availableAmount, `${denom}.amount`, 0) <= Number(amount)
+
+  const sourceChain = chains[cryptocurrencies[account.crypto].chainId]
+  const destinationChain = chains[chainId]
 
   return (
     <form
@@ -32,54 +59,102 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availab
       }}
     >
       <DialogContent className={classes.dialogContent}>
-        <Box mb={32}>
-          <Typography className={classes.marginBottom}>
-            {t('available amount')}{' '}
-            <b className={classes.marginLeft}>
-              {formatTokenAmount(availableAmount, account.crypto, lang, ', ')}
-            </b>
+        <Box mb={4}>
+          <Box mb={4} display="flex" justifyContent="center" alignItems="center">
+            <Avatar
+              className={classes.largeAvatar}
+              alt={get(sourceChain, 'name', '')}
+              src={get(sourceChain, 'image', '')}
+            />
+            <Typography>{get(sourceChain, 'name', '')}</Typography>
+            <Box mx={2.5} display="flex">
+              <ArrowIcon {...iconProps} />
+            </Box>
+            <Avatar
+              className={classes.largeAvatar}
+              alt={get(destinationChain, 'name', '')}
+              src={get(destinationChain, 'image', '')}
+            />
+            <Typography>{get(destinationChain, 'name', '')}</Typography>
+          </Box>
+          <Typography>
+            {t('recipient address')} ({get(destinationChain, 'name', '')})
           </Typography>
-          <Typography>{t('total delegated amount')}</Typography>
-          <TokenAmountInput
-            value={amount}
-            denom={denom || ''}
-            onValueChange={setAmount}
-            onDenomChange={setDenom}
-            availableAmount={availableAmount}
+          <TextField
+            variant="filled"
+            placeholder={`${destinationChain.addressPrefix}...`}
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            fullWidth
+            InputProps={{ disableUnderline: true }}
+          />
+          <Box mb={2} />
+          <Typography>{t('token')}</Typography>
+          <Autocomplete
+            options={Object.keys(availableAmount)}
+            getOptionLabel={(token) => token}
+            openOnFocus
+            fullWidth
+            filterOptions={(options: string[], { inputValue }: any) =>
+              options.filter((token) => token.toLowerCase().includes(inputValue.toLowerCase()))
+            }
+            onChange={(_e, token: string) => setDenom(token)}
+            renderInput={({ InputProps, ...params }) => (
+              <TextField
+                {...params}
+                variant="filled"
+                placeholder={t('select token')}
+                InputProps={{
+                  ...InputProps,
+                  className: '',
+                  disableUnderline: true,
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <DropDownIcon {...iconProps} />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
+          />
+          <Box mb={2} />
+          <Typography>{t('amount')}</Typography>
+          <TextField
+            placeholder="0"
             type="number"
-            helperText={ifError ? t('delegationHelpText') : null}
-            error={ifError}
+            variant="filled"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            fullWidth
+            InputProps={{ disableUnderline: true }}
+          />
+          <Box mb={2} />
+          <Typography>{t('memo')}</Typography>
+          <TextField
+            placeholder={t('optional')}
+            variant="filled"
+            value={memo}
+            onChange={(e) => setMemo(e.target.value)}
+            fullWidth
+            InputProps={{ disableUnderline: true }}
+            multiline
+            rows={4}
           />
         </Box>
       </DialogContent>
       <DialogActions>
-        <Box
-          flex={1}
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={3}
-          mx={2}
+        <Button
+          variant="contained"
+          color="primary"
+          classes={{ root: classes.fullWidthButton }}
+          disabled={!Number(amount) || insufficientFund}
+          type="submit"
         >
-          <Box>
-            <Typography variant="h5">{formatCrypto(Number(amount), denom, lang)}</Typography>
-            <Typography>
-              {formatCurrency(Number(amount) * availableAmount[denom]?.price, currency, lang)}
-            </Typography>
-          </Box>
-          <Button
-            variant="contained"
-            color="primary"
-            classes={{ root: classes.button }}
-            disabled={!Number(amount) || insufficientFund}
-            type="submit"
-          >
-            {t('next')}
-          </Button>
-        </Box>
+          {t('next')}
+        </Button>
       </DialogActions>
     </form>
   )
 }
 
-export default SelectAmount
+export default SelectDetails

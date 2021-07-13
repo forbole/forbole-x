@@ -15,6 +15,7 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIsMobile from '../../misc/useIsMobile'
 import SelectChain from './SelectChain'
 import AddChannel from './AddChannel'
+import SelectDetails from './SelectDetails'
 
 enum IBCTransferStage {
   SelectChainStage = 'select chain',
@@ -107,6 +108,18 @@ const IBCTransferDialog: React.FC<IBCTransferDialogProps> = ({
         return {
           title: t('add ibc channel'),
           content: <AddChannel onConfirm={confirmChain} />,
+        }
+      case IBCTransferStage.SelectDetailsStage:
+        return {
+          title: t('ibc transfer'),
+          content: (
+            <SelectDetails
+              onConfirm={() => null}
+              chainId={chainId}
+              account={account}
+              availableAmount={availableAmount}
+            />
+          ),
         }
       case IBCTransferStage.SelectChainStage:
       default:

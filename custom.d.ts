@@ -78,6 +78,7 @@ interface Cryptocurrency {
   name: string
   prefix?: string
   ecosystem: 'cosmos'
+  chainId: string
   image: string
   coinType: number
   graphqlHttpUrl: string

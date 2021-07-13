@@ -3,6 +3,7 @@ const cryptocurrencies = {
     name: 'DARIC',
     prefix: 'desmos',
     ecosystem: 'cosmos',
+    chainId: 'morpheus-apollo-2',
     image: '/static/images/cryptocurrencies/dsm.png',
     coinType: 852,
     graphqlHttpUrl: 'https://gql.morpheus.desmos.network/v1/graphql',
