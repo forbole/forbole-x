@@ -10,13 +10,27 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIconProps from '../../misc/useIconProps'
 import useIsMobile from '../../misc/useIsMobile'
 
+export type FavAddress = {
+  address: string
+  crypto: string
+  moniker: string
+  note?: string
+  img?: string
+}
+
 interface ActivitiesTableProps {
-  activities?: Activity[]
-  account: Account
+  address?: FavAddress
+  activities: Activity[]
+  account?: Account
   crypto: Cryptocurrency
 }
 
-const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, account }) => {
+const ActivitiesTable: React.FC<ActivitiesTableProps> = ({
+  activities,
+  crypto,
+  account,
+  address,
+}) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
   const iconProps = useIconProps()
@@ -34,6 +48,8 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, a
     { label: 'governance', rows: activities.filter((x) => x.tab === 'governance') },
     { label: 'slashing', rows: activities.filter((x) => x.tab === 'slashing') },
   ]
+
+
 
   return (
     <Card>
@@ -79,7 +95,7 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({ activities, crypto, a
                 </Typography>
               </Box>
               <Box className={classes.row}>
-                <Row activity={a} account={account} crypto={crypto} />
+                <Row activity={a} account={account} crypto={crypto} address={address} />
               </Box>
             </Box>
           ))}
