@@ -12,10 +12,6 @@ import { GeneralProvider, useGeneralContext } from '../contexts/GeneralContext'
 import { WalletsProvider } from '../contexts/WalletsContext'
 import { useApollo } from '../graphql/client'
 
-// Filter console message caused by Material UI
-console.error = (msg, ...args) =>
-  msg.includes('cannot appear as a descendant of') ? null : console.error(msg, ...args)
-
 function InnerApp({ Component, pageProps }: AppProps) {
   const { theme } = useGeneralContext()
   const { lang } = useTranslation('common')
