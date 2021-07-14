@@ -1,17 +1,15 @@
-import { Breadcrumbs, Link as MLink, Card, Box, Typography, Button } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import get from 'lodash/get'
 import keyBy from 'lodash/keyBy'
-import { gql, useQuery, useSubscription } from '@apollo/client'
-import AccountAvatar from '../../components/AccountAvatar'
-import AccountDetailCard from '../../components/AccountDetailCard'
+import { gql, useSubscription } from '@apollo/client'
+import { Breadcrumbs, Link as MLink } from '@material-ui/core'
+import Link from 'next/link'
+import useTranslation from 'next-translate/useTranslation'
+import AddressDetailCard from '../../components/AddressDetailCard'
 import Layout from '../../components/Layout'
 import DelegationsTable from '../../components/DelegationsTable'
 import ActivitiesTable from '../../components/ActivitiesTable'
-import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { getValidators } from '../../graphql/queries/validators'
 import {
@@ -24,15 +22,18 @@ import {
 import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import { getRedelegations } from '../../graphql/queries/redelegations'
 import { getTransactions } from '../../graphql/queries/transactions'
-import AccountBalanceCard from '../../components/AccountBalanceCard'
+import { useGeneralContext } from '../../contexts/GeneralContext'
+import AccountAvatar from '../../components/AccountAvatar'
 
 const Account: React.FC = () => {
+  const { favAddresses } = useGeneralContext()
   const router = useRouter()
   const { t } = useTranslation('common')
-  const { accounts, wallets } = useWalletsContext()
-  const account = accounts.find((a) => a.address === router.query.address)
-  const wallet = wallets.filter((x) => x.id === account?.walletId)[0]
-  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
+  const { address } = router.query
+  const addressDetail = favAddresses.find((x) => x.address === address)
+  const crypto = addressDetail
+    ? cryptocurrencies[addressDetail.crypto]
+    : Object.values(cryptocurrencies)[0]
   const { data: validatorsData } = useSubscription(
     gql`
       ${getValidators(crypto.name)}
@@ -44,7 +45,7 @@ const Account: React.FC = () => {
     `,
     {
       variables: {
-        address: account ? account.address : '',
+        address: address || '',
       },
     }
   )
@@ -54,17 +55,18 @@ const Account: React.FC = () => {
     `,
     {
       variables: {
-        address: account ? account.address : '',
+        address: address || '',
       },
     }
   )
-  const { data: transactionsData } = useQuery(
+
+  const { data: transactionsData } = useSubscription(
     gql`
       ${getTransactions(crypto.name)}
     `,
     {
       variables: {
-        address: account ? `{${account.address}}` : '',
+        address: `{${address}}` || '',
       },
     }
   )
@@ -93,45 +95,29 @@ const Account: React.FC = () => {
 
   return (
     <Layout
-      passwordRequired
-      activeItem="/wallets"
       HeaderLeftComponent={
-        account ? (
+        addressDetail ? (
           <Breadcrumbs>
-            <Link href="/wallets" passHref>
-              <MLink color="textPrimary">{t('wallet')}</MLink>
+            <Link href="/address-book" passHref>
+              <MLink color="textPrimary">{t('address book')}</MLink>
             </Link>
-            <AccountAvatar account={account} hideAddress size="small" />
+            <AccountAvatar address={addressDetail} hideAddress size="small" />
           </Breadcrumbs>
         ) : null
       }
+      passwordRequired
+      activeItem="/address-book"
     >
-      {account ? (
-        <AccountDetailCard
-          wallet={wallet}
-          account={account}
+      {addressDetail ? (
+        <AddressDetailCard
+          address={addressDetail}
           validators={validators}
           accountBalance={accountBalance}
           availableTokens={availableTokens}
         />
       ) : null}
-      <Box mb={2}>
-        <Card>
-          <Box p={2} display="flex" justifyContent="space-between" alignItems="center">
-            <Box>
-              <Typography variant="h4">{t('ibc transfer')}</Typography>
-              <Typography color="textSecondary">{t('ibc transfer description')}</Typography>
-            </Box>
-            <Button variant="contained" color="primary">
-              {t('ibc transfer')}
-            </Button>
-          </Box>
-        </Card>
-      </Box>
-      {account ? <AccountBalanceCard accountBalance={accountBalance} account={account} /> : null}
       <DelegationsTable
-        wallet={wallet}
-        account={account}
+        isAddressDetail
         validators={validators}
         unbondings={unbondings}
         redelegations={redelegations}
@@ -139,7 +125,7 @@ const Account: React.FC = () => {
         crypto={crypto}
         availableTokens={availableTokens}
       />
-      <ActivitiesTable account={account} activities={activities} crypto={crypto} />
+      <ActivitiesTable address={addressDetail} activities={activities} crypto={crypto} />
     </Layout>
   )
 }

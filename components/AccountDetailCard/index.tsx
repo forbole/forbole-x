@@ -1,4 +1,4 @@
-import { Box, Button, Card, Grid, useTheme } from '@material-ui/core'
+import { Box, Button, Card, Divider, Grid, useTheme, Tabs, Tab } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
@@ -55,14 +55,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
   const [timestamps, setTimestamps] = React.useState<Date[]>(
     dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
   )
-  // Chart Data
-  const { data: accountsWithBalance, loading } = useAccountsBalancesWithinPeriod(
-    [account],
-    timestamps
-  )
-  const chartData = accountsWithBalance.length
-    ? accountsWithBalance[0].balances.map((b) => getTotalBalance(b))
-    : []
+  const [currentTab, setCurrentTab] = React.useState(0)
   // Balance Data
   const { totalTokenAmount, usdBalance } = React.useMemo(() => {
     return {
@@ -70,6 +63,17 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
       usdBalance: getTotalBalance(accountBalance).balance,
     }
   }, [accountBalance])
+  // Chart Data
+  const tabs = [t('overview'), ...Object.keys(totalTokenAmount)]
+  const selectedTabToken = tabs[currentTab]
+  const selectedTabTokenAmount = totalTokenAmount[selectedTabToken]
+  const { data: accountsWithBalance, loading } = useAccountsBalancesWithinPeriod(
+    [account],
+    timestamps
+  )
+  const chartData = accountsWithBalance.length
+    ? accountsWithBalance[0].balances.map((b) => getTotalBalance(b, selectedTabToken))
+    : []
 
   const toggleFav = React.useCallback(() => {
     updateAccount(account.address, { fav: !account.fav })
@@ -141,36 +145,67 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
               </Box>
             </Box>
           </Box>
+          <Divider />
+          <Box mb={5} mt={3}>
+            <Tabs
+              value={currentTab}
+              classes={{ indicator: classes.tabIndicator, root: classes.tab }}
+              onChange={(e, v) => setCurrentTab(v)}
+            >
+              {tabs.map((key) => (
+                <Tab key={key} label={key} />
+              ))}
+            </Tabs>
+          </Box>
           <BalanceChart
             data={chartData}
             hideChart={isMobile}
             onDateRangeChange={(dateRange) => {
               setTimestamps(dateRange.timestamps.map((ts) => new Date(ts)))
             }}
-            title={formatTokenAmount(totalTokenAmount, account.crypto, lang)}
-            subtitle={formatCurrency(usdBalance, currency, lang)}
-            loading={loading}
-          />
-          <Box mt={isMobile ? 6 : 10}>
-            <Grid container spacing={4}>
-              {displayItems.map((key) => (
-                <StatBox
-                  key={key}
-                  title={t(key)}
-                  value={formatTokenAmount(
-                    get(accountBalance, `balance.${key}`, {}),
+            title={
+              currentTab === 0
+                ? formatCurrency(usdBalance, currency, lang)
+                : formatTokenAmount(
+                    { [selectedTabToken]: selectedTabTokenAmount },
                     account.crypto,
                     lang
-                  )}
-                  subtitle={formatCurrency(
-                    getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})),
+                  )
+            }
+            subtitle={
+              currentTab === 0
+                ? ''
+                : formatCurrency(
+                    selectedTabTokenAmount.amount * selectedTabTokenAmount.price,
                     currency,
                     lang
-                  )}
-                />
-              ))}
-            </Grid>
-          </Box>
+                  )
+            }
+            loading={loading}
+          />
+          {/* Only show Stat Boxes for native token */}
+          {account.crypto === selectedTabToken ? (
+            <Box mt={isMobile ? 6 : 10}>
+              <Grid container spacing={4}>
+                {displayItems.map((key) => (
+                  <StatBox
+                    key={key}
+                    title={t(key)}
+                    value={formatTokenAmount(
+                      get(accountBalance, `balance.${key}`, {}),
+                      account.crypto,
+                      lang
+                    )}
+                    subtitle={formatCurrency(
+                      getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})),
+                      currency,
+                      lang
+                    )}
+                  />
+                ))}
+              </Grid>
+            </Box>
+          ) : null}
         </Box>
       </Card>
       <DelegationDialog

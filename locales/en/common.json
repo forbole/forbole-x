@@ -309,5 +309,15 @@
   "delete address warning": "Are you sure you would like to delete this address ?",
   "note": "Note",
   "optional": "Optional",
-  "address type": "Address Type"
+  "address type": "Address Type",
+  "sender address": "Sender address",
+  "moniker warning": "Moniker can not be empty",
+  "invalid address": "Invalid {{crypto}} address",
+  "overview": "Overview",
+  "ibc transfer": "IBC Transfer",
+  "ibc transfer description": "Send tokens over IBC",
+  "total balance": "Total balance",
+  "other token balance": "Other Token Balance",
+  "index": "Index",
+  "token": "Token"
 }

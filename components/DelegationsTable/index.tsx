@@ -14,8 +14,9 @@ import DelegationDialog from '../DelegationDialog'
 import ClaimRewardsDialog from '../WithdrawRewardsDialog'
 
 interface DelegationsTableProps {
-  wallet: Wallet
-  account: Account
+  isAddressDetail?: boolean
+  wallet?: Wallet
+  account?: Account
   validators: Validator[]
   unbondings: Unbonding[]
   redelegations: Redelegation[]
@@ -25,6 +26,7 @@ interface DelegationsTableProps {
 }
 
 const DelegationsTable: React.FC<DelegationsTableProps> = ({
+  isAddressDetail,
   wallet,
   account,
   validators,
@@ -72,6 +74,7 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
         <Box className={classes.table} mt={2}>
           {tabs[currentTab].label === 'delegations' ? (
             <Delegations
+              isAddressDetail={isAddressDetail}
               validators={rows as Validator[]}
               crypto={crypto}
               onManageClick={(e, v) => {

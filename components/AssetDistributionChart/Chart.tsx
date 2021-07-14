@@ -35,14 +35,6 @@ const Chart: React.FC<ChartProp> = ({ data: rawData, setPopoverIndex, setAnchorP
   }, [rawData])
   const [activeIndex, setActiveIndex] = React.useState(0)
   const theme: CustomTheme = useTheme()
-  const COLORS = [
-    theme.palette.pieChart.color1,
-    theme.palette.pieChart.color2,
-    theme.palette.pieChart.color3,
-    theme.palette.pieChart.color4,
-    theme.palette.pieChart.color5,
-    theme.palette.pieChart.color6,
-  ]
 
   // todo: how to override light mode color of the pie? it shows black when it is activeIndex
 
@@ -80,7 +72,7 @@ const Chart: React.FC<ChartProp> = ({ data: rawData, setPopoverIndex, setAnchorP
                   setPopoverIndex(i)
                   setAnchorPosition({ top: e.clientY, left: e.clientX })
                 }}
-                fill={COLORS[i % COLORS.length].main}
+                fill={theme.palette.pieChart[i % theme.palette.pieChart.length]}
                 stroke={theme.palette.background.default}
                 opacity={activeIndex === i ? 0.8 : 1}
               />
