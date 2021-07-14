@@ -1,8 +1,8 @@
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 import { stringToPath } from '@cosmjs/crypto'
-import { LedgerSigner } from '@cosmjs/ledger-amino'
 import { SigningStargateClient } from '@cosmjs/stargate'
 import camelCase from 'lodash/camelCase'
+import { LedgerSigner } from '../@cosmjs/ledger-amino'
 import cryptocurrencies from './cryptocurrencies'
 import sendMsgToChromeExt from './sendMsgToChromeExt'
 
