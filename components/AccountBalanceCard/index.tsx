@@ -102,7 +102,7 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({ accountBalance,
           </ResponsiveContainer>
           <Box flex={1} ml={10}>
             {data.map((d) => (
-              <Box display="flex" alignItems="center" justifyContent="space-between">
+              <Box key={d.name} display="flex" alignItems="center" justifyContent="space-between">
                 <Box display="flex" alignItems="center" mb={0.5}>
                   <Box
                     bgcolor={d.color}

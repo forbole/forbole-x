@@ -3,7 +3,7 @@ const getGqlDateFormat = (date: Date) => date.toISOString().split('.')[0]
 const now = getGqlDateFormat(new Date())
 
 export const getLatestAccountBalance = (crypto: string): string => `
-  subscription AccountBalance($address: String!) @${crypto} {
+  subscription AccountBalance($address: String!) {
     account(where: {address: {_eq: $address}}) {
       address
       available: account_balances(limit: 1, order_by: {height: desc}) {
@@ -69,7 +69,7 @@ export const getLatestAccountBalance = (crypto: string): string => `
 `
 
 export const getBalanceAtHeight = (crypto: string, timestamp: Date): string => `
-  query AccountBalance($address: String!, $height: bigint! ) @${crypto} {
+  query AccountBalance($address: String!, $height: bigint! ) {
     account(where: { address: { _eq: $address } }) {
       address
       available: account_balance_histories(limit: 1, order_by: { height: desc }, where: { height: { _lte: $height } }) {
@@ -129,7 +129,7 @@ export const getBalanceAtHeight = (crypto: string, timestamp: Date): string => `
 `
 
 export const getBalance = (crypto: string, availableBalanceOnly?: boolean): string => `
-query AccountBalance($address: String!) @${crypto} {
+query AccountBalance($address: String!) {
   account(where: {address: {_eq: $address}}) {
     address
     available: account_balances(limit: 1, order_by: {height: desc}) {
@@ -216,7 +216,7 @@ query AccountBalance($address: String!) @${crypto} {
 `
 
 export const getDelegatedBalance = (crypto: string): string => `
-query AccountBalance($address: String!) @${crypto} {
+query AccountBalance($address: String!) {
   account(where: {address: {_eq: $address}}) {
     address
     available: account_balances(limit: 1, order_by: {height: desc}) {

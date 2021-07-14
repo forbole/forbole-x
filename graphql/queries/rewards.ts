@@ -1,5 +1,5 @@
 export const getRewards = (crypto: string): string => `
-  subscription Redelegations($address: String!) @${crypto} {
+  subscription Redelegations($address: String!) {
     redelegations: redelegation(where: { delegator_address: {_eq: $address} }, distinct_on: [height] ,order_by: { height: desc }) {
       height
       amount
