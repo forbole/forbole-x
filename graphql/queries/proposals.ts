@@ -1,5 +1,5 @@
 export const getProposals = (crypto: string): string => `
-subscription Proposals @${crypto} {
+subscription Proposals {
   proposal {
     content
     deposit_end_time
@@ -28,7 +28,7 @@ subscription Proposals @${crypto} {
 `
 
 export const getDepositParams = (crypto: string): string => `
-subscription DepositParams @${crypto} {
+subscription DepositParams {
   gov_params {
     deposit_params
   }
@@ -36,7 +36,7 @@ subscription DepositParams @${crypto} {
 `
 
 export const getProposal = (crypto: string): string => `
-subscription Proposal($id: Int!) @${crypto} {
+subscription Proposal($id: Int!) {
   proposal(where: {id: {_eq: $id }}) {
     content
     description
@@ -82,7 +82,7 @@ subscription Proposal($id: Int!) @${crypto} {
 `
 
 // export const getProposers = (crypto: string): string => `
-// query Account @${crypto} {
+// query Account {
 //   account(where: {validator_infos: {operator_address: {_neq: "null"}}}) {
 //     address
 //     validator_infos {
@@ -101,7 +101,7 @@ subscription Proposal($id: Int!) @${crypto} {
 // `
 
 // export const getProposer = (crypto: string): string => `
-// query Account($address: String!) @${crypto} {
+// query Account($address: String!) {
 //   account(where: {address: {_eq: $address}}) {
 //     address
 //     validator_infos {
@@ -120,7 +120,7 @@ subscription Proposal($id: Int!) @${crypto} {
 // `
 
 export const getProposalResult = (crypto: string): string => `
-subscription ProposalResult($id: Int!) @${crypto} {
+subscription ProposalResult($id: Int!) {
   proposal_tally_result(where: {proposal_id: {_eq: $id}}) {
     abstain
     height
@@ -133,7 +133,7 @@ subscription ProposalResult($id: Int!) @${crypto} {
 `
 
 export const getVoteDetail = (crypto: string): string => `
-subscription VoteDetail($id: Int!) @${crypto} {
+subscription VoteDetail($id: Int!) {
   proposal_vote(where: {proposal_id: {_eq: $id}}) {
     voter_address
     proposal_id
