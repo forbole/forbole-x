@@ -23,6 +23,7 @@ interface WithdrawRewardsDialogProps {
   onClose(): void
   validators: Validator[]
   preselectedValidatorAddresses?: string[]
+  openDelegationDialog: () => void
 }
 
 const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
@@ -32,6 +33,7 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
   onClose,
   validators,
   preselectedValidatorAddresses,
+  openDelegationDialog,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
@@ -75,7 +77,7 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
   }, [open])
 
   return (
-    <Dialog fullWidth maxWidth="md" open={open} onClose={onClose} fullScreen={isMobile}>
+    <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose} fullScreen={isMobile}>
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
@@ -88,6 +90,8 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
         validators={validators}
         preselectedValidatorAddresses={preselectedValidatorAddresses}
         loading={loading}
+        openDelegationDialog={openDelegationDialog}
+        onClose={onClose}
       />
     </Dialog>
   )

@@ -31,6 +31,8 @@ interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
   validators: Validator[]
   preselectedValidatorAddresses?: string[]
   loading: boolean
+  openDelegationDialog: () => void
+  onClose(): void
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
@@ -41,6 +43,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   validators,
   preselectedValidatorAddresses,
   loading,
+  openDelegationDialog,
+  onClose,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
@@ -85,6 +89,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
 
   const totalAmount = React.useMemo(() => {
     const total: TokenAmount = {}
+
     validatorList.forEach((x) => {
       Object.keys(x.rewards).forEach((denom) => {
         if (total[denom]) {
@@ -96,7 +101,6 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
     })
     return total
   }, [validatorList])
-  console.log('totalAmount', totalAmount)
 
   const onSelect = (address) => {
     const index = validatorList.findIndex((v) => v.address === address)
@@ -138,9 +142,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
 
   return (
     <>
-      {/* {totalAmount[account.crypto].amount !== 0 ? (
-        update it when the unit of account.crypto(or cryptocurrencies) and the unit in the data are the same */}
-      {totalAmount.daric.amount !== 0 ? (
+      {totalAmount?.daric?.amount > 0 ? (
         <form
           noValidate
           onSubmit={(e) => {
@@ -280,11 +282,18 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                 {t('delegate your token and get some rewards')}
               </Typography>
             </Box>
-            {/* <ImageDefaultLight /> */}
           </DialogContent>
           <DialogActions>
             <Box justifyContent="center" display="flex" flex={1} mb={6} mt={2}>
-              <Button variant="contained" classes={{ root: classes.button }} color="primary">
+              <Button
+                variant="contained"
+                classes={{ root: classes.button }}
+                color="primary"
+                onClick={() => {
+                  openDelegationDialog()
+                  onClose()
+                }}
+              >
                 {t('delegate')}
               </Button>
             </Box>

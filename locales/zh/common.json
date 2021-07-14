@@ -292,5 +292,21 @@
   "CommunityPoolSpend": "[zh] Community Pool Spend Proposal",
   "remaining deposit amount": "[zh] Remaining deposit amount",
   "deposit end in": "[zh] Deposit end in",
-  "import account title": "[zh] Import Account"
+  "import account title": "[zh] Import Account",
+  "security password": "[zh] Security Password",
+  "select account(s) you want to add": "[zh] select account(s) you want to add",
+  "balance": "[zh] Balance",
+  "no rewards yet": "[zh] No Rewards Yet",
+  "delegate your token and get some rewards": "[zh] Delegate your token and get some rewards",
+  "total": "[zh] Total Amount",
+  "withdraw warning ledger": "[zh] Due to the limitation of Ledgr device, using Ledger Nano S, Forbole X  can olny withdraw rewards from 5 validators at a time. Using Ledger Nano X, Forbole X  can olny withdraw rewards from 20 validators at a time.",
+  "withdraw warning mnemonic": "[zh] Forbole X  can olny withdraw rewards from 20 validators at a time.",
+  "you have not added any address": "[zh] You have not added any address",
+  "edit address": "[zh] Edit Address",
+  "delete address": "[zh] Delete Address",
+  "delete address warning": "[zh] Are you sure you would like to delete this address ?",
+  "note": "[zh] Note",
+  "optional": "[zh] Optional",
+  "address type": "[zh] Address Type",
+  "no available token yet": "[zh] No Available Token yet"
 }
