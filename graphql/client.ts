@@ -57,18 +57,21 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 })
 
 const directiveMiddleware = new ApolloLink((operation) => {
-  const { query } = operation
+  // TODO: custom directive is not supported in Hasura 2.0, need to rewrite structure for handling multi endpoint
 
-  const definition = getMainDefinition(query)
+  // const { query } = operation
 
-  const foundDirective =
-    'operation' in definition &&
-    definition.directives?.find((item) => Object.keys(cryptocurrencies).includes(item.name.value))
-  const directive = foundDirective ? foundDirective.name.value : 'default'
-  if (!links[directive]) {
-    return null
-  }
-  return links[directive].request(operation)
+  // const definition = getMainDefinition(query)
+
+  // const foundDirective =
+  //   'operation' in definition &&
+  //   definition.directives?.find((item) => Object.keys(cryptocurrencies).includes(item.name.value))
+  // const directive = foundDirective ? foundDirective.name.value : 'default'
+  // if (!links[directive]) {
+  //   return null
+  // }
+  // return links[directive].request(operation)
+  return (Object.values(links)[0] as any).request(operation)
 })
 
 function createApolloClient() {

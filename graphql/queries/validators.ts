@@ -1,5 +1,5 @@
 export const getValidators = (crypto: string): string => `
-subscription Validators @${crypto} {
+subscription Validators {
   validator {
     self_delegations(limit: 1, order_by: {height: desc}) {
       amount
@@ -30,7 +30,7 @@ subscription Validators @${crypto} {
 `
 
 export const getValidatorsByAddresses = (crypto: string): string => `
-subscription Validators($addresses: [String!]) @${crypto} {
+subscription Validators($addresses: [String!]) {
   validator(where: {validator_info: {operator_address: { _in: $addresses }}}) {
     info: validator_info {
       operator_address
