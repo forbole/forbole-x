@@ -310,5 +310,18 @@
   "note": "Note",
   "optional": "Optional",
   "address type": "Address Type",
+<<<<<<< HEAD
   "no available token yet": "No Available Token yet"
+=======
+  "sender address": "Sender address",
+  "moniker warning": "Moniker can not be empty",
+  "invalid address": "Invalid {{crypto}} address",
+  "overview": "Overview",
+  "ibc transfer": "IBC Transfer",
+  "ibc transfer description": "Send tokens over IBC",
+  "total balance": "Total balance",
+  "other token balance": "Other Token Balance",
+  "index": "Index",
+  "token": "Token"
+>>>>>>> 44a89ad2a3d72533de27cbca19d02a5599765cea
 }

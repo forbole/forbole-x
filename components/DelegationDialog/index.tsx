@@ -31,7 +31,7 @@ enum DelegationStage {
 }
 
 interface DelegationDialogProps {
-  account: Account
+  account?: Account
   validators: Validator[]
   defaultValidator?: Validator
   availableTokens: AvailableTokens
@@ -118,7 +118,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
         setLoading(false)
       }
     },
-    [setStage, password, availableTokens, account]
+    [setStage, password, availableTokens, account, denom]
   )
 
   const content: Content = React.useMemo(() => {

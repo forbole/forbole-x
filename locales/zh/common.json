@@ -308,5 +308,15 @@
   "note": "[zh] Note",
   "optional": "[zh] Optional",
   "address type": "[zh] Address Type",
-  "no available token yet": "[zh] No Available Token yet"
+  "no available token yet": "[zh] No Available Token yet",
+  "sender address": "[zh] Sender address",
+  "moniker warning": "[zh] Moniker can not be empty",
+  "invalid": "[zh] Invalid",
+  "overview": "[zh] Overview",
+  "ibc transfer": "[zh] IBC Transfer",
+  "ibc transfer description": "[zh] Send tokens over IBC",
+  "total balance": "[zh] Total balance",
+  "other token balance": "[zh] Other Token Balance",
+  "index": "[zh] Index",
+  "token": "[zh] Token"
 }

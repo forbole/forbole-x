@@ -11,8 +11,10 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Paper,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
+import { useRouter } from 'next/router'
 import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import MoreIcon from '../../assets/images/icons/icon_more.svg'
@@ -38,15 +40,10 @@ const AddressBook: React.FC = () => {
   const [currentTab, setCurrentTab] = React.useState(0)
   const theme = useTheme()
   const [anchor, setAnchor] = React.useState<Element>()
-
+  const router = useRouter()
   const [editAddressOpen, setEditAddressOpen] = React.useState(false)
   const [deleteAddressOpen, setDeleteAddressOpen] = React.useState(false)
   const [addAddressOpen, setAddAddressOpen] = React.useState(false)
-  const [currentAddress, setCurrentAddress] = React.useState<FavAddress>({
-    address: '',
-    crypto: '',
-    moniker: '',
-  })
 
   const onClose = React.useCallback(() => setAnchor(undefined), [setAnchor])
   const tabList = [{ label: 'All', address: favAddresses }]
@@ -59,13 +56,14 @@ const AddressBook: React.FC = () => {
     return tabList
   }, [favAddresses, cryptocurrencies])
 
-  const toAddressDetail = async (a: FavAddress) => {
-    // await setCurrentAddress(a)
-    // router.push(`/address-book/${currentAddress}`)
-  }
+  const [currentAddress, setCurrentAddress] = React.useState<FavAddress>({
+    address: '',
+    crypto: '',
+    moniker: '',
+  })
 
   return (
-    <Box pt={2}>
+    <>
       <Tabs
         value={currentTab}
         classes={{ indicator: classes.tabIndicator, root: classes.tab }}
@@ -75,19 +73,32 @@ const AddressBook: React.FC = () => {
           <Tab key={tab.label} label={`${tab.label} (${tab.address.length})`} />
         ))}
       </Tabs>
-      {tabs[currentTab].address.map((a) => {
-        return (
-          <Box onClick={() => toAddressDetail(a)} mt={3}>
-            <Divider />
-            <Box display="flex" alignItems="flex-start" justifyContent="space-between">
-              <Box display="flex" my={2} ml={2}>
+      <Box pt={3} />
+      <Paper>
+        {tabs[currentTab].address.map((a, i) => (
+          <React.Fragment key={a.address}>
+            <Box
+              display="flex"
+              alignItems="flex-start"
+              justifyContent="space-between"
+              className={classes.row}
+              px={2}
+            >
+              <Box
+                display="flex"
+                onClick={() => {
+                  router.push(`/address-book/${a.address}`)
+                }}
+                flex={1}
+                my={3}
+              >
                 <Avatar src={a.img ? a.img : cryptocurrencies[a.crypto]?.image} alt={a.address} />
                 <Box ml={2}>
                   <Typography>{a.moniker}</Typography>
                   <Box display="flex">
-                    <Typography variant="subtitle2">{a.crypto}</Typography>{' '}
+                    <Typography variant="body2">{a.crypto}:</Typography>
                     <Typography
-                      variant="subtitle2"
+                      variant="body2"
                       color="textSecondary"
                       style={{ marginLeft: theme.spacing(1) }}
                     >
@@ -95,62 +106,70 @@ const AddressBook: React.FC = () => {
                     </Typography>
                   </Box>
                   {a.note ? (
-                    <Typography variant="subtitle2" color="textSecondary">
-                      {`${t('note')}: ${a.note}`}
-                    </Typography>
+                    <Box display="flex">
+                      <Typography variant="body2">{t('note')}:</Typography>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        style={{ marginLeft: theme.spacing(1) }}
+                      >
+                        {a.note}
+                      </Typography>
+                    </Box>
                   ) : null}
                 </Box>
               </Box>
               <IconButton
                 onClick={(e) => {
-                  setAnchor(e.currentTarget)
                   setCurrentAddress(a)
+                  setAnchor(e.currentTarget)
                 }}
-                style={{ marginTop: theme.spacing(1) }}
+                style={{ marginTop: theme.spacing(2) }}
               >
                 <MoreIcon {...iconProps} />
               </IconButton>
-              <Menu
-                anchorEl={anchor}
-                getContentAnchorEl={null}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'center',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'center',
-                }}
-                keepMounted
-                open={!!anchor}
-                onClose={onClose}
-              >
-                <MenuItem
-                  className={classes.menuItem}
-                  button
-                  onClick={() => {
-                    setEditAddressOpen(true)
-                    onClose()
-                  }}
-                >
-                  {t('edit address')}
-                </MenuItem>
-                <Divider style={{ margin: theme.spacing(1) }} />
-                <MenuItem
-                  className={classes.menuItem}
-                  button
-                  onClick={() => {
-                    setDeleteAddressOpen(true)
-                    onClose()
-                  }}
-                >
-                  {t('delete address')}
-                </MenuItem>
-              </Menu>
             </Box>
-          </Box>
-        )
-      })}
+            {i < tabs[currentTab].address.length - 1 ? <Divider /> : null}
+          </React.Fragment>
+        ))}
+      </Paper>
+      <Menu
+        anchorEl={anchor}
+        getContentAnchorEl={null}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        keepMounted
+        open={!!anchor}
+        onClose={onClose}
+      >
+        <MenuItem
+          className={classes.menuItem}
+          button
+          onClick={() => {
+            setEditAddressOpen(true)
+            onClose()
+          }}
+        >
+          {t('edit address')}
+        </MenuItem>
+        <Divider style={{ margin: theme.spacing(1) }} />
+        <MenuItem
+          className={classes.menuItem}
+          button
+          onClick={() => {
+            setDeleteAddressOpen(true)
+            onClose()
+          }}
+        >
+          {t('delete address')}
+        </MenuItem>
+      </Menu>
       <EditAddressDialog
         open={editAddressOpen}
         onClose={() => setEditAddressOpen(false)}
@@ -173,10 +192,8 @@ const AddressBook: React.FC = () => {
             </Button>
           </Box>
         </Box>
-      ) : (
-        <Divider />
-      )}
-    </Box>
+      ) : null}
+    </>
   )
 }
 

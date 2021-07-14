@@ -20,7 +20,7 @@ const cryptocurrencies = {
         'cosmos-sdk/MsgSend': '100000',
         'cosmos-sdk/MsgDelegate': '200000',
         'cosmos-sdk/MsgBeginRedelegate': '200000',
-        'cosmos-sdk/MsgWithdrawDelegationReward': '100000',
+        'cosmos-sdk/MsgWithdrawDelegationReward': '150000',
         'cosmos-sdk/MsgUndelegate': '200000',
       },
     },

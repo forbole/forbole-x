@@ -24,7 +24,7 @@ const Success: React.FC<ConfirmSendProps> = ({ onClose, denom }) => {
           <Typography variant="h4" gutterBottom>
             {t('success')}
           </Typography>
-          <Typography>{t('successfully delegated', { denom: denom.toUpperCase() })}</Typography>
+          <Typography>{t('successfully delegated', { denom })}</Typography>
         </Box>
       </DialogContent>
       <DialogActions>

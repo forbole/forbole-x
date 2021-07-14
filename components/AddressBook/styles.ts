@@ -4,6 +4,9 @@ import { CustomTheme } from '../../misc/theme'
 const useStyles = makeStyles(
   (theme: CustomTheme) =>
     createStyles({
+      row: {
+        cursor: 'pointer',
+      },
       menuItem: {
         padding: theme.spacing(1),
         width: theme.spacing(20),
