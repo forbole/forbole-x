@@ -1,6 +1,6 @@
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 import { stringToPath } from '@cosmjs/crypto'
-import { LedgerSigner } from '@cosmjs/ledger-amino'
+import { LedgerSigner } from '../@cosmjs/ledger-amino'
 import cryptocurrencies from './cryptocurrencies'
 
 const getWalletAddress = async (
@@ -16,11 +16,7 @@ const getWalletAddress = async (
   // }
   let signer
   const signerOptions = {
-    hdPaths: [
-      stringToPath(
-        `m/44'/${ledgerTransport ? 118 : cryptocurrencies[crypto].coinType}'/0'/0/${index}`
-      ),
-    ],
+    hdPaths: [stringToPath(`m/44'/${cryptocurrencies[crypto].coinType}'/0'/0/${index}`)],
     prefix: cryptocurrencies[crypto].prefix,
   }
   if (!ledgerTransport) {
