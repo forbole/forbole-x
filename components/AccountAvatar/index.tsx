@@ -17,6 +17,7 @@ interface AccountAvatarProps {
   }
   account?: Account
   hideAddress?: boolean
+  disableCopyAddress?: boolean
   size?: 'small' | 'base' | 'large'
 }
 
@@ -24,6 +25,7 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
   account,
   hideAddress,
   size = 'base',
+  disableCopyAddress,
   address,
 }) => {
   const crypto = cryptocurrencies[account ? account.crypto : address.crypto]
@@ -55,7 +57,7 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
           <Typography color="textPrimary" variant={titleVariant}>
             {account ? account.name : address.moniker}
           </Typography>
-          {hideAddress ? null : (
+          {hideAddress || disableCopyAddress ? null : (
             <Link
               color="textSecondary"
               component="button"
@@ -75,6 +77,11 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
               </Box>
             </Link>
           )}
+          {disableCopyAddress && !hideAddress ? (
+            <Typography variant="body2" color="textSecondary">
+              {account ? account.address : address.address}
+            </Typography>
+          ) : null}
         </Box>
       </Box>
       <Snackbar

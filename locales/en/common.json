@@ -310,6 +310,7 @@
   "note": "Note",
   "optional": "Optional",
   "address type": "Address Type",
+  "no available token yet": "No Available Token yet",
   "sender address": "Sender address",
   "moniker warning": "Moniker can not be empty",
   "invalid address": "Invalid {{crypto}} address",

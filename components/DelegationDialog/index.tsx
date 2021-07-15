@@ -1,8 +1,14 @@
 /* eslint-disable camelcase */
-import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
+import {
+  Typography,
+  Box,
+  Dialog,
+  DialogTitle,
+  IconButton,
+  DialogContent,
+} from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import get from 'lodash/get'
 import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
@@ -12,9 +18,12 @@ import SelectAmount from './SelectAmount'
 import SelectValidators from './SelectValidators'
 import useStateHistory from '../../misc/useStateHistory'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
-import cryptocurrencies from '../../misc/cryptocurrencies'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIsMobile from '../../misc/useIsMobile'
+import cryptocurrencies from '../../misc/cryptocurrencies'
+import ImageDefaultDark from '../../assets/images/image_default_dark.svg'
+import ImageDefaultLight from '../../assets/images/image_default_light.svg'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 enum DelegationStage {
   SelectAmountStage = 'select amount',
@@ -48,14 +57,15 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
   const classes = useStyles()
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
+  const { currency, theme } = useGeneralContext()
   const isMobile = useIsMobile()
-  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
   const [amount, setAmount] = React.useState(0)
   const [denom, setDenom] = React.useState('')
   const [delegations, setDelegations] = React.useState<
     Array<{ amount: number; validator: Validator }>
   >([])
   const [loading, setLoading] = React.useState(false)
+  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
 
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<DelegationStage>(
     DelegationStage.SelectAmountStage
@@ -156,21 +166,40 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
   return (
     <Dialog
       fullWidth
-      maxWidth={content.dialogWidth || 'md'}
+      maxWidth={content.dialogWidth || 'sm'}
       open={open}
       onClose={onClose}
       fullScreen={isMobile}
     >
-      {isPrevStageAvailable ? (
-        <IconButton className={classes.backButton} onClick={toPrevStage}>
-          <BackIcon {...iconProps} />
-        </IconButton>
-      ) : null}
-      <IconButton className={classes.closeButton} onClick={onClose}>
-        <CloseIcon {...iconProps} />
-      </IconButton>
-      {content.title ? <DialogTitle>{content.title}</DialogTitle> : null}
-      {content.content}
+      {availableAmount[crypto.name]?.amount > 0 ? (
+        <>
+          {isPrevStageAvailable ? (
+            <IconButton className={classes.backButton} onClick={toPrevStage}>
+              <BackIcon {...iconProps} />
+            </IconButton>
+          ) : null}
+          <IconButton className={classes.closeButton} onClick={onClose}>
+            <CloseIcon {...iconProps} />
+          </IconButton>
+          {content.title ? <DialogTitle>{content.title}</DialogTitle> : null}
+          {content.content}
+        </>
+      ) : (
+        <>
+          <IconButton className={classes.closeButton} onClick={onClose}>
+            <CloseIcon {...iconProps} />
+          </IconButton>
+          <DialogTitle>{t('delegate')}</DialogTitle>
+          <DialogContent className={classes.dialogContent}>
+            <Box justifyContent="center" display="flex" mt={6}>
+              {theme === 'light' ? <ImageDefaultLight /> : <ImageDefaultDark />}
+            </Box>
+            <Box textAlign="center" mt={4} mb={8}>
+              <Typography>{t('no available token yet')}</Typography>
+            </Box>
+          </DialogContent>
+        </>
+      )}
     </Dialog>
   )
 }
