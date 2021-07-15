@@ -7,17 +7,20 @@ import {
   Typography,
   Grid,
   CircularProgress,
+  IconButton,
   useTheme,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
 import useStyles from './styles'
+import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
 import useIconProps from '../../misc/useIconProps'
 import { getTokenAmountBalance, formatCurrency, formatTokenAmount } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import TokenAmountInput from '../TokenAmountInput'
-import AutoCompleteAddresses from '../AutoCompleteAddresses'
+import AddressInput from '../AddressInput'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 interface SelectRecipientsProps {
   onConfirm(
@@ -37,6 +40,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
+  const iconProps = useIconProps()
   const { currency } = useGeneralContext()
   const themeStyle = useTheme()
   const [recipients, setRecipients] = React.useState<
@@ -99,7 +103,28 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
             <Grid container spacing={4}>
               <Grid item xs={6}>
                 <Typography gutterBottom>{t('recipient address')}</Typography>
-                <AutoCompleteAddresses recipients={recipients} setRecipients={setRecipients} />
+                {recipients.map((v, i) => (
+                  <Box
+                    key={i.toString()}
+                    display="flex"
+                    alignItems="center"
+                    ml={recipients.length <= 1 ? 0 : -5}
+                    mt={i === 0 ? 0 : 1}
+                  >
+                    {recipients.length <= 1 ? null : (
+                      <IconButton onClick={() => setRecipients((d) => d.filter((a, j) => j !== i))}>
+                        <RemoveIcon {...iconProps} />
+                      </IconButton>
+                    )}
+                    <AddressInput
+                      crypto={account.crypto}
+                      value={v.address}
+                      onChange={(address) =>
+                        setRecipients((rs) => rs.map((r, j) => (i === j ? { ...r, address } : r)))
+                      }
+                    />
+                  </Box>
+                ))}
 
                 <Box mt={1}>
                   <Button

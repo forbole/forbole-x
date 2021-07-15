@@ -1,7 +1,13 @@
 /* eslint-disable camelcase */
-import { Dialog, DialogTitle, IconButton,
-  DialogContent, Box, Typography,
-  useTheme, } from '@material-ui/core'
+import {
+  Dialog,
+  DialogTitle,
+  IconButton,
+  DialogContent,
+  Box,
+  Typography,
+  useTheme,
+} from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import invoke from 'lodash/invoke'
@@ -34,10 +40,11 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
   const { theme } = useGeneralContext()
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
 
+  const availableAmount = React.useMemo(
+    () => getTokenAmountFromDenoms(availableTokens.coins, availableTokens.tokens_prices),
+    [availableTokens]
+  )
 
-  const availableAmount = {
-    DARIC: { amount: 100, price: 0 },
-  }
   const confirm = React.useCallback(
     async (
       recipients: Array<{ amount: { amount: number; denom: string }; address: string }>,
@@ -78,26 +85,26 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
   }, [open])
 
   return (
-    <Dialog fullWidth maxWidth="md" open={open} onClose={onClose} fullScreen={isMobile}>
+    <Dialog
+      fullWidth
+      maxWidth={availableAmount[crypto.name]?.amount > 0 ? 'md' : 'sm'}
+      open={open}
+      onClose={onClose}
+      fullScreen={isMobile}
+    >
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
-      {availableAmount[crypto.name]?.amount > 0 ? (
-        <>
-          <DialogTitle>{t('send')}</DialogTitle>
+      <>
+        <DialogTitle>{t('send')}</DialogTitle>
+        {availableAmount[crypto.name]?.amount > 0 ? (
           <SelectRecipients
             loading={loading}
             account={account}
             availableAmount={availableAmount}
             onConfirm={confirm}
           />
-        </>
-      ) : (
-        <>
-          <IconButton className={classes.closeButton} onClick={onClose}>
-            <CloseIcon {...iconProps} />
-          </IconButton>
-          <DialogTitle>{t('send')}</DialogTitle>
+        ) : (
           <DialogContent className={classes.dialogContent}>
             <Box justifyContent="center" display="flex" mt={6}>
               {theme === 'light' ? <ImageDefaultLight /> : <ImageDefaultDark />}
@@ -106,8 +113,8 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
               <Typography>{t('no available token yet')}</Typography>
             </Box>
           </DialogContent>
-        </>
-      )}
+        )}
+      </>
     </Dialog>
   )
 }
