@@ -191,6 +191,7 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
           />
           <ClaimRewardsDialog
             wallet={wallet}
+            openDelegationDialog={() => setDelegating(true)}
             open={claimingRewards}
             onClose={() => setClaimingRewards(false)}
             account={account}

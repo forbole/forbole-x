@@ -3,22 +3,24 @@ import {
   Button,
   DialogActions,
   DialogContent,
-  IconButton,
   TextField,
   Typography,
   Grid,
   CircularProgress,
+  IconButton,
   useTheme,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
-import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
 import useStyles from './styles'
+import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
 import useIconProps from '../../misc/useIconProps'
 import { getTokenAmountBalance, formatCurrency, formatTokenAmount } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import TokenAmountInput from '../TokenAmountInput'
+import AddressInput from '../AddressInput'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 interface SelectRecipientsProps {
   onConfirm(
@@ -40,12 +42,11 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
   const classes = useStyles()
   const iconProps = useIconProps()
   const { currency } = useGeneralContext()
-  const theme = useTheme()
+  const themeStyle = useTheme()
   const [recipients, setRecipients] = React.useState<
     Array<{ amount: string; denom: string; address: string }>
   >([{ amount: '', denom: Object.keys(availableAmount)[0] || '', address: '' }])
   const [memo, setMemo] = React.useState('')
-
   const totalAmount: TokenAmount = React.useMemo(() => {
     const tokenAmount = {}
     recipients.forEach((r) => {
@@ -72,149 +73,144 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
   }, [totalAmount, availableAmount])
 
   return (
-    <form
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(
-          recipients
-            .filter((v) => v.address && Number(v.amount))
-            .map((v) => ({
-              address: v.address,
-              amount: {
-                amount: Number(v.amount),
-                denom: v.denom,
-              },
-            })),
-          memo
-        )
-      }}
-    >
-      <DialogContent className={classes.dialogContent}>
-        <Box ml={4} minHeight={360} maxHeight={600}>
-          <Typography className={classes.marginBottom}>
-            {t('available amount')}{' '}
-            <b className={classes.marginLeft}>
-              {formatTokenAmount(availableAmount, account.crypto, lang, ', ')}
-            </b>
-          </Typography>
-          <Grid container spacing={4}>
-            <Grid item xs={6}>
-              <Typography gutterBottom>{t('recipient address')}</Typography>
-              {recipients.map((v, i) => (
-                <Box
-                  key={i.toString()}
-                  display="flex"
-                  alignItems="center"
-                  ml={recipients.length <= 1 ? 0 : -5}
-                  mt={i === 0 ? 0 : 1}
-                >
-                  {recipients.length <= 1 ? null : (
-                    <IconButton onClick={() => setRecipients((d) => d.filter((a, j) => j !== i))}>
-                      <RemoveIcon {...iconProps} />
-                    </IconButton>
-                  )}
-                  {/* TODO: select from address book */}
+    <>
+      <form
+        noValidate
+        onSubmit={(e) => {
+          e.preventDefault()
+          onConfirm(
+            recipients
+              .filter((v) => v.address && Number(v.amount))
+              .map((v) => ({
+                address: v.address,
+                amount: {
+                  amount: Number(v.amount),
+                  denom: v.denom,
+                },
+              })),
+            memo
+          )
+        }}
+      >
+        <DialogContent className={classes.dialogContent}>
+          <Box ml={4} minHeight={360} maxHeight={600}>
+            <Typography className={classes.marginBottom}>
+              {t('available amount')}{' '}
+              <b className={classes.marginLeft}>
+                {formatTokenAmount(availableAmount, account.crypto, lang, ', ')}
+              </b>
+            </Typography>
+            <Grid container spacing={4}>
+              <Grid item xs={6}>
+                <Typography gutterBottom>{t('recipient address')}</Typography>
+                {recipients.map((v, i) => (
+                  <Box
+                    key={i.toString()}
+                    display="flex"
+                    alignItems="center"
+                    ml={recipients.length <= 1 ? 0 : -5}
+                    mt={i === 0 ? 0 : 1}
+                  >
+                    {recipients.length <= 1 ? null : (
+                      <IconButton onClick={() => setRecipients((d) => d.filter((a, j) => j !== i))}>
+                        <RemoveIcon {...iconProps} />
+                      </IconButton>
+                    )}
+                    <AddressInput
+                      crypto={account.crypto}
+                      value={v.address}
+                      onChange={(address) =>
+                        setRecipients((rs) => rs.map((r, j) => (i === j ? { ...r, address } : r)))
+                      }
+                    />
+                  </Box>
+                ))}
+
+                <Box mt={1}>
+                  <Button
+                    variant="text"
+                    color="secondary"
+                    onClick={() => {
+                      setRecipients((d) => [
+                        ...d,
+                        { address: '', amount: '', denom: Object.keys(availableAmount)[0] },
+                      ])
+                    }}
+                  >
+                    {t('add address')}
+                  </Button>
+                </Box>
+                <Box mt={2}>
+                  <Typography gutterBottom>{t('memo')}</Typography>
                   <TextField
                     fullWidth
-                    value={v.address}
-                    onChange={(e) =>
-                      setRecipients((d) =>
-                        d.map((a, j) => (j === i ? { ...a, address: e.target.value } : a))
-                      )
-                    }
+                    multiline
+                    rows={3}
+                    variant="filled"
+                    placeholder={t('description optional')}
                     InputProps={{
                       disableUnderline: true,
                     }}
-                    variant="filled"
-                    placeholder={t('insert address')}
+                    value={memo}
+                    onChange={(e) => setMemo(e.target.value)}
                   />
                 </Box>
-              ))}
-              <Box mt={1}>
-                <Button
-                  variant="text"
-                  color="secondary"
-                  onClick={() =>
-                    setRecipients((d) => [
-                      ...d,
-                      { address: '', amount: '', denom: Object.keys(availableAmount)[0] },
-                    ])
-                  }
-                >
-                  {t('add address')}
-                </Button>
-              </Box>
-              <Box mt={2}>
-                <Typography gutterBottom>{t('memo')}</Typography>
-                <TextField
-                  fullWidth
-                  multiline
-                  rows={3}
-                  variant="filled"
-                  placeholder={t('description optional')}
-                  InputProps={{
-                    disableUnderline: true,
-                  }}
-                  value={memo}
-                  onChange={(e) => setMemo(e.target.value)}
-                />
-              </Box>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography gutterBottom>{t('amount')}</Typography>
+                {recipients.map((v, i) => (
+                  <Box key={i.toString()} mt={i === 0 ? 0 : 1}>
+                    <TokenAmountInput
+                      value={v.amount}
+                      denom={v.denom}
+                      onValueChange={(amount) =>
+                        setRecipients((d) => d.map((a, j) => (j === i ? { ...a, amount } : a)))
+                      }
+                      onDenomChange={(denom) =>
+                        setRecipients((d) => d.map((a, j) => (j === i ? { ...a, denom } : a)))
+                      }
+                      availableAmount={availableAmount}
+                    />
+                  </Box>
+                ))}
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <Typography gutterBottom>{t('amount')}</Typography>
-              {recipients.map((v, i) => (
-                <Box key={i.toString()} mt={i === 0 ? 0 : 1}>
-                  <TokenAmountInput
-                    value={v.amount}
-                    denom={v.denom}
-                    onValueChange={(amount) =>
-                      setRecipients((d) => d.map((a, j) => (j === i ? { ...a, amount } : a)))
-                    }
-                    onDenomChange={(denom) =>
-                      setRecipients((d) => d.map((a, j) => (j === i ? { ...a, denom } : a)))
-                    }
-                    availableAmount={availableAmount}
-                  />
-                </Box>
-              ))}
-            </Grid>
-          </Grid>
-        </Box>
-      </DialogContent>
-      <DialogActions>
-        <Box
-          flex={1}
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={3}
-          mx={2}
-        >
-          <Box>
-            <Typography variant="h5">
-              {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
-            </Typography>
-            <Typography>
-              {formatCurrency(getTokenAmountBalance(totalAmount), currency, lang)}
-            </Typography>
           </Box>
-          <Button
-            variant="contained"
-            classes={{ root: classes.button }}
-            color="primary"
-            disabled={
-              loading ||
-              !!insufficientTokens.length ||
-              !recipients.filter((v) => v.address && Number(v.amount)).length
-            }
-            type="submit"
+        </DialogContent>
+        <DialogActions>
+          <Box
+            flex={1}
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mb={3}
+            mx={2}
           >
-            {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
-          </Button>
-        </Box>
-      </DialogActions>
-    </form>
+            <Box>
+              <Typography variant="h5">
+                {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
+              </Typography>
+              <Typography>
+                {formatCurrency(getTokenAmountBalance(totalAmount), currency, lang)}
+              </Typography>
+            </Box>
+            <Button
+              variant="contained"
+              classes={{ root: classes.button }}
+              color="primary"
+              disabled={
+                loading ||
+                !!insufficientTokens.length ||
+                !recipients.filter((v) => v.address && Number(v.amount)).length
+              }
+              type="submit"
+            >
+              {loading ? <CircularProgress size={themeStyle.spacing(3.5)} /> : t('next')}
+            </Button>
+          </Box>
+        </DialogActions>
+      </form>
+    </>
   )
 }
 

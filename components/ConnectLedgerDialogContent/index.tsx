@@ -1,7 +1,7 @@
 import { Box, DialogContent, DialogContentText, DialogTitle, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import TransportWebUSB from '@ledgerhq/hw-transport-webusb'
+import TransportWebHID from '@ledgerhq/hw-transport-webhid'
 import LedgerImage from '../../assets/images/ledger.svg'
 import useStyles from './styles'
 
@@ -14,7 +14,7 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
   const classes = useStyles()
 
   const connectLedger = React.useCallback(async () => {
-    const transport = await TransportWebUSB.create()
+    const transport = await TransportWebHID.create()
     onConnect(transport)
   }, [])
 
