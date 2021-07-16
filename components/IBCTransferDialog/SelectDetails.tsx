@@ -15,12 +15,12 @@ import { Autocomplete } from '@material-ui/lab'
 import ArrowIcon from '../../assets/images/icons/icon_arrow_right.svg'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
-import { formatCrypto, formatCurrency, formatTokenAmount } from '../../misc/utils'
-import TokenAmountInput from '../TokenAmountInput'
 import useStyles from './styles'
 import chains from '../../misc/chains'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useIconProps from '../../misc/useIconProps'
+import AddressInput from '../AddressInput'
+import { isAddressValid } from '../../misc/utils'
 
 interface SelectDetailsProps {
   onConfirm(amount: number, denom: string): void
@@ -35,9 +35,8 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
   availableAmount,
   chainId,
 }) => {
-  const { t, lang } = useTranslation('common')
+  const { t } = useTranslation('common')
   const classes = useStyles()
-  const { currency } = useGeneralContext()
   const iconProps = useIconProps()
   const [amount, setAmount] = React.useState('')
   const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
@@ -45,7 +44,6 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
   const [memo, setMemo] = React.useState('')
 
   const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount)
-  const ifError = get(availableAmount, `${denom}.amount`, 0) <= Number(amount)
 
   const sourceChain = chains[cryptocurrencies[account.crypto].chainId]
   const destinationChain = chains[chainId]
@@ -80,13 +78,10 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
           <Typography>
             {t('recipient address')} ({get(destinationChain, 'name', '')})
           </Typography>
-          <TextField
-            variant="filled"
-            placeholder={`${destinationChain.addressPrefix}...`}
+          <AddressInput
             value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            fullWidth
-            InputProps={{ disableUnderline: true }}
+            onChange={setAddress}
+            prefix={get(destinationChain, 'addressPrefix', '')}
           />
           <Box mb={2} />
           <Typography>{t('token')}</Typography>
@@ -127,6 +122,8 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
             onChange={(e) => setAmount(e.target.value)}
             fullWidth
             InputProps={{ disableUnderline: true }}
+            error={insufficientFund}
+            helperText={insufficientFund ? t('insufficient fund') : ''}
           />
           <Box mb={2} />
           <Typography>{t('memo')}</Typography>
@@ -147,7 +144,11 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
           variant="contained"
           color="primary"
           classes={{ root: classes.fullWidthButton }}
-          disabled={!Number(amount) || insufficientFund}
+          disabled={
+            !Number(amount) ||
+            insufficientFund ||
+            !isAddressValid(get(destinationChain, 'addressPrefix', ''), address)
+          }
           type="submit"
         >
           {t('next')}

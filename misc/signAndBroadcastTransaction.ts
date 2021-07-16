@@ -13,6 +13,7 @@ const typeUrlMap: any = {
   'cosmos-sdk/MsgWithdrawDelegationReward':
     '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
   'cosmos-sdk/MsgSend': '/cosmos.bank.v1beta1.MsgSend',
+  'cosmos-sdk/MsgTransfer': '/ibc.applications.transfer.v1.MsgTransfer',
 }
 
 const formatTransactionMsg = (msg: any) => {

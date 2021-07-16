@@ -58,7 +58,9 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
         e.preventDefault()
         if (!editedAddress.moniker) {
           setMonikerError(t('moniker warning'))
-        } else if (!isAddressValid(editedAddress.crypto, editedAddress.address)) {
+        } else if (
+          !isAddressValid(cryptocurrencies[editedAddress.crypto].prefix, editedAddress.address)
+        ) {
           setAddressError(t('invalid address', { crypto: editedAddress.crypto }))
         } else {
           await addFavAddresses(editedAddress)

@@ -267,6 +267,21 @@ interface TransactionMsgSend {
   }
 }
 
+interface TransactionMsgIBCTransfer {
+  type: 'cosmos-sdk/MsgTransfer'
+  value: {
+    source_port: string
+    source_channel: string
+    token: {
+      denom: string
+      amount: string
+    }
+    sender: string
+    receiver: string
+    timeout_timestamp: number
+  }
+}
+
 type TransactionMsg =
   | TransactionMsgDelegate
   | TransactionMsgUndelegate

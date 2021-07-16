@@ -329,5 +329,6 @@
   "destination chain channel id": "Destination Chain Channel ID",
   "add ibc channel": "Add IBC Channel",
   "add new ibc channel": "Add New IBC Channel",
-  "select token": "Select token"
+  "select token": "Select token",
+  "insufficient fund": "Insufficient fund"
 }
