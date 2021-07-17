@@ -288,6 +288,7 @@ type TransactionMsg =
   | TransactionMsgRedelegate
   | TransactionMsgWithdrawReward
   | TransactionMsgSend
+  | TransactionMsgIBCTransfer
 
 interface Transaction {
   account_number?: string
