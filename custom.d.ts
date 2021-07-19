@@ -278,7 +278,7 @@ interface TransactionMsgIBCTransfer {
     }
     sender: string
     receiver: string
-    timeout_timestamp: number
+    timeout_timestamp?: number
   }
 }
 

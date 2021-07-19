@@ -7,6 +7,8 @@ import {
   InputAdornment,
   TextField,
   Typography,
+  CircularProgress,
+  useTheme,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -14,7 +16,6 @@ import get from 'lodash/get'
 import { Autocomplete } from '@material-ui/lab'
 import ArrowIcon from '../../assets/images/icons/icon_arrow_right.svg'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
-import { useGeneralContext } from '../../contexts/GeneralContext'
 import useStyles from './styles'
 import chains from '../../misc/chains'
 import cryptocurrencies from '../../misc/cryptocurrencies'
@@ -23,10 +24,11 @@ import AddressInput from '../AddressInput'
 import { isAddressValid } from '../../misc/utils'
 
 interface SelectDetailsProps {
-  onConfirm(amount: number, denom: string): void
+  onConfirm(amount: number, denom: string, address: string, memo: string): void
   account: Account
   chainId: string
   availableAmount: TokenAmount
+  loading: boolean
 }
 
 const SelectDetails: React.FC<SelectDetailsProps> = ({
@@ -34,10 +36,12 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
   onConfirm,
   availableAmount,
   chainId,
+  loading,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
+  const theme = useTheme()
   const [amount, setAmount] = React.useState('')
   const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
   const [address, setAddress] = React.useState('')
@@ -53,7 +57,7 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
       noValidate
       onSubmit={(e) => {
         e.preventDefault()
-        onConfirm(Number(amount), denom)
+        onConfirm(Number(amount), denom, address, memo)
       }}
     >
       <DialogContent className={classes.dialogContent}>
@@ -145,13 +149,14 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
           color="primary"
           classes={{ root: classes.fullWidthButton }}
           disabled={
+            loading ||
             !Number(amount) ||
             insufficientFund ||
             !isAddressValid(get(destinationChain, 'addressPrefix', ''), address)
           }
           type="submit"
         >
-          {t('next')}
+          {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
         </Button>
       </DialogActions>
     </form>

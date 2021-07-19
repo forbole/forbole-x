@@ -64,6 +64,7 @@ const IBCTransferDialog: React.FC<IBCTransferDialogProps> = ({
 
   const confirmChain = React.useCallback(
     (params: { chainId: string; channel: string }) => {
+      console.log(params)
       setChainId(params.chainId)
       setChannel(params.channel)
       setStage(IBCTransferStage.SelectDetailsStage)
@@ -71,7 +72,7 @@ const IBCTransferDialog: React.FC<IBCTransferDialogProps> = ({
     [setChainId, setChannel, setStage]
   )
 
-  const confirmDelegations = React.useCallback(
+  const confirmIBCTransfer = React.useCallback(
     async (amount: number, denom: string, address: string, memo: string) => {
       try {
         setLoading(true)
@@ -80,14 +81,18 @@ const IBCTransferDialog: React.FC<IBCTransferDialogProps> = ({
           availableTokens.coins,
           availableTokens.tokens_prices
         )
-        const msgs = []
-        // type: 'cosmos-sdk/MsgDelegate',
-        // value: {
-        //   delegator_address: account.address,
-        //   validator_address: r.validator.address,
-        //   amount: { amount: coinsToSend.amount.toString(), denom: coinsToSend.denom },
-        // },
-
+        const msgs = [
+          {
+            type: 'cosmos-sdk/MsgTransfer',
+            value: {
+              source_port: 'transfer',
+              source_channel: channel,
+              token: { denom: coinsToSend.denom, amount: coinsToSend.amount.toString() },
+              sender: account.address,
+              receiver: address,
+            },
+          },
+        ]
         await invoke(window, 'forboleX.sendTransaction', password, account.address, {
           msgs,
           memo,
@@ -99,7 +104,7 @@ const IBCTransferDialog: React.FC<IBCTransferDialogProps> = ({
         setLoading(false)
       }
     },
-    [setStage, password, availableTokens, account]
+    [setStage, password, availableTokens, account, channel]
   )
 
   const content: Content = React.useMemo(() => {
@@ -114,10 +119,11 @@ const IBCTransferDialog: React.FC<IBCTransferDialogProps> = ({
           title: t('ibc transfer'),
           content: (
             <SelectDetails
-              onConfirm={() => null}
+              onConfirm={confirmIBCTransfer}
               chainId={chainId}
               account={account}
               availableAmount={availableAmount}
+              loading={loading}
             />
           ),
         }

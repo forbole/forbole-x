@@ -73,7 +73,7 @@ const SelectChain: React.FC<SelectChainProps> = ({ onConfirm, onAddChannelClick 
             }
             onChange={(e, id) => {
               setChainId(id)
-              setChannel(get(chains, `${chainId}.channel`, ''))
+              setChannel(get(chains, `${id}.channel`, ''))
             }}
             renderOption={(o) => (
               <Box display="flex" alignItems="center">
