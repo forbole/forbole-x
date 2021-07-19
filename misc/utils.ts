@@ -634,3 +634,8 @@ export const isAddressValid = (crypto: string, address: string) => {
   const { prefix } = cryptocurrencies[crypto]
   return new RegExp(`^${prefix}([0-9a-zA-Z]){39}`).test(address)
 }
+
+export const formatHeight = (height: number, lang?: string): string =>
+  `${new Intl.NumberFormat(lang, {
+    maximumFractionDigits: 6,
+  }).format(height || 0)}`
