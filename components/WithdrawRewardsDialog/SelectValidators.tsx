@@ -142,7 +142,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
 
   return (
     <>
-      {totalAmount?.daric?.amount > 0 ? (
+      {Object.keys(totalAmount).length > 0 ? (
         <form
           noValidate
           onSubmit={(e) => {
