@@ -1,13 +1,5 @@
 /* eslint-disable camelcase */
-import {
-  Dialog,
-  DialogTitle,
-  IconButton,
-  DialogContent,
-  Box,
-  Typography,
-  useTheme,
-} from '@material-ui/core'
+import { Dialog, DialogTitle, IconButton, DialogContent, Box, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import invoke from 'lodash/invoke'
@@ -44,6 +36,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
     () => getTokenAmountFromDenoms(availableTokens.coins, availableTokens.tokens_prices),
     [availableTokens]
   )
+  console.log('availableAmount', availableAmount)
 
   const confirm = React.useCallback(
     async (
