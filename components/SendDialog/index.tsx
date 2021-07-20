@@ -36,7 +36,6 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
     () => getTokenAmountFromDenoms(availableTokens.coins, availableTokens.tokens_prices),
     [availableTokens]
   )
-  console.log('availableAmount', availableAmount)
 
   const confirm = React.useCallback(
     async (
