@@ -26,6 +26,7 @@ import {
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import TokenAmountInput from '../TokenAmountInput'
 import AddressInput from '../AddressInput'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 interface SelectRecipientsProps {
   onConfirm(
