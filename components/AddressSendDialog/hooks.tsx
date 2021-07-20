@@ -17,7 +17,7 @@ export const useAddressSendDialogHook = ({ account, crypto }: useAddressSendDial
       `,
       {
         variables: {
-          address: account.address,
+          address: account?.address || '',
         },
       }
     )

@@ -63,7 +63,7 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
   const theme = useTheme()
   const crypto = address ? cryptocurrencies[address.crypto] : Object.values(cryptocurrencies)[0]
 
-  const avaiableAccounts = accounts.filter((a) => a.crypto === address.crypto)
+  const avaiableAccounts = (accounts || []).filter((a) => a.crypto === address.crypto)
   const avaiableAccountsMap = keyBy(avaiableAccounts, 'address')
   const [sender, setSender] = React.useState<Account>(avaiableAccounts[0])
 
