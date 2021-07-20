@@ -320,5 +320,17 @@
   "total balance": "Total balance",
   "other token balance": "Other Token Balance",
   "index": "Index",
-  "token": "Token"
+  "token": "Token",
+  "settings": "Settings",
+  "general": "General",
+  "help": "Help",
+  "feedback": "Feedback",
+  "follow us": "Follow us",
+  "about": "About",
+  "currency": "Currency",
+  "display mode": "Display Mode",
+  "dark": "Dark Theme",
+  "light": "Light Theme",
+  "password lock": "Password lock",
+  "change password": "Change Password"
 }

@@ -18,7 +18,7 @@ export enum MenuWidth {
 }
 
 interface LayoutProps {
-  activeItem: string
+  activeItem?: string
   passwordRequired?: boolean
   children: React.ReactNode
   HeaderLeftComponent?: React.ReactNode

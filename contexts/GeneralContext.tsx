@@ -3,16 +3,19 @@ import currencies from '../misc/currencies'
 import usePersistedState from '../misc/usePersistedState'
 
 type Theme = 'light' | 'dark'
+type Language = string
 type Currency = typeof currencies[number]
 type FavValidators = string[]
 type FavAddress = { address: string; crypto: string; moniker: string; note?: string; img?: string }
 interface GeneralState {
   currency: Currency
   theme: Theme
+  language: Language
   favValidators: FavValidators
   favAddresses: FavAddress[]
   setCurrency?: React.Dispatch<React.SetStateAction<Currency>>
   setTheme?: React.Dispatch<React.SetStateAction<Theme>>
+  setLanguage?: React.Dispatch<React.SetStateAction<Language>>
   setFavValidators?: React.Dispatch<React.SetStateAction<FavValidators>>
   addFavValidators?: (id: string) => void
   deleteFavValidators?: (id: string) => void
@@ -25,6 +28,7 @@ interface GeneralState {
 const initialState: GeneralState = {
   currency: 'USD',
   theme: 'light',
+  language: 'English',
   favValidators: [],
   favAddresses: [],
 }
@@ -34,6 +38,7 @@ const GeneralContext = React.createContext<GeneralState>(initialState)
 const GeneralProvider: React.FC = ({ children }) => {
   const [currency, setCurrency] = usePersistedState('currency', initialState.currency)
   const [theme, setTheme] = usePersistedState('theme', initialState.theme)
+  const [language, setLanguage] = usePersistedState('language', initialState.language)
   const [favValidators, setFavValidators] = usePersistedState('fav', initialState.favValidators)
   const [favAddresses, setFavAddresses] = usePersistedState('favAddress', initialState.favAddresses)
   const addFavValidators = React.useCallback(
@@ -98,6 +103,8 @@ const GeneralProvider: React.FC = ({ children }) => {
         setCurrency,
         theme,
         setTheme,
+        language,
+        setLanguage,
         favValidators,
         setFavValidators,
         addFavValidators,
