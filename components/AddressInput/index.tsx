@@ -40,9 +40,9 @@ const AddressInput: React.FC<AddressInputProps> = ({ prefix, value, onChange }) 
           options
             .filter((o) =>
               (
-                addressesMap[o].moniker.toLowerCase() +
-                addressesMap[o].note.toLowerCase() +
-                addressesMap[o].address.toLowerCase()
+                addressesMap[o]?.moniker?.toLowerCase() +
+                addressesMap[o]?.note?.toLowerCase() +
+                addressesMap[o]?.address?.toLowerCase()
               ).includes(inputValue.toLowerCase())
             )
             .slice(0, 10)

@@ -1,13 +1,5 @@
 /* eslint-disable camelcase */
-import {
-  Dialog,
-  DialogTitle,
-  IconButton,
-  DialogContent,
-  Box,
-  Typography,
-  useTheme,
-} from '@material-ui/core'
+import { Dialog, DialogTitle, IconButton, DialogContent, Box, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import invoke from 'lodash/invoke'
