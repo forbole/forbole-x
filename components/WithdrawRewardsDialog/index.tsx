@@ -1,7 +1,7 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import get from 'lodash/get'
+import cloneDeep from 'lodash/cloneDeep'
 import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
@@ -70,6 +70,21 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
     [password, account]
   )
 
+  const totalAmount = React.useMemo(() => {
+    const total: TokenAmount = {}
+
+    validators.forEach((x) => {
+      Object.keys(x.rewards).forEach((denom) => {
+        if (total[denom]) {
+          total[denom].amount += x.rewards[denom].amount
+        } else {
+          total[denom] = cloneDeep(x.rewards[denom])
+        }
+      })
+    })
+    return total
+  }, [validators])
+
   React.useEffect(() => {
     if (open) {
       setLoading(false)
@@ -77,7 +92,13 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
   }, [open])
 
   return (
-    <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose} fullScreen={isMobile}>
+    <Dialog
+      fullWidth
+      maxWidth={Object.keys(totalAmount).length > 0 ? 'md' : 'sm'}
+      open={open}
+      onClose={onClose}
+      fullScreen={isMobile}
+    >
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
@@ -86,6 +107,7 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
         wallet={wallet}
         account={account}
         crypto={crypto}
+        totalAmount={totalAmount}
         onConfirm={confirm}
         validators={validators}
         preselectedValidatorAddresses={preselectedValidatorAddresses}

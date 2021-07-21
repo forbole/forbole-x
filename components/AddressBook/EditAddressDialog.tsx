@@ -47,7 +47,9 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
   const onButtonClick = (e) => {
     if (updatedAddress.moniker === '') {
       setMonikerError(t('moniker warning'))
-    } else if (!isAddressValid(updatedAddress.crypto, updatedAddress.newAddress)) {
+    } else if (
+      !isAddressValid(cryptocurrencies[updatedAddress.crypto].prefix, updatedAddress.newAddress)
+    ) {
       setAddressError(t('invalid address', { crypto: updatedAddress.crypto }))
     } else {
       onSubmit(e)

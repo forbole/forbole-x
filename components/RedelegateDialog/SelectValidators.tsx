@@ -75,7 +75,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                   filterOptions={(options: string[], { inputValue }: any) =>
                     options
                       .filter((o) =>
-                        validatorsMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
+                        (validatorsMap[o].name || '')
+                          .toLowerCase()
+                          .includes(inputValue.toLowerCase())
                       )
                       .slice(0, 10)
                   }
