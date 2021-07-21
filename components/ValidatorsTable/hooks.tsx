@@ -36,21 +36,21 @@ export const useTableDefaultHook = (options: useTableDefaultHookProps) => {
 
   const handleChangePage = React.useCallback(
     (newPage: number) => {
-      setState({
-        ...state,
+      setState((s) => ({
+        ...s,
         page: newPage,
-      })
+      }))
     },
     [state, setState]
   )
 
   const handleChangeRowsPerPage = React.useCallback(
     (event: number) => {
-      setState({
-        ...state,
+      setState((s) => ({
+        ...s,
         page: 0,
         rowsPerPage: event || 10,
-      })
+      }))
     },
     [state, setState]
   )

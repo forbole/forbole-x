@@ -77,11 +77,9 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ network, onNext, proposal }
                 openOnFocus
                 fullWidth
                 filterOptions={(options: string[], { inputValue }: any) => {
-                  return options
-                    .filter((o) =>
-                      accountsMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
-                    )
-                    .slice(0, 10)
+                  return options.filter((o) =>
+                    accountsMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
+                  )
                 }}
                 onChange={(_e, address: string) => setVoteAccount(accountsMap[address])}
                 value={voteAccount.address}
@@ -125,11 +123,9 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ network, onNext, proposal }
                   openOnFocus
                   fullWidth
                   filterOptions={(options: string[], { inputValue }: any) =>
-                    options
-                      .filter((o) =>
-                        answersMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
-                      )
-                      .slice(0, 10)
+                    options.filter((o) =>
+                      answersMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
+                    )
                   }
                   onChange={(_e, id: string) => setAnswer(answersMap[id])}
                   renderOption={(id) => (

@@ -16,7 +16,7 @@ const getWalletAddress = async (
   // }
   let signer
   const signerOptions = {
-    hdPaths: [stringToPath(`m/44'/${cryptocurrencies[crypto].coinType}'/0'/0/${index}`)],
+    hdPaths: [stringToPath(`m/44'/${cryptocurrencies[crypto].coinType}'/${index}'/0/0`)],
     prefix: cryptocurrencies[crypto].prefix,
   }
   if (!ledgerTransport) {
