@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { format, formatRelative } from 'date-fns'
+import { format, differenceInCalendarDays } from 'date-fns'
 import ToIcon from '../../assets/images/icons/icon_arrow down_title.svg'
 import useStyles from './styles'
 import { formatTokenAmount, formatHeight } from '../../misc/utils'
@@ -95,8 +95,8 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
                 <Box display="flex" alignItems="center">
                   {isMobile ? null : format(u.completionDate, 'dd MMM yyyy, HH:mm:ss')}
                   <Box ml={isMobile ? 0 : 2}>
-                    <Typography color="primary">
-                      {formatRelative(u.completionDate, new Date())}
+                    <Typography color="secondary">
+                      (In {differenceInCalendarDays(u.completionDate, new Date())} days)
                     </Typography>
                   </Box>
                 </Box>
