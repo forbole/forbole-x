@@ -96,7 +96,19 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
                   {isMobile ? null : format(u.completionDate, 'dd MMM yyyy, HH:mm:ss')}
                   <Box ml={isMobile ? 0 : 2}>
                     <Typography color="secondary">
-                      (In {differenceInCalendarDays(u.completionDate, new Date())} days)
+                      {differenceInCalendarDays(u.completionDate, new Date()) >= 1 ? (
+                        <>
+                          {t('day diff In')}{' '}
+                          {differenceInCalendarDays(u.completionDate, new Date())}{' '}
+                          {t('day diff PL')}
+                        </>
+                      ) : (
+                        <>
+                          {t('day diff In')}{' '}
+                          {differenceInCalendarDays(u.completionDate, new Date())}{' '}
+                          {t('day diff SNG')}
+                        </>
+                      )}
                     </Typography>
                   </Box>
                 </Box>

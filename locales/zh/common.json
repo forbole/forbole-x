@@ -318,5 +318,8 @@
   "total balance": "[zh] Total balance",
   "other token balance": "[zh] Other Token Balance",
   "index": "[zh] Index",
-  "token": "[zh] Token"
+  "token": "[zh] Token",
+  "day diff In": "In",
+  "day diff SNG": "day",
+  "day diff PL": "days"
 }

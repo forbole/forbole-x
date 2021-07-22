@@ -60,9 +60,19 @@ const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
                   {isMobile ? null : format(u.completionDate, 'dd MMM yyyy, HH:mm:ss')}
                   <Box ml={isMobile ? 0 : 2}>
                     <Typography color="secondary">
-                      {differenceInCalendarDays(u.completionDate, new Date()) >= 1
-                        ? `(In ${differenceInCalendarDays(u.completionDate, new Date())} days)`
-                        : `(In ${differenceInCalendarDays(u.completionDate, new Date())} day)`}
+                      {differenceInCalendarDays(u.completionDate, new Date()) >= 1 ? (
+                        <>
+                          {t('day diff In')}{' '}
+                          {differenceInCalendarDays(u.completionDate, new Date())}{' '}
+                          {t('day diff PL')}
+                        </>
+                      ) : (
+                        <>
+                          {t('day diff In')}{' '}
+                          {differenceInCalendarDays(u.completionDate, new Date())}{' '}
+                          {t('day diff SNG')}
+                        </>
+                      )}
                     </Typography>
                   </Box>
                 </Box>
