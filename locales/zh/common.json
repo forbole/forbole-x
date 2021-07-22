@@ -319,7 +319,6 @@
   "other token balance": "[zh] Other Token Balance",
   "index": "[zh] Index",
   "token": "[zh] Token",
-  "day diff In": "In",
-  "day diff SNG": "day",
-  "day diff PL": "days"
+  "in days": "In {{x}} days",
+  "in day": "In {{x}} day"
 }
