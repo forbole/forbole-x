@@ -153,11 +153,9 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
                 openOnFocus
                 fullWidth
                 filterOptions={(options: string[], { inputValue }: any) => {
-                  return options
-                    .filter((o) =>
-                      avaiableAccountsMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
-                    )
-                    .slice(0, 10)
+                  return options.filter((o) =>
+                    avaiableAccountsMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
+                  )
                 }}
                 onChange={(_e, a: string) => setSender(avaiableAccountsMap[a])}
                 renderOption={(a) => (

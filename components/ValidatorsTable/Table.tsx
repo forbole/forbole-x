@@ -39,6 +39,7 @@ interface ValidatorsTableProps {
     rowsPerPage: number | undefined
   }
   availableTokens: AvailableTokens
+  currentTab: number
 }
 
 const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
@@ -50,6 +51,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
   initialActiveSort,
   initialSortDirection,
   availableTokens,
+  currentTab,
 }) => {
   const { classes } = useGetStyles()
   const { t, lang } = useTranslation('common')
@@ -116,6 +118,10 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
       addFavValidators(validator.address)
     }
   }
+
+  React.useEffect(() => {
+    handleChangePage(0)
+  }, [currentTab])
 
   return (
     <Box mt={2}>

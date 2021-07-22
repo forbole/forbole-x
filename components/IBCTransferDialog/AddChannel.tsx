@@ -49,13 +49,11 @@ const AddChannel: React.FC<AddChannelProps> = ({ onConfirm }) => {
             openOnFocus
             fullWidth
             filterOptions={(options: string[], { inputValue }: any) =>
-              options
-                .filter((o) =>
-                  `${get(chains, `${o}.name`, '')}${get(chains, `${o}.chainId`, '')}`
-                    .toLowerCase()
-                    .includes(inputValue.toLowerCase())
-                )
-                .slice(0, 10)
+              options.filter((o) =>
+                `${get(chains, `${o}.name`, '')}${get(chains, `${o}.chainId`, '')}`
+                  .toLowerCase()
+                  .includes(inputValue.toLowerCase())
+              )
             }
             onChange={(e, id) => setChainId(id)}
             renderOption={(o) => (

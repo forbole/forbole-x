@@ -37,15 +37,13 @@ const AddressInput: React.FC<AddressInputProps> = ({ prefix, value, onChange }) 
         openOnFocus
         fullWidth
         filterOptions={(options: string[], { inputValue }: any) =>
-          options
-            .filter((o) =>
-              (
-                addressesMap[o]?.moniker?.toLowerCase() +
-                addressesMap[o]?.note?.toLowerCase() +
-                addressesMap[o]?.address?.toLowerCase()
-              ).includes(inputValue.toLowerCase())
-            )
-            .slice(0, 10)
+          options.filter((o) =>
+            (
+              addressesMap[o]?.moniker?.toLowerCase() +
+              addressesMap[o]?.note?.toLowerCase() +
+              addressesMap[o]?.address?.toLowerCase()
+            ).includes(inputValue.toLowerCase())
+          )
         }
         renderOption={(address) => (
           <AccountAvatar address={addressesMap[address]} size="small" disableCopyAddress />

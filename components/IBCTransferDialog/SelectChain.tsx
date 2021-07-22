@@ -57,19 +57,17 @@ const SelectChain: React.FC<SelectChainProps> = ({ onConfirm, onAddChannelClick 
             openOnFocus
             fullWidth
             filterOptions={(options: string[], { inputValue }: any) =>
-              options
-                .filter(
-                  (o) =>
-                    o === '' ||
-                    `${get(chains, `${o}.name`, '')}${get(chains, `${o}.chainId`, '')}${get(
-                      chains,
-                      `${o}.channel`,
-                      ''
-                    )}`
-                      .toLowerCase()
-                      .includes(inputValue.toLowerCase())
-                )
-                .slice(0, 10)
+              options.filter(
+                (o) =>
+                  o === '' ||
+                  `${get(chains, `${o}.name`, '')}${get(chains, `${o}.chainId`, '')}${get(
+                    chains,
+                    `${o}.channel`,
+                    ''
+                  )}`
+                    .toLowerCase()
+                    .includes(inputValue.toLowerCase())
+              )
             }
             onChange={(e, id) => {
               setChainId(id)
