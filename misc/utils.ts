@@ -634,6 +634,4 @@ export const isAddressValid = (prefix: string, address: string): boolean => {
 }
 
 export const formatHeight = (height: number, lang?: string): string =>
-  `${new Intl.NumberFormat(lang, {
-    maximumFractionDigits: 6,
-  }).format(height || 0)}`
+  `${new Intl.NumberFormat(lang).format(height || 0)}`
