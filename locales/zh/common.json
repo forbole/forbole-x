@@ -318,5 +318,7 @@
   "total balance": "[zh] Total balance",
   "other token balance": "[zh] Other Token Balance",
   "index": "[zh] Index",
-  "token": "[zh] Token"
+  "token": "[zh] Token",
+  "in days": "In {{x}} days",
+  "in day": "In {{x}} day"
 }

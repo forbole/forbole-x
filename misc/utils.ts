@@ -632,3 +632,6 @@ export const transformVoteDetail = (voteDetail: any): any => {
 export const isAddressValid = (prefix: string, address: string): boolean => {
   return new RegExp(`^${prefix}([0-9a-zA-Z]){39}`).test(address)
 }
+
+export const formatHeight = (height: number, lang?: string): string =>
+  `${new Intl.NumberFormat(lang).format(height || 0)}`

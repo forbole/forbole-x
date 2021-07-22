@@ -330,5 +330,7 @@
   "add ibc channel": "Add IBC Channel",
   "add new ibc channel": "Add New IBC Channel",
   "select token": "Select token",
-  "insufficient fund": "Insufficient fund"
+  "insufficient fund": "Insufficient fund",
+  "in days": "In {{x}} days",
+  "in day": "In {{x}} day"
 }
