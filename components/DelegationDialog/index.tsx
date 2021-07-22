@@ -1,12 +1,5 @@
 /* eslint-disable camelcase */
-import {
-  Typography,
-  Box,
-  Dialog,
-  DialogTitle,
-  IconButton,
-  DialogContent,
-} from '@material-ui/core'
+import { Typography, Box, Dialog, DialogTitle, IconButton, DialogContent } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import invoke from 'lodash/invoke'
@@ -166,7 +159,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
   return (
     <Dialog
       fullWidth
-      maxWidth={content.dialogWidth || 'sm'}
+      maxWidth={content.dialogWidth || (availableAmount[crypto.name]?.amount > 0 ? 'md' : 'sm')}
       open={open}
       onClose={onClose}
       fullScreen={isMobile}

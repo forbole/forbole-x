@@ -19,6 +19,7 @@ import UndelegateContent from './UndelegateContent'
 import ClaimRewardsContent from './ClaimRewardsContent'
 import { useGeneralContext } from '../../../contexts/GeneralContext'
 import { CustomTheme } from '../../../misc/theme'
+import IBCTransferContent from './IBCTransferContent'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
@@ -95,6 +96,15 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             account={account}
             msgs={transactionData.msgs as TransactionMsgWithdrawReward[]}
             validators={validators}
+          />
+        )
+      case 'cosmos-sdk/MsgTransfer':
+        return (
+          <IBCTransferContent
+            account={account}
+            denoms={denoms}
+            totalAmount={totalAmount}
+            msgs={transactionData.msgs as TransactionMsgIBCTransfer[]}
           />
         )
       default:

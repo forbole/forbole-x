@@ -1,4 +1,4 @@
-import { Box, Card, Grid, useTheme } from '@material-ui/core'
+import { Box, Card, Grid, useTheme, Button } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
@@ -18,6 +18,7 @@ import {
 } from '../../misc/utils'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
 import useIsMobile from '../../misc/useIsMobile'
+import AddressSendDialog from '../AddressSendDialog'
 
 export type FavAddress = {
   address: string
@@ -48,6 +49,7 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
   const [timestamps, setTimestamps] = React.useState<Date[]>(
     dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
   )
+  const [sendDialogOpen, setSendDialogOpen] = React.useState(false)
   // Chart Data
   const { data: accountsWithBalance, loading } = useAccountsBalancesWithinPeriod(
     [account],
@@ -79,6 +81,16 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
             alignItems="flex-start"
           >
             <AccountAvatar size="large" address={address} />
+            <Box display="flex" mt={isMobile ? 2 : 0} ml={isMobile ? -2 : 0}>
+
+              <Button
+                classes={{ root: classes.sendButton }}
+                variant="contained"
+                onClick={() => setSendDialogOpen(true)}
+              >
+                {t('send')}
+              </Button>
+            </Box>
           </Box>
           <BalanceChart
             data={chartData}
@@ -112,6 +124,11 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
           </Box>
         </Box>
       </Card>
+      <AddressSendDialog
+        open={sendDialogOpen}
+        onClose={() => setSendDialogOpen(false)}
+        address={address}
+      />
     </>
   )
 }

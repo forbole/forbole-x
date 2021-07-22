@@ -4,7 +4,6 @@ import cloneDeep from 'lodash/cloneDeep'
 import drop from 'lodash/drop'
 import keyBy from 'lodash/keyBy'
 import { format, differenceInDays } from 'date-fns'
-import cryptocurrencies from './cryptocurrencies'
 
 export const formatPercentage = (percent: number, lang: string): string =>
   new Intl.NumberFormat(lang, {
@@ -630,8 +629,7 @@ export const transformVoteDetail = (voteDetail: any): any => {
   }))
 }
 
-export const isAddressValid = (crypto: string, address: string) => {
-  const { prefix } = cryptocurrencies[crypto]
+export const isAddressValid = (prefix: string, address: string): boolean => {
   return new RegExp(`^${prefix}([0-9a-zA-Z]){39}`).test(address)
 }
 

@@ -66,36 +66,40 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const denoms = get(denomsData, 'token_price', [])
   const signerInfo = useSignerInfo(account)
   const transactionData = React.useMemo(() => {
-    return account
-      ? {
-          fee: {
-            amount: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
-            gas: String(
-              defaultTransactionData.msgs
-                .map((m) =>
-                  Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.${m.type}`, 0))
-                )
-                .reduce((a, b) => a + b, 0)
-            ),
+    if (!account) {
+      return {
+        msgs: [],
+        fee: {
+          amount: [],
+          gas: '0',
+        },
+        memo: '',
+      }
+    }
+    const totalGas = defaultTransactionData.msgs
+      .map((m) => Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.${m.type}`, 0)))
+      .reduce((a, b) => a + b, 0)
+    const feeAmount = String(
+      totalGas * get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount.amount`, 0)
+    )
+    return {
+      fee: {
+        amount: [
+          {
+            amount: feeAmount,
+            denom: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount.denom`, ''),
           },
-          ...signerInfo,
-          ...defaultTransactionData,
-        }
-      : {
-          msgs: [],
-          fee: {
-            amount: '0',
-            gas: '0',
-          },
-          memo: '',
-        }
+        ],
+        gas: String(totalGas),
+      },
+      ...signerInfo,
+      ...defaultTransactionData,
+    }
   }, [account, signerInfo, defaultTransactionData])
 
   const validatorsAddresses = flatten(
     transactionData.msgs.map((m) => {
       switch (m.type) {
-        case 'cosmos-sdk/MsgSend':
-          return []
         case 'cosmos-sdk/MsgDelegate':
           return [m.value.validator_address]
         case 'cosmos-sdk/MsgBeginRedelegate':
@@ -111,13 +115,18 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   )
 
   const totalAmount = getTokenAmountFromDenoms(
-    flatten(transactionData.msgs.map((msg) => (msg.value as any).amount).filter((a) => a)),
+    flatten(
+      transactionData.msgs
+        .map((msg) => (msg.value as any).amount || (msg.value as any).token)
+        .filter((a) => a)
+    ),
     denoms
   )
 
   const successMessage = React.useMemo(() => {
     switch (get(transactionData, 'msgs[0].type', '')) {
       case 'cosmos-sdk/MsgSend':
+      case 'cosmos-sdk/MsgTransfer':
         return t('successfully sent', {
           title: formatTokenAmount(totalAmount, crypto, lang),
         })

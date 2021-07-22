@@ -162,7 +162,7 @@
   "select validator": "Select validator",
   "amount": "Amount",
   "add validator": "Add Validator",
-  "memo": "Memo",
+  "memo": "Note (Memo)",
   "description optional": "Description (optional)",
   "NA": "N/A",
   "fee": "Fee",
@@ -317,8 +317,18 @@
   "overview": "Overview",
   "ibc transfer": "IBC Transfer",
   "ibc transfer description": "Send tokens over IBC",
+  "select ibc chain": "Select IBC destination chain",
   "total balance": "Total balance",
   "other token balance": "Other Token Balance",
   "index": "Index",
-  "token": "Token"
+  "token": "Token",
+  "destination chain": "Destination Chain",
+  "select chain": "Select chain",
+  "add channel warning": "Please make sure that the channel ID you added is correct.\nOtherwise, there will be different consequence.",
+  "channel id": "Channel ID",
+  "destination chain channel id": "Destination Chain Channel ID",
+  "add ibc channel": "Add IBC Channel",
+  "add new ibc channel": "Add New IBC Channel",
+  "select token": "Select token",
+  "insufficient fund": "Insufficient fund"
 }
