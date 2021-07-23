@@ -68,59 +68,29 @@ export const getLatestAccountBalance = (crypto: string): string => `
   }  
 `
 
-export const getBalanceAtHeight = (crypto: string, timestamp: Date): string => `
-  query AccountBalance($address: String!, $height: bigint! ) {
-    account(where: { address: { _eq: $address } }) {
+export const getBalanceAtTimestamp = (crypto: string): string => `
+  query AccountBalance($address: String!, $timestamp: timestamp! ) {
+    account_balance_history(limit: 1, order_by: { timestamp: desc }, where: { address: { _eq: $address }, timestamp: { _lte: $timestamp } }) {
       address
-      available: account_balance_histories(limit: 1, order_by: { height: desc }, where: { height: { _lte: $height } }) {
-        coins
-        height
-        block { timestamp }
-        tokens_prices: token_prices_history {
-          unit_name
-          price
-          timestamp
-          token_unit {
-            denom
-            exponent
-            token {
-              token_units {
-                denom
-                exponent
-              }
-            }
-          }
-        }
-      }
-      delegated: delegation_histories(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}], where: { height: { _lte: $height } }) {
-        amount
-        validator_address
-      }
-      unbonding: unbonding_delegation_histories(order_by: [{validator_address: desc}, {height: desc}], where: { height: { _lte: $height }, completion_timestamp: {_gt: "${getGqlDateFormat(
+      balance
+      delegated
+      unbonding
+      commission
+      redelegating
+      reward
+      timestamp
+      tokens_prices: token_prices_history {
+        unit_name
+        price
         timestamp
-      )}"} }) {
-        amount
-        completion_timestamp
-        height
-        validator_address
-      }
-      ${
-        ''
-        // TODO: uncomment when bdjuno issue is fixed
-        // `
-        // rewards: delegation_reward_histories(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}], where: { height: { _lte: $height } }) {
-        //   amount
-        //   validator_address
-        // }
-        // `
-      }
-      validator: validator_infos(where: {self_delegate_address: {_eq: $address}}) {
-        consensus_address
-        operator_address
-        self_delegate_address
-        validator {
-          commissions: validator_commission_amount_histories(limit: 1, order_by: {height: desc}, where: { height: { _lte: $height } }) {
-            amount
+        token_unit {
+          denom
+          exponent
+          token {
+            token_units {
+              denom
+              exponent
+            }
           }
         }
       }
