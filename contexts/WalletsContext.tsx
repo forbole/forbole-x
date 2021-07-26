@@ -7,6 +7,7 @@ interface WalletsState {
   wallets: Wallet[]
   accounts: Account[]
   password: string
+  updatePassword?: (password: string) => void
   unlockWallets?: (password: string) => void
   addWallet?: (wallet: CreateWalletParams) => void
   updateWallet?: (id: string, wallet: UpdateWalletParams) => void
@@ -77,6 +78,14 @@ const WalletsProvider: React.FC = ({ children }) => {
       setPassword(pw)
     },
     [isFirstTimeUser, setPassword, setWallets, setAccounts]
+  )
+
+  // update it
+  const updatePassword = React.useCallback(
+    async (pw: string) => {
+      setPassword(pw)
+    },
+    [setPassword]
   )
 
   const addWallet = React.useCallback(
@@ -242,6 +251,7 @@ const WalletsProvider: React.FC = ({ children }) => {
         viewMnemonicPhraseBackup,
         viewMnemonicPhrase,
         reset,
+        updatePassword,
       }}
     >
       {children}

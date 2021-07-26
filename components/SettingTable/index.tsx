@@ -10,7 +10,6 @@ import {
   Button,
   IconButton,
   Menu,
-  MenuItem,
   Paper,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
@@ -21,7 +20,9 @@ import MoreIcon from '../../assets/images/icons/icon_more.svg'
 import useIconProps from '../../misc/useIconProps'
 import EditAddressDialog from './EditAddressDialog'
 import GeneralTable from './GeneralTable'
+import HelpTable from './HelpTable'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import currencies from '../../misc/currencies'
 
 export type FavAddress = {
   address: string
@@ -67,6 +68,33 @@ const SettingTable: React.FC = () => {
     moniker: '',
   })
 
+  function TabPanel(props) {
+    const { children, value, index, ...other } = props
+
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    )
+  }
+
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    }
+  }
+
   return (
     <>
       <Tabs
@@ -79,81 +107,12 @@ const SettingTable: React.FC = () => {
         ))}
       </Tabs>
       <Box pt={3} />
-      <Paper style={{ paddingLeft: theme.spacing(1), paddingRight: theme.spacing(1) }}>
+      <TabPanel value={currentTab} index={0}>
         <GeneralTable />
-
-        {/* {tabs[currentTab].address.map((a, i) => (
-          <React.Fragment key={a.address}>
-            <Box
-              display="flex"
-              alignItems="flex-start"
-              justifyContent="space-between"
-              className={classes.row}
-              px={2}
-            >
-              <Box
-                display="flex"
-                onClick={() => {
-                  router.push(`/address-book/${a.address}`)
-                }}
-                flex={1}
-                my={3}
-              >
-                <Avatar src={a.img ? a.img : cryptocurrencies[a.crypto]?.image} alt={a.address} />
-                <Box ml={2}>
-                  <Typography>{a.moniker}</Typography>
-                  <Box display="flex">
-                    <Typography variant="body2">{a.crypto}:</Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      style={{ marginLeft: theme.spacing(1) }}
-                    >
-                      {a.address}
-                    </Typography>
-                  </Box>
-                  {a.note ? (
-                    <Box display="flex">
-                      <Typography variant="body2">{t('note')}:</Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        style={{ marginLeft: theme.spacing(1) }}
-                      >
-                        {a.note}
-                      </Typography>
-                    </Box>
-                  ) : null}
-                </Box>
-              </Box>
-              <IconButton
-                onClick={(e) => {
-                  setCurrentAddress(a)
-                  setAnchor(e.currentTarget)
-                }}
-                style={{ marginTop: theme.spacing(2) }}
-              >
-                <MoreIcon {...iconProps} />
-              </IconButton>
-            </Box>
-            {i < tabs[currentTab].address.length - 1 ? <Divider /> : null}
-          </React.Fragment>
-        ))} */}
-      </Paper>
-
-
-      {/* {tabs[currentTab].address.length === 0 ? (
-        <Box height={600} textAlign="center" style={{ position: 'relative' }}>
-          <Box style={{ position: 'absolute', top: '50%', left: '43%' }}>
-            <Typography style={{ marginBottom: theme.spacing(1.5) }}>
-              {t('you have not added any address')}
-            </Typography>
-            <Button color="primary" variant="contained" onClick={() => setAddAddressOpen(true)}>
-              {t('add address')}
-            </Button>
-          </Box>
-        </Box>
-      ) : null} */}
+      </TabPanel>
+      <TabPanel value={currentTab} index={1}>
+        <HelpTable />
+      </TabPanel>
     </>
   )
 }

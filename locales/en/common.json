@@ -332,5 +332,9 @@
   "dark": "Dark Theme",
   "light": "Light Theme",
   "password lock": "Password lock",
-  "change password": "Change Password"
+  "change password": "Change Password",
+  "language": "Language",
+  "notification": "Notification",
+  "change unlock password": "Change Unlock Password",
+  "enter current unlock password": "Enter current unlock password"
 }
