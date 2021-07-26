@@ -20,7 +20,7 @@ import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.sv
 import currencies from '../../misc/currencies'
 import ChangeUnlockPasswordDialog from './ChangeUnlockPasswordDialog'
 
-const themes = ['light', 'dark']
+const themes = ['light', 'dark'] as const
 
 const GeneralTable: React.FC = () => {
   const { t, lang } = useTranslation('common')

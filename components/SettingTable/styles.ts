@@ -22,6 +22,7 @@ const useStyles = makeStyles(
       },
       gridContainer: {
         marginTop: theme.spacing(5),
+        width: '100%',
       },
       textInput: {
         height: '2rem',
