@@ -29,11 +29,11 @@ const useStyles = makeStyles(
       //   margin: theme.spacing(4, 2),
       //   color: 'white',
       // },
-      // closeButton: {
-      //   position: 'absolute',
-      //   top: theme.spacing(2),
-      //   right: theme.spacing(2),
-      // },
+      closeButton: {
+        position: 'absolute',
+        top: theme.spacing(2),
+        right: theme.spacing(2),
+      },
       tabIndicator: {
         backgroundColor: theme.palette.indicator,
         width: theme.spacing(1),
