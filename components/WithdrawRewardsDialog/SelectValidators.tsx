@@ -28,6 +28,7 @@ interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
   onConfirm(delegations: ValidatorTag[], m: string): void
   account: Account
   crypto: Cryptocurrency
+  totalAmount: TokenAmount
   validators: Validator[]
   preselectedValidatorAddresses?: string[]
   loading: boolean
@@ -39,6 +40,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   wallet,
   account,
   crypto,
+  totalAmount,
   onConfirm,
   validators,
   preselectedValidatorAddresses,
@@ -87,21 +89,6 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
     setAmount(withdrawAmount)
   }
 
-  const totalAmount = React.useMemo(() => {
-    const total: TokenAmount = {}
-
-    validatorList.forEach((x) => {
-      Object.keys(x.rewards).forEach((denom) => {
-        if (total[denom]) {
-          total[denom].amount += x.rewards[denom].amount
-        } else {
-          total[denom] = cloneDeep(x.rewards[denom])
-        }
-      })
-    })
-    return total
-  }, [validatorList])
-
   const onSelect = (address) => {
     const index = validatorList.findIndex((v) => v.address === address)
     const updatedList = validatorList
@@ -142,7 +129,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
 
   return (
     <>
-      {totalAmount?.daric?.amount > 0 ? (
+      {Object.keys(totalAmount).length > 0 ? (
         <form
           noValidate
           onSubmit={(e) => {

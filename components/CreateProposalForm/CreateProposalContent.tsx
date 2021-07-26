@@ -86,9 +86,9 @@ const CreateProposalContent: React.FC<CreateProposalContentProps> = ({
             openOnFocus
             fullWidth
             filterOptions={(options: string[], { inputValue }: any) => {
-              return options
-                .filter((o) => accountsMap[o].name.toLowerCase().includes(inputValue.toLowerCase()))
-                .slice(0, 10)
+              return options.filter((o) =>
+                accountsMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
+              )
             }}
             onChange={(_e, address: string) => setProposalAccount(accountsMap[address])}
             renderOption={(address) => (
@@ -132,11 +132,9 @@ const CreateProposalContent: React.FC<CreateProposalContentProps> = ({
                 openOnFocus
                 fullWidth
                 filterOptions={(options: string[], { inputValue }: any) =>
-                  options
-                    .filter((o) =>
-                      networksMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
-                    )
-                    .slice(0, 10)
+                  options.filter((o) =>
+                    networksMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
+                  )
                 }
                 onChange={(_e, id: string) => setNetwork(networksMap[id])}
                 renderOption={(id) => (
@@ -179,11 +177,9 @@ const CreateProposalContent: React.FC<CreateProposalContentProps> = ({
                 openOnFocus
                 fullWidth
                 filterOptions={(options: string[], { inputValue }: any) =>
-                  options
-                    .filter((o) =>
-                      typesMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
-                    )
-                    .slice(0, 10)
+                  options.filter((o) =>
+                    typesMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
+                  )
                 }
                 onChange={(_e, id: string) => setType(typesMap[id])}
                 renderOption={(id) => (

@@ -9,10 +9,10 @@ import {
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { format, formatRelative } from 'date-fns'
+import { format, differenceInCalendarDays } from 'date-fns'
 import ToIcon from '../../assets/images/icons/icon_arrow down_title.svg'
 import useStyles from './styles'
-import { formatTokenAmount } from '../../misc/utils'
+import { formatTokenAmount, formatHeight } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
 import useIconProps from '../../misc/useIconProps'
 import ValidatorAvatar from '../ValidatorAvatar'
@@ -49,7 +49,11 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
         {redelegations.map((u) => {
           return (
             <TableRow key={u.height} className={classes.tableRow}>
-              {isMobile ? null : <TableCell className={classes.tableCell}>{u.height}</TableCell>}
+              {isMobile ? null : (
+                <TableCell className={classes.tableCell}>
+                  <Typography color="primary">{formatHeight(u.height)}</Typography>
+                </TableCell>
+              )}
               {isMobile ? (
                 <TableCell className={classes.tableCell}>
                   <ValidatorAvatar
@@ -91,8 +95,14 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
                 <Box display="flex" alignItems="center">
                   {isMobile ? null : format(u.completionDate, 'dd MMM yyyy, HH:mm:ss')}
                   <Box ml={isMobile ? 0 : 2}>
-                    <Typography color="primary">
-                      {formatRelative(u.completionDate, new Date())}
+                    <Typography color="secondary">
+                      {differenceInCalendarDays(u.completionDate, new Date()) >= 1
+                        ? t('in days', {
+                            x: differenceInCalendarDays(u.completionDate, new Date()),
+                          })
+                        : t('in day', {
+                            x: differenceInCalendarDays(u.completionDate, new Date()),
+                          })}
                     </Typography>
                   </Box>
                 </Box>

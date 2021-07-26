@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import {
   Box,
   Button,
@@ -16,7 +17,12 @@ import get from 'lodash/get'
 import useStyles from './styles'
 import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
 import useIconProps from '../../misc/useIconProps'
-import { getTokenAmountBalance, formatCurrency, formatTokenAmount } from '../../misc/utils'
+import {
+  getTokenAmountBalance,
+  formatCurrency,
+  formatTokenAmount,
+  isAddressValid,
+} from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import TokenAmountInput from '../TokenAmountInput'
 import AddressInput from '../AddressInput'
@@ -117,7 +123,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                       </IconButton>
                     )}
                     <AddressInput
-                      crypto={account.crypto}
+                      prefix={cryptocurrencies[account.crypto].prefix}
                       value={v.address}
                       onChange={(address) =>
                         setRecipients((rs) => rs.map((r, j) => (i === j ? { ...r, address } : r)))
@@ -170,6 +176,19 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                         setRecipients((d) => d.map((a, j) => (j === i ? { ...a, denom } : a)))
                       }
                       availableAmount={availableAmount}
+                      error={
+                        insufficientTokens.includes(recipients[i].denom) && !!recipients[i].amount
+                      }
+                      helperText={
+                        insufficientTokens.includes(recipients[i].denom) && !!recipients[i].amount
+                          ? t('insufficient fund')
+                          : !isAddressValid(
+                              cryptocurrencies[account.crypto].prefix,
+                              recipients[i].address
+                            )
+                          ? ' ' // To offset the helper text height for AddressInput
+                          : ''
+                      }
                     />
                   </Box>
                 ))}
@@ -201,7 +220,11 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
               disabled={
                 loading ||
                 !!insufficientTokens.length ||
-                !recipients.filter((v) => v.address && Number(v.amount)).length
+                !recipients.filter(
+                  (v) =>
+                    isAddressValid(cryptocurrencies[account.crypto].prefix, v.address) &&
+                    Number(v.amount)
+                ).length
               }
               type="submit"
             >

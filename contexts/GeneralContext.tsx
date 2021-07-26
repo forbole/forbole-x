@@ -34,6 +34,7 @@ const GeneralContext = React.createContext<GeneralState>(initialState)
 const GeneralProvider: React.FC = ({ children }) => {
   const [currency, setCurrency] = usePersistedState('currency', initialState.currency)
   const [theme, setTheme] = usePersistedState('theme', initialState.theme)
+
   const [favValidators, setFavValidators] = usePersistedState('fav', initialState.favValidators)
   const [favAddresses, setFavAddresses] = usePersistedState('favAddress', initialState.favAddresses)
   const addFavValidators = React.useCallback(
@@ -73,7 +74,6 @@ const GeneralProvider: React.FC = ({ children }) => {
       img: string
       newAddress: string
     }) => {
-
       setFavAddresses((vs) =>
         vs.map((a) =>
           a.address === editedAddress.address

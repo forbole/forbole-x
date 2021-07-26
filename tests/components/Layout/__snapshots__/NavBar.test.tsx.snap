@@ -5,5 +5,34 @@ exports[`component: Layout - NavBar renders correctly 1`] = `
   className="MuiBox-root MuiBox-root-8 HookGlobalStyles-navBar-5"
 >
   <CurrencyMenuButton />
+  <button
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-navBarButton-6"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label"
+    >
+      <svg
+        data-file-name="SvgIcon_settings"
+        fill="#e0e0e0"
+        height={24}
+        width={24}
+      />
+    </span>
+  </button>
 </div>
 `;

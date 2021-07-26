@@ -53,7 +53,6 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
       return (
         <>
           <Box mr={1}>
-            111
             <AccountAvatar account={account} address={address} hideAddress size="small" />
           </Box>
           <Typography>

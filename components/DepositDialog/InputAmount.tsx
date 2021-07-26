@@ -102,11 +102,9 @@ const InputAmount: React.FC<InputAmountProps> = ({
                 openOnFocus
                 fullWidth
                 filterOptions={(options: string[], { inputValue }: any) => {
-                  return options
-                    .filter((o) =>
-                      accountsMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
-                    )
-                    .slice(0, 10)
+                  return options.filter((o) =>
+                    accountsMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
+                  )
                 }}
                 onChange={(_e, address: string) => changeAccount(address)}
                 renderOption={(address) => (

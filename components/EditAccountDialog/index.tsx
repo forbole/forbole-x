@@ -122,10 +122,7 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({
         availableTokens.coins,
         availableTokens.tokens_prices
       ),
-      defaultGasFee: getTokenAmountFromDenoms(
-        get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount`, []),
-        availableTokens.tokens_prices
-      ),
+      defaultGasFee: getTokenAmountFromDenoms([], availableTokens.tokens_prices), // TODO
     }),
     [availableTokens]
   )
