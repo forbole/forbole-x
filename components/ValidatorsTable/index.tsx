@@ -61,6 +61,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
           account={account}
           initialActiveSort="rank"
           initialSortDirection="asc"
+          currentTab={currentTab}
         />
       </Box>
     </Card>

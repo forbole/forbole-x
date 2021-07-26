@@ -2,6 +2,10 @@ import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 import { stringToPath } from '@cosmjs/crypto'
 import { SigningStargateClient } from '@cosmjs/stargate'
 import camelCase from 'lodash/camelCase'
+import set from 'lodash/set'
+import get from 'lodash/get'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Long from 'long'
 import { LedgerSigner } from '../@cosmjs/ledger-amino'
 import cryptocurrencies from './cryptocurrencies'
 import sendMsgToChromeExt from './sendMsgToChromeExt'
@@ -13,10 +17,14 @@ const typeUrlMap: any = {
   'cosmos-sdk/MsgWithdrawDelegationReward':
     '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
   'cosmos-sdk/MsgSend': '/cosmos.bank.v1beta1.MsgSend',
+  'cosmos-sdk/MsgTransfer': '/ibc.applications.transfer.v1.MsgTransfer',
 }
 
 const formatTransactionMsg = (msg: any) => {
   const transformedMsg: any = {}
+  if (msg.type === 'cosmos-sdk/MsgTransfer') {
+    set(msg, 'value.timeout_timestamp', new Long(get(msg, 'value.timeout_timestamp', 0)))
+  }
   transformedMsg.typeUrl = typeUrlMap[msg.type]
   transformedMsg.value = {}
   Object.keys(msg.value).forEach((k) => {

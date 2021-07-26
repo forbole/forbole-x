@@ -73,11 +73,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                   openOnFocus
                   fullWidth
                   filterOptions={(options: string[], { inputValue }: any) =>
-                    options
-                      .filter((o) =>
-                        validatorsMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
-                      )
-                      .slice(0, 10)
+                    options.filter((o) =>
+                      (validatorsMap[o].name || '').toLowerCase().includes(inputValue.toLowerCase())
+                    )
                   }
                   onChange={(e, address) => setToValidator(validatorsMap[address])}
                   renderOption={(address) => (
