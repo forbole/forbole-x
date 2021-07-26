@@ -34,5 +34,11 @@ exports[`component: Layout - NavBar renders correctly 1`] = `
       />
     </span>
   </button>
+  <p
+    className="MuiTypography-root MuiTypography-body1"
+  >
+    v
+    0.2.0
+  </p>
 </div>
 `;
