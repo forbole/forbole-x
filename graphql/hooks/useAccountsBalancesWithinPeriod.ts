@@ -1,29 +1,37 @@
 import React from 'react'
 import get from 'lodash/get'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import { transformGqlAcountBalance } from '../../misc/utils'
-import { getBalanceAtHeight } from '../queries/accountBalances'
-import { getBlockAtTimestamp } from '../queries/blocks'
+import { getTokenAmountFromDenoms } from '../../misc/utils'
+import { getBalanceAtTimestamp } from '../queries/accountBalances'
 
 const fetchBalance = async (address: string, crypto: string, timestamp: Date) => {
-  const block = await fetch(cryptocurrencies[crypto].graphqlHttpUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      query: getBlockAtTimestamp(crypto),
-      variables: { timestamp },
-    }),
-  }).then((r) => r.json())
   const balance = await fetch(cryptocurrencies[crypto].graphqlHttpUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      query: getBalanceAtHeight(crypto, timestamp),
-      variables: { address, height: get(block, 'data.block[0].height', 0) },
+      query: getBalanceAtTimestamp(crypto),
+      variables: { address, timestamp },
     }),
   }).then((r) => r.json())
 
-  return transformGqlAcountBalance(balance.data, timestamp.getTime())
+  const denoms = get(balance, 'data.tokens_prices', [])
+  const available = getTokenAmountFromDenoms(get(balance, 'data.balance', []), denoms)
+  const delegated = getTokenAmountFromDenoms(get(balance, 'data.delegated', []), denoms)
+  const unbonding = getTokenAmountFromDenoms(get(balance, 'data.unbonding', []), denoms)
+  const commissions = getTokenAmountFromDenoms(get(balance, 'data.commissions', []), denoms)
+  const rewards = getTokenAmountFromDenoms(get(balance, 'data.rewards', []), denoms)
+
+  return {
+    balance: {
+      available,
+      delegated,
+      unbonding,
+      commissions,
+      rewards,
+    },
+    timestamp: timestamp.getTime(),
+    availableTokens: { coins: get(balance, 'data.balance', []), tokens_prices: denoms },
+  }
 }
 
 const fetchAccountsBalancesWithinPeriod = async (
