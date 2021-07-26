@@ -1,11 +1,12 @@
-import { Box, IconButton } from '@material-ui/core'
+import { Box, IconButton, Typography } from '@material-ui/core'
 import React from 'react'
 import { useRouter } from 'next/router'
+import pkg from '../../package.json'
 import useStyles from './styles'
-import NotiIcon from '../../assets/images/icons/icon_notification_71.svg'
+// import NotiIcon from '../../assets/images/icons/icon_notification_71.svg'
 import SettingsIcon from '../../assets/images/icons/icon_settings.svg'
-import CurrencyMenuButton from './CurrencyMenuButton'
-import LangMenuButton from './LangMenuButton'
+// import CurrencyMenuButton from './CurrencyMenuButton'
+// import LangMenuButton from './LangMenuButton'
 import ThemeModeButton from './ThemeModeButton'
 import useIconProps from '../../misc/useIconProps'
 
@@ -33,6 +34,8 @@ const NavBar: React.FC<{ HeaderLeftComponent?: React.ReactNode; menuWidth: numbe
       <IconButton className={classes.navBarButton} onClick={() => router.push('/settings')}>
         <SettingsIcon {...iconProps} />
       </IconButton>
+      {/* TODO: move this to other place in production */}
+      <Typography>v{pkg.version}</Typography>
     </Box>
   )
 }
