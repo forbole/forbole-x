@@ -17,18 +17,21 @@ const useStyles = makeStyles(
         padding: theme.spacing(1),
         width: theme.spacing(20),
       },
-      // row: {
-      //   cursor: 'pointer',
-      // },
-      // menuItem: {
-      //   padding: theme.spacing(1),
-      //   width: theme.spacing(20),
-      // },
-      // dialogButton: {
-      //   flex: 1,
-      //   margin: theme.spacing(4, 2),
-      //   color: 'white',
-      // },
+      searchingBox: {
+        width: '50%',
+      },
+      gridContainer: {
+        marginTop: theme.spacing(5),
+      },
+      textInput: {
+        height: '2rem',
+      },
+      mailTo: {
+        color: theme.palette.primary.main,
+      },
+      dropDownIcon: {
+        marginTop: '4px',
+      },
       closeButton: {
         position: 'absolute',
         top: theme.spacing(2),
