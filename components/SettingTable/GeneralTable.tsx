@@ -9,7 +9,7 @@ import {
   useTheme,
   Switch,
 } from '@material-ui/core'
-import { Autocomplete } from '@material-ui/lab'
+// import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
@@ -20,19 +20,7 @@ import currencies from '../../misc/currencies'
 import languages from '../../misc/languages'
 import ChangeUnlockPasswordDialog from './ChangeUnlockPasswordDialog'
 
-interface GeneralTableProps {
-  // accountAddress: string
-  // open: boolean
-  // onClose(): void
-}
-
-const GeneralTable: React.FC<GeneralTableProps> = (
-  {
-    // accountAddress,
-    // open,
-    // onClose,
-  }
-) => {
+const GeneralTable: React.FC = () => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const {
