@@ -348,5 +348,6 @@
   "select token": "Select token",
   "insufficient fund": "Insufficient fund",
   "in days": "In {{x}} days",
-  "in day": "In {{x}} day"
+  "in day": "In {{x}} day",
+  "contact us": "Can’t find an answer?  Contact us directly at "
 }
