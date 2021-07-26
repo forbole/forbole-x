@@ -68,18 +68,6 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ network, open, onClose, proposa
     { variables: { address: voteAccount ? voteAccount.address : '' } }
   )
 
-  const availableTokens = get(balanceData, 'account[0].available[0]', {
-    coins: [],
-    tokens_prices: [],
-  })
-
-  const defaultGasFee = voteAccount
-    ? getTokenAmountFromDenoms(
-        get(cryptocurrencies, `${voteAccount.crypto}.defaultGasFee.amount`, []),
-        availableTokens.tokens_prices
-      )
-    : null
-
   React.useEffect(() => {
     if (open) {
       setAnswer({
@@ -136,29 +124,6 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ network, open, onClose, proposa
               walletId={voteAccount.walletId}
               onConfirm={confirmWithPassword}
               loading={loading}
-            />
-          ),
-        }
-      case VotingStage.ConfirmAnswerStage:
-        return {
-          title: (
-            <Box>
-              <VoteIcon {...voteIconProps} />
-              <Typography className={classes.title} variant="h1">
-                {`${t('You’re going to vote')} ${answer.name}`}
-              </Typography>
-            </Box>
-          ),
-          dialogWidth: 'sm',
-          content: (
-            <ConfirmAnswer
-              account={voteAccount}
-              proposal={proposal}
-              answer={answer}
-              gasFee={defaultGasFee}
-              memo={memo}
-              onConfirm={confirmFinal}
-              rawTransactionData=""
             />
           ),
         }
