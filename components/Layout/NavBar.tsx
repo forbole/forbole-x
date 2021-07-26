@@ -1,5 +1,6 @@
 import { Box, IconButton } from '@material-ui/core'
 import React from 'react'
+import { useRouter } from 'next/router'
 import useStyles from './styles'
 import NotiIcon from '../../assets/images/icons/icon_notification_71.svg'
 import SettingsIcon from '../../assets/images/icons/icon_settings.svg'
@@ -14,6 +15,7 @@ const NavBar: React.FC<{ HeaderLeftComponent?: React.ReactNode; menuWidth: numbe
 }) => {
   const iconProps = useIconProps(3)
   const classes = useStyles()
+  const router = useRouter()
 
   return (
     <Box className={classes.navBar}>
@@ -28,9 +30,9 @@ const NavBar: React.FC<{ HeaderLeftComponent?: React.ReactNode; menuWidth: numbe
         <NotiIcon {...iconProps} />
       </IconButton> */}
       <ThemeModeButton />
-      {/* <IconButton className={classes.navBarButton}>
+      <IconButton className={classes.navBarButton} onClick={() => router.push('/settings')}>
         <SettingsIcon {...iconProps} />
-      </IconButton> */}
+      </IconButton>
     </Box>
   )
 }
