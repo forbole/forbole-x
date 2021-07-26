@@ -9,30 +9,24 @@ import {
   useTheme,
   Switch,
 } from '@material-ui/core'
-// import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIconProps from '../../misc/useIconProps'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import currencies from '../../misc/currencies'
-import languages from '../../misc/languages'
 import ChangeUnlockPasswordDialog from './ChangeUnlockPasswordDialog'
 
+const themes = ['light', 'dark']
+
 const GeneralTable: React.FC = () => {
-  const { t } = useTranslation('common')
+  const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const {
-    theme,
-    currency,
-    setCurrency,
-    language,
-    setLanguage,
-    setTheme,
-    notification,
-    setNotification,
-  } = useGeneralContext()
+  const { theme, currency, setCurrency, setTheme } = useGeneralContext()
+  const { locales, pathname, query } = useRouter()
   const themeStyle = useTheme()
   const iconProps = useIconProps()
   const [anchor, setAnchor] = React.useState<Element>()
@@ -111,7 +105,7 @@ const GeneralTable: React.FC = () => {
           variant="outlined"
           className={classes.timeRangeButton}
         >
-          <Typography>{language}</Typography>
+          <Typography>{t(lang)}</Typography>
           <DropDownIcon {...iconProps} style={{ marginTop: '4px' }} />
         </Button>
         <Menu
@@ -129,23 +123,25 @@ const GeneralTable: React.FC = () => {
           open={!!anchorLanguage}
           onClose={onClose}
         >
-          {languages.map((x, i) => {
+          {locales.map((l, i) => {
             return (
-              <>
-                <MenuItem
-                  className={classes.menuItem}
-                  button
-                  onClick={() => {
-                    setLanguage(x)
-                    onClose()
+              <div key={l}>
+                <Link
+                  href={{
+                    pathname,
+                    query,
                   }}
+                  locale={l}
+                  passHref
                 >
-                  {x}
-                </MenuItem>
-                {i + 1 === languages.length ? null : (
+                  <MenuItem className={classes.menuItem} button component="a">
+                    {t(l)}
+                  </MenuItem>
+                </Link>
+                {i + 1 === locales.length ? null : (
                   <Divider style={{ margin: themeStyle.spacing(1) }} />
                 )}
-              </>
+              </div>
             )
           })}
         </Menu>
@@ -178,7 +174,7 @@ const GeneralTable: React.FC = () => {
           open={!!anchorMode}
           onClose={onClose}
         >
-          {['light', 'dark'].map((x: 'light' | 'dark', i) => {
+          {themes.map((x, i) => {
             return (
               <>
                 <MenuItem
@@ -191,7 +187,7 @@ const GeneralTable: React.FC = () => {
                 >
                   {t(x)}
                 </MenuItem>
-                {i + 1 === languages.length ? null : (
+                {i + 1 === themes.length ? null : (
                   <Divider style={{ margin: themeStyle.spacing(1) }} />
                 )}
               </>
@@ -200,7 +196,7 @@ const GeneralTable: React.FC = () => {
         </Menu>
       </Box>
       <Divider />
-      <Box mx={2} my={2} display="flex" alignItems="flex-start" justifyContent="space-between">
+      {/* <Box mx={2} my={2} display="flex" alignItems="flex-start" justifyContent="space-between">
         <Typography variant="subtitle1">{t('notification')}</Typography>
         <Switch
           onChange={() => setNotification(!notification)}
@@ -217,7 +213,7 @@ const GeneralTable: React.FC = () => {
           {...iconProps}
         />
       </Box>
-      <Divider />
+      <Divider /> */}
       <Box mx={2} my={2} display="flex" alignItems="flex-start" justifyContent="space-between">
         <Typography variant="subtitle1">{t('password lock')}</Typography>
         <Button
