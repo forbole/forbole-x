@@ -99,7 +99,6 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
         setLoading(false)
         onClose()
       } catch (err) {
-        console.log(err)
         setLoading(false)
       }
     },

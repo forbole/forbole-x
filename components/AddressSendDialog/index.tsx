@@ -72,28 +72,32 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
 
   const onConfirm = React.useCallback(
     async (r: { amount: { amount: number; denom: string }; address: string }, m: string) => {
-      setLoading(true)
-      const msg = () => {
-        const coinsToSend = getEquivalentCoinToSend(
-          r.amount,
-          availableTokens.coins,
-          availableTokens.tokens_prices
-        )
-        return {
-          type: 'cosmos-sdk/MsgSend',
-          value: {
-            from_address: sender.address,
-            to_address: address.address,
-            amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
-          },
+      try {
+        setLoading(true)
+        const msg = () => {
+          const coinsToSend = getEquivalentCoinToSend(
+            r.amount,
+            availableTokens.coins,
+            availableTokens.tokens_prices
+          )
+          return {
+            type: 'cosmos-sdk/MsgSend',
+            value: {
+              from_address: sender.address,
+              to_address: address.address,
+              amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
+            },
+          }
         }
+        await invoke(window, 'forboleX.sendTransaction', password, sender.address, {
+          msgs: [msg()],
+          memo,
+        })
+        setLoading(false)
+        onClose()
+      } catch (err) {
+        setLoading(false)
       }
-      await invoke(window, 'forboleX.sendTransaction', password, sender.address, {
-        msgs: [msg()],
-        memo,
-      })
-      setLoading(false)
-      onClose()
     },
     [availableTokens]
   )

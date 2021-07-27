@@ -100,7 +100,6 @@ const IBCTransferDialog: React.FC<IBCTransferDialogProps> = ({
         setLoading(false)
         onClose()
       } catch (err) {
-        console.log(err)
         setLoading(false)
       }
     },
