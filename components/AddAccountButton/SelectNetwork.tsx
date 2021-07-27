@@ -19,7 +19,7 @@ const SelectNetwork: React.FC<SelectNetworkProps> = ({ onSelect }) => {
           <Typography>{t('select network')}</Typography>
         </Box>
         {Object.keys(cryptocurrencies).map((c) => (
-          <Box mb={1} display="flex" flex={1}>
+          <Box key={c} mb={1} display="flex" flex={1}>
             <Button
               variant="contained"
               className={classes.addAccountButton}
