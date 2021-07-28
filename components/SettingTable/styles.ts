@@ -87,13 +87,6 @@ const useStyles = makeStyles(
         margin: theme.spacing(4, 2),
         color: 'white',
       },
-      externalLink: {
-        color: theme.palette.text.primary,
-        textDecoration: 'none',
-      },
-      iconText: {
-        marginLeft: theme.spacing(1),
-      },
       button: {
         width: theme.spacing(16),
       },
