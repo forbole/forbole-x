@@ -90,6 +90,7 @@ const IBCTransferDialog: React.FC<IBCTransferDialogProps> = ({
               token: { denom: coinsToSend.denom, amount: coinsToSend.amount.toString() },
               sender: account.address,
               receiver: address,
+              timeout_timestamp: (Date.now() + 3600000) * 1000,
             },
           },
         ]
@@ -100,7 +101,6 @@ const IBCTransferDialog: React.FC<IBCTransferDialogProps> = ({
         setLoading(false)
         onClose()
       } catch (err) {
-        console.log(err)
         setLoading(false)
       }
     },

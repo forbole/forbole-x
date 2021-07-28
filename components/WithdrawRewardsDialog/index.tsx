@@ -64,7 +64,6 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
         onClose()
       } catch (err) {
         setLoading(false)
-        console.log(err)
       }
     },
     [password, account]

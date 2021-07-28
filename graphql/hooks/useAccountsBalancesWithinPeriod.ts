@@ -14,12 +14,27 @@ const fetchBalance = async (address: string, crypto: string, timestamp: Date) =>
     }),
   }).then((r) => r.json())
 
-  const denoms = get(balance, 'data.tokens_prices', [])
-  const available = getTokenAmountFromDenoms(get(balance, 'data.balance', []), denoms)
-  const delegated = getTokenAmountFromDenoms(get(balance, 'data.delegated', []), denoms)
-  const unbonding = getTokenAmountFromDenoms(get(balance, 'data.unbonding', []), denoms)
-  const commissions = getTokenAmountFromDenoms(get(balance, 'data.commissions', []), denoms)
-  const rewards = getTokenAmountFromDenoms(get(balance, 'data.rewards', []), denoms)
+  const denoms = get(balance, 'data.account_balance_history[0].tokens_prices', [])
+  const available = getTokenAmountFromDenoms(
+    get(balance, 'data.account_balance_history[0].balance', []),
+    denoms
+  )
+  const delegated = getTokenAmountFromDenoms(
+    get(balance, 'data.account_balance_history[0].delegated', []),
+    denoms
+  )
+  const unbonding = getTokenAmountFromDenoms(
+    get(balance, 'data.account_balance_history[0].unbonding', []),
+    denoms
+  )
+  const commissions = getTokenAmountFromDenoms(
+    get(balance, 'data.account_balance_history[0].commission', []),
+    denoms
+  )
+  const rewards = getTokenAmountFromDenoms(
+    get(balance, 'data.account_balance_history[0].reward', []),
+    denoms
+  )
 
   return {
     balance: {
