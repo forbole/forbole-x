@@ -87,14 +87,13 @@ const useStyles = makeStyles(
         margin: theme.spacing(4, 2),
         color: 'white',
       },
-<<<<<<< HEAD
       externalLink: {
         color: theme.palette.text.primary,
         textDecoration: 'none',
       },
       iconText: {
         marginLeft: theme.spacing(1),
-=======
+      },
       button: {
         width: theme.spacing(16),
       },
@@ -104,7 +103,6 @@ const useStyles = makeStyles(
       subject: {
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(6),
->>>>>>> cb92145e94b61aa184908ea5610b98d2cc7f3436
       },
     }),
   {
