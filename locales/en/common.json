@@ -351,5 +351,11 @@
   "in days": "In {{x}} days",
   "in day": "In {{x}} day",
   "contact us": "Can’t find an answer?  Contact us directly at ",
-  "forbole blog": "Forbole Blog"
+  "forbole blog": "Forbole Blog",
+  "subject": "Subject",
+  "message": "Message",
+  "subject placeholder": "Summary of your observation…",
+  "message placeholder": "Give as many details as possible…",
+  "thank you": "Thank you",
+  "thank you content": "We successfully received your feedback and will get back to you as soon as possible."
 }
