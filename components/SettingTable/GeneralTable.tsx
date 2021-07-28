@@ -48,6 +48,8 @@ const GeneralTable: React.FC = () => {
       <Box mx={2} my={2} display="flex" alignItems="flex-start" justifyContent="space-between">
         <Typography variant="subtitle1">{t('currency')}</Typography>
         <Button
+          // style={{ background: 'red' }}
+          // onClick={() => setAddAddressOpen(true)}
           onClick={(e) => {
             setAnchor(e.currentTarget)
           }}
