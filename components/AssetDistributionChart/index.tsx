@@ -70,29 +70,29 @@ const AssetDistributionChart: React.FC = () => {
               ]),
             }
           })
-          const rawData = []
-          Object.keys(balancesByValidator).forEach((moniker) => {
-            rawData.push({
-              name: moniker,
-              value: getTokenAmountBalance(balancesByValidator[moniker].amount),
-            })
-          })
-          const total = rawData.map((d) => d.value).reduce((a, b) => a + b, 0)
-          setData(
-            rawData.map((d) => ({
-              name: d.name,
-              image: balancesByValidator[d.name].avatar,
-              value:
-                // eslint-disable-next-line no-nested-ternary
-                total === 0
-                  ? 1 / rawData.length
-                  : d.value === total
-                  ? 1
-                  : Math.round(d.value / total),
-              extraData: balancesByValidator[d.name],
-            }))
-          )
         }
+        const rawData = []
+        Object.keys(balancesByValidator).forEach((moniker) => {
+          rawData.push({
+            name: moniker,
+            value: getTokenAmountBalance(balancesByValidator[moniker].amount),
+          })
+        })
+        const total = rawData.map((d) => d.value).reduce((a, b) => a + b, 0)
+        setData(
+          rawData.map((d) => ({
+            name: d.name,
+            image: balancesByValidator[d.name].avatar,
+            value:
+              // eslint-disable-next-line no-nested-ternary
+              total === 0
+                ? 1 / rawData.length
+                : d.value === total
+                ? 1
+                : Math.round(d.value / total),
+            extraData: balancesByValidator[d.name],
+          }))
+        )
       }
     } catch (err) {
       console.log(err)
