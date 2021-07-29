@@ -110,7 +110,6 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
         setLoading(false)
         onClose()
       } catch (err) {
-        console.log(err)
         setLoading(false)
       }
     },
