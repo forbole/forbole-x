@@ -356,5 +356,6 @@
   "message placeholder": "Give as many details as possible…",
   "thank you": "Thank you",
   "thank you content": "We successfully received your feedback and will get back to you as soon as possible.",
-  "reject": "Reject"
+  "reject": "Reject",
+  "password successfully changed": "The password has been changed"
 }

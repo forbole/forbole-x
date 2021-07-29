@@ -308,6 +308,10 @@ type ChromeMessage =
     }
   | { event: 'reset' }
   | {
+      event: 'changeUnlockPassword'
+      data: { password: string; oldPassword: string }
+    }
+  | {
       event: 'getWallets'
       data: { password: string }
     }

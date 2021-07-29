@@ -97,6 +97,11 @@ const useStyles = makeStyles(
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(6),
       },
+      backButton: {
+        position: 'absolute',
+        top: theme.spacing(2),
+        left: theme.spacing(2),
+      },
     }),
   {
     name: 'HookGlobalStyles',
