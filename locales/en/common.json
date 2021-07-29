@@ -355,5 +355,8 @@
   "subject placeholder": "Summary of your observation…",
   "message placeholder": "Give as many details as possible…",
   "thank you": "Thank you",
-  "thank you content": "We successfully received your feedback and will get back to you as soon as possible."
+  "thank you content": "We successfully received your feedback and will get back to you as soon as possible.",
+  "forbole blog": "Forbole Blog",
+  "big dipper blog explorer": "Big Dipper Blog Explorer",
+  "github": "Github"
 }
