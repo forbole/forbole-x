@@ -102,6 +102,13 @@ const useStyles = makeStyles(
         top: theme.spacing(2),
         left: theme.spacing(2),
       },
+      iconText: {
+        marginLeft: theme.spacing(1),
+      },
+      socialMediaLink: {
+        color: theme.palette.text.primary,
+        textDecoration: 'none',
+      },
     }),
   {
     name: 'HookGlobalStyles',
