@@ -42,30 +42,34 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
       recipients: Array<{ amount: { amount: number; denom: string }; address: string }>,
       memo: string
     ) => {
-      setLoading(true)
-      const msgs = recipients
-        .map((r) => {
-          const coinsToSend = getEquivalentCoinToSend(
-            r.amount,
-            availableTokens.coins,
-            availableTokens.tokens_prices
-          )
-          return {
-            type: 'cosmos-sdk/MsgSend',
-            value: {
-              from_address: account.address,
-              to_address: r.address,
-              amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
-            },
-          }
+      try {
+        setLoading(true)
+        const msgs = recipients
+          .map((r) => {
+            const coinsToSend = getEquivalentCoinToSend(
+              r.amount,
+              availableTokens.coins,
+              availableTokens.tokens_prices
+            )
+            return {
+              type: 'cosmos-sdk/MsgSend',
+              value: {
+                from_address: account.address,
+                to_address: r.address,
+                amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
+              },
+            }
+          })
+          .filter((a) => a)
+        await invoke(window, 'forboleX.sendTransaction', password, account.address, {
+          msgs,
+          memo,
         })
-        .filter((a) => a)
-      await invoke(window, 'forboleX.sendTransaction', password, account.address, {
-        msgs,
-        memo,
-      })
-      setLoading(false)
-      onClose()
+        setLoading(false)
+        onClose()
+      } catch (err) {
+        setLoading(false)
+      }
     },
     [availableTokens]
   )

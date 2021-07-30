@@ -97,6 +97,9 @@ const useStyles = makeStyles(
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(4),
       },
+      row: {
+        cursor: 'pointer',
+      },
     }),
   {
     name: 'HookGlobalStyles',

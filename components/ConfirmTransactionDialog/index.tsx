@@ -11,13 +11,14 @@ import useStyles from './styles'
 import useIsMobile from '../../misc/useIsMobile'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import { getTokensPrices } from '../../graphql/queries/tokensPrices'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
+// import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useIconProps from '../../misc/useIconProps'
 import { getValidatorsByAddresses } from '../../graphql/queries/validators'
 import ConfirmStageContent from './ConfirmStageContent'
 import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 import SuccessContent from './SuccessContent'
+import FailContent from './FailContent'
 import SecurityPasswordDialogContent from '../SecurityPasswordDialogContent'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import cryptocurrencies from '../../misc/cryptocurrencies'
@@ -29,6 +30,7 @@ enum ConfirmTransactionStage {
   SecurityPasswordStage = 'security password',
   ConnectLedgerStage = 'connect ledger',
   SuccessStage = 'success',
+  FailStage = 'fail',
 }
 
 interface Content {
@@ -59,6 +61,8 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const account = accounts.find((a) => a.address === address)
   const wallet = account ? wallets.find((w) => w.id === account.walletId) : undefined
   const crypto = account ? account.crypto : Object.keys(cryptocurrencies)[0]
+
+  const [errMsg, setErrMsg] = React.useState('')
 
   const { data: denomsData } = useSubscription(gql`
     ${getTokensPrices(crypto)}
@@ -181,7 +185,8 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         setLoading(false)
         setStage(ConfirmTransactionStage.SuccessStage, true)
       } catch (err) {
-        console.log(err)
+        setErrMsg(err.message)
+        setStage(ConfirmTransactionStage.FailStage, true)
       }
     },
     [account, transactionData, password]
@@ -233,13 +238,24 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
           ),
         }
       case ConfirmTransactionStage.SuccessStage:
-      default:
         return {
           title: '',
           dialogWidth: 'sm',
           content: (
             <SuccessContent
               message={successMessage}
+              onClose={() => sendMsgToChromeExt({ event: 'closeChromeExtension' })}
+            />
+          ),
+        }
+      case ConfirmTransactionStage.FailStage:
+      default:
+        return {
+          title: '',
+          dialogWidth: 'sm',
+          content: (
+            <FailContent
+              message={errMsg}
               onClose={() => sendMsgToChromeExt({ event: 'closeChromeExtension' })}
             />
           ),

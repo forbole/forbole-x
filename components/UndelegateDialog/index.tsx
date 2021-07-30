@@ -68,7 +68,6 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
         onClose()
       } catch (err) {
         setLoading(false)
-        console.log(err)
       }
     },
     [delegatedTokens, tokensPrices, account, password, account]
