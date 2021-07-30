@@ -118,12 +118,16 @@ const HelpTable: React.FC = () => {
           getOptionLabel={(option) => option.title}
           openOnFocus
           fullWidth
-          renderInput={(params) => (
+          renderInput={({ InputProps, ...props }) => (
             <TextField
-              {...params}
+              {...props}
               variant="filled"
               label="Describe your issue"
               className={classes.textInput}
+              InputProps={{
+                ...InputProps,
+                disableUnderline: true,
+              }}
             />
           )}
         />

@@ -80,12 +80,18 @@ const WalletsProvider: React.FC = ({ children }) => {
     [isFirstTimeUser, setPassword, setWallets, setAccounts]
   )
 
-  // update it
   const updatePassword = React.useCallback(
     async (pw: string) => {
+      await sendMsgToChromeExt({
+        event: 'changeUnlockPassword',
+        data: {
+          oldPassword: password,
+          password: pw,
+        },
+      })
       setPassword(pw)
     },
-    [setPassword]
+    [setPassword, password]
   )
 
   const addWallet = React.useCallback(

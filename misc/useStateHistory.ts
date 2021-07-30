@@ -25,13 +25,13 @@ const useStateHistory = <P>(
     },
     [setStates]
   )
-  const prevState = React.useCallback(() => {
+  const toPrevStage = React.useCallback(() => {
     setStates((s) => dropRight(s))
   }, [setStates])
 
   const isPrevStateAvailable = React.useMemo(() => states.length > 1, [states.length])
 
-  return [last(states), setNextState, prevState, isPrevStateAvailable]
+  return [last(states), setNextState, toPrevStage, isPrevStateAvailable]
 }
 
 export default useStateHistory
