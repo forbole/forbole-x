@@ -95,7 +95,7 @@ const useStyles = makeStyles(
       },
       subject: {
         marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(6),
+        marginBottom: theme.spacing(4),
       },
       iconText: {
         marginLeft: theme.spacing(1),

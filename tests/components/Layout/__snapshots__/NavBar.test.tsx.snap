@@ -5,9 +5,10 @@ exports[`component: Layout - NavBar renders correctly 1`] = `
   className="MuiBox-root MuiBox-root-8 HookGlobalStyles-navBar-5"
 >
   <CurrencyMenuButton />
-  <button
+  <a
+    aria-disabled={false}
     className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-navBarButton-6"
-    disabled={false}
+    href="/settings"
     onBlur={[Function]}
     onClick={[Function]}
     onDragLeave={[Function]}
@@ -15,13 +16,13 @@ exports[`component: Layout - NavBar renders correctly 1`] = `
     onKeyDown={[Function]}
     onKeyUp={[Function]}
     onMouseDown={[Function]}
+    onMouseEnter={[Function]}
     onMouseLeave={[Function]}
     onMouseUp={[Function]}
     onTouchEnd={[Function]}
     onTouchMove={[Function]}
     onTouchStart={[Function]}
     tabIndex={0}
-    type="button"
   >
     <span
       className="MuiIconButton-label"
@@ -33,12 +34,6 @@ exports[`component: Layout - NavBar renders correctly 1`] = `
         width={24}
       />
     </span>
-  </button>
-  <p
-    className="MuiTypography-root MuiTypography-body1"
-  >
-    v
-    0.2.0
-  </p>
+  </a>
 </div>
 `;
