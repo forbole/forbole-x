@@ -97,6 +97,13 @@ const useStyles = makeStyles(
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(6),
       },
+      iconText: {
+        marginLeft: theme.spacing(1),
+      },
+      socialMediaLink: {
+        color: theme.palette.text.primary,
+        textDecoration: 'none',
+      },
     }),
   {
     name: 'HookGlobalStyles',
