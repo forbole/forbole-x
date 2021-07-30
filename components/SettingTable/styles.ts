@@ -100,6 +100,13 @@ const useStyles = makeStyles(
       row: {
         cursor: 'pointer',
       },
+      iconText: {
+        marginLeft: theme.spacing(1),
+      },
+      socialMediaLink: {
+        color: theme.palette.text.primary,
+        textDecoration: 'none',
+      },
     }),
   {
     name: 'HookGlobalStyles',

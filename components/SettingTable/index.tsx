@@ -6,6 +6,7 @@ import GeneralTable from './GeneralTable'
 import HelpTable from './HelpTable'
 import FeedbackTable from './FeedbackTable'
 import AboutTable from './AboutTable'
+import FollowUsTable from './FollowUsTable'
 
 export type FavAddress = {
   address: string
@@ -44,6 +45,7 @@ const SettingTable: React.FC = () => {
       {currentTab === 1 ? <HelpTable /> : null}
       {currentTab === 2 ? <FeedbackTable /> : null}
       {currentTab === 4 ? <AboutTable /> : null}
+      {currentTab === 3 ? <FollowUsTable /> : null}
     </>
   )
 }
