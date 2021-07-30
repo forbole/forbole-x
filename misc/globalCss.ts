@@ -65,6 +65,9 @@ const GlobalCss = withStyles(
           color: 'white',
         },
       },
+      'a:-webkit-any-link': {
+        color: 'inherit',
+      },
     },
   }),
   {

@@ -97,9 +97,6 @@ const useStyles = makeStyles(
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(4),
       },
-      row: {
-        cursor: 'pointer',
-      },
       iconText: {
         marginLeft: theme.spacing(1),
       },

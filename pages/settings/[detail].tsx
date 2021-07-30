@@ -1,7 +1,8 @@
 import React from 'react'
-import { Box, Typography, Breadcrumbs, Link } from '@material-ui/core'
+import { Box, Typography, Breadcrumbs, Link as MLink } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 import Layout from '../../components/Layout'
 
 const Setting: React.FC = () => {
@@ -15,8 +16,8 @@ const Setting: React.FC = () => {
       passwordRequired
       HeaderLeftComponent={
         <Breadcrumbs>
-          <Link color="inherit" href="/settings">
-            {t('settings')}
+          <Link href="/settings" passHref>
+            <MLink color="textPrimary">{t('settings')}</MLink>
           </Link>
           <Typography color="textPrimary">{t(`${aboutTitle}`)}</Typography>
         </Breadcrumbs>

@@ -44,8 +44,8 @@ const SettingTable: React.FC = () => {
       {currentTab === 0 ? <GeneralTable /> : null}
       {currentTab === 1 ? <HelpTable /> : null}
       {currentTab === 2 ? <FeedbackTable /> : null}
-      {currentTab === 4 ? <AboutTable /> : null}
       {currentTab === 3 ? <FollowUsTable /> : null}
+      {currentTab === 4 ? <AboutTable /> : null}
     </>
   )
 }
