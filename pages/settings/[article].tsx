@@ -5,11 +5,11 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Layout from '../../components/Layout'
 
-const Setting: React.FC = () => {
+const SettingArticle: React.FC = () => {
   const { t } = useTranslation('common')
 
   const router = useRouter()
-  const aboutTitle = router.query.detail
+  const aboutTitle = String(router.query.article).replace(/-/g, ' ')
 
   return (
     <Layout
@@ -31,4 +31,4 @@ const Setting: React.FC = () => {
   )
 }
 
-export default Setting
+export default SettingArticle

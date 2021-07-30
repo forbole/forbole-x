@@ -66,7 +66,9 @@ const GlobalCss = withStyles(
         },
       },
       'a:-webkit-any-link': {
-        color: 'inherit',
+        '&:hover': {
+          color: 'initial',
+        },
       },
     },
   }),
