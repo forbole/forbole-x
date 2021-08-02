@@ -471,25 +471,31 @@ const getTag = (status: string) => {
 }
 
 export const transformProposals = (proposalData: any): Proposal[] => {
-  return get(proposalData, 'proposal', []).map((p) => ({
-    id: get(p, 'id'),
-    proposer: {
-      name: get(p, 'proposer.validator_infos[0].validator.validator_descriptions[0].moniker'),
-      image: get(p, 'proposer.validator_infos[0].validator.validator_descriptions[0].avatar_url'),
-      address: get(p, 'proposer.address'),
-    },
-    title: get(p, 'title'),
-    description: get(p, 'description'),
-    type: get(p, 'proposal_type'),
-    votingStartTime: `${format(new Date(get(p, 'voting_start_time')), 'dd MMM yyyy HH:mm')} UTC`,
-    votingEndTime: `${format(new Date(get(p, 'voting_end_time')), 'dd MMM yyyy HH:mm')} UTC`,
-    isActive: !!(
-      get(p, 'status') === 'PROPOSAL_STATUS_VOTING' ||
-      get(p, 'status') === 'PROPOSAL_STATUS_DEPOSIT'
-    ),
-    tag: getTag(get(p, 'status')),
-    duration: differenceInDays(new Date(get(p, 'voting_end_time')), Date.now()),
-  }))
+  return get(proposalData, 'proposal', [])
+    .map((p) => ({
+      id: get(p, 'id', ''),
+      proposer: {
+        name: get(p, 'proposer.validator_infos[0].validator.validator_descriptions[0].moniker', ''),
+        image: get(
+          p,
+          'proposer.validator_infos[0].validator.validator_descriptions[0].avatar_url',
+          ''
+        ),
+        address: get(p, 'proposer.address', ''),
+      },
+      title: get(p, 'title', ''),
+      description: get(p, 'description', ''),
+      type: get(p, 'proposal_type', ''),
+      votingStartTime: `${format(new Date(get(p, 'voting_start_time')), 'dd MMM yyyy HH:mm')} UTC`,
+      votingEndTime: `${format(new Date(get(p, 'voting_end_time')), 'dd MMM yyyy HH:mm')} UTC`,
+      isActive: !!(
+        get(p, 'status', '') === 'PROPOSAL_STATUS_VOTING' ||
+        get(p, 'status', '') === 'PROPOSAL_STATUS_DEPOSIT'
+      ),
+      tag: getTag(get(p, 'status', '')),
+      duration: differenceInDays(new Date(get(p, 'voting_end_time')), Date.now()),
+    }))
+    .sort((a, b) => (a.id < b.id ? 1 : -1))
 }
 
 export const transformProposal = (

@@ -7,6 +7,7 @@ import useIconProps from '../../misc/useIconProps'
 import { useGetStyles } from './styles'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
+import chains from '../../misc/chains'
 
 interface CreateProposalContentProps {
   account: Account
@@ -17,14 +18,9 @@ interface CreateProposalContentProps {
     title: string,
     description: string
   ): void
-  networks: { name: string; id: string }[]
 }
 
-const CreateProposalContent: React.FC<CreateProposalContentProps> = ({
-  account,
-  onNext,
-  networks,
-}) => {
+const CreateProposalContent: React.FC<CreateProposalContentProps> = ({ account, onNext }) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
   const { accounts } = useWalletsContext()
@@ -57,8 +53,6 @@ const CreateProposalContent: React.FC<CreateProposalContentProps> = ({
   const [proposalAccount, setProposalAccount] = React.useState<Account>(account)
 
   const accountsMap = keyBy(accounts, 'address')
-
-  const networksMap = keyBy(networks, 'id')
 
   const typesMap = keyBy(types, 'id')
 
@@ -127,19 +121,19 @@ const CreateProposalContent: React.FC<CreateProposalContentProps> = ({
             </Typography>
             <Box display="flex" alignItems="center" mr={4}>
               <Autocomplete
-                options={networks.map(({ id }) => id)}
-                getOptionLabel={(option) => networksMap[option].name}
+                options={Object.values(chains).map(({ chainId }) => chainId)}
+                getOptionLabel={(option) => chains[option].name}
                 openOnFocus
                 fullWidth
                 filterOptions={(options: string[], { inputValue }: any) =>
                   options.filter((o) =>
-                    networksMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
+                    chains[o].name.toLowerCase().includes(inputValue.toLowerCase())
                   )
                 }
-                onChange={(_e, id: string) => setNetwork(networksMap[id])}
+                onChange={(_e, id: string) => setNetwork(chains[id])}
                 renderOption={(id) => (
                   <Box display="flex" alignItems="center">
-                    <Typography>{networksMap[id].name}</Typography>
+                    <Typography>{chains[id].name}</Typography>
                   </Box>
                 )}
                 renderInput={({ InputProps, inputProps, ...params }) => (

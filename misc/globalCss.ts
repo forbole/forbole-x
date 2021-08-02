@@ -65,7 +65,7 @@ const GlobalCss = withStyles(
           color: 'white',
         },
       },
-      'a:-webkit-any-link': {
+      'a:-webkit-any-link:not(.MuiButton-root)': {
         '&:hover': {
           color: 'initial',
         },

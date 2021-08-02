@@ -77,12 +77,12 @@ const DepositDialog: React.FC<DepositDialogProps> = ({
     tokens_prices: [],
   })
 
-  const defaultGasFee = voteAccount
-    ? getTokenAmountFromDenoms(
-        get(cryptocurrencies, `${voteAccount.crypto}.defaultGasFee.amount`, []),
-        availableTokens.tokens_prices
-      )
-    : null
+  // const defaultGasFee = voteAccount
+  //   ? getTokenAmountFromDenoms(
+  //       get(cryptocurrencies, `${voteAccount.crypto}.defaultGasFee.amount`, []),
+  //       availableTokens.tokens_prices
+  //     )
+  //   : null
 
   React.useEffect(() => {
     if (open) {
@@ -141,29 +141,29 @@ const DepositDialog: React.FC<DepositDialogProps> = ({
             />
           ),
         }
-      case DepositStage.ConfirmAnswerStage:
-        return {
-          title: (
-            <Box>
-              <DepositIcon {...voteIconProps} />
-              <Typography className={classes.title} variant="h1">
-                {`${t('deposit')} ${formatCrypto(amount, voteAccount.crypto, lang)}`}
-              </Typography>
-            </Box>
-          ),
-          dialogWidth: 'sm',
-          content: (
-            <ConfirmAnswer
-              account={voteAccount}
-              proposal={proposal}
-              amount={amount}
-              gasFee={defaultGasFee}
-              memo={memo}
-              onConfirm={() => setStage(DepositStage.SecurityPasswordStage)}
-              rawTransactionData=""
-            />
-          ),
-        }
+      // case DepositStage.ConfirmAnswerStage:
+      //   return {
+      //     title: (
+      //       <Box>
+      //         <DepositIcon {...voteIconProps} />
+      //         <Typography className={classes.title} variant="h1">
+      //           {`${t('deposit')} ${formatCrypto(amount, voteAccount.crypto, lang)}`}
+      //         </Typography>
+      //       </Box>
+      //     ),
+      //     dialogWidth: 'sm',
+      //     content: (
+      //       <ConfirmAnswer
+      //         account={voteAccount}
+      //         proposal={proposal}
+      //         amount={amount}
+      //         gasFee={defaultGasFee}
+      //         memo={memo}
+      //         onConfirm={() => setStage(DepositStage.SecurityPasswordStage)}
+      //         rawTransactionData=""
+      //       />
+      //     ),
+      //   }
       case DepositStage.InputAmountStage:
       default:
         return {

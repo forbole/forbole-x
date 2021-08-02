@@ -22,7 +22,6 @@ export interface Proposal {
 
 interface CreateProposalFormProps {
   account: Account
-  networks: { name: string; id: string }[]
 }
 
 interface Content {
@@ -30,7 +29,7 @@ interface Content {
   content: React.ReactNode
 }
 
-const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account, networks }) => {
+const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const { t } = useTranslation('common')
   const [open, setOpen] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
@@ -89,9 +88,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account, networ
       default:
         return {
           title: 'proposal/create proposal',
-          content: (
-            <CreateProposalContent account={account} onNext={createDraft} networks={networks} />
-          ),
+          content: <CreateProposalContent account={account} onNext={createDraft} />,
         }
     }
   }, [stage, t])
