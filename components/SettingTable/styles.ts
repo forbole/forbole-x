@@ -95,7 +95,12 @@ const useStyles = makeStyles(
       },
       subject: {
         marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(6),
+        marginBottom: theme.spacing(4),
+      },
+      backButton: {
+        position: 'absolute',
+        top: theme.spacing(2),
+        left: theme.spacing(2),
       },
       iconText: {
         marginLeft: theme.spacing(1),
