@@ -104,6 +104,9 @@ const useStyles = makeStyles(
         color: theme.palette.text.primary,
         textDecoration: 'none',
       },
+      papaer: {
+        padding: theme.spacing(3),
+      },
     }),
   {
     name: 'HookGlobalStyles',
