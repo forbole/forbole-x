@@ -109,7 +109,7 @@ const useStyles = makeStyles(
         color: theme.palette.text.primary,
         textDecoration: 'none',
       },
-      papaer: {
+      paper: {
         padding: theme.spacing(3),
       },
     }),
