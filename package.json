@@ -21,7 +21,6 @@
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
-    "aws-sdk": "^2.957.0",
     "check-password-strength": "^1.0.15",
     "date-fns": "^2.16.1",
     "graphql": "^15.5.0",
