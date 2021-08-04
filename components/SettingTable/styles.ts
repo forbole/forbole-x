@@ -109,6 +109,9 @@ const useStyles = makeStyles(
         color: theme.palette.text.primary,
         textDecoration: 'none',
       },
+      paper: {
+        padding: theme.spacing(3),
+      },
     }),
   {
     name: 'HookGlobalStyles',
