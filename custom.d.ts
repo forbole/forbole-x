@@ -282,6 +282,51 @@ interface TransactionMsgIBCTransfer {
   }
 }
 
+interface TransactionMsgSubmitProposal {
+  type: 'cosmos-sdk/MsgSubmitProposal'
+  value: {
+    content: {
+      type:
+        | '/cosmos.TextProposal'
+        | '/cosmos.ParameterChangeProposal'
+        | '/cosmos.SoftwareUpgradeProposal'
+        | '/cosmos.CommunityPoolSpendProposal'
+      value: {
+        description: string
+        title: string
+      }
+    }
+    initial_deposit: [
+      {
+        amount: string
+        denom: string
+      }
+    ]
+    proposer: string
+  }
+}
+
+interface TransactionMsgVote {
+  type: 'cosmos-sdk/MsgVote'
+  value: {
+    option: 1 | 2 | 3 | 4 // Yes, Abstain, No, No with Veto
+    proposal_id: string
+    voter: string
+  }
+}
+
+interface TransactionMsgDeposit {
+  type: 'cosmos-sdk/MsgDeposit'
+  value: {
+    amount: {
+      amount: string
+      denom: string
+    }[]
+    depositor: string
+    proposal_id: string
+  }
+}
+
 type TransactionMsg =
   | TransactionMsgDelegate
   | TransactionMsgUndelegate
@@ -289,6 +334,9 @@ type TransactionMsg =
   | TransactionMsgWithdrawReward
   | TransactionMsgSend
   | TransactionMsgIBCTransfer
+  | TransactionMsgSubmitProposal
+  | TransactionMsgVote
+  | TransactionMsgDeposit
 
 interface Transaction {
   account_number?: string
