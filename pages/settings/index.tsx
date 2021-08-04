@@ -1,8 +1,8 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-import Layout from '../components/Layout'
-import SettingTable from '../components/SettingTable'
+import Layout from '../../components/Layout'
+import SettingTable from '../../components/SettingTable'
 
 const Setting: React.FC = () => {
   const { t } = useTranslation('common')
