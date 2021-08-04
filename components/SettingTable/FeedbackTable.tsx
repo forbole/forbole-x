@@ -33,6 +33,7 @@ const FeedbackTable: React.FC = () => {
       })
       setLoading(false)
       setIsSuccessDialogOpen(true)
+      setMessage({ from: '', subject: '', text: '' })
     } catch (err) {
       setLoading(false)
       console.log(err)
