@@ -43,9 +43,8 @@ const Layout: React.FC<LayoutProps> = ({
   const [openExtDialog, setOpenExtDialog] = React.useState(false)
 
   React.useEffect(() => {
-    if (isUnlocked) {
-      (window as any).forboleX ? setOpenExtDialog(false) : setOpenExtDialog(false)
-    }
+    // eslint-disable-next-line no-unused-expressions
+    isUnlocked && (window as any).forboleX ? setOpenExtDialog(false) : setOpenExtDialog(false)
   }, [isUnlocked])
 
   React.useEffect(() => {
