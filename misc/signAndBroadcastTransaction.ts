@@ -6,6 +6,7 @@ import set from 'lodash/set'
 import get from 'lodash/get'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Long from 'long'
+import { SigningCosmosClient } from '../@cosmjs/launchpad'
 import { LedgerSigner } from '../@cosmjs/ledger-amino'
 import cryptocurrencies from './cryptocurrencies'
 import sendMsgToChromeExt from './sendMsgToChromeExt'
@@ -51,6 +52,20 @@ const signAndBroadcastCosmosTransaction = async (
     signer = new LedgerSigner(ledgerTransport, signerOptions as any)
   }
   const accounts = await signer.getAccounts()
+  if (!typeUrlMap[get(transactionData, 'msgs[0].type', '')]) {
+    // TODO: change signer
+    const client = new SigningCosmosClient(
+      cryptocurrencies[crypto].lcdEndpoint,
+      accounts[0].address,
+      signer
+    )
+    const result = await client.signAndBroadcast(
+      transactionData.msgs,
+      transactionData.fee,
+      transactionData.memo
+    )
+    return result
+  }
   const client = await SigningStargateClient.connectWithSigner(
     cryptocurrencies[crypto].rpcEndpoint,
     signer

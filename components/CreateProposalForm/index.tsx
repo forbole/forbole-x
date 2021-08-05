@@ -1,8 +1,18 @@
 import React from 'react'
-import { Box, Button, InputAdornment, TextField, Typography, Grid } from '@material-ui/core'
+import {
+  Box,
+  Button,
+  InputAdornment,
+  TextField,
+  Typography,
+  Grid,
+  CircularProgress,
+  useTheme,
+} from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
 import keyBy from 'lodash/keyBy'
+import invoke from 'lodash/invoke'
 import { useRouter } from 'next/router'
 import useIconProps from '../../misc/useIconProps'
 import { useGetStyles } from './styles'
@@ -16,8 +26,9 @@ interface CreateProposalFormProps {
 
 const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const { classes } = useGetStyles()
+  const theme = useTheme()
   const { t } = useTranslation('common')
-  const { accounts } = useWalletsContext()
+  const { accounts, password } = useWalletsContext()
   const {
     query: { network: defaultNetwork },
   } = useRouter()
@@ -27,19 +38,19 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const types = [
     {
       name: `${t('Text')}`,
-      id: 'Text',
+      id: '/cosmos.TextProposal',
     },
     {
       name: `${t('ParameterChange')}`,
-      id: 'ParameterChange',
+      id: '/cosmos.ParameterChangeProposal',
     },
     {
       name: `${t('SoftwareUpgrade')}`,
-      id: 'SoftwareUpgrade',
+      id: '/cosmos.SoftwareUpgradeProposal',
     },
     {
       name: `${t('CommunityPoolSpend')}`,
-      id: 'CommunityPoolSpend',
+      id: '/cosmos.CommunityPoolSpendProposal',
     },
   ]
 
@@ -55,9 +66,34 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const [description, setDescription] = React.useState('')
   const [title, setTitle] = React.useState('')
   const [memo, setMemo] = React.useState('')
+  const [loading, setLoading] = React.useState(false)
 
-  // TODO
-  const onNext = () => null
+  const onNext = async () => {
+    try {
+      setLoading(true)
+      const msg = {
+        type: 'cosmos-sdk/MsgSubmitProposal',
+        value: {
+          content: {
+            type: type.id,
+            value: {
+              description,
+              title,
+            },
+          },
+          initial_deposit: [],
+          proposer: proposalAccount.address,
+        },
+      }
+      await invoke(window, 'forboleX.sendTransaction', password, proposalAccount.address, {
+        msgs: [msg],
+        memo,
+      })
+      setLoading(false)
+    } catch (err) {
+      setLoading(false)
+    }
+  }
 
   return (
     <Box>
@@ -259,11 +295,15 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
             className={classes.button}
             color="primary"
             disabled={
-              !!(network === undefined || type === undefined || title === '' || description === '')
+              loading ||
+              network === undefined ||
+              type === undefined ||
+              title === '' ||
+              description === ''
             }
             onClick={onNext}
           >
-            {t('next')}
+            {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </Box>
