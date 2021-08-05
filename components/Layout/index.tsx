@@ -11,6 +11,7 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import UnlockPasswordDialog from '../UnlockPasswordDialog'
 import usePersistedState from '../../misc/usePersistedState'
 import ConfirmTransactionDialog from '../ConfirmTransactionDialog'
+import ChromeExtDialog from '../ChromeExtDialog'
 
 export enum MenuWidth {
   Expanded = 32,
@@ -34,11 +35,19 @@ const Layout: React.FC<LayoutProps> = ({
   const theme = useTheme()
   const [isMenuExpanded, setIsMenuExpanded, loaded] = usePersistedState('isMenuExpanded', true)
   const { isFirstTimeUser, isUnlocked } = useWalletsContext()
-
   // Hide menu for chrome extension
   const router = useRouter()
   const hideMenuQueryParam = get(router, 'query.hideMenu', '')
   const isHideMenu = hideMenuQueryParam || (process.browser && (window as any).hideMenu)
+
+  const [openExtDialog, setOpenExtDialog] = React.useState(false)
+
+  React.useEffect(() => {
+    if (isUnlocked) {
+      (window as any).forboleX ? setOpenExtDialog(false) : setOpenExtDialog(false)
+    }
+  }, [isUnlocked])
+
   React.useEffect(() => {
     if (hideMenuQueryParam) {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
@@ -97,6 +106,7 @@ const Layout: React.FC<LayoutProps> = ({
           onClose={onClose}
         />
       ) : null}
+      <ChromeExtDialog open={openExtDialog} onClose={() => setOpenExtDialog(false)} />
     </>
   ) : null
 }
