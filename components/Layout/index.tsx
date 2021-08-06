@@ -40,14 +40,12 @@ const Layout: React.FC<LayoutProps> = ({
   const hideMenuQueryParam = get(router, 'query.hideMenu', '')
   const isHideMenu = hideMenuQueryParam || (process.browser && (window as any).hideMenu)
 
-  const [openExtDialog, setOpenExtDialog] = React.useState(false)
+  const [openExtDialog, setOpenExtDialog] = React.useState(true)
 
   React.useEffect(() => {
-    if (isUnlocked) {
-      // eslint-disable-next-line no-unused-expressions
-      (window as any).forboleX ? setOpenExtDialog(false) : setOpenExtDialog(true)
-    }
-  }, [isUnlocked])
+    console.log('(window as any).forboleX', (window as any).forboleX) // eslint-disable-next-line no-unused-expressions
+    ;(window as any).forboleX ? setOpenExtDialog(false) : null
+  }, [])
 
   React.useEffect(() => {
     if (hideMenuQueryParam) {
@@ -98,7 +96,7 @@ const Layout: React.FC<LayoutProps> = ({
         {passwordRequired && isFirstTimeUser ? <GetStarted /> : null}
         {!passwordRequired || isUnlocked ? children : null}
       </Box>
-      {passwordRequired && !isFirstTimeUser ? <UnlockPasswordDialog /> : null}
+      {passwordRequired && !isFirstTimeUser && !openExtDialog ? <UnlockPasswordDialog /> : null}
       {open ? (
         <ConfirmTransactionDialog
           address={address}
@@ -107,7 +105,9 @@ const Layout: React.FC<LayoutProps> = ({
           onClose={onClose}
         />
       ) : null}
+      {/* {window ? null : ( */}
       <ChromeExtDialog open={openExtDialog} onClose={() => setOpenExtDialog(false)} />
+      {/* )} */}
     </>
   ) : null
 }
