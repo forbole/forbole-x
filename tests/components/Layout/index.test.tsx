@@ -4,6 +4,7 @@ import Layout from '../../../components/Layout'
 
 const mockWalletsContext = {
   isFirstTimeUser: true,
+  isChromeExtInstalled: true,
 }
 
 jest.mock('next/router', () => ({

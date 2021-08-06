@@ -8,7 +8,7 @@ const useStyles = makeStyles(
       right: theme.spacing(2),
     },
     fixedWidthButton: {
-      color: 'white',
+      color: `${theme.palette.common.white} !important`,
       width: theme.spacing(20),
       marginTop: theme.spacing(6),
       marginLeft: theme.spacing(2),

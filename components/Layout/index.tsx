@@ -34,18 +34,11 @@ const Layout: React.FC<LayoutProps> = ({
   const classes = useStyles()
   const theme = useTheme()
   const [isMenuExpanded, setIsMenuExpanded, loaded] = usePersistedState('isMenuExpanded', true)
-  const { isFirstTimeUser, isUnlocked } = useWalletsContext()
+  const { isFirstTimeUser, isUnlocked, isChromeExtInstalled } = useWalletsContext()
   // Hide menu for chrome extension
   const router = useRouter()
   const hideMenuQueryParam = get(router, 'query.hideMenu', '')
   const isHideMenu = hideMenuQueryParam || (process.browser && (window as any).hideMenu)
-
-  const [openExtDialog, setOpenExtDialog] = React.useState(true)
-
-  React.useEffect(() => {
-    console.log('(window as any).forboleX', (window as any).forboleX) // eslint-disable-next-line no-unused-expressions
-    ;(window as any).forboleX ? setOpenExtDialog(false) : null
-  }, [])
 
   React.useEffect(() => {
     if (hideMenuQueryParam) {
@@ -96,7 +89,10 @@ const Layout: React.FC<LayoutProps> = ({
         {passwordRequired && isFirstTimeUser ? <GetStarted /> : null}
         {!passwordRequired || isUnlocked ? children : null}
       </Box>
-      {passwordRequired && !isFirstTimeUser && !openExtDialog ? <UnlockPasswordDialog /> : null}
+      {passwordRequired && !isFirstTimeUser && isChromeExtInstalled ? (
+        <UnlockPasswordDialog />
+      ) : null}
+      {!isChromeExtInstalled ? <ChromeExtDialog /> : null}
       {open ? (
         <ConfirmTransactionDialog
           address={address}
@@ -105,9 +101,6 @@ const Layout: React.FC<LayoutProps> = ({
           onClose={onClose}
         />
       ) : null}
-      {/* {window ? null : ( */}
-      <ChromeExtDialog open={openExtDialog} onClose={() => setOpenExtDialog(false)} />
-      {/* )} */}
     </>
   ) : null
 }
