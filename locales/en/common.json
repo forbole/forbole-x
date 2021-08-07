@@ -369,5 +369,8 @@
   "version": "Version",
   "forbole blog": "Forbole Blog",
   "big dipper blog explorer": "Big Dipper Blog Explorer",
-  "github": "Github"
+  "github": "Github",
+  "chrome extention": "Chrome Extention",
+  "please install chrome extension": "Please install chrome extension",
+  "install": "Install"
 }
