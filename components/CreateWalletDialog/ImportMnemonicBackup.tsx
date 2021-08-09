@@ -24,9 +24,9 @@ const ImportMnemonicBackup: React.FC<ImportMnemonicBackupProps> = ({ onConfirm, 
       }}
     >
       <DialogContent className={classes.dialogContent}>
-        <Typography>{t('mnemonic phrase backup')}</Typography>
+        <Typography>{t('secret recovery phrase backup')}</Typography>
         <TextField
-          placeholder={t('mnemonic phrase backup')}
+          placeholder={t('secret recovery phrase backup')}
           variant="filled"
           InputProps={{
             disableUnderline: true,
