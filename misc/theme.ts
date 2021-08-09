@@ -103,7 +103,7 @@ const lightTheme = {
   ...common,
   palette: {
     primary: {
-      main: '#5C7BFF',
+      main: '#007FFF',
     },
     secondary: {
       main: '#FCB836',
