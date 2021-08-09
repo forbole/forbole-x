@@ -6,7 +6,7 @@ import set from 'lodash/set'
 import get from 'lodash/get'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Long from 'long'
-import { SigningCosmosClient } from '../@cosmjs/launchpad'
+import { SigningCosmosClient, Secp256k1HdWallet } from '../@cosmjs/launchpad'
 import { LedgerSigner } from '../@cosmjs/ledger-amino'
 import cryptocurrencies from './cryptocurrencies'
 import sendMsgToChromeExt from './sendMsgToChromeExt'
@@ -41,19 +41,19 @@ const signAndBroadcastCosmosTransaction = async (
   transactionData: any,
   ledgerTransport?: any
 ): Promise<any> => {
-  let signer
   const signerOptions = {
     hdPaths: [stringToPath(`m/44'/${cryptocurrencies[crypto].coinType}'/0'/0/${index}`)],
     prefix: cryptocurrencies[crypto].prefix,
   }
-  if (!ledgerTransport) {
-    signer = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, signerOptions)
-  } else {
-    signer = new LedgerSigner(ledgerTransport, signerOptions as any)
-  }
-  const accounts = await signer.getAccounts()
+  // if Stargate format not supported (governance)
   if (!typeUrlMap[get(transactionData, 'msgs[0].type', '')]) {
-    // TODO: change signer
+    let signer
+    if (!ledgerTransport) {
+      signer = await Secp256k1HdWallet.fromMnemonic(mnemonic, signerOptions)
+    } else {
+      signer = new LedgerSigner(ledgerTransport, signerOptions as any)
+    }
+    const accounts = await signer.getAccounts()
     const client = new SigningCosmosClient(
       cryptocurrencies[crypto].lcdEndpoint,
       accounts[0].address,
@@ -66,6 +66,13 @@ const signAndBroadcastCosmosTransaction = async (
     )
     return result
   }
+  let signer
+  if (!ledgerTransport) {
+    signer = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, signerOptions)
+  } else {
+    signer = new LedgerSigner(ledgerTransport, signerOptions as any)
+  }
+  const accounts = await signer.getAccounts()
   const client = await SigningStargateClient.connectWithSigner(
     cryptocurrencies[crypto].rpcEndpoint,
     signer
