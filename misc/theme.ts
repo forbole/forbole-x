@@ -106,7 +106,7 @@ const lightTheme = {
       main: '#007FFF',
     },
     secondary: {
-      main: '#FCB836',
+      main: '#ECB140',
     },
     info: {
       main: '#1D86FF',
