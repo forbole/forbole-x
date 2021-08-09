@@ -1,6 +1,15 @@
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
-import { Box, List, ListItem, ListItemIcon, ListItemText, Paper, useTheme } from '@material-ui/core'
+import {
+  Avatar,
+  Box,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Paper,
+  useTheme,
+} from '@material-ui/core'
 import Link from 'next/link'
 import OverviewIcon from '../../assets/images/icons/icon_overview.svg'
 import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg'
@@ -14,6 +23,8 @@ import useIconProps from '../../misc/useIconProps'
 import { MenuWidth } from '.'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { CustomTheme } from '../../misc/theme'
+import cryptocurrencies from '../../misc/cryptocurrencies'
+import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface LeftMenuProps {
   activeItem: string
@@ -27,6 +38,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
   const iconProps = useIconProps(3)
   const classes = useStyles()
   const { theme } = useGeneralContext()
+  const { accounts } = useWalletsContext()
   const items = React.useMemo(
     () => [
       {
@@ -130,6 +142,43 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
             </Link>
           )
         })}
+        {accounts.map(
+          (account) => {
+            const crypto = cryptocurrencies[account.crypto]
+            return account.fav === true ? (
+              <>
+                <Avatar alt={crypto.name} src={crypto.image} />
+              </>
+            ) : (
+              <>{null}</>
+            )
+          }
+          // const selected = account.href === activeItem
+          // return (
+          //   <Link key={account.title} href={account.href} passHref>
+          //     <ListItem
+          //       // selected={selected}
+          //       // className={classes.menuItem}
+          //       // button
+          //       // component="a"
+          //       // style={{ background: selected ? themeStyle.palette.menuBackground : 'inherits' }}
+          //     >
+          //       {/* <ListItemIcon>
+          //         {React.cloneElement(account.icon, {
+          //           fill: selected ? themeStyle.palette.primary.main : themeStyle.palette.grey[300],
+          //         })}
+          //       </ListItemIcon>
+          //       <ListItemText
+          //         primary={account.title}
+          //         primaryTypographyProps={{
+          //           variant: 'h6',
+          //           color: selected ? 'primary' : 'textSecondary',
+          //         }}
+          //       />
+          //     </ListItem> */}
+          //   </Link>
+          // )
+        )}
       </List>
     </Paper>
   )
