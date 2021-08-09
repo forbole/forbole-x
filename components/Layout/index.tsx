@@ -11,6 +11,7 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import UnlockPasswordDialog from '../UnlockPasswordDialog'
 import usePersistedState from '../../misc/usePersistedState'
 import ConfirmTransactionDialog from '../ConfirmTransactionDialog'
+import ChromeExtDialog from '../ChromeExtDialog'
 
 export enum MenuWidth {
   Expanded = 32,
@@ -33,12 +34,12 @@ const Layout: React.FC<LayoutProps> = ({
   const classes = useStyles()
   const theme = useTheme()
   const [isMenuExpanded, setIsMenuExpanded, loaded] = usePersistedState('isMenuExpanded', true)
-  const { isFirstTimeUser, isUnlocked } = useWalletsContext()
-
+  const { isFirstTimeUser, isUnlocked, isChromeExtInstalled } = useWalletsContext()
   // Hide menu for chrome extension
   const router = useRouter()
   const hideMenuQueryParam = get(router, 'query.hideMenu', '')
   const isHideMenu = hideMenuQueryParam || (process.browser && (window as any).hideMenu)
+
   React.useEffect(() => {
     if (hideMenuQueryParam) {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
@@ -88,7 +89,10 @@ const Layout: React.FC<LayoutProps> = ({
         {passwordRequired && isFirstTimeUser ? <GetStarted /> : null}
         {!passwordRequired || isUnlocked ? children : null}
       </Box>
-      {passwordRequired && !isFirstTimeUser ? <UnlockPasswordDialog /> : null}
+      {passwordRequired && !isFirstTimeUser && isChromeExtInstalled ? (
+        <UnlockPasswordDialog />
+      ) : null}
+      {!isChromeExtInstalled ? <ChromeExtDialog /> : null}
       {open ? (
         <ConfirmTransactionDialog
           address={address}

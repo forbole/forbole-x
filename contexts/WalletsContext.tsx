@@ -4,6 +4,7 @@ import sendMsgToChromeExt from '../misc/sendMsgToChromeExt'
 interface WalletsState {
   isFirstTimeUser: boolean
   isUnlocked: boolean
+  isChromeExtInstalled: boolean
   wallets: Wallet[]
   accounts: Account[]
   password: string
@@ -27,6 +28,7 @@ interface WalletsState {
 const initialState: WalletsState = {
   isFirstTimeUser: false,
   isUnlocked: false,
+  isChromeExtInstalled: false,
   wallets: [],
   accounts: [],
   password: '',
@@ -38,6 +40,7 @@ const WalletsProvider: React.FC = ({ children }) => {
   const [wallets, setWallets] = React.useState<Wallet[]>([])
   const [accounts, setAccounts] = React.useState<Account[]>([])
   const [isFirstTimeUser, setIsFirstTimeUser] = React.useState(false)
+  const [isChromeExtInstalled, setIsChromeExtInstalled] = React.useState(false)
   const [password, setPassword] = React.useState('')
 
   const reset = React.useCallback(async () => {
@@ -51,10 +54,15 @@ const WalletsProvider: React.FC = ({ children }) => {
   }, [setIsFirstTimeUser, setAccounts, setWallets, setPassword])
 
   const checkIsFirstTimeUser = React.useCallback(async () => {
-    const response = await sendMsgToChromeExt({
-      event: 'ping',
-    })
-    setIsFirstTimeUser(response.isFirstTimeUser)
+    try {
+      const response = await sendMsgToChromeExt({
+        event: 'ping',
+      })
+      setIsFirstTimeUser(response.isFirstTimeUser)
+      setIsChromeExtInstalled(true)
+    } catch (err) {
+      setIsChromeExtInstalled(false)
+    }
   }, [])
 
   const unlockWallets = React.useCallback(
@@ -244,6 +252,7 @@ const WalletsProvider: React.FC = ({ children }) => {
       value={{
         isFirstTimeUser,
         isUnlocked: !!wallets.length,
+        isChromeExtInstalled,
         wallets,
         accounts,
         password,
