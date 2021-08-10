@@ -23,8 +23,8 @@ import getWalletAddress from '../../misc/getWalletAddress'
 let ledgerSigner
 
 export enum ImportStage {
-  ImportMnemonicPhraseStage = 'import mnemonic phrase',
-  MnemonicPhraseBackupStage = 'use mnemonic phrase backup',
+  ImportMnemonicPhraseStage = 'import secret recovery phrase',
+  MnemonicPhraseBackupStage = 'use secret recovery phrase backup',
   ConnectLedgerDeviceStage = 'connect ledger device',
 }
 
@@ -32,11 +32,11 @@ export enum CommonStage {
   StartStage = 'start',
   AccessMyWalletStage = 'access my wallet',
   CreateWalletStage = 'create wallet',
-  ConfirmMnemonicStage = 'confirm mnemonic',
+  ConfirmMnemonicStage = 'confirm secret recovery',
   SetSecurityPasswordStage = 'set security password',
   ImportWalletStage = 'import wallet',
   ImportLedgerWalletStage = 'import ledger wallet',
-  WhatIsMnemonicStage = 'what is mnemonic',
+  WhatIsMnemonicStage = 'what is secret recovery phrase',
 }
 
 type Stage = CommonStage | ImportStage
@@ -117,7 +117,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       if (input === mnemonic) {
         setStage(CommonStage.SetSecurityPasswordStage)
       } else {
-        setError(t('invalid mnemonic'))
+        setError(t('invalid secret recovery phrase'))
       }
     },
     [mnemonic, setStage, setError]
@@ -165,10 +165,10 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
         }
       case ImportStage.ImportMnemonicPhraseStage:
         return {
-          title: t('mnemonic'),
+          title: t('secret recovery phrase'),
           content: (
             <ConfirmMnemonic
-              description={t('mnemonic description')}
+              description={t('secret recovery description')}
               onConfirm={importMnemonic}
               error={error}
             />
@@ -176,7 +176,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
         }
       case ImportStage.MnemonicPhraseBackupStage:
         return {
-          title: t('mnemonic phrase backup title'),
+          title: t('secret recovery phrase backup title'),
           content: <ImportMnemonicBackup onConfirm={importMnemonicBackup} error={error} />,
         }
       case CommonStage.CreateWalletStage:
@@ -194,7 +194,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           title: t('create new wallet title'),
           content: (
             <ConfirmMnemonic
-              description={t('confirm mnemonic description')}
+              description={t('confirm secret recovery description')}
               onConfirm={confirmMnemonic}
               error={error}
             />
@@ -223,7 +223,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
         }
       case CommonStage.WhatIsMnemonicStage:
         return {
-          title: t('what is mnemonic phrase'),
+          title: t('what is secret recovery phrase'),
           content: <WhatIsMnemonic />,
         }
       case CommonStage.AccessMyWalletStage:
