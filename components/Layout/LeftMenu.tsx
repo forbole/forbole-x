@@ -147,7 +147,17 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
             const crypto = cryptocurrencies[account.crypto]
             return account.fav === true ? (
               <>
-                <Avatar alt={crypto.name} src={crypto.image} />
+                <Link
+                  // variant="body2"
+                  // color="textSecondary"
+                  // component="button"
+                  // className={classes.address}
+                  // href={account.address}
+                  href="/account/[address]"
+                  as={`/account/${account.address}`}
+                >
+                  <Avatar alt={crypto.name} src={crypto.image} />
+                </Link>
               </>
             ) : (
               <>{null}</>
