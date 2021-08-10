@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-describe('Create wallet by importing mnemonic phrase on first visit', () => {
+describe('Create wallet by importing secret recovery phrase on first visit', () => {
   const testWallet = {
     id: '123',
     name: 'test wallet name',
@@ -45,9 +45,9 @@ describe('Create wallet by importing mnemonic phrase on first visit', () => {
     cy.get('input').type('123123').should('have.value', '123123')
     cy.get('button').contains('Confirm').click()
   })
-  it('import mnemonic phrase', () => {
-    cy.contains('12 / 24 word mnemonic phrase').click()
-    cy.contains('Import Mnemonic Phrase').click()
+  it('import secret recovery phrase', () => {
+    cy.contains('12 / 24 word secret recovery phrase').click()
+    cy.contains('Import Secret Recovery Phrase').click()
     cy.get('#mnemonic-0').type(mnemonic)
     cy.contains('Next').click()
   })

@@ -37,8 +37,8 @@ import { CustomTheme } from '../../misc/theme'
 enum Stage {
   SecurityPassword = 'security password',
   BackupPassword = 'backup password',
-  ExportMnemonic = 'export mnemonic',
-  DisplayMnemonic = 'display mnemonic',
+  ExportMnemonic = 'export secret recovery phrase',
+  DisplayMnemonic = 'display secret recovery phrase',
   SocialMedia = 'social media',
 }
 
@@ -72,7 +72,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
         setStage(Stage.DisplayMnemonic)
         const result = await viewMnemonicPhrase(walletId, securityPassword)
         setMnemonicPhrase(result)
-        setButtonText('export mnemonic')
+        setButtonText('export secret recovery phrase')
       } else if (stage === Stage.DisplayMnemonic) {
         setStage(Stage.BackupPassword)
         setButtonText('next')
@@ -111,7 +111,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
 
   const onPrev = () => {
     if (stage === Stage.BackupPassword) {
-      setButtonText('export mnemonic')
+      setButtonText('export secret recovery phrase')
     } else if (stage === Stage.SocialMedia) {
       setButtonText('share')
       setBackupPassword('')
@@ -172,7 +172,9 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
         {stage === Stage.DisplayMnemonic ? (
           <Box mb={4}>
             <Box mb={4} textAlign="center">
-              <Typography color="textSecondary">{t('display mnemomic details')}</Typography>
+              <Typography color="textSecondary">
+                {t('display secret recovery phrase details')}
+              </Typography>
             </Box>
             <MnemonicPhraseInput
               disabled
@@ -184,9 +186,11 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
         {stage === Stage.ExportMnemonic ? (
           <Box mb={4}>
             <Box mb={4}>
-              <Typography color="textSecondary">{t('export mnemomic details')}</Typography>
+              <Typography color="textSecondary">
+                {t('export secret recovery phrase details')}
+              </Typography>
             </Box>
-            <Typography gutterBottom>{t('mnemonic phrase backup')}</Typography>
+            <Typography gutterBottom>{t('secret recovery phrase backup')}</Typography>
             <TextField
               variant="filled"
               InputProps={{ disableUnderline: true }}
