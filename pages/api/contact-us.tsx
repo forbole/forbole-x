@@ -20,7 +20,7 @@ export default async function contactUs(req, res) {
       },
       function (err, info) {
         if (err) {
-          res.status(500).json({ success: false })
+          res.status(500).json({ success: false, err: err.message })
         } else {
           res.status(200).json({ success: true })
         }
