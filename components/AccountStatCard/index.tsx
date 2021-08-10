@@ -75,6 +75,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
     coins: [],
     tokens_prices: [],
   })
+  console.log(latestBalance)
 
   const data = createEmptyChartData(
     (get(accountWithBalance, 'balances', []) as AccountBalance[]).map((b) => getTotalBalance(b)),
@@ -96,8 +97,11 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
       <Card
         className={classes.container}
         onClick={(e) => {
-          const targetClassName = String((e.target as any).className)
-          if (targetClassName.includes('MuiBox-root') || targetClassName.includes('MuiCard-root')) {
+          if (
+            String((e.target as any).className).includes('MuiButton-label') === false &&
+            String((e.target as any).id) !== 'button' &&
+            String((e.target as any).id) !== 'icon_star_marked_svg__Path_2_'
+          ) {
             router.push(`/account/${account.address}`)
           }
         }}
@@ -105,6 +109,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
         <Box mb={3} display="flex" alignItems="center" justifyContent="space-between">
           <AccountAvatar account={account} hideAddress />
           <Button
+            id="button"
             variant="outlined"
             className={classes.timeRangeButton}
             onClick={() => setDelegateDialogOpen(true)}
@@ -163,11 +168,11 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
                   <Typography variant="caption">{formatCurrency(diff, currency, lang)}</Typography>
                 </Box>
                 <Box display="flex" flex={1} flexDirection="column" alignItems="flex-end">
-                  <IconButton onClick={toggleFav}>
+                  <IconButton onClick={toggleFav} id="button">
                     {account.fav ? (
                       <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
                     ) : (
-                      <StarIcon {...iconProps} />
+                      <StarIcon id="button" {...iconProps} />
                     )}
                   </IconButton>
                 </Box>

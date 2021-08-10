@@ -10,7 +10,7 @@ exports[`component: CreateWalletDialog - WhatIsMnemonic renders correctly 1`] = 
     <p
       className="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
     >
-      common:what is mnemonic description
+      common:what is secret recovery phrase description
     </p>
   </div>
 </div>

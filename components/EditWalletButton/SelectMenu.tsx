@@ -43,7 +43,7 @@ const SelectMenu: React.FC<SelectMenuProps> = ({
           <Divider />
           <Box my={1} display="flex">
             <Button className={classes.itemButton} onClick={() => checkMnemonicPhrase()}>
-              {t('view mnemonic phrase')}
+              {t('view secret recovery phrase')}
             </Button>
           </Box>
         </Box>
