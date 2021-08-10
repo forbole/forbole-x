@@ -22,13 +22,9 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Update env variables
         run: |
-          sed -i 's/MAILGUN_USER=secret/MAILGUN_USER=${{ secrets.MAILGUN_USER }}/g' .env
-          sed -i 's/MAILGUN_KEY=secret/MAILGUN_KEY=${{ secrets.MAILGUN_KEY }}/g' .env
-
+          echo MAILGUN_USER=${{ secrets.MAILGUN_USER }} >> .env
+          echo MAILGUN_KEY=${{ secrets.MAILGUN_KEY }} >> .env
       - name: Build and push
-        env:
-          MAILGUN_USER: ${{ secrets.MAILGUN_USER }}
-          MAILGUN_KEY: ${{ secrets.MAILGUN_KEY }}
         id: docker_build
         uses: docker/build-push-action@v2
         with:
