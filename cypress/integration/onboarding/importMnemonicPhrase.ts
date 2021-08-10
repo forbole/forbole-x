@@ -47,7 +47,7 @@ describe('Create wallet by importing secret recovery phrase on first visit', () 
   })
   it('import secret recovery phrase', () => {
     cy.contains('12 / 24 word secret recovery phrase').click()
-    cy.contains('Import Mnemonic Phrase').click()
+    cy.contains('Import Secret Recovery Phrase').click()
     cy.get('#mnemonic-0').type(mnemonic)
     cy.contains('Next').click()
   })
