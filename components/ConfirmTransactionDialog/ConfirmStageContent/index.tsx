@@ -21,6 +21,7 @@ import { useGeneralContext } from '../../../contexts/GeneralContext'
 import { CustomTheme } from '../../../misc/theme'
 import IBCTransferContent from './IBCTransferContent'
 import SubmitProposalContent from './SubmitProposalContent'
+import VoteContent from './VoteContent'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
@@ -115,6 +116,8 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             msgs={transactionData.msgs as TransactionMsgSubmitProposal[]}
           />
         )
+      case 'cosmos-sdk/MsgVote':
+        return <VoteContent msgs={transactionData.msgs as TransactionMsgVote[]} />
       default:
         return null
     }

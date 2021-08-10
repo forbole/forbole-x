@@ -3,30 +3,32 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 
 interface VoteContentProps {
-  account: Account
-  proposal: Proposal
-  answer: { id: string; name: string }
+  msgs: TransactionMsgVote[]
 }
 
-const VoteContent: React.FC<VoteContentProps> = ({ account, proposal, answer }) => {
+const VoteContent: React.FC<VoteContentProps> = ({ msgs }) => {
   const { t } = useTranslation('common')
 
   return (
     <>
-      <Box pt={1.5} pb={1.5}>
-        <Typography variant="h6">{t('address')}</Typography>
-        <Typography variant="subtitle1" color="textSecondary">
-          {account.address}
-        </Typography>
+      <Box display="flex" flexDirection="column" alignItems="center" my={4}>
+        <Typography variant="h4">{t('vote')}</Typography>
       </Box>
       <Divider />
-      <Box pt={1.5} pb={1.5}>
-        <Typography variant="h6">{`${t('vote proposal')} #${proposal.id}`}</Typography>
-        <Typography variant="subtitle1" color="textSecondary">
-          {answer.name}
-        </Typography>
-      </Box>
-      <Divider />
+      {msgs.map((msg, i) => (
+        <React.Fragment key={String(i)}>
+          <Box my={1}>
+            <Typography>{t('address')}</Typography>
+            <Typography color="textSecondary">{msg.value.voter}</Typography>
+          </Box>
+          <Divider />
+          <Box my={1}>
+            <Typography>{`${t('vote proposal')} #${msg.value.proposal_id}`}</Typography>
+            <Typography color="textSecondary">{msg.value.option}</Typography>
+          </Box>
+          <Divider />
+        </React.Fragment>
+      ))}
     </>
   )
 }
