@@ -22,8 +22,8 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Update env variables
         run: |
-          sed -i '' 's/MAILGUN_USER=secret/MAILGUN_USER=${{ secrets.MAILGUN_USER }}/g' .env
-          sed -i '' 's/MAILGUN_KEY=secret/MAILGUN_KEY=${{ secrets.MAILGUN_KEY }}/g' .env
+          sed -i 's/MAILGUN_USER=secret/MAILGUN_USER=${{ secrets.MAILGUN_USER }}/g' .env
+          sed -i 's/MAILGUN_KEY=secret/MAILGUN_KEY=${{ secrets.MAILGUN_KEY }}/g' .env
 
       - name: Build and push
         env:
