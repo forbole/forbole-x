@@ -202,7 +202,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                 <Box mt={2}>
                   <Typography color="secondary">
                     {wallet.type === 'mnemonic'
-                      ? t('withdraw warning mnemonic')
+                      ? t('withdraw warning secret recovery phrase')
                       : t('withdraw warning ledger')}
                   </Typography>
                 </Box>

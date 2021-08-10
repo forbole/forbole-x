@@ -110,7 +110,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
             {addresses.map(({ address, balance }, i) => {
               const index = page * rowsPerPage + i
               return (
-                <TableRow className={classes.tableRow}>
+                <TableRow key={index} className={classes.tableRow}>
                   <TableCell className={classes.tableCell}>
                     <Checkbox
                       className={classes.checkbox}

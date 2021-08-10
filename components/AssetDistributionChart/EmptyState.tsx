@@ -1,8 +1,8 @@
 import React from 'react'
 import { Box, Typography, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-import ForboleLogoDark from '../../assets/images/forboleLogo_dark.svg'
-import ForboleLogoLight from '../../assets/images/forboleLogo_light.svg'
+import ForboleLogoDark from '../../assets/images/image_default_dark.svg'
+import ForboleLogoLight from '../../assets/images/image_default_light.svg'
 import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 

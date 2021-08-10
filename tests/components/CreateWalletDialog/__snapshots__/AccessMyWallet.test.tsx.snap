@@ -34,12 +34,12 @@ Array [
         <h6
           className="MuiTypography-root MuiTypography-h6 MuiTypography-gutterBottom"
         >
-          common:import mnemonic phrase
+          common:import secret recovery phrase
         </h6>
         <p
           className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
         >
-          common:import mnemonic phrase description
+          common:import secret recovery phrase description
         </p>
       </button>
       <button
@@ -63,12 +63,12 @@ Array [
         <h6
           className="MuiTypography-root MuiTypography-h6 MuiTypography-gutterBottom"
         >
-          common:use mnemonic phrase backup
+          common:use secret recovery phrase backup
         </h6>
         <p
           className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
         >
-          common:use mnemonic phrase backup description
+          common:use secret recovery phrase backup description
         </p>
       </button>
       <button

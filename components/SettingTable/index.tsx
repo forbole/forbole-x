@@ -4,6 +4,9 @@ import useTranslation from 'next-translate/useTranslation'
 import useStyles from './styles'
 import GeneralTable from './GeneralTable'
 import HelpTable from './HelpTable'
+import FeedbackTable from './FeedbackTable'
+import AboutTable from './AboutTable'
+import FollowUsTable from './FollowUsTable'
 
 export type FavAddress = {
   address: string
@@ -40,6 +43,9 @@ const SettingTable: React.FC = () => {
       <Box pt={3} />
       {currentTab === 0 ? <GeneralTable /> : null}
       {currentTab === 1 ? <HelpTable /> : null}
+      {currentTab === 2 ? <FeedbackTable /> : null}
+      {currentTab === 3 ? <FollowUsTable /> : null}
+      {currentTab === 4 ? <AboutTable /> : null}
     </>
   )
 }

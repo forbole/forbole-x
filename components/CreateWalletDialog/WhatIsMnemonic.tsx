@@ -10,7 +10,7 @@ const WhatIsMnemonic: React.FC = () => {
   return (
     <DialogContent className={classes.dialogContent}>
       <Box mx={1} mb={4}>
-        <Typography paragraph>{t('what is mnemonic description')}</Typography>
+        <Typography paragraph>{t('what is secret recovery phrase description')}</Typography>
       </Box>
     </DialogContent>
   )

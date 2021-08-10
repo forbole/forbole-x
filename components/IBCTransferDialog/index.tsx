@@ -2,7 +2,6 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import get from 'lodash/get'
 import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
@@ -10,7 +9,6 @@ import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import useStateHistory from '../../misc/useStateHistory'
 import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
-import cryptocurrencies from '../../misc/cryptocurrencies'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIsMobile from '../../misc/useIsMobile'
 import SelectChain from './SelectChain'
@@ -64,7 +62,6 @@ const IBCTransferDialog: React.FC<IBCTransferDialogProps> = ({
 
   const confirmChain = React.useCallback(
     (params: { chainId: string; channel: string }) => {
-      console.log(params)
       setChainId(params.chainId)
       setChannel(params.channel)
       setStage(IBCTransferStage.SelectDetailsStage)
@@ -90,6 +87,7 @@ const IBCTransferDialog: React.FC<IBCTransferDialogProps> = ({
               token: { denom: coinsToSend.denom, amount: coinsToSend.amount.toString() },
               sender: account.address,
               receiver: address,
+              timeout_timestamp: (Date.now() + 3600000) * 1000,
             },
           },
         ]
@@ -100,7 +98,6 @@ const IBCTransferDialog: React.FC<IBCTransferDialogProps> = ({
         setLoading(false)
         onClose()
       } catch (err) {
-        console.log(err)
         setLoading(false)
       }
     },

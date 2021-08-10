@@ -87,6 +87,31 @@ const useStyles = makeStyles(
         margin: theme.spacing(4, 2),
         color: 'white',
       },
+      button: {
+        width: theme.spacing(16),
+      },
+      message: {
+        marginTop: theme.spacing(2),
+      },
+      subject: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(4),
+      },
+      backButton: {
+        position: 'absolute',
+        top: theme.spacing(2),
+        left: theme.spacing(2),
+      },
+      iconText: {
+        marginLeft: theme.spacing(1),
+      },
+      socialMediaLink: {
+        color: theme.palette.text.primary,
+        textDecoration: 'none',
+      },
+      paper: {
+        padding: theme.spacing(3),
+      },
     }),
   {
     name: 'HookGlobalStyles',
