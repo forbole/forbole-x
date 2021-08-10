@@ -46,7 +46,7 @@ describe('Create wallet on first visit', () => {
     cy.get('input').type('123123').should('have.value', '123123')
     cy.get('button').contains('Confirm').click()
   })
-  it('create and confirm mnemonic phrase', () => {
+  it('create and confirm secret recovery phrase', () => {
     cy.contains('have any secret recovery phrase').click()
     cy.get('.mnemonic').should('be.visible')
     cy.get('.mnemonic').then((e) => {
