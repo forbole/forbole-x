@@ -2,7 +2,7 @@
 
 exports[`component: Layout - ThemeModeButton renders dark theme correctly 1`] = `
 <button
-  className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-navBarButton-6"
+  className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-navBarButton-8"
   disabled={false}
   onBlur={[Function]}
   onClick={[Function]}
@@ -37,7 +37,7 @@ exports[`component: Layout - ThemeModeButton renders dark theme correctly 1`] = 
 
 exports[`component: Layout - ThemeModeButton renders light theme correctly 1`] = `
 <button
-  className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-navBarButton-6"
+  className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-navBarButton-8"
   disabled={false}
   onBlur={[Function]}
   onClick={[Function]}
