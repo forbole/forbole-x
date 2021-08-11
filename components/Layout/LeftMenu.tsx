@@ -146,59 +146,44 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
             )
           })}
         </Box>
-        {accounts.map(
-          (account) => {
-            const crypto = cryptocurrencies[account.crypto]
-            return account.fav === true ? (
-              <Box className={classes.favMenu}>
-                <Link href="/account/[address]" as={`/account/${account.address}`}>
-                  <ListItem className={classes.favMenuItem} button component="a">
-                    <ListItemIcon>
-                      <Avatar
-                        alt={crypto.name}
-                        src={crypto.image}
-                        style={{ height: '24px', width: '24px' }}
-                      />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={crypto.name}
-                      primaryTypographyProps={{
-                        variant: 'h6',
-                      }}
+        {accounts.map((account) => {
+          const crypto = cryptocurrencies[account.crypto]
+          return account.fav === true ? (
+            <Box className={classes.favMenu}>
+              {isMenuExpanded ? (
+                <ListItemText
+                  primary={t('starredAccounts')}
+                  primaryTypographyProps={{
+                    variant: 'h6',
+                    color: 'textSecondary',
+                  }}
+                  className={classes.starredAccounts}
+                />
+              ) : (
+                <></>
+              )}
+              <Link href="/account/[address]" as={`/account/${account.address}`}>
+                <ListItem className={classes.favMenuItem} button component="a">
+                  <ListItemIcon>
+                    <Avatar
+                      alt={crypto.name}
+                      src={crypto.image}
+                      style={{ height: '24px', width: '24px' }}
                     />
-                  </ListItem>
-                </Link>
-              </Box>
-            ) : (
-              <>{null}</>
-            )
-          }
-          // const selected = account.href === activeItem
-          // return (
-          //   <Link key={account.title} href={account.href} passHref>
-          //     <ListItem
-          //       // selected={selected}
-          //       // className={classes.menuItem}
-          //       // button
-          //       // component="a"
-          //       // style={{ background: selected ? themeStyle.palette.menuBackground : 'inherits' }}
-          //     >
-          //       {/* <ListItemIcon>
-          //         {React.cloneElement(account.icon, {
-          //           fill: selected ? themeStyle.palette.primary.main : themeStyle.palette.grey[300],
-          //         })}
-          //       </ListItemIcon>
-          //       <ListItemText
-          //         primary={account.title}
-          //         primaryTypographyProps={{
-          //           variant: 'h6',
-          //           color: selected ? 'primary' : 'textSecondary',
-          //         }}
-          //       />
-          //     </ListItem> */}
-          //   </Link>
-          // )
-        )}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={crypto.name}
+                    primaryTypographyProps={{
+                      variant: 'h6',
+                    }}
+                  />
+                </ListItem>
+              </Link>
+            </Box>
+          ) : (
+            <>{null}</>
+          )
+        })}
       </List>
     </Paper>
   )

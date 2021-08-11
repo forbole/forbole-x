@@ -372,5 +372,6 @@
   "github": "Github",
   "chrome extention": "Chrome Extention",
   "please install chrome extension": "Please install chrome extension",
-  "install": "Install"
+  "install": "Install",
+  "starredAccounts": "Starred Accounts",
 }
