@@ -115,50 +115,60 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
             </Box>
           </ListItemIcon>
         </ListItem>
-        {items.map((item) => {
-          const selected = item.href === activeItem
-          return (
-            <Link key={item.title} href={item.href} passHref>
-              <ListItem
-                selected={selected}
-                className={classes.menuItem}
-                button
-                component="a"
-                style={{ background: selected ? themeStyle.palette.menuBackground : 'inherits' }}
-              >
-                <ListItemIcon>
-                  {React.cloneElement(item.icon, {
-                    fill: selected ? themeStyle.palette.primary.main : themeStyle.palette.grey[300],
-                  })}
-                </ListItemIcon>
-                <ListItemText
-                  primary={item.title}
-                  primaryTypographyProps={{
-                    variant: 'h6',
-                    color: selected ? 'primary' : 'textSecondary',
-                  }}
-                />
-              </ListItem>
-            </Link>
-          )
-        })}
+        <Box>
+          {items.map((item) => {
+            const selected = item.href === activeItem
+            return (
+              <Link key={item.title} href={item.href} passHref>
+                <ListItem
+                  selected={selected}
+                  className={classes.menuItem}
+                  button
+                  component="a"
+                  style={{ background: selected ? themeStyle.palette.menuBackground : 'inherits' }}
+                >
+                  <ListItemIcon>
+                    {React.cloneElement(item.icon, {
+                      fill: selected
+                        ? themeStyle.palette.primary.main
+                        : themeStyle.palette.grey[300],
+                    })}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.title}
+                    primaryTypographyProps={{
+                      variant: 'h6',
+                      color: selected ? 'primary' : 'textSecondary',
+                    }}
+                  />
+                </ListItem>
+              </Link>
+            )
+          })}
+        </Box>
         {accounts.map(
           (account) => {
             const crypto = cryptocurrencies[account.crypto]
             return account.fav === true ? (
-              <>
-                <Link
-                  // variant="body2"
-                  // color="textSecondary"
-                  // component="button"
-                  // className={classes.address}
-                  // href={account.address}
-                  href="/account/[address]"
-                  as={`/account/${account.address}`}
-                >
-                  <Avatar alt={crypto.name} src={crypto.image} />
+              <Box className={classes.favMenu}>
+                <Link href="/account/[address]" as={`/account/${account.address}`}>
+                  <ListItem className={classes.favMenuItem} button component="a">
+                    <ListItemIcon>
+                      <Avatar
+                        alt={crypto.name}
+                        src={crypto.image}
+                        style={{ height: '24px', width: '24px' }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={crypto.name}
+                      primaryTypographyProps={{
+                        variant: 'h6',
+                      }}
+                    />
+                  </ListItem>
                 </Link>
-              </>
+              </Box>
             ) : (
               <>{null}</>
             )

@@ -17,10 +17,23 @@ const useStyles = makeStyles(
     },
     menu: {
       margin: theme.spacing(2, 2.5),
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
     },
     menuItem: {
       height: theme.spacing(6),
       marginBottom: theme.spacing(3),
+      borderRadius: theme.spacing(1),
+      whiteSpace: 'nowrap',
+    },
+    favMenu: {
+      marginTop: 'auto',
+      overflow: 'scroll',
+      height: '40%',
+    },
+    favMenuItem: {
+      height: theme.spacing(6),
       borderRadius: theme.spacing(1),
       whiteSpace: 'nowrap',
     },
