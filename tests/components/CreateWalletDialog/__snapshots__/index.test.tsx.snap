@@ -91,7 +91,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
           <p
             className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
           >
-            common:i have mnemonic phrase
+            common:i have secret recovery phrase
           </p>
           <span
             className="MuiTouchRipple-root"
@@ -129,7 +129,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
           <p
             className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
           >
-            common:i dont have mnemonic phrase
+            common:i dont have secret recovery phrase
           </p>
           <span
             className="MuiTouchRipple-root"
@@ -162,7 +162,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
       <span
         className="MuiButton-label"
       >
-        common:what is mnemonic phrase
+        common:what is secret recovery phrase
       </span>
       <span
         className="MuiTouchRipple-root"
@@ -260,7 +260,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
           <p
             className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
           >
-            common:i have mnemonic phrase
+            common:i have secret recovery phrase
           </p>
         </button>
       </div>
@@ -295,7 +295,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
           <p
             className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
           >
-            common:i dont have mnemonic phrase
+            common:i dont have secret recovery phrase
           </p>
         </button>
       </div>
@@ -325,7 +325,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
       <span
         className="MuiButton-label"
       >
-        common:what is mnemonic phrase
+        common:what is secret recovery phrase
       </span>
     </button>
   </div>

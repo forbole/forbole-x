@@ -43,7 +43,7 @@ const Start: React.FC<StartProps> = ({
                 {theme === 'light' ? <WithMnemonicIconLight /> : <WithMnemonicIconDark />}
               </Box>
               <Typography variant="body2" align="center" color="textSecondary">
-                {t('i have mnemonic phrase')}
+                {t('i have secret recovery phrase')}
               </Typography>
             </ButtonBase>
           </Grid>
@@ -53,7 +53,7 @@ const Start: React.FC<StartProps> = ({
                 {theme === 'light' ? <WithoutMnemonicIconLight /> : <WithoutMnemonicIconDark />}
               </Box>
               <Typography variant="body2" align="center" color="textSecondary">
-                {t('i dont have mnemonic phrase')}
+                {t('i dont have secret recovery phrase')}
               </Typography>
             </ButtonBase>
           </Grid>
@@ -61,7 +61,7 @@ const Start: React.FC<StartProps> = ({
       </DialogContent>
       <DialogActions>
         <Button className={classes.button} color="primary" onClick={onWhatIsMnemonicClick}>
-          {t('what is mnemonic phrase')}
+          {t('what is secret recovery phrase')}
         </Button>
       </DialogActions>
     </>

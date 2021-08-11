@@ -45,7 +45,10 @@ const fetchBalance = async (address: string, crypto: string, timestamp: Date) =>
       rewards,
     },
     timestamp: timestamp.getTime(),
-    availableTokens: { coins: get(balance, 'data.balance', []), tokens_prices: denoms },
+    availableTokens: {
+      coins: get(balance, 'data.account_balance_history[0].balance', []),
+      tokens_prices: denoms,
+    },
   }
 }
 
