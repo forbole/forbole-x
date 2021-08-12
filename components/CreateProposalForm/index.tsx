@@ -36,32 +36,19 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const iconProps = useIconProps()
 
   const types = [
-    {
-      name: `${t('Text')}`,
-      id: '/cosmos.TextProposal',
-    },
-    {
-      name: `${t('ParameterChange')}`,
-      id: '/cosmos.ParameterChangeProposal',
-    },
-    {
-      name: `${t('SoftwareUpgrade')}`,
-      id: '/cosmos.SoftwareUpgradeProposal',
-    },
-    {
-      name: `${t('CommunityPoolSpend')}`,
-      id: '/cosmos.CommunityPoolSpendProposal',
-    },
+    '/cosmos.TextProposal',
+    '/cosmos.ParameterChangeProposal',
+    '/cosmos.SoftwareUpgradeProposal',
+    '/cosmos.CommunityPoolSpendProposal',
   ]
 
   const [networkKey, setNetworkKey] = React.useState(String(defaultNetwork))
   const network = chains[networkKey]
 
-  const [type, setType] = React.useState<{ name: string; id: string }>()
+  const [type, setType] = React.useState('')
 
   const [proposalAccount, setProposalAccount] = React.useState<Account>(account)
   const accountsMap = keyBy(accounts, 'address')
-  const typesMap = keyBy(types, 'id')
 
   const [description, setDescription] = React.useState('')
   const [title, setTitle] = React.useState('')
@@ -75,7 +62,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
         type: 'cosmos-sdk/MsgSubmitProposal',
         value: {
           content: {
-            type: type.id,
+            type,
             value: {
               description,
               title,
@@ -202,17 +189,17 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
             </Typography>
             <Box display="flex" alignItems="center">
               <Autocomplete
-                options={types.map(({ id }) => id)}
-                getOptionLabel={(option) => typesMap[option].name}
+                options={types}
+                getOptionLabel={(option) => t(option.replace('/cosmos.', ''))}
                 openOnFocus
                 fullWidth
                 filterOptions={(options: string[], { inputValue }: any) =>
                   options.filter((o) =>
-                    typesMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
+                    t(o.replace('/cosmos.', '')).toLowerCase().includes(inputValue.toLowerCase())
                   )
                 }
-                onChange={(_e, id: string) => setType(typesMap[id])}
-                renderOption={(id) => <Typography>{typesMap[id].name}</Typography>}
+                onChange={(_e, id: string) => setType(id)}
+                renderOption={(id) => <Typography>{t(id.replace('/cosmos.', ''))}</Typography>}
                 renderInput={({ InputProps, ...params }) => (
                   <TextField
                     {...params}

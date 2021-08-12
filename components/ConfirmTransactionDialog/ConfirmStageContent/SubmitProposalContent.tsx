@@ -32,7 +32,9 @@ const SubmitProposalContent: React.FC<SubmitProposalContentProps> = ({ msgs, acc
       <Divider />
       <Box my={1}>
         <Typography>{t('type')}</Typography>
-        <Typography color="textSecondary">{t(msgs[0].value.content.type)}</Typography>
+        <Typography color="textSecondary">
+          {t(msgs[0].value.content.type.replace('/cosmos.', ''))}
+        </Typography>
       </Box>
       <Divider />
       <Box my={1}>

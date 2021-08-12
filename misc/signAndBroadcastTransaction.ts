@@ -6,7 +6,7 @@ import set from 'lodash/set'
 import get from 'lodash/get'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Long from 'long'
-import { SigningCosmosClient, Secp256k1HdWallet } from '../@cosmjs/launchpad'
+import { SigningCosmosClient, Secp256k1HdWallet, makeSignDoc } from '../@cosmjs/launchpad'
 import { LedgerSigner } from '../@cosmjs/ledger-amino'
 import cryptocurrencies from './cryptocurrencies'
 import sendMsgToChromeExt from './sendMsgToChromeExt'
@@ -19,6 +19,7 @@ const typeUrlMap: any = {
     '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
   'cosmos-sdk/MsgSend': '/cosmos.bank.v1beta1.MsgSend',
   'cosmos-sdk/MsgTransfer': '/ibc.applications.transfer.v1.MsgTransfer',
+  'cosmos-sdk/MsgSubmitProposal': '/cosmos.gov.v1beta1.MsgSubmitProposal',
 }
 
 const formatTransactionMsg = (msg: any) => {
@@ -59,11 +60,23 @@ const signAndBroadcastCosmosTransaction = async (
       accounts[0].address,
       signer
     )
-    const result = await client.signAndBroadcast(
+    const chainId = await client.getChainId()
+    const { accountNumber, sequence } = await client.getSequence(accounts[0].address)
+    const signDoc = makeSignDoc(
       transactionData.msgs,
       transactionData.fee,
-      transactionData.memo
+      chainId,
+      transactionData.memo,
+      accountNumber,
+      sequence
     )
+    const signAmino = await signer.signAmino(accounts[0].address, signDoc)
+    const result = await client.broadcastTx({
+      msg: transactionData.msgs,
+      fee: transactionData.fee,
+      memo: transactionData.memo,
+      signatures: [signAmino.signature],
+    })
     return result
   }
   let signer

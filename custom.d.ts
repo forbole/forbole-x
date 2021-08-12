@@ -285,17 +285,45 @@ interface TransactionMsgIBCTransfer {
 interface TransactionMsgSubmitProposal {
   type: 'cosmos-sdk/MsgSubmitProposal'
   value: {
-    content: {
-      type:
-        | '/cosmos.TextProposal'
-        | '/cosmos.ParameterChangeProposal'
-        | '/cosmos.SoftwareUpgradeProposal'
-        | '/cosmos.CommunityPoolSpendProposal'
-      value: {
-        description: string
-        title: string
-      }
-    }
+    content:
+      | {
+          type: '/cosmos.gov.v1beta1.TextProposal'
+          value: {
+            description: string
+            title: string
+          }
+        }
+      | {
+          type: '/cosmos.params.v1beta1.ParameterChangeProposal'
+          value: {
+            description: string
+            title: string
+            changes: { supspace: string; key: string; value: string }[]
+          }
+        }
+      | {
+          type: '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal'
+          value: {
+            title: string
+            description: string
+            plan: {
+              name: string
+              time?: number
+              height?: number
+              info: string
+              upgraded_client_state?: any
+            }
+          }
+        }
+      | {
+          type: '/cosmos.distribution.v1beta1.CommunityPoolSpendProposal'
+          value: {
+            title: string
+            description: string
+            recipient: string
+            amount: Array<{ amount: string; denom: string }>
+          }
+        }
     initial_deposit: [
       {
         amount: string
