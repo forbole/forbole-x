@@ -374,5 +374,6 @@
   "please install chrome extension": "Please install chrome extension",
   "install": "Install",
   "starredAccounts": "Starred Accounts",
-  "manageAccounts": "Go to wallet manage to star your account"
+  "manageAccounts": "Go to wallet manage to star your account",
+  "star now": "Star Now"
 }

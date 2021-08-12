@@ -41,6 +41,23 @@ const useStyles = makeStyles(
       paddingBottom: 0,
       whiteSpace: 'nowrap',
     },
+    manageAccounts: {
+      transition: 'display 0.2s ease-in-out',
+      height: theme.spacing(6),
+      marginBottom: theme.spacing(3),
+      borderRadius: theme.spacing(1),
+      padding: theme.spacing(2),
+      paddingTop: 0,
+      overflowWrap: 'break-word',
+      wordWrap: 'break-word',
+      hyphens: 'auto',
+    },
+    starButton: {
+      marginTop: theme.spacing(3),
+      marginLeft: theme.spacing(2),
+      borderRadius: theme.spacing(1),
+      width: 'fit-content',
+    },
     favMenuItem: {
       height: theme.spacing(6),
       borderRadius: theme.spacing(1),

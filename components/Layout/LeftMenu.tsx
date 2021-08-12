@@ -3,6 +3,7 @@ import useTranslation from 'next-translate/useTranslation'
 import {
   Avatar,
   Box,
+  Button,
   List,
   ListItem,
   ListItemIcon,
@@ -164,8 +165,17 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
               color: 'textSecondary',
             }}
             style={{ display: favAccount || !isMenuExpanded ? 'none' : 'block' }}
-            className={classes.starredAccounts}
+            className={classes.manageAccounts}
           />
+          <Button
+            href="/wallets"
+            variant="contained"
+            color="primary"
+            style={{ display: favAccount || !isMenuExpanded ? 'none' : 'block' }}
+            className={classes.starButton}
+          >
+            {t('star now')}
+          </Button>
           {accounts.map((account) => {
             const crypto = cryptocurrencies[account.crypto]
             return account.fav ? (
