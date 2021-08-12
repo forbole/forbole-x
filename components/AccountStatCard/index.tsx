@@ -186,7 +186,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
         onClose={() => setDelegateDialogOpen(false)}
         account={account}
         availableTokens={availableTokens}
-        validators={validators.filter(({ status }) => status === 'active')}
+        validators={validators}
       />
     </>
   )
