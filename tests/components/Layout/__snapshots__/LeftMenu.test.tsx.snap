@@ -34,7 +34,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         className="MuiListItemIcon-root"
       >
         <div
-          className="MuiBox-root MuiBox-root-14"
+          className="MuiBox-root MuiBox-root-16"
         >
           <svg
             data-file-name="SvgLogo_expended"
@@ -47,7 +47,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       />
     </div>
     <div
-      className="MuiBox-root MuiBox-root-15"
+      className="MuiBox-root MuiBox-root-17"
     >
       <a
         aria-disabled={false}
@@ -286,7 +286,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       </a>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-16 HookGlobalStyles-favMenu-5"
+      className="MuiBox-root MuiBox-root-18 HookGlobalStyles-favMenu-5"
     >
       <div
         className="MuiListItemText-root HookGlobalStyles-starredAccounts-6"
@@ -303,7 +303,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         </span>
       </div>
       <div
-        className="MuiListItemText-root HookGlobalStyles-starredAccounts-6"
+        className="MuiListItemText-root HookGlobalStyles-manageAccounts-7"
         style={
           Object {
             "display": "block",
@@ -316,6 +316,37 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
           common:manageAccounts
         </span>
       </div>
+      <a
+        aria-disabled={false}
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-starButton-8 MuiButton-containedPrimary"
+        href="/wallets"
+        onBlur={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "display": "block",
+          }
+        }
+        tabIndex={0}
+      >
+        <span
+          className="MuiButton-label"
+        >
+          common:star now
+        </span>
+        <span
+          className="MuiTouchRipple-root"
+        />
+      </a>
     </div>
   </ul>
 </div>
@@ -355,7 +386,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         className="MuiListItemIcon-root"
       >
         <div
-          className="MuiBox-root MuiBox-root-11"
+          className="MuiBox-root MuiBox-root-13"
         >
           <svg
             data-file-name="SvgLogo_expended"
@@ -365,7 +396,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-12"
+      className="MuiBox-root MuiBox-root-14"
     >
       <a
         aria-disabled={false}
@@ -589,7 +620,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
       </a>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-13 HookGlobalStyles-favMenu-5"
+      className="MuiBox-root MuiBox-root-15 HookGlobalStyles-favMenu-5"
     >
       <div
         className="MuiListItemText-root HookGlobalStyles-starredAccounts-6"
@@ -606,7 +637,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         </span>
       </div>
       <div
-        className="MuiListItemText-root HookGlobalStyles-starredAccounts-6"
+        className="MuiListItemText-root HookGlobalStyles-manageAccounts-7"
         style={
           Object {
             "display": "block",
@@ -619,6 +650,34 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           common:manageAccounts
         </span>
       </div>
+      <a
+        aria-disabled={false}
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-starButton-8 MuiButton-containedPrimary"
+        href="/wallets"
+        onBlur={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "display": "block",
+          }
+        }
+        tabIndex={0}
+      >
+        <span
+          className="MuiButton-label"
+        >
+          common:star now
+        </span>
+      </a>
     </div>
   </ul>
 </div>
