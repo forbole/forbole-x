@@ -1,12 +1,13 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 import { stringToPath } from '@cosmjs/crypto'
 import { SigningStargateClient } from '@cosmjs/stargate'
 import camelCase from 'lodash/camelCase'
 import set from 'lodash/set'
 import get from 'lodash/get'
-// eslint-disable-next-line import/no-extraneous-dependencies
+import cloneDeep from 'lodash/cloneDeep'
+import { TextProposal } from 'cosmjs-types/cosmos/gov/v1beta1/gov'
 import Long from 'long'
-import { SigningCosmosClient, Secp256k1HdWallet, makeSignDoc } from '../@cosmjs/launchpad'
 import { LedgerSigner } from '../@cosmjs/ledger-amino'
 import cryptocurrencies from './cryptocurrencies'
 import sendMsgToChromeExt from './sendMsgToChromeExt'
@@ -30,7 +31,13 @@ const formatTransactionMsg = (msg: any) => {
   transformedMsg.typeUrl = typeUrlMap[msg.type]
   transformedMsg.value = {}
   Object.keys(msg.value).forEach((k) => {
-    transformedMsg.value[camelCase(k)] = msg.value[k]
+    transformedMsg.value[camelCase(k)] = cloneDeep(msg.value[k])
+    // TODO: encode other proposal types
+    if (k === 'content') {
+      transformedMsg.value.content.value = Uint8Array.from(
+        TextProposal.encode(TextProposal.fromPartial(msg.value.content.value)).finish()
+      )
+    }
   })
   return transformedMsg
 }
@@ -45,39 +52,6 @@ const signAndBroadcastCosmosTransaction = async (
   const signerOptions = {
     hdPaths: [stringToPath(`m/44'/${cryptocurrencies[crypto].coinType}'/0'/0/${index}`)],
     prefix: cryptocurrencies[crypto].prefix,
-  }
-  // if Stargate format not supported (governance)
-  if (!typeUrlMap[get(transactionData, 'msgs[0].type', '')]) {
-    let signer
-    if (!ledgerTransport) {
-      signer = await Secp256k1HdWallet.fromMnemonic(mnemonic, signerOptions)
-    } else {
-      signer = new LedgerSigner(ledgerTransport, signerOptions as any)
-    }
-    const accounts = await signer.getAccounts()
-    const client = new SigningCosmosClient(
-      cryptocurrencies[crypto].lcdEndpoint,
-      accounts[0].address,
-      signer
-    )
-    const chainId = await client.getChainId()
-    const { accountNumber, sequence } = await client.getSequence(accounts[0].address)
-    const signDoc = makeSignDoc(
-      transactionData.msgs,
-      transactionData.fee,
-      chainId,
-      transactionData.memo,
-      accountNumber,
-      sequence
-    )
-    const signAmino = await signer.signAmino(accounts[0].address, signDoc)
-    const result = await client.broadcastTx({
-      msg: transactionData.msgs,
-      fee: transactionData.fee,
-      memo: transactionData.memo,
-      signatures: [signAmino.signature],
-    })
-    return result
   }
   let signer
   if (!ledgerTransport) {

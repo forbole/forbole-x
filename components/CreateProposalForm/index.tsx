@@ -13,6 +13,7 @@ import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
 import keyBy from 'lodash/keyBy'
 import invoke from 'lodash/invoke'
+import last from 'lodash/last'
 import { useRouter } from 'next/router'
 import useIconProps from '../../misc/useIconProps'
 import { useGetStyles } from './styles'
@@ -36,10 +37,10 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const iconProps = useIconProps()
 
   const types = [
-    '/cosmos.TextProposal',
-    '/cosmos.ParameterChangeProposal',
-    '/cosmos.SoftwareUpgradeProposal',
-    '/cosmos.CommunityPoolSpendProposal',
+    '/cosmos.gov.v1beta1.TextProposal',
+    '/cosmos.params.v1beta1.ParameterChangeProposal',
+    '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal',
+    '/cosmos.distribution.v1beta1.CommunityPoolSpendProposal',
   ]
 
   const [networkKey, setNetworkKey] = React.useState(String(defaultNetwork))
@@ -62,10 +63,10 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
         type: 'cosmos-sdk/MsgSubmitProposal',
         value: {
           content: {
-            type,
+            typeUrl: type,
             value: {
-              description,
               title,
+              description,
             },
           },
           initial_deposit: [],
@@ -190,16 +191,18 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
             <Box display="flex" alignItems="center">
               <Autocomplete
                 options={types}
-                getOptionLabel={(option) => t(option.replace('/cosmos.', ''))}
+                getOptionLabel={(option) => t(last(option.split('.')))}
                 openOnFocus
                 fullWidth
                 filterOptions={(options: string[], { inputValue }: any) =>
                   options.filter((o) =>
-                    t(o.replace('/cosmos.', '')).toLowerCase().includes(inputValue.toLowerCase())
+                    t(last(o.split('.')))
+                      .toLowerCase()
+                      .includes(inputValue.toLowerCase())
                   )
                 }
                 onChange={(_e, id: string) => setType(id)}
-                renderOption={(id) => <Typography>{t(id.replace('/cosmos.', ''))}</Typography>}
+                renderOption={(id) => <Typography>{t(last(id.split('.')))}</Typography>}
                 renderInput={({ InputProps, ...params }) => (
                   <TextField
                     {...params}

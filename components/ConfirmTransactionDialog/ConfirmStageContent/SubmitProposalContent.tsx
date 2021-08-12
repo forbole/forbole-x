@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Divider, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
+import last from 'lodash/last'
 import chains from '../../../misc/chains'
 import cryptocurrencies from '../../../misc/cryptocurrencies'
 
@@ -33,7 +34,7 @@ const SubmitProposalContent: React.FC<SubmitProposalContentProps> = ({ msgs, acc
       <Box my={1}>
         <Typography>{t('type')}</Typography>
         <Typography color="textSecondary">
-          {t(msgs[0].value.content.type.replace('/cosmos.', ''))}
+          {t(last(msgs[0].value.content.typeUrl.split('.')))}
         </Typography>
       </Box>
       <Divider />

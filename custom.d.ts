@@ -287,14 +287,14 @@ interface TransactionMsgSubmitProposal {
   value: {
     content:
       | {
-          type: '/cosmos.gov.v1beta1.TextProposal'
+          typeUrl: '/cosmos.gov.v1beta1.TextProposal'
           value: {
             description: string
             title: string
           }
         }
       | {
-          type: '/cosmos.params.v1beta1.ParameterChangeProposal'
+          typeUrl: '/cosmos.params.v1beta1.ParameterChangeProposal'
           value: {
             description: string
             title: string
@@ -302,7 +302,7 @@ interface TransactionMsgSubmitProposal {
           }
         }
       | {
-          type: '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal'
+          typeUrl: '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal'
           value: {
             title: string
             description: string
@@ -316,7 +316,7 @@ interface TransactionMsgSubmitProposal {
           }
         }
       | {
-          type: '/cosmos.distribution.v1beta1.CommunityPoolSpendProposal'
+          typeUrl: '/cosmos.distribution.v1beta1.CommunityPoolSpendProposal'
           value: {
             title: string
             description: string
