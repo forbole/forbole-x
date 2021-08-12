@@ -331,5 +331,6 @@
   "forbole blog": "[zh] Forbole Blog",
   "big dipper blog explorer": "[zh] Big Dipper Blog Explorer",
   "github": "[zh] Github",
-  "starredAccounts": "[zh] Starred Accounts"
+  "starredAccounts": "[zh] Starred Accounts",
+  "manageAccounts": "[zh] Go to wallet manage to star your account"
 }

@@ -34,7 +34,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         className="MuiListItemIcon-root"
       >
         <div
-          className="MuiBox-root MuiBox-root-13"
+          className="MuiBox-root MuiBox-root-14"
         >
           <svg
             data-file-name="SvgLogo_expended"
@@ -47,7 +47,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       />
     </div>
     <div
-      className="MuiBox-root MuiBox-root-14"
+      className="MuiBox-root MuiBox-root-15"
     >
       <a
         aria-disabled={false}
@@ -284,6 +284,38 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
           className="MuiTouchRipple-root"
         />
       </a>
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-16 HookGlobalStyles-favMenu-5"
+    >
+      <div
+        className="MuiListItemText-root HookGlobalStyles-starredAccounts-6"
+        style={
+          Object {
+            "display": "block",
+          }
+        }
+      >
+        <span
+          className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+        >
+          common:starredAccounts
+        </span>
+      </div>
+      <div
+        className="MuiListItemText-root HookGlobalStyles-starredAccounts-6"
+        style={
+          Object {
+            "display": "block",
+          }
+        }
+      >
+        <span
+          className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+        >
+          common:manageAccounts
+        </span>
+      </div>
     </div>
   </ul>
 </div>
@@ -555,6 +587,38 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           </span>
         </div>
       </a>
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-13 HookGlobalStyles-favMenu-5"
+    >
+      <div
+        className="MuiListItemText-root HookGlobalStyles-starredAccounts-6"
+        style={
+          Object {
+            "display": "block",
+          }
+        }
+      >
+        <span
+          className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+        >
+          common:starredAccounts
+        </span>
+      </div>
+      <div
+        className="MuiListItemText-root HookGlobalStyles-starredAccounts-6"
+        style={
+          Object {
+            "display": "block",
+          }
+        }
+      >
+        <span
+          className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+        >
+          common:manageAccounts
+        </span>
+      </div>
     </div>
   </ul>
 </div>

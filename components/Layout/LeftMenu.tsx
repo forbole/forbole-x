@@ -39,6 +39,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
   const classes = useStyles()
   const { theme } = useGeneralContext()
   const { accounts } = useWalletsContext()
+  const favAccount = accounts.some((acc) => !!acc.fav)
   const items = React.useMemo(
     () => [
       {
@@ -146,22 +147,28 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
             )
           })}
         </Box>
-        {accounts.map((account) => {
-          const crypto = cryptocurrencies[account.crypto]
-          return account.fav === true ? (
-            <Box className={classes.favMenu}>
-              {isMenuExpanded ? (
-                <ListItemText
-                  primary={t('starredAccounts')}
-                  primaryTypographyProps={{
-                    variant: 'h6',
-                    color: 'textSecondary',
-                  }}
-                  className={classes.starredAccounts}
-                />
-              ) : (
-                <></>
-              )}
+        <Box className={classes.favMenu}>
+          <ListItemText
+            primary={t('starredAccounts')}
+            primaryTypographyProps={{
+              variant: 'h6',
+              color: 'textSecondary',
+            }}
+            className={classes.starredAccounts}
+            style={{ display: isMenuExpanded ? 'block' : 'none' }}
+          />
+          <ListItemText
+            primary={t('manageAccounts')}
+            primaryTypographyProps={{
+              variant: 'h6',
+              color: 'textSecondary',
+            }}
+            style={{ display: favAccount || !isMenuExpanded ? 'none' : 'block' }}
+            className={classes.starredAccounts}
+          />
+          {accounts.map((account) => {
+            const crypto = cryptocurrencies[account.crypto]
+            return account.fav ? (
               <Link href="/account/[address]" as={`/account/${account.address}`}>
                 <ListItem className={classes.favMenuItem} button component="a">
                   <ListItemIcon>
@@ -179,11 +186,11 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
                   />
                 </ListItem>
               </Link>
-            </Box>
-          ) : (
-            <>{null}</>
-          )
-        })}
+            ) : (
+              <></>
+            )
+          })}
+        </Box>
       </List>
     </Paper>
   )

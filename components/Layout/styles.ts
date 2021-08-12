@@ -33,11 +33,12 @@ const useStyles = makeStyles(
       height: '40%',
     },
     starredAccounts: {
-      display: 'inline-block',
       transition: 'display 0.2s ease-in-out',
       height: theme.spacing(6),
       marginBottom: theme.spacing(3),
       borderRadius: theme.spacing(1),
+      padding: theme.spacing(2),
+      paddingBottom: 0,
       whiteSpace: 'nowrap',
     },
     favMenuItem: {
