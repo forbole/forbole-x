@@ -7,7 +7,7 @@ const useStyles = makeStyles(
       top: 0,
       bottom: 0,
       left: 0,
-      overflow: 'auto',
+      overflow: 'hidden',
       overflowX: 'hidden',
       zIndex: 2,
       transition: 'width 0.2s ease-in-out',
@@ -29,8 +29,7 @@ const useStyles = makeStyles(
     },
     favMenu: {
       marginTop: 'auto',
-      overflow: 'scroll',
-      height: '40%',
+      height: '30%',
     },
     starredAccounts: {
       transition: 'display 0.2s ease-in-out',
