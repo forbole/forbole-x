@@ -60,7 +60,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
     try {
       setLoading(true)
       const msg = {
-        type: 'cosmos-sdk/MsgSubmitProposal',
+        typeUrl: '/cosmos.gov.v1beta1.MsgSubmitProposal',
         value: {
           content: {
             typeUrl: type,
@@ -69,7 +69,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
               description,
             },
           },
-          initial_deposit: [],
+          initialDeposit: [],
           proposer: proposalAccount.address,
         },
       }

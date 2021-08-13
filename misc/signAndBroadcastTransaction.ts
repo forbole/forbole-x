@@ -2,43 +2,74 @@
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 import { stringToPath } from '@cosmjs/crypto'
 import { SigningStargateClient } from '@cosmjs/stargate'
-import camelCase from 'lodash/camelCase'
 import set from 'lodash/set'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
 import { TextProposal } from 'cosmjs-types/cosmos/gov/v1beta1/gov'
+import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/params'
+import { SoftwareUpgradeProposal } from 'cosmjs-types/cosmos/upgrade/v1beta1/upgrade'
+import { CommunityPoolSpendProposal } from 'cosmjs-types/cosmos/distribution/v1beta1/distribution'
 import Long from 'long'
 import { LedgerSigner } from '../@cosmjs/ledger-amino'
 import cryptocurrencies from './cryptocurrencies'
 import sendMsgToChromeExt from './sendMsgToChromeExt'
 
-const typeUrlMap: any = {
-  'cosmos-sdk/MsgDelegate': '/cosmos.staking.v1beta1.MsgDelegate',
-  'cosmos-sdk/MsgUndelegate': '/cosmos.staking.v1beta1.MsgUndelegate',
-  'cosmos-sdk/MsgBeginRedelegate': '/cosmos.staking.v1beta1.MsgBeginRedelegate',
-  'cosmos-sdk/MsgWithdrawDelegationReward':
-    '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
-  'cosmos-sdk/MsgSend': '/cosmos.bank.v1beta1.MsgSend',
-  'cosmos-sdk/MsgTransfer': '/ibc.applications.transfer.v1.MsgTransfer',
-  'cosmos-sdk/MsgSubmitProposal': '/cosmos.gov.v1beta1.MsgSubmitProposal',
-}
-
-const formatTransactionMsg = (msg: any) => {
-  const transformedMsg: any = {}
-  if (msg.type === 'cosmos-sdk/MsgTransfer') {
-    set(msg, 'value.timeout_timestamp', new Long(get(msg, 'value.timeout_timestamp', 0)))
+const formatTransactionMsg = (msg: TransactionMsg) => {
+  const transformedMsg = cloneDeep(msg)
+  if (transformedMsg.typeUrl === '/ibc.applications.transfer.v1.MsgTransfer') {
+    set(
+      transformedMsg,
+      'value.timeoutTimestamp',
+      new Long(get(transformedMsg, 'value.timeoutTimestamp', 0))
+    )
   }
-  transformedMsg.typeUrl = typeUrlMap[msg.type]
-  transformedMsg.value = {}
-  Object.keys(msg.value).forEach((k) => {
-    transformedMsg.value[camelCase(k)] = cloneDeep(msg.value[k])
-    // TODO: encode other proposal types
-    if (k === 'content') {
-      transformedMsg.value.content.value = Uint8Array.from(
-        TextProposal.encode(TextProposal.fromPartial(msg.value.content.value)).finish()
+
+  if (get(msg, 'value.content.typeUrl') === '/cosmos.gov.v1beta1.TextProposal') {
+    set(
+      transformedMsg,
+      'value.content.value',
+      Uint8Array.from(
+        TextProposal.encode(TextProposal.fromPartial(get(msg, 'value.content.value'))).finish()
       )
-    }
-  })
+    )
+  } else if (
+    get(msg, 'value.content.typeUrl') === '/cosmos.params.v1beta1.ParameterChangeProposal'
+  ) {
+    set(
+      transformedMsg,
+      'value.content.value',
+      Uint8Array.from(
+        ParameterChangeProposal.encode(
+          ParameterChangeProposal.fromPartial(get(msg, 'value.content.value'))
+        ).finish()
+      )
+    )
+  } else if (
+    get(msg, 'value.content.typeUrl') === '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal'
+  ) {
+    set(
+      transformedMsg,
+      'value.content.value',
+      Uint8Array.from(
+        SoftwareUpgradeProposal.encode(
+          SoftwareUpgradeProposal.fromPartial(get(msg, 'value.content.value'))
+        ).finish()
+      )
+    )
+  } else if (
+    get(msg, 'value.content.typeUrl') === '/cosmos.distribution.v1beta1.CommunityPoolSpendProposal'
+  ) {
+    set(
+      transformedMsg,
+      'value.content.value',
+      Uint8Array.from(
+        CommunityPoolSpendProposal.encode(
+          CommunityPoolSpendProposal.fromPartial(get(msg, 'value.content.value'))
+        ).finish()
+      )
+    )
+  }
+
   return transformedMsg
 }
 
