@@ -34,7 +34,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         className="MuiListItemIcon-root"
       >
         <div
-          className="MuiBox-root MuiBox-root-9"
+          className="MuiBox-root MuiBox-root-16"
         >
           <svg
             data-file-name="SvgLogo_expended"
@@ -46,241 +46,308 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         className="MuiTouchRipple-root"
       />
     </div>
-    <a
-      aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button Mui-selected"
-      href="/"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      style={
-        Object {
-          "background": undefined,
-        }
-      }
-      tabIndex={0}
+    <div
+      className="MuiBox-root MuiBox-root-17"
     >
-      <div
-        className="MuiListItemIcon-root"
+      <a
+        aria-disabled={false}
+        className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button Mui-selected"
+        href="/"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "background": undefined,
+          }
+        }
+        tabIndex={0}
       >
-        <svg
-          data-file-name="SvgIcon_overview"
-          fill="#3f51b5"
-          height={24}
-          width={24}
-        />
-      </div>
-      <div
-        className="MuiListItemText-root"
-      >
-        <span
-          className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-displayBlock"
+        <div
+          className="MuiListItemIcon-root"
         >
-          common:portfolio
-        </span>
-      </div>
-      <span
-        className="MuiTouchRipple-root"
-      />
-    </a>
-    <a
-      aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
-      href="/wallets"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      style={
-        Object {
-          "background": "inherits",
+          <svg
+            data-file-name="SvgIcon_overview"
+            fill="#3f51b5"
+            height={24}
+            width={24}
+          />
+        </div>
+        <div
+          className="MuiListItemText-root"
+        >
+          <span
+            className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-displayBlock"
+          >
+            common:portfolio
+          </span>
+        </div>
+        <span
+          className="MuiTouchRipple-root"
+        />
+      </a>
+      <a
+        aria-disabled={false}
+        className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
+        href="/wallets"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "background": "inherits",
+          }
         }
-      }
-      tabIndex={0}
+        tabIndex={0}
+      >
+        <div
+          className="MuiListItemIcon-root"
+        >
+          <svg
+            data-file-name="SvgIcon_wallet_manage"
+            fill="#e0e0e0"
+            height={24}
+            width={24}
+          />
+        </div>
+        <div
+          className="MuiListItemText-root"
+        >
+          <span
+            className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+          >
+            common:wallet
+          </span>
+        </div>
+        <span
+          className="MuiTouchRipple-root"
+        />
+      </a>
+      <a
+        aria-disabled={false}
+        className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
+        href="/delegate"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "background": "inherits",
+          }
+        }
+        tabIndex={0}
+      >
+        <div
+          className="MuiListItemIcon-root"
+        >
+          <svg
+            data-file-name="SvgIcon_delegate_08"
+            fill="#e0e0e0"
+            height={24}
+            width={24}
+          />
+        </div>
+        <div
+          className="MuiListItemText-root"
+        >
+          <span
+            className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+          >
+            common:delegate
+          </span>
+        </div>
+        <span
+          className="MuiTouchRipple-root"
+        />
+      </a>
+      <a
+        aria-disabled={false}
+        className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
+        href="/address-book"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "background": "inherits",
+          }
+        }
+        tabIndex={0}
+      >
+        <div
+          className="MuiListItemIcon-root"
+        >
+          <svg
+            data-file-name="SvgIcon_address_book"
+            fill="#e0e0e0"
+            height={24}
+            width={24}
+          />
+        </div>
+        <div
+          className="MuiListItemText-root"
+        >
+          <span
+            className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+          >
+            common:address book
+          </span>
+        </div>
+        <span
+          className="MuiTouchRipple-root"
+        />
+      </a>
+      <a
+        aria-disabled={false}
+        className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
+        href="/proposals"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "background": "inherits",
+          }
+        }
+        tabIndex={0}
+      >
+        <div
+          className="MuiListItemIcon-root"
+        >
+          <svg
+            data-file-name="SvgIcon_proposal"
+            fill="#e0e0e0"
+            height={24}
+            width={24}
+          />
+        </div>
+        <div
+          className="MuiListItemText-root"
+        >
+          <span
+            className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+          >
+            common:proposals
+          </span>
+        </div>
+        <span
+          className="MuiTouchRipple-root"
+        />
+      </a>
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-18 HookGlobalStyles-favMenu-5"
     >
       <div
-        className="MuiListItemIcon-root"
-      >
-        <svg
-          data-file-name="SvgIcon_wallet_manage"
-          fill="#e0e0e0"
-          height={24}
-          width={24}
-        />
-      </div>
-      <div
-        className="MuiListItemText-root"
+        className="MuiListItemText-root HookGlobalStyles-starredAccounts-6"
+        style={
+          Object {
+            "display": "block",
+          }
+        }
       >
         <span
           className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
         >
-          common:wallet
+          common:starredAccounts
         </span>
       </div>
-      <span
-        className="MuiTouchRipple-root"
-      />
-    </a>
-    <a
-      aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
-      href="/delegate"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      style={
-        Object {
-          "background": "inherits",
+      <div
+        className="MuiListItemText-root HookGlobalStyles-manageAccounts-7"
+        style={
+          Object {
+            "display": "block",
+          }
         }
-      }
-      tabIndex={0}
-    >
-      <div
-        className="MuiListItemIcon-root"
-      >
-        <svg
-          data-file-name="SvgIcon_delegate_08"
-          fill="#e0e0e0"
-          height={24}
-          width={24}
-        />
-      </div>
-      <div
-        className="MuiListItemText-root"
       >
         <span
           className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
         >
-          common:delegate
+          common:manageAccounts
         </span>
       </div>
-      <span
-        className="MuiTouchRipple-root"
-      />
-    </a>
-    <a
-      aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
-      href="/address-book"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      style={
-        Object {
-          "background": "inherits",
+      <a
+        aria-disabled={false}
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-starButton-8 MuiButton-containedPrimary"
+        href="/wallets"
+        onBlur={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "display": "block",
+          }
         }
-      }
-      tabIndex={0}
-    >
-      <div
-        className="MuiListItemIcon-root"
-      >
-        <svg
-          data-file-name="SvgIcon_address_book"
-          fill="#e0e0e0"
-          height={24}
-          width={24}
-        />
-      </div>
-      <div
-        className="MuiListItemText-root"
+        tabIndex={0}
       >
         <span
-          className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+          className="MuiButton-label"
         >
-          common:address book
+          common:star now
         </span>
-      </div>
-      <span
-        className="MuiTouchRipple-root"
-      />
-    </a>
-    <a
-      aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
-      href="/proposals"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      style={
-        Object {
-          "background": "inherits",
-        }
-      }
-      tabIndex={0}
-    >
-      <div
-        className="MuiListItemIcon-root"
-      >
-        <svg
-          data-file-name="SvgIcon_proposal"
-          fill="#e0e0e0"
-          height={24}
-          width={24}
-        />
-      </div>
-      <div
-        className="MuiListItemText-root"
-      >
         <span
-          className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
-        >
-          common:proposals
-        </span>
-      </div>
-      <span
-        className="MuiTouchRipple-root"
-      />
-    </a>
+          className="MuiTouchRipple-root"
+        />
+      </a>
+    </div>
   </ul>
 </div>
 `;
@@ -319,7 +386,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         className="MuiListItemIcon-root"
       >
         <div
-          className="MuiBox-root MuiBox-root-8"
+          className="MuiBox-root MuiBox-root-13"
         >
           <svg
             data-file-name="SvgLogo_expended"
@@ -328,226 +395,290 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         </div>
       </div>
     </div>
-    <a
-      aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
-      href="/"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      style={
-        Object {
-          "background": "inherits",
+    <div
+      className="MuiBox-root MuiBox-root-14"
+    >
+      <a
+        aria-disabled={false}
+        className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
+        href="/"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "background": "inherits",
+          }
         }
-      }
-      tabIndex={0}
+        tabIndex={0}
+      >
+        <div
+          className="MuiListItemIcon-root"
+        >
+          <svg
+            data-file-name="SvgIcon_overview"
+            fill="#e0e0e0"
+            height={24}
+            width={24}
+          />
+        </div>
+        <div
+          className="MuiListItemText-root"
+        >
+          <span
+            className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+          >
+            common:portfolio
+          </span>
+        </div>
+      </a>
+      <a
+        aria-disabled={false}
+        className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
+        href="/wallets"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "background": "inherits",
+          }
+        }
+        tabIndex={0}
+      >
+        <div
+          className="MuiListItemIcon-root"
+        >
+          <svg
+            data-file-name="SvgIcon_wallet_manage"
+            fill="#e0e0e0"
+            height={24}
+            width={24}
+          />
+        </div>
+        <div
+          className="MuiListItemText-root"
+        >
+          <span
+            className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+          >
+            common:wallet
+          </span>
+        </div>
+      </a>
+      <a
+        aria-disabled={false}
+        className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
+        href="/delegate"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "background": "inherits",
+          }
+        }
+        tabIndex={0}
+      >
+        <div
+          className="MuiListItemIcon-root"
+        >
+          <svg
+            data-file-name="SvgIcon_delegate_08"
+            fill="#e0e0e0"
+            height={24}
+            width={24}
+          />
+        </div>
+        <div
+          className="MuiListItemText-root"
+        >
+          <span
+            className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+          >
+            common:delegate
+          </span>
+        </div>
+      </a>
+      <a
+        aria-disabled={false}
+        className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
+        href="/address-book"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "background": "inherits",
+          }
+        }
+        tabIndex={0}
+      >
+        <div
+          className="MuiListItemIcon-root"
+        >
+          <svg
+            data-file-name="SvgIcon_address_book"
+            fill="#e0e0e0"
+            height={24}
+            width={24}
+          />
+        </div>
+        <div
+          className="MuiListItemText-root"
+        >
+          <span
+            className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+          >
+            common:address book
+          </span>
+        </div>
+      </a>
+      <a
+        aria-disabled={false}
+        className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
+        href="/proposals"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "background": "inherits",
+          }
+        }
+        tabIndex={0}
+      >
+        <div
+          className="MuiListItemIcon-root"
+        >
+          <svg
+            data-file-name="SvgIcon_proposal"
+            fill="#e0e0e0"
+            height={24}
+            width={24}
+          />
+        </div>
+        <div
+          className="MuiListItemText-root"
+        >
+          <span
+            className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+          >
+            common:proposals
+          </span>
+        </div>
+      </a>
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-15 HookGlobalStyles-favMenu-5"
     >
       <div
-        className="MuiListItemIcon-root"
-      >
-        <svg
-          data-file-name="SvgIcon_overview"
-          fill="#e0e0e0"
-          height={24}
-          width={24}
-        />
-      </div>
-      <div
-        className="MuiListItemText-root"
+        className="MuiListItemText-root HookGlobalStyles-starredAccounts-6"
+        style={
+          Object {
+            "display": "block",
+          }
+        }
       >
         <span
           className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
         >
-          common:portfolio
+          common:starredAccounts
         </span>
       </div>
-    </a>
-    <a
-      aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
-      href="/wallets"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      style={
-        Object {
-          "background": "inherits",
+      <div
+        className="MuiListItemText-root HookGlobalStyles-manageAccounts-7"
+        style={
+          Object {
+            "display": "block",
+          }
         }
-      }
-      tabIndex={0}
-    >
-      <div
-        className="MuiListItemIcon-root"
-      >
-        <svg
-          data-file-name="SvgIcon_wallet_manage"
-          fill="#e0e0e0"
-          height={24}
-          width={24}
-        />
-      </div>
-      <div
-        className="MuiListItemText-root"
       >
         <span
           className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
         >
-          common:wallet
+          common:manageAccounts
         </span>
       </div>
-    </a>
-    <a
-      aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
-      href="/delegate"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      style={
-        Object {
-          "background": "inherits",
+      <a
+        aria-disabled={false}
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-starButton-8 MuiButton-containedPrimary"
+        href="/wallets"
+        onBlur={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "display": "block",
+          }
         }
-      }
-      tabIndex={0}
-    >
-      <div
-        className="MuiListItemIcon-root"
-      >
-        <svg
-          data-file-name="SvgIcon_delegate_08"
-          fill="#e0e0e0"
-          height={24}
-          width={24}
-        />
-      </div>
-      <div
-        className="MuiListItemText-root"
+        tabIndex={0}
       >
         <span
-          className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+          className="MuiButton-label"
         >
-          common:delegate
+          common:star now
         </span>
-      </div>
-    </a>
-    <a
-      aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
-      href="/address-book"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      style={
-        Object {
-          "background": "inherits",
-        }
-      }
-      tabIndex={0}
-    >
-      <div
-        className="MuiListItemIcon-root"
-      >
-        <svg
-          data-file-name="SvgIcon_address_book"
-          fill="#e0e0e0"
-          height={24}
-          width={24}
-        />
-      </div>
-      <div
-        className="MuiListItemText-root"
-      >
-        <span
-          className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
-        >
-          common:address book
-        </span>
-      </div>
-    </a>
-    <a
-      aria-disabled={false}
-      className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-4 MuiListItem-gutters MuiListItem-button"
-      href="/proposals"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      style={
-        Object {
-          "background": "inherits",
-        }
-      }
-      tabIndex={0}
-    >
-      <div
-        className="MuiListItemIcon-root"
-      >
-        <svg
-          data-file-name="SvgIcon_proposal"
-          fill="#e0e0e0"
-          height={24}
-          width={24}
-        />
-      </div>
-      <div
-        className="MuiListItemText-root"
-      >
-        <span
-          className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
-        >
-          common:proposals
-        </span>
-      </div>
-    </a>
+      </a>
+    </div>
   </ul>
 </div>
 `;
