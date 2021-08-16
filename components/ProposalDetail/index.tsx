@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Card, Typography, Avatar, Divider } from '@material-ui/core'
+import { Box, Card, Typography, Avatar, Divider, Link } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import { useGetStyles } from './styles'
 import ActiveStatus from './ActiveStatus'
@@ -76,7 +76,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
   return (
     <>
       <Card className={classes.card}>
-        <Box className={classes.box}>
+        <Box>
           <Box p={4} display="flex" justifyContent="flex-end">
             <Box>
               <Typography variant="h6">{`#${proposal.id}`}</Typography>
@@ -84,14 +84,22 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
             <Box pl={3} flex={1}>
               <Box display="flex" mb={2}>
                 <Typography variant="h6">{t('proposer')}</Typography>
-                <Avatar
-                  className={classes.validatorAvatar}
-                  alt={proposal.proposer.name}
-                  src={proposal.proposer.image}
-                />
-                <Typography variant="h6" className={classes.ellipsisText}>
-                  {proposal.proposer.name}
-                </Typography>
+                <Link
+                  href={`${crypto.blockExplorerBaseUrl}/accounts/${proposal.proposer.address}`}
+                  target="_blank"
+                >
+                  <Box display="flex">
+                    <Avatar
+                      className={classes.validatorAvatar}
+                      alt={proposal.proposer.name}
+                      src={proposal.proposer.image}
+                    />
+
+                    <Typography variant="h6" className={classes.ellipsisText}>
+                      {proposal.proposer.name || proposal.proposer.address}
+                    </Typography>
+                  </Box>
+                </Link>
               </Box>
               <Typography variant="h6">{proposal.title}</Typography>
               <TimeContent proposal={proposal} />
@@ -108,7 +116,9 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
               <Typography variant="h6" className={classes.number}>{`#${proposal.id}`}</Typography>
             </Box>
             <Box pl={3} flex={1}>
-              <Typography variant="subtitle1">{`${t('type')}: ${t(proposal.type)}`}</Typography>
+              <Typography variant="subtitle1">
+                {`${t('type')}: ${t(`${proposal.type}Proposal`)}`}
+              </Typography>
               <Typography variant="subtitle1">{`${t('description')}: `}</Typography>
               <Typography variant="subtitle1">{proposal.description}</Typography>
             </Box>

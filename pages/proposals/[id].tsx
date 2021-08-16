@@ -1,4 +1,4 @@
-import { Breadcrumbs, Link as MLink } from '@material-ui/core'
+import { Breadcrumbs, Link as MLink, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -76,14 +76,12 @@ const Proposal: React.FC<ProposalProps> = ({ network }) => {
       passwordRequired
       activeItem="/proposals"
       HeaderLeftComponent={
-        account ? (
-          <Breadcrumbs>
-            <Link href="/wallets" passHref>
-              <MLink color="textPrimary">{t('wallet manage')}</MLink>
-            </Link>
-            <AccountAvatar account={account} hideAddress size="small" />
-          </Breadcrumbs>
-        ) : null
+        <Breadcrumbs>
+          <Link href="/proposals" passHref>
+            <MLink color="textPrimary">{t('proposals')}</MLink>
+          </Link>
+          <Typography>{t('proposal details')}</Typography>
+        </Breadcrumbs>
       }
     >
       <ProposalDetail
