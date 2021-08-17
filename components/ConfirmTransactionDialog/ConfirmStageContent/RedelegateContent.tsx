@@ -42,13 +42,13 @@ const RedelegateContent: React.FC<RedelegateContentProps> = ({
       </Box>
       <Divider />
       {msgs.map((m) => (
-        <React.Fragment key={m.value.validator_dst_address}>
+        <React.Fragment key={m.value.validatorDstAddress}>
           <Box my={1}>
             <Typography>{t('redelegate from')}</Typography>
             <Box display="flex" justifyContent="space-between" alignItems="center" my={1.5}>
               <ValidatorAvatar
                 crypto={cryptocurrencies[account.crypto]}
-                validator={validators[m.value.validator_src_address]}
+                validator={validators[m.value.validatorSrcAddress]}
                 size="small"
               />
             </Box>
@@ -59,7 +59,7 @@ const RedelegateContent: React.FC<RedelegateContentProps> = ({
             <Box display="flex" justifyContent="space-between" alignItems="center" my={1.5}>
               <ValidatorAvatar
                 crypto={cryptocurrencies[account.crypto]}
-                validator={validators[m.value.validator_dst_address]}
+                validator={validators[m.value.validatorDstAddress]}
                 size="small"
               />
               <Typography color="textSecondary">

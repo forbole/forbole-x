@@ -2,11 +2,13 @@
 import {
   Box,
   Button,
+  CircularProgress,
   DialogActions,
   DialogContent,
   InputAdornment,
   TextField,
   Typography,
+  useTheme,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
@@ -14,49 +16,74 @@ import keyBy from 'lodash/keyBy'
 import React from 'react'
 import intervalToDuration from 'date-fns/intervalToDuration'
 import get from 'lodash/get'
-import { gql, useSubscription } from '@apollo/client'
 import useIconProps from '../../misc/useIconProps'
 import useStyles from './styles'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import TokenAmountInput from '../TokenAmountInput'
 import { getTokenAmountFromDenoms, formatCrypto } from '../../misc/utils'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 
 interface InputAmountProps {
+  loading: boolean
   crypto: Cryptocurrency
-  onNext(address: string, amount: number, memo: string): void
+  onNext(address: string, amount: number, denom: string, memo: string): void
   proposal: Proposal
   open: boolean
+  availableTokens: AvailableTokens
+  accounts: Account[]
+  address: string
+  setAddress: React.Dispatch<React.SetStateAction<string>>
 }
 
-const InputAmount: React.FC<InputAmountProps> = ({ crypto, onNext, proposal, open }) => {
+const calculateRemainingTime = (timeString: string) =>
+  intervalToDuration({
+    end: new Date(timeString || null),
+    start: new Date(),
+  })
+
+const formatDoubleDigits = (num: number) => `0${num}`.slice(-2)
+
+const Timer: React.FC<{ timeString: string }> = ({ timeString }) => {
+  const { t } = useTranslation('common')
+  const [remainingTime, setRemainingTime] = React.useState(calculateRemainingTime(timeString))
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setRemainingTime(calculateRemainingTime(timeString))
+    }, 1000)
+    return () => interval && clearInterval(interval)
+  }, [])
+
+  return (
+    <Typography variant="h6">
+      {`${t('deposit end in', {
+        days: remainingTime.days,
+        hours: remainingTime.hours,
+        minutes: formatDoubleDigits(remainingTime.minutes),
+        seconds: formatDoubleDigits(remainingTime.seconds),
+      })}`}
+    </Typography>
+  )
+}
+
+const InputAmount: React.FC<InputAmountProps> = ({
+  loading,
+  crypto,
+  onNext,
+  proposal,
+  open,
+  availableTokens,
+  accounts,
+  address,
+  setAddress,
+}) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const { accounts: allAccounts } = useWalletsContext()
-  const accounts = allAccounts.filter((a) => a.crypto === crypto.name)
-
   const iconProps = useIconProps()
-  const remainingTime = intervalToDuration({
-    end: new Date(proposal.depositEndTimeRaw),
-    start: Date.now(),
-  })
+  const theme = useTheme()
+
   const accountsMap = keyBy(accounts, 'address')
   const [memo, setMemo] = React.useState('')
   const [amount, setAmount] = React.useState('')
-  const [address, setAddress] = React.useState(accounts[0].address)
-
-  const { data: balanceData } = useSubscription(
-    gql`
-      ${getLatestAccountBalance(crypto.name)}
-    `,
-    { variables: { address } }
-  )
-
-  const availableTokens = get(balanceData, 'account[0].available[0]', {
-    coins: [],
-    tokens_prices: [],
-  })
 
   const { availableAmount } = React.useMemo(
     () => ({
@@ -97,15 +124,11 @@ const InputAmount: React.FC<InputAmountProps> = ({ crypto, onNext, proposal, ope
     }
   }, [open])
 
-  return (
+  return address ? (
     <>
       <DialogContent>
         <Box textAlign="center" mb={4}>
-          <Typography variant="h6">
-            {`${t('deposit end in')} ${remainingTime.days} ${'days'} ${remainingTime.hours}:${
-              remainingTime.minutes
-            }:${remainingTime.seconds}`}
-          </Typography>
+          {proposal.depositEndTimeRaw ? <Timer timeString={proposal.depositEndTimeRaw} /> : null}
           <Typography variant="subtitle1" color="textSecondary">
             {`${t('remaining deposit amount')} `}
             {formatCrypto(remainAmount(), crypto.name, lang)}
@@ -208,15 +231,15 @@ const InputAmount: React.FC<InputAmountProps> = ({ crypto, onNext, proposal, ope
             variant="contained"
             className={classes.button}
             color="primary"
-            disabled={!Number(amount) || insufficientFund}
-            onClick={() => onNext(address, Number(amount), memo)}
+            disabled={loading || !Number(amount) || insufficientFund}
+            onClick={() => onNext(address, Number(amount), denom, memo)}
           >
-            {t('next')}
+            {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </DialogActions>
     </>
-  )
+  ) : null
 }
 
 export default InputAmount

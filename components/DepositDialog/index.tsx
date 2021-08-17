@@ -1,11 +1,17 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import { gql, useSubscription } from '@apollo/client'
+import get from 'lodash/get'
+import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import InputAmount from './InputAmount'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import { getEquivalentCoinToSend } from '../../misc/utils'
+import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
+import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface DepositDialogProps {
   network: Chain
@@ -18,19 +24,55 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ network, open, onClose, p
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
-  const [loading, setLoading] = React.useState(false)
+  const { password, accounts: allAccounts } = useWalletsContext()
+  const accounts = allAccounts.filter((a) => a.crypto === network.crypto)
+  const crypto = cryptocurrencies[network.crypto]
 
-  const confirmAmount = React.useCallback((address: string, amount: number, memo?: string) => {
-    try {
-      setLoading(true)
-      // TODO: handle transaction part later
-      setLoading(false)
-      onClose()
-    } catch (err) {
-      setLoading(false)
-      console.log(err)
-    }
-  }, [])
+  const [loading, setLoading] = React.useState(false)
+  const [address, setAddress] = React.useState('')
+
+  const { data: balanceData } = useSubscription(
+    gql`
+      ${getLatestAccountBalance(crypto.name)}
+    `,
+    { variables: { address } }
+  )
+
+  const availableTokens = get(balanceData, 'account[0].available[0]', {
+    coins: [],
+    tokens_prices: [],
+  })
+
+  const confirmAmount = React.useCallback(
+    async (depositor: string, amount: number, denom: string, memo: string) => {
+      try {
+        setLoading(true)
+        const coinsToSend = getEquivalentCoinToSend(
+          { amount, denom },
+          availableTokens.coins,
+          availableTokens.tokens_prices
+        )
+        const msg: TransactionMsgDeposit = {
+          typeUrl: '/cosmos.gov.v1beta1.MsgDeposit',
+          value: {
+            depositor,
+            proposalId: String(proposal.id),
+            amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
+          },
+        }
+        await invoke(window, 'forboleX.sendTransaction', password, depositor, {
+          msgs: [msg],
+          memo,
+        })
+        setLoading(false)
+        onClose()
+      } catch (err) {
+        setLoading(false)
+        console.log(err)
+      }
+    },
+    [availableTokens]
+  )
 
   return (
     <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose}>
@@ -42,7 +84,12 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ network, open, onClose, p
         open={open}
         onNext={confirmAmount}
         proposal={proposal}
-        crypto={cryptocurrencies[network.crypto]}
+        crypto={crypto}
+        accounts={accounts}
+        address={address}
+        setAddress={setAddress}
+        availableTokens={availableTokens}
+        loading={loading}
       />
     </Dialog>
   )

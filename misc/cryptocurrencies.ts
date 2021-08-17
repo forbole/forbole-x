@@ -24,6 +24,8 @@ const cryptocurrencies = {
         '/cosmos.staking.v1beta1.MsgUndelegate': '400000',
         '/ibc.applications.transfer.v1.MsgTransfer': '400000',
         '/cosmos.gov.v1beta1.MsgSubmitProposal': '400000',
+        '/cosmos.gov.v1beta1.MsgDeposit': '400000',
+        '/cosmos.gov.v1beta1.MsgVote': '400000',
       },
     },
   },

@@ -31,11 +31,11 @@ const SendContent: React.FC<SendContentProps> = ({ msgs, denoms, totalAmount, ac
       </Box>
       <Divider />
       {msgs.map((m, i) => (
-        <React.Fragment key={m.value.to_address}>
+        <React.Fragment key={m.value.toAddress}>
           <Box my={1}>
             <Typography>{t('send to', { number: `# ${i + 1}` })}</Typography>
             <Typography color="textSecondary" gutterBottom>
-              {m.value.to_address}
+              {m.value.toAddress}
             </Typography>
             <Typography>{t('amount')}</Typography>
             <Typography color="textSecondary">

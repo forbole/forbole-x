@@ -23,7 +23,7 @@ const VoteContent: React.FC<VoteContentProps> = ({ msgs }) => {
           </Box>
           <Divider />
           <Box my={1}>
-            <Typography>{`${t('vote proposal')} #${msg.value.proposal_id}`}</Typography>
+            <Typography>{`${t('vote proposal')} #${msg.value.proposalId}`}</Typography>
             <Typography color="textSecondary">{msg.value.option}</Typography>
           </Box>
           <Divider />

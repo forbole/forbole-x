@@ -6,7 +6,7 @@ export const useGetStyles = (status?: string) => {
     if (status === 'rejected' || status === 'failed') {
       return 'unbonded'
     }
-    if (status === 'removed') {
+    if (status === 'invalid') {
       return 'unknown'
     }
     return 'active'

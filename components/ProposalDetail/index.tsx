@@ -72,7 +72,6 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
   const [voteDialogOpen, setVoteDialogOpen] = React.useState(false)
-  console.log(proposal)
 
   return (
     <>

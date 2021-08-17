@@ -22,6 +22,7 @@ import { CustomTheme } from '../../../misc/theme'
 import IBCTransferContent from './IBCTransferContent'
 import SubmitProposalContent from './SubmitProposalContent'
 import VoteContent from './VoteContent'
+import DepositContent from './DepositContent'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
@@ -118,6 +119,14 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
         )
       case '/cosmos.gov.v1beta1.MsgVote':
         return <VoteContent msgs={transactionData.msgs as TransactionMsgVote[]} />
+      case '/cosmos.gov.v1beta1.MsgDeposit':
+        return (
+          <DepositContent
+            msgs={transactionData.msgs as TransactionMsgDeposit[]}
+            account={account}
+            denoms={denoms}
+          />
+        )
       default:
         return null
     }

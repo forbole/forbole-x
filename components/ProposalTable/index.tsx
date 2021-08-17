@@ -39,8 +39,8 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, network }) =>
       <Card>
         {proposals.map((x) => {
           return (
-            <Link href={`/proposals/${network.chainId}/${x.id}`}>
-              <Box key={x.id} className={classes.box}>
+            <Link key={x.id} href={`/proposals/${network.chainId}/${x.id}`}>
+              <Box className={classes.box}>
                 <Box p={4} display="flex" justifyContent="flex-end">
                   <Box>
                     <Typography variant="h6">{`#${x.id}`}</Typography>
