@@ -10,7 +10,7 @@ import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/para
 import { SoftwareUpgradeProposal } from 'cosmjs-types/cosmos/upgrade/v1beta1/upgrade'
 import { CommunityPoolSpendProposal } from 'cosmjs-types/cosmos/distribution/v1beta1/distribution'
 import Long from 'long'
-import { LedgerSigner } from '../@cosmjs/ledger-amino'
+import { LedgerSigner } from '@cosmjs/ledger-amino'
 import cryptocurrencies from './cryptocurrencies'
 import sendMsgToChromeExt from './sendMsgToChromeExt'
 

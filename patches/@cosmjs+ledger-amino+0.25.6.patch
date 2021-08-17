@@ -1,0 +1,17 @@
+diff --git a/node_modules/@cosmjs/ledger-amino/build/launchpadledger.js b/node_modules/@cosmjs/ledger-amino/build/launchpadledger.js
+index 27173da..88c7c94 100644
+--- a/node_modules/@cosmjs/ledger-amino/build/launchpadledger.js
++++ b/node_modules/@cosmjs/ledger-amino/build/launchpadledger.js
+@@ -87,9 +87,9 @@ class LaunchpadLedger {
+         if (appName.toLowerCase() === `dashboard`) {
+             throw new Error(`Please open the Cosmos Ledger app on your Ledger device.`);
+         }
+-        if (appName.toLowerCase() !== `cosmos`) {
+-            throw new Error(`Please close ${appName} and open the Cosmos Ledger app on your Ledger device.`);
+-        }
++        // if (appName.toLowerCase() !== `cosmos`) {
++        //     throw new Error(`Please close ${appName} and open the Cosmos Ledger app on your Ledger device.`);
++        // }
+     }
+     async verifyDeviceIsReady() {
+         await this.verifyAppVersion();
