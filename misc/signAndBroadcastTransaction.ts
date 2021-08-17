@@ -23,6 +23,12 @@ const formatTransactionMsg = (msg: TransactionMsg) => {
       new Long(get(transformedMsg, 'value.timeoutTimestamp', 0))
     )
   }
+  if (
+    transformedMsg.typeUrl === '/cosmos.gov.v1beta1.MsgDeposit' ||
+    transformedMsg.typeUrl === '/cosmos.gov.v1beta1.MsgVote'
+  ) {
+    set(transformedMsg, 'value.proposalId', new Long(get(transformedMsg, 'value.proposalId', 0)))
+  }
 
   if (get(msg, 'value.content.typeUrl') === '/cosmos.gov.v1beta1.TextProposal') {
     set(

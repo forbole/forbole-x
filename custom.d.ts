@@ -338,7 +338,7 @@ interface TransactionMsgVote {
   typeUrl: '/cosmos.gov.v1beta1.MsgVote'
   value: {
     option: 1 | 2 | 3 | 4 // Yes, Abstain, No, No with Veto
-    proposalId: string
+    proposalId: number
     voter: string
   }
 }
@@ -351,7 +351,7 @@ interface TransactionMsgDeposit {
       denom: string
     }[]
     depositor: string
-    proposalId: string
+    proposalId: number
   }
 }
 

@@ -56,7 +56,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ network, open, onClose, p
           typeUrl: '/cosmos.gov.v1beta1.MsgDeposit',
           value: {
             depositor,
-            proposalId: String(proposal.id),
+            proposalId: proposal.id,
             amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
           },
         }
