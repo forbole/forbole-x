@@ -54,6 +54,10 @@ export const useGetStyles = (color?: string, status?: string) => {
           color: 'white',
           background: status === 'vote' ? theme.palette.primary.main : theme.palette.success.main,
           width: theme.spacing(12),
+          '&:hover': {
+            backgroundColor:
+              status === 'vote' ? theme.palette.primary.dark : theme.palette.success.dark,
+          },
         },
         number: {
           color: '#00000000',
