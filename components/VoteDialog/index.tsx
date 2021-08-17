@@ -26,7 +26,7 @@ enum VotingStage {
 }
 
 interface VoteDialogProps {
-  network: { id: number; crypto: string; name: string; img: string }
+  network: Chain
   open: boolean
   onClose(): void
   proposal: Proposal

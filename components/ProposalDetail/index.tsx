@@ -49,7 +49,7 @@ interface ProposalDetailProps {
   voteSummary?: VoteSummary
   colors?: [string, string, string, string]
   voteDetails?: VoteDetail[]
-  network: { id: number; crypto: string; name: string; img: string }
+  network: Chain
 }
 
 const TimeContent: React.FC<{ proposal: Proposal }> = ({ proposal }) => {
@@ -72,6 +72,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
   const [voteDialogOpen, setVoteDialogOpen] = React.useState(false)
+  console.log(proposal)
 
   return (
     <>

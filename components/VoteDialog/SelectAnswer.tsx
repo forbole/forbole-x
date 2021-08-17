@@ -16,7 +16,7 @@ import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.sv
 import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface SelectAnswerProps {
-  network: { id: number; crypto: string; name: string; img: string }
+  network: Chain
   onNext(voteAccount: Account, answer: { name: string; id: string }, memo?: string): void
   proposal: Proposal
 }

@@ -82,7 +82,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
     }
     const totalGas = defaultTransactionData.msgs
       .map((m) =>
-        Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.${m.typeUrl}`, 0))
+        Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas["${m.typeUrl}"]`, 0))
       )
       .reduce((a, b) => a + b, 0)
     const feeAmount = String(
@@ -150,6 +150,10 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         })
       case '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward':
         return t('rewards was successfully withdrew')
+      case '/cosmos.gov.v1beta1.MsgDeposit':
+        return t('successfully deposited', {
+          title: formatTokenAmount(totalAmount, crypto, lang),
+        })
       default:
         return ''
     }

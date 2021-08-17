@@ -20,7 +20,7 @@ interface DepositTableProps {
   proposal: Proposal
   crypto: Cryptocurrency
   tag: string
-  network: { id: number; crypto: string; name: string; img: string }
+  network: Chain
 }
 
 const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto, network }) => {

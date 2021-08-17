@@ -5,30 +5,27 @@ import { useRouter } from 'next/router'
 import { gql, useSubscription } from '@apollo/client'
 import React from 'react'
 import get from 'lodash/get'
-import AccountAvatar from '../../components/AccountAvatar'
-import Layout from '../../components/Layout'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import cryptocurrencies from '../../misc/cryptocurrencies'
-import ProposalDetail from '../../components/ProposalDetail'
+import AccountAvatar from '../../../components/AccountAvatar'
+import Layout from '../../../components/Layout'
+import { useWalletsContext } from '../../../contexts/WalletsContext'
+import cryptocurrencies from '../../../misc/cryptocurrencies'
+import ProposalDetail from '../../../components/ProposalDetail'
 import {
   getDepositParams,
   getProposal,
   getProposalResult,
   getVoteDetail,
-} from '../../graphql/queries/proposals'
-import { transformProposal, transformVoteSummary, transformVoteDetail } from '../../misc/utils'
-import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
+} from '../../../graphql/queries/proposals'
+import { transformProposal, transformVoteSummary, transformVoteDetail } from '../../../misc/utils'
+import { getLatestAccountBalance } from '../../../graphql/queries/accountBalances'
+import chains from '../../../misc/chains'
 
-interface ProposalProps {
-  network: { id: number; crypto: string; name: string; img: string }
-}
-
-const Proposal: React.FC<ProposalProps> = ({ network }) => {
+const Proposal: React.FC = () => {
   const router = useRouter()
   const { t } = useTranslation('common')
   const { accounts } = useWalletsContext()
   const account = accounts.find((a) => a.address === router.query.address)
-  const { id } = router.query
+  const { id, chainId } = router.query
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
   const { data: proposalData } = useSubscription(
     gql`
@@ -70,6 +67,7 @@ const Proposal: React.FC<ProposalProps> = ({ network }) => {
   const proposal = transformProposal(proposalData, balanceData, depositParamsData)
   const voteSummary = transformVoteSummary(proporslReaultData)
   const voteDetail = transformVoteDetail(voteDetailData)
+  const network = chains[String(chainId)]
 
   return (
     <Layout

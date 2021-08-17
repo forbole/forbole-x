@@ -367,15 +367,21 @@ type TransactionMsg =
   | TransactionMsgDeposit
 
 interface Transaction {
-  account_number?: string
-  chain_id?: string
-  sequence?: string
   msgs: TransactionMsg[]
   memo: string
   fee?: {
     amount: Array<{ amount: string; denom: string }>
     gas: string
   }
+}
+
+interface Chain {
+  name: string
+  image: string
+  channel: string
+  chainId: string
+  addressPrefix: string
+  crypto: string
 }
 
 type ChromeMessage =

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Box, Card, Typography, Avatar, Divider, Link as MLink } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { useGetStyles } from './styles'
 import Active from './Active'
@@ -12,7 +11,7 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 
 interface ProposalsTableProps {
   proposals: Proposal[]
-  network: { id: number; crypto: string; name: string; img: string }
+  network: Chain
 }
 
 const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, network }) => {
@@ -40,7 +39,7 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, network }) =>
       <Card>
         {proposals.map((x) => {
           return (
-            <Link href={`/proposals/${x.id}`}>
+            <Link href={`/proposals/${network.chainId}/${x.id}`}>
               <Box key={x.id} className={classes.box}>
                 <Box p={4} display="flex" justifyContent="flex-end">
                   <Box>

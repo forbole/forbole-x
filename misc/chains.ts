@@ -1,4 +1,4 @@
-const chains = {
+const chains: { [key: string]: Chain } = {
   'morpheus-apollo-2': {
     name: 'Desmos',
     image: '/static/images/cryptocurrencies/dsm.png',
