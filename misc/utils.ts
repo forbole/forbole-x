@@ -373,7 +373,7 @@ export const transformTransactions = (
       if (t.type.includes('MsgWithdrawDelegatorReward')) {
         return {
           ref: `#${get(t, 'transaction_hash', '')}`,
-          tab: 'staking',
+          tab: 'distribution',
           tag: 'withdrawReward',
           date: `${format(
             new Date(get(t, 'transaction.block.timestamp')),
