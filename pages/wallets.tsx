@@ -9,13 +9,14 @@ import AddAccountButton from '../components/AddAccountButton/index'
 import EditWalletButton from '../components/EditWalletButton/index'
 import CreateWalletDialog, { CommonStage } from '../components/CreateWalletDialog'
 import { CustomTheme } from '../misc/theme'
+import LedgerIcon from '../assets/images/icons/usb_device.svg'
 
 const Wallets: React.FC = () => {
   const { t } = useTranslation('common')
   const { wallets, accounts } = useWalletsContext()
   const accountsMap = React.useMemo(() => groupBy(accounts, 'walletId'), [accounts])
   const [isCreateWalletDialogOpen, setIsCreateWalletDialogOpen] = React.useState(false)
-  const theme: CustomTheme = useTheme()
+  const themeStyle: CustomTheme = useTheme()
   return (
     <Layout passwordRequired activeItem="/wallets">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -23,7 +24,7 @@ const Wallets: React.FC = () => {
           {t('wallet')}
         </Typography>
         <Button
-          style={{ color: theme.palette.button, border: '1px solid' }}
+          style={{ color: themeStyle.palette.button, border: '1px solid' }}
           variant="outlined"
           onClick={() => setIsCreateWalletDialogOpen(true)}
         >
@@ -33,6 +34,7 @@ const Wallets: React.FC = () => {
       {wallets.map((w) => (
         <Box key={w.id} mt={2}>
           <Box display="flex" alignItems="center" mb={1}>
+            {w.type === 'ledger' ? <LedgerIcon style={{ marginRight: '6px' }} /> : null}
             <Typography variant="h4">{w.name}</Typography>
             <EditWalletButton walletId={w.id} walletName={w.name} />
             <AddAccountButton walletId={w.id} />
