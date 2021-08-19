@@ -49,10 +49,10 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
         setLoading(true)
         const msgs = delegations
           .map((r) => ({
-            type: 'cosmos-sdk/MsgWithdrawDelegationReward',
+            typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
             value: {
-              delegator_address: account.address,
-              validator_address: r.address,
+              delegatorAddress: account.address,
+              validatorAddress: r.address,
             },
           }))
           .filter((a) => a)

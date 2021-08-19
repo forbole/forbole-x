@@ -85,11 +85,11 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
         await invoke(window, 'forboleX.sendTransaction', password, account.address, {
           msgs: [
             {
-              type: 'cosmos-sdk/MsgBeginRedelegate',
+              typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate',
               value: {
-                delegator_address: account.address,
-                validator_src_address: fromValidator.address,
-                validator_dst_address: toValidator.address,
+                delegatorAddress: account.address,
+                validatorSrcAddress: fromValidator.address,
+                validatorDstAddress: toValidator.address,
                 amount: { amount: coinsToSend.amount.toString(), denom: coinsToSend.denom },
               },
             },

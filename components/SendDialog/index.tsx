@@ -52,10 +52,10 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
               availableTokens.tokens_prices
             )
             return {
-              type: 'cosmos-sdk/MsgSend',
+              typeUrl: '/cosmos.bank.v1beta1.MsgSend',
               value: {
-                from_address: account.address,
-                to_address: r.address,
+                fromAddress: account.address,
+                toAddress: r.address,
                 amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
               },
             }

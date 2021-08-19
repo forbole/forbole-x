@@ -287,13 +287,13 @@
   "deposited end time": "Deposited End Time",
   "in": "In",
   "days": "Days",
-  "was successfully deposited": "was successfully deposited",
-  "Text": "Text Proposal",
-  "ParameterChange": "Parameter Change Proposal",
-  "SoftwareUpgrade": "Software Upgrade Proposal",
-  "CommunityPoolSpend": "Community Pool Spend Proposal",
+  "successfully deposited": "{{title}} was successfully deposited",
+  "TextProposal": "Text Proposal",
+  "ParameterChangeProposal": "Parameter Change Proposal",
+  "SoftwareUpgradeProposal": "Software Upgrade Proposal",
+  "CommunityPoolSpendProposal": "Community Pool Spend Proposal",
   "remaining deposit amount": "Remaining deposit amount",
-  "deposit end in": "Deposit end in",
+  "deposit end in": "Deposit end in {{days}} days {{hours}}:{{minutes}}:{{seconds}}",
   "import account title": "Import Account",
   "security password": "Security Password",
   "select account(s) you want to add": "select account(s) you want to add",
@@ -375,5 +375,7 @@
   "install": "Install",
   "starredAccounts": "Starred Accounts",
   "manageAccounts": "Go to wallet manage to star your account",
-  "star now": "Star Now"
+  "star now": "Star Now",
+  "proposal details": "Proposal Details",
+  "deposit to": "Deposit to"
 }

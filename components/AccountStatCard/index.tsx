@@ -75,7 +75,6 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
     coins: [],
     tokens_prices: [],
   })
-  console.log(latestBalance)
 
   const data = createEmptyChartData(
     (get(accountWithBalance, 'balances', []) as AccountBalance[]).map((b) => getTotalBalance(b)),

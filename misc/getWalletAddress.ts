@@ -1,6 +1,6 @@
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 import { stringToPath } from '@cosmjs/crypto'
-import { LedgerSigner } from '../@cosmjs/ledger-amino'
+import { LedgerSigner } from '@cosmjs/ledger-amino'
 import cryptocurrencies from './cryptocurrencies'
 
 const getWalletAddress = async (

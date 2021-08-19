@@ -54,10 +54,10 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
         await invoke(window, 'forboleX.sendTransaction', password, account.address, {
           msgs: [
             {
-              type: 'cosmos-sdk/MsgUndelegate',
+              typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
               value: {
-                delegator_address: account.address,
-                validator_address: validator.address,
+                delegatorAddress: account.address,
+                validatorAddress: validator.address,
                 amount: { amount: coinsToSend.amount.toString(), denom: coinsToSend.denom },
               },
             },

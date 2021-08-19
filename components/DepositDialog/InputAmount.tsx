@@ -2,11 +2,13 @@
 import {
   Box,
   Button,
+  CircularProgress,
   DialogActions,
   DialogContent,
   InputAdornment,
   TextField,
   Typography,
+  useTheme,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
@@ -19,37 +21,70 @@ import useStyles from './styles'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import TokenAmountInput from '../TokenAmountInput'
 import { getTokenAmountFromDenoms, formatCrypto } from '../../misc/utils'
-import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface InputAmountProps {
-  account: Account
+  loading: boolean
   crypto: Cryptocurrency
-  onNext(voteAccount: Account, amount: number, memo?: string): void
+  onNext(address: string, amount: number, denom: string, memo: string): void
   proposal: Proposal
+  open: boolean
   availableTokens: AvailableTokens
+  accounts: Account[]
+  address: string
+  setAddress: React.Dispatch<React.SetStateAction<string>>
+}
+
+const calculateRemainingTime = (timeString: string) =>
+  intervalToDuration({
+    end: new Date(timeString || null),
+    start: new Date(),
+  })
+
+const formatDoubleDigits = (num: number) => `0${num}`.slice(-2)
+
+const Timer: React.FC<{ timeString: string }> = ({ timeString }) => {
+  const { t } = useTranslation('common')
+  const [remainingTime, setRemainingTime] = React.useState(calculateRemainingTime(timeString))
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setRemainingTime(calculateRemainingTime(timeString))
+    }, 1000)
+    return () => interval && clearInterval(interval)
+  }, [])
+
+  return (
+    <Typography variant="h6">
+      {`${t('deposit end in', {
+        days: remainingTime.days,
+        hours: remainingTime.hours,
+        minutes: formatDoubleDigits(remainingTime.minutes),
+        seconds: formatDoubleDigits(remainingTime.seconds),
+      })}`}
+    </Typography>
+  )
 }
 
 const InputAmount: React.FC<InputAmountProps> = ({
+  loading,
   crypto,
-  account,
   onNext,
-  availableTokens,
   proposal,
+  open,
+  availableTokens,
+  accounts,
+  address,
+  setAddress,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const { accounts: allAccounts } = useWalletsContext()
-  const accounts = allAccounts.filter((a) => a.crypto === account.crypto)
-
   const iconProps = useIconProps()
-  const remainingTime = intervalToDuration({
-    end: new Date(proposal.depositEndTimeRaw),
-    start: Date.now(),
-  })
+  const theme = useTheme()
+
   const accountsMap = keyBy(accounts, 'address')
   const [memo, setMemo] = React.useState('')
   const [amount, setAmount] = React.useState('')
-  const [voteAccount, setVoteAccount] = React.useState<Account>(account)
+
   const { availableAmount } = React.useMemo(
     () => ({
       availableAmount: getTokenAmountFromDenoms(
@@ -59,30 +94,41 @@ const InputAmount: React.FC<InputAmountProps> = ({
     }),
     [availableTokens]
   )
-  const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
+  const [denom, setDenom] = React.useState(crypto.name)
   const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount)
 
   const changeAccount = (a: string) => {
-    setVoteAccount(accountsMap[a])
+    setAddress(accountsMap[a].address)
     setDenom(accountsMap[a].crypto)
   }
 
   const remainAmount = () => {
-    if (proposal.totalDeposits[crypto.name].amount > proposal.minDeposit[crypto.name].amount) {
+    if (
+      get(proposal, `totalDeposits.${crypto.name}.amount`, 0) >
+      get(proposal, `minDeposit.${crypto.name}.amount`, 0)
+    ) {
       return 0
     }
-    return proposal.minDeposit[crypto.name].amount - proposal.totalDeposits[crypto.name].amount
+    return (
+      get(proposal, `minDeposit.${crypto.name}.amount`, 0) -
+      get(proposal, `totalDeposits.${crypto.name}.amount`, 0)
+    )
   }
 
-  return (
+  React.useEffect(() => {
+    if (open) {
+      setAmount('')
+      setMemo('')
+      setAddress(accounts[0].address)
+      setDenom(crypto.name)
+    }
+  }, [open])
+
+  return address ? (
     <>
       <DialogContent>
         <Box textAlign="center" mb={4}>
-          <Typography variant="h6">
-            {`${t('deposit end in')} ${remainingTime.days} ${'days'} ${remainingTime.hours}:${
-              remainingTime.minutes
-            }:${remainingTime.seconds}`}
-          </Typography>
+          {proposal.depositEndTimeRaw ? <Timer timeString={proposal.depositEndTimeRaw} /> : null}
           <Typography variant="subtitle1" color="textSecondary">
             {`${t('remaining deposit amount')} `}
             {formatCrypto(remainAmount(), crypto.name, lang)}
@@ -95,7 +141,7 @@ const InputAmount: React.FC<InputAmountProps> = ({
             </Typography>
             <Box display="flex" alignItems="center" mb={4}>
               <Autocomplete
-                options={accounts.map(({ address }) => address)}
+                options={accounts.map((ac) => ac.address)}
                 getOptionLabel={(option) =>
                   `${accountsMap[option].name} \n ${accountsMap[option].address}`
                 }
@@ -106,10 +152,10 @@ const InputAmount: React.FC<InputAmountProps> = ({
                     accountsMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
                   )
                 }}
-                onChange={(_e, address: string) => changeAccount(address)}
-                renderOption={(address) => (
+                onChange={(_e, adr: string) => changeAccount(adr)}
+                renderOption={(adr) => (
                   <Box display="flex" alignItems="center">
-                    <Typography>{`${accountsMap[address].name}\n${accountsMap[address].address}`}</Typography>
+                    <Typography>{`${accountsMap[adr].name}\n${accountsMap[adr].address}`}</Typography>
                   </Box>
                 )}
                 renderInput={({ InputProps, inputProps, ...params }) => (
@@ -119,7 +165,7 @@ const InputAmount: React.FC<InputAmountProps> = ({
                     placeholder={t('select account')}
                     inputProps={{
                       ...inputProps,
-                      value: `${voteAccount.name} \n ${voteAccount.address}`,
+                      value: `${accountsMap[address].name} \n ${accountsMap[address].address}`,
                     }}
                     // eslint-disable-next-line react/jsx-no-duplicate-props
                     InputProps={{
@@ -143,9 +189,9 @@ const InputAmount: React.FC<InputAmountProps> = ({
               </Typography>
               <TokenAmountInput
                 value={amount}
-                denom={voteAccount.crypto}
+                denom={denom}
                 onValueChange={(e) => setAmount(e)}
-                onDenomChange={() => null}
+                onDenomChange={setDenom}
                 availableAmount={availableAmount}
               />
             </Box>
@@ -185,15 +231,15 @@ const InputAmount: React.FC<InputAmountProps> = ({
             variant="contained"
             className={classes.button}
             color="primary"
-            disabled={!Number(amount) || insufficientFund}
-            onClick={() => onNext(voteAccount, Number(amount), memo)}
+            disabled={loading || !Number(amount) || insufficientFund}
+            onClick={() => onNext(address, Number(amount), denom, memo)}
           >
-            {t('next')}
+            {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </DialogActions>
     </>
-  )
+  ) : null
 }
 
 export default InputAmount

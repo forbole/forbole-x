@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createTheme } from '@material-ui/core/styles'
 import { lightTheme, darkTheme } from '../../misc/theme'
 import App from '../../pages/_app'
 
@@ -15,7 +15,7 @@ jest.mock('../../contexts/GeneralContext', () => ({
 jest.mock('../../misc/globalCss', () => 'GlobalCss')
 jest.mock('@material-ui/core/styles', () => ({
   ThemeProvider: 'ThemeProvider',
-  createMuiTheme: jest.fn(),
+  createTheme: jest.fn(),
 }))
 jest.mock('next-translate/useTranslation', () => () => ({
   lang: 'en',
@@ -40,7 +40,7 @@ describe('page: _app', () => {
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
-    expect(createMuiTheme).toBeCalledWith(lightTheme)
+    expect(createTheme).toBeCalledWith(lightTheme)
   })
   it('renders dark theme correctly', () => {
     mockThemeContext.theme = 'dark'
@@ -55,7 +55,7 @@ describe('page: _app', () => {
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
-    expect(createMuiTheme).toBeCalledWith(darkTheme)
+    expect(createTheme).toBeCalledWith(darkTheme)
   })
   it('changes cookie on language change', () => {
     renderer.create(
