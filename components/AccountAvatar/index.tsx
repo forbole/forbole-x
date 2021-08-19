@@ -7,7 +7,6 @@ import useIconProps from '../../misc/useIconProps'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useStyles from './styles'
 import { CustomTheme } from '../../misc/theme'
-import { useGeneralContext } from '../../contexts/GeneralContext'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import LedgerIcon from '../../assets/images/icons/usb_device.svg'
 
@@ -38,7 +37,6 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
   const { t } = useTranslation('common')
   const iconProps = useIconProps()
   const themeStyle: CustomTheme = useTheme()
-  const { theme } = useGeneralContext()
   const classes = useStyles()
   const [isCopySuccess, setIsCopySuccess] = React.useState(false)
   const { wallets } = useWalletsContext()
@@ -95,9 +93,7 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
         </Box>
         {walletAccountInfo.type === 'ledger' ? (
           <LedgerIcon
-            fill={
-              theme === 'light' ? themeStyle.palette.text.primary : themeStyle.palette.text.primary
-            }
+            fill={themeStyle.palette.text.primary}
             style={{ display: ledgerIconDisabled ? 'none' : 'block' }}
           />
         ) : null}
