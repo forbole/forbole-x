@@ -34,7 +34,9 @@ const Wallets: React.FC = () => {
       {wallets.map((w) => (
         <Box key={w.id} mt={2}>
           <Box display="flex" alignItems="center" mb={1}>
-            {w.type === 'ledger' ? <LedgerIcon style={{ marginRight: '6px' }} /> : null}
+            {w.type === 'ledger' ? (
+              <LedgerIcon style={{ marginRight: themeStyle.spacing(0.75) }} />
+            ) : null}
             <Typography variant="h4">{w.name}</Typography>
             <EditWalletButton walletId={w.id} walletName={w.name} />
             <AddAccountButton walletId={w.id} />
