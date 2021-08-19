@@ -81,6 +81,7 @@ exports[`page: Wallets renders correctly 1`] = `
               "walletId": "123",
             }
           }
+          ledgerIconDisabled={true}
         />
       </div>
     </div>
