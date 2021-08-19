@@ -4,6 +4,7 @@ import groupBy from 'lodash/groupBy'
 import useTranslation from 'next-translate/useTranslation'
 import Layout from '../components/Layout'
 import AccountCard from '../components/AccountCard'
+import { useGeneralContext } from '../contexts/GeneralContext'
 import { useWalletsContext } from '../contexts/WalletsContext'
 import AddAccountButton from '../components/AddAccountButton/index'
 import EditWalletButton from '../components/EditWalletButton/index'
@@ -16,6 +17,7 @@ const Wallets: React.FC = () => {
   const { wallets, accounts } = useWalletsContext()
   const accountsMap = React.useMemo(() => groupBy(accounts, 'walletId'), [accounts])
   const [isCreateWalletDialogOpen, setIsCreateWalletDialogOpen] = React.useState(false)
+  const { theme } = useGeneralContext()
   const themeStyle: CustomTheme = useTheme()
   return (
     <Layout passwordRequired activeItem="/wallets">
@@ -35,7 +37,14 @@ const Wallets: React.FC = () => {
         <Box key={w.id} mt={2}>
           <Box display="flex" alignItems="center" mb={1}>
             {w.type === 'ledger' ? (
-              <LedgerIcon style={{ marginRight: themeStyle.spacing(0.75) }} />
+              <LedgerIcon
+                fill={
+                  theme === 'light'
+                    ? themeStyle.palette.text.primary
+                    : themeStyle.palette.text.primary
+                }
+                style={{ marginRight: themeStyle.spacing(0.75) }}
+              />
             ) : null}
             <Typography variant="h4">{w.name}</Typography>
             <EditWalletButton walletId={w.id} walletName={w.name} />
@@ -44,7 +53,7 @@ const Wallets: React.FC = () => {
           <Grid container spacing={3}>
             {(accountsMap[w.id] || []).map((a) => (
               <Grid key={a.address} item xl={4} lg={6} xs={12}>
-                <AccountCard account={a} />
+                <AccountCard account={a} ledgerIconDisabled />
               </Grid>
             ))}
           </Grid>

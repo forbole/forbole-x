@@ -22,9 +22,10 @@ import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 
 interface AccountCardProps {
   account: Account
+  ledgerIconDisabled?: boolean
 }
 
-const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
+const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled }) => {
   const classes = useStyles()
   const theme = useTheme()
   const iconProps = useIconProps()
@@ -62,7 +63,7 @@ const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
       }}
     >
       <Box id="" mb={5} display="flex" alignItems="flex-start" justifyContent="space-between">
-        <AccountAvatar account={account} />
+        <AccountAvatar account={account} ledgerIconDisabled={ledgerIconDisabled} />
         <AccountMenuButton accountAddress={account.address} />
       </Box>
       <Box display="flex" alignItems="flex-end" justifyContent="space-between">
