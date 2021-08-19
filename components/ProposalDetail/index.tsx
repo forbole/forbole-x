@@ -26,10 +26,11 @@ export interface VoteDetail {
   voter: {
     name: string
     image: string
+    address: string
   }
-  votingPower: number
-  votingPowerPercentage: number
-  votingPowerOverride: number
+  // votingPower: number
+  // votingPowerPercentage: number
+  // votingPowerOverride: number
   answer: string
 }
 
@@ -132,17 +133,13 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
           ) : null}
         </Box>
       </Card>
-      {!proposal.isActive ? (
-        <Card className={classes.card}>
-          <Box m={4}>
-            <VoteResult voteSummary={voteSummary} crypto={crypto} />
-            <VoteTable voteDetails={voteDetails} crypto={crypto} />
-          </Box>
-        </Card>
-      ) : null}
-      {proposal.tag !== 'vote' ? (
-        <DepositTable network={network} proposal={proposal} crypto={crypto} tag={proposal.tag} />
-      ) : null}
+      <Card className={classes.card}>
+        <Box m={4}>
+          <VoteResult voteSummary={voteSummary} crypto={crypto} />
+          <VoteTable voteDetails={voteDetails} crypto={crypto} />
+        </Box>
+      </Card>
+      <DepositTable network={network} proposal={proposal} crypto={crypto} tag={proposal.tag} />
       <VoteDialog
         proposal={proposal}
         network={network}

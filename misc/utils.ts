@@ -571,10 +571,10 @@ export const transformVoteSummary = (proposalResult: any): any => {
   let yes = 0
 
   get(proposalResult, 'proposal_tally_result', []).forEach((p) => {
-    abstain += get(p, 'abstain')
-    no += get(p, 'no')
-    veto += get(p, 'no_with_veto')
-    yes += get(p, 'yes')
+    abstain += get(p, 'abstain', 0) / 10 ** 6
+    no += get(p, 'no', 0) / 10 ** 6
+    veto += get(p, 'no_with_veto', 0) / 10 ** 6
+    yes += get(p, 'yes', 0) / 10 ** 6
   })
 
   const totalAmount = abstain + no + veto + yes
@@ -630,9 +630,9 @@ export const transformVoteDetail = (voteDetail: any): any => {
       image: get(d, 'account.validator_infos[0].validator.validator_descriptions[0].avatar_url'),
       address: get(d, 'voter_address'),
     },
-    votingPower: 0,
-    votingPowerPercentage: 0.1,
-    votingPowerOverride: 0.1,
+    // votingPower: 0,
+    // votingPowerPercentage: 0.1,
+    // votingPowerOverride: 0.1,
     answer: getVoteAnswer(get(d, 'option')),
   }))
 }

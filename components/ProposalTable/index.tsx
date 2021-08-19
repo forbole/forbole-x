@@ -70,7 +70,12 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, network }) =>
                       {x.description}
                     </Typography>
                     <Typography variant="subtitle1" color="textSecondary">
-                      {`${t('voting time')}: ${x.votingStartTime} to ${x.votingEndTime}`}
+                      {x.tag === 'deposit'
+                        ? t('deposit time', { from: x.submitTime, to: x.depositEndTime })
+                        : null}
+                      {x.tag === 'vote' || x.tag === 'passed'
+                        ? t('voting time', { from: x.votingStartTime, to: x.votingEndTime })
+                        : null}
                       {x.isActive ? (
                         <span className={classes.duration}>
                           {`(${t('in')} ${x.duration} ${x.duration > 1 ? t('days') : t('day')})`}
