@@ -51,7 +51,7 @@ Array [
 exports[`component: Layout renders menu collapsed state 1`] = `
 Array [
   <NavBar
-    menuWidth={11.5}
+    menuWidth={10}
   />,
   <div
     activeItem=""
@@ -63,7 +63,7 @@ Array [
     className="MuiBox-root MuiBox-root-17 HookGlobalStyles-main-12"
     style={
       Object {
-        "marginLeft": 92,
+        "marginLeft": 80,
       }
     }
   />,

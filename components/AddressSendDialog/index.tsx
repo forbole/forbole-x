@@ -74,23 +74,21 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
     async (r: { amount: { amount: number; denom: string }; address: string }, m: string) => {
       try {
         setLoading(true)
-        const msg = () => {
-          const coinsToSend = getEquivalentCoinToSend(
-            r.amount,
-            availableTokens.coins,
-            availableTokens.tokens_prices
-          )
-          return {
-            type: 'cosmos-sdk/MsgSend',
-            value: {
-              from_address: sender.address,
-              to_address: address.address,
-              amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
-            },
-          }
+        const coinsToSend = getEquivalentCoinToSend(
+          r.amount,
+          availableTokens.coins,
+          availableTokens.tokens_prices
+        )
+        const msg = {
+          typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+          value: {
+            fromAddress: sender.address,
+            toAddress: address.address,
+            amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
+          },
         }
         await invoke(window, 'forboleX.sendTransaction', password, sender.address, {
-          msgs: [msg()],
+          msgs: [msg],
           memo,
         })
         setLoading(false)

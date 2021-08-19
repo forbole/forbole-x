@@ -74,7 +74,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly 1`] = `
               className="MuiBox-root MuiBox-root-9"
             >
               <div
-                className="MuiAvatar-root MuiAvatar-circle"
+                className="MuiAvatar-root MuiAvatar-circular"
               >
                 <img
                   className="MuiAvatar-img"
@@ -200,7 +200,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly with wal
               className="MuiBox-root MuiBox-root-12"
             >
               <div
-                className="MuiAvatar-root MuiAvatar-circle"
+                className="MuiAvatar-root MuiAvatar-circular"
               >
                 <img
                   className="MuiAvatar-img"

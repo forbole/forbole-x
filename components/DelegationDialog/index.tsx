@@ -91,10 +91,10 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
               availableTokens.tokens_prices
             )
             return {
-              type: 'cosmos-sdk/MsgDelegate',
+              typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
               value: {
-                delegator_address: account.address,
-                validator_address: r.validator.address,
+                delegatorAddress: account.address,
+                validatorAddress: r.validator.address,
                 amount: {
                   amount: Math.round(coinsToSend.amount).toString(),
                   denom: coinsToSend.denom,

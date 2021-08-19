@@ -44,11 +44,11 @@ const DelegateContent: React.FC<DelegateContentProps> = ({
       <Box my={1}>
         <Typography>{t('delegate to')}</Typography>
         {msgs.map((m, i) => (
-          <React.Fragment key={m.value.validator_address}>
+          <React.Fragment key={m.value.validatorAddress}>
             <Box display="flex" justifyContent="space-between" alignItems="center" my={1.5}>
               <ValidatorAvatar
                 crypto={cryptocurrencies[account.crypto]}
-                validator={validators[m.value.validator_address]}
+                validator={validators[m.value.validatorAddress]}
                 size="small"
               />
               <Typography color="textSecondary">

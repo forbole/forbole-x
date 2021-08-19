@@ -65,7 +65,13 @@ const GlobalCss = withStyles(
           color: 'white',
         },
       },
-      'a:-webkit-any-link': {
+      '.MuiAvatar-colorDefault': {
+        backgroundColor: theme.palette.grey[200],
+      },
+      '.MuiAvatar-fallback': {
+        fill: theme.palette.grey[300],
+      },
+      'a:-webkit-any-link:not(.MuiButton-root)': {
         '&:hover': {
           color: 'initial',
         },

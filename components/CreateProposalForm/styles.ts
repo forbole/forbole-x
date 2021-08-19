@@ -14,6 +14,9 @@ export const useGetStyles = () => {
         confirmTitle: {
           fontSize: theme.spacing(4),
         },
+        input: {
+          backgroundColor: theme.palette.background.paper,
+        },
       }),
     {
       name: 'HookGlobalStyles',

@@ -16,13 +16,15 @@ const useStyles = makeStyles(
       transition: 'margin-left 0.2s ease-in-out',
     },
     menu: {
-      margin: theme.spacing(2, 2.5),
+      margin: theme.spacing(2),
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
     },
     menuItem: {
       height: theme.spacing(6),
+      paddingLeft: theme.spacing(1.5),
+      paddingRight: theme.spacing(1.5),
       marginBottom: theme.spacing(3),
       borderRadius: theme.spacing(1),
       whiteSpace: 'nowrap',
@@ -61,6 +63,8 @@ const useStyles = makeStyles(
       height: theme.spacing(6),
       borderRadius: theme.spacing(1),
       whiteSpace: 'nowrap',
+      paddingLeft: theme.spacing(1.5),
+      paddingRight: theme.spacing(1.5),
     },
     navBar: {
       position: 'fixed',

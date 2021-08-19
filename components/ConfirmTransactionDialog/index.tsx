@@ -81,7 +81,9 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
       }
     }
     const totalGas = defaultTransactionData.msgs
-      .map((m) => Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas.${m.type}`, 0)))
+      .map((m) =>
+        Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas["${m.typeUrl}"]`, 0))
+      )
       .reduce((a, b) => a + b, 0)
     const feeAmount = String(
       totalGas * get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount.amount`, 0)
@@ -103,15 +105,15 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
 
   const validatorsAddresses = flatten(
     transactionData.msgs.map((m) => {
-      switch (m.type) {
-        case 'cosmos-sdk/MsgDelegate':
-          return [m.value.validator_address]
-        case 'cosmos-sdk/MsgBeginRedelegate':
-          return [m.value.validator_src_address, m.value.validator_dst_address]
-        case 'cosmos-sdk/MsgUndelegate':
-          return [m.value.validator_address]
-        case 'cosmos-sdk/MsgWithdrawDelegationReward':
-          return [m.value.validator_address]
+      switch (m.typeUrl) {
+        case '/cosmos.staking.v1beta1.MsgDelegate':
+          return [m.value.validatorAddress]
+        case '/cosmos.staking.v1beta1.MsgBeginRedelegate':
+          return [m.value.validatorSrcAddress, m.value.validatorDstAddress]
+        case '/cosmos.staking.v1beta1.MsgUndelegate':
+          return [m.value.validatorAddress]
+        case '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward':
+          return [m.value.validatorAddress]
         default:
           return []
       }
@@ -128,26 +130,30 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   )
 
   const successMessage = React.useMemo(() => {
-    switch (get(transactionData, 'msgs[0].type', '')) {
-      case 'cosmos-sdk/MsgSend':
-      case 'cosmos-sdk/MsgTransfer':
+    switch (get(transactionData, 'msgs[0].typeUrl', '')) {
+      case '/cosmos.bank.v1beta1.MsgSend':
+      case '/ibc.applications.transfer.v1.MsgTransfer':
         return t('successfully sent', {
           title: formatTokenAmount(totalAmount, crypto, lang),
         })
-      case 'cosmos-sdk/MsgDelegate':
+      case '/cosmos.staking.v1beta1.MsgDelegate':
         return t('successfully delegated', {
           title: formatTokenAmount(totalAmount, crypto, lang),
         })
-      case 'cosmos-sdk/MsgBeginRedelegate':
+      case '/cosmos.staking.v1beta1.MsgBeginRedelegate':
         return t('successfully redelegated', {
           title: formatTokenAmount(totalAmount, crypto, lang),
         })
-      case 'cosmos-sdk/MsgUndelegate':
+      case '/cosmos.staking.v1beta1.MsgUndelegate':
         return t('successfully undelegated', {
           title: formatTokenAmount(totalAmount, crypto, lang),
         })
-      case 'cosmos-sdk/MsgWithdrawDelegationReward':
+      case '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward':
         return t('rewards was successfully withdrew')
+      case '/cosmos.gov.v1beta1.MsgDeposit':
+        return t('successfully deposited', {
+          title: formatTokenAmount(totalAmount, crypto, lang),
+        })
       default:
         return ''
     }

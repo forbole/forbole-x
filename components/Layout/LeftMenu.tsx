@@ -185,7 +185,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
                     <Avatar
                       alt={crypto.name}
                       src={crypto.image}
-                      style={{ height: '24px', width: '24px' }}
+                      style={{ height: themeStyle.spacing(3), width: themeStyle.spacing(3) }}
                     />
                   </ListItemIcon>
                   <ListItemText

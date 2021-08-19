@@ -5,24 +5,11 @@ import Layout from '../../components/Layout'
 
 const CreateProposal: React.FC = () => {
   const { accounts } = useWalletsContext()
-  // TODO
   const account = accounts[0]
-
-  // how to query networks?
-  const networks = [
-    {
-      name: 'Cosmoshub - ATOM',
-      id: '01',
-    },
-    {
-      name: 'Desmoshub - DARIC',
-      id: '02',
-    },
-  ]
 
   return (
     <Layout passwordRequired activeItem="/proposals">
-      {account ? <CreateProposalForm account={account} networks={networks} /> : null}
+      {account ? <CreateProposalForm account={account} /> : null}
     </Layout>
   )
 }

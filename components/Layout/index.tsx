@@ -15,7 +15,7 @@ import ChromeExtDialog from '../ChromeExtDialog'
 
 export enum MenuWidth {
   Expanded = 32,
-  Collapsed = 11.5,
+  Collapsed = 10,
 }
 
 interface LayoutProps {

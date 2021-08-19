@@ -2,7 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 import { AppProps } from 'next/app'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { ThemeProvider, createTheme } from '@material-ui/core/styles'
 import useTranslation from 'next-translate/useTranslation'
 import { ApolloProvider } from '@apollo/client'
 import { useRouter } from 'next/router'
@@ -19,9 +19,9 @@ function InnerApp({ Component, pageProps }: AppProps) {
 
   const muiTheme = React.useMemo(() => {
     if (theme === 'dark') {
-      return createMuiTheme(darkTheme)
+      return createTheme(darkTheme)
     }
-    return createMuiTheme(lightTheme)
+    return createTheme(lightTheme)
   }, [theme])
 
   React.useEffect(() => {

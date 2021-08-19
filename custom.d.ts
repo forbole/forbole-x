@@ -223,62 +223,135 @@ interface UpdateWalletParams {
 }
 
 interface TransactionMsgDelegate {
-  type: 'cosmos-sdk/MsgDelegate'
+  typeUrl: '/cosmos.staking.v1beta1.MsgDelegate'
   value: {
-    delegator_address: string
-    validator_address: string
+    delegatorAddress: string
+    validatorAddress: string
     amount: { amount: string; denom: string }
   }
 }
 
 interface TransactionMsgUndelegate {
-  type: 'cosmos-sdk/MsgUndelegate'
+  typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate'
   value: {
-    delegator_address: string
-    validator_address: string
+    delegatorAddress: string
+    validatorAddress: string
     amount: { amount: string; denom: string }
   }
 }
 
 interface TransactionMsgRedelegate {
-  type: 'cosmos-sdk/MsgBeginRedelegate'
+  typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate'
   value: {
-    delegator_address: string
-    validator_src_address: string
-    validator_dst_address: string
+    delegatorAddress: string
+    validatorSrcAddress: string
+    validatorDstAddress: string
     amount: { amount: string; denom: string }
   }
 }
 
 interface TransactionMsgWithdrawReward {
-  type: 'cosmos-sdk/MsgWithdrawDelegationReward'
+  typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward'
   value: {
-    delegator_address: string
-    validator_address: string
+    delegatorAddress: string
+    validatorAddress: string
   }
 }
 
 interface TransactionMsgSend {
-  type: 'cosmos-sdk/MsgSend'
+  typeUrl: '/cosmos.bank.v1beta1.MsgSend'
   value: {
-    from_address: string
-    to_address: string
+    fromAddress: string
+    toAddress: string
     amount: Array<{ amount: string; denom: string }>
   }
 }
 
 interface TransactionMsgIBCTransfer {
-  type: 'cosmos-sdk/MsgTransfer'
+  typeUrl: '/ibc.applications.transfer.v1.MsgTransfer'
   value: {
-    source_port: string
-    source_channel: string
+    sourcePort: string
+    sourceChannel: string
     token: {
       denom: string
       amount: string
     }
     sender: string
     receiver: string
-    timeout_timestamp?: number
+    timeoutTimestamp?: number
+  }
+}
+
+interface TransactionMsgSubmitProposal {
+  typeUrl: '/cosmos.gov.v1beta1.MsgSubmitProposal'
+  value: {
+    content:
+      | {
+          typeUrl: '/cosmos.gov.v1beta1.TextProposal'
+          value: {
+            description: string
+            title: string
+          }
+        }
+      | {
+          typeUrl: '/cosmos.params.v1beta1.ParameterChangeProposal'
+          value: {
+            description: string
+            title: string
+            changes: { supspace: string; key: string; value: string }[]
+          }
+        }
+      | {
+          typeUrl: '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal'
+          value: {
+            title: string
+            description: string
+            plan: {
+              name: string
+              time?: number
+              height?: number
+              info: string
+              upgradedClientState?: any
+            }
+          }
+        }
+      | {
+          typeUrl: '/cosmos.distribution.v1beta1.CommunityPoolSpendProposal'
+          value: {
+            title: string
+            description: string
+            recipient: string
+            amount: Array<{ amount: string; denom: string }>
+          }
+        }
+    initialDeposit: [
+      {
+        amount: string
+        denom: string
+      }
+    ]
+    proposer: string
+  }
+}
+
+interface TransactionMsgVote {
+  typeUrl: '/cosmos.gov.v1beta1.MsgVote'
+  value: {
+    option: 1 | 2 | 3 | 4 // Yes, Abstain, No, No with Veto
+    proposalId: number
+    voter: string
+  }
+}
+
+interface TransactionMsgDeposit {
+  typeUrl: '/cosmos.gov.v1beta1.MsgDeposit'
+  value: {
+    amount: {
+      amount: string
+      denom: string
+    }[]
+    depositor: string
+    proposalId: number
   }
 }
 
@@ -289,17 +362,26 @@ type TransactionMsg =
   | TransactionMsgWithdrawReward
   | TransactionMsgSend
   | TransactionMsgIBCTransfer
+  | TransactionMsgSubmitProposal
+  | TransactionMsgVote
+  | TransactionMsgDeposit
 
 interface Transaction {
-  account_number?: string
-  chain_id?: string
-  sequence?: string
   msgs: TransactionMsg[]
   memo: string
   fee?: {
     amount: Array<{ amount: string; denom: string }>
     gas: string
   }
+}
+
+interface Chain {
+  name: string
+  image: string
+  channel: string
+  chainId: string
+  addressPrefix: string
+  crypto: string
 }
 
 type ChromeMessage =
