@@ -46,6 +46,7 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ network, open, onClose, proposa
           memo,
         })
         setLoading(false)
+        onClose()
       } catch (err) {
         setLoading(false)
         console.log(err)

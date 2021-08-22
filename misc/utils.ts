@@ -490,6 +490,9 @@ export const transformProposals = (proposalData: any): Proposal[] => {
       votingEndTime: `${format(new Date(get(p, 'voting_end_time')), 'dd MMM yyyy HH:mm')} UTC`,
       depositEndTime: `${format(new Date(get(p, 'deposit_end_time')), 'dd MMM yyyy HH:mm')} UTC`,
       depositEndTimeRaw: get(p, 'deposit_end_time'),
+      submitTime: get(p, 'submit_time')
+        ? `${format(new Date(get(p, 'submit_time')), 'dd MMM yyyy HH:mm')} UTC`
+        : '',
       isActive: !!(
         get(p, 'status', '') === 'PROPOSAL_STATUS_VOTING' ||
         get(p, 'status', '') === 'PROPOSAL_STATUS_DEPOSIT'
