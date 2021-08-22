@@ -59,7 +59,7 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, network }) =>
                             alt={x.proposer.name}
                             src={x.proposer.image}
                           />
-                          <Typography variant="h6" className={classes.ellipsisText}>
+                          <Typography color="primary" variant="h6" className={classes.ellipsisText}>
                             {x.proposer.name || x.proposer.address}
                           </Typography>
                         </Box>
