@@ -20,6 +20,9 @@ import ClaimRewardsContent from './ClaimRewardsContent'
 import { useGeneralContext } from '../../../contexts/GeneralContext'
 import { CustomTheme } from '../../../misc/theme'
 import IBCTransferContent from './IBCTransferContent'
+import SubmitProposalContent from './SubmitProposalContent'
+import VoteContent from './VoteContent'
+import DepositContent from './DepositContent'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
@@ -47,11 +50,11 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
 
   const [viewingData, setViewingData] = React.useState(false)
 
-  const { type } = transactionData.msgs[0]
+  const { typeUrl } = transactionData.msgs[0]
 
   const content = React.useMemo(() => {
-    switch (type) {
-      case 'cosmos-sdk/MsgSend':
+    switch (typeUrl) {
+      case '/cosmos.bank.v1beta1.MsgSend':
         return (
           <SendContent
             account={account}
@@ -60,7 +63,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             msgs={transactionData.msgs as TransactionMsgSend[]}
           />
         )
-      case 'cosmos-sdk/MsgDelegate':
+      case '/cosmos.staking.v1beta1.MsgDelegate':
         return (
           <DelegateContent
             account={account}
@@ -70,7 +73,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             validators={validators}
           />
         )
-      case 'cosmos-sdk/MsgUndelegate':
+      case '/cosmos.staking.v1beta1.MsgUndelegate':
         return (
           <UndelegateContent
             account={account}
@@ -80,7 +83,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             validators={validators}
           />
         )
-      case 'cosmos-sdk/MsgBeginRedelegate':
+      case '/cosmos.staking.v1beta1.MsgBeginRedelegate':
         return (
           <RedelegateContent
             account={account}
@@ -90,7 +93,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             validators={validators}
           />
         )
-      case 'cosmos-sdk/MsgWithdrawDelegationReward':
+      case '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward':
         return (
           <ClaimRewardsContent
             account={account}
@@ -98,7 +101,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             validators={validators}
           />
         )
-      case 'cosmos-sdk/MsgTransfer':
+      case '/ibc.applications.transfer.v1.MsgTransfer':
         return (
           <IBCTransferContent
             account={account}
@@ -107,10 +110,27 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             msgs={transactionData.msgs as TransactionMsgIBCTransfer[]}
           />
         )
+      case '/cosmos.gov.v1beta1.MsgSubmitProposal':
+        return (
+          <SubmitProposalContent
+            account={account}
+            msgs={transactionData.msgs as TransactionMsgSubmitProposal[]}
+          />
+        )
+      case '/cosmos.gov.v1beta1.MsgVote':
+        return <VoteContent msgs={transactionData.msgs as TransactionMsgVote[]} />
+      case '/cosmos.gov.v1beta1.MsgDeposit':
+        return (
+          <DepositContent
+            msgs={transactionData.msgs as TransactionMsgDeposit[]}
+            account={account}
+            denoms={denoms}
+          />
+        )
       default:
         return null
     }
-  }, [type, validators, account, transactionData, totalAmount, denoms])
+  }, [typeUrl, validators, account, transactionData, totalAmount, denoms])
 
   return (
     <>

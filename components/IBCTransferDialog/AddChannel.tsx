@@ -60,8 +60,8 @@ const AddChannel: React.FC<AddChannelProps> = ({ onConfirm }) => {
               <Box display="flex" alignItems="center">
                 <Avatar
                   className={classes.largeAvatar}
-                  alt={get(chains, `${o}.name`, '')}
-                  src={get(chains, `${o}.image`, '')}
+                  alt={get(chains, `${o}.name`, '') as string}
+                  src={get(chains, `${o}.image`, '') as string}
                 />
                 <Typography>{get(chains, `${o}.name`, '')}</Typography>
               </Box>
@@ -83,8 +83,8 @@ const AddChannel: React.FC<AddChannelProps> = ({ onConfirm }) => {
                   startAdornment: chainId ? (
                     <Avatar
                       className={classes.avatar}
-                      alt={get(chains, `${chainId}.name`, '')}
-                      src={get(chains, `${chainId}.image`, '')}
+                      alt={get(chains, `${chainId}.name`, '') as string}
+                      src={get(chains, `${chainId}.image`, '') as string}
                     />
                   ) : null,
                   endAdornment: (

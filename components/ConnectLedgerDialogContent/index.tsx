@@ -2,7 +2,7 @@ import { Box, DialogContent, DialogContentText, DialogTitle, Typography } from '
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
-import { LaunchpadLedger } from '../../@cosmjs/ledger-amino'
+import { LaunchpadLedger } from '@cosmjs/ledger-amino'
 import LedgerImage from '../../assets/images/ledger.svg'
 import useStyles from './styles'
 

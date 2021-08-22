@@ -1,4 +1,4 @@
-import { Box, Avatar, Typography, Link, Snackbar } from '@material-ui/core'
+import { Box, Avatar, Typography, Link, Snackbar, useTheme } from '@material-ui/core'
 import React from 'react'
 import { Alert } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
@@ -6,6 +6,9 @@ import CopyIcon from '../../assets/images/icons/icon_copy.svg'
 import useIconProps from '../../misc/useIconProps'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useStyles from './styles'
+import { CustomTheme } from '../../misc/theme'
+import { useWalletsContext } from '../../contexts/WalletsContext'
+import LedgerIcon from '../../assets/images/icons/usb_device.svg'
 
 interface AccountAvatarProps {
   address?: {
@@ -19,6 +22,7 @@ interface AccountAvatarProps {
   hideAddress?: boolean
   disableCopyAddress?: boolean
   size?: 'small' | 'base' | 'large'
+  ledgerIconDisabled?: boolean
 }
 
 const AccountAvatar: React.FC<AccountAvatarProps> = ({
@@ -27,12 +31,16 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
   size = 'base',
   disableCopyAddress,
   address,
+  ledgerIconDisabled,
 }) => {
   const crypto = cryptocurrencies[account ? account.crypto : address.crypto]
   const { t } = useTranslation('common')
   const iconProps = useIconProps()
+  const themeStyle: CustomTheme = useTheme()
   const classes = useStyles()
   const [isCopySuccess, setIsCopySuccess] = React.useState(false)
+  const { wallets } = useWalletsContext()
+  const walletAccountInfo = { ...account, ...wallets.find((wal) => wal.id === account.walletId) }
 
   let avatarClass = ''
   let titleVariant: 'h3' | 'h5' | 'body1' = 'h5'
@@ -53,7 +61,7 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
     <>
       <Box display="flex" alignItems="center">
         <Avatar className={avatarClass} alt={crypto.name} src={crypto.image} />
-        <Box ml={1}>
+        <Box mx={1}>
           <Typography color="textPrimary" variant={titleVariant}>
             {account ? account.name : address.moniker}
           </Typography>
@@ -83,6 +91,12 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
             </Typography>
           ) : null}
         </Box>
+        {walletAccountInfo.type === 'ledger' ? (
+          <LedgerIcon
+            fill={themeStyle.palette.text.primary}
+            style={{ display: ledgerIconDisabled ? 'none' : 'block' }}
+          />
+        ) : null}
       </Box>
       <Snackbar
         open={isCopySuccess}

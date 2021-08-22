@@ -80,14 +80,14 @@ const IBCTransferDialog: React.FC<IBCTransferDialogProps> = ({
         )
         const msgs = [
           {
-            type: 'cosmos-sdk/MsgTransfer',
+            typeUrl: '/ibc.applications.transfer.v1.MsgTransfer',
             value: {
-              source_port: 'transfer',
-              source_channel: channel,
+              sourcePort: 'transfer',
+              sourceChannel: channel,
               token: { denom: coinsToSend.denom, amount: coinsToSend.amount.toString() },
               sender: account.address,
               receiver: address,
-              timeout_timestamp: (Date.now() + 3600000) * 1000,
+              timeoutTimestamp: (Date.now() + 3600000) * 1000,
             },
           },
         ]

@@ -53,7 +53,7 @@ const SelectChain: React.FC<SelectChainProps> = ({ onConfirm, onAddChannelClick 
               option: classes.listItem,
             }}
             options={Object.values(chains).map((chain) => chain.chainId)}
-            getOptionLabel={(option) => get(chains, `${option}.name`, '')}
+            getOptionLabel={(option) => get(chains, `${option}.name`, '') as string}
             openOnFocus
             fullWidth
             filterOptions={(options: string[], { inputValue }: any) =>
@@ -71,14 +71,14 @@ const SelectChain: React.FC<SelectChainProps> = ({ onConfirm, onAddChannelClick 
             }
             onChange={(e, id) => {
               setChainId(id)
-              setChannel(get(chains, `${id}.channel`, ''))
+              setChannel(get(chains, `${id}.channel`, '') as string)
             }}
             renderOption={(o) => (
               <Box display="flex" alignItems="center">
                 <Avatar
                   className={classes.largeAvatar}
-                  alt={get(chains, `${o}.name`, '')}
-                  src={get(chains, `${o}.image`, '')}
+                  alt={get(chains, `${o}.name`, '') as string}
+                  src={get(chains, `${o}.image`, '') as string}
                 />
                 <Box>
                   <Typography>{get(chains, `${o}.name`, '')}</Typography>
@@ -130,8 +130,8 @@ const SelectChain: React.FC<SelectChainProps> = ({ onConfirm, onAddChannelClick 
                   startAdornment: chainId ? (
                     <Avatar
                       className={classes.avatar}
-                      alt={get(chains, `${chainId}.name`, '')}
-                      src={get(chains, `${chainId}.image`, '')}
+                      alt={get(chains, `${chainId}.name`, '') as string}
+                      src={get(chains, `${chainId}.image`, '') as string}
                     />
                   ) : null,
                   endAdornment: (

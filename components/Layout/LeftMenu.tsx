@@ -1,6 +1,16 @@
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
-import { Box, List, ListItem, ListItemIcon, ListItemText, Paper, useTheme } from '@material-ui/core'
+import {
+  Avatar,
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Paper,
+  useTheme,
+} from '@material-ui/core'
 import Link from 'next/link'
 import OverviewIcon from '../../assets/images/icons/icon_overview.svg'
 import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg'
@@ -14,6 +24,8 @@ import useIconProps from '../../misc/useIconProps'
 import { MenuWidth } from '.'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { CustomTheme } from '../../misc/theme'
+import cryptocurrencies from '../../misc/cryptocurrencies'
+import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface LeftMenuProps {
   activeItem: string
@@ -27,6 +39,8 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
   const iconProps = useIconProps(3)
   const classes = useStyles()
   const { theme } = useGeneralContext()
+  const { accounts } = useWalletsContext()
+  const favAccount = accounts.some((acc) => !!acc.fav)
   const items = React.useMemo(
     () => [
       {
@@ -103,33 +117,90 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
             </Box>
           </ListItemIcon>
         </ListItem>
-        {items.map((item) => {
-          const selected = item.href === activeItem
-          return (
-            <Link key={item.title} href={item.href} passHref>
-              <ListItem
-                selected={selected}
-                className={classes.menuItem}
-                button
-                component="a"
-                style={{ background: selected ? themeStyle.palette.menuBackground : 'inherits' }}
-              >
-                <ListItemIcon>
-                  {React.cloneElement(item.icon, {
-                    fill: selected ? themeStyle.palette.primary.main : themeStyle.palette.grey[300],
-                  })}
-                </ListItemIcon>
-                <ListItemText
-                  primary={item.title}
-                  primaryTypographyProps={{
-                    variant: 'h6',
-                    color: selected ? 'primary' : 'textSecondary',
-                  }}
-                />
-              </ListItem>
-            </Link>
-          )
-        })}
+        <Box>
+          {items.map((item) => {
+            const selected = item.href === activeItem
+            return (
+              <Link key={item.title} href={item.href} passHref>
+                <ListItem
+                  selected={selected}
+                  className={classes.menuItem}
+                  button
+                  component="a"
+                  style={{ background: selected ? themeStyle.palette.menuBackground : 'inherits' }}
+                >
+                  <ListItemIcon>
+                    {React.cloneElement(item.icon, {
+                      fill: selected
+                        ? themeStyle.palette.primary.main
+                        : themeStyle.palette.grey[300],
+                    })}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.title}
+                    primaryTypographyProps={{
+                      variant: 'h6',
+                      color: selected ? 'primary' : 'textSecondary',
+                    }}
+                  />
+                </ListItem>
+              </Link>
+            )
+          })}
+        </Box>
+        <Box className={classes.favMenu}>
+          <ListItemText
+            primary={t('starredAccounts')}
+            primaryTypographyProps={{
+              variant: 'h6',
+              color: 'textSecondary',
+            }}
+            className={classes.starredAccounts}
+            style={{ display: isMenuExpanded ? 'block' : 'none' }}
+          />
+          <ListItemText
+            primary={t('manageAccounts')}
+            primaryTypographyProps={{
+              variant: 'h6',
+              color: 'textSecondary',
+            }}
+            style={{ display: favAccount || !isMenuExpanded ? 'none' : 'block' }}
+            className={classes.manageAccounts}
+          />
+          <Button
+            href="/wallets"
+            variant="contained"
+            color="primary"
+            style={{ display: favAccount || !isMenuExpanded ? 'none' : 'block' }}
+            className={classes.starButton}
+          >
+            {t('star now')}
+          </Button>
+          {accounts.map((account) => {
+            const crypto = cryptocurrencies[account.crypto]
+            return account.fav ? (
+              <Link key={account.name} href="/account/[address]" as={`/account/${account.address}`}>
+                <ListItem className={classes.favMenuItem} button component="a">
+                  <ListItemIcon>
+                    <Avatar
+                      alt={crypto.name}
+                      src={crypto.image}
+                      style={{ height: themeStyle.spacing(3), width: themeStyle.spacing(3) }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={crypto.name}
+                    primaryTypographyProps={{
+                      variant: 'h6',
+                    }}
+                  />
+                </ListItem>
+              </Link>
+            ) : (
+              <></>
+            )
+          })}
+        </Box>
       </List>
     </Paper>
   )

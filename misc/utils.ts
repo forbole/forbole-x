@@ -373,7 +373,7 @@ export const transformTransactions = (
       if (t.type.includes('MsgWithdrawDelegatorReward')) {
         return {
           ref: `#${get(t, 'transaction_hash', '')}`,
-          tab: 'staking',
+          tab: 'distribution',
           tag: 'withdrawReward',
           date: `${format(
             new Date(get(t, 'transaction.block.timestamp')),
@@ -453,7 +453,7 @@ const getTag = (status: string) => {
     return 'rejected'
   }
   if (status === 'PROPOSAL_STATUS_INVALID') {
-    return 'removed'
+    return 'invalid'
   }
   if (status === 'PROPOSAL_STATUS_PASSED') {
     return 'passed'
@@ -471,25 +471,33 @@ const getTag = (status: string) => {
 }
 
 export const transformProposals = (proposalData: any): Proposal[] => {
-  return get(proposalData, 'proposal', []).map((p) => ({
-    id: get(p, 'id'),
-    proposer: {
-      name: get(p, 'proposer.validator_infos[0].validator.validator_descriptions[0].moniker'),
-      image: get(p, 'proposer.validator_infos[0].validator.validator_descriptions[0].avatar_url'),
-      address: get(p, 'proposer.address'),
-    },
-    title: get(p, 'title'),
-    description: get(p, 'description'),
-    type: get(p, 'proposal_type'),
-    votingStartTime: `${format(new Date(get(p, 'voting_start_time')), 'dd MMM yyyy HH:mm')} UTC`,
-    votingEndTime: `${format(new Date(get(p, 'voting_end_time')), 'dd MMM yyyy HH:mm')} UTC`,
-    isActive: !!(
-      get(p, 'status') === 'PROPOSAL_STATUS_VOTING' ||
-      get(p, 'status') === 'PROPOSAL_STATUS_DEPOSIT'
-    ),
-    tag: getTag(get(p, 'status')),
-    duration: differenceInDays(new Date(get(p, 'voting_end_time')), Date.now()),
-  }))
+  return get(proposalData, 'proposal', [])
+    .map((p) => ({
+      id: get(p, 'id', ''),
+      proposer: {
+        name: get(p, 'proposer.validator_infos[0].validator.validator_descriptions[0].moniker', ''),
+        image: get(
+          p,
+          'proposer.validator_infos[0].validator.validator_descriptions[0].avatar_url',
+          ''
+        ),
+        address: get(p, 'proposer.address', ''),
+      },
+      title: get(p, 'title', ''),
+      description: get(p, 'description', ''),
+      type: get(p, 'proposal_type', ''),
+      votingStartTime: `${format(new Date(get(p, 'voting_start_time')), 'dd MMM yyyy HH:mm')} UTC`,
+      votingEndTime: `${format(new Date(get(p, 'voting_end_time')), 'dd MMM yyyy HH:mm')} UTC`,
+      depositEndTime: `${format(new Date(get(p, 'deposit_end_time')), 'dd MMM yyyy HH:mm')} UTC`,
+      depositEndTimeRaw: get(p, 'deposit_end_time'),
+      isActive: !!(
+        get(p, 'status', '') === 'PROPOSAL_STATUS_VOTING' ||
+        get(p, 'status', '') === 'PROPOSAL_STATUS_DEPOSIT'
+      ),
+      tag: getTag(get(p, 'status', '')),
+      duration: differenceInDays(new Date(get(p, 'voting_end_time')), Date.now()),
+    }))
+    .sort((a, b) => (a.id < b.id ? 1 : -1))
 }
 
 export const transformProposal = (
@@ -563,10 +571,10 @@ export const transformVoteSummary = (proposalResult: any): any => {
   let yes = 0
 
   get(proposalResult, 'proposal_tally_result', []).forEach((p) => {
-    abstain += get(p, 'abstain')
-    no += get(p, 'no')
-    veto += get(p, 'no_with_veto')
-    yes += get(p, 'yes')
+    abstain += get(p, 'abstain', 0) / 10 ** 6
+    no += get(p, 'no', 0) / 10 ** 6
+    veto += get(p, 'no_with_veto', 0) / 10 ** 6
+    yes += get(p, 'yes', 0) / 10 ** 6
   })
 
   const totalAmount = abstain + no + veto + yes
@@ -622,9 +630,9 @@ export const transformVoteDetail = (voteDetail: any): any => {
       image: get(d, 'account.validator_infos[0].validator.validator_descriptions[0].avatar_url'),
       address: get(d, 'voter_address'),
     },
-    votingPower: 0,
-    votingPowerPercentage: 0.1,
-    votingPowerOverride: 0.1,
+    // votingPower: 0,
+    // votingPowerPercentage: 0.1,
+    // votingPowerOverride: 0.1,
     answer: getVoteAnswer(get(d, 'option')),
   }))
 }

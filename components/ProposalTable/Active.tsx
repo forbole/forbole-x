@@ -13,8 +13,16 @@ const Active: React.FC<ActiveProps> = ({ status, onClick }) => {
   const { t } = useTranslation('common')
 
   return (
-    <Box onClick={() => onClick()}>
-      <Button size="small" variant="contained" className={classes.activeStatus}>
+    <Box>
+      <Button
+        onClick={(e) => {
+          e.stopPropagation()
+          onClick()
+        }}
+        size="small"
+        variant="contained"
+        className={classes.activeStatus}
+      >
         {t(status)}
       </Button>
     </Box>

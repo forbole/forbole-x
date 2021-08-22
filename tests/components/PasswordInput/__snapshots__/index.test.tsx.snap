@@ -21,7 +21,7 @@ exports[`component: PasswordInput renders correctly 1`] = `
       type="password"
     />
     <div
-      className="MuiInputAdornment-root MuiInputAdornment-filled MuiInputAdornment-positionEnd"
+      className="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-filled"
     >
       <button
         className="MuiButtonBase-root MuiIconButton-root"
@@ -78,7 +78,7 @@ exports[`component: PasswordInput renders correctly when password is shown 1`] =
       type="text"
     />
     <div
-      className="MuiInputAdornment-root MuiInputAdornment-filled MuiInputAdornment-positionEnd"
+      className="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-filled"
     >
       <button
         className="MuiButtonBase-root MuiIconButton-root"
@@ -140,7 +140,7 @@ Array [
         value="123qweQWE!@#"
       />
       <div
-        className="MuiInputAdornment-root MuiInputAdornment-filled MuiInputAdornment-positionEnd"
+        className="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-filled"
       >
         <button
           className="MuiButtonBase-root MuiIconButton-root"
@@ -233,7 +233,7 @@ Array [
         value="123"
       />
       <div
-        className="MuiInputAdornment-root MuiInputAdornment-filled MuiInputAdornment-positionEnd"
+        className="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-filled"
       >
         <button
           className="MuiButtonBase-root MuiIconButton-root"
@@ -326,7 +326,7 @@ Array [
         value="123qweQWE"
       />
       <div
-        className="MuiInputAdornment-root MuiInputAdornment-filled MuiInputAdornment-positionEnd"
+        className="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-filled"
       >
         <button
           className="MuiButtonBase-root MuiIconButton-root"

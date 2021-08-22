@@ -1,10 +1,12 @@
 import {
   Box,
   Button,
+  CircularProgress,
   DialogContent,
   InputAdornment,
   TextField,
   Typography,
+  useTheme,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
@@ -16,32 +18,34 @@ import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.sv
 import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface SelectAnswerProps {
-  network: { id: number; crypto: string; name: string; img: string }
+  network: Chain
   onNext(voteAccount: Account, answer: { name: string; id: string }, memo?: string): void
   proposal: Proposal
+  loading: boolean
 }
 
-const SelectAnswer: React.FC<SelectAnswerProps> = ({ network, onNext, proposal }) => {
+const SelectAnswer: React.FC<SelectAnswerProps> = ({ network, onNext, proposal, loading }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const { accounts: allAccounts } = useWalletsContext()
+  const theme = useTheme()
   const accounts = allAccounts.filter((a) => a.crypto === network.crypto)
   const answers = [
     {
       name: 'Yes',
-      id: '01',
+      id: '1',
     },
     {
       name: 'No',
-      id: '02',
+      id: '2',
     },
     {
       name: 'Veto',
-      id: '03',
+      id: '3',
     },
     {
       name: 'Abstain',
-      id: '04',
+      id: '4',
     },
   ]
 
@@ -180,10 +184,10 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ network, onNext, proposal }
                 variant="contained"
                 className={classes.button}
                 color="primary"
-                disabled={!!(answer === undefined)}
+                disabled={loading || answer === undefined}
                 type="submit"
               >
-                {t('next')}
+                {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
               </Button>
             </Box>
           </Box>

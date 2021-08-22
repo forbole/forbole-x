@@ -1,6 +1,6 @@
 {
   "name": "forbole-x",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,14 +9,15 @@
     "prettier": "prettier --config .prettierrc --write '**/*.{ts,tsx,json,yaml}'",
     "lint": "eslint '**/*.{ts,tsx}'",
     "test": "jest",
-    "e2e": "cypress run"
+    "e2e": "cypress run",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@apollo/client": "^3.3.12",
-    "@cosmjs/crypto": "^0.25.4",
-    "@cosmjs/ledger-amino": "^0.25.5",
-    "@cosmjs/proto-signing": "^0.25.4",
-    "@cosmjs/stargate": "^0.25.4",
+    "@cosmjs/crypto": "^0.25.6",
+    "@cosmjs/ledger-amino": "^0.25.6",
+    "@cosmjs/proto-signing": "^0.25.6",
+    "@cosmjs/stargate": "^0.26.0-alpha2",
     "@ledgerhq/hw-transport-webhid": "^6.1.0",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
@@ -26,9 +27,10 @@
     "graphql": "^15.5.0",
     "isomorphic-ws": "^4.0.1",
     "lodash": "^4.17.21",
-    "next": "^10.0.4",
+    "next": "^11.1.0",
     "next-translate": "^1.0.1",
     "nodemailer": "^6.6.3",
+    "patch-package": "^6.4.7",
     "postcss": "^8.2.15",
     "qrcode.react": "^1.0.1",
     "query-string": "^7.0.0",

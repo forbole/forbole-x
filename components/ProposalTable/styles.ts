@@ -6,7 +6,7 @@ export const useGetStyles = (status?: string) => {
     if (status === 'rejected' || status === 'failed') {
       return 'unbonded'
     }
-    if (status === 'removed') {
+    if (status === 'invalid') {
       return 'unknown'
     }
     return 'active'
@@ -65,6 +65,10 @@ export const useGetStyles = (status?: string) => {
           color: 'white',
           background: status === 'vote' ? theme.palette.primary.main : theme.palette.success.main,
           width: theme.spacing(12),
+          '&:hover': {
+            backgroundColor:
+              status === 'vote' ? theme.palette.primary.dark : theme.palette.success.dark,
+          },
         },
       }),
     {

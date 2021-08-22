@@ -186,17 +186,6 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                   <TableCell className={classes.tableCell}>
                     <ValidatorAvatar crypto={crypto} validator={v} size="small" />
                   </TableCell>
-                  {/* <TableCell className={classes.tableCell}>
-                    <Box display="flex" alignItems="center">
-                      <Avatar
-                        className={classes.flagAvatar}
-                        variant="rounded"
-                        alt={v.location.name}
-                        src={v.location.image}
-                      />
-                      <Typography>{v.location.name}</Typography>
-                    </Box>
-                  </TableCell> */}
                   <TableCell className={classes.tableCell}>
                     {formatCrypto(v.votingPower, crypto.name, lang)} (
                     {formatPercentage(v.votingPower / totalVotingPower, lang)})
@@ -211,7 +200,11 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                     {v.isActive ? (
                       <ActiveStatus status={v.status} onClick={() => setDelegatingValidator(v)} />
                     ) : (
-                      <InActiveStatus status={v.status} alignRight={alignRight} />
+                      <InActiveStatus
+                        status={v.status}
+                        alignRight={alignRight}
+                        onClick={() => setDelegatingValidator(v)}
+                      />
                     )}
                   </TableCell>
                 </TableRow>

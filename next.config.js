@@ -8,10 +8,6 @@ module.exports = {
         test: /\.svg$/,
         use: ['@svgr/webpack'],
       })
-      config.module.rules.push({
-        test: /\.(eot|gif|md)$/,
-        loaders: ['style-loader', 'css-loader', 'less-loader'],
-      })
 
       return config
     },

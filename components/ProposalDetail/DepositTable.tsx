@@ -8,6 +8,7 @@ import {
   Avatar,
   Typography,
   Card,
+  Link,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -20,7 +21,7 @@ interface DepositTableProps {
   proposal: Proposal
   crypto: Cryptocurrency
   tag: string
-  network: { id: number; crypto: string; name: string; img: string }
+  network: Chain
 }
 
 const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto, network }) => {
@@ -77,15 +78,22 @@ const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto, netw
             {proposal.depositDetails.map((d, i) => {
               return (
                 <TableRow className={classes.tableRow} key={i}>
-                  <TableCell className={classes.tableCell}>
-                    <Box className={classes.box} display="flex" alignItems="center">
-                      <Avatar
-                        className={classes.validatorAvatar}
-                        alt={d.depositor.name}
-                        src={d.depositor.image}
-                      />
-                      <Typography className={classes.ellipsisText}>{d.depositor.name}</Typography>
-                    </Box>
+                  <TableCell>
+                    <Link
+                      href={`${crypto.blockExplorerBaseUrl}/accounts/${d.depositor.address}`}
+                      target="_blank"
+                    >
+                      <Box className={classes.box} display="flex" alignItems="center">
+                        <Avatar
+                          className={classes.validatorAvatar}
+                          alt={d.depositor.name}
+                          src={d.depositor.image}
+                        />
+                        <Typography className={classes.ellipsisText}>
+                          {d.depositor.name || d.depositor.address}
+                        </Typography>
+                      </Box>
+                    </Link>
                   </TableCell>
                   <TableCell align="right">
                     <Typography variant="subtitle1">
