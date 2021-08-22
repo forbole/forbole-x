@@ -144,17 +144,6 @@ interface Activity {
   amount?: TokenAmount
 }
 
-interface VoteDetail {
-  voter: {
-    name: string
-    image: string
-  }
-  votingPower: number
-  votingPowerPercentage: number
-  votingPowerOverride: number
-  answer: string
-}
-
 interface DepositDetail {
   depositor: {
     name: string

@@ -280,7 +280,7 @@
   "vote proposal": "Vote Proposal",
   "You’re going to vote": "You’re going to vote",
   "select answer": "Select answer",
-  "voting time": "Voting Time",
+  "voting time": "Voting Time: {{from}} to {{to}}",
   "voting start time": "Voting Start Time",
   "voting end time": "Voting End Time",
   "submitted time": "Submitted Time",
@@ -377,5 +377,6 @@
   "manageAccounts": "Go to wallet manage to star your account",
   "star now": "Star Now",
   "proposal details": "Proposal Details",
-  "deposit to": "Deposit to"
+  "deposit to": "Deposit to",
+  "deposit time": "Deposit Time: {{from}} to {{to}}"
 }

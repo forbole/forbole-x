@@ -13,7 +13,7 @@ const VoteTime: React.FC<ActiveProps> = ({ proposal }) => {
 
   return (
     <Typography variant="subtitle1" color="textSecondary">
-      {`${t('voting time')}: ${proposal.votingStartTime} to ${proposal.votingEndTime} `}
+      {t('voting time', { from: proposal.votingStartTime, to: proposal.votingEndTime })}
       <span className={classes.duration}>
         {`(${proposal.duration} ${proposal.duration > 1 ? t('days') : t('day')})`}
       </span>

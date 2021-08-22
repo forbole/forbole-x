@@ -59,7 +59,7 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, network }) =>
                             alt={x.proposer.name}
                             src={x.proposer.image}
                           />
-                          <Typography variant="h6" className={classes.ellipsisText}>
+                          <Typography color="primary" variant="h6" className={classes.ellipsisText}>
                             {x.proposer.name || x.proposer.address}
                           </Typography>
                         </Box>
@@ -70,7 +70,12 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, network }) =>
                       {x.description}
                     </Typography>
                     <Typography variant="subtitle1" color="textSecondary">
-                      {`${t('voting time')}: ${x.votingStartTime} to ${x.votingEndTime}`}
+                      {x.tag === 'deposit'
+                        ? t('deposit time', { from: x.submitTime, to: x.depositEndTime })
+                        : null}
+                      {x.tag === 'vote' || x.tag === 'passed'
+                        ? t('voting time', { from: x.votingStartTime, to: x.votingEndTime })
+                        : null}
                       {x.isActive ? (
                         <span className={classes.duration}>
                           {`(${t('in')} ${x.duration} ${x.duration > 1 ? t('days') : t('day')})`}
