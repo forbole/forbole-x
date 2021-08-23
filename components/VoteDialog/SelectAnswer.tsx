@@ -32,19 +32,19 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ network, onNext, proposal, 
   const accounts = allAccounts.filter((a) => a.crypto === network.crypto)
   const answers = [
     {
-      name: 'Yes',
+      name: t('yes'),
       id: '1',
     },
     {
-      name: 'No',
+      name: t('abstain'),
       id: '2',
     },
     {
-      name: 'Veto',
+      name: t('no'),
       id: '3',
     },
     {
-      name: 'Abstain',
+      name: t('veto'),
       id: '4',
     },
   ]
