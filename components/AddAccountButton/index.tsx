@@ -15,6 +15,7 @@ import SelectAddressesContent from './SelectAddresses'
 import SecurityPasswordDialogContent from '../SecurityPasswordDialogContent'
 import SuccessContent from '../Success'
 import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
+import { closeAllLedgerConnections } from '../../misc/utils'
 
 let ledgerTransport
 
@@ -38,6 +39,7 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
   const [dialogOpen, setDialogOpen] = React.useState(false)
   const onClose = () => {
     setDialogOpen(false)
+    closeAllLedgerConnections()
   }
   const theme = useTheme()
   const isMobile = useIsMobile()
