@@ -19,6 +19,7 @@ import useStateHistory from '../../misc/useStateHistory'
 import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 import useIsMobile from '../../misc/useIsMobile'
 import getWalletAddress from '../../misc/getWalletAddress'
+import { closeAllLedgerConnections } from '../../misc/utils'
 
 let ledgerSigner
 
@@ -134,7 +135,9 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
   const saveWallet = React.useCallback(
     async (name: string, cryptos: string[], type = 'mnemonic') => {
       const addresses = await Promise.all(
-        cryptos.map((c) => getWalletAddress(mnemonic, c, 0, ledgerSigner))
+        cryptos.map((c) =>
+          getWalletAddress(mnemonic, c, 0, type === 'ledger' ? ledgerSigner : undefined)
+        )
       )
       await addWallet({
         type,
@@ -249,14 +252,20 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
   return (
     <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
       {isPrevStageAvailable ? (
-        <IconButton className={classes.backButton} onClick={toPrevStage}>
+        <IconButton
+          className={classes.backButton}
+          onClick={() => {
+            toPrevStage()
+            closeAllLedgerConnections()
+          }}
+        >
           <BackIcon {...iconProps} />
         </IconButton>
       ) : null}
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
-      <DialogTitle>{content.title}</DialogTitle>
+      {content.title ? <DialogTitle>{content.title}</DialogTitle> : null}
       {content.content}
     </Dialog>
   )

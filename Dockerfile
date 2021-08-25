@@ -6,6 +6,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 
 COPY package.json /app/
 COPY yarn.lock /app/
+COPY patches /app/patches
 RUN yarn install
 
 COPY . /app

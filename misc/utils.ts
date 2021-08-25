@@ -4,6 +4,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import drop from 'lodash/drop'
 import keyBy from 'lodash/keyBy'
 import { format, differenceInDays } from 'date-fns'
+import TransportWebHID from '@ledgerhq/hw-transport-webhid'
 
 export const formatPercentage = (percent: number, lang: string): string =>
   new Intl.NumberFormat(lang, {
@@ -646,3 +647,8 @@ export const isAddressValid = (prefix: string, address: string): boolean => {
 
 export const formatHeight = (height: number, lang?: string): string =>
   `${new Intl.NumberFormat(lang).format(height || 0)}`
+
+export const closeAllLedgerConnections = async () => {
+  const devices = await TransportWebHID.list()
+  await Promise.all(devices.map((d) => d.close()))
+}

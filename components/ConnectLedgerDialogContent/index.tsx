@@ -5,6 +5,7 @@ import TransportWebHID from '@ledgerhq/hw-transport-webhid'
 import { LaunchpadLedger } from '@cosmjs/ledger-amino'
 import LedgerImage from '../../assets/images/ledger.svg'
 import useStyles from './styles'
+import { closeAllLedgerConnections } from '../../misc/utils'
 
 interface ConnectLedgerDialogContentProps {
   onConnect(transport: any): void
@@ -27,8 +28,7 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
     } catch (err) {
       // Ledger is connected previously. Close the previous connections
       if (err.message === 'The device is already open.') {
-        const devices = await TransportWebHID.list()
-        await Promise.all(devices.map((d) => d.close()))
+        closeAllLedgerConnections()
       }
       retryTimeout = setTimeout(connectLedger, 1000)
     }

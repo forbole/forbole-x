@@ -112,7 +112,7 @@ const WalletsProvider: React.FC = ({ children }) => {
         },
       })
       setIsFirstTimeUser(false)
-      setWallets((ws) => [result.wallet, ...ws])
+      setWallets((ws) => [{ ...result.wallet, type: wallet.type }, ...ws])
       setAccounts((acs) => [...result.accounts, ...acs])
     },
     [password, setIsFirstTimeUser, setWallets, setAccounts]

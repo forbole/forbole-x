@@ -11,6 +11,7 @@ const wallet = {
   name: 'test',
   id: '123',
   cryptos: ['DARIC'],
+  type: 'mnemonic',
 }
 
 const account = {
@@ -80,6 +81,7 @@ describe('context: WalletsContext', () => {
           name: 'test 2',
           id: '1234',
           cryptos: ['DARIC'],
+          type: 'mnemonic',
         },
         accounts: [],
       })
@@ -88,6 +90,7 @@ describe('context: WalletsContext', () => {
       cryptos: ['DARIC'],
       mnemonic: 'mnemonic',
       securityPassword: 'password',
+      type: 'mnemonic',
     }
 
     const wrapper: React.FC = ({ children }) => <WalletsProvider>{children}</WalletsProvider>
@@ -105,6 +108,7 @@ describe('context: WalletsContext', () => {
         name: wallet2.name,
         id: '1234',
         cryptos: ['DARIC'],
+        type: 'mnemonic',
       },
       wallet,
     ]
