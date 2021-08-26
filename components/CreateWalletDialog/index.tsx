@@ -44,7 +44,7 @@ type Stage = CommonStage | ImportStage
 
 interface CreateWalletDialogProps {
   open: boolean
-  onClose(val1?: unknown, reason?: string): void
+  onClose(event?: unknown, reason?: string): void
   initialStage?: Stage
 }
 
