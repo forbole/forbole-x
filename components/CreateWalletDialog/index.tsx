@@ -44,7 +44,7 @@ type Stage = CommonStage | ImportStage
 
 interface CreateWalletDialogProps {
   open: boolean
-  onClose(): void
+  onClose(event?: unknown, reason?: string): void
   initialStage?: Stage
 }
 
@@ -250,7 +250,16 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
   }, [stage, t])
 
   return (
-    <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
+    <Dialog
+      fullWidth
+      open={open}
+      onClose={(event, reason) => {
+        if (reason !== 'backdropClick') {
+          onClose(event, reason)
+        }
+      }}
+      fullScreen={isMobile}
+    >
       {isPrevStageAvailable ? (
         <IconButton
           className={classes.backButton}

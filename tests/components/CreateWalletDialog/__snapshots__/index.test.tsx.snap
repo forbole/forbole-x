@@ -5,7 +5,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
   fullScreen={false}
   fullWidth={true}
   id="dialog"
-  onClose={[MockFunction]}
+  onClose={[Function]}
   open={false}
 >
   <button
@@ -177,7 +177,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
   fullScreen={false}
   fullWidth={true}
   id="dialog"
-  onClose={[MockFunction]}
+  onClose={[Function]}
   open={true}
 >
   <button
