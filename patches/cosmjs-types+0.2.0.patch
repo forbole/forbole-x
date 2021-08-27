@@ -1,0 +1,31 @@
+diff --git a/node_modules/cosmjs-types/cosmos/auth/v1beta1/auth.js b/node_modules/cosmjs-types/cosmos/auth/v1beta1/auth.js
+index 0673e21..adc499d 100644
+--- a/node_modules/cosmjs-types/cosmos/auth/v1beta1/auth.js
++++ b/node_modules/cosmjs-types/cosmos/auth/v1beta1/auth.js
+@@ -355,4 +355,25 @@ if (minimal_1.default.util.Long !== long_1.default) {
+     minimal_1.default.util.Long = long_1.default;
+     minimal_1.default.configure();
+ }
++
++exports.ProfileAccount = {
++    decode(input, length) {
++        const reader = input instanceof minimal_1.default.Reader ? input : new minimal_1.default.Reader(input);
++        let end = length === undefined ? reader.len : reader.pos + length;
++        const message = Object.assign({}, baseModuleAccount);
++        message.permissions = [];
++        while (reader.pos < end) {
++            const tag = reader.uint32();
++            switch (tag >>> 3) {
++                case 1:
++                    message.baseAccount = exports.BaseAccount.decode(any_1.Any.decode(reader, reader.uint32()).value);
++                    break;
++                default:
++                    reader.skipType(tag & 7);
++                    break;
++            }
++        }
++        return message;
++    },
++};
+ //# sourceMappingURL=auth.js.map
+\ No newline at end of file
