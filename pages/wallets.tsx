@@ -56,7 +56,7 @@ const Wallets: React.FC = () => {
       <CreateWalletDialog
         open={isCreateWalletDialogOpen}
         onClose={() => setIsCreateWalletDialogOpen(false)}
-        initialStage={CommonStage.AccessMyWalletStage}
+        // initialStage={CommonStage.AccessMyWalletStage}
       />
     </Layout>
   )

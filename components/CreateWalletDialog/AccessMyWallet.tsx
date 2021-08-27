@@ -25,7 +25,7 @@ const AccessMyWallet: React.FC<AccessMyWalletProps> = ({ onConfirm, onCreateWall
     <>
       <DialogContent className={classes.dialogContent}>
         <DialogContentText>{t('access my wallet description')}</DialogContentText>
-        <Box my={-2}>
+        <Box mt={-2}>
           {Object.values(ImportStage).map((stage) => (
             <ButtonBase
               key={stage}
@@ -43,9 +43,9 @@ const AccessMyWallet: React.FC<AccessMyWalletProps> = ({ onConfirm, onCreateWall
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onCreateWallet} className={classes.button} color="primary">
+        {/* <Button onClick={onCreateWallet} className={classes.button} color="primary">
           {t('create a wallet')}
-        </Button>
+        </Button> */}
       </DialogActions>
     </>
   )
