@@ -104,31 +104,6 @@ Array [
   </div>,
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
-  >
-    <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-button-1 MuiButton-textPrimary"
-      disabled={false}
-      onBlur={[Function]}
-      onClick={[MockFunction]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      tabIndex={0}
-      type="button"
-    >
-      <span
-        className="MuiButton-label"
-      >
-        common:create a wallet
-      </span>
-    </button>
-  </div>,
+  />,
 ]
 `;

@@ -47,7 +47,7 @@ describe('Create wallet on first visit', () => {
     cy.get('button').contains('Confirm').click()
   })
   it('create and confirm secret recovery phrase', () => {
-    cy.contains('have any').click()
+    cy.contains('Create Wallet').click()
     cy.get('.mnemonic').should('be.visible')
     cy.get('.mnemonic').then((e) => {
       const mnemonic = []
