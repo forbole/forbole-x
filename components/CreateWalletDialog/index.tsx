@@ -232,7 +232,12 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       case CommonStage.AccessMyWalletStage:
         return {
           title: t('access my wallet title'),
-          content: <AccessMyWallet onConfirm={setStage} onCreateWallet={createWallet} />,
+          content: (
+            <AccessMyWallet
+              onConfirm={setStage}
+              onWhatIsMnemonicClick={() => setStage(CommonStage.WhatIsMnemonicStage)}
+            />
+          ),
         }
       case CommonStage.StartStage:
       default:
