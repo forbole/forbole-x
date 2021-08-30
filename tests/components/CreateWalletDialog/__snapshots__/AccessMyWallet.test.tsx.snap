@@ -109,7 +109,6 @@ Array [
       className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-button-1 MuiButton-textPrimary"
       disabled={false}
       onBlur={[Function]}
-      onClick={[MockFunction]}
       onDragLeave={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
@@ -126,7 +125,7 @@ Array [
       <span
         className="MuiButton-label"
       >
-        common:create a wallet
+        common:what is secret recovery phrase
       </span>
     </button>
   </div>,

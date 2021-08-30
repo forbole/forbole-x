@@ -19,6 +19,7 @@ import useStateHistory from '../../misc/useStateHistory'
 import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 import useIsMobile from '../../misc/useIsMobile'
 import getWalletAddress from '../../misc/getWalletAddress'
+import { closeAllLedgerConnections } from '../../misc/utils'
 
 let ledgerSigner
 
@@ -43,7 +44,7 @@ type Stage = CommonStage | ImportStage
 
 interface CreateWalletDialogProps {
   open: boolean
-  onClose(): void
+  onClose(event?: unknown, reason?: string): void
   initialStage?: Stage
 }
 
@@ -134,7 +135,9 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
   const saveWallet = React.useCallback(
     async (name: string, cryptos: string[], type = 'mnemonic') => {
       const addresses = await Promise.all(
-        cryptos.map((c) => getWalletAddress(mnemonic, c, 0, ledgerSigner))
+        cryptos.map((c) =>
+          getWalletAddress(mnemonic, c, 0, type === 'ledger' ? ledgerSigner : undefined)
+        )
       )
       await addWallet({
         type,
@@ -229,7 +232,12 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       case CommonStage.AccessMyWalletStage:
         return {
           title: t('access my wallet title'),
-          content: <AccessMyWallet onConfirm={setStage} onCreateWallet={createWallet} />,
+          content: (
+            <AccessMyWallet
+              onConfirm={setStage}
+              onWhatIsMnemonicClick={() => setStage(CommonStage.WhatIsMnemonicStage)}
+            />
+          ),
         }
       case CommonStage.StartStage:
       default:
@@ -247,16 +255,31 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
   }, [stage, t])
 
   return (
-    <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
+    <Dialog
+      fullWidth
+      open={open}
+      onClose={(event, reason) => {
+        if (reason !== 'backdropClick') {
+          onClose(event, reason)
+        }
+      }}
+      fullScreen={isMobile}
+    >
       {isPrevStageAvailable ? (
-        <IconButton className={classes.backButton} onClick={toPrevStage}>
+        <IconButton
+          className={classes.backButton}
+          onClick={() => {
+            toPrevStage()
+            closeAllLedgerConnections()
+          }}
+        >
           <BackIcon {...iconProps} />
         </IconButton>
       ) : null}
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
-      <DialogTitle>{content.title}</DialogTitle>
+      {content.title ? <DialogTitle>{content.title}</DialogTitle> : null}
       {content.content}
     </Dialog>
   )

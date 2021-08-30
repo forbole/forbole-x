@@ -14,10 +14,10 @@ import { ImportStage } from '.'
 
 interface AccessMyWalletProps {
   onConfirm(stage: ImportStage): void
-  onCreateWallet(): void
+  onWhatIsMnemonicClick(): void
 }
 
-const AccessMyWallet: React.FC<AccessMyWalletProps> = ({ onConfirm, onCreateWallet }) => {
+const AccessMyWallet: React.FC<AccessMyWalletProps> = ({ onConfirm, onWhatIsMnemonicClick }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
 
@@ -43,8 +43,8 @@ const AccessMyWallet: React.FC<AccessMyWalletProps> = ({ onConfirm, onCreateWall
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onCreateWallet} className={classes.button} color="primary">
-          {t('create a wallet')}
+        <Button onClick={onWhatIsMnemonicClick} className={classes.button} color="primary">
+          {t('what is secret recovery phrase')}
         </Button>
       </DialogActions>
     </>

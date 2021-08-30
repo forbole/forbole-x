@@ -41,15 +41,15 @@ describe('component: CreateWalletDialog - AccessMyWallet', () => {
     })
     expect(onConfirm).toBeCalledWith(ImportStage.ConnectLedgerDeviceStage)
   })
-  it('calls onCreateWallet when last button is clicked', () => {
-    const component = renderer.create(
-      <AccessMyWallet onConfirm={onConfirm} onCreateWallet={onCreateWallet} />
-    )
-    renderer.act(() => {
-      component.root.findAllByType('button')[3].props.onClick()
-    })
-    expect(onCreateWallet).toBeCalled()
-  })
+  // it('calls onCreateWallet when last button is clicked', () => {
+  //   const component = renderer.create(
+  //     <AccessMyWallet onConfirm={onConfirm} onCreateWallet={onCreateWallet} />
+  //   )
+  //   renderer.act(() => {
+  //     component.root.findAllByType('button')[3].props.onClick()
+  //   })
+  //   expect(onCreateWallet).toBeCalled()
+  // })
 })
 
 afterEach(() => {

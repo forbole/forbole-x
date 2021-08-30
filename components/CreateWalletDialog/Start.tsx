@@ -36,33 +36,35 @@ const Start: React.FC<StartProps> = ({
     <>
       <DialogContent className={classes.dialogContent}>
         <DialogContentText>{t('create wallet description')}</DialogContentText>
-        <Grid container spacing={5}>
-          <Grid item xs={6}>
-            <ButtonBase className={classes.selectionBox} onClick={onImportWalletClick}>
-              <Box mb={10}>
-                {theme === 'light' ? <WithMnemonicIconLight /> : <WithMnemonicIconDark />}
-              </Box>
-              <Typography variant="body2" align="center" color="textSecondary">
-                {t('i have secret recovery phrase')}
-              </Typography>
-            </ButtonBase>
+        <Box m={4}>
+          <Grid container spacing={5}>
+            <Grid item xs={6}>
+              <ButtonBase className={classes.selectionBox} onClick={onImportWalletClick}>
+                <Box mb={5}>
+                  {theme === 'light' ? <WithMnemonicIconLight /> : <WithMnemonicIconDark />}
+                </Box>
+                <Typography align="center" color="textSecondary">
+                  {t('import wallet')}
+                </Typography>
+              </ButtonBase>
+            </Grid>
+            <Grid item xs={6}>
+              <ButtonBase className={classes.selectionBox} onClick={onCreateWalletClick}>
+                <Box mb={5}>
+                  {theme === 'light' ? <WithoutMnemonicIconLight /> : <WithoutMnemonicIconDark />}
+                </Box>
+                <Typography align="center" color="textSecondary">
+                  {t('create wallet')}
+                </Typography>
+              </ButtonBase>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <ButtonBase className={classes.selectionBox} onClick={onCreateWalletClick}>
-              <Box mb={10}>
-                {theme === 'light' ? <WithoutMnemonicIconLight /> : <WithoutMnemonicIconDark />}
-              </Box>
-              <Typography variant="body2" align="center" color="textSecondary">
-                {t('i dont have secret recovery phrase')}
-              </Typography>
-            </ButtonBase>
-          </Grid>
-        </Grid>
+        </Box>
       </DialogContent>
       <DialogActions>
-        <Button className={classes.button} color="primary" onClick={onWhatIsMnemonicClick}>
+        {/* <Button className={classes.button} color="primary" onClick={onWhatIsMnemonicClick}>
           {t('what is secret recovery phrase')}
-        </Button>
+        </Button> */}
       </DialogActions>
     </>
   )
