@@ -179,7 +179,11 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
           {accounts.map((account) => {
             const crypto = cryptocurrencies[account.crypto]
             return account.fav ? (
-              <Link key={account.name} href="/account/[address]" as={`/account/${account.address}`}>
+              <Link
+                key={account.index}
+                href="/account/[address]"
+                as={`/account/${account.address}`}
+              >
                 <ListItem className={classes.favMenuItem} button component="a">
                   <ListItemIcon>
                     <Avatar
@@ -189,7 +193,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
                     />
                   </ListItemIcon>
                   <ListItemText
-                    primary={crypto.name}
+                    primary={account.name}
                     primaryTypographyProps={{
                       variant: 'h6',
                     }}
