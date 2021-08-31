@@ -180,7 +180,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
             const crypto = cryptocurrencies[account.crypto]
             return account.fav ? (
               <Link
-                key={account.index}
+                key={account.address}
                 href="/account/[address]"
                 as={`/account/${account.address}`}
               >
