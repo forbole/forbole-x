@@ -2,6 +2,7 @@ const cryptocurrencies = {
   DARIC: {
     name: 'DARIC',
     prefix: 'desmos',
+    ledgerAppName: 'Desmos',
     ecosystem: 'cosmos',
     chainId: 'morpheus-apollo-2',
     image: '/static/images/cryptocurrencies/dsm.png',
