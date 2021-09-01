@@ -3,7 +3,7 @@ import { Box, Tabs, Tab } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import useStyles from './styles'
 import GeneralTable from './GeneralTable'
-import HelpTable from './HelpTable'
+// import HelpTable from './HelpTable'
 import FeedbackTable from './FeedbackTable'
 import AboutTable from './AboutTable'
 import FollowUsTable from './FollowUsTable'
@@ -23,7 +23,7 @@ const SettingTable: React.FC = () => {
 
   const tabs = [
     { label: 'general' },
-    { label: 'help' },
+    // { label: 'help' },
     { label: 'feedback' },
     { label: 'follow us' },
     { label: 'about' },
@@ -42,10 +42,10 @@ const SettingTable: React.FC = () => {
       </Tabs>
       <Box pt={3} />
       {currentTab === 0 ? <GeneralTable /> : null}
-      {currentTab === 1 ? <HelpTable /> : null}
-      {currentTab === 2 ? <FeedbackTable /> : null}
-      {currentTab === 3 ? <FollowUsTable /> : null}
-      {currentTab === 4 ? <AboutTable /> : null}
+      {/* {currentTab === 1 ? <HelpTable /> : null} */}
+      {currentTab === 1 ? <FeedbackTable /> : null}
+      {currentTab === 2 ? <FollowUsTable /> : null}
+      {currentTab === 3 ? <AboutTable /> : null}
     </>
   )
 }
