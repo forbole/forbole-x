@@ -86,14 +86,19 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
       )
       .reduce((a, b) => a + b, 0)
     const feeAmount = String(
-      totalGas * get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount.amount`, 0)
+      totalGas *
+        (get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount.amount`, 0) as number)
     )
     return {
       fee: {
         amount: [
           {
             amount: feeAmount,
-            denom: get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount.denom`, ''),
+            denom: get(
+              cryptocurrencies,
+              `${account.crypto}.defaultGasFee.amount.denom`,
+              ''
+            ) as string,
           },
         ],
         gas: String(totalGas),

@@ -75,6 +75,10 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       setMnemonic('')
       setSecurityPassword('')
       setError('')
+      setLedgerCryptosIndex(0)
+      setLedgerWalletName('')
+      setLedgerAddresses([])
+      setLedgerCryptos([])
       setStage(initialStage || CommonStage.StartStage, true)
     }
   }, [open, initialStage])
