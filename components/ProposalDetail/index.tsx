@@ -50,7 +50,6 @@ interface ProposalDetailProps {
   voteSummary?: VoteSummary
   colors?: [string, string, string, string]
   voteDetails?: VoteDetail[]
-  network: Chain
 }
 
 const TimeContent: React.FC<{ proposal: Proposal }> = ({ proposal }) => {
@@ -68,7 +67,6 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
   crypto,
   voteSummary,
   voteDetails,
-  network,
 }) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
@@ -139,10 +137,10 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
           <VoteTable voteDetails={voteDetails} crypto={crypto} />
         </Box>
       </Card>
-      <DepositTable network={network} proposal={proposal} crypto={crypto} tag={proposal.tag} />
+      <DepositTable proposal={proposal} crypto={crypto} tag={proposal.tag} />
       <VoteDialog
         proposal={proposal}
-        network={network}
+        crypto={crypto}
         open={voteDialogOpen}
         onClose={() => setVoteDialogOpen(false)}
       />

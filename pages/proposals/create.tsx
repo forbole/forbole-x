@@ -1,11 +1,15 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import CreateProposalForm from '../../components/CreateProposalForm'
 import Layout from '../../components/Layout'
 
 const CreateProposal: React.FC = () => {
   const { accounts } = useWalletsContext()
-  const account = accounts[0]
+  const {
+    query: { crypto },
+  } = useRouter()
+  const account = accounts.find((a) => a.crypto === crypto) || accounts[0]
 
   return (
     <Layout passwordRequired activeItem="/proposals">

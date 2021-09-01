@@ -9,7 +9,7 @@ import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.sv
 import useIconProps from '../../misc/useIconProps'
 import { getProposals } from '../../graphql/queries/proposals'
 import { transformProposals } from '../../misc/utils'
-import chains from '../../misc/chains'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 const Proposals: React.FC = () => {
   const { t } = useTranslation('common')
@@ -18,12 +18,12 @@ const Proposals: React.FC = () => {
 
   const [accountMenuAnchor, setAccountMenuAnchor] = React.useState<Element>()
 
-  const [activeNetworkKey, setActiveNetworkKey] = React.useState(Object.keys(chains)[0])
-  const activeNetwork = chains[activeNetworkKey]
+  const [activeCrypto, setActiveCrypto] = React.useState(Object.keys(cryptocurrencies)[0])
+  const crypto = cryptocurrencies[activeCrypto]
 
   const { data: proposalData } = useSubscription(
     gql`
-      ${getProposals(activeNetwork.crypto)}
+      ${getProposals(activeCrypto)}
     `
   )
 
@@ -48,15 +48,15 @@ const Proposals: React.FC = () => {
           >
             <Box display="flex">
               <Avatar
-                src={activeNetwork.image}
-                alt={activeNetwork.name}
+                src={crypto.image}
+                alt={crypto.chainName}
                 style={{
                   width: theme.spacing(3),
                   height: theme.spacing(3),
                   marginRight: theme.spacing(2),
                 }}
               />
-              <Typography>{activeNetwork.name}</Typography>
+              <Typography>{crypto.chainName}</Typography>
             </Box>
           </Button>
           <Menu
@@ -74,12 +74,12 @@ const Proposals: React.FC = () => {
             open={!!accountMenuAnchor}
             onClose={() => setAccountMenuAnchor(undefined)}
           >
-            {Object.values(chains).map((a) => (
+            {Object.values(cryptocurrencies).map((a) => (
               <MenuItem
                 key={a.chainId}
                 button
                 onClick={() => {
-                  setActiveNetworkKey(a.chainId)
+                  setActiveCrypto(a.name)
                   setAccountMenuAnchor(undefined)
                 }}
               >
@@ -93,21 +93,21 @@ const Proposals: React.FC = () => {
                       marginRight: theme.spacing(2),
                     }}
                   />
-                  <Typography>{a.name}</Typography>
+                  <Typography>{a.chainName}</Typography>
                 </Box>
               </MenuItem>
             ))}
           </Menu>
         </Box>
         <Box justifyContent="flex-end" display="flex" flex="1">
-          <Link href={`/proposals/create?network=${activeNetwork.chainId}`} passHref>
+          <Link href={`/proposals/create?crypto=${crypto.name}`} passHref>
             <Button variant="outlined" color="primary" component="a">
               {t('create proposal')}
             </Button>
           </Link>
         </Box>
       </Box>
-      <ProposalTable network={activeNetwork} proposals={proposalList} />
+      <ProposalTable crypto={crypto} proposals={proposalList} />
     </Layout>
   )
 }

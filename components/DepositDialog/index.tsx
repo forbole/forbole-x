@@ -8,25 +8,23 @@ import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import InputAmount from './InputAmount'
-import cryptocurrencies from '../../misc/cryptocurrencies'
 import { getEquivalentCoinToSend } from '../../misc/utils'
 import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface DepositDialogProps {
-  network: Chain
+  crypto: Cryptocurrency
   open: boolean
   onClose(): void
   proposal: Proposal
 }
 
-const DepositDialog: React.FC<DepositDialogProps> = ({ network, open, onClose, proposal }) => {
+const DepositDialog: React.FC<DepositDialogProps> = ({ crypto, open, onClose, proposal }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
   const { password, accounts: allAccounts } = useWalletsContext()
-  const accounts = allAccounts.filter((a) => a.crypto === network.crypto)
-  const crypto = cryptocurrencies[network.crypto]
+  const accounts = allAccounts.filter((a) => a.crypto === crypto.name)
 
   const [loading, setLoading] = React.useState(false)
   const [address, setAddress] = React.useState('')

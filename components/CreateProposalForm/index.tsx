@@ -14,12 +14,11 @@ import useTranslation from 'next-translate/useTranslation'
 import keyBy from 'lodash/keyBy'
 import invoke from 'lodash/invoke'
 import last from 'lodash/last'
-import { useRouter } from 'next/router'
 import useIconProps from '../../misc/useIconProps'
 import { useGetStyles } from './styles'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import chains from '../../misc/chains'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 interface CreateProposalFormProps {
   account: Account
@@ -30,9 +29,6 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const theme = useTheme()
   const { t } = useTranslation('common')
   const { accounts, password } = useWalletsContext()
-  const {
-    query: { network: defaultNetwork },
-  } = useRouter()
 
   const iconProps = useIconProps()
 
@@ -43,9 +39,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
     '/cosmos.distribution.v1beta1.CommunityPoolSpendProposal',
   ]
 
-  const [networkKey, setNetworkKey] = React.useState(String(defaultNetwork))
-  const network = chains[networkKey]
-
+  const [crypto, setCrypto] = React.useState(account.crypto)
   const [type, setType] = React.useState('')
 
   const [proposalAccount, setProposalAccount] = React.useState<Account>(account)
@@ -94,7 +88,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
         </Typography>
         <Box display="flex" alignItems="center" ml={0} mb={4}>
           <Autocomplete
-            options={accounts.map(({ address }) => address)}
+            options={accounts.filter((a) => a.crypto === crypto).map(({ address }) => address)}
             getOptionLabel={(option) =>
               `${accountsMap[option].name} ${accountsMap[option].address}`
             }
@@ -105,7 +99,10 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                 accountsMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
               )
             }}
-            onChange={(_e, address: string) => setProposalAccount(accountsMap[address])}
+            onChange={(_e, address: string) => {
+              setProposalAccount(accountsMap[address])
+              setCrypto(accountsMap[address].crypto)
+            }}
             renderOption={(address) => (
               <Box display="flex" alignItems="center">
                 <Typography>{`${accountsMap[address].name}  ${accountsMap[address].address}`}</Typography>
@@ -142,20 +139,23 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
             </Typography>
             <Box display="flex" alignItems="center" mr={4}>
               <Autocomplete
-                options={Object.values(chains).map(({ chainId }) => chainId)}
-                getOptionLabel={(option) => chains[option].name}
+                options={Object.keys(cryptocurrencies)}
+                getOptionLabel={(option) => cryptocurrencies[option].chainName}
                 openOnFocus
                 fullWidth
                 filterOptions={(options: string[], { inputValue }: any) =>
                   options.filter((o) =>
-                    chains[o].name.toLowerCase().includes(inputValue.toLowerCase())
+                    cryptocurrencies[o].chainName.toLowerCase().includes(inputValue.toLowerCase())
                   )
                 }
-                onChange={(_e, id: string) => setNetworkKey(id)}
+                onChange={(_e, id: string) => {
+                  setCrypto(id)
+                  setProposalAccount((a) => (a.crypto === id ? a : null))
+                }}
                 renderOption={(id) => (
                   <Box display="flex" alignItems="center">
                     <Typography>
-                      {chains[id].name} - {chains[id].crypto}
+                      {cryptocurrencies[id].chainName} - {cryptocurrencies[id].name}
                     </Typography>
                   </Box>
                 )}
@@ -166,7 +166,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                     placeholder={t('select network')}
                     inputProps={{
                       ...inputProps,
-                      value: `${network.name} - ${network.crypto}`,
+                      value: `${cryptocurrencies[crypto].chainName} - ${cryptocurrencies[crypto].name}`,
                     }}
                     // eslint-disable-next-line react/jsx-no-duplicate-props
                     InputProps={{
@@ -286,7 +286,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
             color="primary"
             disabled={
               loading ||
-              network === undefined ||
+              crypto === undefined ||
               type === undefined ||
               title === '' ||
               description === ''
