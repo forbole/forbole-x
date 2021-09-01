@@ -49,6 +49,7 @@ const Account: React.FC = () => {
       },
     }
   )
+  console.log(balanceData)
   const { data: redelegationsData } = useSubscription(
     gql`
       ${getRedelegations(crypto.name)}

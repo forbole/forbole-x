@@ -1,6 +1,6 @@
 const cryptocurrencies = {
-  DESMOS: {
-    name: 'DESMOS',
+  DSM: {
+    name: 'DSM',
     prefix: 'desmos',
     ecosystem: 'cosmos',
     chainId: 'desmos-mainnet-1',
@@ -13,7 +13,7 @@ const cryptocurrencies = {
     defaultGasFee: {
       amount: {
         amount: 0.01,
-        denom: 'udesmos',
+        denom: 'udsm',
       },
       gas: {
         '/cosmos.bank.v1beta1.MsgSend': '200000',

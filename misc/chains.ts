@@ -1,12 +1,12 @@
 const chains: { [key: string]: Chain } = {
-  'morpheus-apollo-2': {
-    name: 'Desmos',
-    image: '/static/images/cryptocurrencies/dsm.png',
-    channel: 'channel-1',
-    chainId: 'morpheus-apollo-2',
-    addressPrefix: 'desmos',
-    crypto: 'DARIC',
-  },
+  // 'morpheus-apollo-2': {
+  //   name: 'Desmos',
+  //   image: '/static/images/cryptocurrencies/dsm.png',
+  //   channel: 'channel-1',
+  //   chainId: 'morpheus-apollo-2',
+  //   addressPrefix: 'desmos',
+  //   crypto: 'DARIC',
+  // },
   // 'akashnet-2': {
   //   name: 'Akash',
   //   image: '/static/images/cryptocurrencies/akt.png',
