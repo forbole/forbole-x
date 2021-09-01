@@ -9,13 +9,13 @@ import SelectAnswer from './SelectAnswer'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface VoteDialogProps {
-  network: Chain
+  crypto: Cryptocurrency
   open: boolean
   onClose(): void
   proposal: Proposal
 }
 
-const VoteDialog: React.FC<VoteDialogProps> = ({ network, open, onClose, proposal }) => {
+const VoteDialog: React.FC<VoteDialogProps> = ({ crypto, open, onClose, proposal }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
@@ -61,8 +61,7 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ network, open, onClose, proposa
         <CloseIcon {...iconProps} />
       </IconButton>
       <DialogTitle>{t('vote')}</DialogTitle>
-      <SelectAnswer network={network} onNext={chooseAnswer} proposal={proposal} loading={loading} />
-      ,
+      <SelectAnswer crypto={crypto} onNext={chooseAnswer} proposal={proposal} loading={loading} />
     </Dialog>
   )
 }

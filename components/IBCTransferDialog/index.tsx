@@ -14,6 +14,7 @@ import useIsMobile from '../../misc/useIsMobile'
 import SelectChain from './SelectChain'
 import AddChannel from './AddChannel'
 import SelectDetails from './SelectDetails'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 enum IBCTransferStage {
   SelectChainStage = 'select chain',
@@ -109,7 +110,9 @@ const IBCTransferDialog: React.FC<IBCTransferDialogProps> = ({
       case IBCTransferStage.AddChannelStage:
         return {
           title: t('add ibc channel'),
-          content: <AddChannel onConfirm={confirmChain} />,
+          content: (
+            <AddChannel onConfirm={confirmChain} crypto={cryptocurrencies[account.crypto]} />
+          ),
         }
       case IBCTransferStage.SelectDetailsStage:
         return {
@@ -132,6 +135,7 @@ const IBCTransferDialog: React.FC<IBCTransferDialogProps> = ({
             <SelectChain
               onAddChannelClick={() => setStage(IBCTransferStage.AddChannelStage)}
               onConfirm={confirmChain}
+              crypto={cryptocurrencies[account.crypto]}
             />
           ),
         }

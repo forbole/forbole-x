@@ -74,18 +74,30 @@ interface WalletWithBalance extends Wallet {
   balances: WalletBalance[]
 }
 
+interface Chain {
+  name: string
+  image: string
+  channel: string
+  chainId: string
+  addressPrefix: string
+  crypto: string
+}
+
 interface Cryptocurrency {
   name: string
   prefix?: string
   ecosystem: 'cosmos'
   chainId: string
+  chainName: string
   image: string
   coinType: number
   graphqlHttpUrl: string
   graphqlWsUrl: string
   blockExplorerBaseUrl: string
+  rpcEndpoint: string
+  ibcChains: Chain[]
   defaultGasFee: {
-    amount: Array<{ amount: string; denom: string }>
+    amount: { amount: number; denom: string }
     gas: {
       [txType: string]: string
     }
@@ -362,15 +374,6 @@ interface Transaction {
     amount: Array<{ amount: string; denom: string }>
     gas: string
   }
-}
-
-interface Chain {
-  name: string
-  image: string
-  channel: string
-  chainId: string
-  addressPrefix: string
-  crypto: string
 }
 
 type ChromeMessage =
