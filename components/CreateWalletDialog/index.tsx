@@ -137,8 +137,8 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
   )
 
   const saveWallet = React.useCallback(
-    async (name: string, cryptos: string[], type = 'mnemonic') => {
-      if (type === 'ledger' && !ledgerAddresses.length) {
+    async (name: string, cryptos: string[], type = 'mnemonic', defaultAddresses?: string[]) => {
+      if (type === 'ledger' && !defaultAddresses) {
         setLedgerCryptosIndex(0)
         setLedgerWalletName(name)
         setLedgerAddresses([])
@@ -151,8 +151,9 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           cryptos,
           mnemonic,
           securityPassword,
-          addresses: ledgerAddresses,
+          addresses: defaultAddresses,
         })
+        closeAllLedgerConnections()
         onClose()
       } else {
         const addresses = await Promise.all(cryptos.map((c) => getWalletAddress(mnemonic, c, 0)))
@@ -184,12 +185,15 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
                   // select next crypto
                 } else if (ledgerCryptos.length > ledgerAddresses.length) {
                   const address = await getWalletAddress('', ledgerCryptos[0], 0, signer)
-                  console.log(address)
                   setLedgerCryptosIndex((i) => i + 1)
                   setLedgerAddresses((addresses) => [...addresses, address])
-                  // save wallet
-                } else {
-                  saveWallet(ledgerWalletName, ledgerCryptos, 'ledger')
+                  // save wallet on last crypto
+                  if (ledgerCryptos.length === ledgerAddresses.length + 1) {
+                    saveWallet(ledgerWalletName, ledgerCryptos, 'ledger', [
+                      ...ledgerAddresses,
+                      address,
+                    ])
+                  }
                 }
               }}
               ledgerAppName={

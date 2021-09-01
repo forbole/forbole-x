@@ -22,25 +22,26 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
   const classes = useStyles()
 
   const connectLedger = React.useCallback(async () => {
-    const transport = await TransportWebHID.create()
+    let transport
     try {
+      transport = await TransportWebHID.create()
       const ledger = new LaunchpadLedger(transport, { ledgerAppName })
       // Check is ledger app open
       await ledger.getCosmosAppVersion()
       clearTimeout(retryTimeout)
-      return onConnect(transport)
+      onConnect(transport)
     } catch (err) {
-      // No specific ledger app required
-      if (!ledgerAppName && err.message !== 'Ledger’s screensaver mode is on') {
-        clearTimeout(retryTimeout)
-        return onConnect(transport)
-      }
       // Ledger is connected previously. Close the previous connections
       if (err.message === 'The device is already open.') {
         closeAllLedgerConnections()
+        retryTimeout = setTimeout(connectLedger, 1000)
+        // No specific ledger app required
+      } else if (!ledgerAppName && err.message !== 'Ledger’s screensaver mode is on') {
+        clearTimeout(retryTimeout)
+        onConnect(transport)
+      } else {
+        retryTimeout = setTimeout(connectLedger, 1000)
       }
-      retryTimeout = setTimeout(connectLedger, 1000)
-      return null
     }
   }, [ledgerAppName])
 

@@ -95,6 +95,7 @@ interface Cryptocurrency {
   graphqlWsUrl: string
   blockExplorerBaseUrl: string
   rpcEndpoint: string
+  ledgerAppName: string
   ibcChains: Chain[]
   defaultGasFee: {
     amount: { amount: number; denom: string }
