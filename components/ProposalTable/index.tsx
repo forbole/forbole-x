@@ -7,18 +7,15 @@ import Active from './Active'
 import InActive from './InActive'
 import VoteDialog from '../VoteDialog'
 import DepositDialog from '../DepositDialog'
-import cryptocurrencies from '../../misc/cryptocurrencies'
 
 interface ProposalsTableProps {
   proposals: Proposal[]
-  network: Chain
+  crypto: Cryptocurrency
 }
 
-const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, network }) => {
+const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, crypto }) => {
   const { classes } = useGetStyles()
   const { t } = useTranslation('common')
-
-  const crypto = cryptocurrencies[network.crypto]
 
   const [voteDialogOpen, setVoteDialogOpen] = React.useState(false)
   const [depositDialogOpen, setDepositDialogOpen] = React.useState(false)
@@ -39,7 +36,7 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, network }) =>
       <Card>
         {proposals.map((x) => {
           return (
-            <Link key={x.id} href={`/proposals/${network.chainId}/${x.id}`}>
+            <Link key={x.id} href={`/proposals/${crypto.name}/${x.id}`}>
               <Box className={classes.box}>
                 <Box p={4} display="flex" justifyContent="flex-end">
                   <Box>
@@ -99,13 +96,13 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, network }) =>
       </Card>
       <VoteDialog
         proposal={selectedProposal}
-        network={network}
+        crypto={crypto}
         open={voteDialogOpen}
         onClose={() => setVoteDialogOpen(false)}
       />
       <DepositDialog
         proposal={selectedProposal}
-        network={network}
+        crypto={crypto}
         open={depositDialogOpen}
         onClose={() => setDepositDialogOpen(false)}
       />

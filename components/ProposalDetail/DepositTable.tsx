@@ -21,10 +21,9 @@ interface DepositTableProps {
   proposal: Proposal
   crypto: Cryptocurrency
   tag: string
-  network: Chain
 }
 
-const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto, network }) => {
+const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto }) => {
   const { classes } = useGetStyles()
   const { t, lang } = useTranslation('common')
   const [depositDialogOpen, setDepositDialogOpen] = React.useState(false)
@@ -110,7 +109,7 @@ const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto, netw
         </Table>
         <DepositDialog
           proposal={proposal}
-          network={network}
+          crypto={crypto}
           open={depositDialogOpen}
           onClose={() => setDepositDialogOpen(false)}
         />

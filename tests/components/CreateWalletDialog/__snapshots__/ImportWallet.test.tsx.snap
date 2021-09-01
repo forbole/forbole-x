@@ -85,7 +85,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly 1`] = `
             <p
               className="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
             >
-              DESMOS
+              DSM
             </p>
           </button>
         </div>
@@ -211,7 +211,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly with wal
             <p
               className="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
             >
-              DESMOS
+              DSM
             </p>
             <span
               className="MuiTouchRipple-root"

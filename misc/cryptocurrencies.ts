@@ -1,15 +1,26 @@
-const cryptocurrencies = {
+const cryptocurrencies: { [key: string]: Cryptocurrency } = {
   DSM: {
     name: 'DSM',
     prefix: 'desmos',
     ecosystem: 'cosmos',
     chainId: 'desmos-mainnet-1',
+    chainName: 'Desmos Mainnet',
     image: '/static/images/cryptocurrencies/dsm.png',
     coinType: 852,
     graphqlHttpUrl: 'https://gql.mainnet.desmos.network/v1/graphql',
     graphqlWsUrl: 'wss://gql-ws.mainnet.desmos.network/v1/graphql',
     blockExplorerBaseUrl: 'https://explorer.desmos.network',
     rpcEndpoint: 'https://rpc.mainnet.desmos.network',
+    ibcChains: [
+      {
+        name: 'Desmos Mainnet',
+        image: '/static/images/cryptocurrencies/dsm.png',
+        channel: 'channel 1',
+        chainId: 'desmos-mainnet-1',
+        addressPrefix: 'desmos',
+        crypto: 'DSM',
+      },
+    ],
     defaultGasFee: {
       amount: {
         amount: 0.01,

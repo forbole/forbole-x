@@ -2,7 +2,6 @@ import React from 'react'
 import { Box, Divider, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import last from 'lodash/last'
-import chains from '../../../misc/chains'
 import cryptocurrencies from '../../../misc/cryptocurrencies'
 
 interface SubmitProposalContentProps {
@@ -27,7 +26,7 @@ const SubmitProposalContent: React.FC<SubmitProposalContentProps> = ({ msgs, acc
       <Box my={1}>
         <Typography>{t('network')}</Typography>
         <Typography color="textSecondary">
-          {chains[cryptocurrencies[account.crypto].chainId].name} - {account.crypto}
+          {cryptocurrencies[account.crypto].chainName} - {account.crypto}
         </Typography>
       </Box>
       <Divider />
