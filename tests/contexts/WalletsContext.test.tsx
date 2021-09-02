@@ -10,14 +10,14 @@ const password = 'unlock password'
 const wallet = {
   name: 'test',
   id: '123',
-  cryptos: ['DARIC'],
+  cryptos: ['DSM'],
   type: 'mnemonic',
 }
 
 const account = {
   walletId: '123',
   address: 'address',
-  crypto: 'DARIC',
+  crypto: 'DSM',
   index: 0,
   name: 'name',
   fav: false,
@@ -80,14 +80,14 @@ describe('context: WalletsContext', () => {
         wallet: {
           name: 'test 2',
           id: '1234',
-          cryptos: ['DARIC'],
+          cryptos: ['DSM'],
           type: 'mnemonic',
         },
         accounts: [],
       })
     const wallet2 = {
       name: 'test 2',
-      cryptos: ['DARIC'],
+      cryptos: ['DSM'],
       mnemonic: 'mnemonic',
       securityPassword: 'password',
       type: 'mnemonic',
@@ -107,7 +107,7 @@ describe('context: WalletsContext', () => {
       {
         name: wallet2.name,
         id: '1234',
-        cryptos: ['DARIC'],
+        cryptos: ['DSM'],
         type: 'mnemonic',
       },
       wallet,
@@ -243,7 +243,7 @@ describe('context: WalletsContext', () => {
           {
             name: 'test',
             id: '123',
-            cryptos: ['DARIC'],
+            cryptos: ['DSM'],
           },
         ],
       })

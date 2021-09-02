@@ -31,7 +31,7 @@ const Delegate: React.FC = () => {
   const [activeAccountIndex, setActiveAccountIndex] = React.useState(0)
   const { data } = useSubscription(
     gql`
-      ${getValidators('DARIC')}
+      ${getValidators('DSM')}
     `
   )
   const validators = transformValidators(data)
