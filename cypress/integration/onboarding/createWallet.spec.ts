@@ -4,12 +4,12 @@ describe('Create wallet on first visit', () => {
   const testWallet = {
     id: '123',
     name: 'test wallet name',
-    cryptos: ['DARIC'],
+    cryptos: ['DSM'],
   }
   const testAccount = {
     walletId: '123',
     address: 'address',
-    crypto: 'DARIC',
+    crypto: 'DSM',
     index: 0,
   }
   it('successfully loads and click Get Started', () => {
