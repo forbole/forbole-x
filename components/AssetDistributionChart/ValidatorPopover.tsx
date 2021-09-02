@@ -61,7 +61,7 @@ const ValidatorPopover: React.FC<ValidatorPopoverProps> = ({
       </Box>
       <Box p={2} pt={0}>
         <Typography variant="body2" color="textSecondary">
-          {t('total delegated amount')}
+          {t('total delegation amount')}
         </Typography>
         <Typography>{formatCurrency(getTokenAmountBalance(balance), currency, lang)}</Typography>
       </Box>
