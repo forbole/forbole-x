@@ -12,22 +12,25 @@ import {
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
+import keyBy from 'lodash/keyBy'
 import { Autocomplete } from '@material-ui/lab'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import useStyles from './styles'
-import chains from '../../misc/chains'
 import useIconProps from '../../misc/useIconProps'
 
 interface AddChannelProps {
   onConfirm(params: { chainId: string; channel: string }): void
+  crypto: Cryptocurrency
 }
 
-const AddChannel: React.FC<AddChannelProps> = ({ onConfirm }) => {
+const AddChannel: React.FC<AddChannelProps> = ({ onConfirm, crypto }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
   const [chainId, setChainId] = React.useState('')
   const [channel, setChannel] = React.useState('')
+
+  const chainMap = keyBy(crypto.ibcChains, 'chainId')
 
   return (
     <form
@@ -44,13 +47,13 @@ const AddChannel: React.FC<AddChannelProps> = ({ onConfirm }) => {
         <Box mb={4}>
           <Typography>{t('destination chain')}</Typography>
           <Autocomplete
-            options={Object.values(chains).map((chain) => chain.chainId)}
-            getOptionLabel={(option) => chains[option].name}
+            options={crypto.ibcChains.map((chain) => chain.chainId)}
+            getOptionLabel={(option) => chainMap[option].name}
             openOnFocus
             fullWidth
             filterOptions={(options: string[], { inputValue }: any) =>
               options.filter((o) =>
-                `${get(chains, `${o}.name`, '')}${get(chains, `${o}.chainId`, '')}`
+                `${get(chainMap, `${o}.name`, '')}${get(chainMap, `${o}.chainId`, '')}`
                   .toLowerCase()
                   .includes(inputValue.toLowerCase())
               )
@@ -60,10 +63,10 @@ const AddChannel: React.FC<AddChannelProps> = ({ onConfirm }) => {
               <Box display="flex" alignItems="center">
                 <Avatar
                   className={classes.largeAvatar}
-                  alt={get(chains, `${o}.name`, '') as string}
-                  src={get(chains, `${o}.image`, '') as string}
+                  alt={get(chainMap, `${o}.name`, '') as string}
+                  src={get(chainMap, `${o}.image`, '') as string}
                 />
-                <Typography>{get(chains, `${o}.name`, '')}</Typography>
+                <Typography>{get(chainMap, `${o}.name`, '')}</Typography>
               </Box>
             )}
             renderInput={({ InputProps, inputProps, ...params }) => (
@@ -73,7 +76,7 @@ const AddChannel: React.FC<AddChannelProps> = ({ onConfirm }) => {
                 placeholder={t('select chain')}
                 inputProps={{
                   ...inputProps,
-                  value: get(chains, `${chainId}.name`, ''),
+                  value: get(chainMap, `${chainId}.name`, ''),
                 }}
                 // eslint-disable-next-line react/jsx-no-duplicate-props
                 InputProps={{
@@ -83,8 +86,8 @@ const AddChannel: React.FC<AddChannelProps> = ({ onConfirm }) => {
                   startAdornment: chainId ? (
                     <Avatar
                       className={classes.avatar}
-                      alt={get(chains, `${chainId}.name`, '') as string}
-                      src={get(chains, `${chainId}.image`, '') as string}
+                      alt={get(chainMap, `${chainId}.name`, '') as string}
+                      src={get(chainMap, `${chainId}.image`, '') as string}
                     />
                   ) : null,
                   endAdornment: (

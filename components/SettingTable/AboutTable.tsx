@@ -18,7 +18,7 @@ const AboutTable: React.FC = () => {
         paddingBottom: themeStyle.spacing(60),
       }}
     >
-      <Link href="/settings/about-forbole-portal" passHref>
+      <Link href="/settings/about-forbole-x" passHref>
         <Box
           component={MLink}
           p={2}
@@ -27,7 +27,7 @@ const AboutTable: React.FC = () => {
           justifyContent="space-between"
         >
           <Typography color="textPrimary" variant="subtitle1">
-            {t('about forbole portal')}
+            {t('about forbole x')}
           </Typography>
           <ArrowNextIcon {...iconProps} style={{ marginTop: '4px' }} />
         </Box>

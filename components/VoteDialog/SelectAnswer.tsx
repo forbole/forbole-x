@@ -18,18 +18,18 @@ import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.sv
 import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface SelectAnswerProps {
-  network: Chain
+  crypto: Cryptocurrency
   onNext(voteAccount: Account, answer: { name: string; id: string }, memo?: string): void
   proposal: Proposal
   loading: boolean
 }
 
-const SelectAnswer: React.FC<SelectAnswerProps> = ({ network, onNext, proposal, loading }) => {
+const SelectAnswer: React.FC<SelectAnswerProps> = ({ crypto, onNext, proposal, loading }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const { accounts: allAccounts } = useWalletsContext()
   const theme = useTheme()
-  const accounts = allAccounts.filter((a) => a.crypto === network.crypto)
+  const accounts = allAccounts.filter((a) => a.crypto === crypto.name)
   const answers = [
     {
       name: t('yes'),

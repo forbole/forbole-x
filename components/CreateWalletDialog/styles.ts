@@ -43,6 +43,7 @@ const useStyles = makeStyles(
       '&:hover': {
         border: `1px solid ${theme.palette.grey[300]}`,
       },
+      width: `calc(100% - ${theme.spacing(3)}px)`,
     },
     cryptoButton: {
       border: `1px solid ${theme.palette.grey[200]}`,

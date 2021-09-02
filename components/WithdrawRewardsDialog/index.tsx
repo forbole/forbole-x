@@ -73,7 +73,7 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
     const total: TokenAmount = {}
 
     validators.forEach((x) => {
-      Object.keys(x.rewards).forEach((denom) => {
+      Object.keys(x.rewards || {}).forEach((denom) => {
         if (total[denom]) {
           total[denom].amount += x.rewards[denom].amount
         } else {

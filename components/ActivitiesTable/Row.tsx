@@ -34,7 +34,13 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
       return (
         <>
           <Box mr={1}>
-            <AccountAvatar account={account} address={address} hideAddress size="small" />
+            <AccountAvatar
+              ledgerIconDisabled
+              account={account}
+              address={address}
+              hideAddress
+              size="small"
+            />
           </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
@@ -53,7 +59,13 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
       return (
         <>
           <Box mr={1}>
-            <AccountAvatar account={account} address={address} hideAddress size="small" />
+            <AccountAvatar
+              ledgerIconDisabled
+              account={account}
+              address={address}
+              hideAddress
+              size="small"
+            />
           </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
@@ -84,7 +96,13 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
       return (
         <>
           <Box mr={1}>
-            <AccountAvatar account={account} address={address} hideAddress size="small" />
+            <AccountAvatar
+              ledgerIconDisabled
+              account={account}
+              address={address}
+              hideAddress
+              size="small"
+            />
           </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
@@ -119,7 +137,13 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
       return (
         <>
           <Box mr={1}>
-            <AccountAvatar account={account} address={address} hideAddress size="small" />
+            <AccountAvatar
+              ledgerIconDisabled
+              account={account}
+              address={address}
+              hideAddress
+              size="small"
+            />
           </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
@@ -248,7 +272,13 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
         <>
           {activity.detail.fromAddress === accountDetail.address ? (
             <Box mr={1}>
-              <AccountAvatar account={account} address={address} hideAddress size="small" />
+              <AccountAvatar
+                ledgerIconDisabled
+                account={account}
+                address={address}
+                hideAddress
+                size="small"
+              />
             </Box>
           ) : (
             <Typography className={classes.proposalTypography}>
@@ -264,7 +294,13 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
           </Typography>
           {activity.detail.toAddress === accountDetail.address ? (
             <Box ml={1}>
-              <AccountAvatar account={account} address={address} hideAddress size="small" />
+              <AccountAvatar
+                ledgerIconDisabled
+                account={account}
+                address={address}
+                hideAddress
+                size="small"
+              />
             </Box>
           ) : (
             <Typography className={classes.proposalTypography}>

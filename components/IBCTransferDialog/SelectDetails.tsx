@@ -13,11 +13,11 @@ import {
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
+import keyBy from 'lodash/keyBy'
 import { Autocomplete } from '@material-ui/lab'
 import ArrowIcon from '../../assets/images/icons/icon_arrow_right.svg'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import useStyles from './styles'
-import chains from '../../misc/chains'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useIconProps from '../../misc/useIconProps'
 import AddressInput from '../AddressInput'
@@ -49,8 +49,10 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
 
   const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount)
 
-  const sourceChain = chains[cryptocurrencies[account.crypto].chainId]
-  const destinationChain = chains[chainId]
+  const chainMap = keyBy(cryptocurrencies[account.crypto].ibcChains, 'chainId')
+
+  const sourceChain = chainMap[cryptocurrencies[account.crypto].chainId]
+  const destinationChain = chainMap[chainId]
 
   return (
     <form

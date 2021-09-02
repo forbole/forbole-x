@@ -93,7 +93,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
             justifyContent="space-between"
             alignItems="flex-start"
           >
-            <AccountAvatar size="large" account={account} />
+            <AccountAvatar ledgerIconDisabled size="large" account={account} />
             <Box display="flex" mt={isMobile ? 2 : 0} ml={isMobile ? -2 : 0}>
               <Button
                 classes={{ root: classes.fixedWidthButton }}

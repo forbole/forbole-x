@@ -200,9 +200,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
                   />
                 </ListItem>
               </Link>
-            ) : (
-              <></>
-            )
+            ) : null
           })}
         </Box>
       </List>

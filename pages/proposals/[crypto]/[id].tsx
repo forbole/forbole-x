@@ -17,15 +17,13 @@ import {
 } from '../../../graphql/queries/proposals'
 import { transformProposal, transformVoteSummary, transformVoteDetail } from '../../../misc/utils'
 import { getLatestAccountBalance } from '../../../graphql/queries/accountBalances'
-import chains from '../../../misc/chains'
 
 const Proposal: React.FC = () => {
   const router = useRouter()
   const { t } = useTranslation('common')
-  const { accounts } = useWalletsContext()
-  const account = accounts.find((a) => a.address === router.query.address)
-  const { id, chainId } = router.query
-  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
+
+  const { id, crypto: cryptoId } = router.query
+  const crypto = cryptocurrencies[String(cryptoId)]
   const { data: proposalData } = useSubscription(
     gql`
       ${getProposal(crypto.name)}
@@ -66,7 +64,6 @@ const Proposal: React.FC = () => {
   const proposal = transformProposal(proposalData, balanceData, depositParamsData)
   const voteSummary = transformVoteSummary(proporslReaultData)
   const voteDetail = transformVoteDetail(voteDetailData)
-  const network = chains[String(chainId)]
 
   return (
     <Layout
@@ -82,7 +79,6 @@ const Proposal: React.FC = () => {
       }
     >
       <ProposalDetail
-        network={network}
         proposal={proposal}
         crypto={crypto}
         colors={['#28C989', '#1C86FC', '#FD248C', '#FD7522']}

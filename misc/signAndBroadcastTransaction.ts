@@ -94,7 +94,10 @@ const signAndBroadcastCosmosTransaction = async (
   if (!ledgerTransport) {
     signer = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, signerOptions)
   } else {
-    signer = new LedgerSigner(ledgerTransport, signerOptions as any)
+    signer = new LedgerSigner(ledgerTransport, {
+      ...signerOptions,
+      ledgerAppName: cryptocurrencies[crypto].ledgerAppName,
+    } as any)
   }
   const accounts = await signer.getAccounts()
   const client = await SigningStargateClient.connectWithSigner(

@@ -16,6 +16,7 @@ import SecurityPasswordDialogContent from '../SecurityPasswordDialogContent'
 import SuccessContent from '../Success'
 import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 import { closeAllLedgerConnections } from '../../misc/utils'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 let ledgerTransport
 
@@ -95,6 +96,7 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
               ledgerTransport = transport
               setStage(Stage.SelectNetwork)
             }}
+            ledgerAppName={cryptocurrencies[crypto].ledgerAppName}
           />
         ) : null}
         {stage === Stage.SecurityPassword ? (
