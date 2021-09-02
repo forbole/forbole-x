@@ -118,7 +118,7 @@ const Account: React.FC = () => {
           availableTokens={availableTokens}
         />
       ) : null}
-      <Box mb={2}>
+      {/* <Box mb={2}>
         <Card>
           <Box p={2} display="flex" justifyContent="space-between" alignItems="center">
             <Box>
@@ -130,7 +130,7 @@ const Account: React.FC = () => {
             </Button>
           </Box>
         </Card>
-      </Box>
+      </Box> */}
       {account ? <AccountBalanceCard accountBalance={accountBalance} account={account} /> : null}
       <DelegationsTable
         wallet={wallet}
