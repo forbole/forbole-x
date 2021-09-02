@@ -10,6 +10,8 @@ const useStyles = makeStyles(
     },
     marginTop: {
       marginTop: theme.spacing(3),
+      whiteSpace: 'pre-line',
+      lineHeight: Number(theme.typography.h4.lineHeight || 1) * 1.2,
     },
     marginTopSub: {
       marginTop: theme.spacing(6),
