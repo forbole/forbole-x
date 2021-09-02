@@ -6,6 +6,7 @@ import { ThemeProvider, createTheme } from '@material-ui/core/styles'
 import useTranslation from 'next-translate/useTranslation'
 import { ApolloProvider } from '@apollo/client'
 import { useRouter } from 'next/router'
+import { init } from '@socialgouv/matomo-next'
 import { lightTheme, darkTheme } from '../misc/theme'
 import GlobalCss from '../misc/globalCss'
 import { GeneralProvider, useGeneralContext } from '../contexts/GeneralContext'
@@ -26,6 +27,7 @@ function InnerApp({ Component, pageProps }: AppProps) {
 
   React.useEffect(() => {
     document.cookie = `NEXT_LOCALE=${lang}`
+    init({ url: 'https://analytics.forbole.com/', siteId: '10' })
   }, [lang])
 
   React.useEffect(() => {
