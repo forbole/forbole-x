@@ -49,7 +49,6 @@ const Account: React.FC = () => {
       },
     }
   )
-  console.log(balanceData)
   const { data: redelegationsData } = useSubscription(
     gql`
       ${getRedelegations(crypto.name)}
@@ -144,12 +143,14 @@ const Account: React.FC = () => {
         availableTokens={availableTokens}
       />
       <ActivitiesTable account={account} activities={activities} crypto={crypto} />
-      <IBCTransferDialog
-        account={account}
-        availableTokens={availableTokens}
-        open={isIBCDialogOpen}
-        onClose={() => setIsIBCDialogOpen(false)}
-      />
+      {account ? (
+        <IBCTransferDialog
+          account={account}
+          availableTokens={availableTokens}
+          open={isIBCDialogOpen}
+          onClose={() => setIsIBCDialogOpen(false)}
+        />
+      ) : null}
     </Layout>
   )
 }

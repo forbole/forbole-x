@@ -20,8 +20,7 @@ import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 import useIsMobile from '../../misc/useIsMobile'
 import getWalletAddress from '../../misc/getWalletAddress'
 import { closeAllLedgerConnections } from '../../misc/utils'
-
-let ledgerSigner
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 export enum ImportStage {
   ImportMnemonicPhraseStage = 'import secret recovery phrase',
@@ -66,11 +65,20 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
   const [securityPassword, setSecurityPassword] = React.useState('')
   const [error, setError] = React.useState('')
 
+  const [ledgerCryptos, setLedgerCryptos] = React.useState([])
+  const [ledgerCryptosIndex, setLedgerCryptosIndex] = React.useState(0)
+  const [ledgerAddresses, setLedgerAddresses] = React.useState([])
+  const [ledgerWalletName, setLedgerWalletName] = React.useState('')
+
   React.useEffect(() => {
     if (open) {
       setMnemonic('')
       setSecurityPassword('')
       setError('')
+      setLedgerCryptosIndex(0)
+      setLedgerWalletName('')
+      setLedgerAddresses([])
+      setLedgerCryptos([])
       setStage(initialStage || CommonStage.StartStage, true)
     }
   }, [open, initialStage])
@@ -133,21 +141,36 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
   )
 
   const saveWallet = React.useCallback(
-    async (name: string, cryptos: string[], type = 'mnemonic') => {
-      const addresses = await Promise.all(
-        cryptos.map((c) =>
-          getWalletAddress(mnemonic, c, 0, type === 'ledger' ? ledgerSigner : undefined)
-        )
-      )
-      await addWallet({
-        type,
-        name,
-        cryptos,
-        mnemonic,
-        securityPassword,
-        addresses,
-      })
-      onClose()
+    async (name: string, cryptos: string[], type = 'mnemonic', defaultAddresses?: string[]) => {
+      if (type === 'ledger' && !defaultAddresses) {
+        setLedgerCryptosIndex(0)
+        setLedgerWalletName(name)
+        setLedgerAddresses([])
+        setLedgerCryptos(cryptos)
+        setStage(ImportStage.ConnectLedgerDeviceStage)
+      } else if (type === 'ledger') {
+        await addWallet({
+          type,
+          name,
+          cryptos,
+          mnemonic,
+          securityPassword,
+          addresses: defaultAddresses,
+        })
+        closeAllLedgerConnections()
+        onClose()
+      } else {
+        const addresses = await Promise.all(cryptos.map((c) => getWalletAddress(mnemonic, c, 0)))
+        await addWallet({
+          type,
+          name,
+          cryptos,
+          mnemonic,
+          securityPassword,
+          addresses,
+        })
+        onClose()
+      }
     },
     [addWallet, mnemonic, securityPassword, onClose]
   )
@@ -160,9 +183,28 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           content: (
             <ConnectLedgerDialogContent
               onConnect={async (signer) => {
-                ledgerSigner = signer
-                setStage(CommonStage.ImportLedgerWalletStage, undefined, true)
+                // haven't selected cryptos yet
+                if (!ledgerCryptos.length && !ledgerAddresses.length) {
+                  setStage(CommonStage.ImportLedgerWalletStage, undefined, true)
+                  // select next crypto
+                } else if (ledgerCryptos.length > ledgerAddresses.length) {
+                  const address = await getWalletAddress('', ledgerCryptos[0], 0, signer)
+                  setLedgerCryptosIndex((i) => i + 1)
+                  setLedgerAddresses((addresses) => [...addresses, address])
+                  // save wallet on last crypto
+                  if (ledgerCryptos.length === ledgerAddresses.length + 1) {
+                    saveWallet(ledgerWalletName, ledgerCryptos, 'ledger', [
+                      ...ledgerAddresses,
+                      address,
+                    ])
+                  }
+                }
               }}
+              ledgerAppName={
+                ledgerCryptos[ledgerCryptosIndex]
+                  ? cryptocurrencies[ledgerCryptos[ledgerCryptosIndex]].ledgerAppName
+                  : undefined
+              }
             />
           ),
         }

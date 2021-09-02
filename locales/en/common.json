@@ -54,6 +54,7 @@
   "connect ledger": "Connect Ledger",
   "connect ledger description": "Follow the steps below and sign in your Ledger device.",
   "connect ledger instruction": "Connect and unlock your Ledger device",
+  "open ledger app instruction": "Open the {{ledgerAppName}} app",
   "create a wallet": "Create a Wallet?",
   "secret recovery phrase": "Secret Recovery Phrase",
   "secret recovery description": "Please enter your secret recovery phrase in order and\nmake sure your secret recovery phrase is written correctly",

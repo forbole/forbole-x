@@ -153,7 +153,7 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({ accountBalance,
                     <Box display="flex" alignItems="center">
                       <Avatar
                         className={classes.avatar}
-                        src={get(cryptocurrencies, `${token}.image`, '')}
+                        src={String(get(cryptocurrencies, `${token}.image`, ''))}
                       />
                       <Typography>{token}</Typography>
                     </Box>
