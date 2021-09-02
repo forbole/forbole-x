@@ -54,7 +54,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
       <DialogContent className={classes.dialogContent}>
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
-            {t('total delegated amount')}{' '}
+            {t('total delegation amount')}{' '}
             <b className={classes.marginLeft}>
               {formatTokenAmount(availableAmount, denom, lang, ', ')}
             </b>

@@ -2,6 +2,7 @@
 import { Dialog, IconButton, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import get from 'lodash/get'
 import useStyles from './styles'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
@@ -71,6 +72,7 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
 
   React.useEffect(() => {
     if (dialogOpen) {
+      setCrypto('')
       setSecurityPassword('')
       setStage(wallet.type === 'ledger' ? Stage.ConnectLedger : Stage.SecurityPassword, true)
     }
@@ -93,10 +95,14 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
         {stage === Stage.ConnectLedger ? (
           <ConnectLedgerDialogContent
             onConnect={(transport) => {
-              ledgerTransport = transport
-              setStage(Stage.SelectNetwork)
+              if (!crypto) {
+                setStage(Stage.SelectNetwork)
+              } else {
+                ledgerTransport = transport
+                setStage(Stage.SelectAddresses)
+              }
             }}
-            ledgerAppName={cryptocurrencies[crypto].ledgerAppName}
+            ledgerAppName={get(cryptocurrencies[crypto], 'ledgerAppName')}
           />
         ) : null}
         {stage === Stage.SecurityPassword ? (
@@ -113,7 +119,7 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
           <SelectNetworkContent
             onSelect={(c) => {
               setCrypto(c)
-              setStage(Stage.SelectAddresses)
+              setStage(wallet.type === 'ledger' ? Stage.ConnectLedger : Stage.SelectAddresses)
             }}
           />
         ) : null}
