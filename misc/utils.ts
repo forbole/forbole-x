@@ -42,7 +42,7 @@ export const getTokenAmountFromDenoms = (
   denoms: TokenPrice[]
 ): TokenAmount => {
   const result = {}
-  coins.forEach((coin) => {
+  ;(coins || []).forEach((coin) => {
     denoms.some((d) => {
       const unit = get(d, 'token_unit.token.token_units', []).find(
         (t) => t && coin && t.denom === coin.denom

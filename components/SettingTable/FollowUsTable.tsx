@@ -1,4 +1,4 @@
-import { Paper, Divider, Box, Typography, useTheme } from '@material-ui/core'
+import { Paper, Divider, Box, Typography, useTheme, Link } from '@material-ui/core'
 import { TwitterIcon, TelegramIcon } from 'react-share'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -19,12 +19,9 @@ const FollowUsTable: React.FC = () => {
     <Paper
       style={{
         padding: themeStyle.spacing(1),
-        paddingRight: themeStyle.spacing(1),
-        paddingBottom: themeStyle.spacing(50),
       }}
     >
-      <a
-        // class='social-icon-link github'
+      <Link
         className={classes.socialMediaLink}
         href="https://twitter.com/forbole"
         target="_blank"
@@ -45,9 +42,9 @@ const FollowUsTable: React.FC = () => {
 
           <Typography>@forbole</Typography>
         </Box>
-      </a>
+      </Link>
       <Divider />
-      <a
+      <Link
         className={classes.socialMediaLink}
         href="https://t.me/forbole"
         target="_blank"
@@ -68,9 +65,9 @@ const FollowUsTable: React.FC = () => {
 
           <Typography>@forbole</Typography>
         </Box>
-      </a>
+      </Link>
       <Divider />
-      <a
+      <Link
         className={classes.socialMediaLink}
         href="https://www.forbole.com/blog"
         target="_blank"
@@ -85,9 +82,9 @@ const FollowUsTable: React.FC = () => {
           </Box>
           <Typography>forbole.com/blog</Typography>
         </Box>
-      </a>
+      </Link>
       <Divider />
-      <a
+      <Link
         className={classes.socialMediaLink}
         href="https://cosmos.bigdipper.live/"
         target="_blank"
@@ -102,9 +99,9 @@ const FollowUsTable: React.FC = () => {
           </Box>
           <Typography>bigdipper.live</Typography>
         </Box>
-      </a>
+      </Link>
       <Divider />
-      <a
+      <Link
         // class='social-icon-link github'
         className={classes.socialMediaLink}
         href="https://github.com/forbole"
@@ -120,7 +117,7 @@ const FollowUsTable: React.FC = () => {
           </Box>
           <Typography>github.com/forbole</Typography>
         </Box>
-      </a>
+      </Link>
       <Divider />
     </Paper>
   )

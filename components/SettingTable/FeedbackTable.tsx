@@ -76,7 +76,7 @@ const FeedbackTable: React.FC = () => {
           fullWidth
           autoFocus
           multiline
-          rows={20}
+          rows={10}
           variant="filled"
           InputProps={{
             disableUnderline: true,

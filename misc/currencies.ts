@@ -1,3 +1,3 @@
-const currencies = <const>['USD', 'HKD']
+const currencies = <const>['USD']
 
 export default currencies
