@@ -27,7 +27,6 @@ function InnerApp({ Component, pageProps }: AppProps) {
 
   React.useEffect(() => {
     document.cookie = `NEXT_LOCALE=${lang}`
-    init({ url: 'https://analytics.forbole.com/', siteId: '10' })
   }, [lang])
 
   React.useEffect(() => {
@@ -35,6 +34,7 @@ function InnerApp({ Component, pageProps }: AppProps) {
       router.events.on('routeChangeComplete', () => {
         window.scrollTo(0, 0)
       })
+      init({ url: 'https://analytics.forbole.com/', siteId: '10' })
     }
   }, [router])
 
