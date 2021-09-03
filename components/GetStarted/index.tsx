@@ -24,7 +24,7 @@ const GetStarted: React.FC = () => {
     <>
       <Box
         className={classes.container}
-        mt={isMobile ? '5vh' : '15vh'}
+        mt={isMobile ? '5vh' : '12vh'}
         width={isMobile ? themeStyle.spacing(40) : 'inherits'}
       >
         {theme === 'light' ? (
