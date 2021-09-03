@@ -14,53 +14,39 @@ const AboutTable: React.FC = () => {
     <Paper
       style={{
         padding: themeStyle.spacing(1),
-        paddingRight: themeStyle.spacing(1),
-        paddingBottom: themeStyle.spacing(60),
       }}
     >
       <Link href="/settings/about-forbole-x" passHref>
-        <Box
-          component={MLink}
-          p={2}
-          display="flex"
-          alignItems="flex-start"
-          justifyContent="space-between"
-        >
-          <Typography color="textPrimary" variant="subtitle1">
-            {t('about forbole x')}
-          </Typography>
-          <ArrowNextIcon {...iconProps} style={{ marginTop: '4px' }} />
-        </Box>
+        <MLink color="textPrimary">
+          <Box p={2} display="flex" alignItems="center" justifyContent="space-between">
+            <Typography color="textPrimary" variant="subtitle1">
+              {t('about forbole x')}
+            </Typography>
+            <ArrowNextIcon {...iconProps} />
+          </Box>
+        </MLink>
       </Link>
       <Divider />
       <Link href="/settings/privacy-policy" passHref>
-        <Box
-          component={MLink}
-          p={2}
-          display="flex"
-          alignItems="flex-start"
-          justifyContent="space-between"
-        >
-          <Typography color="textPrimary" variant="subtitle1">
-            {t('privacy policy')}
-          </Typography>
-          <ArrowNextIcon {...iconProps} style={{ marginTop: '4px' }} />
-        </Box>
+        <MLink color="textPrimary">
+          <Box p={2} display="flex" alignItems="center" justifyContent="space-between">
+            <Typography color="textPrimary" variant="subtitle1">
+              {t('privacy policy')}
+            </Typography>
+            <ArrowNextIcon {...iconProps} />
+          </Box>
+        </MLink>
       </Link>
       <Divider />
       <Link href="/settings/terms-of-conditions" passHref>
-        <Box
-          component={MLink}
-          p={2}
-          display="flex"
-          alignItems="flex-start"
-          justifyContent="space-between"
-        >
-          <Typography color="textPrimary" variant="subtitle1">
-            {t('terms of conditions')}
-          </Typography>
-          <ArrowNextIcon {...iconProps} style={{ marginTop: '4px' }} />
-        </Box>
+        <MLink color="textPrimary">
+          <Box p={2} display="flex" alignItems="center" justifyContent="space-between">
+            <Typography color="textPrimary" variant="subtitle1">
+              {t('terms of conditions')}
+            </Typography>
+            <ArrowNextIcon {...iconProps} />
+          </Box>
+        </MLink>
       </Link>
       <Divider />
       <Box mx={2} my={2} display="flex" alignItems="flex-start" justifyContent="space-between">
