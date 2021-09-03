@@ -6,6 +6,7 @@ import { ThemeProvider, createTheme } from '@material-ui/core/styles'
 import useTranslation from 'next-translate/useTranslation'
 import { ApolloProvider } from '@apollo/client'
 import { useRouter } from 'next/router'
+import { init } from '@socialgouv/matomo-next'
 import { lightTheme, darkTheme } from '../misc/theme'
 import GlobalCss from '../misc/globalCss'
 import { GeneralProvider, useGeneralContext } from '../contexts/GeneralContext'
@@ -33,6 +34,7 @@ function InnerApp({ Component, pageProps }: AppProps) {
       router.events.on('routeChangeComplete', () => {
         window.scrollTo(0, 0)
       })
+      init({ url: 'https://analytics.forbole.com/', siteId: '10' })
     }
   }, [router])
 
