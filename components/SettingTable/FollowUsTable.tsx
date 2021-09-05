@@ -86,7 +86,7 @@ const FollowUsTable: React.FC = () => {
       <Divider />
       <Link
         className={classes.socialMediaLink}
-        href="https://cosmos.bigdipper.live/"
+        href="https://desmos.bigdipper.live/"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -118,7 +118,6 @@ const FollowUsTable: React.FC = () => {
           <Typography>github.com/forbole</Typography>
         </Box>
       </Link>
-      <Divider />
     </Paper>
   )
 }

@@ -27,34 +27,34 @@ const AboutTable: React.FC = () => {
         </MLink>
       </Link>
       <Divider />
-      <Link href="/settings/privacy-policy" passHref>
-        <MLink color="textPrimary">
-          <Box p={2} display="flex" alignItems="center" justifyContent="space-between">
-            <Typography color="textPrimary" variant="subtitle1">
-              {t('privacy policy')}
-            </Typography>
-            <ArrowNextIcon {...iconProps} />
-          </Box>
-        </MLink>
-      </Link>
+      <MLink href="https://www.forbole.com/privacy-policy" color="textPrimary" target="_blank">
+        <Box p={2} display="flex" alignItems="center" justifyContent="space-between">
+          <Typography color="textPrimary" variant="subtitle1">
+            {t('privacy policy')}
+          </Typography>
+          <ArrowNextIcon {...iconProps} />
+        </Box>
+      </MLink>
       <Divider />
-      <Link href="/settings/terms-of-conditions" passHref>
-        <MLink color="textPrimary">
-          <Box p={2} display="flex" alignItems="center" justifyContent="space-between">
-            <Typography color="textPrimary" variant="subtitle1">
-              {t('terms of conditions')}
-            </Typography>
-            <ArrowNextIcon {...iconProps} />
-          </Box>
-        </MLink>
-      </Link>
+      <MLink
+        href="https://www.forbole.com/terms-and-conditions"
+        color="textPrimary"
+        target="_blank"
+      >
+        <Box p={2} display="flex" alignItems="center" justifyContent="space-between">
+          <Typography color="textPrimary" variant="subtitle1">
+            {t('terms of conditions')}
+          </Typography>
+          <ArrowNextIcon {...iconProps} />
+        </Box>
+      </MLink>
+
       <Divider />
       <Box mx={2} my={2} display="flex" alignItems="flex-start" justifyContent="space-between">
         <Typography variant="subtitle1">{t('version')}</Typography>
 
         <Typography>v{pkg.version}</Typography>
       </Box>
-      <Divider />
     </Paper>
   )
 }
