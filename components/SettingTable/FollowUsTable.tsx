@@ -118,7 +118,6 @@ const FollowUsTable: React.FC = () => {
           <Typography>github.com/forbole</Typography>
         </Box>
       </Link>
-      <Divider />
     </Paper>
   )
 }

@@ -54,7 +54,6 @@ const AboutTable: React.FC = () => {
 
         <Typography>v{pkg.version}</Typography>
       </Box>
-      <Divider />
     </Paper>
   )
 }
