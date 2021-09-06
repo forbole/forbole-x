@@ -14,7 +14,7 @@ import {
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
+import { PieChart, Pie, Cell } from 'recharts'
 import useStyles from './styles'
 import { CustomTheme } from '../../misc/theme'
 import { formatCrypto, formatCurrency } from '../../misc/utils'
@@ -78,28 +78,26 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({ accountBalance,
       <Card className={classes.container}>
         <Typography variant="h4">{t('balance')}</Typography>
         <Box display="flex" my={2} alignItems="center">
-          <ResponsiveContainer height={theme.spacing(20)} width={theme.spacing(20)}>
-            <PieChart>
-              <Pie
-                data={data.filter((d) => !!d.value)}
-                innerRadius={theme.spacing(8.5)}
-                outerRadius={theme.spacing(8.5)}
-                paddingAngle={12}
-                dataKey="value"
-              >
-                {data
-                  .filter((d) => !!d.value)
-                  .map((d) => (
-                    <Cell
-                      key={d.name}
-                      strokeLinejoin="round"
-                      strokeWidth={theme.spacing(1.5)}
-                      stroke={d.color}
-                    />
-                  ))}
-              </Pie>
-            </PieChart>
-          </ResponsiveContainer>
+          <PieChart height={theme.spacing(20)} width={theme.spacing(20)}>
+            <Pie
+              data={data.filter((d) => !!d.value)}
+              innerRadius={theme.spacing(8.5)}
+              outerRadius={theme.spacing(8.5)}
+              paddingAngle={12}
+              dataKey="value"
+            >
+              {data
+                .filter((d) => !!d.value)
+                .map((d) => (
+                  <Cell
+                    key={d.name}
+                    strokeLinejoin="round"
+                    strokeWidth={theme.spacing(1.5)}
+                    stroke={d.color}
+                  />
+                ))}
+            </Pie>
+          </PieChart>
           <Box flex={1} ml={10}>
             {data.map((d) => (
               <Box key={d.name} display="flex" alignItems="center" justifyContent="space-between">

@@ -34,6 +34,7 @@ const Account: React.FC = () => {
   const account = accounts.find((a) => a.address === router.query.address)
   const wallet = wallets.filter((x) => x.id === account?.walletId)[0]
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
+
   const { data: validatorsData } = useSubscription(
     gql`
       ${getValidators(crypto.name)}
