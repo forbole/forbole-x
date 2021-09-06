@@ -29,6 +29,8 @@ Object.keys(cryptocurrencies).forEach((crypto) => {
     uri: cryptocurrencies[crypto].graphqlWsUrl,
     options: {
       reconnect: true,
+      lazy: true,
+      inactivityTimeout: 30000,
     },
     webSocketImpl: WebSocket,
   })
