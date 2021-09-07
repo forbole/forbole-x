@@ -1,7 +1,8 @@
-import { Box, Avatar, Typography } from '@material-ui/core'
+import { Box, Avatar, Typography, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { useGetStyles } from './styles'
+import { CustomTheme } from '../../misc/theme'
 import { formatCrypto, formatTokenAmount } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
 import AccountAvatar from '../AccountAvatar'
@@ -29,18 +30,26 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
   const accountDetail = account
     ? { name: account.name, address: account.address }
     : { name: address.moniker, address: address.address }
+  const themeStyle: CustomTheme = useTheme()
   const Content = () => {
     if (activity.tag === 'delegate') {
       return (
         <>
           <Box mr={1}>
-            <AccountAvatar
-              ledgerIconDisabled
-              account={account}
-              address={address}
-              hideAddress
-              size="small"
-            />
+            <a
+              href={`https://explorer.desmos.network/accounts/${account.address}`}
+              rel="noreferrer"
+              target="_blank"
+              style={{ color: themeStyle.palette.primary.main, textDecoration: 'none' }}
+            >
+              <AccountAvatar
+                ledgerIconDisabled
+                account={account}
+                address={address}
+                hideAddress
+                size="small"
+              />
+            </a>
           </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
