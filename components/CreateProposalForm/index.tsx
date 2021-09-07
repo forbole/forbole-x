@@ -41,6 +41,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
 
   const [crypto, setCrypto] = React.useState(account.crypto)
   const [type, setType] = React.useState('')
+  console.log('typeeeee', type)
 
   const [proposalAccount, setProposalAccount] = React.useState<Account>(account)
   const accountsMap = keyBy(accounts, 'address')
@@ -260,6 +261,26 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
             onChange={(e) => setDescription(e.target.value)}
           />
         </Box>
+        {type === '/cosmos.params.v1beta1.ParameterChangeProposal' && (
+          <Box mt={4}>
+            <Typography variant="button" className={classes.itemButton}>
+              {t('description')}
+            </Typography>
+            <TextField
+              fullWidth
+              multiline
+              rows={10}
+              variant="filled"
+              placeholder={t('proposal description')}
+              InputProps={{
+                disableUnderline: true,
+                className: classes.input,
+              }}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </Box>
+        )}
 
         <Box mt={4}>
           <Typography variant="button" className={classes.itemButton}>
