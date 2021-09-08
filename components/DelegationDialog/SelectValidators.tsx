@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import { gql, useSubscription } from '@apollo/client'
+import * as R from 'ramda'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import keyBy from 'lodash/keyBy'
@@ -75,7 +76,18 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
       ${getAllValidators(crypto.name)}
     `
   )
-  console.log('all validators:', allValidatorsData)
+  console.log('all validators:', allValidatorsData.validator[0])
+
+  const stakingParams = R.pathOr({}, ['stakingParams', 0, 'params'], allValidatorsData)
+  const slashingParams = R.pathOr({}, ['slashingParams', 0, 'params'], allValidatorsData)
+  // console.log('next', stakingParams, 'haha', slashingParams)
+  const signedBlockWindow = slashingParams.signed_blocks_window
+  const missedBlockCounter = R.pathOr(
+    0,
+    ['validatorSigningInfos', 0, 'missedBlocksCounter'],
+    allValidatorsData.validator[0]
+  )
+  // console.log('window', signedBlockWindow, 'heyyy', missedBlockCounter)
 
   React.useMemo(() => {
     setDelegations((d) =>
