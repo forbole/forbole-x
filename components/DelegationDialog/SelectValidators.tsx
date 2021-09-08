@@ -15,6 +15,7 @@ import {
   Card,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
+import { gql, useSubscription } from '@apollo/client'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import keyBy from 'lodash/keyBy'
@@ -26,6 +27,7 @@ import { formatCrypto, formatCurrency } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIsMobile from '../../misc/useIsMobile'
 import ValidatorAvatar from '../ValidatorAvatar'
+import { getAllValidators } from '../../graphql/queries/validators'
 
 interface SelectValidatorsProps {
   onConfirm(delegations: Array<{ amount: number; validator: Validator }>, memo: string): void
@@ -67,6 +69,13 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [memo, setMemo] = React.useState('')
 
   const validatorsMap = keyBy(validators, 'address')
+
+  const { data: allValidatorsData } = useSubscription(
+    gql`
+      ${getAllValidators(crypto.name)}
+    `
+  )
+  console.log('all validators:', allValidatorsData)
 
   React.useMemo(() => {
     setDelegations((d) =>
