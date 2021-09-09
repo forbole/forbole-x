@@ -2,7 +2,7 @@ import { Breadcrumbs, Link as MLink, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { gql, useSubscription } from '@apollo/client'
+import { gql, useSubscription, useQuery } from '@apollo/client'
 import React from 'react'
 import get from 'lodash/get'
 import Layout from '../../../components/Layout'
@@ -21,10 +21,9 @@ import { getLatestAccountBalance } from '../../../graphql/queries/accountBalance
 const Proposal: React.FC = () => {
   const router = useRouter()
   const { t } = useTranslation('common')
-
   const { id, crypto: cryptoId } = router.query
   const crypto = cryptocurrencies[String(cryptoId)]
-  const { data: proposalData } = useSubscription(
+  const { data: proposalData } = useQuery(
     gql`
       ${getProposal(crypto.name)}
     `,

@@ -555,7 +555,7 @@ export const transformProposal = (
           address: get(x, 'depositor.address'),
         },
         amount: getTokenAmountFromDenoms(get(x, 'amount'), tokensPrices),
-        time: `${format(new Date(x.block.timestamp), 'dd MMM yyyy HH:mm')} UTC`,
+        // time: `${format(new Date(x.block.timestamp), 'dd MMM yyyy HH:mm')} UTC`,
       }
     }),
     totalDeposits: getTokenAmountFromDenoms(totalDepositsList, tokensPrices),

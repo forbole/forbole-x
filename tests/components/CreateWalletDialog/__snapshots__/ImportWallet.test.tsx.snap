@@ -78,7 +78,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly 1`] = `
               >
                 <img
                   className="MuiAvatar-img"
-                  src="/static/images/cryptocurrencies/dsm.png"
+                  src="/static/images/cryptocurrencies/dsm.svg"
                 />
               </div>
             </div>
@@ -204,7 +204,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly with wal
               >
                 <img
                   className="MuiAvatar-img"
-                  src="/static/images/cryptocurrencies/dsm.png"
+                  src="/static/images/cryptocurrencies/dsm.svg"
                 />
               </div>
             </div>
