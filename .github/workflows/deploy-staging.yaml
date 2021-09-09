@@ -1,8 +1,8 @@
-name: Deploy
+name: Deploy Staging
 on:
   push:
     branches:
-      - master
+      - staging
 
 jobs:
   push_to_registry:
@@ -30,6 +30,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: forbole/forbole-portal:latest
+          tags: forbole/forbole-x-staging:latest
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
