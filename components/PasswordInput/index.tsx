@@ -38,6 +38,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ withSecurityLevel, value,
       <TextField
         InputProps={{
           disableUnderline: true,
+          autocomplete: 'one-time-code',
           endAdornment: (
             <InputAdornment position="end">
               <IconButton onClick={() => setIsShowingPassword((prev) => !prev)}>

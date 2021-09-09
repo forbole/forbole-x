@@ -23,7 +23,7 @@ const Proposal: React.FC = () => {
   const { t } = useTranslation('common')
   const { id, crypto: cryptoId } = router.query
   const crypto = cryptocurrencies[String(cryptoId)]
-  const { data: proposalData } = useQuery(
+  const { data: proposalData } = useSubscription(
     gql`
       ${getProposal(crypto.name)}
     `,
