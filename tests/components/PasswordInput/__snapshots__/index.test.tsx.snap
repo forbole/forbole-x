@@ -5,6 +5,7 @@ exports[`component: PasswordInput renders correctly 1`] = `
   className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
 >
   <div
+    autocomplete="one-time-code"
     className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiFilledInput-adornedEnd"
     onClick={[Function]}
   >
@@ -62,6 +63,7 @@ exports[`component: PasswordInput renders correctly when password is shown 1`] =
   className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
 >
   <div
+    autocomplete="one-time-code"
     className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiFilledInput-adornedEnd"
     onClick={[Function]}
   >
@@ -123,6 +125,7 @@ Array [
     className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
   >
     <div
+      autocomplete="one-time-code"
       className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiFilledInput-adornedEnd"
       onClick={[Function]}
     >
@@ -216,6 +219,7 @@ Array [
     className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
   >
     <div
+      autocomplete="one-time-code"
       className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiFilledInput-adornedEnd"
       onClick={[Function]}
     >
@@ -309,6 +313,7 @@ Array [
     className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
   >
     <div
+      autocomplete="one-time-code"
       className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiFilledInput-adornedEnd"
       onClick={[Function]}
     >
