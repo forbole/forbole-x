@@ -4,8 +4,7 @@ import React from 'react'
 import useStyles from './styles'
 
 interface SelectMenuProps {
-  walletId: string
-  walletName: string
+  wallet: Wallet
   changeWalletMoniker(): void
   changeSecurityPassword(): void
   checkMnemonicPhrase(): void
@@ -14,7 +13,7 @@ interface SelectMenuProps {
 }
 
 const SelectMenu: React.FC<SelectMenuProps> = ({
-  walletName,
+  wallet,
   changeWalletMoniker,
   changeSecurityPassword,
   checkMnemonicPhrase,
@@ -25,7 +24,7 @@ const SelectMenu: React.FC<SelectMenuProps> = ({
 
   return (
     <>
-      <DialogTitle>{walletName}</DialogTitle>
+      <DialogTitle>{wallet.name}</DialogTitle>
       <DialogContent>
         <Box mt={2}>
           <Divider />
@@ -35,17 +34,21 @@ const SelectMenu: React.FC<SelectMenuProps> = ({
             </Button>
           </Box>
           <Divider />
-          <Box my={1} display="flex">
-            <Button className={classes.itemButton} onClick={() => changeSecurityPassword()}>
-              {t('change security password')}
-            </Button>
-          </Box>
-          <Divider />
-          <Box my={1} display="flex">
-            <Button className={classes.itemButton} onClick={() => checkMnemonicPhrase()}>
-              {t('view secret recovery phrase')}
-            </Button>
-          </Box>
+          {wallet.type === 'ledger' ? null : (
+            <>
+              <Box my={1} display="flex">
+                <Button className={classes.itemButton} onClick={() => changeSecurityPassword()}>
+                  {t('change security password')}
+                </Button>
+              </Box>
+              <Divider />
+              <Box my={1} display="flex">
+                <Button className={classes.itemButton} onClick={() => checkMnemonicPhrase()}>
+                  {t('view secret recovery phrase')}
+                </Button>
+              </Box>
+            </>
+          )}
         </Box>
       </DialogContent>
       <DialogActions>

@@ -73,9 +73,6 @@ subscription Proposal($id: Int!) {
         }
         }
       }
-      block {
-        timestamp
-      }
     }
   }
 }

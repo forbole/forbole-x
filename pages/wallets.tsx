@@ -41,7 +41,7 @@ const Wallets: React.FC = () => {
               />
             ) : null}
             <Typography variant="h4">{w.name}</Typography>
-            <EditWalletButton walletId={w.id} walletName={w.name} />
+            <EditWalletButton wallet={w} />
             <AddAccountButton walletId={w.id} />
           </Box>
           <Grid container spacing={3}>

@@ -24,8 +24,7 @@ enum Stage {
 }
 
 interface EditWalletButtonProps {
-  walletId: string
-  walletName: string
+  wallet: Wallet
 }
 
 interface Content {
@@ -33,7 +32,7 @@ interface Content {
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-const EditWalletButton: React.FC<EditWalletButtonProps> = ({ walletId, walletName }) => {
+const EditWalletButton: React.FC<EditWalletButtonProps> = ({ wallet }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
@@ -51,30 +50,29 @@ const EditWalletButton: React.FC<EditWalletButtonProps> = ({ walletId, walletNam
     switch (stage) {
       case Stage.ChangeWalletMonikerStage:
         return {
-          content: <ChangeWalletMonikerDialog walletId={walletId} onClose={onClose} />,
+          content: <ChangeWalletMonikerDialog walletId={wallet.id} onClose={onClose} />,
         }
       case Stage.ChangeSecurityPasswordStage:
         return {
           dialogWidth: 'xs',
-          content: <ChangeSecurityPassword walletId={walletId} onClose={onClose} />,
+          content: <ChangeSecurityPassword walletId={wallet.id} onClose={onClose} />,
         }
       case Stage.ViewMnenomicPhraseStage:
         return {
           dialogWidth: 'sm',
-          content: <ViewMnemonicPhrase walletId={walletId} onClose={onClose} />,
+          content: <ViewMnemonicPhrase walletId={wallet.id} onClose={onClose} />,
         }
       case Stage.DeleteWalletStage:
         return {
           dialogWidth: 'xs',
-          content: <DeleteWallet walletId={walletId} onClose={onClose} />,
+          content: <DeleteWallet walletId={wallet.id} onClose={onClose} />,
         }
       case Stage.SelectMenuStage:
       default:
         return {
           content: (
             <SelectMenu
-              walletId={walletId}
-              walletName={walletName}
+              wallet={wallet}
               changeWalletMoniker={() => setStage(Stage.ChangeWalletMonikerStage)}
               changeSecurityPassword={() => setStage(Stage.ChangeSecurityPasswordStage)}
               checkMnemonicPhrase={() => setStage(Stage.ViewMnenomicPhraseStage)}
