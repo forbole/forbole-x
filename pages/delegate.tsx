@@ -29,14 +29,13 @@ const Delegate: React.FC = () => {
   )
   const [accountMenuAnchor, setAccountMenuAnchor] = React.useState<Element>()
   const [activeAccountIndex, setActiveAccountIndex] = React.useState(0)
+  const activeAccount = accounts[activeAccountIndex]
   const { data } = useSubscription(
     gql`
-      ${getValidators('DSM')}
+      ${getValidators(activeAccount.crypto)}
     `
   )
   const validators = transformValidators(data)
-
-  const activeAccount = accounts[activeAccountIndex]
 
   const crypto = activeAccount
     ? cryptocurrencies[activeAccount.crypto]
