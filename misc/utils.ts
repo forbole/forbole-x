@@ -1,6 +1,5 @@
 import get from 'lodash/get'
 import last from 'lodash/last'
-import _ from 'lodash'
 import cloneDeep from 'lodash/cloneDeep'
 import drop from 'lodash/drop'
 import keyBy from 'lodash/keyBy'
@@ -199,7 +198,7 @@ export const getValidatorStatus = (status: number, jailed: boolean): string => {
   return statuses[status]
 }
 
-export const transformValidators = (data: any, randomized?: boolean): Validator[] => {
+export const transformValidators = (data: any): Validator[] => {
   if (!data) {
     return []
   }
@@ -223,16 +222,13 @@ export const transformValidators = (data: any, randomized?: boolean): Validator[
     .sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1))
     .map((validator, i) => ({
       ...validator,
-      rank: i + 1,
+      order: i + 1,
     }))
-  if (randomized) {
-    return _.shuffle(validators)
-  }
   return validators
 }
 
 export const transformValidatorsWithTokenAmount = (data: any, balanceData: any) => {
-  const validators = transformValidators(data, true)
+  const validators = transformValidators(data)
   const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
   const delegatedByValidator = {}
   get(balanceData, 'account[0].delegated', []).forEach((d) => {
