@@ -16,15 +16,20 @@ import {
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import { gql, useSubscription } from '@apollo/client'
-import * as R from 'ramda'
+import get from 'lodash/get'
 import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
+import React, { useState } from 'react'
 import keyBy from 'lodash/keyBy'
 import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
-import { formatCrypto, formatCurrency } from '../../misc/utils'
+import {
+  formatCrypto,
+  formatCurrency,
+  getValidatorCondition,
+  getValidatorConditionClass,
+} from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIsMobile from '../../misc/useIsMobile'
 import ValidatorAvatar from '../ValidatorAvatar'
@@ -38,6 +43,17 @@ interface SelectValidatorsProps {
   amount: number
   denom: string
   loading: boolean
+}
+
+interface ValidatorsState {
+  loading: boolean
+  exists: boolean
+  tab: number
+  sortKey: string
+  sortDirection: 'asc' | 'desc'
+  votingPowerOverall: number
+  // items: ValidatorType[]
+  items: any
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
@@ -71,15 +87,38 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
 
   const validatorsMap = keyBy(validators, 'address')
 
-  const { data: allValidatorsData } = useSubscription(
+  const [state, setState] = useState<ValidatorsState>({
+    loading: true,
+    exists: true,
+    items: [],
+    votingPowerOverall: 0,
+    tab: 0,
+    sortKey: 'validator.name',
+    sortDirection: 'asc',
+  })
+  // to be handle: R.mergeDeepLeft --> Iodash
+  // const handleSetState = (stateChange: any) => {
+  //   setState((prevState) => R.mergeDeepLeft(stateChange, prevState))
+  // }
+
+  const allValidatorsData = useSubscription(
     gql`
       ${getAllValidators(crypto.name)}
-    `
+    `,
+    {
+      onSubscriptionData: (data) =>
+        handleSetState({
+          loading: false,
+          ...data,
+        }),
+    }
   )
-  console.log('all validators:', allValidatorsData.validator[0])
+  console.log('all validators:', allValidatorsData)
 
-  const stakingParams = R.pathOr({}, ['stakingParams', 0, 'params'], allValidatorsData)
-  const slashingParams = R.pathOr({}, ['slashingParams', 0, 'params'], allValidatorsData)
+  // const stakingParams = R.pathOr({}, ['stakingParams', 0, 'params'], allValidatorsData)
+  const stakingParams = get(allValidatorsData, ['stakingParams', 0, 'params'], {})
+  // const slashingParams = R.pathOr({}, ['slashingParams', 0, 'params'], allValidatorsData)
+  const slashingParams = get(allValidatorsData, ['slashingParams', 0, 'params'], {})
   // console.log('next', stakingParams, 'haha', slashingParams)
   const signedBlockWindow = slashingParams.signed_blocks_window
   const missedBlockCounter = R.pathOr(
@@ -87,7 +126,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
     ['validatorSigningInfos', 0, 'missedBlocksCounter'],
     allValidatorsData.validator[0]
   )
-  // console.log('window', signedBlockWindow, 'heyyy', missedBlockCounter)
+  console.log('window', signedBlockWindow, 'heyyy', missedBlockCounter)
+  const condition = getValidatorCondition(signedBlockWindow, missedBlockCounter)
+  // console.log(condition)
 
   React.useMemo(() => {
     setDelegations((d) =>
