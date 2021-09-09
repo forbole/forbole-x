@@ -173,7 +173,7 @@
   "active validators": "Active Validators",
   "inactive validators": "Inactive Validators",
   "favourite": "Favourite",
-  "rank": "Rank",
+  "order": "#",
   "location": "Location",
   "voting power": "Voting Power",
   "self ratio": "Self%",

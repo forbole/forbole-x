@@ -202,7 +202,7 @@ export const transformValidators = (data: any): Validator[] => {
   if (!data) {
     return []
   }
-  return data.validator
+  const validators = data.validator
     .map((validator) => ({
       address: get(validator, 'info.operator_address', ''),
       image: get(validator, 'description[0].avatar_url', ''),
@@ -219,11 +219,12 @@ export const transformValidators = (data: any): Validator[] => {
       ),
       isActive: get(validator, 'status[0].status', 0) === statuses.indexOf('active'),
     }))
-    .sort((a, b) => b.votingPower - a.votingPower)
+    .sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1))
     .map((validator, i) => ({
       ...validator,
-      rank: i + 1,
+      order: i + 1,
     }))
+  return validators
 }
 
 export const transformValidatorsWithTokenAmount = (data: any, balanceData: any) => {
