@@ -36,7 +36,7 @@ subscription DepositParams {
 `
 
 export const getProposal = (crypto: string): string => `
-subscription Proposal($id: Int!) {
+query Proposal($id: Int!) {
   proposal(where: {id: {_eq: $id }}) {
     content
     description
@@ -72,9 +72,6 @@ subscription Proposal($id: Int!) {
           }
         }
         }
-      }
-      block {
-        timestamp
       }
     }
   }
