@@ -23,7 +23,6 @@ interface AccountAvatarProps {
   disableCopyAddress?: boolean
   size?: 'small' | 'base' | 'large'
   ledgerIconDisabled?: boolean
-  link?: boolean
 }
 
 const AccountAvatar: React.FC<AccountAvatarProps> = ({
@@ -33,7 +32,6 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
   disableCopyAddress,
   address,
   ledgerIconDisabled,
-  link,
 }) => {
   const crypto = cryptocurrencies[account ? account.crypto : address.crypto]
   const { t } = useTranslation('common')
@@ -64,9 +62,7 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
       <Box display="flex" alignItems="center">
         <Avatar className={avatarClass} alt={crypto.name} src={crypto.image} />
         <Box mx={1}>
-          <Typography color={link ? 'primary' : 'textPrimary'} variant={titleVariant}>
-            {account ? account.name : address.moniker}
-          </Typography>
+          <Typography variant={titleVariant}>{account ? account.name : address.moniker}</Typography>
           {hideAddress || disableCopyAddress ? null : (
             <Link
               color="textSecondary"

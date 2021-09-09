@@ -1,4 +1,4 @@
-import { Box, Avatar, Typography } from '@material-ui/core'
+import { Box, Avatar, Typography, Link } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { useGetStyles } from './styles'
@@ -34,13 +34,9 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
       return (
         <>
           <Box mr={1}>
-            <a
-              href={`https://explorer.desmos.network/accounts/${account.address}`}
-              rel="noreferrer"
+            <Link
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
               target="_blank"
-              style={{
-                textDecoration: 'none',
-              }}
             >
               <AccountAvatar
                 ledgerIconDisabled
@@ -48,9 +44,8 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
                 address={address}
                 hideAddress
                 size="small"
-                link
               />
-            </a>
+            </Link>
           </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
@@ -69,13 +64,18 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
       return (
         <>
           <Box mr={1}>
-            <AccountAvatar
-              ledgerIconDisabled
-              account={account}
-              address={address}
-              hideAddress
-              size="small"
-            />
+            <Link
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+              target="_blank"
+            >
+              <AccountAvatar
+                ledgerIconDisabled
+                account={account}
+                address={address}
+                hideAddress
+                size="small"
+              />
+            </Link>
           </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
@@ -106,13 +106,18 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
       return (
         <>
           <Box mr={1}>
-            <AccountAvatar
-              ledgerIconDisabled
-              account={account}
-              address={address}
-              hideAddress
-              size="small"
-            />
+            <Link
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+              target="_blank"
+            >
+              <AccountAvatar
+                ledgerIconDisabled
+                account={account}
+                address={address}
+                hideAddress
+                size="small"
+              />
+            </Link>
           </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
@@ -147,13 +152,18 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
       return (
         <>
           <Box mr={1}>
-            <AccountAvatar
-              ledgerIconDisabled
-              account={account}
-              address={address}
-              hideAddress
-              size="small"
-            />
+            <Link
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+              target="_blank"
+            >
+              <AccountAvatar
+                ledgerIconDisabled
+                account={account}
+                address={address}
+                hideAddress
+                size="small"
+              />
+            </Link>
           </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
@@ -282,18 +292,28 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
         <>
           {activity.detail.fromAddress === accountDetail.address ? (
             <Box mr={1}>
-              <AccountAvatar
-                ledgerIconDisabled
-                account={account}
-                address={address}
-                hideAddress
-                size="small"
-              />
+              <Link
+                href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+                target="_blank"
+              >
+                <AccountAvatar
+                  ledgerIconDisabled
+                  account={account}
+                  address={address}
+                  hideAddress
+                  size="small"
+                />
+              </Link>
             </Box>
           ) : (
-            <Typography className={classes.proposalTypography}>
+            <Link
+              className={classes.proposalTypography}
+              variant="body1"
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${activity.detail.fromAddress}`}
+              target="_blank"
+            >
               {activity.detail.fromAddress}
-            </Typography>
+            </Link>
           )}
           <Typography>
             {t(`${activity.tag}Activity`)}
@@ -304,18 +324,28 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
           </Typography>
           {activity.detail.toAddress === accountDetail.address ? (
             <Box ml={1}>
-              <AccountAvatar
-                ledgerIconDisabled
-                account={account}
-                address={address}
-                hideAddress
-                size="small"
-              />
+              <Link
+                href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+                target="_blank"
+              >
+                <AccountAvatar
+                  ledgerIconDisabled
+                  account={account}
+                  address={address}
+                  hideAddress
+                  size="small"
+                />
+              </Link>
             </Box>
           ) : (
-            <Typography className={classes.proposalTypography}>
+            <Link
+              className={classes.proposalTypography}
+              variant="body1"
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${activity.detail.toAddress}`}
+              target="_blank"
+            >
               {activity.detail.toAddress}
-            </Typography>
+            </Link>
           )}
         </>
       )
