@@ -15,10 +15,11 @@ import {
   Card,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
-import { gql, useSubscription } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import get from 'lodash/get'
+import merge from 'lodash/merge'
 import useTranslation from 'next-translate/useTranslation'
-import React, { useState } from 'react'
+import React from 'react'
 import keyBy from 'lodash/keyBy'
 import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
@@ -52,7 +53,7 @@ interface ValidatorsState {
   sortKey: string
   sortDirection: 'asc' | 'desc'
   votingPowerOverall: number
-  // items: ValidatorType[]
+  validator: Validator[]
   items: any
 }
 
@@ -87,7 +88,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
 
   const validatorsMap = keyBy(validators, 'address')
 
-  const [state, setState] = useState<ValidatorsState>({
+  const [state, setState] = React.useState<ValidatorsState>({
     loading: true,
     exists: true,
     items: [],
@@ -95,25 +96,26 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
     tab: 0,
     sortKey: 'validator.name',
     sortDirection: 'asc',
+    validator: [],
   })
   // to be handle: R.mergeDeepLeft --> Iodash
-  // const handleSetState = (stateChange: any) => {
-  //   setState((prevState) => R.mergeDeepLeft(stateChange, prevState))
-  // }
+  const handleSetState = (stateChange: any) => {
+    setState((prevState) => merge(stateChange, prevState))
+  }
 
-  const allValidatorsData = useSubscription(
+  const { data: allValidatorsData }: any = useQuery(
     gql`
       ${getAllValidators(crypto.name)}
     `,
     {
-      onSubscriptionData: (data) =>
+      onCompleted: (data) =>
         handleSetState({
           loading: false,
           ...data,
         }),
     }
   )
-  console.log('all validators:', allValidatorsData)
+  // console.log('all validators:', allValidatorsData)
 
   // const stakingParams = R.pathOr({}, ['stakingParams', 0, 'params'], allValidatorsData)
   const stakingParams = get(allValidatorsData, ['stakingParams', 0, 'params'], {})
@@ -121,12 +123,17 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const slashingParams = get(allValidatorsData, ['slashingParams', 0, 'params'], {})
   // console.log('next', stakingParams, 'haha', slashingParams)
   const signedBlockWindow = slashingParams.signed_blocks_window
-  const missedBlockCounter = R.pathOr(
-    0,
+  const missedBlockCounter = get(
+    allValidatorsData.validator[0],
     ['validatorSigningInfos', 0, 'missedBlocksCounter'],
-    allValidatorsData.validator[0]
+    0
   )
-  console.log('window', signedBlockWindow, 'heyyy', missedBlockCounter)
+  // const missedBlockCounter = R.pathOr(
+  //   0,
+  //   ['validatorSigningInfos', 0, 'missedBlocksCounter'],
+  //   allValidatorsData.validator[0]
+  // )
+  // console.log('window', signedBlockWindow, 'heyyy', missedBlockCounter)
   const condition = getValidatorCondition(signedBlockWindow, missedBlockCounter)
   // console.log(condition)
 
