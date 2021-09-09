@@ -38,7 +38,6 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ withSecurityLevel, value,
       <TextField
         InputProps={{
           disableUnderline: true,
-          autocomplete: 'one-time-code',
           endAdornment: (
             <InputAdornment position="end">
               <IconButton onClick={() => setIsShowingPassword((prev) => !prev)}>
@@ -50,6 +49,10 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ withSecurityLevel, value,
               </IconButton>
             </InputAdornment>
           ),
+        }}
+        // eslint-disable-next-line react/jsx-no-duplicate-props
+        inputProps={{
+          autocomplete: 'one-time-code',
         }}
         fullWidth
         type={isShowingPassword ? 'text' : 'password'}

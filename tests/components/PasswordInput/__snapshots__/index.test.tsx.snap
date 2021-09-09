@@ -5,13 +5,13 @@ exports[`component: PasswordInput renders correctly 1`] = `
   className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
 >
   <div
-    autocomplete="one-time-code"
     className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiFilledInput-adornedEnd"
     onClick={[Function]}
   >
     <input
       aria-invalid={false}
       autoFocus={false}
+      autocomplete="one-time-code"
       className="MuiInputBase-input MuiFilledInput-input MuiInputBase-inputAdornedEnd MuiFilledInput-inputAdornedEnd"
       disabled={false}
       onAnimationStart={[Function]}
@@ -63,13 +63,13 @@ exports[`component: PasswordInput renders correctly when password is shown 1`] =
   className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
 >
   <div
-    autocomplete="one-time-code"
     className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiFilledInput-adornedEnd"
     onClick={[Function]}
   >
     <input
       aria-invalid={false}
       autoFocus={false}
+      autocomplete="one-time-code"
       className="MuiInputBase-input MuiFilledInput-input MuiInputBase-inputAdornedEnd MuiFilledInput-inputAdornedEnd"
       disabled={false}
       onAnimationStart={[Function]}
@@ -125,13 +125,13 @@ Array [
     className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
   >
     <div
-      autocomplete="one-time-code"
       className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiFilledInput-adornedEnd"
       onClick={[Function]}
     >
       <input
         aria-invalid={false}
         autoFocus={false}
+        autocomplete="one-time-code"
         className="MuiInputBase-input MuiFilledInput-input MuiInputBase-inputAdornedEnd MuiFilledInput-inputAdornedEnd"
         disabled={false}
         onAnimationStart={[Function]}
@@ -219,13 +219,13 @@ Array [
     className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
   >
     <div
-      autocomplete="one-time-code"
       className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiFilledInput-adornedEnd"
       onClick={[Function]}
     >
       <input
         aria-invalid={false}
         autoFocus={false}
+        autocomplete="one-time-code"
         className="MuiInputBase-input MuiFilledInput-input MuiInputBase-inputAdornedEnd MuiFilledInput-inputAdornedEnd"
         disabled={false}
         onAnimationStart={[Function]}
@@ -313,13 +313,13 @@ Array [
     className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
   >
     <div
-      autocomplete="one-time-code"
       className="MuiInputBase-root MuiFilledInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiFilledInput-adornedEnd"
       onClick={[Function]}
     >
       <input
         aria-invalid={false}
         autoFocus={false}
+        autocomplete="one-time-code"
         className="MuiInputBase-input MuiFilledInput-input MuiInputBase-inputAdornedEnd MuiFilledInput-inputAdornedEnd"
         disabled={false}
         onAnimationStart={[Function]}
