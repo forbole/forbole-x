@@ -2,7 +2,7 @@ import { Box, Avatar, Typography, Link } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { useGetStyles } from './styles'
-import { formatCrypto, formatTokenAmount } from '../../misc/utils'
+import { formatCrypto, formatTokenAmount, getVoteAnswer } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
 import AccountAvatar from '../AccountAvatar'
 import ValidatorAvatar from '../ValidatorAvatar'
@@ -135,8 +135,20 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
     if (activity.tag === 'deposit') {
       return (
         <>
-          <Avatar className={classes.accountAvatar} alt={accountDetail.name} src={crypto.image} />
-          <Typography className={classes.validatorTypography}>{accountDetail.name}</Typography>
+          <Box mr={1}>
+            <Link
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+              target="_blank"
+            >
+              <AccountAvatar
+                ledgerIconDisabled
+                account={account}
+                address={address}
+                hideAddress
+                size="small"
+              />
+            </Link>
+          </Box>
           <Typography>
             {t(`${activity.tag}Activity`)}
             <span className={classes.amount}>
@@ -144,7 +156,14 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             </span>
             {t('to')}
           </Typography>
-          <Typography className={classes.receiverTypography}>{activity.detail.name}</Typography>
+          <Link
+            href={`${crypto.blockExplorerBaseUrl}/proposals/${activity.detail.proposalId}`}
+            target="_blank"
+            variant="body1"
+            className={classes.proposalTypography}
+          >
+            {t('proposal with id', { id: activity.detail.proposalId })}
+          </Link>
         </>
       )
     }
@@ -246,13 +265,32 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
     if (activity.tag === 'vote') {
       return (
         <>
-          <Avatar className={classes.accountAvatar} alt={accountDetail.name} src={crypto.image} />
-          <Typography className={classes.validatorTypography}>{accountDetail.name}</Typography>
+          <Box mr={1}>
+            <Link
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+              target="_blank"
+            >
+              <AccountAvatar
+                ledgerIconDisabled
+                account={account}
+                address={address}
+                hideAddress
+                size="small"
+              />
+            </Link>
+          </Box>
           <Typography>{t(`${activity.tag}Activity`)}</Typography>
-          <Typography className={classes.proposalTypography}>{activity.detail.name}</Typography>
+          <Link
+            href={`${crypto.blockExplorerBaseUrl}/proposals/${activity.detail.proposalId}`}
+            target="_blank"
+            variant="body1"
+            className={classes.proposalTypography}
+          >
+            {t('proposal with id', { id: activity.detail.proposalId })}
+          </Link>
           <Typography>
             {t('with')}
-            <span className={classes.amount}>{activity.detail.ans}</span>
+            <span className={classes.amount}>{t(getVoteAnswer(activity.detail.ans))}</span>
           </Typography>
         </>
       )

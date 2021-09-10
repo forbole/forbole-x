@@ -219,7 +219,7 @@ export const transformValidators = (data: any): Validator[] => {
       ),
       isActive: get(validator, 'status[0].status', 0) === statuses.indexOf('active'),
     }))
-    .sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1))
+    .sort((a, b) => (a.name > b.name ? 1 : -1))
     .map((validator, i) => ({
       ...validator,
       order: i + 1,
@@ -383,6 +383,39 @@ export const transformTransactions = (
           )} UTC`,
           detail: {
             validator: get(validatorsMap, `${get(t, 'value.validator_address', '')}`, {}),
+          },
+          amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
+          success: get(t, 'transaction.success', false),
+        }
+      }
+      if (t.type.includes('MsgDeposit')) {
+        return {
+          ref: `#${get(t, 'transaction_hash', '')}`,
+          tab: 'governance',
+          tag: 'deposit',
+          date: `${format(
+            new Date(get(t, 'transaction.block.timestamp')),
+            'dd MMM yyyy HH:mm'
+          )} UTC`,
+          detail: {
+            proposalId: get(t, 'value.proposal_id', ''),
+          },
+          amount: getTokenAmountFromDenoms(get(t, 'value.amount', []), tokensPrices),
+          success: get(t, 'transaction.success', false),
+        }
+      }
+      if (t.type.includes('MsgVote')) {
+        return {
+          ref: `#${get(t, 'transaction_hash', '')}`,
+          tab: 'governance',
+          tag: 'vote',
+          date: `${format(
+            new Date(get(t, 'transaction.block.timestamp')),
+            'dd MMM yyyy HH:mm'
+          )} UTC`,
+          detail: {
+            proposalId: get(t, 'value.proposal_id', ''),
+            ans: get(t, 'value.option', ''),
           },
           amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
           success: get(t, 'transaction.success', false),
@@ -615,20 +648,20 @@ export const transformVoteSummary = (proposalResult: any): any => {
   return voteSummary
 }
 
-export const transformVoteDetail = (voteDetail: any): any => {
-  const getVoteAnswer = (answer: string) => {
-    if (answer === 'VOTE_OPTION_YES') {
-      return 'yes'
-    }
-    if (answer === 'VOTE_OPTION_NO') {
-      return 'no'
-    }
-    if (answer === 'VOTE_OPTION_ABSTAIN') {
-      return 'abstain'
-    }
-    return 'veto'
+export const getVoteAnswer = (answer: string) => {
+  if (answer === 'VOTE_OPTION_YES') {
+    return 'yes'
   }
+  if (answer === 'VOTE_OPTION_NO') {
+    return 'no'
+  }
+  if (answer === 'VOTE_OPTION_ABSTAIN') {
+    return 'abstain'
+  }
+  return 'veto'
+}
 
+export const transformVoteDetail = (voteDetail: any): any => {
   return get(voteDetail, 'proposal_vote', []).map((d) => ({
     voter: {
       name: get(d, 'account.validator_infos[0].validator.validator_descriptions[0].moniker'),
