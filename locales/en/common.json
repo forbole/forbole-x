@@ -135,7 +135,7 @@
   "setRewardAddress": "Set Reward Address",
   "setRewardAddressActivity": "set reward address",
   "submitProposal": "Submit Proposal",
-  "submitProposalActivity": "submitted",
+  "submitProposalActivity": "submitted a proposal",
   "toTheFollowingRecepients": "to the following recepients;",
   "received": "received",
   "redelegate": "Redelegate",
@@ -378,5 +378,6 @@
   "star now": "Star Now",
   "proposal details": "Proposal Details",
   "deposit to": "Deposit to",
-  "deposit time": "Deposit Time: {{from}} to {{to}}"
+  "deposit time": "Deposit Time: {{from}} to {{to}}",
+  "proposal with id": "# proposal {{id}}"
 }

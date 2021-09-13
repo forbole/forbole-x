@@ -56,7 +56,7 @@ const GlobalCss = withStyles(
         display: 'flex',
         alignItems: 'center',
       },
-      '.MuiAutocomplete-popper': {
+      '.MuiAutocomplete-paper': {
         boxShadow: theme.shadows[7],
       },
       '.MuiButton-root.MuiButton-containedPrimary': {

@@ -49,8 +49,6 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({
     { label: 'slashing', rows: activities.filter((x) => x.tab === 'slashing') },
   ]
 
-
-
   return (
     <Card>
       <Box p={4}>

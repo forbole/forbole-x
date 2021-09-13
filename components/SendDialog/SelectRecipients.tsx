@@ -182,7 +182,8 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                       helperText={
                         insufficientTokens.includes(recipients[i].denom) && !!recipients[i].amount
                           ? t('insufficient fund')
-                          : !isAddressValid(
+                          : recipients[i].address &&
+                            !isAddressValid(
                               cryptocurrencies[account.crypto].prefix,
                               recipients[i].address
                             )
