@@ -5,6 +5,7 @@ import drop from 'lodash/drop'
 import keyBy from 'lodash/keyBy'
 import { format, differenceInDays } from 'date-fns'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
+import defaultDenoms from './defaultDenoms'
 
 export const formatPercentage = (percent: number, lang: string): string =>
   new Intl.NumberFormat(lang, {
@@ -43,7 +44,8 @@ export const getTokenAmountFromDenoms = (
 ): TokenAmount => {
   const result = {}
   ;(coins || []).forEach((coin) => {
-    denoms.some((d) => {
+    const denomsToUse = denoms.length ? denoms : defaultDenoms
+    denomsToUse.some((d) => {
       const unit = get(d, 'token_unit.token.token_units', []).find(
         (t) => t && coin && t.denom === coin.denom
       )
