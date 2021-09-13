@@ -307,10 +307,23 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
     if (activity.tag === 'submitProposal') {
       return (
         <>
-          <Avatar className={classes.accountAvatar} alt={accountDetail.name} src={crypto.image} />
-          <Typography className={classes.validatorTypography}>{accountDetail.name}</Typography>
-          <Typography>{t(`${activity.tag}Activity`)}</Typography>
-          <Typography className={classes.proposalTypography}>{activity.detail.name}</Typography>
+          <Box mr={1}>
+            <Link
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+              target="_blank"
+            >
+              <AccountAvatar
+                ledgerIconDisabled
+                account={account}
+                address={address}
+                hideAddress
+                size="small"
+              />
+            </Link>
+          </Box>
+          <Typography>
+            {t(`${activity.tag}Activity`)} <b>{activity.detail.proposalTitle}</b>
+          </Typography>
         </>
       )
     }

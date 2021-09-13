@@ -421,6 +421,22 @@ export const transformTransactions = (
           success: get(t, 'transaction.success', false),
         }
       }
+      if (t.type.includes('MsgSubmitProposal')) {
+        return {
+          ref: `#${get(t, 'transaction_hash', '')}`,
+          tab: 'governance',
+          tag: 'submitProposal',
+          date: `${format(
+            new Date(get(t, 'transaction.block.timestamp')),
+            'dd MMM yyyy HH:mm'
+          )} UTC`,
+          detail: {
+            proposalTitle: get(t, 'value.content.title', ''),
+          },
+          amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
+          success: get(t, 'transaction.success', false),
+        }
+      }
       return null
     })
     .filter((a) => !!a)
