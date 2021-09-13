@@ -70,7 +70,6 @@ const Account: React.FC = () => {
       },
     }
   )
-  console.log(transactionsData)
 
   const validators = transformValidatorsWithTokenAmount(validatorsData, balanceData)
   const unbondings = transformUnbonding(validatorsData, balanceData)
