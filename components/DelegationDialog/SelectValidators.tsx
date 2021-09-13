@@ -15,7 +15,7 @@ import {
   Card,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
-import { gql, useQuery, useSubscription } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import get from 'lodash/get'
 import merge from 'lodash/merge'
 import useTranslation from 'next-translate/useTranslation'
@@ -88,30 +88,40 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [memo, setMemo] = React.useState('')
 
   const validatorsMap = keyBy(validators, 'address')
+
+  // TODO:
+  // 1. set allValidators state
+  // 2. useQuery to return and deconstruct, e.g. const {validator} = allValidatorsData
+  // 3. setMemo for updating allValidatorsData once inside useQuery
+  // 4. declare const missedBlockCounter inside <AutoComplete /> prop for finding a specific validator's missedBlockCounter in allValidatorData
+
   // console.log('lollll', validatorsMap)
 
-  // const [state, setState] = React.useState({
-  //   loading: true,
-  //   exists: true,
-  //   items: [],
-  //   votingPowerOverall: 0,
-  //   tab: 0,
-  //   sortKey: 'validator.name',
-  //   sortDirection: 'asc',
-  //   validator: [],
-  // })
-  // // to be handle: R.mergeDeepLeft --> Iodash
-  // const handleSetState = (stateChange: any) => {
-  //   setState((prevState) => merge(stateChange, prevState))
-  // }
+  const [state, setState] = React.useState({
+    loading: true,
+    // exists: true,
+    // items: [],
+    // votingPowerOverall: 0,
+    // tab: 0,
+    // sortKey: 'validator.name',
+    // sortDirection: 'asc',
+    data: validators,
+    validator: [],
+  })
+  // to be handle: R.mergeDeepLeft --> Iodash
+  const handleSetState = (stateChange: any) => {
+    setState((prevState) => merge(stateChange, prevState))
+  }
 
   // const { data: allValidatorsData } = useSubscription(gql`
   //   ${getAllValidators()}
   // `)
 
+  // const [skip, setSkip] = React.useState(false)
+
   const {
     loading,
-    error,
+    // error,
     data: allValidatorsData,
   }: any = useQuery(
     gql`
@@ -119,10 +129,17 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
     `,
     {
       onCompleted: (data) => {
-        return allValidatorsData
+        handleSetState(data)
+        return data
       },
     }
   )
+  // React.useEffect(() => {
+  //   // check whether data exists
+  //   if (!loading && !!allValidatorsData) {
+  //     setSkip(false)
+  //   }
+  // }, [loading])
   // console.log('condition', allValidatorsData)
 
   // if (loading) return null
@@ -149,7 +166,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   //   const condition = getValidatorCondition(signedBlockWindow, missedBlockCounter)
   //   console.log('condition', condition)
   // }
-  console.log('hi', allValidatorsData)
+  // console.log('hi', allValidatorsData)
 
   React.useMemo(() => {
     setDelegations((d) =>
@@ -234,7 +251,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                       )
                     }}
                     renderOption={(address) => {
-                      if (loading) {
+                      if (!allValidatorsData) {
                         return (
                           <>
                             <ValidatorAvatar
@@ -253,9 +270,15 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                         {}
                       )
                       const signedBlockWindow = slashingParams.signed_blocks_window
+                      // console.log('hooooo', allValidatorsData.validator)
                       // need to map this to match address
+                      // const targetV = allValidators.find(
+                      //   (x) => x.validatorSigningInfos.operatorAddress === address
+                      // )
+                      console.log('target', validatorsMap.missedBlockCounter)
+
                       const missedBlockCounter = get(
-                        allValidatorsData.validator[address],
+                        allValidatorsData.validator,
                         ['validatorSigningInfos', 0, 'missedBlocksCounter'],
                         0
                       )
@@ -264,11 +287,14 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                         validatorsMap[address].status === 'active'
                           ? getValidatorConditionClass(condition)
                           : undefined
-                      console.log(
-                        '00000000'
-                        // allValidatorsData.validator.validatorInfo.operatorAddress === address
-                        // allValidatorsData.validator,
-                      )
+                      // console.log(
+                      //   '00000000',
+                      //   // allValidatorsData.validator.validatorInfo.operatorAddress === address
+                      //   // allValidatorsData.validator,
+                      //   signedBlockWindow,
+                      //   'aiiii',
+                      //   missedBlockCounter
+                      // )
                       return (
                         <>
                           <ValidatorAvatar

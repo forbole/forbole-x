@@ -118,6 +118,7 @@ interface Validator {
   rewards?: TokenAmount
   delegated?: TokenAmount
   unbonding?: TokenAmount
+  missedBlockCounter: number
 }
 
 interface Unbonding {

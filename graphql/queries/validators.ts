@@ -20,6 +20,9 @@ subscription Validators {
       voting_power
       height
     }
+    validatorSigningInfos: validator_signing_infos(order_by: {height: desc}, limit: 1) {
+      missedBlocksCounter: missed_blocks_counter
+    }
     status: validator_statuses(limit: 1, order_by: { height: desc }) {
       status
       jailed

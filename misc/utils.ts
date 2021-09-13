@@ -218,6 +218,7 @@ export const transformValidators = (data: any): Validator[] => {
         get(validator, 'status[0].jailed', false)
       ),
       isActive: get(validator, 'status[0].status', 0) === statuses.indexOf('active'),
+      missedBlockCounter: get(validator, ['validatorSigningInfos', 0, 'missedBlocksCounter'], 0),
     }))
     .sort((a, b) => b.votingPower - a.votingPower)
     .map((validator, i) => ({
@@ -654,11 +655,13 @@ export const closeAllLedgerConnections = async () => {
 }
 
 export const getValidatorCondition = (signedBlockWindow: number, missedBlockCounter: number) => {
+  console.log('ai diu',  signedBlockWindow,  missedBlockCounter)
   return (1 - (missedBlockCounter / signedBlockWindow)) * 100;
 };
 
 export const getValidatorConditionClass = (condition: number) => {
   let conditionClass = '';
+  // console.log('check', condition)
   if (condition > 90) {
     conditionClass = 'green';
   } else if (condition > 70 && condition < 90) {
