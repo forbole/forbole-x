@@ -40,7 +40,13 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
   const classes = useStyles()
   const [isCopySuccess, setIsCopySuccess] = React.useState(false)
   const { wallets } = useWalletsContext()
-  const walletAccountInfo = { ...account, ...wallets.find((wal) => wal.id === account.walletId) }
+  const walletAccountInfo = React.useMemo(
+    () =>
+      account
+        ? { ...account, ...wallets.find((wal) => wal.id === account.walletId) }
+        : { type: 'mnemonic' },
+    [account, wallets]
+  )
 
   let avatarClass = ''
   let titleVariant: 'h3' | 'h5' | 'body1' = 'h5'
