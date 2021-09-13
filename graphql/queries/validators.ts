@@ -57,7 +57,7 @@ subscription Validators($addresses: [String!]) {
 }
 `
 
-export const getAllValidators = (crypto?: string): string => `
+export const getAllValidators = () => `
 query Validators {
   stakingParams: staking_params(limit: 1) {
     params

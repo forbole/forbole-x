@@ -15,7 +15,7 @@ import {
   Card,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
-import { gql, useQuery } from '@apollo/client'
+import { gql, useQuery, useSubscription } from '@apollo/client'
 import get from 'lodash/get'
 import merge from 'lodash/merge'
 import useTranslation from 'next-translate/useTranslation'
@@ -35,6 +35,7 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIsMobile from '../../misc/useIsMobile'
 import ValidatorAvatar from '../ValidatorAvatar'
 import { getAllValidators } from '../../graphql/queries/validators'
+import Condition from '../Condition'
 
 interface SelectValidatorsProps {
   onConfirm(delegations: Array<{ amount: number; validator: Validator }>, memo: string): void
@@ -43,18 +44,18 @@ interface SelectValidatorsProps {
   validators: Validator[]
   amount: number
   denom: string
-  loading: boolean
+  confirmLoading: boolean
 }
 
 interface ValidatorsState {
   loading: boolean
-  exists: boolean
-  tab: number
-  sortKey: string
-  sortDirection: 'asc' | 'desc'
-  votingPowerOverall: number
-  validator: Validator[]
-  items: any
+  exists?: boolean
+  tab?: number
+  sortKey?: string
+  sortDirection?: 'asc' | 'desc'
+  votingPowerOverall?: number
+  validator?: Validator[]
+  items?: any
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
@@ -64,7 +65,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   amount,
   denom,
   onConfirm,
-  loading,
+  confirmLoading,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
@@ -87,55 +88,68 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [memo, setMemo] = React.useState('')
 
   const validatorsMap = keyBy(validators, 'address')
+  // console.log('lollll', validatorsMap)
 
-  const [state, setState] = React.useState<ValidatorsState>({
-    loading: true,
-    exists: true,
-    items: [],
-    votingPowerOverall: 0,
-    tab: 0,
-    sortKey: 'validator.name',
-    sortDirection: 'asc',
-    validator: [],
-  })
-  // to be handle: R.mergeDeepLeft --> Iodash
-  const handleSetState = (stateChange: any) => {
-    setState((prevState) => merge(stateChange, prevState))
-  }
+  // const [state, setState] = React.useState({
+  //   loading: true,
+  //   exists: true,
+  //   items: [],
+  //   votingPowerOverall: 0,
+  //   tab: 0,
+  //   sortKey: 'validator.name',
+  //   sortDirection: 'asc',
+  //   validator: [],
+  // })
+  // // to be handle: R.mergeDeepLeft --> Iodash
+  // const handleSetState = (stateChange: any) => {
+  //   setState((prevState) => merge(stateChange, prevState))
+  // }
 
-  const { data: allValidatorsData }: any = useQuery(
+  // const { data: allValidatorsData } = useSubscription(gql`
+  //   ${getAllValidators()}
+  // `)
+
+  const {
+    loading,
+    error,
+    data: allValidatorsData,
+  }: any = useQuery(
     gql`
-      ${getAllValidators(crypto.name)}
+      ${getAllValidators()}
     `,
     {
-      onCompleted: (data) =>
-        handleSetState({
-          loading: false,
-          ...data,
-        }),
+      onCompleted: (data) => {
+        return allValidatorsData
+      },
     }
   )
-  // console.log('all validators:', allValidatorsData)
+  // console.log('condition', allValidatorsData)
 
-  // const stakingParams = R.pathOr({}, ['stakingParams', 0, 'params'], allValidatorsData)
-  const stakingParams = get(allValidatorsData, ['stakingParams', 0, 'params'], {})
-  // const slashingParams = R.pathOr({}, ['slashingParams', 0, 'params'], allValidatorsData)
-  const slashingParams = get(allValidatorsData, ['slashingParams', 0, 'params'], {})
-  // console.log('next', stakingParams, 'haha', slashingParams)
-  const signedBlockWindow = slashingParams.signed_blocks_window
-  const missedBlockCounter = get(
-    allValidatorsData.validator[0],
-    ['validatorSigningInfos', 0, 'missedBlocksCounter'],
-    0
-  )
-  // const missedBlockCounter = R.pathOr(
-  //   0,
-  //   ['validatorSigningInfos', 0, 'missedBlocksCounter'],
-  //   allValidatorsData.validator[0]
-  // )
-  // console.log('window', signedBlockWindow, 'heyyy', missedBlockCounter)
-  const condition = getValidatorCondition(signedBlockWindow, missedBlockCounter)
-  // console.log(condition)
+  // if (loading) return null
+  // if (error) console.log(`Error! ${error}`)
+  // console.log('all validators:', allValidatorsData)
+  // if (allValidatorsData) {
+  //   // const stakingParams = R.pathOr({}, ['stakingParams', 0, 'params'], allValidatorsData)
+  //   const stakingParams = get(allValidatorsData, ['stakingParams', 0, 'params'], {})
+  //   // const slashingParams = R.pathOr({}, ['slashingParams', 0, 'params'], allValidatorsData)
+  //   const slashingParams = get(allValidatorsData, ['slashingParams', 0, 'params'], {})
+  //   // console.log('next', stakingParams, 'haha', slashingParams)
+  //   const signedBlockWindow = slashingParams.signed_blocks_window
+  //   const missedBlockCounter = get(
+  //     allValidatorsData.validator[0],
+  //     ['validatorSigningInfos', 0, 'missedBlocksCounter'],
+  //     0
+  //   )
+  //   // const missedBlockCounter = R.pathOr(
+  //   //   0,
+  //   //   ['validatorSigningInfos', 0, 'missedBlocksCounter'],
+  //   //   allValidatorsData.validator[0]
+  //   // )
+  //   // console.log('window', signedBlockWindow, 'heyyy', missedBlockCounter)
+  //   const condition = getValidatorCondition(signedBlockWindow, missedBlockCounter)
+  //   console.log('condition', condition)
+  // }
+  console.log('hi', allValidatorsData)
 
   React.useMemo(() => {
     setDelegations((d) =>
@@ -219,14 +233,54 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                         )
                       )
                     }}
-                    renderOption={(address) => (
-                      <ValidatorAvatar
-                        crypto={crypto}
-                        validator={validatorsMap[address]}
-                        size="small"
-                        withoutLink
-                      />
-                    )}
+                    renderOption={(address) => {
+                      if (loading) {
+                        return (
+                          <>
+                            <ValidatorAvatar
+                              crypto={crypto}
+                              validator={validatorsMap[address]}
+                              size="small"
+                              withoutLink
+                            />
+                            <CircularProgress size={theme.spacing(3.5)} />
+                          </>
+                        )
+                      }
+                      const slashingParams = get(
+                        allValidatorsData,
+                        ['slashingParams', 0, 'params'],
+                        {}
+                      )
+                      const signedBlockWindow = slashingParams.signed_blocks_window
+                      // need to map this to match address
+                      const missedBlockCounter = get(
+                        allValidatorsData.validator[address],
+                        ['validatorSigningInfos', 0, 'missedBlocksCounter'],
+                        0
+                      )
+                      const condition = getValidatorCondition(signedBlockWindow, missedBlockCounter)
+                      const vCondition =
+                        validatorsMap[address].status === 'active'
+                          ? getValidatorConditionClass(condition)
+                          : undefined
+                      console.log(
+                        '00000000'
+                        // allValidatorsData.validator.validatorInfo.operatorAddress === address
+                        // allValidatorsData.validator,
+                      )
+                      return (
+                        <>
+                          <ValidatorAvatar
+                            crypto={crypto}
+                            validator={validatorsMap[address]}
+                            size="small"
+                            withoutLink
+                          />
+                          <Condition className={vCondition} />
+                        </>
+                      )
+                    }}
                     renderInput={({ InputProps, inputProps, ...params }) => (
                       <TextField
                         {...params}
@@ -427,14 +481,14 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             className={classes.button}
             color="primary"
             disabled={
-              loading ||
+              confirmLoading ||
               !delegations.filter((v) => v.validator.name && Number(v.amount)).length ||
               delegations.map((v) => Number(v.amount)).reduce((a, b) => a + b, 0) > amount ||
               delegations.filter((v) => v.validator === '').length !== 0
             }
             type="submit"
           >
-            {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
+            {confirmLoading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </DialogActions>
