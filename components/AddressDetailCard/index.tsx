@@ -1,4 +1,4 @@
-import { Box, Card, Grid, useTheme, Button } from '@material-ui/core'
+import { Box, Card, Grid, Button } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
@@ -39,7 +39,6 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
   const { lang, t } = useTranslation('common')
   const { currency } = useGeneralContext()
   const classes = useStyles()
-  const theme = useTheme()
   const isMobile = useIsMobile()
 
   const router = useRouter()
@@ -82,7 +81,6 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
           >
             <AccountAvatar size="large" address={address} />
             <Box display="flex" mt={isMobile ? 2 : 0} ml={isMobile ? -2 : 0}>
-
               <Button
                 classes={{ root: classes.sendButton }}
                 variant="contained"
