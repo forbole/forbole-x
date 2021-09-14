@@ -127,6 +127,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
               delegations={delegations}
               validators={validators}
               amount={amount}
+              price={availableAmount[denom]?.price}
               denom={denom}
               onConfirm={confirmDelegations}
               loading={loading}

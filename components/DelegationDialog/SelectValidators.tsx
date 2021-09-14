@@ -31,6 +31,7 @@ import ValidatorAvatar from '../ValidatorAvatar'
 interface SelectValidatorsProps {
   onConfirm(delegations: Array<{ amount: number; validator: Validator }>, memo: string): void
   delegations: Array<{ amount: number; validator: Validator }>
+  price: number
   crypto: Cryptocurrency
   validators: Validator[]
   amount: number
@@ -42,6 +43,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   crypto,
   validators,
   delegations: defaultDelegations,
+  price,
   amount,
   denom,
   onConfirm,
@@ -91,6 +93,11 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
     )
   }, [delegations.length])
 
+  const totalAmount = React.useMemo(
+    () => delegations.map((v) => Number(v.amount)).reduce((a, b) => a + b, 0),
+    [delegations]
+  )
+
   return (
     <form
       noValidate
@@ -110,7 +117,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
       <DialogContent className={classes.dialogContent}>
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
-            {t('total delegation amount')}{' '}
+            {t('target delegation amount')}{' '}
             <b className={classes.marginLeft}>{formatCrypto(amount, denom, lang)}</b>
           </Typography>
           <Grid container spacing={4}>
@@ -352,8 +359,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
           mx={2}
         >
           <Box>
-            <Typography variant="h5">{formatCrypto(amount, denom, lang)}</Typography>
-            <Typography>{formatCurrency(amount, currency, lang)}</Typography>
+            <Typography variant="h5">{formatCrypto(totalAmount, denom, lang)}</Typography>
+            <Typography>{formatCurrency(totalAmount * price, currency, lang)}</Typography>
           </Box>
           <Button
             variant="contained"
@@ -362,7 +369,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             disabled={
               loading ||
               !delegations.filter((v) => v.validator.name && Number(v.amount)).length ||
-              delegations.map((v) => Number(v.amount)).reduce((a, b) => a + b, 0) > amount ||
+              totalAmount > amount ||
               delegations.filter((v) => v.validator === '').length !== 0
             }
             type="submit"
