@@ -707,7 +707,6 @@ export const closeAllLedgerConnections = async () => {
 }
 
 export const getValidatorCondition = (signedBlockWindow: number, missedBlockCounter: number) => {
-  console.log('ai diu',  signedBlockWindow,  missedBlockCounter)
   return (1 - (missedBlockCounter / signedBlockWindow)) * 100;
 };
 

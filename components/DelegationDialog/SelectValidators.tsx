@@ -17,7 +17,6 @@ import {
 import { Autocomplete } from '@material-ui/lab'
 import { gql, useQuery } from '@apollo/client'
 import get from 'lodash/get'
-import merge from 'lodash/merge'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import keyBy from 'lodash/keyBy'
@@ -35,7 +34,7 @@ import {
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIsMobile from '../../misc/useIsMobile'
 import ValidatorAvatar from '../ValidatorAvatar'
-import { getAllValidators } from '../../graphql/queries/validators'
+import { getSlashingParams } from '../../graphql/queries/validators'
 import Condition from '../Condition'
 
 interface SelectValidatorsProps {
@@ -46,17 +45,6 @@ interface SelectValidatorsProps {
   amount: number
   denom: string
   confirmLoading: boolean
-}
-
-interface ValidatorsState {
-  loading: boolean
-  exists?: boolean
-  tab?: number
-  sortKey?: string
-  sortDirection?: 'asc' | 'desc'
-  votingPowerOverall?: number
-  validator?: Validator[]
-  items?: any
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
@@ -91,85 +79,21 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const validatorsMap = keyBy(validators, 'address')
   const randomizedValidators = React.useMemo(() => shuffle(validators), [])
 
-  // TODO:
-  // 1. set allValidators state
-  // 2. useQuery to return and deconstruct, e.g. const {validator} = allValidatorsData
-  // 3. setMemo for updating allValidatorsData once inside useQuery
-  // 4. declare const missedBlockCounter inside <AutoComplete /> prop for finding a specific validator's missedBlockCounter in allValidatorData
-
-  // console.log('lollll', validatorsMap)
-
-  const [state, setState] = React.useState({
-    loading: true,
-    // exists: true,
-    // items: [],
-    // votingPowerOverall: 0,
-    // tab: 0,
-    // sortKey: 'validator.name',
-    // sortDirection: 'asc',
-    data: validators,
-    validator: [],
-  })
-  // to be handle: R.mergeDeepLeft --> Iodash
-  const handleSetState = (stateChange: any) => {
-    setState((prevState) => merge(stateChange, prevState))
-  }
-
-  // const { data: allValidatorsData } = useSubscription(gql`
-  //   ${getAllValidators()}
-  // `)
-
-  // const [skip, setSkip] = React.useState(false)
-
-  const {
-    loading,
-    // error,
-    data: allValidatorsData,
-  }: any = useQuery(
+  const { data: paramsData } = useQuery(
     gql`
-      ${getAllValidators()}
-    `,
-    {
-      onCompleted: (data) => {
-        handleSetState(data)
-        return data
-      },
-    }
+      ${getSlashingParams()}
+    `
   )
-  // React.useEffect(() => {
-  //   // check whether data exists
-  //   if (!loading && !!allValidatorsData) {
-  //     setSkip(false)
-  //   }
-  // }, [loading])
-  // console.log('condition', allValidatorsData)
-
-  // if (loading) return null
-  // if (error) console.log(`Error! ${error}`)
-  // console.log('all validators:', allValidatorsData)
-  // if (allValidatorsData) {
-  //   // const stakingParams = R.pathOr({}, ['stakingParams', 0, 'params'], allValidatorsData)
-  //   const stakingParams = get(allValidatorsData, ['stakingParams', 0, 'params'], {})
-  //   // const slashingParams = R.pathOr({}, ['slashingParams', 0, 'params'], allValidatorsData)
-  //   const slashingParams = get(allValidatorsData, ['slashingParams', 0, 'params'], {})
-  //   // console.log('next', stakingParams, 'haha', slashingParams)
-  //   const signedBlockWindow = slashingParams.signed_blocks_window
-  //   const missedBlockCounter = get(
-  //     allValidatorsData.validator[0],
-  //     ['validatorSigningInfos', 0, 'missedBlocksCounter'],
-  //     0
-  //   )
-  //   // const missedBlockCounter = R.pathOr(
-  //   //   0,
-  //   //   ['validatorSigningInfos', 0, 'missedBlocksCounter'],
-  //   //   allValidatorsData.validator[0]
-  //   // )
-  //   // console.log('window', signedBlockWindow, 'heyyy', missedBlockCounter)
-  //   const condition = getValidatorCondition(signedBlockWindow, missedBlockCounter)
-  //   console.log('condition', condition)
-  // }
-  // console.log('hi', allValidatorsData)
-
+  const slashingParams = get(paramsData, ['slashingParams', 0, 'params'], {
+    slashingParams: [
+      {
+        params: {
+          signed_blocks_window: 0,
+        },
+      },
+    ],
+  })
+  const signedBlockWindow = slashingParams.signed_blocks_window
   React.useMemo(() => {
     setDelegations((d) =>
       d.map((a, j) =>
@@ -253,50 +177,32 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                       )
                     }}
                     renderOption={(address) => {
-                      if (!allValidatorsData) {
-                        return (
-                          <>
-                            <ValidatorAvatar
-                              crypto={crypto}
-                              validator={validatorsMap[address]}
-                              size="small"
-                              withoutLink
-                            />
-                            <CircularProgress size={theme.spacing(3.5)} />
-                          </>
-                        )
-                      }
-                      const slashingParams = get(
-                        allValidatorsData,
-                        ['slashingParams', 0, 'params'],
-                        {}
-                      )
-                      const signedBlockWindow = slashingParams.signed_blocks_window
-                      // console.log('hooooo', allValidatorsData.validator)
-                      // need to map this to match address
-                      // const targetV = allValidators.find(
-                      //   (x) => x.validatorSigningInfos.operatorAddress === address
-                      // )
-                      console.log('target', validatorsMap.missedBlockCounter)
-
+                      // if (!paramsData) {
+                      //   return (
+                      //     <>
+                      //       <ValidatorAvatar
+                      //         crypto={crypto}
+                      //         validator={validatorsMap[address]}
+                      //         size="small"
+                      //         withoutLink
+                      //       />
+                      //       <CircularProgress size={theme.spacing(3.5)} />
+                      //     </>
+                      //   )
+                      // }
                       const missedBlockCounter = get(
-                        allValidatorsData.validator,
-                        ['validatorSigningInfos', 0, 'missedBlocksCounter'],
+                        validatorsMap,
+                        [address, 'missedBlockCounter'],
                         0
                       )
-                      const condition = getValidatorCondition(signedBlockWindow, missedBlockCounter)
-                      const vCondition =
+                      const conditionClass = getValidatorCondition(
+                        signedBlockWindow,
+                        missedBlockCounter
+                      )
+                      const condition =
                         validatorsMap[address].status === 'active'
-                          ? getValidatorConditionClass(condition)
+                          ? getValidatorConditionClass(conditionClass)
                           : undefined
-                      // console.log(
-                      //   '00000000',
-                      //   // allValidatorsData.validator.validatorInfo.operatorAddress === address
-                      //   // allValidatorsData.validator,
-                      //   signedBlockWindow,
-                      //   'aiiii',
-                      //   missedBlockCounter
-                      // )
                       return (
                         <>
                           <ValidatorAvatar
@@ -305,7 +211,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                             size="small"
                             withoutLink
                           />
-                          <Condition className={vCondition} />
+                          <Condition className={condition} />
                         </>
                       )
                     }}
