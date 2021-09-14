@@ -379,5 +379,6 @@
   "proposal details": "Proposal Details",
   "deposit to": "Deposit to",
   "deposit time": "Deposit Time: {{from}} to {{to}}",
-  "proposal with id": "# proposal {{id}}"
+  "proposal with id": "# proposal {{id}}",
+  "target delegation amount": "Target delegation amount"
 }
