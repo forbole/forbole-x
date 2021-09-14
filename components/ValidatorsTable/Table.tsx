@@ -75,8 +75,8 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
 
   const columns = [
     {
-      label: 'rank',
-      display: 'rank',
+      label: 'order',
+      display: 'order',
       sort: true,
     },
     {
@@ -173,7 +173,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                       width={theme.spacing(8)}
                       justifyContent="space-between"
                     >
-                      {v.rank}
+                      {v.order}
                       <IconButton onClick={() => toggleFav({ ...v })}>
                         {favValidators.includes(v.address) ? (
                           <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />

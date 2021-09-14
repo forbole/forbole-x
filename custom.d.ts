@@ -106,7 +106,7 @@ interface Cryptocurrency {
 }
 
 interface Validator {
-  rank: number
+  order: number
   address: string
   image: string
   name: string

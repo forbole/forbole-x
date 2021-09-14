@@ -21,6 +21,7 @@ import merge from 'lodash/merge'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import keyBy from 'lodash/keyBy'
+import shuffle from 'lodash/shuffle'
 import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import useStyles from './styles'
@@ -88,6 +89,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [memo, setMemo] = React.useState('')
 
   const validatorsMap = keyBy(validators, 'address')
+  const randomizedValidators = React.useMemo(() => shuffle(validators), [])
 
   // TODO:
   // 1. set allValidators state
@@ -232,7 +234,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                     </IconButton>
                   )}
                   <Autocomplete
-                    options={validators.map(({ address }) => address)}
+                    options={randomizedValidators.map(({ address }) => address)}
                     getOptionLabel={(option) => validatorsMap[option].name}
                     openOnFocus
                     fullWidth
