@@ -1,10 +1,10 @@
 import React from 'react'
-import { useGetStyles } from './styles'
+import { useStyles } from './styles'
 
 const Condition: React.FC<{
   className?: string
 }> = ({ className }) => {
-  const { classes } = useGetStyles()
+  const classes = useStyles()
 
   return <div className={`${className} ${classes.root}`} />
 }

@@ -45,7 +45,7 @@ interface SelectValidatorsProps {
   validators: Validator[]
   amount: number
   denom: string
-  confirmLoading: boolean
+  loading: boolean
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
@@ -56,7 +56,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   amount,
   denom,
   onConfirm,
-  confirmLoading,
+  loading,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
@@ -83,17 +83,11 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
 
   const { data: paramsData } = useQuery(
     gql`
-      ${getSlashingParams()}
+      ${getSlashingParams(get(crypto, 'name', ''))}
     `
   )
-  const slashingParams = get(paramsData, ['slashingParams', 0, 'params'], {
-    slashingParams: [
-      {
-        params: {
-          signed_blocks_window: 0,
-        },
-      },
-    ],
+  const slashingParams = get(paramsData, ['slashing_params', 0, 'params'], {
+    signed_blocks_window: 0,
   })
   const signedBlockWindow = slashingParams.signed_blocks_window
   React.useMemo(() => {
@@ -415,14 +409,14 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             className={classes.button}
             color="primary"
             disabled={
-              confirmLoading ||
+              loading ||
               !delegations.filter((v) => v.validator.name && Number(v.amount)).length ||
               totalAmount > amount ||
               delegations.filter((v) => v.validator === '').length !== 0
             }
             type="submit"
           >
-            {confirmLoading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
+            {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </DialogActions>

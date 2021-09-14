@@ -20,8 +20,8 @@ subscription Validators {
       voting_power
       height
     }
-    validatorSigningInfos: validator_signing_infos(order_by: {height: desc}, limit: 1) {
-      missedBlocksCounter: missed_blocks_counter
+    validator_signing_infos(order_by: {height: desc}, limit: 1) {
+      missed_blocks_counter
     }
     status: validator_statuses(limit: 1, order_by: { height: desc }) {
       status
@@ -60,9 +60,9 @@ subscription Validators($addresses: [String!]) {
 }
 `
 
-export const getSlashingParams = () => `
+export const getSlashingParams = (crypto: string) => `
 query Validators {
-  slashingParams: slashing_params(order_by: {height: desc}, limit: 1) {
+  slashing_params(order_by: {height: desc}, limit: 1) {
     params
   }
 }

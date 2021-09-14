@@ -220,7 +220,11 @@ export const transformValidators = (data: any): Validator[] => {
         get(validator, 'status[0].jailed', false)
       ),
       isActive: get(validator, 'status[0].status', 0) === statuses.indexOf('active'),
-      missedBlockCounter: get(validator, ['validatorSigningInfos', 0, 'missedBlocksCounter'], 0),
+      missedBlockCounter: get(
+        validator,
+        ['validator_signing_infos', 0, 'missed_blocks_counter'],
+        0
+      ),
     }))
     .sort((a, b) => (a.name > b.name ? 1 : -1))
     .map((validator, i) => ({
@@ -708,19 +712,18 @@ export const closeAllLedgerConnections = async () => {
 }
 
 export const getValidatorCondition = (signedBlockWindow: number, missedBlockCounter: number) => {
-  return (1 - (missedBlockCounter / signedBlockWindow)) * 100;
-};
+  return (1 - missedBlockCounter / signedBlockWindow) * 100
+}
 
 export const getValidatorConditionClass = (condition: number) => {
-  let conditionClass = '';
-  // console.log('check', condition)
+  let conditionClass = ''
   if (condition > 90) {
-    conditionClass = 'green';
+    conditionClass = 'green'
   } else if (condition > 70 && condition < 90) {
-    conditionClass = 'yellow';
+    conditionClass = 'yellow'
   } else {
-    conditionClass = 'red';
+    conditionClass = 'red'
   }
 
-  return conditionClass;
-};
+  return conditionClass
+}

@@ -122,8 +122,8 @@ export const useGetStyles = (status?: string, alignRight?: boolean) => {
           justifyContent: 'space-between',
         },
         condition: {
-          width: '7px',
-          height: '7px',
+          width: theme.spacing(1),
+          height: theme.spacing(1),
           background: theme.palette.condition.zero,
           marginLeft: theme.spacing(1),
           borderRadius: '50%',
