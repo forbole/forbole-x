@@ -177,19 +177,6 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                       )
                     }}
                     renderOption={(address) => {
-                      // if (!paramsData) {
-                      //   return (
-                      //     <>
-                      //       <ValidatorAvatar
-                      //         crypto={crypto}
-                      //         validator={validatorsMap[address]}
-                      //         size="small"
-                      //         withoutLink
-                      //       />
-                      //       <CircularProgress size={theme.spacing(3.5)} />
-                      //     </>
-                      //   )
-                      // }
                       const missedBlockCounter = get(
                         validatorsMap,
                         [address, 'missedBlockCounter'],
