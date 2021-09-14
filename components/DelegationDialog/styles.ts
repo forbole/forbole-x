@@ -51,6 +51,11 @@ const useStyles = makeStyles(
       flex: 1,
       margin: theme.spacing(2, 1),
     },
+    autoComplete: {
+      '& li': {
+        justifyContent: 'space-between!important',
+      },
+    },
   }),
   {
     name: 'HookGlobalStyles',

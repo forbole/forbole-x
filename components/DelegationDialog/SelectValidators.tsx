@@ -204,7 +204,13 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                           ? getValidatorConditionClass(conditionClass)
                           : undefined
                       return (
-                        <>
+                        <Box
+                          display="flex"
+                          alignItems="center"
+                          flexDirection="row"
+                          justifyContent="space-between"
+                          width="100%"
+                        >
                           <ValidatorAvatar
                             crypto={crypto}
                             validator={validatorsMap[address]}
@@ -212,7 +218,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                             withoutLink
                           />
                           <Condition className={condition} />
-                        </>
+                        </Box>
                       )
                     }}
                     renderInput={({ InputProps, inputProps, ...params }) => (

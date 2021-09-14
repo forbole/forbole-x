@@ -9,7 +9,7 @@ export const useGetStyles = () => {
           width: '10px',
           height: '10px',
           background: theme.palette.condition.zero,
-          margin: '0 auto',
+          margin: '0',
           borderRadius: '50%',
           '&.green': {
             background: theme.palette.condition.one,
