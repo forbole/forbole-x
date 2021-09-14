@@ -305,8 +305,9 @@ export const transformRedelegations = (data: any, balanceData: any): Redelegatio
 export const transformTransactions = (
   data: any,
   validatorsMap: { [address: string]: Validator },
-  tokensPrices: TokenPrice[]
+  prices: TokenPrice[]
 ): Activity[] => {
+  const tokensPrices = prices.length ? prices : defaultDenoms
   return get(data, 'messages_by_address', [])
     .map((t) => {
       if (t.type.includes('MsgSend')) {
@@ -450,7 +451,7 @@ export const getEquivalentCoinToSend = (
   availableCoins: Array<{ amount: string; denom: string }>,
   tokensPrices: TokenPrice[]
 ): { amount: number; denom: string } => {
-  const tokenPrice = tokensPrices.find(
+  const tokenPrice = (tokensPrices.length ? tokensPrices : defaultDenoms).find(
     (tp) => tp.unit_name.toLowerCase() === amount.denom.toLowerCase()
   )
   if (!tokenPrice) {
