@@ -40,7 +40,13 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
   const classes = useStyles()
   const [isCopySuccess, setIsCopySuccess] = React.useState(false)
   const { wallets } = useWalletsContext()
-  const walletAccountInfo = { ...account, ...wallets.find((wal) => wal.id === account.walletId) }
+  const walletAccountInfo = React.useMemo(
+    () =>
+      account
+        ? { ...account, ...wallets.find((wal) => wal.id === account.walletId) }
+        : { type: 'mnemonic' },
+    [account, wallets]
+  )
 
   let avatarClass = ''
   let titleVariant: 'h3' | 'h5' | 'body1' = 'h5'
@@ -62,9 +68,7 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
       <Box display="flex" alignItems="center">
         <Avatar className={avatarClass} alt={crypto.name} src={crypto.image} />
         <Box mx={1}>
-          <Typography color="textPrimary" variant={titleVariant}>
-            {account ? account.name : address.moniker}
-          </Typography>
+          <Typography variant={titleVariant}>{account ? account.name : address.moniker}</Typography>
           {hideAddress || disableCopyAddress ? null : (
             <Link
               color="textSecondary"

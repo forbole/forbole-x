@@ -18,6 +18,7 @@ import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import keyBy from 'lodash/keyBy'
+import shuffle from 'lodash/shuffle'
 import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import useStyles from './styles'
@@ -30,6 +31,7 @@ import ValidatorAvatar from '../ValidatorAvatar'
 interface SelectValidatorsProps {
   onConfirm(delegations: Array<{ amount: number; validator: Validator }>, memo: string): void
   delegations: Array<{ amount: number; validator: Validator }>
+  price: number
   crypto: Cryptocurrency
   validators: Validator[]
   amount: number
@@ -41,6 +43,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   crypto,
   validators,
   delegations: defaultDelegations,
+  price,
   amount,
   denom,
   onConfirm,
@@ -67,6 +70,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [memo, setMemo] = React.useState('')
 
   const validatorsMap = keyBy(validators, 'address')
+  const randomizedValidators = React.useMemo(() => shuffle(validators), [])
 
   React.useMemo(() => {
     setDelegations((d) =>
@@ -89,6 +93,11 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
     )
   }, [delegations.length])
 
+  const totalAmount = React.useMemo(
+    () => delegations.map((v) => Number(v.amount)).reduce((a, b) => a + b, 0),
+    [delegations]
+  )
+
   return (
     <form
       noValidate
@@ -108,7 +117,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
       <DialogContent className={classes.dialogContent}>
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
-            {t('total delegation amount')}{' '}
+            {t('target delegation amount')}{' '}
             <b className={classes.marginLeft}>{formatCrypto(amount, denom, lang)}</b>
           </Typography>
           <Grid container spacing={4}>
@@ -132,7 +141,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                     </IconButton>
                   )}
                   <Autocomplete
-                    options={validators.map(({ address }) => address)}
+                    options={randomizedValidators.map(({ address }) => address)}
                     getOptionLabel={(option) => validatorsMap[option].name}
                     openOnFocus
                     fullWidth
@@ -350,8 +359,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
           mx={2}
         >
           <Box>
-            <Typography variant="h5">{formatCrypto(amount, denom, lang)}</Typography>
-            <Typography>{formatCurrency(amount, currency, lang)}</Typography>
+            <Typography variant="h5">{formatCrypto(totalAmount, denom, lang)}</Typography>
+            <Typography>{formatCurrency(totalAmount * price, currency, lang)}</Typography>
           </Box>
           <Button
             variant="contained"
@@ -360,7 +369,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             disabled={
               loading ||
               !delegations.filter((v) => v.validator.name && Number(v.amount)).length ||
-              delegations.map((v) => Number(v.amount)).reduce((a, b) => a + b, 0) > amount ||
+              totalAmount > amount ||
               delegations.filter((v) => v.validator === '').length !== 0
             }
             type="submit"

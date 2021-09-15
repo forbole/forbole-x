@@ -59,7 +59,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
           availableTokens={availableTokens}
           crypto={crypto}
           account={account}
-          initialActiveSort="rank"
+          initialActiveSort="order"
           initialSortDirection="asc"
           currentTab={currentTab}
         />

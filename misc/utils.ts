@@ -5,6 +5,7 @@ import drop from 'lodash/drop'
 import keyBy from 'lodash/keyBy'
 import { format, differenceInDays } from 'date-fns'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
+import defaultDenoms from './defaultDenoms'
 
 export const formatPercentage = (percent: number, lang: string): string =>
   new Intl.NumberFormat(lang, {
@@ -43,7 +44,8 @@ export const getTokenAmountFromDenoms = (
 ): TokenAmount => {
   const result = {}
   ;(coins || []).forEach((coin) => {
-    denoms.some((d) => {
+    const denomsToUse = denoms.length ? denoms : defaultDenoms
+    denomsToUse.some((d) => {
       const unit = get(d, 'token_unit.token.token_units', []).find(
         (t) => t && coin && t.denom === coin.denom
       )
@@ -202,7 +204,7 @@ export const transformValidators = (data: any): Validator[] => {
   if (!data) {
     return []
   }
-  return data.validator
+  const validators = data.validator
     .map((validator) => ({
       address: get(validator, 'info.operator_address', ''),
       image: get(validator, 'description[0].avatar_url', ''),
@@ -219,11 +221,12 @@ export const transformValidators = (data: any): Validator[] => {
       ),
       isActive: get(validator, 'status[0].status', 0) === statuses.indexOf('active'),
     }))
-    .sort((a, b) => b.votingPower - a.votingPower)
+    .sort((a, b) => (a.name > b.name ? 1 : -1))
     .map((validator, i) => ({
       ...validator,
-      rank: i + 1,
+      order: i + 1,
     }))
+  return validators
 }
 
 export const transformValidatorsWithTokenAmount = (data: any, balanceData: any) => {
@@ -301,8 +304,9 @@ export const transformRedelegations = (data: any, balanceData: any): Redelegatio
 export const transformTransactions = (
   data: any,
   validatorsMap: { [address: string]: Validator },
-  tokensPrices: TokenPrice[]
+  prices: TokenPrice[]
 ): Activity[] => {
+  const tokensPrices = prices.length ? prices : defaultDenoms
   return get(data, 'messages_by_address', [])
     .map((t) => {
       if (t.type.includes('MsgSend')) {
@@ -387,6 +391,55 @@ export const transformTransactions = (
           success: get(t, 'transaction.success', false),
         }
       }
+      if (t.type.includes('MsgDeposit')) {
+        return {
+          ref: `#${get(t, 'transaction_hash', '')}`,
+          tab: 'governance',
+          tag: 'deposit',
+          date: `${format(
+            new Date(get(t, 'transaction.block.timestamp')),
+            'dd MMM yyyy HH:mm'
+          )} UTC`,
+          detail: {
+            proposalId: get(t, 'value.proposal_id', ''),
+          },
+          amount: getTokenAmountFromDenoms(get(t, 'value.amount', []), tokensPrices),
+          success: get(t, 'transaction.success', false),
+        }
+      }
+      if (t.type.includes('MsgVote')) {
+        return {
+          ref: `#${get(t, 'transaction_hash', '')}`,
+          tab: 'governance',
+          tag: 'vote',
+          date: `${format(
+            new Date(get(t, 'transaction.block.timestamp')),
+            'dd MMM yyyy HH:mm'
+          )} UTC`,
+          detail: {
+            proposalId: get(t, 'value.proposal_id', ''),
+            ans: get(t, 'value.option', ''),
+          },
+          amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
+          success: get(t, 'transaction.success', false),
+        }
+      }
+      if (t.type.includes('MsgSubmitProposal')) {
+        return {
+          ref: `#${get(t, 'transaction_hash', '')}`,
+          tab: 'governance',
+          tag: 'submitProposal',
+          date: `${format(
+            new Date(get(t, 'transaction.block.timestamp')),
+            'dd MMM yyyy HH:mm'
+          )} UTC`,
+          detail: {
+            proposalTitle: get(t, 'value.content.title', ''),
+          },
+          amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
+          success: get(t, 'transaction.success', false),
+        }
+      }
       return null
     })
     .filter((a) => !!a)
@@ -397,7 +450,7 @@ export const getEquivalentCoinToSend = (
   availableCoins: Array<{ amount: string; denom: string }>,
   tokensPrices: TokenPrice[]
 ): { amount: number; denom: string } => {
-  const tokenPrice = tokensPrices.find(
+  const tokenPrice = (tokensPrices.length ? tokensPrices : defaultDenoms).find(
     (tp) => tp.unit_name.toLowerCase() === amount.denom.toLowerCase()
   )
   if (!tokenPrice) {
@@ -555,7 +608,7 @@ export const transformProposal = (
           address: get(x, 'depositor.address'),
         },
         amount: getTokenAmountFromDenoms(get(x, 'amount'), tokensPrices),
-        time: `${format(new Date(x.block.timestamp), 'dd MMM yyyy HH:mm')} UTC`,
+        // time: `${format(new Date(x.block.timestamp), 'dd MMM yyyy HH:mm')} UTC`,
       }
     }),
     totalDeposits: getTokenAmountFromDenoms(totalDepositsList, tokensPrices),
@@ -614,20 +667,20 @@ export const transformVoteSummary = (proposalResult: any): any => {
   return voteSummary
 }
 
-export const transformVoteDetail = (voteDetail: any): any => {
-  const getVoteAnswer = (answer: string) => {
-    if (answer === 'VOTE_OPTION_YES') {
-      return 'yes'
-    }
-    if (answer === 'VOTE_OPTION_NO') {
-      return 'no'
-    }
-    if (answer === 'VOTE_OPTION_ABSTAIN') {
-      return 'abstain'
-    }
-    return 'veto'
+export const getVoteAnswer = (answer: string) => {
+  if (answer === 'VOTE_OPTION_YES') {
+    return 'yes'
   }
+  if (answer === 'VOTE_OPTION_NO') {
+    return 'no'
+  }
+  if (answer === 'VOTE_OPTION_ABSTAIN') {
+    return 'abstain'
+  }
+  return 'veto'
+}
 
+export const transformVoteDetail = (voteDetail: any): any => {
   return get(voteDetail, 'proposal_vote', []).map((d) => ({
     voter: {
       name: get(d, 'account.validator_infos[0].validator.validator_descriptions[0].moniker'),

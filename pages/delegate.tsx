@@ -29,18 +29,17 @@ const Delegate: React.FC = () => {
   )
   const [accountMenuAnchor, setAccountMenuAnchor] = React.useState<Element>()
   const [activeAccountIndex, setActiveAccountIndex] = React.useState(0)
-  const { data } = useSubscription(
-    gql`
-      ${getValidators('DSM')}
-    `
-  )
-  const validators = transformValidators(data)
-
   const activeAccount = accounts[activeAccountIndex]
-
   const crypto = activeAccount
     ? cryptocurrencies[activeAccount.crypto]
     : Object.values(cryptocurrencies)[0]
+
+  const { data } = useSubscription(
+    gql`
+      ${getValidators(crypto.name)}
+    `
+  )
+  const validators = transformValidators(data)
 
   const { data: balanceData } = useSubscription(
     gql`

@@ -56,8 +56,15 @@ exports[`page: Wallets renders correctly 1`] = `
         test
       </h4>
       <EditWalletButton
-        walletId="123"
-        walletName="test"
+        wallet={
+          Object {
+            "cryptos": Array [
+              "ATOM",
+            ],
+            "id": "123",
+            "name": "test",
+          }
+        }
       />
       <AddAccountButton
         walletId="123"
@@ -152,8 +159,15 @@ exports[`page: Wallets renders correctly with missing wallet id 1`] = `
         test
       </h4>
       <EditWalletButton
-        walletId="123"
-        walletName="test"
+        wallet={
+          Object {
+            "cryptos": Array [
+              "ATOM",
+            ],
+            "id": "123",
+            "name": "test",
+          }
+        }
       />
       <AddAccountButton
         walletId="123"

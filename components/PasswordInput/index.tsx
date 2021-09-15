@@ -50,6 +50,10 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ withSecurityLevel, value,
             </InputAdornment>
           ),
         }}
+        // eslint-disable-next-line react/jsx-no-duplicate-props
+        inputProps={{
+          autocomplete: 'one-time-code',
+        }}
         fullWidth
         type={isShowingPassword ? 'text' : 'password'}
         variant="filled"

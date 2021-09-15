@@ -135,7 +135,7 @@
   "setRewardAddress": "Set Reward Address",
   "setRewardAddressActivity": "set reward address",
   "submitProposal": "Submit Proposal",
-  "submitProposalActivity": "submitted",
+  "submitProposalActivity": "submitted a proposal",
   "toTheFollowingRecepients": "to the following recepients;",
   "received": "received",
   "redelegate": "Redelegate",
@@ -173,7 +173,7 @@
   "active validators": "Active Validators",
   "inactive validators": "Inactive Validators",
   "favourite": "Favourite",
-  "rank": "Rank",
+  "order": "#",
   "location": "Location",
   "voting power": "Voting Power",
   "self ratio": "Self%",
@@ -378,5 +378,7 @@
   "star now": "Star Now",
   "proposal details": "Proposal Details",
   "deposit to": "Deposit to",
-  "deposit time": "Deposit Time: {{from}} to {{to}}"
+  "deposit time": "Deposit Time: {{from}} to {{to}}",
+  "proposal with id": "# proposal {{id}}",
+  "target delegation amount": "Target delegation amount"
 }
