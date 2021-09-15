@@ -56,7 +56,8 @@ const useStyles = makeStyles(
     starButton: {
       marginTop: theme.spacing(3),
       marginLeft: theme.spacing(2),
-      borderRadius: theme.spacing(1),
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
       width: 'fit-content',
     },
     favMenuItem: {
