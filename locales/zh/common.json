@@ -176,7 +176,7 @@
   "voting power": "[zh] Voting Power",
   "self ratio": "[zh] Self%",
   "status": "[zh] Status",
-  "status popover detail": "[zh] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent urna libero, mattis nec ultrices sit amet, pharetra vitae lorem. Quisque pretium pulvinar eros",
+  "status popover detail": "[zh] The overall health of a validator within the current signed block window",
   "24h": "[zh] 24h",
   "insert address": "[zh] Insert address",
   "add address": "[zh] Add address",
