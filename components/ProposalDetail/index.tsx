@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Card, Typography, Avatar, Divider, Link } from '@material-ui/core'
+import { Box, Card, Typography, Avatar, Divider, Link, Grid } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import { useGetStyles } from './styles'
 import ActiveStatus from './ActiveStatus'
@@ -115,11 +115,28 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
               <Typography variant="h6" className={classes.number}>{`#${proposal.id}`}</Typography>
             </Box>
             <Box pl={3} flex={1}>
-              <Typography variant="subtitle1">
-                {`${t('type')}: ${t(`${proposal.type}Proposal`)}`}
-              </Typography>
-              <Typography variant="subtitle1">{`${t('description')}: `}</Typography>
-              <Typography variant="subtitle1">{proposal.description}</Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={2}>
+                  <Typography variant="h6" color="textSecondary" display="inline">
+                    {t('type')}
+                  </Typography>
+                </Grid>
+                <Grid item xs={10}>
+                  <Typography variant="subtitle1" display="inline">
+                    {`${t(`${proposal.type}Proposal`)}`}
+                  </Typography>
+                </Grid>
+                <Grid item xs={2}>
+                  <Typography variant="h6" color="textSecondary">
+                    {t('description')}
+                  </Typography>
+                </Grid>
+                <Grid item xs={10}>
+                  <Typography variant="subtitle1" display="inline">
+                    {proposal.description}
+                  </Typography>
+                </Grid>
+              </Grid>
             </Box>
           </Box>
           {proposal.tag === 'vote' ? (
