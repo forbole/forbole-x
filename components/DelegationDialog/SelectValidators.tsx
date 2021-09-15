@@ -15,6 +15,8 @@ import {
   Card,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
+import { gql, useQuery } from '@apollo/client'
+import get from 'lodash/get'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import keyBy from 'lodash/keyBy'
@@ -23,10 +25,17 @@ import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
-import { formatCrypto, formatCurrency } from '../../misc/utils'
+import {
+  formatCrypto,
+  formatCurrency,
+  getValidatorCondition,
+  getValidatorConditionClass,
+} from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIsMobile from '../../misc/useIsMobile'
 import ValidatorAvatar from '../ValidatorAvatar'
+import { getSlashingParams } from '../../graphql/queries/validators'
+import Condition from '../Condition'
 
 interface SelectValidatorsProps {
   onConfirm(delegations: Array<{ amount: number; validator: Validator }>, memo: string): void
@@ -72,6 +81,15 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const validatorsMap = keyBy(validators, 'address')
   const randomizedValidators = React.useMemo(() => shuffle(validators), [])
 
+  const { data: paramsData } = useQuery(
+    gql`
+      ${getSlashingParams(get(crypto, 'name', ''))}
+    `
+  )
+  const slashingParams = get(paramsData, ['slashing_params', 0, 'params'], {
+    signed_blocks_window: 0,
+  })
+  const signedBlockWindow = slashingParams.signed_blocks_window
   React.useMemo(() => {
     setDelegations((d) =>
       d.map((a, j) =>
@@ -159,14 +177,38 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                         )
                       )
                     }}
-                    renderOption={(address) => (
-                      <ValidatorAvatar
-                        crypto={crypto}
-                        validator={validatorsMap[address]}
-                        size="small"
-                        withoutLink
-                      />
-                    )}
+                    renderOption={(address) => {
+                      const missedBlockCounter = get(
+                        validatorsMap,
+                        [address, 'missedBlockCounter'],
+                        0
+                      )
+                      const conditionClass = getValidatorCondition(
+                        signedBlockWindow,
+                        missedBlockCounter
+                      )
+                      const condition =
+                        validatorsMap[address].status === 'active'
+                          ? getValidatorConditionClass(conditionClass)
+                          : undefined
+                      return (
+                        <Box
+                          display="flex"
+                          alignItems="center"
+                          flexDirection="row"
+                          justifyContent="space-between"
+                          width="100%"
+                        >
+                          <ValidatorAvatar
+                            crypto={crypto}
+                            validator={validatorsMap[address]}
+                            size="small"
+                            withoutLink
+                          />
+                          <Condition className={condition} />
+                        </Box>
+                      )
+                    }}
                     renderInput={({ InputProps, inputProps, ...params }) => (
                       <TextField
                         {...params}

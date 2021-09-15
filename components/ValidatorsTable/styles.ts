@@ -113,6 +113,30 @@ export const useGetStyles = (status?: string, alignRight?: boolean) => {
           textOverflow: 'ellipsis',
           whitespace: 'nowrap',
         },
+        itemWrapper: {
+          marginTop: theme.spacing(2),
+        },
+        item: {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        },
+        condition: {
+          width: theme.spacing(1),
+          height: theme.spacing(1),
+          background: theme.palette.condition.zero,
+          marginLeft: theme.spacing(1),
+          borderRadius: '50%',
+          '&.green': {
+            background: theme.palette.condition.one,
+          },
+          '&.yellow': {
+            background: theme.palette.condition.two,
+          },
+          '&.red': {
+            background: theme.palette.condition.three,
+          },
+        },
       }),
     {
       name: 'HookGlobalStyles',

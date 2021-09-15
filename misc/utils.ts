@@ -220,6 +220,11 @@ export const transformValidators = (data: any): Validator[] => {
         get(validator, 'status[0].jailed', false)
       ),
       isActive: get(validator, 'status[0].status', 0) === statuses.indexOf('active'),
+      missedBlockCounter: get(
+        validator,
+        ['validator_signing_infos', 0, 'missed_blocks_counter'],
+        0
+      ),
     }))
     .sort((a, b) => (a.name > b.name ? 1 : -1))
     .map((validator, i) => ({
@@ -704,4 +709,21 @@ export const formatHeight = (height: number, lang?: string): string =>
 export const closeAllLedgerConnections = async () => {
   const devices = await TransportWebHID.list()
   await Promise.all(devices.map((d) => d.close()))
+}
+
+export const getValidatorCondition = (signedBlockWindow: number, missedBlockCounter: number) => {
+  return (1 - missedBlockCounter / signedBlockWindow) * 100
+}
+
+export const getValidatorConditionClass = (condition: number) => {
+  let conditionClass = ''
+  if (condition > 90) {
+    conditionClass = 'green'
+  } else if (condition > 70 && condition < 90) {
+    conditionClass = 'yellow'
+  } else {
+    conditionClass = 'red'
+  }
+
+  return conditionClass
 }

@@ -20,6 +20,9 @@ subscription Validators {
       voting_power
       height
     }
+    validator_signing_infos(order_by: {height: desc}, limit: 1) {
+      missed_blocks_counter
+    }
     status: validator_statuses(limit: 1, order_by: { height: desc }) {
       status
       jailed
@@ -53,6 +56,14 @@ subscription Validators($addresses: [String!]) {
       jailed
       height
     }
+  }
+}
+`
+
+export const getSlashingParams = (crypto: string) => `
+query Validators {
+  slashing_params(order_by: {height: desc}, limit: 1) {
+    params
   }
 }
 `
