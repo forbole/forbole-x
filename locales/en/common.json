@@ -380,5 +380,7 @@
   "deposit to": "Deposit to",
   "deposit time": "Deposit Time: {{from}} to {{to}}",
   "proposal with id": "# proposal {{id}}",
-  "target delegation amount": "Target delegation amount"
+  "target delegation amount": "Target delegation amount",
+  "subspace": "Subspace",
+  "proposal subspace": "Proposal subspace"
 }

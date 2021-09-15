@@ -55,6 +55,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const { currency } = useGeneralContext()
   const isMobile = useIsMobile()
   const theme = useTheme()
+  console.log('default', defaultDelegations)
   const [delegations, setDelegations] = React.useState<
     Array<{ amount: string; validator: any; percentage: string; showSlider: boolean }>
   >(

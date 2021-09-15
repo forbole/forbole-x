@@ -50,6 +50,15 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const [title, setTitle] = React.useState('')
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
+  const [subspace, setSubspace] = React.useState('')
+  const [key, setKey] = React.useState('')
+  const [value, setValue] = React.useState('')
+
+  //  setDelegation in /components/DelegationDialog/SelectValidators.tsx
+  //  value is JSON object so the text field needs to be JSON formatted
+  const [changes, setChanges] = React.useState<
+    Array<{ subspace: string; key: string; value: any; showSlider: boolean }>
+  >([{ subspace: subspace.toString(), key: key.toString(), value: {}, showSlider: false }])
 
   const onNext = async () => {
     try {
@@ -263,22 +272,26 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
         </Box>
         {type === '/cosmos.params.v1beta1.ParameterChangeProposal' && (
           <Box mt={4}>
-            <Typography variant="button" className={classes.itemButton}>
-              {t('description')}
-            </Typography>
-            <TextField
-              fullWidth
-              multiline
-              rows={10}
-              variant="filled"
-              placeholder={t('proposal description')}
-              InputProps={{
-                disableUnderline: true,
-                className: classes.input,
-              }}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
+            <Grid container spacing={1}>
+              <Grid item xs={6}>
+                <Typography variant="button" className={classes.itemButton}>
+                  {t('subspace')}
+                </Typography>
+                <TextField
+                  fullWidth
+                  // multiline
+                  // rows={10}
+                  variant="filled"
+                  placeholder={t('proposal subspace')}
+                  InputProps={{
+                    disableUnderline: true,
+                    className: classes.input,
+                  }}
+                  value={subspace}
+                  onChange={(e) => setSubspace(e.target.value)}
+                />
+              </Grid>
+            </Grid>
           </Box>
         )}
 
