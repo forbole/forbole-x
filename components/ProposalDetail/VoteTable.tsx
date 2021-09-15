@@ -18,6 +18,7 @@ import { useGetStyles } from './styles'
 import { VoteDetail } from './index'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import TablePagination from '../TablePagination'
+import { formatCrypto, formatPercentage } from '../../misc/utils'
 // import { formatPercentage, formatCrypto } from '../../misc/utils'
 
 interface DepositTableProps {
@@ -47,18 +48,18 @@ const VoteTable: React.FC<DepositTableProps> = ({ voteDetails, crypto }) => {
     {
       label: 'voter',
     },
-    // {
-    //   label: 'voting power',
-    //   alignRight: true,
-    // },
-    // {
-    //   label: 'voting power percentage',
-    //   alignRight: true,
-    // },
-    // {
-    //   label: 'voting power override',
-    //   alignRight: true,
-    // },
+    {
+      label: 'voting power',
+      alignRight: true,
+    },
+    {
+      label: 'voting power percentage',
+      alignRight: true,
+    },
+    {
+      label: 'voting power override',
+      alignRight: true,
+    },
     {
       label: 'answer',
       alignRight: true,
@@ -115,7 +116,7 @@ const VoteTable: React.FC<DepositTableProps> = ({ voteDetails, crypto }) => {
                       </Box>
                     </Link>
                   </TableCell>
-                  {/* <TableCell align="right">
+                  <TableCell align="right">
                     <Typography variant="subtitle1">
                       {formatCrypto(v.votingPower, crypto.name, lang)}
                     </Typography>
@@ -129,7 +130,7 @@ const VoteTable: React.FC<DepositTableProps> = ({ voteDetails, crypto }) => {
                     <Typography variant="subtitle1">
                       {formatPercentage(v.votingPowerOverride, lang)}
                     </Typography>
-                  </TableCell> */}
+                  </TableCell>
                   <TableCell align="right" className={classes[v.answer]}>
                     <Typography variant="subtitle1">{t(v.answer)}</Typography>
                   </TableCell>

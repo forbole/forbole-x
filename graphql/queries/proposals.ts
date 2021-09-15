@@ -31,6 +31,7 @@ export const getDepositParams = (crypto: string): string => `
 subscription DepositParams {
   gov_params {
     deposit_params
+    tally_params
   }
 }
 `
@@ -73,6 +74,9 @@ subscription Proposal($id: Int!) {
         }
         }
       }
+    }
+    staking_pool_snapshot {
+      bonded_tokens
     }
   }
 }
@@ -136,14 +140,20 @@ subscription VoteDetail($id: Int!) {
     proposal_id
     option
     account {
+      account_balance_histories(limit: 1, order_by: {timestamp: desc}) {
+        delegated
+      }
       validator_infos {
         validator {
           validator_descriptions {
             avatar_url
             moniker
+          }
+          validator_voting_powers {
+            voting_power
+          }
         }
       }
-    }
     }
   }
 }
