@@ -190,6 +190,8 @@ interface Proposal {
   voteDetails?: VoteDetail[]
   totalDeposits?: TokenAmount
   minDeposit: TokenAmount
+  quorum: number
+  bondedTokens: number
 }
 
 interface TokenUnit {
