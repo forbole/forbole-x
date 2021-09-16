@@ -1,23 +1,23 @@
 const cryptocurrencies: { [key: string]: Cryptocurrency } = {
-  DARIC: {
-    name: 'DARIC',
+  DSM: {
+    name: 'DSM',
     prefix: 'desmos',
     ledgerAppName: 'Desmos',
     ecosystem: 'cosmos',
-    chainId: 'morpheus-apollo-2',
-    chainName: 'Desmos',
-    image: '/static/images/cryptocurrencies/dsm.png',
+    chainId: 'desmos-mainnet-1',
+    chainName: 'Desmos Mainnet',
+    image: '/static/images/cryptocurrencies/dsm.svg',
     coinType: 852,
-    graphqlHttpUrl: 'https://gql.morpheus.desmos.network/v1/graphql',
-    graphqlWsUrl: 'wss://gql.morpheus.desmos.network/v1/graphql',
-    blockExplorerBaseUrl: 'https://morpheus.desmos.network',
-    rpcEndpoint: 'https://rpc.morpheus.desmos.network',
+    graphqlHttpUrl: 'https://gql.mainnet.desmos.network/v1/graphql',
+    graphqlWsUrl: 'wss://gql-ws.mainnet.desmos.network/v1/graphql',
+    blockExplorerBaseUrl: 'https://explorer.desmos.network',
+    rpcEndpoint: 'https://rpc.mainnet.desmos.network',
     ibcChains: [
       {
-        name: 'Desmos',
+        name: 'Desmos Mainnet',
         image: '/static/images/cryptocurrencies/dsm.svg',
         channel: 'channel 1',
-        chainId: 'morpheus-apollo-2',
+        chainId: 'desmos-mainnet-1',
         addressPrefix: 'desmos',
         crypto: 'DSM',
       },
@@ -25,7 +25,7 @@ const cryptocurrencies: { [key: string]: Cryptocurrency } = {
     defaultGasFee: {
       amount: {
         amount: 0.01,
-        denom: 'udaric',
+        denom: 'udsm',
       },
       gas: {
         '/cosmos.bank.v1beta1.MsgSend': '200000',
