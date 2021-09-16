@@ -167,15 +167,16 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
             style={{ display: favAccount || !isMenuExpanded ? 'none' : 'block' }}
             className={classes.manageAccounts}
           />
-          <Button
-            href="/wallets"
-            variant="contained"
-            color="primary"
-            style={{ display: favAccount || !isMenuExpanded ? 'none' : 'block' }}
-            className={classes.starButton}
-          >
-            {t('star now')}
-          </Button>
+          <Link href="/wallets" passHref>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ display: favAccount || !isMenuExpanded ? 'none' : 'block' }}
+              className={classes.starButton}
+            >
+              {t('star now')}
+            </Button>
+          </Link>
           {accounts.map((account) => {
             const crypto = cryptocurrencies[account.crypto]
             return account.fav ? (

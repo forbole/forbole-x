@@ -25,6 +25,12 @@ interface CustomPalette extends Palette {
       border: string
     }
   }
+  condition: {
+    zero: string
+    one: string
+    two: string
+    three: string
+  }
   dialogBackground: string
   reactJsonBackground: string
   buttonDisabled: string
@@ -187,6 +193,12 @@ const lightTheme = {
         border: '#646464',
       },
     },
+    condition: {
+      zero: '#E8E8E8',
+      one: '#1EC490',
+      two: '#FF961B',
+      three: '#FC6A8A',
+    },
     dialogBackground: '#FFFFFF',
     reactJsonBackground: '#F7F7F7',
     buttonDisabled: '#BFDFFF',
@@ -279,6 +291,12 @@ const darkTheme = {
     dialogBackground: '#1D1E22',
     reactJsonBackground: '#25282D',
     buttonDisabled: '#273746',
+    condition: {
+      zero: '#E8E8E8',
+      one: '#1EC490',
+      two: '#FF961B',
+      three: '#FC6A8A',
+    },
   },
 } as unknown as ThemeOptions
 

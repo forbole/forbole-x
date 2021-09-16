@@ -5,6 +5,7 @@ import drop from 'lodash/drop'
 import keyBy from 'lodash/keyBy'
 import { format, differenceInDays } from 'date-fns'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
+import defaultDenoms from './defaultDenoms'
 
 export const formatPercentage = (percent: number, lang: string): string =>
   new Intl.NumberFormat(lang, {
@@ -17,11 +18,13 @@ export const formatCrypto = (
   amount: number,
   unit: string,
   lang: string,
-  hideUnit?: boolean
+  hideUnit?: boolean,
+  compact?: boolean
 ): string =>
   `${new Intl.NumberFormat(lang, {
     signDisplay: 'never',
-    maximumFractionDigits: 6,
+    maximumFractionDigits: compact ? 2 : 6,
+    notation: compact ? 'compact' : undefined,
   }).format(amount || 0)}${hideUnit ? '' : ` ${(unit || '').toUpperCase()}`}`
 
 export const formatCurrency = (
@@ -43,7 +46,8 @@ export const getTokenAmountFromDenoms = (
 ): TokenAmount => {
   const result = {}
   ;(coins || []).forEach((coin) => {
-    denoms.some((d) => {
+    const denomsToUse = denoms.length ? denoms : defaultDenoms
+    denomsToUse.some((d) => {
       const unit = get(d, 'token_unit.token.token_units', []).find(
         (t) => t && coin && t.denom === coin.denom
       )
@@ -218,6 +222,11 @@ export const transformValidators = (data: any): Validator[] => {
         get(validator, 'status[0].jailed', false)
       ),
       isActive: get(validator, 'status[0].status', 0) === statuses.indexOf('active'),
+      missedBlockCounter: get(
+        validator,
+        ['validator_signing_infos', 0, 'missed_blocks_counter'],
+        0
+      ),
     }))
     .sort((a, b) => (a.name > b.name ? 1 : -1))
     .map((validator, i) => ({
@@ -302,8 +311,9 @@ export const transformRedelegations = (data: any, balanceData: any): Redelegatio
 export const transformTransactions = (
   data: any,
   validatorsMap: { [address: string]: Validator },
-  tokensPrices: TokenPrice[]
+  prices: TokenPrice[]
 ): Activity[] => {
+  const tokensPrices = prices.length ? prices : defaultDenoms
   return get(data, 'messages_by_address', [])
     .map((t) => {
       if (t.type.includes('MsgSend')) {
@@ -447,7 +457,7 @@ export const getEquivalentCoinToSend = (
   availableCoins: Array<{ amount: string; denom: string }>,
   tokensPrices: TokenPrice[]
 ): { amount: number; denom: string } => {
-  const tokenPrice = tokensPrices.find(
+  const tokenPrice = (tokensPrices.length ? tokensPrices : defaultDenoms).find(
     (tp) => tp.unit_name.toLowerCase() === amount.denom.toLowerCase()
   )
   if (!tokenPrice) {
@@ -605,7 +615,7 @@ export const transformProposal = (
           address: get(x, 'depositor.address'),
         },
         amount: getTokenAmountFromDenoms(get(x, 'amount'), tokensPrices),
-        // time: `${format(new Date(x.block.timestamp), 'dd MMM yyyy HH:mm')} UTC`,
+        time: `${format(new Date(get(x, 'block.timestamp')), 'dd MMM yyyy HH:mm')} UTC`,
       }
     }),
     totalDeposits: getTokenAmountFromDenoms(totalDepositsList, tokensPrices),
@@ -615,6 +625,8 @@ export const transformProposal = (
           tokensPrices
         )
       : null,
+    quorum: get(depositParams, 'gov_params[0].tally_params.quorum', 0),
+    bondedTokens: get(p, 'staking_pool_snapshot.bonded_tokens', 0) / 10 ** 6,
   }
 }
 
@@ -677,18 +689,28 @@ export const getVoteAnswer = (answer: string) => {
   return 'veto'
 }
 
-export const transformVoteDetail = (voteDetail: any): any => {
-  return get(voteDetail, 'proposal_vote', []).map((d) => ({
-    voter: {
-      name: get(d, 'account.validator_infos[0].validator.validator_descriptions[0].moniker'),
-      image: get(d, 'account.validator_infos[0].validator.validator_descriptions[0].avatar_url'),
-      address: get(d, 'voter_address'),
-    },
-    // votingPower: 0,
-    // votingPowerPercentage: 0.1,
-    // votingPowerOverride: 0.1,
-    answer: getVoteAnswer(get(d, 'option')),
-  }))
+export const transformVoteDetail = (voteDetail: any, proposal: Proposal): any => {
+  return get(voteDetail, 'proposal_vote', []).map((d) => {
+    const isValidator = !!get(d, 'account.validator_infos', []).length
+    const votingPower = isValidator
+      ? get(d, 'account.validator_infos[0].validator.validator_voting_powers[0].voting_power', 0)
+      : Number(get(d, 'account.account_balance_histories[0].delegated[0].amount', '0')) / 10 ** 6
+    return {
+      voter: {
+        name: get(d, 'account.validator_infos[0].validator.validator_descriptions[0].moniker', ''),
+        image: get(
+          d,
+          'account.validator_infos[0].validator.validator_descriptions[0].avatar_url',
+          ''
+        ),
+        address: get(d, 'voter_address', ''),
+      },
+      votingPower,
+      votingPowerPercentage: votingPower / proposal.bondedTokens,
+      votingPowerOverride: isValidator ? 0 : votingPower / proposal.bondedTokens,
+      answer: getVoteAnswer(get(d, 'option')),
+    }
+  })
 }
 
 export const isAddressValid = (prefix: string, address: string): boolean => {
@@ -701,4 +723,21 @@ export const formatHeight = (height: number, lang?: string): string =>
 export const closeAllLedgerConnections = async () => {
   const devices = await TransportWebHID.list()
   await Promise.all(devices.map((d) => d.close()))
+}
+
+export const getValidatorCondition = (signedBlockWindow: number, missedBlockCounter: number) => {
+  return (1 - missedBlockCounter / signedBlockWindow) * 100
+}
+
+export const getValidatorConditionClass = (condition: number) => {
+  let conditionClass = ''
+  if (condition > 90) {
+    conditionClass = 'green'
+  } else if (condition > 70 && condition < 90) {
+    conditionClass = 'yellow'
+  } else {
+    conditionClass = 'red'
+  }
+
+  return conditionClass
 }
