@@ -19,7 +19,6 @@ import { VoteDetail } from './index'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import TablePagination from '../TablePagination'
 import { formatCrypto, formatPercentage } from '../../misc/utils'
-// import { formatPercentage, formatCrypto } from '../../misc/utils'
 
 interface DepositTableProps {
   voteDetails: VoteDetail[]
