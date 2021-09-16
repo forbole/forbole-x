@@ -381,5 +381,13 @@
   "deposit to": "Deposit to",
   "deposit time": "Deposit Time: {{from}} to {{to}}",
   "proposal with id": "# proposal {{id}}",
-  "target delegation amount": "Target delegation amount"
+  "target delegation amount": "Target delegation amount",
+  "edit profile": "Edit Profile",
+  "create profile": "Create Profile",
+  "nickname": "Nickname",
+  "nickname placeholder": "Nickname",
+  "dtag": "DTag",
+  "dtag placeholder": "@",
+  "bio": "Bio",
+  "bio placeholder": "Add a bio to your profile"
 }

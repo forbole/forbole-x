@@ -194,6 +194,14 @@ interface Proposal {
   bondedTokens: number
 }
 
+interface Profile {
+  bio: string
+  coverPic: string
+  dtag: string
+  nickname: string
+  profilePic: string
+}
+
 interface TokenUnit {
   denom: string
   exponent: number
