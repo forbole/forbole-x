@@ -171,6 +171,7 @@ const Account: React.FC = () => {
         />
       ) : null}
       <ProfileDialog
+        account={account}
         profile={profile}
         open={isProfileDialogOpen}
         onClose={() => setIsProfileDialogOpen(false)}

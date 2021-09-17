@@ -20,23 +20,27 @@ import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import CameraIcon from '../../assets/images/icons/icon_camera.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
+import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface ProfileDialogProps {
   open: boolean
   onClose(): void
   profile: Profile
+  account: Account
 }
 
 const ProfileDialog: React.FC<ProfileDialogProps> = ({
   profile: defaultProfile,
   open,
   onClose,
+  account,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
   const themeStyle = useTheme()
   const { theme } = useGeneralContext()
+  const { password } = useWalletsContext()
 
   const [loading, setLoading] = React.useState(false)
   const [profile, setProfile] = React.useState(defaultProfile)
@@ -48,6 +52,33 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
     }
   }, [open])
 
+  const onSubmit = React.useCallback(async () => {
+    try {
+      setLoading(true)
+      const msgs = [
+        {
+          typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile',
+          value: {
+            dtag: profile.dtag,
+            nickname: profile.nickname,
+            bio: profile.bio,
+            profilePicture: profile.profilePic,
+            coverPicture: profile.coverPic,
+            creator: account.address,
+          },
+        },
+      ]
+      await invoke(window, 'forboleX.sendTransaction', password, account.address, {
+        msgs,
+        memo: '',
+      })
+      setLoading(false)
+      onClose()
+    } catch (err) {
+      setLoading(false)
+    }
+  }, [password, account, profile])
+
   return (
     <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose}>
       <IconButton className={classes.closeButton} onClick={onClose}>
@@ -58,6 +89,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
         noValidate
         onSubmit={(e) => {
           e.preventDefault()
+          onSubmit()
         }}
       >
         <DialogContent>

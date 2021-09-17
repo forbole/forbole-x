@@ -23,6 +23,7 @@ import IBCTransferContent from './IBCTransferContent'
 import SubmitProposalContent from './SubmitProposalContent'
 import VoteContent from './VoteContent'
 import DepositContent from './DepositContent'
+import SaveProfileContent from './SaveProfileContent'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
@@ -127,6 +128,8 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             denoms={denoms}
           />
         )
+      case '/desmos.profiles.v1beta1.MsgSaveProfile':
+        return <SaveProfileContent msgs={transactionData.msgs as TransactionMsgSaveProfile[]} />
       default:
         return null
     }

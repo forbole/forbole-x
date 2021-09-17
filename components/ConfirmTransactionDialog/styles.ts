@@ -42,6 +42,20 @@ const useStyles = makeStyles(
       flex: 1,
       margin: theme.spacing(2, 1),
     },
+    coverImg: {
+      width: '100%',
+      height: theme.spacing(12),
+      objectFit: 'cover',
+    },
+    avatar: {
+      width: theme.spacing(9),
+      height: theme.spacing(9),
+      borderWidth: theme.spacing(0.25),
+      borderColor: theme.palette.background.default,
+      borderStyle: 'solid',
+      marginTop: theme.spacing(-4.5),
+      marginLeft: theme.spacing(4),
+    },
   }),
   {
     name: 'HookGlobalStyles',
