@@ -11,8 +11,7 @@ import {
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
-import JSONInput from 'react-json-editor-ajrm'
-import locale from 'react-json-editor-ajrm/locale/en'
+import ReactJson from 'react-json-view'
 import keyBy from 'lodash/keyBy'
 import invoke from 'lodash/invoke'
 import last from 'lodash/last'
@@ -24,33 +23,6 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 
 interface CreateProposalFormProps {
   account: Account
-}
-
-function JSONFormatCustom(props) {
-  const { inputRef, onChange, ...other } = props
-  console.log('others', other)
-  return (
-    <JSONInput
-      {...other}
-      getInputRef={inputRef}
-      onValueChange={(values) => {
-        onChange({
-          target: {
-            name: props.name,
-            value: values.value,
-          },
-        })
-      }}
-      id="a_unique_id"
-      // placeholder={t('proposal key')}
-      // colors={darktheme}
-      placeholder={{}}
-      locale={locale}
-      height="550px"
-      // value={value}
-      on
-    />
-  )
 }
 
 const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
@@ -70,7 +42,6 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
 
   const [crypto, setCrypto] = React.useState(account.crypto)
   const [type, setType] = React.useState('')
-  console.log('typeeeee', type)
 
   const [proposalAccount, setProposalAccount] = React.useState<Account>(account)
   const accountsMap = keyBy(accounts, 'address')
@@ -81,13 +52,16 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const [loading, setLoading] = React.useState(false)
   const [subspace, setSubspace] = React.useState('')
   const [key, setKey] = React.useState('')
-  const [value, setValue] = React.useState('')
+  const [value, setValue] = React.useState({})
 
   //  setDelegation in /components/DelegationDialog/SelectValidators.tsx
   //  value is JSON object so the text field needs to be JSON formatted
   const [changes, setChanges] = React.useState<
     Array<{ subspace: string; key: string; value: any; showSlider: boolean }>
   >([{ subspace: subspace.toString(), key: key.toString(), value: {}, showSlider: false }])
+
+  // const getParamsChangeJson = () => {}
+  console.log('value', value)
 
   React.useMemo(() => {
     setChanges((c) =>
@@ -358,21 +332,37 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                   onChange={(e) => setKey(e.target.value)}
                 />
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={8}>
                 <Typography variant="button" className={classes.itemButton}>
                   {t('value')}
                 </Typography>
-                <TextField
-                  // fullWidth
-                  // multiline
-                  // rows={10}
-                  variant="filled"
-                  placeholder={t('proposal value')}
-                  InputProps={{
-                    inputComponent: JSONFormatCustom,
-                    disableUnderline: true,
-                    className: classes.input,
+                <ReactJson
+                  theme="monokai"
+                  style={{
+                    padding: '0',
+                    backgroundColor: 'rgb(59, 59, 59))',
+                    width: '100%',
+                    // backgroundColor: ' -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))',
                   }}
+                  onEdit={(e) => {
+                    console.log('json', e)
+                    // if (e.updated_src) {
+                    //   setValue(e.updated_src)
+                    // }
+                  }}
+                  onAdd={(e) => {
+                    console.log('add callback', e)
+                    // e.updated_src.push(e.existing_src[0])
+                    // setValue(e.updated_src)
+                    // if (e.updated_src) {
+                    //   setValue(e.updated_src)
+                    //   return
+                    // }
+                  }}
+                  onDelete={(e) => {
+                    console.log('delete callback', e)
+                  }}
+                  src={{}}
                 />
               </Grid>
             </Grid>
