@@ -334,5 +334,9 @@
   "manageAccounts": "[zh] Go to wallet manage to star your account",
   "star now": "[zh] Star Now",
   "subspace": "[zh] Subspace",
-  "proposal subspace": "[zh] Proposal subspace"
+  "proposal subspace": "[zh] Proposal subspace",
+  "key": "[zh] Key",
+  "proposal key": "[zh] Proposal key",
+  "value": "[zh] Value",
+  "proposal value": "[zh] Proposal value"
 }

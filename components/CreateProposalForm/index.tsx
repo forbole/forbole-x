@@ -11,6 +11,8 @@ import {
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
+import JSONInput from 'react-json-editor-ajrm'
+import locale from 'react-json-editor-ajrm/locale/en'
 import keyBy from 'lodash/keyBy'
 import invoke from 'lodash/invoke'
 import last from 'lodash/last'
@@ -22,6 +24,33 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 
 interface CreateProposalFormProps {
   account: Account
+}
+
+function JSONFormatCustom(props) {
+  const { inputRef, onChange, ...other } = props
+  console.log('others', other)
+  return (
+    <JSONInput
+      {...other}
+      getInputRef={inputRef}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            name: props.name,
+            value: values.value,
+          },
+        })
+      }}
+      id="a_unique_id"
+      // placeholder={t('proposal key')}
+      // colors={darktheme}
+      placeholder={{}}
+      locale={locale}
+      height="550px"
+      // value={value}
+      on
+    />
+  )
 }
 
 const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
@@ -59,6 +88,26 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const [changes, setChanges] = React.useState<
     Array<{ subspace: string; key: string; value: any; showSlider: boolean }>
   >([{ subspace: subspace.toString(), key: key.toString(), value: {}, showSlider: false }])
+
+  React.useMemo(() => {
+    setChanges((c) =>
+      c.map((x, i) =>
+        i < changes.length - 1
+          ? {
+              ...x,
+              subspace: x.subspace,
+              value: x.value,
+              showSlider: false,
+            }
+          : {
+              ...x,
+              subspace: x.subspace,
+              value: x.value,
+              showSlider: false,
+            }
+      )
+    )
+  }, [changes.length])
 
   const onNext = async () => {
     try {
@@ -273,7 +322,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
         {type === '/cosmos.params.v1beta1.ParameterChangeProposal' && (
           <Box mt={4}>
             <Grid container spacing={1}>
-              <Grid item xs={6}>
+              <Grid item xs={2}>
                 <Typography variant="button" className={classes.itemButton}>
                   {t('subspace')}
                 </Typography>
@@ -289,6 +338,41 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                   }}
                   value={subspace}
                   onChange={(e) => setSubspace(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Typography variant="button" className={classes.itemButton}>
+                  {t('key')}
+                </Typography>
+                <TextField
+                  fullWidth
+                  // multiline
+                  // rows={10}
+                  variant="filled"
+                  placeholder={t('proposal key')}
+                  InputProps={{
+                    disableUnderline: true,
+                    className: classes.input,
+                  }}
+                  value={key}
+                  onChange={(e) => setKey(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Typography variant="button" className={classes.itemButton}>
+                  {t('value')}
+                </Typography>
+                <TextField
+                  // fullWidth
+                  // multiline
+                  // rows={10}
+                  variant="filled"
+                  placeholder={t('proposal value')}
+                  InputProps={{
+                    inputComponent: JSONFormatCustom,
+                    disableUnderline: true,
+                    className: classes.input,
+                  }}
                 />
               </Grid>
             </Grid>
