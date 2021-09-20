@@ -386,5 +386,10 @@
   "key": "Key",
   "proposal key": "Proposal key",
   "value": "Value",
-  "proposal value": "Proposal value"
+  "proposal value": "Proposal value",
+  "name": "Name",
+  "proposal name": "Proposal name",
+  "info": "Info",
+  "proposal height": "Proposal height",
+  "link": "Link"
 }

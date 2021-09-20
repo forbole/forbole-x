@@ -53,6 +53,9 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const [subspace, setSubspace] = React.useState('')
   const [key, setKey] = React.useState('')
   const [value, setValue] = React.useState({})
+  const [name, setName] = React.useState('')
+  const [height, setHeight] = React.useState('')
+  const [info, setInfo] = React.useState('')
 
   //  setDelegation in /components/DelegationDialog/SelectValidators.tsx
   //  value is JSON object so the text field needs to be JSON formatted
@@ -335,6 +338,107 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
               <Grid item xs={8}>
                 <Typography variant="button" className={classes.itemButton}>
                   {t('value')}
+                </Typography>
+                <ReactJson
+                  theme="monokai"
+                  style={{
+                    padding: '0',
+                    backgroundColor: 'rgb(59, 59, 59))',
+                    width: '100%',
+                    // backgroundColor: ' -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))',
+                  }}
+                  onEdit={(e) => {
+                    console.log('json', e)
+                    // if (e.updated_src) {
+                    //   setValue(e.updated_src)
+                    // }
+                  }}
+                  onAdd={(e) => {
+                    console.log('add callback', e)
+                    // e.updated_src.push(e.existing_src[0])
+                    // setValue(e.updated_src)
+                    // if (e.updated_src) {
+                    //   setValue(e.updated_src)
+                    //   return
+                    // }
+                  }}
+                  onDelete={(e) => {
+                    console.log('delete callback', e)
+                  }}
+                  src={{}}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        )}
+
+        {type === '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal' && (
+          <Box mt={4}>
+            <Grid container spacing={1}>
+              <Grid item xs={4}>
+                <Typography variant="button" className={classes.itemButton}>
+                  {t('name')}
+                </Typography>
+                <TextField
+                  fullWidth
+                  // multiline
+                  // rows={10}
+                  variant="filled"
+                  placeholder={t('proposal name')}
+                  InputProps={{
+                    disableUnderline: true,
+                    className: classes.input,
+                  }}
+                  value={name}
+                  onChange={(e) => setSubspace(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Typography variant="button" className={classes.itemButton}>
+                  {t('height')}
+                </Typography>
+                <TextField
+                  fullWidth
+                  // multiline
+                  // rows={10}
+                  variant="filled"
+                  placeholder={t('proposal height')}
+                  InputProps={{
+                    disableUnderline: true,
+                    className: classes.input,
+                  }}
+                  value={height}
+                  onChange={(e) => setKey(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Typography variant="button" className={classes.itemButton}>
+                  {t('info')}
+                </Typography>
+                <TextField
+                  fullWidth
+                  // multiline
+                  // rows={10}
+                  variant="filled"
+                  placeholder={t('link')}
+                  InputProps={{
+                    disableUnderline: true,
+                    className: classes.input,
+                  }}
+                  value={info}
+                  onChange={(e) => setKey(e.target.value)}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        )}
+
+        {type === '/cosmos.distribution.v1beta1.CommunityPoolSpendProposal' && (
+          <Box mt={4}>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <Typography variant="button" className={classes.itemButton}>
+                  {t('amount')}
                 </Typography>
                 <ReactJson
                   theme="monokai"

@@ -338,5 +338,10 @@
   "key": "[zh] Key",
   "proposal key": "[zh] Proposal key",
   "value": "[zh] Value",
-  "proposal value": "[zh] Proposal value"
+  "proposal value": "[zh] Proposal value",
+  "name": "[zh] Name",
+  "proposal name": "[zh] Proposal name",
+  "info": "[zh] Info",
+  "proposal height": "[zh] Proposal height",
+  "link": "[zh] Link"
 }
