@@ -32,9 +32,9 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onEditProfile }) => 
             <Typography variant="h4">{profile.nickname}</Typography>
             <Typography gutterBottom>@{profile.dtag}</Typography>
           </Box>
-          <Button className={classes.button} variant="outlined" onClick={onEditProfile}>
+          {/* <Button className={classes.button} variant="outlined" onClick={onEditProfile}>
             {t('edit profile')}
-          </Button>
+          </Button> */}
         </Box>
         <Typography>{profile.bio}</Typography>
       </CardContent>
