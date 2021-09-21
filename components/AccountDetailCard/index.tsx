@@ -27,6 +27,8 @@ import useIsMobile from '../../misc/useIsMobile'
 import EditAccountDialog from '../EditAccountDialog'
 
 interface AccountDetailCardProps {
+  profileExist: boolean
+  onCreateProfile(): void
   wallet: Wallet
   account: Account
   validators: Validator[]
@@ -35,6 +37,8 @@ interface AccountDetailCardProps {
 }
 
 const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
+  profileExist,
+  onCreateProfile,
   wallet,
   account,
   accountBalance,
@@ -95,6 +99,15 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
           >
             <AccountAvatar ledgerIconDisabled size="large" account={account} />
             <Box display="flex" mt={isMobile ? 2 : 0} ml={isMobile ? -2 : 0}>
+              {/* !profileExist ? (
+                <Button
+                  classes={{ root: classes.profileButton }}
+                  variant="outlined"
+                  onClick={onCreateProfile}
+                >
+                  {t('create profile')}
+                </Button>
+              ) : null */}
               <Button
                 classes={{ root: classes.fixedWidthButton }}
                 variant="contained"

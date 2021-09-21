@@ -18,11 +18,13 @@ export const formatCrypto = (
   amount: number,
   unit: string,
   lang: string,
-  hideUnit?: boolean
+  hideUnit?: boolean,
+  compact?: boolean
 ): string =>
   `${new Intl.NumberFormat(lang, {
     signDisplay: 'never',
-    maximumFractionDigits: 6,
+    maximumFractionDigits: compact ? 2 : 6,
+    notation: compact ? 'compact' : undefined,
   }).format(amount || 0)}${hideUnit ? '' : ` ${(unit || '').toUpperCase()}`}`
 
 export const formatCurrency = (
@@ -613,7 +615,7 @@ export const transformProposal = (
           address: get(x, 'depositor.address'),
         },
         amount: getTokenAmountFromDenoms(get(x, 'amount'), tokensPrices),
-        // time: `${format(new Date(x.block.timestamp), 'dd MMM yyyy HH:mm')} UTC`,
+        time: `${format(new Date(get(x, 'block.timestamp')), 'dd MMM yyyy HH:mm')} UTC`,
       }
     }),
     totalDeposits: getTokenAmountFromDenoms(totalDepositsList, tokensPrices),
@@ -623,6 +625,8 @@ export const transformProposal = (
           tokensPrices
         )
       : null,
+    quorum: get(depositParams, 'gov_params[0].tally_params.quorum', 0),
+    bondedTokens: get(p, 'staking_pool_snapshot.bonded_tokens', 0) / 10 ** 6,
   }
 }
 
@@ -685,18 +689,28 @@ export const getVoteAnswer = (answer: string) => {
   return 'veto'
 }
 
-export const transformVoteDetail = (voteDetail: any): any => {
-  return get(voteDetail, 'proposal_vote', []).map((d) => ({
-    voter: {
-      name: get(d, 'account.validator_infos[0].validator.validator_descriptions[0].moniker'),
-      image: get(d, 'account.validator_infos[0].validator.validator_descriptions[0].avatar_url'),
-      address: get(d, 'voter_address'),
-    },
-    // votingPower: 0,
-    // votingPowerPercentage: 0.1,
-    // votingPowerOverride: 0.1,
-    answer: getVoteAnswer(get(d, 'option')),
-  }))
+export const transformVoteDetail = (voteDetail: any, proposal: Proposal): any => {
+  return get(voteDetail, 'proposal_vote', []).map((d) => {
+    const isValidator = !!get(d, 'account.validator_infos', []).length
+    const votingPower = isValidator
+      ? get(d, 'account.validator_infos[0].validator.validator_voting_powers[0].voting_power', 0)
+      : Number(get(d, 'account.account_balance_histories[0].delegated[0].amount', '0')) / 10 ** 6
+    return {
+      voter: {
+        name: get(d, 'account.validator_infos[0].validator.validator_descriptions[0].moniker', ''),
+        image: get(
+          d,
+          'account.validator_infos[0].validator.validator_descriptions[0].avatar_url',
+          ''
+        ),
+        address: get(d, 'voter_address', ''),
+      },
+      votingPower,
+      votingPowerPercentage: votingPower / proposal.bondedTokens,
+      votingPowerOverride: isValidator ? 0 : votingPower / proposal.bondedTokens,
+      answer: getVoteAnswer(get(d, 'option')),
+    }
+  })
 }
 
 export const isAddressValid = (prefix: string, address: string): boolean => {
@@ -726,4 +740,14 @@ export const getValidatorConditionClass = (condition: number) => {
   }
 
   return conditionClass
+}
+
+export const transformProfile = (data: any): Profile => {
+  return {
+    bio: get(data, 'profile[0].bio', ''),
+    coverPic: get(data, 'profile[0].cover_pic', ''),
+    dtag: get(data, 'profile[0].dtag', ''),
+    nickname: get(data, 'profile[0].nickname', ''),
+    profilePic: get(data, 'profile[0].profile_pic', ''),
+  }
 }

@@ -3,40 +3,17 @@ import { CustomTheme } from '../../misc/theme'
 
 const useStyles = makeStyles(
   (theme: CustomTheme) => ({
-    button: {
-      width: theme.spacing(16),
+    title: {
+      fontSize: theme.spacing(3),
+      marginTop: theme.spacing(2),
     },
     closeButton: {
       position: 'absolute',
       top: theme.spacing(2),
       right: theme.spacing(2),
     },
-    backButton: {
-      position: 'absolute',
-      top: theme.spacing(2),
-      left: theme.spacing(2),
-    },
     dialogContent: {
       overflowY: 'auto',
-    },
-    marginLeft: {
-      marginLeft: theme.spacing(1),
-    },
-    marginBottom: {
-      marginBottom: theme.spacing(2),
-    },
-    validatorAvatar: {
-      width: theme.spacing(3.5),
-      height: theme.spacing(3.5),
-      marginRight: theme.spacing(1),
-    },
-    percentageTextField: {
-      width: theme.spacing(16),
-      marginLeft: theme.spacing(2),
-    },
-    numberInput: {
-      paddingRight: 0,
-      marginRight: theme.spacing(-1),
     },
     fullWidthButton: {
       flex: 1,
@@ -53,8 +30,29 @@ const useStyles = makeStyles(
       borderWidth: theme.spacing(0.25),
       borderColor: theme.palette.background.default,
       borderStyle: 'solid',
-      marginTop: theme.spacing(-4.5),
-      marginLeft: theme.spacing(4),
+    },
+    imgOverlay: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: theme.palette.translucent,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    avatarOverlay: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: theme.palette.translucent,
+      borderRadius: '50%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   }),
   {

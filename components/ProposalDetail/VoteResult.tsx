@@ -5,7 +5,7 @@ import { PieChart, Pie, Cell as RawCell } from 'recharts'
 import { useGetStyles } from './styles'
 import Diagram from './Diagram'
 import { VoteSummary } from './index'
-import { formatCrypto } from '../../misc/utils'
+import { formatCrypto, formatPercentage } from '../../misc/utils'
 
 // HACK: bypass incorrect prop types
 const Cell = RawCell as any
@@ -13,9 +13,10 @@ const Cell = RawCell as any
 interface VoteResultProps {
   voteSummary: VoteSummary
   crypto: Cryptocurrency
+  proposal: Proposal
 }
 
-const VoteResult: React.FC<VoteResultProps> = ({ voteSummary, crypto }) => {
+const VoteResult: React.FC<VoteResultProps> = ({ voteSummary, crypto, proposal }) => {
   const { classes } = useGetStyles()
   const { t, lang } = useTranslation('common')
   const theme = useTheme()
@@ -70,13 +71,19 @@ const VoteResult: React.FC<VoteResultProps> = ({ voteSummary, crypto }) => {
       </PieChart>
       <Box ml={4}>
         <Typography variant="subtitle1" className={classes.title}>
-          {t('voted')}
+          {t('voted and quorum percentage', {
+            voted: formatPercentage(voteSummary.amount / proposal.bondedTokens, lang),
+            quorum: formatPercentage(proposal.quorum, lang),
+          })}
         </Typography>
         <Typography variant="h4" className={classes.amount}>
           {formatCrypto(voteSummary.amount, crypto.name, lang)}
         </Typography>
         <Typography variant="subtitle1" className={classes.title}>
-          {voteSummary.description}
+          {t('voted over bonded', {
+            voted: formatCrypto(voteSummary.amount, crypto.name, lang, true, true),
+            bonded: formatCrypto(proposal.bondedTokens, crypto.name, lang, false, true),
+          })}
         </Typography>
         <Box display="flex">
           <Box m={2}>

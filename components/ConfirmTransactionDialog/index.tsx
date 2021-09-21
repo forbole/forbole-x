@@ -159,6 +159,8 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         return t('successfully deposited', {
           title: formatTokenAmount(totalAmount, crypto, lang),
         })
+      case '/desmos.profiles.v1beta1.MsgSaveProfile':
+        return t('profile was saved')
       default:
         return ''
     }
