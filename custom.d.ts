@@ -194,6 +194,14 @@ interface Proposal {
   bondedTokens: number
 }
 
+interface Profile {
+  bio: string
+  coverPic: string
+  dtag: string
+  nickname: string
+  profilePic: string
+}
+
 interface TokenUnit {
   denom: string
   exponent: number
@@ -360,6 +368,18 @@ interface TransactionMsgDeposit {
   }
 }
 
+interface TransactionMsgSaveProfile {
+  typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile'
+  value: {
+    dtag: string
+    nickname: string
+    bio: string
+    profilePicture: string
+    coverPicture: string
+    creator: string
+  }
+}
+
 type TransactionMsg =
   | TransactionMsgDelegate
   | TransactionMsgUndelegate
@@ -370,6 +390,7 @@ type TransactionMsg =
   | TransactionMsgSubmitProposal
   | TransactionMsgVote
   | TransactionMsgDeposit
+  | TransactionMsgSaveProfile
 
 interface Transaction {
   msgs: TransactionMsg[]

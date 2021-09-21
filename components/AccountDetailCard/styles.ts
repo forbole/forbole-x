@@ -21,6 +21,12 @@ const useStyles = makeStyles(
       marginLeft: theme.spacing(2),
       padding: theme.spacing(0.5),
     },
+    profileButton: {
+      width: theme.spacing(18),
+      marginLeft: theme.spacing(2),
+      padding: theme.spacing(0.5),
+      borderColor: theme.palette.iconBorder,
+    },
     iconButton: {
       borderColor: theme.palette.iconBorder,
       minWidth: 0,

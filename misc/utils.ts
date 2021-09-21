@@ -741,3 +741,13 @@ export const getValidatorConditionClass = (condition: number) => {
 
   return conditionClass
 }
+
+export const transformProfile = (data: any): Profile => {
+  return {
+    bio: get(data, 'profile[0].bio', ''),
+    coverPic: get(data, 'profile[0].cover_pic', ''),
+    dtag: get(data, 'profile[0].dtag', ''),
+    nickname: get(data, 'profile[0].nickname', ''),
+    profilePic: get(data, 'profile[0].profile_pic', ''),
+  }
+}
