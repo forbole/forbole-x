@@ -188,7 +188,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
                   setStage(CommonStage.ImportLedgerWalletStage, undefined, true)
                   // select next crypto
                 } else if (ledgerCryptos.length > ledgerAddresses.length) {
-                  const address = await getWalletAddress('', ledgerCryptos[0], 0, signer)
+                  const address = await getWalletAddress('', ledgerCryptos[0], 0, signer, true)
                   setLedgerCryptosIndex((i) => i + 1)
                   setLedgerAddresses((addresses) => [...addresses, address])
                   // save wallet on last crypto
