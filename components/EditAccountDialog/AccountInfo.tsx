@@ -15,10 +15,11 @@ import useStyles from './styles'
 interface AccountInfoProps {
   onEdit(): void
   onRemove(): void
-  onSave(moniker): void
-  onShare(): void
+  onSave(moniker: string): void
+  onShare(address: string): void
   onDetail(): void
   account: Account
+  withdrawAddress: string
 }
 
 const AccountInfo: React.FC<AccountInfoProps> = ({
@@ -28,6 +29,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
   onSave,
   onShare,
   onDetail,
+  withdrawAddress,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
@@ -61,7 +63,11 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
               <Typography color="textSecondary">{account.address}</Typography>
             </Box>
             <Box justifyContent="flex-end" display="flex" flex={1} alignItems="center">
-              <Button variant="outlined" className={classes.iconButton} onClick={onShare}>
+              <Button
+                variant="outlined"
+                className={classes.iconButton}
+                onClick={() => onShare(account.address)}
+              >
                 {t('share')}
               </Button>
             </Box>
@@ -73,10 +79,14 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
                 {t('reward address')}
                 <HelpOutline fontSize="small" className={classes.helpOutLine} onClick={onDetail} />
               </Typography>
-              <Typography color="textSecondary">{account.address}</Typography>
+              <Typography color="textSecondary">{withdrawAddress}</Typography>
             </Box>
             <Box justifyContent="flex-end" display="flex" flex={1} alignItems="center">
-              <Button variant="outlined" className={classes.iconButton} onClick={onShare}>
+              <Button
+                variant="outlined"
+                className={classes.iconButton}
+                onClick={() => onShare(withdrawAddress)}
+              >
                 {t('share')}
               </Button>
             </Box>

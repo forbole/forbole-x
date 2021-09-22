@@ -368,6 +368,14 @@ interface TransactionMsgDeposit {
   }
 }
 
+interface TransactionMsgSetWithdrawAddress {
+  typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress'
+  value: {
+    delegatorAddress: string
+    withdrawAddress: string
+  }
+}
+
 interface TransactionMsgSaveProfile {
   typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile'
   value: {
@@ -390,6 +398,7 @@ type TransactionMsg =
   | TransactionMsgSubmitProposal
   | TransactionMsgVote
   | TransactionMsgDeposit
+  | TransactionMsgSetWithdrawAddress
   | TransactionMsgSaveProfile
 
 interface Transaction {
