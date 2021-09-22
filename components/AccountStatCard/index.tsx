@@ -12,7 +12,6 @@ import { LineChart, Line, YAxis } from 'recharts'
 import UpIcon from '@material-ui/icons/ArrowDropUp'
 import DownIcon from '@material-ui/icons/ArrowDropDown'
 import useTranslation from 'next-translate/useTranslation'
-import last from 'lodash/last'
 import get from 'lodash/get'
 import { useRouter } from 'next/router'
 import { gql, useSubscription } from '@apollo/client'
@@ -26,6 +25,7 @@ import {
   formatPercentage,
   getTotalBalance,
   getTotalTokenAmount,
+  transformGqlAcountBalance,
   transformValidatorsWithTokenAmount,
 } from '../../misc/utils'
 import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
@@ -37,6 +37,7 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
 import DelegationDialog from '../DelegationDialog'
 import { getValidators } from '../../graphql/queries/validators'
+import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 
 const dailyTimestamps = dateRanges
   .find((d) => d.title === 'day')
@@ -55,32 +56,42 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const { currency } = useGeneralContext()
   const { updateAccount } = useWalletsContext()
   const router = useRouter()
+  // Historic data
   const {
     data: [accountWithBalance],
     loading,
   } = useAccountsBalancesWithinPeriod([account], dailyTimestamps)
   const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
+  const data = createEmptyChartData(
+    (get(accountWithBalance, 'balances', []) as AccountBalance[]).map((b) => getTotalBalance(b)),
+    0,
+    1
+  )
+  // Latest data
+  const { data: latestData } = useSubscription(
+    gql`
+      ${getLatestAccountBalance(account.crypto)}
+    `,
+    { variables: { address: account.address } }
+  )
   const { data: validatorsData } = useSubscription(
     gql`
       ${getValidators(crypto.name)}
     `
   )
 
-  const latestBalance = last(get(accountWithBalance, 'balances', []))
-  const tokenAmounts = getTotalTokenAmount(latestBalance).amount
-  const usdBalance = getTotalBalance(latestBalance).balance
-
-  const validators = transformValidatorsWithTokenAmount(validatorsData, latestBalance)
-  const availableTokens = get(latestBalance, 'availableTokens', {
-    coins: [],
-    tokens_prices: [],
-  })
-
-  const data = createEmptyChartData(
-    (get(accountWithBalance, 'balances', []) as AccountBalance[]).map((b) => getTotalBalance(b)),
-    0,
-    1
-  )
+  const { tokenAmounts, usdBalance, availableTokens, validators } = React.useMemo(() => {
+    const accountBalance = transformGqlAcountBalance(latestData, Date.now())
+    return {
+      tokenAmounts: getTotalTokenAmount(accountBalance).amount,
+      usdBalance: getTotalBalance(accountBalance).balance,
+      validators: transformValidatorsWithTokenAmount(validatorsData, accountBalance),
+      availableTokens: get(accountBalance, 'availableTokens', {
+        coins: [],
+        tokens_prices: [],
+      }),
+    }
+  }, [data])
 
   const firstBalance = get(data, '[0].balance', 0)
   const diff = Math.abs(usdBalance - firstBalance)
