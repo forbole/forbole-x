@@ -8,6 +8,7 @@ import {
   Grid,
   CircularProgress,
   useTheme,
+  IconButton,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
@@ -20,6 +21,9 @@ import { useGetStyles } from './styles'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
+// import { MergeTypeRounded } from '@material-ui/icons'
+// import { TransactionMsgSubmitProposal } from '../../custom'
 
 interface CreateProposalFormProps {
   account: Account
@@ -46,6 +50,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const [proposalAccount, setProposalAccount] = React.useState<Account>(account)
   const accountsMap = keyBy(accounts, 'address')
 
+  const [amount, setAmount] = React.useState({})
   const [description, setDescription] = React.useState('')
   const [title, setTitle] = React.useState('')
   const [memo, setMemo] = React.useState('')
@@ -56,35 +61,52 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const [name, setName] = React.useState('')
   const [height, setHeight] = React.useState('')
   const [info, setInfo] = React.useState('')
+  const [recipient, setRecipient] = React.useState('')
 
   //  setDelegation in /components/DelegationDialog/SelectValidators.tsx
   //  value is JSON object so the text field needs to be JSON formatted
   const [changes, setChanges] = React.useState<
-    Array<{ subspace: string; key: string; value: any; showSlider: boolean }>
-  >([{ subspace: subspace.toString(), key: key.toString(), value: {}, showSlider: false }])
+    Array<{ subspace: string; key: string; value: any }>
+  >([{ subspace: subspace.toString(), key: key.toString(), value: '' }])
+
+  console.log('changesss', changes)
+
+  const handleValueChanges = (e, i) => {
+    // console.log('hiii', e, i)
+    setChanges((d) =>
+      d.map((a, j) => (j === i ? { ...a, value: e.updated_src } : { ...a, value: '' }))
+    )
+  }
+  // { updated_src: updatedSrc }) => {
+  //   // const { input } = updatedSrc
+  //   setValue(updatedSrc)
+  //   // input.onChange(updatedSrc)
+  // }
 
   // const getParamsChangeJson = () => {}
-  console.log('value', value)
+  // console.log('value', value)
+  // console.log(
+  //   'changes',
+  //   setChanges((d) => d)
+  // )
 
-  React.useMemo(() => {
-    setChanges((c) =>
-      c.map((x, i) =>
-        i < changes.length - 1
-          ? {
-              ...x,
-              subspace: x.subspace,
-              value: x.value,
-              showSlider: false,
-            }
-          : {
-              ...x,
-              subspace: x.subspace,
-              value: x.value,
-              showSlider: false,
-            }
-      )
-    )
-  }, [changes.length])
+  // React.useMemo(() => {
+  //   setChanges((c) =>
+  //     c.map((x, i) =>
+  //       i < changes.length - 1
+  //         ? {
+  //             ...x,
+  //             subspace: x.subspace,
+  //             value: x.value,
+  //           }
+  //         : {
+  //             ...x,
+  //             subspace: x.subspace,
+  //             value: x.value,
+  //           }
+  //     )
+  //   )
+  // }, [changes.length])
 
   const onNext = async () => {
     try {
@@ -94,15 +116,57 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
         value: {
           content: {
             typeUrl: type,
-            value: {
-              title,
-              description,
-            },
+            ...(type === '/cosmos.gov.v1beta1.TextProposal' && {
+              value: {
+                title,
+                description,
+              },
+            }),
+            ...(type === '/cosmos.params.v1beta1.ParameterChangeProposal' && {
+              value: {
+                title,
+                description,
+                changes: [
+                  {
+                    subspace,
+                    key,
+                    value,
+                  },
+                ],
+                ...(changes.length >= 1 && {
+                  changes: [...changes, { subspace: '', key: '', value: '' }],
+                }),
+              },
+            }),
+            ...(type === '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal' && {
+              value: {
+                title,
+                description,
+                plan: {
+                  name,
+                  // time?: number
+                  height,
+                  info,
+                  // upgradedClientState?: any
+                },
+              },
+            }),
+            ...(type === '/cosmos.distribution.v1beta1.CommunityPoolSpendProposal' && {
+              value: {
+                title,
+                description,
+                recipient,
+                amount: {
+                  amount,
+                },
+              },
+            }),
           },
           initialDeposit: [],
           proposer: proposalAccount.address,
         },
       }
+      console.log('query', { msgs: [msg] })
       await invoke(window, 'forboleX.sendTransaction', password, proposalAccount.address, {
         msgs: [msg],
         memo,
@@ -296,81 +360,97 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
             onChange={(e) => setDescription(e.target.value)}
           />
         </Box>
-        {type === '/cosmos.params.v1beta1.ParameterChangeProposal' && (
-          <Box mt={4}>
-            <Grid container spacing={1}>
-              <Grid item xs={2}>
-                <Typography variant="button" className={classes.itemButton}>
-                  {t('subspace')}
-                </Typography>
-                <TextField
-                  fullWidth
-                  // multiline
-                  // rows={10}
-                  variant="filled"
-                  placeholder={t('proposal subspace')}
-                  InputProps={{
-                    disableUnderline: true,
-                    className: classes.input,
+        {type === '/cosmos.params.v1beta1.ParameterChangeProposal' &&
+          changes.map((c, i) => (
+            <Box mt={4}>
+              {changes.length <= 1 ? null : (
+                <IconButton
+                  onClick={() => {
+                    setChanges((d) => d.filter((a, j) => j !== i))
                   }}
-                  value={subspace}
-                  onChange={(e) => setSubspace(e.target.value)}
-                />
+                >
+                  <RemoveIcon {...iconProps} />
+                </IconButton>
+              )}
+              <Grid container spacing={1}>
+                <Grid item xs={2}>
+                  <Typography variant="button" className={classes.itemButton}>
+                    {t('subspace')}
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    // multiline
+                    // rows={10}
+                    variant="filled"
+                    placeholder={t('proposal subspace')}
+                    InputProps={{
+                      disableUnderline: true,
+                      className: classes.input,
+                    }}
+                    // value={subspace}
+                    // onChange={(prevState) => setChanges((d.map((a, j)=> ((j === i ? { ...a, subspace: e.target.value} : a)))), ...prevState)
+                    onChange={(e, input) => {
+                      setChanges((d) =>
+                        d.map((a, j) => (j === i ? { ...a, subspace: e.target.value || {} } : a))
+                      )
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <Typography variant="button" className={classes.itemButton}>
+                    {t('key')}
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    // multiline
+                    // rows={10}
+                    variant="filled"
+                    placeholder={t('proposal key')}
+                    InputProps={{
+                      disableUnderline: true,
+                      className: classes.input,
+                    }}
+                    // value={key}
+                    // onChange={(e) => setKey(e.target.value)}
+                    onChange={(e, input) => {
+                      setChanges((d) =>
+                        d.map((a, j) => (j === i ? { ...a, key: e.target.value || {} } : a))
+                      )
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="button" className={classes.itemButton}>
+                    {t('value')}
+                  </Typography>
+                  <ReactJson
+                    theme="monokai"
+                    name={null}
+                    style={{
+                      padding: '0',
+                      backgroundColor: 'rgb(59, 59, 59))',
+                      width: '100%',
+                      // backgroundColor: ' -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))',
+                    }}
+                    onEdit={(e) => handleValueChanges(e, i)}
+                    onAdd={(e) => handleValueChanges(e, i)}
+                    onDelete={(e) => handleValueChanges(e, i)}
+                    // src={changes.map((x, y) => (y === i ? value : {}))}
+                    src={value}
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={2}>
-                <Typography variant="button" className={classes.itemButton}>
-                  {t('key')}
-                </Typography>
-                <TextField
-                  fullWidth
-                  // multiline
-                  // rows={10}
-                  variant="filled"
-                  placeholder={t('proposal key')}
-                  InputProps={{
-                    disableUnderline: true,
-                    className: classes.input,
-                  }}
-                  value={key}
-                  onChange={(e) => setKey(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="button" className={classes.itemButton}>
-                  {t('value')}
-                </Typography>
-                <ReactJson
-                  theme="monokai"
-                  style={{
-                    padding: '0',
-                    backgroundColor: 'rgb(59, 59, 59))',
-                    width: '100%',
-                    // backgroundColor: ' -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))',
-                  }}
-                  onEdit={(e) => {
-                    console.log('json', e)
-                    // if (e.updated_src) {
-                    //   setValue(e.updated_src)
-                    // }
-                  }}
-                  onAdd={(e) => {
-                    console.log('add callback', e)
-                    // e.updated_src.push(e.existing_src[0])
-                    // setValue(e.updated_src)
-                    // if (e.updated_src) {
-                    //   setValue(e.updated_src)
-                    //   return
-                    // }
-                  }}
-                  onDelete={(e) => {
-                    console.log('delete callback', e)
-                  }}
-                  src={{}}
-                />
-              </Grid>
-            </Grid>
-          </Box>
-        )}
+              <Box mt={1}>
+                <Button
+                  variant="text"
+                  color="secondary"
+                  onClick={() => setChanges((x) => [...x, { subspace: '', key: '', value: '' }])}
+                >
+                  {t('add change')}
+                </Button>
+              </Box>
+            </Box>
+          ))}
 
         {type === '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal' && (
           <Box mt={4}>
@@ -436,12 +516,13 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
         {type === '/cosmos.distribution.v1beta1.CommunityPoolSpendProposal' && (
           <Box mt={4}>
             <Grid container spacing={1}>
-              <Grid item xs={12}>
+              <Grid item xs={8}>
                 <Typography variant="button" className={classes.itemButton}>
                   {t('amount')}
                 </Typography>
                 <ReactJson
                   theme="monokai"
+                  name={null}
                   style={{
                     padding: '0',
                     backgroundColor: 'rgb(59, 59, 59))',
@@ -454,19 +535,17 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                     //   setValue(e.updated_src)
                     // }
                   }}
-                  onAdd={(e) => {
-                    console.log('add callback', e)
-                    // e.updated_src.push(e.existing_src[0])
-                    // setValue(e.updated_src)
-                    // if (e.updated_src) {
-                    //   setValue(e.updated_src)
-                    //   return
-                    // }
+                  onAdd={({ updated_src: updatedSrc }) => {
+                    // const { input } = updatedSrc
+                    setAmount({
+                      changeValue: JSON.stringify(updatedSrc, undefined, 4),
+                    })
+                    // input.onChange(updatedSrc)
                   }}
                   onDelete={(e) => {
                     console.log('delete callback', e)
                   }}
-                  src={{}}
+                  src={amount}
                 />
               </Grid>
             </Grid>
