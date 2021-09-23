@@ -50,7 +50,6 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const [proposalAccount, setProposalAccount] = React.useState<Account>(account)
   const accountsMap = keyBy(accounts, 'address')
 
-  const [amount, setAmount] = React.useState({})
   const [description, setDescription] = React.useState('')
   const [title, setTitle] = React.useState('')
   const [memo, setMemo] = React.useState('')
@@ -62,6 +61,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const [height, setHeight] = React.useState('')
   const [info, setInfo] = React.useState('')
   const [recipient, setRecipient] = React.useState('')
+  const [amount, setAmount] = React.useState({})
 
   const [changes, setChanges] = React.useState<
     Array<{ subspace: string; key: string; value: any }>
@@ -69,6 +69,10 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
 
   const handleValueChanges = (e, i) => {
     setChanges((d) => d.map((a, j) => (j === i ? { ...a, value: e.updated_src } : { ...a })))
+  }
+
+  const handleAmountChanges = (e) => {
+    setAmount(e.updated_src)
   }
 
   const onNext = async () => {
@@ -104,10 +108,10 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                 description,
                 plan: {
                   name,
-                  // time?: number
+                  // time,
                   height,
                   info,
-                  // upgradedClientState?: any
+                  // upgradedClientState: any,
                 },
               },
             }),
@@ -126,7 +130,6 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
           proposer: proposalAccount.address,
         },
       }
-      console.log('query', JSON.stringify(msg))
       await invoke(window, 'forboleX.sendTransaction', password, proposalAccount.address, {
         msgs: [msg],
         memo,
@@ -324,7 +327,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
           changes.map((c, i) => (
             <Box mt={4}>
               <Grid container spacing={1}>
-                {c.length <= 1 ? null : (
+                {changes.length <= 1 ? null : (
                   <Grid item style={{ display: 'flex', alignItems: 'flex-start' }}>
                     <IconButton
                       onClick={() => {
@@ -350,8 +353,6 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                       disableUnderline: true,
                       className: classes.input,
                     }}
-                    // value={subspace}
-                    // onChange={(prevState) => setChanges((d.map((a, j)=> ((j === i ? { ...a, subspace: e.target.value} : a)))), ...prevState)
                     onChange={(e, input) => {
                       setChanges((d) =>
                         d.map((a, j) => (j === i ? { ...a, subspace: e.target.value || {} } : a))
@@ -373,8 +374,6 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                       disableUnderline: true,
                       className: classes.input,
                     }}
-                    // value={key}
-                    // onChange={(e) => setKey(e.target.value)}
                     onChange={(e, input) => {
                       setChanges((d) =>
                         d.map((a, j) => (j === i ? { ...a, key: e.target.value || {} } : a))
@@ -393,12 +392,10 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                       padding: '0',
                       backgroundColor: 'rgb(59, 59, 59))',
                       width: '100%',
-                      // backgroundColor: ' -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))',
                     }}
                     onEdit={(e) => handleValueChanges(e, i)}
                     onAdd={(e) => handleValueChanges(e, i)}
                     onDelete={(e) => handleValueChanges(e, i)}
-                    // src={changes.map((x, y) => (y === i ? value : {}))}
                     src={value}
                   />
                 </Grid>
@@ -435,7 +432,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                     className: classes.input,
                   }}
                   value={name}
-                  onChange={(e) => setSubspace(e.target.value)}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={4}>
@@ -453,7 +450,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                     className: classes.input,
                   }}
                   value={height}
-                  onChange={(e) => setKey(e.target.value)}
+                  onChange={(e) => setHeight(e.target.value)}
                 />
               </Grid>
               <Grid item xs={4}>
@@ -471,7 +468,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                     className: classes.input,
                   }}
                   value={info}
-                  onChange={(e) => setKey(e.target.value)}
+                  onChange={(e) => setInfo(e.target.value)}
                 />
               </Grid>
             </Grid>
@@ -481,34 +478,44 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
         {type === '/cosmos.distribution.v1beta1.CommunityPoolSpendProposal' && (
           <Box mt={4}>
             <Grid container spacing={1}>
+              <Grid item xs={4}>
+                <Typography variant="button" className={classes.itemButton}>
+                  {t('recipient')}
+                </Typography>
+                <TextField
+                  fullWidth
+                  // multiline
+                  // rows={10}
+                  variant="filled"
+                  placeholder={t('recipient name')}
+                  InputProps={{
+                    disableUnderline: true,
+                    className: classes.input,
+                  }}
+                  value={recipient}
+                  onChange={(e) => setRecipient(e.target.value)}
+                />
+              </Grid>
               <Grid item xs={8}>
                 <Typography variant="button" className={classes.itemButton}>
                   {t('amount')}
                 </Typography>
                 <ReactJson
                   theme="monokai"
-                  name={null}
+                  name={false}
                   style={{
                     padding: '0',
                     backgroundColor: 'rgb(59, 59, 59))',
                     width: '100%',
-                    // backgroundColor: ' -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))',
                   }}
                   onEdit={(e) => {
-                    console.log('json', e)
-                    // if (e.updated_src) {
-                    //   setValue(e.updated_src)
-                    // }
+                    handleAmountChanges(e)
                   }}
-                  onAdd={({ updated_src: updatedSrc }) => {
-                    // const { input } = updatedSrc
-                    setAmount({
-                      changeValue: JSON.stringify(updatedSrc, undefined, 4),
-                    })
-                    // input.onChange(updatedSrc)
+                  onAdd={(e) => {
+                    handleAmountChanges(e)
                   }}
                   onDelete={(e) => {
-                    console.log('delete callback', e)
+                    handleAmountChanges(e)
                   }}
                   src={amount}
                 />

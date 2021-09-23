@@ -392,5 +392,8 @@
   "info": "Info",
   "proposal height": "Proposal height",
   "link": "Link",
-  "add change": "Add Change"
+  "add change": "Add Change",
+  "add amount": "Add Amount",
+  "recipient": "Recipient",
+  "recipient name": "Recipient Name"
 }

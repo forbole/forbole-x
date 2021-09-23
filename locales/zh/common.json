@@ -344,5 +344,8 @@
   "info": "[zh] Info",
   "proposal height": "[zh] Proposal height",
   "link": "[zh] Link",
-  "add change": "[zh] Add Change"
+  "add change": "[zh] Add Change",
+  "add amount": "[zh] Add Amount",
+  "recipient": "[zh] Recipient",
+  "recipient name": "[zh] Recipient Name"
 }
