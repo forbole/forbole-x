@@ -63,50 +63,13 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const [info, setInfo] = React.useState('')
   const [recipient, setRecipient] = React.useState('')
 
-  //  setDelegation in /components/DelegationDialog/SelectValidators.tsx
-  //  value is JSON object so the text field needs to be JSON formatted
   const [changes, setChanges] = React.useState<
     Array<{ subspace: string; key: string; value: any }>
   >([{ subspace: subspace.toString(), key: key.toString(), value: '' }])
 
-  console.log('changesss', changes)
-
   const handleValueChanges = (e, i) => {
-    // console.log('hiii', e, i)
-    setChanges((d) =>
-      d.map((a, j) => (j === i ? { ...a, value: e.updated_src } : { ...a, value: '' }))
-    )
+    setChanges((d) => d.map((a, j) => (j === i ? { ...a, value: e.updated_src } : { ...a })))
   }
-  // { updated_src: updatedSrc }) => {
-  //   // const { input } = updatedSrc
-  //   setValue(updatedSrc)
-  //   // input.onChange(updatedSrc)
-  // }
-
-  // const getParamsChangeJson = () => {}
-  // console.log('value', value)
-  // console.log(
-  //   'changes',
-  //   setChanges((d) => d)
-  // )
-
-  // React.useMemo(() => {
-  //   setChanges((c) =>
-  //     c.map((x, i) =>
-  //       i < changes.length - 1
-  //         ? {
-  //             ...x,
-  //             subspace: x.subspace,
-  //             value: x.value,
-  //           }
-  //         : {
-  //             ...x,
-  //             subspace: x.subspace,
-  //             value: x.value,
-  //           }
-  //     )
-  //   )
-  // }, [changes.length])
 
   const onNext = async () => {
     try {
@@ -127,15 +90,12 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                 title,
                 description,
                 changes: [
-                  {
-                    subspace,
-                    key,
-                    value,
-                  },
+                  changes.map((x, y) => ({
+                    subspace: x.subspace,
+                    key: x.key,
+                    value: x.value,
+                  })),
                 ],
-                ...(changes.length >= 1 && {
-                  changes: [...changes, { subspace: '', key: '', value: '' }],
-                }),
               },
             }),
             ...(type === '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal' && {
@@ -166,7 +126,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
           proposer: proposalAccount.address,
         },
       }
-      console.log('query', { msgs: [msg] })
+      console.log('query', JSON.stringify(msg))
       await invoke(window, 'forboleX.sendTransaction', password, proposalAccount.address, {
         msgs: [msg],
         memo,
@@ -363,16 +323,19 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
         {type === '/cosmos.params.v1beta1.ParameterChangeProposal' &&
           changes.map((c, i) => (
             <Box mt={4}>
-              {changes.length <= 1 ? null : (
-                <IconButton
-                  onClick={() => {
-                    setChanges((d) => d.filter((a, j) => j !== i))
-                  }}
-                >
-                  <RemoveIcon {...iconProps} />
-                </IconButton>
-              )}
               <Grid container spacing={1}>
+                {c.length <= 1 ? null : (
+                  <Grid item style={{ display: 'flex', alignItems: 'flex-start' }}>
+                    <IconButton
+                      onClick={() => {
+                        setChanges((d) => d.filter((a, j) => j !== i))
+                      }}
+                    >
+                      <RemoveIcon {...iconProps} />
+                    </IconButton>
+                  </Grid>
+                )}
+
                 <Grid item xs={2}>
                   <Typography variant="button" className={classes.itemButton}>
                     {t('subspace')}
@@ -419,7 +382,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={8}>
+                <Grid item xs={7}>
                   <Typography variant="button" className={classes.itemButton}>
                     {t('value')}
                   </Typography>
@@ -440,15 +403,17 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                   />
                 </Grid>
               </Grid>
-              <Box mt={1}>
-                <Button
-                  variant="text"
-                  color="secondary"
-                  onClick={() => setChanges((x) => [...x, { subspace: '', key: '', value: '' }])}
-                >
-                  {t('add change')}
-                </Button>
-              </Box>
+              {i === changes.length - 1 && (
+                <Box mt={1}>
+                  <Button
+                    variant="text"
+                    color="secondary"
+                    onClick={() => setChanges((x) => [...x, { subspace: '', key: '', value: '' }])}
+                  >
+                    {t('add change')}
+                  </Button>
+                </Box>
+              )}
             </Box>
           ))}
 
