@@ -49,7 +49,7 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({
                   disableUnderline: true,
                 }}
                 value={oldWithdrawAddress}
-                contentEditable={false}
+                disabled
               />
             </Box>
             <Box mb={2}>
