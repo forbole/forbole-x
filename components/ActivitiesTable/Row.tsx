@@ -404,13 +404,29 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
     if (activity.tag === 'setRewardAddress') {
       return (
         <>
-          <Typography className={classes.validatorTypography}>
-            {activity.detail.srcAddress}
-          </Typography>
+          <Box mr={1}>
+            <Link
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
+              target="_blank"
+            >
+              <AccountAvatar
+                ledgerIconDisabled
+                account={account}
+                address={address}
+                hideAddress
+                size="small"
+              />
+            </Link>
+          </Box>
           <Typography>{t(`${activity.tag}Activity`)}</Typography>
-          <Typography className={classes.proposalTypography}>
-            {activity.detail.dstAddress}
-          </Typography>
+          <Link
+            className={classes.proposalTypography}
+            variant="body1"
+            href={`${crypto.blockExplorerBaseUrl}/accounts/${activity.detail.withdrawAddress}`}
+            target="_blank"
+          >
+            {activity.detail.withdrawAddress}
+          </Link>
         </>
       )
     }
