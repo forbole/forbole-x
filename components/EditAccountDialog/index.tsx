@@ -126,7 +126,11 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, on
         return {
           title: t('edit reward address'),
           content: (
-            <EditRewardAddress account={account} onNext={(r, m) => editRewardAddress(r, m)} />
+            <EditRewardAddress
+              oldWithdrawAddress={withdrawAddress}
+              onNext={(r, m) => editRewardAddress(r, m)}
+              loading={loading}
+            />
           ),
         }
       case EditAccountStage.AccountInfoStage:

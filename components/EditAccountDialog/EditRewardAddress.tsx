@@ -1,17 +1,32 @@
-import { Box, DialogContent, Typography, TextField, DialogActions, Button } from '@material-ui/core'
+import {
+  Box,
+  DialogContent,
+  Typography,
+  TextField,
+  DialogActions,
+  Button,
+  CircularProgress,
+  useTheme,
+} from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
 
 interface EditRewardAddressProps {
-  account: Account
+  oldWithdrawAddress: string
   onNext(r: string, m: string): void
+  loading: boolean
 }
 
-const EditRewardAddress: React.FC<EditRewardAddressProps> = ({ account, onNext }) => {
+const EditRewardAddress: React.FC<EditRewardAddressProps> = ({
+  oldWithdrawAddress,
+  onNext,
+  loading,
+}) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
-  const [rewardAddress, setRewardAddress] = React.useState('')
+  const theme = useTheme()
+  const [withdrawAddress, setWithdrawAddress] = React.useState('')
   const [memo, setMemo] = React.useState('')
 
   return (
@@ -19,7 +34,7 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({ account, onNext }
       noValidate
       onSubmit={(e) => {
         e.preventDefault()
-        onNext(rewardAddress, memo)
+        onNext(withdrawAddress, memo)
       }}
     >
       <DialogContent className={classes.dialogContent}>
@@ -33,7 +48,8 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({ account, onNext }
                 InputProps={{
                   disableUnderline: true,
                 }}
-                value={account.address}
+                value={oldWithdrawAddress}
+                contentEditable={false}
               />
             </Box>
             <Box mb={2}>
@@ -45,8 +61,8 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({ account, onNext }
                 InputProps={{
                   disableUnderline: true,
                 }}
-                value={rewardAddress}
-                onChange={(e) => setRewardAddress(e.target.value)}
+                value={withdrawAddress}
+                onChange={(e) => setWithdrawAddress(e.target.value)}
               />
             </Box>
             <Box>
@@ -72,10 +88,10 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({ account, onNext }
           variant="contained"
           className={classes.nextButton}
           color="primary"
-          disabled={rewardAddress === ''}
+          disabled={withdrawAddress === '' || loading}
           type="submit"
         >
-          {t('next')}
+          {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
         </Button>
       </DialogActions>
     </form>
