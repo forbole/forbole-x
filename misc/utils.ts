@@ -447,6 +447,23 @@ export const transformTransactions = (
           success: get(t, 'transaction.success', false),
         }
       }
+      if (t.type.includes('MsgSetWithdrawAddress')) {
+        return {
+          ref: `#${get(t, 'transaction_hash', '')}`,
+          tab: 'distribution',
+          tag: 'setRewardAddress',
+          date: `${format(
+            new Date(get(t, 'transaction.block.timestamp')),
+            'dd MMM yyyy HH:mm'
+          )} UTC`,
+          detail: {
+            delegatorAddress: get(t, 'value.delegator_address', ''),
+            withdrawAddress: get(t, 'value.withdraw_address', ''),
+          },
+          amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
+          success: get(t, 'transaction.success', false),
+        }
+      }
       return null
     })
     .filter((a) => !!a)

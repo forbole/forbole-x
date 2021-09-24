@@ -133,7 +133,7 @@
   "unjail": "Unjail",
   "unjailActivity": "unjaied",
   "setRewardAddress": "Set Reward Address",
-  "setRewardAddressActivity": "set reward address",
+  "setRewardAddressActivity": "set reward address to",
   "submitProposal": "Submit Proposal",
   "submitProposalActivity": "submitted a proposal",
   "toTheFollowingRecepients": "to the following recepients;",
@@ -391,5 +391,6 @@
   "dtag placeholder": "@",
   "bio": "Bio",
   "bio placeholder": "Add a bio to your profile",
-  "profile was saved": "Your profile was saved"
+  "profile was saved": "Your profile was saved",
+  "delegator address": "Delegator Address"
 }

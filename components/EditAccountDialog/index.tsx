@@ -2,32 +2,27 @@
 import { Dialog, DialogTitle, IconButton, DialogContent, Box, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import invoke from 'lodash/invoke'
 import get from 'lodash/get'
+import { useSubscription, gql } from '@apollo/client'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import ShareAddress from './ShareAddress'
 import useStateHistory from '../../misc/useStateHistory'
-import { getTokenAmountFromDenoms } from '../../misc/utils'
-import cryptocurrencies from '../../misc/cryptocurrencies'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import AccountInfo from './AccountInfo'
 import useIsMobile from '../../misc/useIsMobile'
 import EditRewardAddress from './EditRewardAddress'
-import ConfirmEdit from './ConfirmEdit'
 import RemoveAccount from './RemoveAccount'
-import Success from '../Success'
-import SecurityPassword from '../SecurityPasswordDialogContent'
+import { getWithdrawAddress } from '../../graphql/queries/withdrawAddress'
 
 enum EditAccountStage {
   AccountInfoStage = 'account info',
   RewardAddressIntroStage = 'reward address intro',
   AddressSharingStage = 'address sharing',
   EditRewardAddressStage = 'edit reward address',
-  ConfiremEditStage = 'confirm edit',
-  SecurityPasswordStage = 'security password',
-  SuccessStage = 'success',
   RemoveAccountStage = 'remove account stage',
 }
 
@@ -35,7 +30,6 @@ interface EditAccountDialogProps {
   account: Account
   open: boolean
   onClose(): void
-  availableTokens: AvailableTokens
 }
 
 interface Content {
@@ -44,30 +38,32 @@ interface Content {
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-const EditAccountDialog: React.FC<EditAccountDialogProps> = ({
-  account,
-  open,
-  onClose,
-  availableTokens,
-}) => {
+const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, onClose }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
   const { updateAccount, password } = useWalletsContext()
   const isMobile = useIsMobile()
-  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
-  const [memo, setMemo] = React.useState('')
-  const [rewardAddress, setRewardAddress] = React.useState('')
+
+  const { data } = useSubscription(
+    gql`
+      ${getWithdrawAddress(account.crypto)}
+    `,
+    { variables: { address: account.address } }
+  )
+  const withdrawAddress = get(data, 'delegation_reward[0].withdraw_address', account.address)
+
   const [loading, setLoading] = React.useState(false)
 
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<EditAccountStage>(
     EditAccountStage.AccountInfoStage
   )
+  const [sharingAddress, setSharingAddress] = React.useState(account.address)
 
   const saveMoniker = React.useCallback(
-    async (n: string) => {
+    async (name: string) => {
       try {
-        await updateAccount(account.address, { name: n })
+        await updateAccount(account.address, { name })
         onClose()
       } catch (err) {
         console.log(err)
@@ -77,79 +73,27 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({
   )
 
   const editRewardAddress = React.useCallback(
-    (r: string, m: string) => {
-      setRewardAddress(r)
-      setMemo(m)
-      setStage(EditAccountStage.ConfiremEditStage)
-    },
-    [setStage, setRewardAddress, rewardAddress]
-  )
-
-  const confirmEdit = React.useCallback(() => {
-    // add sendTransactionMessage
-    setStage(EditAccountStage.SecurityPasswordStage)
-  }, [setStage])
-
-  // add update reward address in chrome ext and add transactionData
-  const transactionData = React.useMemo(
-    () => ({
-      address: account.address,
-      password,
-      // transactions: delegations
-      //   .map((r) => {
-      //     const coinsToSend = getEquivalentCoinToSend(
-      //       { amount: r.amount, denom },
-      //       availableTokens.coins,
-      //       availableTokens.tokens_prices
-      //     )
-      //     return formatTransactionMsg(account.crypto, {
-      //       type: 'delegate',
-      //       delegator: account.address,
-      //       validator: r.validator.address,
-      //       ...coinsToSend,
-      //     })
-      //   })
-      //   .filter((a) => a),
-      gasFee: get(crypto, 'defaultGasFee', {}),
-      memo,
-    }),
-    [availableTokens, account, password, memo]
-  )
-
-  const { availableAmount, defaultGasFee } = React.useMemo(
-    () => ({
-      availableAmount: getTokenAmountFromDenoms(
-        availableTokens.coins,
-        availableTokens.tokens_prices
-      ),
-      defaultGasFee: getTokenAmountFromDenoms([], availableTokens.tokens_prices), // TODO
-    }),
-    [availableTokens]
-  )
-
-  const sendTransactionMessage = React.useCallback(
-    async (securityPassword: string) => {
+    async (newWithdrawAddress: string, memo: string) => {
       try {
-        // setLoading(true)
-        // const result = await sendMsgToChromeExt({
-        //   event: 'signAndBroadcastTransactions',
-        //   data: {
-        //     securityPassword,
-        //     ...transactionData,
-        //     transactions: transactionData.transactions.map((msg) =>
-        //       formatTypeUrlTransactionMsg(msg)
-        //     ),
-        //   },
-        // })
-        // console.log(result)
-        // setLoading(false)
-        setStage(EditAccountStage.SuccessStage, true)
+        setLoading(true)
+        const msg = {
+          typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
+          value: {
+            delegatorAddress: account.address,
+            withdrawAddress: newWithdrawAddress,
+          },
+        }
+        await invoke(window, 'forboleX.sendTransaction', password, account.address, {
+          msgs: [msg],
+          memo,
+        })
+        setLoading(false)
+        onClose()
       } catch (err) {
         setLoading(false)
-        console.log(err)
       }
     },
-    [transactionData]
+    [setStage, account]
   )
 
   const content: Content = React.useMemo(() => {
@@ -159,21 +103,6 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({
           title: t('remove account'),
           dialogWidth: 'xs',
           content: <RemoveAccount onClose={onClose} address={account.address} />,
-        }
-      case EditAccountStage.SuccessStage:
-        return {
-          dialogWidth: 'xs',
-          content: <Success onClose={onClose} content="rewards was successfully withdrew" />,
-        }
-      case EditAccountStage.SecurityPasswordStage:
-        return {
-          content: (
-            <SecurityPassword
-              walletId={account.walletId}
-              onConfirm={sendTransactionMessage}
-              loading={loading}
-            />
-          ),
         }
       case EditAccountStage.RewardAddressIntroStage:
         return {
@@ -191,27 +120,16 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({
       case EditAccountStage.AddressSharingStage:
         return {
           title: t('address sharing title'),
-          content: <ShareAddress address={account.address} />,
+          content: <ShareAddress address={sharingAddress} />,
         }
       case EditAccountStage.EditRewardAddressStage:
         return {
           title: t('edit reward address'),
           content: (
-            <EditRewardAddress account={account} onNext={(r, m) => editRewardAddress(r, m)} />
-          ),
-        }
-      case EditAccountStage.ConfiremEditStage:
-        return {
-          title: t('confirm edit title'),
-          content: (
-            <ConfirmEdit
-              newRewardAddress={rewardAddress}
-              currentRewardAddress={account.address}
-              memo={memo}
-              gasFee={defaultGasFee}
-              onConfirm={confirmEdit}
-              rawTransactionData=""
-              denom={Object.keys(availableAmount)[0]}
+            <EditRewardAddress
+              oldWithdrawAddress={withdrawAddress}
+              onNext={(r, m) => editRewardAddress(r, m)}
+              loading={loading}
             />
           ),
         }
@@ -222,11 +140,15 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({
           content: (
             <AccountInfo
               account={account}
+              withdrawAddress={withdrawAddress}
               onEdit={() => setStage(EditAccountStage.EditRewardAddressStage)}
               onRemove={() => setStage(EditAccountStage.RemoveAccountStage)}
               onSave={saveMoniker}
               onDetail={() => setStage(EditAccountStage.RewardAddressIntroStage)}
-              onShare={() => setStage(EditAccountStage.AddressSharingStage)}
+              onShare={(address) => {
+                setStage(EditAccountStage.AddressSharingStage)
+                setSharingAddress(address)
+              }}
             />
           ),
         }
@@ -235,7 +157,6 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({
 
   React.useEffect(() => {
     if (open) {
-      setMemo('')
       setLoading(false)
       setStage(EditAccountStage.AccountInfoStage, true)
     }

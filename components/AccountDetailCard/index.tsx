@@ -247,7 +247,6 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
         open={editAccountDialogOpen}
         onClose={() => setEditAccountDialogOpen(false)}
         account={account}
-        availableTokens={availableTokens}
       />
     </>
   )

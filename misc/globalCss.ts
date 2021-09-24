@@ -43,6 +43,9 @@ const GlobalCss = withStyles(
       '.MuiFilledInput-root.Mui-focused': {
         backgroundColor: theme.palette.grey[50],
       },
+      '.MuiFilledInput-root.Mui-disabled': {
+        backgroundColor: theme.palette.grey[50],
+      },
       '.MuiFilledInput-root:hover': {
         backgroundColor: theme.palette.grey[50],
       },
