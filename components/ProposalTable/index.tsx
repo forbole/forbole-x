@@ -88,7 +88,7 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, crypto }) => 
                     )}
                   </Box>
                 </Box>
-                <Divider className={classes.divider} />
+                {proposals.length > 1 && <Divider className={classes.divider} />}
               </Box>
             </Link>
           )
