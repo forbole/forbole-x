@@ -89,7 +89,7 @@ export const useGetStyles = (color?: string, status?: string) => {
         },
         tableRow: {
           '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.grey[400],
+            backgroundColor: theme.palette.grey[50],
           },
         },
         title: {
