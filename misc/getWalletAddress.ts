@@ -29,10 +29,9 @@ const getWalletAddress = async (
     } as any)
   }
   const accounts = await signer.getAccounts()
-  // throwing an error when adding wallet from ledger:
-  // if (showAddressOnLedger) {
-  //   await signer.showAddressAndPubKey(accounts[0].address, cryptocurrencies[crypto].prefix)
-  // }
+  if (ledgerTransport && showAddressOnLedger) {
+    await signer.showAddressAndPubKey(accounts[0].address, cryptocurrencies[crypto].prefix)
+  }
   return accounts[0].address
 }
 
