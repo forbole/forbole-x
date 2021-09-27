@@ -1,4 +1,4 @@
-import { Breadcrumbs, Link as MLink, Card, Box, Typography, Button } from '@material-ui/core'
+import { Breadcrumbs, Link as MLink } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -16,6 +16,7 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 import { getValidators } from '../../graphql/queries/validators'
 import {
   transformGqlAcountBalance,
+  transformProfile,
   transformRedelegations,
   transformTransactions,
   transformUnbonding,
@@ -26,6 +27,9 @@ import { getRedelegations } from '../../graphql/queries/redelegations'
 import { getTransactions } from '../../graphql/queries/transactions'
 import AccountBalanceCard from '../../components/AccountBalanceCard'
 import IBCTransferDialog from '../../components/IBCTransferDialog'
+import ProfileCard from '../../components/ProfileCard'
+import { getProfile } from '../../graphql/queries/profile'
+import ProfileDialog from '../../components/ProfileDialog'
 
 const Account: React.FC = () => {
   const router = useRouter()
@@ -71,6 +75,14 @@ const Account: React.FC = () => {
     }
   )
 
+  const { data } = useSubscription(
+    gql`
+      ${getProfile(crypto.name)}
+    `,
+    { variables: { address: account ? account.address : '' } }
+  )
+  const profile = transformProfile(data)
+
   const validators = transformValidatorsWithTokenAmount(validatorsData, balanceData)
   const unbondings = transformUnbonding(validatorsData, balanceData)
   const redelegations = transformRedelegations(redelegationsData, balanceData)
@@ -94,6 +106,7 @@ const Account: React.FC = () => {
   )
 
   const [isIBCDialogOpen, setIsIBCDialogOpen] = React.useState(false)
+  const [isProfileDialogOpen, setIsProfileDialogOpen] = React.useState(false)
 
   return (
     <Layout
@@ -110,8 +123,13 @@ const Account: React.FC = () => {
         ) : null
       }
     >
+      {profile.dtag ? (
+        <ProfileCard profile={profile} onEditProfile={() => setIsProfileDialogOpen(true)} />
+      ) : null}
       {account ? (
         <AccountDetailCard
+          profileExist={!!profile.dtag}
+          onCreateProfile={() => setIsProfileDialogOpen(true)}
           wallet={wallet}
           account={account}
           validators={validators}
@@ -152,6 +170,12 @@ const Account: React.FC = () => {
           onClose={() => setIsIBCDialogOpen(false)}
         />
       ) : null}
+      <ProfileDialog
+        account={account}
+        profile={profile}
+        open={isProfileDialogOpen}
+        onClose={() => setIsProfileDialogOpen(false)}
+      />
     </Layout>
   )
 }

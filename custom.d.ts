@@ -118,6 +118,7 @@ interface Validator {
   rewards?: TokenAmount
   delegated?: TokenAmount
   unbonding?: TokenAmount
+  missedBlockCounter: number
 }
 
 interface Unbonding {
@@ -189,6 +190,16 @@ interface Proposal {
   voteDetails?: VoteDetail[]
   totalDeposits?: TokenAmount
   minDeposit: TokenAmount
+  quorum: number
+  bondedTokens: number
+}
+
+interface Profile {
+  bio: string
+  coverPic: string
+  dtag: string
+  nickname: string
+  profilePic: string
 }
 
 interface TokenUnit {
@@ -357,6 +368,26 @@ interface TransactionMsgDeposit {
   }
 }
 
+interface TransactionMsgSetWithdrawAddress {
+  typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress'
+  value: {
+    delegatorAddress: string
+    withdrawAddress: string
+  }
+}
+
+interface TransactionMsgSaveProfile {
+  typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile'
+  value: {
+    dtag: string
+    nickname: string
+    bio: string
+    profilePicture: string
+    coverPicture: string
+    creator: string
+  }
+}
+
 type TransactionMsg =
   | TransactionMsgDelegate
   | TransactionMsgUndelegate
@@ -367,6 +398,8 @@ type TransactionMsg =
   | TransactionMsgSubmitProposal
   | TransactionMsgVote
   | TransactionMsgDeposit
+  | TransactionMsgSetWithdrawAddress
+  | TransactionMsgSaveProfile
 
 interface Transaction {
   msgs: TransactionMsg[]

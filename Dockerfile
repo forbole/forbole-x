@@ -10,6 +10,7 @@ COPY patches /app/patches
 RUN yarn install
 
 COPY . /app
+COPY /misc/cryptocurrencies.prod.ts /app/misc/cryptocurrencies.ts
 RUN yarn build
 
 CMD [ "yarn", "start" ]

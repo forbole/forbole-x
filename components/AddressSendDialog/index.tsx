@@ -71,7 +71,7 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
   const { availableAmount, availableTokens } = getAvailableAmount()
 
   const onConfirm = React.useCallback(
-    async (r: { amount: { amount: number; denom: string }; address: string }, m: string) => {
+    async (r: { amount: { amount: number; denom: string }; address: string }) => {
       try {
         setLoading(true)
         const coinsToSend = getEquivalentCoinToSend(
@@ -125,16 +125,13 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
         noValidate
         onSubmit={(e) => {
           e.preventDefault()
-          onConfirm(
-            {
-              address: sender.address,
-              amount: {
-                amount: Number(amount),
-                denom: crypto.name,
-              },
+          onConfirm({
+            address: sender.address,
+            amount: {
+              amount: Number(amount),
+              denom: crypto.name,
             },
-            memo
-          )
+          })
         }}
       >
         <DialogContent>

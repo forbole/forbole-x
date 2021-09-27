@@ -28,9 +28,9 @@ export interface VoteDetail {
     image: string
     address: string
   }
-  // votingPower: number
-  // votingPowerPercentage: number
-  // votingPowerOverride: number
+  votingPower: number
+  votingPowerPercentage: number
+  votingPowerOverride: number
   answer: string
 }
 
@@ -150,7 +150,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
       </Card>
       <Card className={classes.card}>
         <Box m={4}>
-          <VoteResult voteSummary={voteSummary} crypto={crypto} />
+          <VoteResult voteSummary={voteSummary} crypto={crypto} proposal={proposal} />
           <VoteTable voteDetails={voteDetails} crypto={crypto} />
         </Box>
       </Card>

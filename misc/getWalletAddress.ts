@@ -7,7 +7,8 @@ const getWalletAddress = async (
   mnemonic: string,
   crypto: string,
   index: number,
-  ledgerTransport?: any
+  ledgerTransport?: any,
+  showAddressOnLedger?: boolean
 ): Promise<string> => {
   // if (crypto === 'SOL') {
   //   const { getPubkeyFromConfig, SignerConfig } = await import('bd-solana-wasm')
@@ -28,6 +29,9 @@ const getWalletAddress = async (
     } as any)
   }
   const accounts = await signer.getAccounts()
+  if (ledgerTransport && showAddressOnLedger) {
+    await signer.showAddressAndPubKey(accounts[0].address, cryptocurrencies[crypto].prefix)
+  }
   return accounts[0].address
 }
 

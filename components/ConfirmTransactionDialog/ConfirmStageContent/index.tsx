@@ -23,6 +23,8 @@ import IBCTransferContent from './IBCTransferContent'
 import SubmitProposalContent from './SubmitProposalContent'
 import VoteContent from './VoteContent'
 import DepositContent from './DepositContent'
+import SaveProfileContent from './SaveProfileContent'
+import SetWithdrawAddressContent from './SetWithdrawAddressContent'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
@@ -125,6 +127,15 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             msgs={transactionData.msgs as TransactionMsgDeposit[]}
             account={account}
             denoms={denoms}
+          />
+        )
+      case '/desmos.profiles.v1beta1.MsgSaveProfile':
+        return <SaveProfileContent msgs={transactionData.msgs as TransactionMsgSaveProfile[]} />
+      case '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress':
+        return (
+          <SetWithdrawAddressContent
+            account={account}
+            msgs={transactionData.msgs as TransactionMsgSetWithdrawAddress[]}
           />
         )
       default:

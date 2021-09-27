@@ -35,7 +35,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
         <>
           <Box mr={1}>
             <Link
-              href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
               target="_blank"
             >
               <AccountAvatar
@@ -65,7 +65,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
         <>
           <Box mr={1}>
             <Link
-              href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
               target="_blank"
             >
               <AccountAvatar
@@ -107,7 +107,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
         <>
           <Box mr={1}>
             <Link
-              href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
               target="_blank"
             >
               <AccountAvatar
@@ -137,7 +137,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
         <>
           <Box mr={1}>
             <Link
-              href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
               target="_blank"
             >
               <AccountAvatar
@@ -172,7 +172,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
         <>
           <Box mr={1}>
             <Link
-              href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
               target="_blank"
             >
               <AccountAvatar
@@ -242,7 +242,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
       return (
         <>
           <Avatar className={classes.accountAvatar} alt={accountDetail.name} src={crypto.image} />
-          <Typography className={classes.validatorTypography}>{account.name}</Typography>
+          <Typography className={classes.validatorTypography}>{accountDetail.name}</Typography>
           <Typography>
             {t(`${activity.tag}Activity`)}
             <span className={classes.amount}>
@@ -267,7 +267,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
         <>
           <Box mr={1}>
             <Link
-              href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
               target="_blank"
             >
               <AccountAvatar
@@ -309,7 +309,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
         <>
           <Box mr={1}>
             <Link
-              href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
               target="_blank"
             >
               <AccountAvatar
@@ -344,7 +344,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
           {activity.detail.fromAddress === accountDetail.address ? (
             <Box mr={1}>
               <Link
-                href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+                href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
                 target="_blank"
               >
                 <AccountAvatar
@@ -376,7 +376,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
           {activity.detail.toAddress === accountDetail.address ? (
             <Box ml={1}>
               <Link
-                href={`${crypto.blockExplorerBaseUrl}/accounts/${account.address}`}
+                href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
                 target="_blank"
               >
                 <AccountAvatar
@@ -404,13 +404,29 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
     if (activity.tag === 'setRewardAddress') {
       return (
         <>
-          <Typography className={classes.validatorTypography}>
-            {activity.detail.srcAddress}
-          </Typography>
+          <Box mr={1}>
+            <Link
+              href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
+              target="_blank"
+            >
+              <AccountAvatar
+                ledgerIconDisabled
+                account={account}
+                address={address}
+                hideAddress
+                size="small"
+              />
+            </Link>
+          </Box>
           <Typography>{t(`${activity.tag}Activity`)}</Typography>
-          <Typography className={classes.proposalTypography}>
-            {activity.detail.dstAddress}
-          </Typography>
+          <Link
+            className={classes.proposalTypography}
+            variant="body1"
+            href={`${crypto.blockExplorerBaseUrl}/accounts/${activity.detail.withdrawAddress}`}
+            target="_blank"
+          >
+            {activity.detail.withdrawAddress}
+          </Link>
         </>
       )
     }

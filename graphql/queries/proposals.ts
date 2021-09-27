@@ -31,6 +31,7 @@ export const getDepositParams = (crypto: string): string => `
 subscription DepositParams {
   gov_params {
     deposit_params
+    tally_params
   }
 }
 `
@@ -62,59 +63,27 @@ subscription Proposal($id: Int!) {
     status
     proposal_deposits {
       amount
+      block {
+        timestamp
+      }
       depositor {
         address
         validator_infos {
-         validator {
-          validator_descriptions {
-            moniker
-            avatar_url
+          validator {
+            validator_descriptions {
+              moniker
+              avatar_url
+            }
           }
         }
-        }
       }
+    }
+    staking_pool_snapshot {
+      bonded_tokens
     }
   }
 }
 `
-
-// export const getProposers = (crypto: string): string => `
-// query Account {
-//   account(where: {validator_infos: {operator_address: {_neq: "null"}}}) {
-//     address
-//     validator_infos {
-//       operator_address
-//       validator {
-//         validator_descriptions {
-//           avatar_url
-//           identity
-//           moniker
-//           validator_address
-//         }
-//       }
-//     }
-//   }
-// }
-// `
-
-// export const getProposer = (crypto: string): string => `
-// query Account($address: String!) {
-//   account(where: {address: {_eq: $address}}) {
-//     address
-//     validator_infos {
-//       operator_address
-//       validator {
-//         validator_descriptions {
-//           avatar_url
-//           identity
-//           moniker
-//           validator_address
-//         }
-//       }
-//     }
-//   }
-// }
-// `
 
 export const getProposalResult = (crypto: string): string => `
 subscription ProposalResult($id: Int!) {
@@ -136,14 +105,20 @@ subscription VoteDetail($id: Int!) {
     proposal_id
     option
     account {
+      account_balance_histories(limit: 1, order_by: {timestamp: desc}) {
+        delegated
+      }
       validator_infos {
         validator {
           validator_descriptions {
             avatar_url
             moniker
+          }
+          validator_voting_powers {
+            voting_power
+          }
         }
       }
-    }
     }
   }
 }

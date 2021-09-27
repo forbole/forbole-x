@@ -2,11 +2,10 @@ import { Breadcrumbs, Link as MLink, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { gql, useSubscription, useQuery } from '@apollo/client'
+import { gql, useSubscription } from '@apollo/client'
 import React from 'react'
 import get from 'lodash/get'
 import Layout from '../../../components/Layout'
-import { useWalletsContext } from '../../../contexts/WalletsContext'
 import cryptocurrencies from '../../../misc/cryptocurrencies'
 import ProposalDetail from '../../../components/ProposalDetail'
 import {
@@ -62,7 +61,7 @@ const Proposal: React.FC = () => {
 
   const proposal = transformProposal(proposalData, balanceData, depositParamsData)
   const voteSummary = transformVoteSummary(proporslReaultData)
-  const voteDetail = transformVoteDetail(voteDetailData)
+  const voteDetail = transformVoteDetail(voteDetailData, proposal)
 
   return (
     <Layout
