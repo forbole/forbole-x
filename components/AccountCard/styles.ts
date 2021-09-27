@@ -5,9 +5,9 @@ const useStyles = makeStyles(
     container: {
       padding: theme.spacing(2),
       cursor: 'pointer',
-      // '&:hover': {
-      //   backgroundColor: ""
-      // }
+      '&:hover': {
+        backgroundColor: theme.palette.menuBackground,
+      },
     },
   }),
   {
