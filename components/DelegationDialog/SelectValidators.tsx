@@ -64,8 +64,6 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const { currency } = useGeneralContext()
   const isMobile = useIsMobile()
   const theme = useTheme()
-  console.log('default', defaultDelegations)
-  // import react-json-view for users to input raw JSON data
   const [delegations, setDelegations] = React.useState<
     Array<{ amount: string; validator: any; percentage: string; showSlider: boolean }>
   >(

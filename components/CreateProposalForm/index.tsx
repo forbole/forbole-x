@@ -12,7 +12,6 @@ import {
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
-import ReactJson from 'react-json-view'
 import keyBy from 'lodash/keyBy'
 import invoke from 'lodash/invoke'
 import last from 'lodash/last'
@@ -22,6 +21,7 @@ import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.sv
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
+import TokenAmountInput from '../TokenAmountInput'
 // import { MergeTypeRounded } from '@material-ui/icons'
 // import { TransactionMsgSubmitProposal } from '../../custom'
 
@@ -45,6 +45,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   ]
 
   const [crypto, setCrypto] = React.useState(account.crypto)
+  const network = cryptocurrencies[crypto]
   const [type, setType] = React.useState('')
 
   const [proposalAccount, setProposalAccount] = React.useState<Account>(account)
@@ -54,26 +55,15 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const [title, setTitle] = React.useState('')
   const [memo, setMemo] = React.useState('')
   const [loading, setLoading] = React.useState(false)
-  const [subspace, setSubspace] = React.useState('')
-  const [key, setKey] = React.useState('')
-  const [value, setValue] = React.useState({})
   const [name, setName] = React.useState('')
   const [height, setHeight] = React.useState('')
   const [info, setInfo] = React.useState('')
   const [recipient, setRecipient] = React.useState('')
-  const [amount, setAmount] = React.useState({})
+  const [amount, setAmount] = React.useState('')
 
   const [changes, setChanges] = React.useState<
-    Array<{ subspace: string; key: string; value: any }>
-  >([{ subspace: subspace.toString(), key: key.toString(), value: '' }])
-
-  const handleValueChanges = (e, i) => {
-    setChanges((d) => d.map((a, j) => (j === i ? { ...a, value: e.updated_src } : { ...a })))
-  }
-
-  const handleAmountChanges = (e) => {
-    setAmount(e.updated_src)
-  }
+    Array<{ subspace: string; key: string; value: string }>
+  >([{ subspace: '', key: '', value: '' }])
 
   const onNext = async () => {
     try {
@@ -120,9 +110,12 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                 title,
                 description,
                 recipient,
-                amount: {
-                  amount,
-                },
+                amount: [
+                  {
+                    amount: String(Number(amount) * 10 ** 6), // TODO: handle by token_units
+                    denom: network.defaultGasFee.amount.denom,
+                  },
+                ],
               },
             }),
           },
@@ -145,11 +138,11 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
       <Box display="flex" alignItems="center" mb={2}>
         <Typography variant="h1">{t('create proposal')}</Typography>
       </Box>
-      <Box pt={4}>
+      <Box pt={3}>
         <Typography variant="button" className={classes.itemButton}>
           {t('address')}
         </Typography>
-        <Box display="flex" alignItems="center" ml={0} mb={4}>
+        <Box display="flex" alignItems="center" mb={3}>
           <Autocomplete
             options={accounts.filter((a) => a.crypto === crypto).map(({ address }) => address)}
             getOptionLabel={(option) =>
@@ -195,12 +188,12 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
             )}
           />
         </Box>
-        <Grid container spacing={1}>
+        <Grid container spacing={4}>
           <Grid item xs={6}>
             <Typography variant="button" className={classes.itemButton}>
               {t('network')}
             </Typography>
-            <Box display="flex" alignItems="center" mr={4}>
+            <Box display="flex" alignItems="center">
               <Autocomplete
                 options={Object.keys(cryptocurrencies)}
                 getOptionLabel={(option) => cryptocurrencies[option].chainName}
@@ -288,7 +281,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
           </Grid>
         </Grid>
 
-        <Box mt={4}>
+        <Box mt={3}>
           <Typography variant="button" className={classes.itemButton}>
             {t('title')}
           </Typography>
@@ -305,14 +298,14 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
           />
         </Box>
 
-        <Box mt={4}>
+        <Box mt={3}>
           <Typography variant="button" className={classes.itemButton}>
             {t('description')}
           </Typography>
           <TextField
             fullWidth
             multiline
-            rows={10}
+            rows={8}
             variant="filled"
             placeholder={t('proposal description')}
             InputProps={{
@@ -325,82 +318,81 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
         </Box>
         {type === '/cosmos.params.v1beta1.ParameterChangeProposal' &&
           changes.map((c, i) => (
-            <Box mt={4}>
-              <Grid container spacing={1}>
-                {changes.length <= 1 ? null : (
-                  <Grid item style={{ display: 'flex', alignItems: 'flex-start' }}>
-                    <IconButton
-                      onClick={() => {
-                        setChanges((d) => d.filter((a, j) => j !== i))
-                      }}
-                    >
-                      <RemoveIcon {...iconProps} />
-                    </IconButton>
-                  </Grid>
-                )}
-
-                <Grid item xs={2}>
+            <Box mt={3}>
+              <Grid container spacing={4}>
+                <Grid item xs={3}>
                   <Typography variant="button" className={classes.itemButton}>
                     {t('subspace')}
                   </Typography>
                   <TextField
                     fullWidth
-                    // multiline
-                    // rows={10}
                     variant="filled"
                     placeholder={t('proposal subspace')}
                     InputProps={{
                       disableUnderline: true,
                       className: classes.input,
                     }}
-                    onChange={(e, input) => {
+                    onChange={(e) => {
                       setChanges((d) =>
-                        d.map((a, j) => (j === i ? { ...a, subspace: e.target.value || {} } : a))
+                        d.map((a, j) => (j === i ? { ...a, subspace: e.target.value } : a))
                       )
                     }}
                   />
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={4}>
                   <Typography variant="button" className={classes.itemButton}>
                     {t('key')}
                   </Typography>
                   <TextField
                     fullWidth
-                    // multiline
-                    // rows={10}
                     variant="filled"
                     placeholder={t('proposal key')}
                     InputProps={{
                       disableUnderline: true,
                       className: classes.input,
                     }}
-                    onChange={(e, input) => {
+                    onChange={(e) => {
                       setChanges((d) =>
-                        d.map((a, j) => (j === i ? { ...a, key: e.target.value || {} } : a))
+                        d.map((a, j) => (j === i ? { ...a, key: e.target.value } : a))
                       )
                     }}
                   />
                 </Grid>
-                <Grid item xs={7}>
+                <Grid item xs={4}>
                   <Typography variant="button" className={classes.itemButton}>
                     {t('value')}
                   </Typography>
-                  <ReactJson
-                    theme="monokai"
-                    name={null}
-                    style={{
-                      padding: '0',
-                      backgroundColor: 'rgb(59, 59, 59))',
-                      width: '100%',
+                  <TextField
+                    fullWidth
+                    multiline
+                    variant="filled"
+                    placeholder={t('proposal value')}
+                    InputProps={{
+                      disableUnderline: true,
+                      className: classes.input,
                     }}
-                    onEdit={(e) => handleValueChanges(e, i)}
-                    onAdd={(e) => handleValueChanges(e, i)}
-                    onDelete={(e) => handleValueChanges(e, i)}
-                    src={value}
+                    onChange={(e) => {
+                      setChanges((d) =>
+                        d.map((a, j) => (j === i ? { ...a, value: e.target.value } : a))
+                      )
+                    }}
                   />
                 </Grid>
+                {changes.length <= 1 ? null : (
+                  <Grid item xs={1}>
+                    <Box mt={3.5}>
+                      <IconButton
+                        onClick={() => {
+                          setChanges((d) => d.filter((a, j) => j !== i))
+                        }}
+                      >
+                        <RemoveIcon {...iconProps} />
+                      </IconButton>
+                    </Box>
+                  </Grid>
+                )}
               </Grid>
-              {i === changes.length - 1 && (
+              {i === changes.length - 1 ? (
                 <Box mt={1}>
                   <Button
                     variant="text"
@@ -410,21 +402,19 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                     {t('add change')}
                   </Button>
                 </Box>
-              )}
+              ) : null}
             </Box>
           ))}
 
         {type === '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal' && (
-          <Box mt={4}>
-            <Grid container spacing={1}>
+          <Box mt={3}>
+            <Grid container spacing={4}>
               <Grid item xs={4}>
                 <Typography variant="button" className={classes.itemButton}>
                   {t('name')}
                 </Typography>
                 <TextField
                   fullWidth
-                  // multiline
-                  // rows={10}
                   variant="filled"
                   placeholder={t('proposal name')}
                   InputProps={{
@@ -441,8 +431,6 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                 </Typography>
                 <TextField
                   fullWidth
-                  // multiline
-                  // rows={10}
                   variant="filled"
                   placeholder={t('proposal height')}
                   InputProps={{
@@ -459,8 +447,6 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                 </Typography>
                 <TextField
                   fullWidth
-                  // multiline
-                  // rows={10}
                   variant="filled"
                   placeholder={t('link')}
                   InputProps={{
@@ -476,16 +462,14 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
         )}
 
         {type === '/cosmos.distribution.v1beta1.CommunityPoolSpendProposal' && (
-          <Box mt={4}>
-            <Grid container spacing={1}>
-              <Grid item xs={4}>
+          <Box mt={3}>
+            <Grid container spacing={4}>
+              <Grid item xs={6}>
                 <Typography variant="button" className={classes.itemButton}>
                   {t('recipient')}
                 </Typography>
                 <TextField
                   fullWidth
-                  // multiline
-                  // rows={10}
                   variant="filled"
                   placeholder={t('recipient name')}
                   InputProps={{
@@ -496,35 +480,27 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                   onChange={(e) => setRecipient(e.target.value)}
                 />
               </Grid>
-              <Grid item xs={8}>
+              <Grid item xs={6}>
                 <Typography variant="button" className={classes.itemButton}>
                   {t('amount')}
                 </Typography>
-                <ReactJson
-                  theme="monokai"
-                  name={false}
-                  style={{
-                    padding: '0',
-                    backgroundColor: 'rgb(59, 59, 59))',
-                    width: '100%',
+                <TokenAmountInput
+                  value={amount}
+                  placeholder="0"
+                  denom={crypto}
+                  onValueChange={(a) => setAmount(a)}
+                  onDenomChange={() => null}
+                  availableAmount={{ [crypto]: { amount: 0, price: 0 } }}
+                  InputProps={{
+                    className: classes.input,
                   }}
-                  onEdit={(e) => {
-                    handleAmountChanges(e)
-                  }}
-                  onAdd={(e) => {
-                    handleAmountChanges(e)
-                  }}
-                  onDelete={(e) => {
-                    handleAmountChanges(e)
-                  }}
-                  src={amount}
                 />
               </Grid>
             </Grid>
           </Box>
         )}
 
-        <Box mt={4}>
+        <Box mt={3}>
           <Typography variant="button" className={classes.itemButton}>
             {t('memo')}
           </Typography>

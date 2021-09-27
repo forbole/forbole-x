@@ -6,7 +6,7 @@ const cryptocurrencies: { [key: string]: Cryptocurrency } = {
     ecosystem: 'cosmos',
     chainId: 'morpheus-apollo-2',
     chainName: 'Desmos',
-    image: '/static/images/cryptocurrencies/dsm.png',
+    image: '/static/images/cryptocurrencies/dsm.svg',
     coinType: 852,
     graphqlHttpUrl: 'https://gql.morpheus.desmos.network/v1/graphql',
     graphqlWsUrl: 'wss://gql.morpheus.desmos.network/v1/graphql',
