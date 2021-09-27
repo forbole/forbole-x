@@ -5,9 +5,9 @@ export const useGetStyles = (tag?: string) => {
   const useStyles = makeStyles((theme: CustomTheme) =>
     createStyles({
       rowHeader: {
-        background: theme.palette.grey[400],
+        background: theme.palette.grey[50],
         padding: theme.spacing(2),
-        color: theme.palette.grey[500],
+        color: theme.palette.grey[400],
         display: 'flex',
         justifyContent: 'space-between',
       },

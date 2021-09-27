@@ -1,7 +1,7 @@
 import { Box, Card, Typography, useTheme, IconButton, CircularProgress } from '@material-ui/core'
 import React from 'react'
-import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation'
+import { useRouter } from 'next/router'
 import { gql, useSubscription } from '@apollo/client'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
@@ -32,6 +32,7 @@ const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled }
   const { lang } = useTranslation('common')
   const { currency } = useGeneralContext()
   const { updateAccount } = useWalletsContext()
+  const router = useRouter()
   const { data, loading } = useSubscription(
     gql`
       ${getLatestAccountBalance(account.crypto)}
@@ -52,35 +53,46 @@ const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled }
   }, [account.address, account.fav, updateAccount])
 
   return (
-    <Link key={account.address} href="/account/[address]" as={`/account/${account.address}`}>
-      <Card className={classes.container}>
-        <Box id="" mb={5} display="flex" alignItems="flex-start" justifyContent="space-between">
-          <AccountAvatar account={account} ledgerIconDisabled={ledgerIconDisabled} />
-          <AccountMenuButton accountAddress={account.address} />
-        </Box>
-        <Box display="flex" alignItems="flex-end" justifyContent="space-between">
-          {loading ? (
-            <Box my={0.5} mx={4}>
-              <CircularProgress />
-            </Box>
+    <Card
+      className={classes.container}
+      onClick={(e) => {
+        const targetClassName = String((e.target as any).className)
+        if (
+          targetClassName.includes('MuiBox') ||
+          targetClassName.includes('MuiCard') ||
+          targetClassName.includes('MuiTypography') ||
+          targetClassName.includes('MuiAvatar')
+        ) {
+          router.push(`/account/${account.address}`)
+        }
+      }}
+    >
+      <Box mb={5} display="flex" alignItems="flex-start" justifyContent="space-between">
+        <AccountAvatar account={account} ledgerIconDisabled={ledgerIconDisabled} />
+        <AccountMenuButton accountAddress={account.address} />
+      </Box>
+      <Box display="flex" alignItems="flex-end" justifyContent="space-between">
+        {loading ? (
+          <Box my={0.5} mx={4}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <Box>
+            <Typography variant="h4">
+              {formatTokenAmount(tokenAmounts, account.crypto, lang)}
+            </Typography>
+            <Typography variant="h6">{formatCurrency(usdBalance, currency, lang)}</Typography>
+          </Box>
+        )}
+        <IconButton onClick={toggleFav}>
+          {account.fav ? (
+            <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
           ) : (
-            <Box>
-              <Typography variant="h4">
-                {formatTokenAmount(tokenAmounts, account.crypto, lang)}
-              </Typography>
-              <Typography variant="h6">{formatCurrency(usdBalance, currency, lang)}</Typography>
-            </Box>
+            <StarIcon {...iconProps} />
           )}
-          <IconButton onClick={toggleFav}>
-            {account.fav ? (
-              <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
-            ) : (
-              <StarIcon {...iconProps} />
-            )}
-          </IconButton>
-        </Box>
-      </Card>
-    </Link>
+        </IconButton>
+      </Box>
+    </Card>
   )
 }
 
