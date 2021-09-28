@@ -431,6 +431,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                 </Typography>
                 <TextField
                   fullWidth
+                  type="number"
                   variant="filled"
                   placeholder={t('proposal height')}
                   InputProps={{
