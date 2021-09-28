@@ -17,9 +17,6 @@ const useStyles = makeStyles(
       overflow: 'hidden',
       display: 'inline-block',
     },
-    addressButton: {
-      display: 'contents',
-    },
     wrapText: {
       maxWidth: theme.spacing(18),
       textOverflow: 'ellipsis',

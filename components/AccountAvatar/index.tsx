@@ -1,4 +1,4 @@
-import { Box, Avatar, Typography, Link, Snackbar, useTheme } from '@material-ui/core'
+import { Box, Avatar, Typography, Snackbar, useTheme, IconButton } from '@material-ui/core'
 import React from 'react'
 import { Alert } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
@@ -58,10 +58,14 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
     titleVariant = 'h3'
   }
 
-  const copyText = React.useCallback(() => {
-    navigator.clipboard.writeText(account ? account.address : address.address)
-    setIsCopySuccess(true)
-  }, [account?.address, address?.address])
+  const copyText = React.useCallback(
+    (e) => {
+      e.stopPropagation()
+      navigator.clipboard.writeText(account ? account.address : address.address)
+      setIsCopySuccess(true)
+    },
+    [account?.address, address?.address]
+  )
 
   return (
     <>
@@ -70,24 +74,14 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
         <Box mx={1}>
           <Typography variant={titleVariant}>{account ? account.name : address.moniker}</Typography>
           {hideAddress || disableCopyAddress ? null : (
-            <Link
-              color="textSecondary"
-              component="button"
-              onClick={copyText}
-              className={classes.addressButton}
-            >
-              <Link
-                variant="body2"
-                color="textSecondary"
-                component="button"
-                className={classes.address}
-              >
+            <Box display="flex" alignItems="center" my={-1}>
+              <Typography color="textSecondary" variant="body2">
                 {account ? account.address : address.address}
-              </Link>
-              <Box display="inline" ml={1}>
+              </Typography>
+              <IconButton onClick={copyText}>
                 <CopyIcon {...iconProps} />
-              </Box>
-            </Link>
+              </IconButton>
+            </Box>
           )}
           {disableCopyAddress && !hideAddress ? (
             <Typography variant="body2" color="textSecondary">

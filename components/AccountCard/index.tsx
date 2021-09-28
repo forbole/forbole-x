@@ -57,12 +57,17 @@ const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled }
       className={classes.container}
       onClick={(e) => {
         const targetClassName = String((e.target as any).className)
-        if (targetClassName.includes('MuiBox-root') || targetClassName.includes('MuiCard-root')) {
+        if (
+          targetClassName.includes('MuiBox') ||
+          targetClassName.includes('MuiCard') ||
+          targetClassName.includes('MuiTypography') ||
+          targetClassName.includes('MuiAvatar')
+        ) {
           router.push(`/account/${account.address}`)
         }
       }}
     >
-      <Box id="" mb={5} display="flex" alignItems="flex-start" justifyContent="space-between">
+      <Box mb={5} display="flex" alignItems="flex-start" justifyContent="space-between">
         <AccountAvatar account={account} ledgerIconDisabled={ledgerIconDisabled} />
         <AccountMenuButton accountAddress={account.address} />
       </Box>
