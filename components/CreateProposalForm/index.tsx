@@ -22,8 +22,6 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
 import TokenAmountInput from '../TokenAmountInput'
-// import { MergeTypeRounded } from '@material-ui/icons'
-// import { TransactionMsgSubmitProposal } from '../../custom'
 
 interface CreateProposalFormProps {
   account: Account
