@@ -141,6 +141,11 @@ export const useGetStyles = (color?: string, status?: string) => {
             borderRadius: theme.spacing(2),
           },
         },
+        detailTable: {
+          '& th,td': {
+            fontSize: theme.typography.body1.fontSize,
+          },
+        },
       }),
     {
       name: 'HookGlobalStyles',

@@ -163,7 +163,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
                       </Typography>
                     </Grid>
                     <Grid item xs={10}>
-                      <Table>
+                      <Table className={classes.detailTable}>
                         <TableBody>
                           <TableRow className={classes.tableRow}>
                             <TableCell>{t('name')}</TableCell>
@@ -201,7 +201,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
                       </Typography>
                     </Grid>
                     <Grid item xs={10}>
-                      <Table>
+                      <Table className={classes.detailTable}>
                         <TableHead>
                           <TableRow>
                             <TableCell>{t('subspace')}</TableCell>
