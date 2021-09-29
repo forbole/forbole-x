@@ -10,8 +10,8 @@ exports[`component: PasswordInput renders correctly 1`] = `
   >
     <input
       aria-invalid={false}
+      autoComplete="one-time-code"
       autoFocus={false}
-      autocomplete="one-time-code"
       className="MuiInputBase-input MuiFilledInput-input MuiInputBase-inputAdornedEnd MuiFilledInput-inputAdornedEnd"
       disabled={false}
       onAnimationStart={[Function]}
@@ -68,8 +68,8 @@ exports[`component: PasswordInput renders correctly when password is shown 1`] =
   >
     <input
       aria-invalid={false}
+      autoComplete="one-time-code"
       autoFocus={false}
-      autocomplete="one-time-code"
       className="MuiInputBase-input MuiFilledInput-input MuiInputBase-inputAdornedEnd MuiFilledInput-inputAdornedEnd"
       disabled={false}
       onAnimationStart={[Function]}
@@ -130,8 +130,8 @@ Array [
     >
       <input
         aria-invalid={false}
+        autoComplete="one-time-code"
         autoFocus={false}
-        autocomplete="one-time-code"
         className="MuiInputBase-input MuiFilledInput-input MuiInputBase-inputAdornedEnd MuiFilledInput-inputAdornedEnd"
         disabled={false}
         onAnimationStart={[Function]}
@@ -224,8 +224,8 @@ Array [
     >
       <input
         aria-invalid={false}
+        autoComplete="one-time-code"
         autoFocus={false}
-        autocomplete="one-time-code"
         className="MuiInputBase-input MuiFilledInput-input MuiInputBase-inputAdornedEnd MuiFilledInput-inputAdornedEnd"
         disabled={false}
         onAnimationStart={[Function]}
@@ -318,8 +318,8 @@ Array [
     >
       <input
         aria-invalid={false}
+        autoComplete="one-time-code"
         autoFocus={false}
-        autocomplete="one-time-code"
         className="MuiInputBase-input MuiFilledInput-input MuiInputBase-inputAdornedEnd MuiFilledInput-inputAdornedEnd"
         disabled={false}
         onAnimationStart={[Function]}

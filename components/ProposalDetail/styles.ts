@@ -91,6 +91,7 @@ export const useGetStyles = (color?: string, status?: string) => {
           '&:nth-of-type(odd)': {
             backgroundColor: theme.palette.grey[50],
           },
+          verticalAlign: 'baseline',
         },
         title: {
           color: theme.palette.text.secondary,

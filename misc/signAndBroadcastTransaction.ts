@@ -55,10 +55,15 @@ const formatTransactionMsg = (msg: TransactionMsg) => {
   ) {
     set(
       transformedMsg,
+      'value.content.value.plan.height',
+      new Long(get(transformedMsg, 'value.content.value.plan.height', 0))
+    )
+    set(
+      transformedMsg,
       'value.content.value',
       Uint8Array.from(
         SoftwareUpgradeProposal.encode(
-          SoftwareUpgradeProposal.fromPartial(get(msg, 'value.content.value'))
+          SoftwareUpgradeProposal.fromPartial(get(transformedMsg, 'value.content.value'))
         ).finish()
       )
     )
@@ -110,6 +115,9 @@ const signAndBroadcastCosmosTransaction = async (
     transactionData.fee,
     transactionData.memo
   )
+  if (!result.rawLog.match(/^\[/)) {
+    throw new Error(result.rawLog)
+  }
   return result
 }
 

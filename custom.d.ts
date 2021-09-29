@@ -192,6 +192,7 @@ interface Proposal {
   minDeposit: TokenAmount
   quorum: number
   bondedTokens: number
+  content?: any
 }
 
 interface Profile {
@@ -311,7 +312,7 @@ interface TransactionMsgSubmitProposal {
           value: {
             description: string
             title: string
-            changes: { supspace: string; key: string; value: string }[]
+            changes: { subspace: string; key: string; value: string }[]
           }
         }
       | {
