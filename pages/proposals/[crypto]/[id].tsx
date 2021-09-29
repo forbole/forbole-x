@@ -16,6 +16,7 @@ import {
 } from '../../../graphql/queries/proposals'
 import { transformProposal, transformVoteSummary, transformVoteDetail } from '../../../misc/utils'
 import { getLatestAccountBalance } from '../../../graphql/queries/accountBalances'
+import { getTokensPrices } from '../../../graphql/queries/tokensPrices'
 
 const Proposal: React.FC = () => {
   const router = useRouter()
@@ -58,6 +59,10 @@ const Proposal: React.FC = () => {
     `,
     { variables: { id } }
   )
+  const { data: denomsData } = useSubscription(gql`
+    ${getTokensPrices(crypto.name)}
+  `)
+  const denoms = get(denomsData, 'token_price', [])
 
   const proposal = transformProposal(proposalData, balanceData, depositParamsData)
   const voteSummary = transformVoteSummary(proporslReaultData)
@@ -82,6 +87,7 @@ const Proposal: React.FC = () => {
         colors={['#28C989', '#1C86FC', '#FD248C', '#FD7522']}
         voteSummary={voteSummary}
         voteDetails={voteDetail}
+        denoms={denoms}
       />
     </Layout>
   )

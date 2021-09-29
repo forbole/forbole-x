@@ -1,6 +1,21 @@
 import React from 'react'
-import { Box, Card, Typography, Avatar, Divider, Link, Grid } from '@material-ui/core'
+import {
+  Box,
+  Card,
+  Typography,
+  Avatar,
+  Divider,
+  Link,
+  Grid,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+} from '@material-ui/core'
+import Linkify from 'react-linkify'
 import useTranslation from 'next-translate/useTranslation'
+import get from 'lodash/get'
 import { useGetStyles } from './styles'
 import ActiveStatus from './ActiveStatus'
 import DepositTable from './DepositTable'
@@ -11,6 +26,7 @@ import InActiveStatus from './InActiveStatus'
 import VoteDialog from '../VoteDialog'
 import VoteResult from './VoteResult'
 import VoteTable from './VoteTable'
+import { formatTokenAmount, getTokenAmountFromDenoms } from '../../misc/utils'
 
 export interface VoteSummary {
   amount: number
@@ -50,6 +66,7 @@ interface ProposalDetailProps {
   voteSummary?: VoteSummary
   colors?: [string, string, string, string]
   voteDetails?: VoteDetail[]
+  denoms: TokenPrice[]
 }
 
 const TimeContent: React.FC<{ proposal: Proposal }> = ({ proposal }) => {
@@ -67,9 +84,10 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
   crypto,
   voteSummary,
   voteDetails,
+  denoms,
 }) => {
   const { classes } = useGetStyles()
-  const { t } = useTranslation('common')
+  const { t, lang } = useTranslation('common')
   const [voteDialogOpen, setVoteDialogOpen] = React.useState(false)
 
   return (
@@ -136,6 +154,111 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
                     {proposal.description}
                   </Typography>
                 </Grid>
+                {/* Software Upgrade Proposal */}
+                {get(proposal, 'content.plan') ? (
+                  <>
+                    <Grid item xs={2}>
+                      <Typography variant="h6" color="textSecondary">
+                        {t('plan')}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <Table>
+                        <TableBody>
+                          <TableRow className={classes.tableRow}>
+                            <TableCell>{t('name')}</TableCell>
+                            <TableCell>{get(proposal, 'content.plan.name', '')}</TableCell>
+                          </TableRow>
+                          <TableRow className={classes.tableRow}>
+                            <TableCell>{t('height')}</TableCell>
+                            <TableCell>{get(proposal, 'content.plan.height', '')}</TableCell>
+                          </TableRow>
+                          <TableRow className={classes.tableRow}>
+                            <TableCell>{t('info')}</TableCell>
+                            <TableCell>
+                              <Linkify
+                                componentDecorator={(href, text) => (
+                                  <Link target="_blank" href={href}>
+                                    {text}
+                                  </Link>
+                                )}
+                              >
+                                {get(proposal, 'content.plan.info', '')}
+                              </Linkify>
+                            </TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </Grid>
+                  </>
+                ) : null}
+                {/* Params Change Proposal */}
+                {get(proposal, 'content.changes') ? (
+                  <>
+                    <Grid item xs={2}>
+                      <Typography variant="h6" color="textSecondary">
+                        {t('changes')}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>{t('subspace')}</TableCell>
+                            <TableCell>{t('key')}</TableCell>
+                            <TableCell>{t('value')}</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {get(proposal, 'content.changes', []).map((c, i) => (
+                            <TableRow key={String(i)} className={classes.tableRow}>
+                              <TableCell>{get(c, 'subspace', '')}</TableCell>
+                              <TableCell>{get(c, 'key', '')}</TableCell>
+                              <TableCell>{get(c, 'value', '')}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </Grid>
+                  </>
+                ) : null}
+                {/* Community Spend Proposal */}
+                {get(proposal, 'content.recipient') ? (
+                  <>
+                    <Grid item xs={2}>
+                      <Typography variant="h6" color="textSecondary">
+                        {t('recipient')}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <Link
+                        variant="subtitle1"
+                        target="_blank"
+                        href={`${crypto.blockExplorerBaseUrl}/accounts/${get(
+                          proposal,
+                          'content.recipient',
+                          ''
+                        )}`}
+                      >
+                        {get(proposal, 'content.recipient', '')}
+                      </Link>
+                    </Grid>
+                    <Grid item xs={2}>
+                      <Typography variant="h6" color="textSecondary">
+                        {t('amount')}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <Typography variant="subtitle1" display="inline">
+                        {formatTokenAmount(
+                          getTokenAmountFromDenoms(get(proposal, 'content.amount', []), denoms),
+                          crypto.name,
+                          lang
+                        )}
+                      </Typography>
+                    </Grid>
+                  </>
+                ) : null}
               </Grid>
             </Box>
           </Box>

@@ -192,6 +192,7 @@ interface Proposal {
   minDeposit: TokenAmount
   quorum: number
   bondedTokens: number
+  content?: any
 }
 
 interface Profile {

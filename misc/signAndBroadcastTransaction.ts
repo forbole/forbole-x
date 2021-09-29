@@ -115,6 +115,9 @@ const signAndBroadcastCosmosTransaction = async (
     transactionData.fee,
     transactionData.memo
   )
+  if (!result.rawLog.match(/^\[/)) {
+    throw new Error(result.rawLog)
+  }
   return result
 }
 
