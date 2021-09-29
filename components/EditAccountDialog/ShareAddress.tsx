@@ -13,16 +13,16 @@ import { Alert } from '@material-ui/lab'
 import QRCode from 'qrcode.react'
 import {
   FacebookShareButton,
-  FacebookIcon,
   TwitterShareButton,
-  TwitterIcon,
   TelegramShareButton,
-  TelegramIcon,
   WhatsappShareButton,
-  WhatsappIcon,
   EmailShareButton,
-  EmailIcon,
 } from 'react-share'
+import FacebookIcon from '../../assets/images/icons/facebook.svg'
+import TwitterIcon from '../../assets/images/icons/twitter.svg'
+import TelegramIcon from '../../assets/images/icons/telegram.svg'
+import WhatsappIcon from '../../assets/images/icons/whatsapp.svg'
+import EmailIcon from '../../assets/images/icons/gmail.svg'
 import useStyles from './styles'
 import { CustomTheme } from '../../misc/theme'
 

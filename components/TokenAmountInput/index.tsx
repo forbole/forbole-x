@@ -11,7 +11,6 @@ import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.sv
 import useIconProps from '../../misc/useIconProps'
 
 interface TokenAmountInputProps extends Partial<FilledTextFieldProps> {
-  value: string
   denom: string
   onValueChange(value: string): void
   onDenomChange(denom: string): void
@@ -19,13 +18,12 @@ interface TokenAmountInputProps extends Partial<FilledTextFieldProps> {
 }
 
 const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
-  value,
   denom,
   onValueChange,
   onDenomChange,
   availableAmount,
-  error,
-  helperText,
+  InputProps = {},
+  ...props
 }) => {
   const iconProps = useIconProps()
   const [anchor, setAnchor] = React.useState<Element>()
@@ -75,13 +73,12 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
             </Menu>
           </InputAdornment>
         ),
+        ...InputProps,
       }}
       placeholder="0"
       type="number"
-      value={value}
       onChange={(e) => onValueChange(e.target.value)}
-      error={error}
-      helperText={helperText}
+      {...props}
     />
   )
 }

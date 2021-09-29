@@ -644,6 +644,7 @@ export const transformProposal = (
       : null,
     quorum: get(depositParams, 'gov_params[0].tally_params.quorum', 0),
     bondedTokens: get(p, 'staking_pool_snapshot.bonded_tokens', 0) / 10 ** 6,
+    content: get(p, 'content'),
   }
 }
 
