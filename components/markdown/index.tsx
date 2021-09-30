@@ -1,16 +1,6 @@
 import React from 'react'
 import ReactMarkdown from 'markdown-to-jsx'
-// import { withStyles } from '@material-ui/core/styles';
-import {
-  Typography,
-  // Link,
-} from '@material-ui/core'
-
-// const styles = (theme) => ({
-//   listItem: {
-//     marginTop: theme.spacing(1),
-//   },
-// });
+import { Typography, Link } from '@material-ui/core'
 
 const options = {
   disableParsingRawHTML: true,
@@ -70,15 +60,13 @@ const options = {
         variant: 'body1',
       },
     },
-    // li: {
-    //   component: withStyles(styles)(({
-    //     classes, ...props
-    //   }: any) => (
-    //     <li className={classes.listItem}>
-    //       <Typography component="span" {...props} />
-    //     </li>
-    //   )),
-    // },
+    a: {
+      component: Link,
+      props: {
+        target: '_blank',
+        onClick: (e) => e.stopPropagation(),
+      },
+    },
   },
 }
 

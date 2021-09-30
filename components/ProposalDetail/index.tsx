@@ -27,7 +27,7 @@ import VoteDialog from '../VoteDialog'
 import VoteResult from './VoteResult'
 import VoteTable from './VoteTable'
 import { formatTokenAmount, getTokenAmountFromDenoms } from '../../misc/utils'
-import Markdown from '../markdown'
+import Markdown from '../Markdown'
 
 export interface VoteSummary {
   amount: number
@@ -128,7 +128,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
           </Box>
           <Divider className={classes.divider} />
         </Box>
-        <Box p={4} pb={20} style={{ position: 'relative' }}>
+        <Box p={4} style={{ position: 'relative' }}>
           <Box display="flex">
             <Box>
               <Typography variant="h6" className={classes.number}>{`#${proposal.id}`}</Typography>
@@ -152,7 +152,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
                 </Grid>
                 <Grid item xs={10}>
                   <Typography variant="subtitle1" display="inline">
-                    <Markdown>{proposal.description}</Markdown>
+                    <Markdown>{proposal.description || ''}</Markdown>
                   </Typography>
                 </Grid>
                 {/* Software Upgrade Proposal */}
