@@ -4,7 +4,7 @@ import useTranslation from 'next-translate/useTranslation'
 import Layout from '../components/Layout'
 import AddressBookTable from '../components/AddressBook'
 import AddAddressDialog from '../components/AddAddressDialog'
-import { CustomTheme } from '../../misc/theme'
+import { CustomTheme } from '../misc/theme'
 
 const AddressBook: React.FC = () => {
   const { t } = useTranslation('common')
