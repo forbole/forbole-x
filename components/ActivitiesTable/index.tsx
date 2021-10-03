@@ -75,7 +75,6 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({
               >
                 <Link
                   href={`${crypto.blockExplorerBaseUrl}/transactions/${a.ref.replace('#', '')}`}
-                  color="textSecondary"
                   variant="body2"
                   className={classes.wrapText}
                   target="_blank"
