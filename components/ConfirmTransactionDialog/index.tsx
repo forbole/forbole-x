@@ -248,6 +248,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
             <ConnectLedgerDialogContent
               onConnect={(ledgerSigner) => confirm(undefined, ledgerSigner)}
               ledgerAppName={cryptocurrencies[account.crypto].ledgerAppName}
+              signTransaction
             />
           ),
         }

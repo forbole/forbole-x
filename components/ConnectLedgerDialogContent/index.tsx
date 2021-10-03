@@ -4,22 +4,54 @@ import React from 'react'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
 import { LaunchpadLedger } from '@cosmjs/ledger-amino'
 import LedgerImage from '../../assets/images/ledger.svg'
+import LedgerSignImage from '../../assets/images/sign_ledger.svg'
+import LedgerSignPinImage from '../../assets/images/sign_ledger_with_PIN.svg'
+import LedgerOpenAppImage from '../../assets/images/ledger_open_app.svg'
+import LedgerViewTxImage from '../../assets/images/ledger_view_tx.svg'
+import LedgerSignTxImage from '../../assets/images/ledger_sign_tx.svg'
 import useStyles from './styles'
 import { closeAllLedgerConnections } from '../../misc/utils'
 
 interface ConnectLedgerDialogContentProps {
   onConnect(transport: any): void
   ledgerAppName?: string
+  signTransaction?: boolean
 }
+
+const signInstructions = [
+  {
+    image: LedgerSignImage,
+    description: 'sign ledger instruction 1',
+  },
+  {
+    image: LedgerSignPinImage,
+    description: 'sign ledger instruction 1',
+  },
+  {
+    image: LedgerOpenAppImage,
+    description: 'open ledger app instruction',
+  },
+  {
+    image: LedgerViewTxImage,
+    description: 'sign ledger instruction 2',
+  },
+  {
+    image: LedgerSignTxImage,
+    description: 'sign ledger instruction 2',
+  },
+]
 
 let retryTimeout
 
 const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
   onConnect,
   ledgerAppName,
+  signTransaction,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
+  const [instruction, setInstruction] = React.useState(signInstructions[0])
+  const Svg = instruction.image
 
   const connectLedger = React.useCallback(async () => {
     let transport
@@ -47,6 +79,7 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
 
   React.useEffect(() => {
     connectLedger()
+    signInstructions.forEach((item, i) => setTimeout(() => setInstruction(item), (i + 1) * 5000))
     return () => clearTimeout(retryTimeout)
   }, [connectLedger])
 
@@ -55,14 +88,29 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
       <DialogTitle>{t('connect ledger')}</DialogTitle>
       <DialogContentText>{t('connect ledger description')}</DialogContentText>
       <Box display="flex" flexDirection="column" alignItems="center" mb={6}>
-        <LedgerImage />
-        <Box mt={4}>
-          <Typography>
-            {ledgerAppName
-              ? t('open ledger app instruction', { ledgerAppName })
-              : t('connect ledger instruction')}
-          </Typography>
-        </Box>
+        {signTransaction ? (
+          <>
+            <Svg />
+            <Box mt={4}>
+              <Typography align="center">
+                {ledgerAppName
+                  ? t(instruction.description, { ledgerAppName })
+                  : t('connect ledger instruction')}
+              </Typography>
+            </Box>
+          </>
+        ) : (
+          <>
+            <LedgerImage />
+            <Box mt={4}>
+              <Typography>
+                {ledgerAppName
+                  ? t('open ledger app instruction', { ledgerAppName })
+                  : t('connect ledger instruction')}
+              </Typography>
+            </Box>
+          </>
+        )}
       </Box>
     </DialogContent>
   )
