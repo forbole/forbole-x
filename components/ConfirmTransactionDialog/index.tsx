@@ -11,7 +11,7 @@ import useStyles from './styles'
 import useIsMobile from '../../misc/useIsMobile'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import { getTokensPrices } from '../../graphql/queries/tokensPrices'
-// import CloseIcon from '../../assets/images/icons/icon_cross.svg'
+import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useIconProps from '../../misc/useIconProps'
 import { getValidatorsByAddresses } from '../../graphql/queries/validators'
@@ -24,6 +24,7 @@ import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useSignerInfo from '../../misc/useSignerInfo'
 import signAndBroadcastTransaction from '../../misc/signAndBroadcastTransaction'
+import useIsChromeExt from '../../misc/useIsChromeExt'
 
 enum ConfirmTransactionStage {
   ConfirmStage = 'confirm',
@@ -56,6 +57,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const classes = useStyles()
   const isMobile = useIsMobile()
   const iconProps = useIconProps()
+  const isChromeExt = useIsChromeExt()
 
   const { accounts, password, wallets } = useWalletsContext()
   const account = accounts.find((a) => a.address === address)
@@ -184,6 +186,14 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
 
   const [loading, setLoading] = React.useState(false)
 
+  const closeDialog = React.useCallback(() => {
+    if (isChromeExt) {
+      onClose()
+    } else {
+      sendMsgToChromeExt({ event: 'closeChromeExtension' })
+    }
+  }, [isChromeExt])
+
   const confirm = React.useCallback(
     async (securityPassword?: string, ledgerSigner?: any) => {
       try {
@@ -255,24 +265,14 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         return {
           title: '',
           dialogWidth: 'sm',
-          content: (
-            <SuccessContent
-              message={successMessage}
-              onClose={() => sendMsgToChromeExt({ event: 'closeChromeExtension' })}
-            />
-          ),
+          content: <SuccessContent message={successMessage} onClose={closeDialog} />,
         }
       case ConfirmTransactionStage.FailStage:
       default:
         return {
           title: '',
           dialogWidth: 'sm',
-          content: (
-            <FailContent
-              message={errMsg}
-              onClose={() => sendMsgToChromeExt({ event: 'closeChromeExtension' })}
-            />
-          ),
+          content: <FailContent message={errMsg} onClose={closeDialog} />,
         }
     }
   }, [stage, t, transactionData, account, validators, wallet, confirm, successMessage, totalAmount])
@@ -284,9 +284,11 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
           <BackIcon {...iconProps} />
         </IconButton>
       ) : null}
-      {/* <IconButton className={classes.closeButton} onClick={onClose}>
-        <CloseIcon {...iconProps} />
-      </IconButton> */}
+      {isChromeExt ? (
+        <IconButton className={classes.closeButton} onClick={onClose}>
+          <CloseIcon {...iconProps} />
+        </IconButton>
+      ) : null}
       {content.title ? <DialogTitle>{content.title}</DialogTitle> : null}
       {account && wallet && denoms ? content.content : null}
     </Dialog>

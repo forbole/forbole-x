@@ -12,6 +12,7 @@ import UnlockPasswordDialog from '../UnlockPasswordDialog'
 import usePersistedState from '../../misc/usePersistedState'
 import ConfirmTransactionDialog from '../ConfirmTransactionDialog'
 import ChromeExtDialog from '../ChromeExtDialog'
+import useIsChromeExt from '../../misc/useIsChromeExt'
 
 export enum MenuWidth {
   Expanded = 32,
@@ -37,15 +38,7 @@ const Layout: React.FC<LayoutProps> = ({
   const { isFirstTimeUser, isUnlocked, isChromeExtInstalled } = useWalletsContext()
   // Hide menu for chrome extension
   const router = useRouter()
-  const hideMenuQueryParam = get(router, 'query.hideMenu', '')
-  const isHideMenu = hideMenuQueryParam || (process.browser && (window as any).hideMenu)
-
-  React.useEffect(() => {
-    if (hideMenuQueryParam) {
-      // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;(window as any).hideMenu = true
-    }
-  }, [hideMenuQueryParam])
+  const isChromeExt = useIsChromeExt()
 
   // Open ConfirmTransactionDialog with correct query params
   const { address, transactionData, open, onClose } = React.useMemo(() => {
@@ -69,9 +62,9 @@ const Layout: React.FC<LayoutProps> = ({
       <NavBar
         HeaderLeftComponent={HeaderLeftComponent}
         // eslint-disable-next-line no-nested-ternary
-        menuWidth={isHideMenu ? 0 : isMenuExpanded ? MenuWidth.Expanded : MenuWidth.Collapsed}
+        menuWidth={isChromeExt ? 0 : isMenuExpanded ? MenuWidth.Expanded : MenuWidth.Collapsed}
       />
-      {isHideMenu ? null : (
+      {isChromeExt ? null : (
         <LeftMenu
           activeItem={activeItem}
           isMenuExpanded={isMenuExpanded}
@@ -81,7 +74,7 @@ const Layout: React.FC<LayoutProps> = ({
       <Box
         className={classes.main}
         style={{
-          marginLeft: isHideMenu
+          marginLeft: isChromeExt
             ? 0
             : theme.spacing(isMenuExpanded ? MenuWidth.Expanded : MenuWidth.Collapsed),
         }}
