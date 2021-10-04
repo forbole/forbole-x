@@ -14,13 +14,13 @@ import {
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import CameraIcon from '../../assets/images/icons/icon_camera.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { useWalletsContext } from '../../contexts/WalletsContext'
+import useSendTransaction from '../../misc/useSendTransaction'
 
 interface ProfileDialogProps {
   open: boolean
@@ -41,6 +41,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
   const themeStyle = useTheme()
   const { theme } = useGeneralContext()
   const { password } = useWalletsContext()
+  const sendTransaction = useSendTransaction()
 
   const [loading, setLoading] = React.useState(false)
   const [profile, setProfile] = React.useState(defaultProfile)
@@ -55,7 +56,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
   const onSubmit = React.useCallback(async () => {
     try {
       setLoading(true)
-      const msgs = [
+      const msgs: TransactionMsgSaveProfile[] = [
         {
           typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile',
           value: {
@@ -68,7 +69,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
           },
         },
       ]
-      await invoke(window, 'forboleX.sendTransaction', password, account.address, {
+      await sendTransaction(password, account.address, {
         msgs,
         memo: '',
       })
@@ -77,7 +78,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
     } catch (err) {
       setLoading(false)
     }
-  }, [password, account, profile])
+  }, [password, account, profile, sendTransaction])
 
   return (
     <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose}>

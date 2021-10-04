@@ -2,7 +2,6 @@ import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import cloneDeep from 'lodash/cloneDeep'
-import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
@@ -66,7 +65,7 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
         setLoading(false)
       }
     },
-    [password, account]
+    [password, account, sendTransaction]
   )
 
   const totalAmount = React.useMemo(() => {

@@ -2,7 +2,6 @@
 import { Typography, Box, Dialog, DialogTitle, IconButton, DialogContent } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
@@ -17,6 +16,7 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 import ImageDefaultDark from '../../assets/images/image_default_dark.svg'
 import ImageDefaultLight from '../../assets/images/image_default_light.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
+import useSendTransaction from '../../misc/useSendTransaction'
 
 enum DelegationStage {
   SelectAmountStage = 'select amount',
@@ -52,6 +52,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
   const { password } = useWalletsContext()
   const { theme } = useGeneralContext()
   const isMobile = useIsMobile()
+  const sendTransaction = useSendTransaction()
   const [amount, setAmount] = React.useState(0)
   const [denom, setDenom] = React.useState('')
   const [delegations, setDelegations] = React.useState<
@@ -83,27 +84,25 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
     async (d: Array<{ amount: number; validator: Validator }>, memo: string) => {
       try {
         setLoading(true)
-        const msgs = d
-          .map((r) => {
-            const coinsToSend = getEquivalentCoinToSend(
-              { amount: r.amount, denom },
-              availableTokens.coins,
-              availableTokens.tokens_prices
-            )
-            return {
-              typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
-              value: {
-                delegatorAddress: account.address,
-                validatorAddress: r.validator.address,
-                amount: {
-                  amount: Math.round(coinsToSend.amount).toString(),
-                  denom: coinsToSend.denom,
-                },
+        const msgs: TransactionMsgDelegate[] = d.map((r) => {
+          const coinsToSend = getEquivalentCoinToSend(
+            { amount: r.amount, denom },
+            availableTokens.coins,
+            availableTokens.tokens_prices
+          )
+          return {
+            typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
+            value: {
+              delegatorAddress: account.address,
+              validatorAddress: r.validator.address,
+              amount: {
+                amount: Math.round(coinsToSend.amount).toString(),
+                denom: coinsToSend.denom,
               },
-            }
-          })
-          .filter((a) => a)
-        await invoke(window, 'forboleX.sendTransaction', password, account.address, {
+            },
+          }
+        })
+        await sendTransaction(password, account.address, {
           msgs,
           memo,
         })
@@ -113,7 +112,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
         setLoading(false)
       }
     },
-    [setStage, password, availableTokens, account, denom]
+    [setStage, password, availableTokens, account, denom, sendTransaction]
   )
 
   const content: Content = React.useMemo(() => {

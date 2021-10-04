@@ -2,7 +2,6 @@
 import { Dialog, DialogTitle, IconButton, DialogContent, Box, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
@@ -14,6 +13,7 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 import ImageDefaultDark from '../../assets/images/image_default_dark.svg'
 import ImageDefaultLight from '../../assets/images/image_default_light.svg'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import useSendTransaction from '../../misc/useSendTransaction'
 
 interface SendDialogProps {
   account: Account
@@ -28,6 +28,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
   const isMobile = useIsMobile()
+  const sendTransaction = useSendTransaction()
   const [loading, setLoading] = React.useState(false)
   const { theme } = useGeneralContext()
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
@@ -44,24 +45,22 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
     ) => {
       try {
         setLoading(true)
-        const msgs = recipients
-          .map((r) => {
-            const coinsToSend = getEquivalentCoinToSend(
-              r.amount,
-              availableTokens.coins,
-              availableTokens.tokens_prices
-            )
-            return {
-              typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-              value: {
-                fromAddress: account.address,
-                toAddress: r.address,
-                amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
-              },
-            }
-          })
-          .filter((a) => a)
-        await invoke(window, 'forboleX.sendTransaction', password, account.address, {
+        const msgs: TransactionMsgSend[] = recipients.map((r) => {
+          const coinsToSend = getEquivalentCoinToSend(
+            r.amount,
+            availableTokens.coins,
+            availableTokens.tokens_prices
+          )
+          return {
+            typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+            value: {
+              fromAddress: account.address,
+              toAddress: r.address,
+              amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
+            },
+          }
+        })
+        await sendTransaction(password, account.address, {
           msgs,
           memo,
         })
@@ -71,7 +70,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
         setLoading(false)
       }
     },
-    [availableTokens]
+    [availableTokens, sendTransaction]
   )
 
   React.useEffect(() => {
