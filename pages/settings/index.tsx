@@ -14,7 +14,7 @@ const Setting: React.FC = () => {
   const iconProps = useIconProps(3, theme.palette.grey[900])
   // Show back btn for chrome extension
   const router = useRouter()
-  const isChromeExt = useIsChromeExt()
+  const { isChromeExt } = useIsChromeExt()
 
   return (
     <Layout passwordRequired>

@@ -38,7 +38,7 @@ const Layout: React.FC<LayoutProps> = ({
   const { isFirstTimeUser, isUnlocked, isChromeExtInstalled } = useWalletsContext()
   // Hide menu for chrome extension
   const router = useRouter()
-  const isChromeExt = useIsChromeExt()
+  const { isChromeExt } = useIsChromeExt()
 
   // Open ConfirmTransactionDialog with correct query params
   const { address, transactionData, open, onClose } = React.useMemo(() => {

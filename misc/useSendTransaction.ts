@@ -10,7 +10,7 @@ const useSendTransaction = (): ((
   tx: { msgs: TransactionMsg[]; memo: string }
 ) => Promise<void>) => {
   const router = useRouter()
-  const isChromeExt = useIsChromeExt()
+  const { isChromeExt } = useIsChromeExt()
 
   const sendTransaction = React.useCallback(
     async (

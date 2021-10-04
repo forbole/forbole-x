@@ -57,7 +57,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const classes = useStyles()
   const isMobile = useIsMobile()
   const iconProps = useIconProps()
-  const isChromeExt = useIsChromeExt()
+  const { isSentFromWeb } = useIsChromeExt()
 
   const { accounts, password, wallets } = useWalletsContext()
   const account = accounts.find((a) => a.address === address)
@@ -187,12 +187,12 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const [loading, setLoading] = React.useState(false)
 
   const closeDialog = React.useCallback(() => {
-    if (isChromeExt) {
-      onClose()
-    } else {
+    if (isSentFromWeb) {
       sendMsgToChromeExt({ event: 'closeChromeExtension' })
+    } else {
+      onClose()
     }
-  }, [isChromeExt])
+  }, [isSentFromWeb])
 
   const confirm = React.useCallback(
     async (securityPassword?: string, ledgerSigner?: any) => {
@@ -284,7 +284,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
           <BackIcon {...iconProps} />
         </IconButton>
       ) : null}
-      {isChromeExt ? (
+      {isSentFromWeb ? (
         <IconButton className={classes.closeButton} onClick={onClose}>
           <CloseIcon {...iconProps} />
         </IconButton>

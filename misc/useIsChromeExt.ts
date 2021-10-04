@@ -2,10 +2,11 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import get from 'lodash/get'
 
-const useIsChromeExt = (): boolean => {
+const useIsChromeExt = (): { isChromeExt: boolean; isSentFromWeb: boolean } => {
   const router = useRouter()
   const hideMenuQueryParam = get(router, 'query.hideMenu', '')
-  const isChromeExt = hideMenuQueryParam || (process.browser && (window as any).hideMenu)
+  const isSentFromWeb = !!get(router, 'query.fromWeb', '')
+  const isChromeExt = !!(hideMenuQueryParam || (process.browser && (window as any).hideMenu))
 
   React.useEffect(() => {
     if (hideMenuQueryParam) {
@@ -14,7 +15,7 @@ const useIsChromeExt = (): boolean => {
     }
   }, [hideMenuQueryParam])
 
-  return isChromeExt
+  return { isChromeExt, isSentFromWeb }
 }
 
 export default useIsChromeExt
