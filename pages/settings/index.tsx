@@ -2,11 +2,11 @@ import React from 'react'
 import { Box, IconButton, Typography, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
-import get from 'lodash/get'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import Layout from '../../components/Layout'
 import SettingTable from '../../components/SettingTable'
 import useIconProps from '../../misc/useIconProps'
+import useIsChromeExt from '../../misc/useIsChromeExt'
 
 const Setting: React.FC = () => {
   const { t } = useTranslation('common')
@@ -14,8 +14,7 @@ const Setting: React.FC = () => {
   const iconProps = useIconProps(3, theme.palette.grey[900])
   // Show back btn for chrome extension
   const router = useRouter()
-  const hideMenuQueryParam = get(router, 'query.hideMenu', '')
-  const isChromeExt = hideMenuQueryParam || (process.browser && (window as any).hideMenu)
+  const { isChromeExt } = useIsChromeExt()
 
   return (
     <Layout passwordRequired>

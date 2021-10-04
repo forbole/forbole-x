@@ -15,7 +15,6 @@ import {
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import invoke from 'lodash/invoke'
 import keyBy from 'lodash/keyBy'
 import { Autocomplete } from '@material-ui/lab'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
@@ -34,6 +33,7 @@ import { useAddressSendDialogHook } from './hooks'
 import TokenAmountInput from '../TokenAmountInput'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
+import useSendTransaction from '../../misc/useSendTransaction'
 
 export type FavAddress = {
   address: string
@@ -57,6 +57,7 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
 
   const { accounts, password } = useWalletsContext()
   const isMobile = useIsMobile()
+  const sendTransaction = useSendTransaction()
   const [loading, setLoading] = React.useState(false)
   const [memo, setMemo] = React.useState('')
   const [amount, setAmount] = React.useState('')
@@ -79,7 +80,7 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
           availableTokens.coins,
           availableTokens.tokens_prices
         )
-        const msg = {
+        const msg: TransactionMsgSend = {
           typeUrl: '/cosmos.bank.v1beta1.MsgSend',
           value: {
             fromAddress: sender.address,
@@ -87,7 +88,8 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
             amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
           },
         }
-        await invoke(window, 'forboleX.sendTransaction', password, sender.address, {
+
+        await sendTransaction(password, sender.address, {
           msgs: [msg],
           memo,
         })
@@ -97,7 +99,7 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
         setLoading(false)
       }
     },
-    [availableTokens]
+    [availableTokens, sendTransaction]
   )
 
   const insufficientTokens = React.useMemo(() => {
