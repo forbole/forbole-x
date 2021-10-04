@@ -13,7 +13,6 @@ import {
 import { Autocomplete } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
 import keyBy from 'lodash/keyBy'
-import invoke from 'lodash/invoke'
 import last from 'lodash/last'
 import useIconProps from '../../misc/useIconProps'
 import { useGetStyles } from './styles'
@@ -22,6 +21,7 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
 import TokenAmountInput from '../TokenAmountInput'
+import useSendTransaction from '../../misc/useSendTransaction'
 
 interface CreateProposalFormProps {
   account: Account
@@ -34,6 +34,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const { accounts, password } = useWalletsContext()
 
   const iconProps = useIconProps()
+  const sendTransaction = useSendTransaction()
 
   const types = [
     '/cosmos.gov.v1beta1.TextProposal',
@@ -82,7 +83,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                 title,
                 description,
                 changes: [
-                  changes.map((x, y) => ({
+                  changes.map((x) => ({
                     subspace: x.subspace,
                     key: x.key,
                     value: x.value,
@@ -110,7 +111,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                 recipient,
                 amount: [
                   {
-                    amount: String(Number(amount) * 10 ** 6), // TODO: handle by token_units
+                    amount: String(Number(amount) * 10 ** 6),
                     denom: network.defaultGasFee.amount.denom,
                   },
                 ],
@@ -120,8 +121,9 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
           initialDeposit: [],
           proposer: proposalAccount.address,
         },
-      }
-      await invoke(window, 'forboleX.sendTransaction', password, proposalAccount.address, {
+      } as unknown as TransactionMsgSubmitProposal
+
+      await sendTransaction(password, proposalAccount.address, {
         msgs: [msg],
         memo,
       })

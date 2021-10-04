@@ -2,7 +2,6 @@
 import { Dialog, DialogTitle, IconButton, DialogContent, Box, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import invoke from 'lodash/invoke'
 import get from 'lodash/get'
 import { useSubscription, gql } from '@apollo/client'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
@@ -17,6 +16,7 @@ import useIsMobile from '../../misc/useIsMobile'
 import EditRewardAddress from './EditRewardAddress'
 import RemoveAccount from './RemoveAccount'
 import { getWithdrawAddress } from '../../graphql/queries/withdrawAddress'
+import useSendTransaction from '../../misc/useSendTransaction'
 
 enum EditAccountStage {
   AccountInfoStage = 'account info',
@@ -44,6 +44,7 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, on
   const iconProps = useIconProps()
   const { updateAccount, password } = useWalletsContext()
   const isMobile = useIsMobile()
+  const sendTransaction = useSendTransaction()
 
   const { data } = useSubscription(
     gql`
@@ -76,14 +77,14 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, on
     async (newWithdrawAddress: string, memo: string) => {
       try {
         setLoading(true)
-        const msg = {
+        const msg: TransactionMsgSetWithdrawAddress = {
           typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
           value: {
             delegatorAddress: account.address,
             withdrawAddress: newWithdrawAddress,
           },
         }
-        await invoke(window, 'forboleX.sendTransaction', password, account.address, {
+        await sendTransaction(password, account.address, {
           msgs: [msg],
           memo,
         })
@@ -93,7 +94,7 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, on
         setLoading(false)
       }
     },
-    [setStage, account]
+    [setStage, account, sendTransaction]
   )
 
   const content: Content = React.useMemo(() => {

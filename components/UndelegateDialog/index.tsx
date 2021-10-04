@@ -2,7 +2,6 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
@@ -11,6 +10,7 @@ import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/ut
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIsMobile from '../../misc/useIsMobile'
+import useSendTransaction from '../../misc/useSendTransaction'
 
 interface UndelegationDialogProps {
   account: Account
@@ -34,6 +34,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
   const isMobile = useIsMobile()
+  const sendTransaction = useSendTransaction()
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
   const [loading, setLoading] = React.useState(false)
 
@@ -51,7 +52,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
           delegatedTokens,
           tokensPrices
         )
-        await invoke(window, 'forboleX.sendTransaction', password, account.address, {
+        await sendTransaction(password, account.address, {
           msgs: [
             {
               typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
@@ -70,7 +71,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
         setLoading(false)
       }
     },
-    [delegatedTokens, tokensPrices, account, password, account]
+    [delegatedTokens, tokensPrices, account, password, account, sendTransaction]
   )
 
   React.useEffect(() => {
