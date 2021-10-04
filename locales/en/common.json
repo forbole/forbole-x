@@ -303,7 +303,7 @@
   "no rewards yet": "No Rewards Yet",
   "delegate your token and get some rewards": "Delegate your token and get some rewards",
   "total": "Total Amount",
-  "withdraw warning ledger": "Due to the limitation of Ledgr device, using Ledger Nano S, Forbole X  can olny withdraw rewards from up to 5 validators at a time. Using Ledger Nano X, Forbole X  can olny withdraw rewards from 20 validators at a time.",
+  "withdraw warning ledger": "Due to the limitation of Ledger device, using Ledger Nano S, Forbole X  can olny withdraw rewards from up to 5 validators at a time. Using Ledger Nano X, Forbole X  can olny withdraw rewards from 20 validators at a time.",
   "withdraw warning secret recovery phrase": "Forbole X  can olny withdraw rewards from up to 20 validators at a time.",
   "you have not added any address": "You have not added any address",
   "edit address": "Edit Address",
