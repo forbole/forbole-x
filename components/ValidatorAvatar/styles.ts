@@ -13,7 +13,7 @@ const useStyles = makeStyles(
     wrapText: {
       maxWidth: theme.spacing(18),
       textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap',
+      whiteSpace: 'unset',
       overflow: 'hidden',
       [theme.breakpoints.down('sm')]: {
         maxWidth: theme.spacing(6),
