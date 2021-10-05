@@ -21,6 +21,7 @@ import CameraIcon from '../../assets/images/icons/icon_camera.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useSendTransaction from '../../misc/useSendTransaction'
+import uploadIPFSImage from '../../misc/uploadIPFSImage'
 
 interface ProfileDialogProps {
   open: boolean
@@ -101,7 +102,14 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                 alt="cover"
                 className={classes.coverImg}
               />
-              <ButtonBase component="div" className={classes.imgOverlay}>
+              <ButtonBase
+                component="div"
+                className={classes.imgOverlay}
+                onClick={async () => {
+                  const coverPic = await uploadIPFSImage()
+                  setProfile((p) => ({ ...p, coverPic }))
+                }}
+              >
                 <CameraIcon {...iconProps} />
               </ButtonBase>
             </Box>
@@ -112,7 +120,14 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                   title={profile.nickname}
                   src={profile.profilePic || `/static/images/default_profile_pic_${theme}.png`}
                 />
-                <ButtonBase component="div" className={classes.avatarOverlay}>
+                <ButtonBase
+                  component="div"
+                  className={classes.avatarOverlay}
+                  onClick={async () => {
+                    const coverPic = await uploadIPFSImage()
+                    setProfile((p) => ({ ...p, coverPic }))
+                  }}
+                >
                   <CameraIcon {...iconProps} />
                 </ButtonBase>
               </Box>
