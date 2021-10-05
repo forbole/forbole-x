@@ -8,6 +8,10 @@ const uploadIPFSImage = (): Promise<string> =>
     input.style.display = 'none'
     input.onchange = (e) => {
       const file = get(e, 'target.files[0]')
+      if (!file) {
+        input.remove()
+        reject(new Error('no file'))
+      }
       const formData = new FormData()
       formData.append('file', file)
       fetch(`${process.env.NEXT_PUBLIC_IPFS_URL}/api/v0/add`, {
@@ -16,9 +20,13 @@ const uploadIPFSImage = (): Promise<string> =>
       })
         .then((res) => res.json())
         .then((result) => {
+          input.remove()
           resolve(`${process.env.NEXT_PUBLIC_IPFS_URL}/ipfs/${result.Hash}`)
         })
-        .catch((err) => reject(err))
+        .catch((err) => {
+          input.remove()
+          reject(err)
+        })
     }
     input.click()
   })

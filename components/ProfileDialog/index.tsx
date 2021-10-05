@@ -46,6 +46,8 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
 
   const [loading, setLoading] = React.useState(false)
   const [profile, setProfile] = React.useState(defaultProfile)
+  const [coverPicUploading, setCoverPicUploading] = React.useState(false)
+  const [profilePicUploading, setProfilePicUploading] = React.useState(false)
 
   React.useEffect(() => {
     if (open) {
@@ -57,17 +59,24 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
   const onSubmit = React.useCallback(async () => {
     try {
       setLoading(true)
+      const value = {
+        dtag: profile.dtag,
+        nickname: profile.nickname,
+        bio: profile.bio,
+        profilePicture: profile.profilePic,
+        coverPicture: profile.coverPic,
+        creator: account.address,
+      }
+      // Remove key with empty space
+      Object.keys(value).forEach((k) => {
+        if (!value[k]) {
+          delete value[k]
+        }
+      })
       const msgs: TransactionMsgSaveProfile[] = [
         {
           typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile',
-          value: {
-            dtag: profile.dtag,
-            nickname: profile.nickname,
-            bio: profile.bio,
-            profilePicture: profile.profilePic,
-            coverPicture: profile.coverPic,
-            creator: account.address,
-          },
+          value,
         },
       ]
       await sendTransaction(password, account.address, {
@@ -106,11 +115,18 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                 component="div"
                 className={classes.imgOverlay}
                 onClick={async () => {
-                  const coverPic = await uploadIPFSImage()
-                  setProfile((p) => ({ ...p, coverPic }))
+                  try {
+                    setCoverPicUploading(true)
+                    const coverPic = await uploadIPFSImage()
+                    setCoverPicUploading(false)
+                    setProfile((p) => ({ ...p, coverPic }))
+                  } catch (err) {
+                    console.log(err)
+                    setCoverPicUploading(false)
+                  }
                 }}
               >
-                <CameraIcon {...iconProps} />
+                {coverPicUploading ? <CircularProgress /> : <CameraIcon {...iconProps} />}
               </ButtonBase>
             </Box>
             <Box display="flex" justifyContent="flex-start">
@@ -124,11 +140,18 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                   component="div"
                   className={classes.avatarOverlay}
                   onClick={async () => {
-                    const coverPic = await uploadIPFSImage()
-                    setProfile((p) => ({ ...p, coverPic }))
+                    try {
+                      setProfilePicUploading(true)
+                      const profilePic = await uploadIPFSImage()
+                      setProfilePicUploading(false)
+                      setProfile((p) => ({ ...p, profilePic }))
+                    } catch (err) {
+                      console.log(err)
+                      setProfilePicUploading(false)
+                    }
                   }}
                 >
-                  <CameraIcon {...iconProps} />
+                  {profilePicUploading ? <CircularProgress /> : <CameraIcon {...iconProps} />}
                 </ButtonBase>
               </Box>
             </Box>
@@ -178,7 +201,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                 variant="contained"
                 fullWidth
                 color="primary"
-                disabled={loading || !profile.dtag}
+                disabled={loading || !profile.dtag || coverPicUploading || profilePicUploading}
                 type="submit"
               >
                 {loading ? <CircularProgress size={themeStyle.spacing(3.5)} /> : t('next')}
