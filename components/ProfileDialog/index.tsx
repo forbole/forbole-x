@@ -53,6 +53,8 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
     if (open) {
       setLoading(false)
       setProfile(defaultProfile)
+      setCoverPicUploading(false)
+      setProfilePicUploading(false)
     }
   }, [open])
 
@@ -116,8 +118,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                 className={classes.imgOverlay}
                 onClick={async () => {
                   try {
-                    setCoverPicUploading(true)
-                    const coverPic = await uploadIPFSImage()
+                    const coverPic = await uploadIPFSImage(() => setCoverPicUploading(true))
                     setCoverPicUploading(false)
                     setProfile((p) => ({ ...p, coverPic }))
                   } catch (err) {
@@ -141,8 +142,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                   className={classes.avatarOverlay}
                   onClick={async () => {
                     try {
-                      setProfilePicUploading(true)
-                      const profilePic = await uploadIPFSImage()
+                      const profilePic = await uploadIPFSImage(() => setProfilePicUploading(true))
                       setProfilePicUploading(false)
                       setProfile((p) => ({ ...p, profilePic }))
                     } catch (err) {

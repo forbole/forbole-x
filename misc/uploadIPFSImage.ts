@@ -1,6 +1,6 @@
 import get from 'lodash/get'
 
-const uploadIPFSImage = (): Promise<string> =>
+const uploadIPFSImage = (onLoadStart?: () => void): Promise<string> =>
   new Promise((resolve, reject) => {
     const input = document.createElement('input')
     input.setAttribute('type', 'file')
@@ -14,6 +14,9 @@ const uploadIPFSImage = (): Promise<string> =>
       }
       const formData = new FormData()
       formData.append('file', file)
+      if (onLoadStart) {
+        onLoadStart()
+      }
       fetch(`${process.env.NEXT_PUBLIC_IPFS_URL}/api/v0/add`, {
         method: 'POST',
         body: formData,
