@@ -1,6 +1,7 @@
 import { Box, DialogContent, DialogContentText, DialogTitle, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import Carousel from 'react-material-ui-carousel'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
 import { LaunchpadLedger } from '@cosmjs/ledger-amino'
 import LedgerImage from '../../assets/images/ledger.svg'
@@ -20,11 +21,7 @@ interface ConnectLedgerDialogContentProps {
 
 const signInstructions = [
   {
-    image: LedgerSignImage,
-    description: 'sign ledger instruction 1',
-  },
-  {
-    image: LedgerSignPinImage,
+    image: [LedgerSignImage, LedgerSignPinImage],
     description: 'sign ledger instruction 1',
   },
   {
@@ -32,11 +29,7 @@ const signInstructions = [
     description: 'open ledger app instruction',
   },
   {
-    image: LedgerViewTxImage,
-    description: 'sign ledger instruction 2',
-  },
-  {
-    image: LedgerSignTxImage,
+    image: [LedgerViewTxImage, LedgerSignTxImage],
     description: 'sign ledger instruction 2',
   },
 ]
@@ -51,7 +44,6 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
   const { t } = useTranslation('common')
   const classes = useStyles()
   const [instruction, setInstruction] = React.useState(signInstructions[0])
-  const Svg = instruction.image
 
   const connectLedger = React.useCallback(async () => {
     let transport
@@ -60,23 +52,28 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
       const ledger = new LaunchpadLedger(transport, { ledgerAppName })
       // Check if ledger app is open
       await ledger.getCosmosAppVersion()
-      setInstruction(signInstructions[3])
+      setInstruction(signInstructions[1])
       clearTimeout(retryTimeout)
       onConnect(transport)
-      setInstruction(signInstructions[4])
+      setInstruction(signInstructions[2])
     } catch (err) {
       if (err.name === 'TransportOpenUserCancelled') {
         // Ledger app is opened already
         setInstruction(signInstructions[0])
         retryTimeout = setTimeout(connectLedger, 1000)
+      } else if (
+        err.message === 'Please close OLOS and open the Desmos Ledger app on your Ledger device.'
+      ) {
+        setInstruction(signInstructions[1])
+        retryTimeout = setTimeout(connectLedger, 1000)
       } else if (err.message === 'The device is already open.') {
         // Ledger is connected previously. Close the previous connections
         closeAllLedgerConnections()
-        setInstruction(signInstructions[2])
+        setInstruction(signInstructions[1])
         retryTimeout = setTimeout(connectLedger, 1000)
         // No specific ledger app required
       } else if (!ledgerAppName && err.message !== 'Ledger’s screensaver mode is on') {
-        setInstruction(signInstructions[1])
+        setInstruction(signInstructions[0])
         clearTimeout(retryTimeout)
         onConnect(transport)
       } else {
@@ -97,7 +94,16 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
       <Box display="flex" flexDirection="column" alignItems="center" mb={6}>
         {signTransaction ? (
           <>
-            <Svg />
+            {instruction.image instanceof Array ? (
+              <Carousel indicators={false} interval={3000}>
+                {instruction.image.map((item, i) => {
+                  const Svg = item
+                  return <Svg key={i} item={item} />
+                })}
+              </Carousel>
+            ) : (
+              <instruction.image />
+            )}
             <Box mt={4}>
               <Typography align="center">
                 {ledgerAppName
