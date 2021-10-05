@@ -409,5 +409,7 @@
   "profile was saved": "Your profile was saved",
   "delegator address": "Delegator Address",
   "plan": "Plan",
-  "changes": "Changes"
+  "changes": "Changes",
+  "sign ledger instruction 1": "Turn on and unlock your Ledger device",
+  "sign ledger instruction 2": "The application is connecting and waiting for you to sign the transaction"
 }

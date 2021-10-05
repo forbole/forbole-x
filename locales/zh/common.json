@@ -347,5 +347,7 @@
   "add change": "[zh] Add Change",
   "add amount": "[zh] Add Amount",
   "recipient": "[zh] Recipient",
-  "recipient name": "[zh] Recipient Name"
+  "recipient name": "[zh] Recipient Name",
+  "connect ledger instruction 1": "[zh] Turn on and unlock your Ledger device",
+  "sign ledger instruction 2": "[zh] The application is connecting and waiting for you to sign the transaction"
 }
