@@ -99,7 +99,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
           >
             <AccountAvatar ledgerIconDisabled size="large" account={account} />
             <Box display="flex" mt={isMobile ? 2 : 0} ml={isMobile ? -2 : 0}>
-              {!profileExist ? (
+              {/* !profileExist ? (
                 <Button
                   classes={{ root: classes.profileButton }}
                   variant="outlined"
@@ -107,7 +107,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                 >
                   {t('create profile')}
                 </Button>
-              ) : null}
+              ) : null */}
               <Button
                 classes={{ root: classes.delegateButton }}
                 variant="contained"
