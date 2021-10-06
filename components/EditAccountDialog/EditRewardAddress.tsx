@@ -50,6 +50,7 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({
                 }}
                 value={oldWithdrawAddress}
                 disabled
+                className={classes.textField}
               />
             </Box>
             <Box mb={2}>

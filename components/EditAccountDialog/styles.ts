@@ -97,6 +97,11 @@ const useStyles = makeStyles(
       height: theme.spacing(7),
       background: 'white',
     },
+    textField: {
+      '& input:disabled': {
+        color: theme.palette.text.secondary,
+      },
+    },
   }),
   {
     name: 'HookGlobalStyles',
