@@ -1,18 +1,8 @@
-import {
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Box,
-  IconButton,
-} from '@material-ui/core'
+import { Table, TableHead, TableRow, TableCell, TableBody, Box, Button } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 // import { LineChart, Line, YAxis } from 'recharts'
 import React from 'react'
-import MoreIcon from '../../assets/images/icons/icon_more.svg'
 import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
 import { formatPercentage, formatTokenAmount } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
 import ValidatorAvatar from '../ValidatorAvatar'
@@ -33,7 +23,6 @@ const Delegations: React.FC<DelegationsProps> = ({
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   // const themeStyle = useTheme()
-  const iconProps = useIconProps()
   const isMobile = useIsMobile()
 
   const totalVotingPower = React.useMemo(
@@ -110,9 +99,14 @@ const Delegations: React.FC<DelegationsProps> = ({
               {isAddressDetail ? null : (
                 <TableCell className={classes.tableCell}>
                   <Box my={-2}>
-                    <IconButton onClick={(e) => onManageClick(e, v)}>
-                      <MoreIcon {...iconProps} />
-                    </IconButton>
+                    <Button
+                      // classes={{ root: classes.fixedWidthButton }}
+                      variant="contained"
+                      color="primary"
+                      onClick={(e) => onManageClick(e, v)}
+                    >
+                      {t('manage')}
+                    </Button>
                   </Box>
                 </TableCell>
               )}
