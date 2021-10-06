@@ -17,7 +17,7 @@ const useStyles = makeStyles(
     },
     fixedWidthButton: {
       color: 'white',
-      width: theme.spacing(18),
+      width: theme.spacing(22),
       marginLeft: theme.spacing(2),
       padding: theme.spacing(0.5),
     },
