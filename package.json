@@ -39,6 +39,7 @@
     "react-dom": "^17.0.1",
     "react-json-view": "^1.21.3",
     "react-linkify": "^1.0.0-alpha",
+    "react-material-ui-carousel": "^2.3.5",
     "react-share": "^4.4.0",
     "recharts": "^2.0.3",
     "secp256k1": "^4.0.2",
