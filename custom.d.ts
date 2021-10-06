@@ -381,10 +381,10 @@ interface TransactionMsgSaveProfile {
   typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile'
   value: {
     dtag: string
-    nickname: string
-    bio: string
-    profilePicture: string
-    coverPicture: string
+    nickname?: string
+    bio?: string
+    profilePicture?: string
+    coverPicture?: string
     creator: string
   }
 }
