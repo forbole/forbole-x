@@ -11,7 +11,7 @@ import useIsChromeExt from '../../misc/useIsChromeExt'
 const Setting: React.FC = () => {
   const { t } = useTranslation('common')
   const theme = useTheme()
-  const iconProps = useIconProps(3, theme.palette.grey[900])
+  const iconProps = useIconProps(3, theme.palette.text.primary)
   // Show back btn for chrome extension
   const router = useRouter()
   const { isChromeExt } = useIsChromeExt()

@@ -3,7 +3,7 @@
 exports[`component: Layout - CurrencyMenuButton renders USD correctly 1`] = `
 Array [
   <button
-    className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-navBarButton-11"
+    className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-navBarButton-12"
     disabled={false}
     onBlur={[Function]}
     onClick={[Function]}
@@ -61,7 +61,7 @@ Array [
 exports[`component: Layout - CurrencyMenuButton renders menu correctly 1`] = `
 Array [
   <button
-    className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-navBarButton-11"
+    className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-navBarButton-12"
     disabled={false}
     onBlur={[Function]}
     onClick={[Function]}
@@ -123,7 +123,7 @@ Array [
 exports[`component: Layout - CurrencyMenuButton renders menu correctly 2`] = `
 Array [
   <button
-    className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-navBarButton-11"
+    className="MuiButtonBase-root MuiButton-root MuiButton-text HookGlobalStyles-navBarButton-12"
     disabled={false}
     onBlur={[Function]}
     onClick={[Function]}

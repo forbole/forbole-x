@@ -117,7 +117,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
             </Box>
           </ListItemIcon>
         </ListItem>
-        <Box>
+        <Box className={classes.menuItems}>
           {items.map((item) => {
             const selected = item.href === activeItem
             return (
@@ -177,32 +177,34 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
               {t('star now')}
             </Button>
           </Link>
-          {accounts.map((account) => {
-            const crypto = cryptocurrencies[account.crypto]
-            return account.fav ? (
-              <Link
-                key={account.address}
-                href="/account/[address]"
-                as={`/account/${account.address}`}
-              >
-                <ListItem className={classes.favMenuItem} button component="a">
-                  <ListItemIcon>
-                    <Avatar
-                      alt={crypto.name}
-                      src={crypto.image}
-                      style={{ height: themeStyle.spacing(3), width: themeStyle.spacing(3) }}
+          {accounts
+            .filter((account) => account.fav)
+            .map((account) => {
+              const crypto = cryptocurrencies[account.crypto]
+              return (
+                <Link
+                  key={account.address}
+                  href="/account/[address]"
+                  as={`/account/${account.address}`}
+                >
+                  <ListItem className={classes.favMenuItem} button component="a">
+                    <ListItemIcon>
+                      <Avatar
+                        alt={crypto.name}
+                        src={crypto.image}
+                        style={{ height: themeStyle.spacing(3), width: themeStyle.spacing(3) }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={account.name}
+                      primaryTypographyProps={{
+                        variant: 'h6',
+                      }}
                     />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={account.name}
-                    primaryTypographyProps={{
-                      variant: 'h6',
-                    }}
-                  />
-                </ListItem>
-              </Link>
-            ) : null
-          })}
+                  </ListItem>
+                </Link>
+              )
+            })}
         </Box>
       </List>
     </Paper>

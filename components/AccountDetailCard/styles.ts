@@ -15,9 +15,15 @@ const useStyles = makeStyles(
         backgroundColor: theme.palette.success.dark,
       },
     },
-    fixedWidthButton: {
+    delegateButton: {
       color: 'white',
       width: theme.spacing(18),
+      marginLeft: theme.spacing(2),
+      padding: theme.spacing(0.5),
+    },
+    withdrawButton: {
+      color: 'white',
+      width: theme.spacing(22),
       marginLeft: theme.spacing(2),
       padding: theme.spacing(0.5),
     },

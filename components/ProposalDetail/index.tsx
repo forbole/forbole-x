@@ -26,8 +26,8 @@ import InActiveStatus from './InActiveStatus'
 import VoteDialog from '../VoteDialog'
 import VoteResult from './VoteResult'
 import VoteTable from './VoteTable'
-import { formatTokenAmount, getTokenAmountFromDenoms } from '../../misc/utils'
 import Markdown from '../Markdown'
+import { formatTokenAmount, getTokenAmountFromDenoms } from '../../misc/utils'
 
 export interface VoteSummary {
   amount: number
