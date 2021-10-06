@@ -74,33 +74,10 @@ const Delegations: React.FC<DelegationsProps> = ({
               <TableCell className={classes.tableCell}>
                 {formatTokenAmount(v.rewards, crypto.name, lang)}
               </TableCell>
-              {/* <TableCell className={classes.tableCell}>
-                <Box my={-2}>
-                  <LineChart
-                    width={themeStyle.spacing(20)}
-                    height={themeStyle.spacing(5)}
-                    data={data}
-                  >
-                    <YAxis domain={['dataMin', 'dataMax']} hide />
-                    <Line
-                      type="monotone"
-                      dataKey="balance"
-                      stroke={
-                        increasing
-                          ? themeStyle.palette.success.main
-                          : themeStyle.palette.error.main
-                      }
-                      dot={false}
-                      strokeWidth={2}
-                    />
-                  </LineChart>
-                </Box>
-              </TableCell> */}
               {isAddressDetail ? null : (
                 <TableCell className={classes.tableCell}>
                   <Box my={-2}>
                     <Button
-                      // classes={{ root: classes.fixedWidthButton }}
                       variant="contained"
                       color="primary"
                       onClick={(e) => onManageClick(e, v)}

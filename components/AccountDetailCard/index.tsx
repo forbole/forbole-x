@@ -109,7 +109,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                 </Button>
               ) : null}
               <Button
-                classes={{ root: classes.fixedWidthButton }}
+                classes={{ root: classes.delegateButton }}
                 variant="contained"
                 color="primary"
                 onClick={() => setDelegateDialogOpen(true)}
@@ -117,19 +117,19 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                 {t('delegate')}
               </Button>
               <Button
-                classes={{ root: classes.fixedWidthButton }}
-                variant="contained"
-                color="secondary"
-                onClick={() => setWithdrawRewardsDialogOpen(true)}
-              >
-                {t('withdraw')}
-              </Button>
-              <Button
                 classes={{ root: classes.sendButton }}
                 variant="contained"
                 onClick={() => setSendDialogOpen(true)}
               >
                 {t('send')}
+              </Button>
+              <Button
+                classes={{ root: classes.withdrawButton }}
+                variant="contained"
+                color="secondary"
+                onClick={() => setWithdrawRewardsDialogOpen(true)}
+              >
+                {t('withdraw')}
               </Button>
               <Box
                 display="flex"
