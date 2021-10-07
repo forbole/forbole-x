@@ -67,7 +67,7 @@ const useStyles = makeStyles(
       width: 'fit-content',
     },
     favMenuItem: {
-      height: theme.spacing(6),
+      height: theme.spacing(8),
       borderRadius: theme.spacing(1),
       whiteSpace: 'nowrap',
       paddingLeft: theme.spacing(1.5),
