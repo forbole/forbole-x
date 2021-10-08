@@ -1,5 +1,8 @@
 import React from 'react'
 import sendMsgToChromeExt from '../misc/sendMsgToChromeExt'
+import usePersistedState from '../misc/usePersistedState'
+
+const PASSWORD_EXPIRES_IN_MIN = 15
 
 interface WalletsState {
   isFirstTimeUser: boolean
@@ -39,9 +42,16 @@ const WalletsContext = React.createContext<WalletsState>(initialState)
 const WalletsProvider: React.FC = ({ children }) => {
   const [wallets, setWallets] = React.useState<Wallet[]>([])
   const [accounts, setAccounts] = React.useState<Account[]>([])
-  const [isFirstTimeUser, setIsFirstTimeUser] = React.useState(false)
-  const [isChromeExtInstalled, setIsChromeExtInstalled] = React.useState(false)
-  const [password, setPassword] = React.useState('')
+  const [isFirstTimeUser, setIsFirstTimeUser] = usePersistedState('isFirstTimeUser', false)
+  const [isChromeExtInstalled, setIsChromeExtInstalled] = usePersistedState(
+    'isChromeExtInstalled',
+    false
+  )
+  const [password, setPassword] = usePersistedState(
+    'password',
+    '',
+    PASSWORD_EXPIRES_IN_MIN * 60 * 1000
+  )
 
   const reset = React.useCallback(async () => {
     await sendMsgToChromeExt({

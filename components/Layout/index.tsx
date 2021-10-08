@@ -35,9 +35,11 @@ const Layout: React.FC<LayoutProps> = ({
   const classes = useStyles()
   const theme = useTheme()
   const [isMenuExpanded, setIsMenuExpanded, loaded] = usePersistedState('isMenuExpanded', true)
-  const { isFirstTimeUser, isUnlocked, isChromeExtInstalled } = useWalletsContext()
+  const { isFirstTimeUser, isUnlocked, isChromeExtInstalled, unlockWallets, password } =
+    useWalletsContext()
   // Hide menu for chrome extension
   const router = useRouter()
+  const defaultPassword = router.query.password
   const { isChromeExt } = useIsChromeExt()
 
   // Open ConfirmTransactionDialog with correct query params
@@ -56,6 +58,24 @@ const Layout: React.FC<LayoutProps> = ({
         ),
     }
   }, [router])
+
+  const initPassword = React.useCallback(async () => {
+    try {
+      if (!isUnlocked) {
+        if (defaultPassword) {
+          await unlockWallets(String(defaultPassword))
+        } else if (password) {
+          await unlockWallets(password)
+        }
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }, [defaultPassword, password, isUnlocked, unlockWallets])
+
+  React.useEffect(() => {
+    initPassword()
+  }, [initPassword])
 
   return loaded ? (
     <>

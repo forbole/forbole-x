@@ -10,6 +10,7 @@ const mockWalletsContext = {
 jest.mock('next/router', () => ({
   useRouter: () => ({
     asPath: 'https://localhost:3000',
+    query: {},
   }),
 }))
 jest.mock('../../../contexts/WalletsContext', () => ({

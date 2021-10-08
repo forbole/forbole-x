@@ -1,7 +1,6 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { useRouter } from 'next/router'
 import useStyles from './styles'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
@@ -28,11 +27,8 @@ const UnlockPasswordDialog: React.FC = () => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
-  const { wallets, reset, unlockWallets } = useWalletsContext()
+  const { wallets, reset } = useWalletsContext()
   const isMobile = useIsMobile()
-  const {
-    query: { password: defaultPassword },
-  } = useRouter()
   const [isReset, setReset] = React.useState(false)
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<UnlockPasswordStage>(
     UnlockPasswordStage.UnlockPasswordStage
@@ -75,12 +71,6 @@ const UnlockPasswordDialog: React.FC = () => {
         }
     }
   }, [stage, t])
-
-  React.useEffect(() => {
-    if (defaultPassword) {
-      unlockWallets(String(defaultPassword))
-    }
-  }, [defaultPassword, unlockWallets])
 
   return (
     <Dialog fullWidth open={!(wallets.length !== 0 || isReset)} fullScreen={isMobile}>
