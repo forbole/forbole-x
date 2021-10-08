@@ -62,7 +62,8 @@ const WalletsProvider: React.FC = ({ children }) => {
     setAccounts([])
     setWallets([])
     setPassword('')
-  }, [setIsFirstTimeUser, setAccounts, setWallets, setPassword])
+    setAppUnlockState('locked')
+  }, [setIsFirstTimeUser, setAccounts, setWallets, setPassword, setAppUnlockState])
 
   const checkIsFirstTimeUser = React.useCallback(async () => {
     try {
@@ -78,27 +79,32 @@ const WalletsProvider: React.FC = ({ children }) => {
 
   const unlockWallets = React.useCallback(
     async (pw: string) => {
-      if (!isFirstTimeUser) {
-        setAppUnlockState('unlocking')
-        const walletaResponse = await sendMsgToChromeExt({
-          event: 'getWallets',
-          data: {
-            password: pw,
-          },
-        })
-        const accountsResponse = await sendMsgToChromeExt({
-          event: 'getAccounts',
-          data: {
-            password: pw,
-          },
-        })
-        setWallets(walletaResponse.wallets)
-        setAccounts(accountsResponse.accounts)
-        setAppUnlockState('unlocked')
+      try {
+        if (!isFirstTimeUser) {
+          setAppUnlockState('unlocking')
+          const walletaResponse = await sendMsgToChromeExt({
+            event: 'getWallets',
+            data: {
+              password: pw,
+            },
+          })
+          const accountsResponse = await sendMsgToChromeExt({
+            event: 'getAccounts',
+            data: {
+              password: pw,
+            },
+          })
+          setWallets(walletaResponse.wallets)
+          setAccounts(accountsResponse.accounts)
+          setAppUnlockState('unlocked')
+        }
+        setPassword(pw)
+      } catch (err) {
+        setAppUnlockState('locked')
+        throw err
       }
-      setPassword(pw)
     },
-    [isFirstTimeUser, setPassword, setWallets, setAccounts]
+    [isFirstTimeUser, setPassword, setWallets, setAccounts, setAppUnlockState]
   )
 
   const updatePassword = React.useCallback(
@@ -171,13 +177,13 @@ const WalletsProvider: React.FC = ({ children }) => {
       setWallets((ws) => {
         const newWallets = ws.filter((w) => w.id !== id)
         if (!newWallets.length) {
-          setIsFirstTimeUser(true)
+          reset()
         }
         return newWallets
       })
       setAccounts((acs) => acs.filter((a) => a.walletId !== id))
     },
-    [password, accounts, setWallets, setIsFirstTimeUser, setAccounts]
+    [password, accounts, setWallets, setIsFirstTimeUser, setAccounts, reset]
   )
 
   const addAccount = React.useCallback(

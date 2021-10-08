@@ -102,10 +102,7 @@ const Layout: React.FC<LayoutProps> = ({
         {passwordRequired && isFirstTimeUser ? <GetStarted /> : null}
         {!passwordRequired || appUnlockState === 'unlocked' ? children : null}
       </Box>
-      {passwordRequired &&
-      !isFirstTimeUser &&
-      isChromeExtInstalled &&
-      appUnlockState === 'locked' ? (
+      {passwordRequired && !isFirstTimeUser && isChromeExtInstalled ? (
         <UnlockPasswordDialog />
       ) : null}
       {!isChromeExtInstalled ? <ChromeExtDialog /> : null}

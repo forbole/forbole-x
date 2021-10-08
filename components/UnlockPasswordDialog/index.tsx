@@ -27,7 +27,7 @@ const UnlockPasswordDialog: React.FC = () => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
-  const { wallets, reset } = useWalletsContext()
+  const { wallets, reset, appUnlockState } = useWalletsContext()
   const isMobile = useIsMobile()
   const [isReset, setReset] = React.useState(false)
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<UnlockPasswordStage>(
@@ -73,7 +73,7 @@ const UnlockPasswordDialog: React.FC = () => {
   }, [stage, t])
 
   return (
-    <Dialog fullWidth open={!(wallets.length !== 0 || isReset)} fullScreen={isMobile}>
+    <Dialog fullWidth open={appUnlockState === 'locked' && !isReset} fullScreen={isMobile}>
       {isPrevStageAvailable && stage !== 'unlock' ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

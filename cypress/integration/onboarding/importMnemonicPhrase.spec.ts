@@ -26,6 +26,10 @@ describe('Create wallet by importing secret recovery phrase on first visit', () 
               callback({ wallet: testWallet, accounts: [testAccount] })
             } else if (msg.event === 'verifyMnemonic') {
               callback({ mnemonic })
+            } else if (msg.event === 'getWallets') {
+              callback({ wallets: [testWallet] })
+            } else if (msg.event === 'getAccounts') {
+              callback({ accounts: [testAccount] })
             }
           },
         }

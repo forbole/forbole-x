@@ -67,6 +67,7 @@ Array [
       }
     }
   />,
+  <UnlockPasswordDialog />,
 ]
 `;
 
@@ -113,5 +114,6 @@ Array [
       }
     }
   />,
+  <UnlockPasswordDialog />,
 ]
 `;
