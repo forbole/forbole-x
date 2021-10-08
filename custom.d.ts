@@ -5,6 +5,8 @@ declare module '*.svg' {
 }
 declare module '@ledgerhq/hw-transport-webusb'
 
+type AppUnlockState = 'locked' | 'unlocking' | 'unlocked'
+
 interface Account {
   walletId: string
   address: string

@@ -35,7 +35,7 @@ const Layout: React.FC<LayoutProps> = ({
   const classes = useStyles()
   const theme = useTheme()
   const [isMenuExpanded, setIsMenuExpanded, loaded] = usePersistedState('isMenuExpanded', true)
-  const { isFirstTimeUser, isUnlocked, isChromeExtInstalled, unlockWallets, password } =
+  const { isFirstTimeUser, appUnlockState, isChromeExtInstalled, unlockWallets, password } =
     useWalletsContext()
   // Hide menu for chrome extension
   const router = useRouter()
@@ -61,7 +61,7 @@ const Layout: React.FC<LayoutProps> = ({
 
   const initPassword = React.useCallback(async () => {
     try {
-      if (!isUnlocked) {
+      if (appUnlockState !== 'unlocked') {
         if (defaultPassword) {
           await unlockWallets(String(defaultPassword))
         } else if (password) {
@@ -71,7 +71,7 @@ const Layout: React.FC<LayoutProps> = ({
     } catch (err) {
       console.log(err)
     }
-  }, [defaultPassword, password, isUnlocked, unlockWallets])
+  }, [defaultPassword, password, appUnlockState, unlockWallets])
 
   React.useEffect(() => {
     initPassword()
@@ -100,9 +100,12 @@ const Layout: React.FC<LayoutProps> = ({
         }}
       >
         {passwordRequired && isFirstTimeUser ? <GetStarted /> : null}
-        {!passwordRequired || isUnlocked ? children : null}
+        {!passwordRequired || appUnlockState === 'unlocked' ? children : null}
       </Box>
-      {passwordRequired && !isFirstTimeUser && isChromeExtInstalled ? (
+      {passwordRequired &&
+      !isFirstTimeUser &&
+      isChromeExtInstalled &&
+      appUnlockState === 'locked' ? (
         <UnlockPasswordDialog />
       ) : null}
       {!isChromeExtInstalled ? <ChromeExtDialog /> : null}

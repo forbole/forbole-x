@@ -6,7 +6,7 @@ const PASSWORD_EXPIRES_IN_MIN = 15
 
 interface WalletsState {
   isFirstTimeUser: boolean
-  isUnlocked: boolean
+  appUnlockState: AppUnlockState
   isChromeExtInstalled: boolean
   wallets: Wallet[]
   accounts: Account[]
@@ -30,7 +30,7 @@ interface WalletsState {
 
 const initialState: WalletsState = {
   isFirstTimeUser: false,
-  isUnlocked: false,
+  appUnlockState: 'locked',
   isChromeExtInstalled: false,
   wallets: [],
   accounts: [],
@@ -42,6 +42,7 @@ const WalletsContext = React.createContext<WalletsState>(initialState)
 const WalletsProvider: React.FC = ({ children }) => {
   const [wallets, setWallets] = React.useState<Wallet[]>([])
   const [accounts, setAccounts] = React.useState<Account[]>([])
+  const [appUnlockState, setAppUnlockState] = React.useState(initialState.appUnlockState)
   const [isFirstTimeUser, setIsFirstTimeUser] = usePersistedState('isFirstTimeUser', false)
   const [isChromeExtInstalled, setIsChromeExtInstalled] = usePersistedState(
     'isChromeExtInstalled',
@@ -78,6 +79,7 @@ const WalletsProvider: React.FC = ({ children }) => {
   const unlockWallets = React.useCallback(
     async (pw: string) => {
       if (!isFirstTimeUser) {
+        setAppUnlockState('unlocking')
         const walletaResponse = await sendMsgToChromeExt({
           event: 'getWallets',
           data: {
@@ -92,6 +94,7 @@ const WalletsProvider: React.FC = ({ children }) => {
         })
         setWallets(walletaResponse.wallets)
         setAccounts(accountsResponse.accounts)
+        setAppUnlockState('unlocked')
       }
       setPassword(pw)
     },
@@ -261,7 +264,7 @@ const WalletsProvider: React.FC = ({ children }) => {
     <WalletsContext.Provider
       value={{
         isFirstTimeUser,
-        isUnlocked: !!wallets.length,
+        appUnlockState,
         isChromeExtInstalled,
         wallets,
         accounts,
