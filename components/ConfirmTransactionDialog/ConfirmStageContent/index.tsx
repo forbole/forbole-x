@@ -25,6 +25,7 @@ import VoteContent from './VoteContent'
 import DepositContent from './DepositContent'
 import SaveProfileContent from './SaveProfileContent'
 import SetWithdrawAddressContent from './SetWithdrawAddressContent'
+import MultiSendContent from './MultiSendContent'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
@@ -63,6 +64,15 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             denoms={denoms}
             totalAmount={totalAmount}
             msgs={transactionData.msgs as TransactionMsgSend[]}
+          />
+        )
+      case '/cosmos.bank.v1beta1.MsgMultiSend':
+        return (
+          <MultiSendContent
+            account={account}
+            denoms={denoms}
+            totalAmount={totalAmount}
+            msgs={transactionData.msgs as TransactionMsgMultiSend[]}
           />
         )
       case '/cosmos.staking.v1beta1.MsgDelegate':

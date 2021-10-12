@@ -1,6 +1,7 @@
-import { Box, Avatar, Typography, Link } from '@material-ui/core'
+import { Box, Avatar, Typography, Link, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import { InputSharp } from '@material-ui/icons'
 import { useGetStyles } from './styles'
 import { formatCrypto, formatTokenAmount, getVoteAnswer } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
@@ -24,6 +25,7 @@ interface RowProps {
 
 const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
   const { classes } = useGetStyles(activity.tag)
+  const theme = useTheme()
   const { t, lang } = useTranslation('common')
   const isMobile = useIsMobile()
   const accountDetail = account
@@ -200,27 +202,78 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
     }
     if (activity.tag === 'multisend') {
       return (
-        <>
-          <Box display="flex" alignItems="center" flexWrap="wrap">
-            <Avatar className={classes.accountAvatar} alt={accountDetail.name} src={crypto.image} />
-            <Typography className={classes.validatorTypography}>{accountDetail.name}</Typography>
-            <Typography>
-              {t(`${activity.tag}Activity`)}
-              <span className={classes.amount}>
-                {formatTokenAmount(activity.amount, crypto.name, lang)}
-              </span>
-              {t('toTheFollowingRecepients')}
-            </Typography>
-          </Box>
+        <Box>
+          {activity.detail.inputs.map((input, i) => {
+            return (
+              <Box
+                key={`${input.address}_${i}`}
+                mr={1}
+                display="flex"
+                alignItems="center"
+                flexWrap="wrap"
+              >
+                <Link
+                  href={`${crypto.blockExplorerBaseUrl}/accounts/${input.address}`}
+                  target="_blank"
+                  variant="body1"
+                  style={{ marginRight: theme.spacing(1) }}
+                >
+                  {input.address === account.address ? (
+                    <AccountAvatar
+                      ledgerIconDisabled
+                      account={account}
+                      address={address}
+                      hideAddress
+                      size="small"
+                    />
+                  ) : (
+                    input.address
+                  )}
+                </Link>
+                <Typography>{t(`${activity.tag}Activity`)}</Typography>
+                <span className={classes.amount}>
+                  {formatTokenAmount(input.tokenAmount, crypto.name, lang)}
+                </span>
+                {i === activity.detail.inputs.length - 1 ? (
+                  <Typography>{t('toTheFollowingRecepients')}</Typography>
+                ) : null}
+              </Box>
+            )
+          })}
           <Box className={classes.detail}>
-            {activity.detail.map((x, i) => (
-              <Typography key={`${x.address}_${i}`}>
-                {x.address} {t('received')}{' '}
-                <span className={classes.amount}>{formatCrypto(x.amount, crypto.name, lang)}</span>
-              </Typography>
+            {activity.detail.outputs.map((output, i) => (
+              <Box
+                key={`${output.address}_${i}`}
+                display="flex"
+                alignItems="center"
+                flexWrap="wrap"
+              >
+                <Link
+                  href={`${crypto.blockExplorerBaseUrl}/accounts/${output.address}`}
+                  target="_blank"
+                  variant="body1"
+                  style={{ marginRight: theme.spacing(1) }}
+                >
+                  {output.address === account.address ? (
+                    <AccountAvatar
+                      ledgerIconDisabled
+                      account={account}
+                      address={address}
+                      hideAddress
+                      size="small"
+                    />
+                  ) : (
+                    output.address
+                  )}
+                </Link>
+                <Typography>{t('received')}</Typography>
+                <span className={classes.amount}>
+                  {formatTokenAmount(output.tokenAmount, crypto.name, lang)}
+                </span>
+              </Box>
             ))}
           </Box>
-        </>
+        </Box>
       )
     }
     if (activity.tag === 'createValidator') {

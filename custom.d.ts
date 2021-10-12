@@ -405,6 +405,7 @@ type TransactionMsg =
   | TransactionMsgRedelegate
   | TransactionMsgWithdrawReward
   | TransactionMsgSend
+  | TransactionMsgMultiSend
   | TransactionMsgIBCTransfer
   | TransactionMsgSubmitProposal
   | TransactionMsgVote
