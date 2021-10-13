@@ -509,7 +509,9 @@ export const getEquivalentCoinToSend = (
     []
   ).find((unit) => !!availableCoins.find((c) => c.denom.toLowerCase() === unit.denom.toLowerCase()))
   return {
-    amount: amount.amount * 10 ** (get(tokenPrice, 'token_unit.exponent', 0) - coinDenom.exponent),
+    amount: Math.round(
+      amount.amount * 10 ** (get(tokenPrice, 'token_unit.exponent', 0) - coinDenom.exponent)
+    ),
     denom: coinDenom.denom,
   }
 }
