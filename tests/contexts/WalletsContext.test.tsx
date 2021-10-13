@@ -421,6 +421,7 @@ describe('context: WalletsContext', () => {
 })
 
 afterEach(() => {
+  localStorage.clear()
   cleanup()
   jest.clearAllMocks()
 })

@@ -27,6 +27,10 @@ describe('Create wallet on first visit', () => {
                 mnemonic:
                   'olive praise state suggest leader scan weekend exhibit glance gravity rebel kingdom',
               })
+            } else if (msg.event === 'getWallets') {
+              callback({ wallets: [testWallet] })
+            } else if (msg.event === 'getAccounts') {
+              callback({ accounts: [testAccount] })
             }
           },
         }

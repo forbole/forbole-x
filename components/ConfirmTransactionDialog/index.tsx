@@ -130,7 +130,12 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const totalAmount = getTokenAmountFromDenoms(
     flatten(
       transactionData.msgs
-        .map((msg) => (msg.value as any).amount || (msg.value as any).token)
+        .map(
+          (msg) =>
+            (msg.value as any).amount ||
+            (msg.value as any).token ||
+            flatten(get(msg, 'value.inputs', []).map((i) => i.coins))
+        )
         .filter((a) => a)
     ),
     denoms
@@ -139,6 +144,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const successMessage = React.useMemo(() => {
     switch (get(transactionData, 'msgs[0].typeUrl', '')) {
       case '/cosmos.bank.v1beta1.MsgSend':
+      case '/cosmos.bank.v1beta1.MsgMultiSend':
       case '/ibc.applications.transfer.v1.MsgTransfer':
         return t('successfully sent', {
           title: formatTokenAmount(totalAmount, crypto, lang),

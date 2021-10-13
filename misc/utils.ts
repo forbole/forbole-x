@@ -333,6 +333,29 @@ export const transformTransactions = (
           success: get(t, 'transaction.success', false),
         }
       }
+      if (t.type.includes('MsgMultiSend')) {
+        return {
+          ref: `#${get(t, 'transaction_hash', '')}`,
+          tab: 'transfer',
+          tag: 'multisend',
+          date: `${format(
+            new Date(get(t, 'transaction.block.timestamp')),
+            'dd MMM yyyy HH:mm'
+          )} UTC`,
+          detail: {
+            inputs: get(t, 'value.inputs', []).map((input) => ({
+              ...input,
+              tokenAmount: getTokenAmountFromDenoms(input.coins, tokensPrices),
+            })),
+            outputs: get(t, 'value.outputs', []).map((output) => ({
+              ...output,
+              tokenAmount: getTokenAmountFromDenoms(output.coins, tokensPrices),
+            })),
+          },
+          amount: getTokenAmountFromDenoms(get(t, 'value.amount', []), tokensPrices),
+          success: get(t, 'transaction.success', false),
+        }
+      }
       if (t.type.includes('MsgDelegate')) {
         return {
           ref: `#${get(t, 'transaction_hash', '')}`,
@@ -486,7 +509,9 @@ export const getEquivalentCoinToSend = (
     []
   ).find((unit) => !!availableCoins.find((c) => c.denom.toLowerCase() === unit.denom.toLowerCase()))
   return {
-    amount: amount.amount * 10 ** (get(tokenPrice, 'token_unit.exponent', 0) - coinDenom.exponent),
+    amount: Math.round(
+      amount.amount * 10 ** (get(tokenPrice, 'token_unit.exponent', 0) - coinDenom.exponent)
+    ),
     denom: coinDenom.denom,
   }
 }

@@ -1,4 +1,10 @@
-import { Button, DialogActions, DialogContent, DialogContentText } from '@material-ui/core'
+import {
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  Typography,
+} from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
@@ -44,6 +50,7 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
           helperText={error}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <Typography variant="body2">{t('unlock pasword helper text')}</Typography>
       </DialogContent>
       <DialogActions className={classes.action}>
         <Button

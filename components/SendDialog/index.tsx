@@ -2,6 +2,7 @@
 import { Dialog, DialogTitle, IconButton, DialogContent, Box, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import groupBy from 'lodash/groupBy'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
@@ -45,25 +46,63 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
     ) => {
       try {
         setLoading(true)
-        const msgs: TransactionMsgSend[] = recipients.map((r) => {
-          const coinsToSend = getEquivalentCoinToSend(
-            r.amount,
-            availableTokens.coins,
-            availableTokens.tokens_prices
-          )
-          return {
-            typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-            value: {
-              fromAddress: account.address,
-              toAddress: r.address,
-              amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
-            },
-          }
-        })
-        await sendTransaction(password, account.address, {
-          msgs,
-          memo,
-        })
+        if (recipients.length > 1) {
+          const inputs = []
+          const outputs = recipients.map((r) => {
+            const coinsToSend = getEquivalentCoinToSend(
+              r.amount,
+              availableTokens.coins,
+              availableTokens.tokens_prices
+            )
+            const inputCoinIndex = inputs.findIndex((i) => i.coins[0].denom === coinsToSend.denom)
+            if (inputCoinIndex > -1) {
+              inputs[inputCoinIndex].coins[0].amount = String(
+                Number(inputs[inputCoinIndex].coins[0].amount) + coinsToSend.amount
+              )
+            } else {
+              inputs.push({
+                address: account.address,
+                coins: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
+              })
+            }
+            return {
+              address: r.address,
+              coins: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
+            }
+          })
+          await sendTransaction(password, account.address, {
+            msgs: [
+              {
+                typeUrl: '/cosmos.bank.v1beta1.MsgMultiSend',
+                value: {
+                  inputs,
+                  outputs,
+                },
+              },
+            ],
+            memo,
+          })
+        } else {
+          const msgs: TransactionMsgSend[] = recipients.map((r) => {
+            const coinsToSend = getEquivalentCoinToSend(
+              r.amount,
+              availableTokens.coins,
+              availableTokens.tokens_prices
+            )
+            return {
+              typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+              value: {
+                fromAddress: account.address,
+                toAddress: r.address,
+                amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
+              },
+            }
+          })
+          await sendTransaction(password, account.address, {
+            msgs,
+            memo,
+          })
+        }
         setLoading(false)
         onClose()
       } catch (err) {

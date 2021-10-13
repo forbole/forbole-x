@@ -29,6 +29,7 @@ const cryptocurrencies: { [key: string]: Cryptocurrency } = {
       },
       gas: {
         '/cosmos.bank.v1beta1.MsgSend': '200000',
+        '/cosmos.bank.v1beta1.MsgMultiSend': '400000',
         '/cosmos.staking.v1beta1.MsgDelegate': '400000',
         '/cosmos.staking.v1beta1.MsgBeginRedelegate': '400000',
         '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward': '200000',

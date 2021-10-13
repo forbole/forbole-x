@@ -5,6 +5,8 @@ declare module '*.svg' {
 }
 declare module '@ledgerhq/hw-transport-webusb'
 
+type AppUnlockState = 'locked' | 'unlocking' | 'unlocked'
+
 interface Account {
   walletId: string
   address: string
@@ -281,6 +283,14 @@ interface TransactionMsgSend {
   }
 }
 
+interface TransactionMsgMultiSend {
+  typeUrl: '/cosmos.bank.v1beta1.MsgMultiSend'
+  value: {
+    inputs: Array<{ address: string; coins: Array<{ amount: string; denom: string }> }>
+    outputs: Array<{ address: string; coins: Array<{ amount: string; denom: string }> }>
+  }
+}
+
 interface TransactionMsgIBCTransfer {
   typeUrl: '/ibc.applications.transfer.v1.MsgTransfer'
   value: {
@@ -395,6 +405,7 @@ type TransactionMsg =
   | TransactionMsgRedelegate
   | TransactionMsgWithdrawReward
   | TransactionMsgSend
+  | TransactionMsgMultiSend
   | TransactionMsgIBCTransfer
   | TransactionMsgSubmitProposal
   | TransactionMsgVote
