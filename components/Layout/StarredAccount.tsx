@@ -71,8 +71,10 @@ const StarredAccount: React.FC<StarredAccountProps> = ({ account }) => {
               <CircularProgress size={20} />
             </Box>
           ) : (
-            <Box>
-              <Typography>{formatTokenAmount(tokenAmounts, account.crypto, lang)}</Typography>
+            <Box mt={-1}>
+              <Typography variant="body2" color="textSecondary">
+                {formatTokenAmount(tokenAmounts, account.crypto, lang)}
+              </Typography>
               {/* after USD balance is added */}
               {/* <Typography>{formatCurrency(usdBalance, currency, lang)}</Typography> */}
             </Box>
