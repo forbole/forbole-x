@@ -413,5 +413,6 @@
   "changes": "Changes",
   "sign ledger instruction 1": "Turn on and unlock your Ledger device",
   "sign ledger instruction 2": "The application is connecting and waiting for you to sign the transaction",
-  "image upload error": "Image Upload Error"
+  "image upload error": "Image Upload Error",
+  "vesting": "Vesting"
 }

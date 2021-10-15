@@ -10,16 +10,19 @@ import {
   TableRow,
   TableCell,
   useTheme,
+  Button,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
 import { PieChart, Pie, Cell } from 'recharts'
+import ArrowNextIcon from '../../assets/images/icons/icon_arrow_next.svg'
 import useStyles from './styles'
 import { CustomTheme } from '../../misc/theme'
 import { formatCrypto, formatCurrency } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import useIconProps from '../../misc/useIconProps'
 
 interface AccountBalanceCardProps {
   account: Account
@@ -31,6 +34,7 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({ accountBalance,
   const { t, lang } = useTranslation('common')
   const theme: CustomTheme = useTheme()
   const { currency } = useGeneralContext()
+  const iconProps = useIconProps()
   const data = Object.keys(accountBalance.balance).map((k, i) => ({
     name: t(k),
     value: get(accountBalance, `balance.${k}.${account.crypto}.amount`, 0),
@@ -76,7 +80,10 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({ accountBalance,
   return (
     <>
       <Card className={classes.container}>
-        <Typography variant="h4">{t('balance')}</Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="h4">{t('balance')}</Typography>
+          <Button endIcon={<ArrowNextIcon {...iconProps} />}>{t('vesting')}</Button>
+        </Box>
         <Box display="flex" my={2} alignItems="center">
           <PieChart height={theme.spacing(20)} width={theme.spacing(20)}>
             <Pie

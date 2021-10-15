@@ -44,10 +44,7 @@ const WalletsProvider: React.FC = ({ children }) => {
   const [accounts, setAccounts] = React.useState<Account[]>([])
   const [appUnlockState, setAppUnlockState] = React.useState(initialState.appUnlockState)
   const [isFirstTimeUser, setIsFirstTimeUser] = usePersistedState('isFirstTimeUser', false)
-  const [isChromeExtInstalled, setIsChromeExtInstalled] = usePersistedState(
-    'isChromeExtInstalled',
-    false
-  )
+  const [isChromeExtInstalled, setIsChromeExtInstalled] = React.useState(false)
   const [password, setPassword] = usePersistedState(
     'password',
     '',

@@ -2,7 +2,6 @@
 import { Dialog, DialogTitle, IconButton, DialogContent, Box, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import groupBy from 'lodash/groupBy'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
