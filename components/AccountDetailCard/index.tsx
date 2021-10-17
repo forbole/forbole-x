@@ -92,7 +92,6 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
       <Card className={classes.accountCard}>
         <Box
           p={4}
-          position="fixed"
           display={isMobile ? 'block' : 'flex'}
           justifyContent="space-between"
           alignItems="flex-start"
@@ -161,7 +160,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
       </Card>
       <Card className={classes.container}>
         <Divider />
-        <Box p={4} position="relative">
+        <Box pt={0} p={4} position="relative">
           <Box mb={5} mt={3}>
             <Tabs
               value={currentTab}

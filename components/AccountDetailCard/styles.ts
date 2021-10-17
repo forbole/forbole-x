@@ -8,9 +8,10 @@ const useStyles = makeStyles(
     },
     accountCard: {
       position: 'sticky',
-      top: '80px',
+      top: theme.spacing(10),
       zIndex: 1,
       backgroundColor: theme.palette.background.paper,
+      borderRadius: '4px 4px 0px 0px',
     },
     sendButton: {
       color: 'white',
