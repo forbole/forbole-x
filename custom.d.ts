@@ -11,8 +11,8 @@ interface Account {
   walletId: string
   address: string
   crypto: string
-  index: number
-  hdIndex: number
+  account: number // HD Path account
+  index: number // HD Path index
   name: string
   fav: boolean
   createdAt: number
@@ -51,8 +51,8 @@ interface CreateAccountParams {
   crypto: string
   name: string
   address: string
+  account: index
   index: number
-  hdIndex: index
 }
 
 interface UpdateAccountParams {

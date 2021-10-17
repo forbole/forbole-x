@@ -6,8 +6,8 @@ import cryptocurrencies from './cryptocurrencies'
 const getWalletAddress = async (
   mnemonic: string,
   crypto: string,
+  account: number,
   index: number,
-  hdIndex: number,
   ledgerTransport?: any,
   showAddressOnLedger?: boolean
 ): Promise<string> => {
@@ -19,7 +19,7 @@ const getWalletAddress = async (
   let signer
   const signerOptions = {
     hdPaths: [
-      stringToPath(`m/44'/${cryptocurrencies[crypto].coinType}'/${index || 0}'/0/${hdIndex || 0}`),
+      stringToPath(`m/44'/${cryptocurrencies[crypto].coinType}'/${account || 0}'/0/${index || 0}`),
     ],
     prefix: cryptocurrencies[crypto].prefix,
   }
