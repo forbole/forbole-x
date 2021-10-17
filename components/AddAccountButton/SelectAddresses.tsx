@@ -29,7 +29,7 @@ import { CustomTheme } from '../../misc/theme'
 const MAX_ADDRESSES = 100
 
 interface SelectAddressesProps {
-  onSelect: (addresses: Array<{ address: string; index: number }>) => void
+  onSelect: (addresses: Array<{ address: string; index: number; hdIndex: number }>) => void
   walletId: string
   securityPassword: string
   ledgerTransport?: any
@@ -52,7 +52,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
     Array<{ address: string; balance: TokenAmount }>
   >(times(10).map(() => ({ address: '', balance: {} })))
   const [selectedAddresses, setSelectedAddresses] = React.useState<
-    Array<{ address: string; index: number }>
+    Array<{ address: string; index: number; hdIndex: number }>
   >([])
   const [loading, setLoading] = React.useState(false)
   const { viewMnemonicPhrase, accounts } = useWalletsContext()
@@ -64,7 +64,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
       const newAddresses = []
       const mnemonic = await viewMnemonicPhrase(walletId, securityPassword)
       for (let i = page * rowsPerPage; i < (page + 1) * rowsPerPage; i += 1) {
-        const address = await getWalletAddress(mnemonic, crypto, i, ledgerTransport)
+        const address = await getWalletAddress(mnemonic, crypto, i, 0, ledgerTransport)
         const { total: balance } = await fetchAccountBalance(address, crypto, true)
         newAddresses.push({ address, balance })
       }
@@ -122,7 +122,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
                       onChange={(e) =>
                         setSelectedAddresses((a) =>
                           e.target.checked
-                            ? [...a, { address, index }]
+                            ? [...a, { address, index, hdIndex: 0 }]
                             : a.filter((aa) => aa.index !== index)
                         )
                       }

@@ -160,7 +160,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
         closeAllLedgerConnections()
         onClose()
       } else {
-        const addresses = await Promise.all(cryptos.map((c) => getWalletAddress(mnemonic, c, 0)))
+        const addresses = await Promise.all(cryptos.map((c) => getWalletAddress(mnemonic, c, 0, 0)))
         await addWallet({
           type,
           name,
@@ -188,7 +188,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
                   setStage(CommonStage.ImportLedgerWalletStage, undefined, true)
                   // select next crypto
                 } else if (ledgerCryptos.length > ledgerAddresses.length) {
-                  const address = await getWalletAddress('', ledgerCryptos[0], 0, signer, true)
+                  const address = await getWalletAddress('', ledgerCryptos[0], 0, 0, signer, true)
                   setLedgerCryptosIndex((i) => i + 1)
                   setLedgerAddresses((addresses) => [...addresses, address])
                   // save wallet on last crypto

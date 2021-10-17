@@ -88,11 +88,14 @@ const signAndBroadcastCosmosTransaction = async (
   mnemonic: string,
   crypto: string,
   index: number,
+  hdIndex: number,
   transactionData: any,
   ledgerTransport?: any
 ): Promise<any> => {
   const signerOptions = {
-    hdPaths: [stringToPath(`m/44'/${cryptocurrencies[crypto].coinType}'/${index}'/0/0`)],
+    hdPaths: [
+      stringToPath(`m/44'/${cryptocurrencies[crypto].coinType}'/${index || 0}'/0/${hdIndex || 0}`),
+    ],
     prefix: cryptocurrencies[crypto].prefix,
   }
   let signer
@@ -139,6 +142,7 @@ const signAndBroadcastTransaction = async (
       mnemonic,
       account.crypto,
       account.index,
+      account.hdIndex,
       transactionData,
       ledgerTransport
     )

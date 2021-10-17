@@ -12,6 +12,7 @@ interface Account {
   address: string
   crypto: string
   index: number
+  hdIndex: number
   name: string
   fav: boolean
   createdAt: number
@@ -51,6 +52,7 @@ interface CreateAccountParams {
   name: string
   address: string
   index: number
+  hdIndex: index
 }
 
 interface UpdateAccountParams {
