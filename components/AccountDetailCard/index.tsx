@@ -89,76 +89,79 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
       : ['available', 'delegated', 'unbonding', 'rewards', 'commissions']
   return (
     <>
-      <Card className={classes.container}>
-        <Box p={4} position="relative">
-          <Box
-            mb={4}
-            display={isMobile ? 'block' : 'flex'}
-            justifyContent="space-between"
-            alignItems="flex-start"
-          >
-            <AccountAvatar ledgerIconDisabled size="large" account={account} />
-            <Box display="flex" mt={isMobile ? 2 : 0} ml={isMobile ? -2 : 0}>
-              {!profileExist ? (
-                <Button
-                  classes={{ root: classes.profileButton }}
-                  variant="outlined"
-                  onClick={onCreateProfile}
-                >
-                  {t('create profile')}
-                </Button>
-              ) : null}
+      <Card className={classes.accountCard}>
+        <Box
+          p={4}
+          position="fixed"
+          display={isMobile ? 'block' : 'flex'}
+          justifyContent="space-between"
+          alignItems="flex-start"
+        >
+          <AccountAvatar ledgerIconDisabled size="large" account={account} />
+          <Box display="flex" mt={isMobile ? 2 : 0} ml={isMobile ? -2 : 0}>
+            {!profileExist ? (
               <Button
-                classes={{ root: classes.delegateButton }}
-                variant="contained"
-                color="primary"
-                onClick={() => setDelegateDialogOpen(true)}
+                classes={{ root: classes.profileButton }}
+                variant="outlined"
+                onClick={onCreateProfile}
               >
-                {t('delegate')}
+                {t('create profile')}
+              </Button>
+            ) : null}
+            <Button
+              classes={{ root: classes.delegateButton }}
+              variant="contained"
+              color="primary"
+              onClick={() => setDelegateDialogOpen(true)}
+            >
+              {t('delegate')}
+            </Button>
+            <Button
+              classes={{ root: classes.sendButton }}
+              variant="contained"
+              onClick={() => setSendDialogOpen(true)}
+            >
+              {t('send')}
+            </Button>
+            <Button
+              classes={{ root: classes.withdrawButton }}
+              variant="contained"
+              color="secondary"
+              onClick={() => setWithdrawRewardsDialogOpen(true)}
+            >
+              {t('withdraw')}
+            </Button>
+            <Box
+              display="flex"
+              position={isMobile ? 'absolute' : 'static'}
+              top={theme.spacing(2)}
+              right={theme.spacing(2)}
+            >
+              <Button
+                classes={{ root: classes.iconButton }}
+                variant={isMobile ? 'text' : 'outlined'}
+                onClick={toggleFav}
+              >
+                {account.fav ? (
+                  <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
+                ) : (
+                  <StarIcon {...iconProps} />
+                )}
               </Button>
               <Button
-                classes={{ root: classes.sendButton }}
-                variant="contained"
-                onClick={() => setSendDialogOpen(true)}
+                classes={{ root: classes.iconButton }}
+                variant={isMobile ? 'text' : 'outlined'}
+                onClick={() => setEditAccountDialogOpen(true)}
               >
-                {t('send')}
+                <EditIcon {...iconProps} />
               </Button>
-              <Button
-                classes={{ root: classes.withdrawButton }}
-                variant="contained"
-                color="secondary"
-                onClick={() => setWithdrawRewardsDialogOpen(true)}
-              >
-                {t('withdraw')}
-              </Button>
-              <Box
-                display="flex"
-                position={isMobile ? 'absolute' : 'static'}
-                top={theme.spacing(2)}
-                right={theme.spacing(2)}
-              >
-                <Button
-                  classes={{ root: classes.iconButton }}
-                  variant={isMobile ? 'text' : 'outlined'}
-                  onClick={toggleFav}
-                >
-                  {account.fav ? (
-                    <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
-                  ) : (
-                    <StarIcon {...iconProps} />
-                  )}
-                </Button>
-                <Button
-                  classes={{ root: classes.iconButton }}
-                  variant={isMobile ? 'text' : 'outlined'}
-                  onClick={() => setEditAccountDialogOpen(true)}
-                >
-                  <EditIcon {...iconProps} />
-                </Button>
-              </Box>
             </Box>
           </Box>
-          <Divider />
+        </Box>
+      </Card>
+      <Card className={classes.container}>
+        <Divider />
+        <Box p={4} position="relative">
           <Box mb={5} mt={3}>
             <Tabs
               value={currentTab}

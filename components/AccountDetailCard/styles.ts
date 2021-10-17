@@ -6,6 +6,12 @@ const useStyles = makeStyles(
     container: {
       marginBottom: theme.spacing(2),
     },
+    accountCard: {
+      position: 'sticky',
+      top: '80px',
+      zIndex: 1,
+      backgroundColor: theme.palette.background.paper,
+    },
     sendButton: {
       color: 'white',
       width: theme.spacing(18),
