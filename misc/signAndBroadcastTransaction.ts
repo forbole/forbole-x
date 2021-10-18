@@ -239,7 +239,7 @@ const signAndBroadcastCosmosTransaction = async (
   crypto: string,
   index: number,
   transactionData: any,
-  // signTx: ()=> void,
+  signingTx: () => void,
   ledgerTransport?: any
 ): Promise<any> => {
   const signerOptions = {
@@ -260,18 +260,17 @@ const signAndBroadcastCosmosTransaction = async (
     cryptocurrencies[crypto].rpcEndpoint,
     signer
   )
-  const signTx = async () => {
-    const txRaw = await client.sign(
-      accounts[0].address,
-      transactionData.msgs.map((msg: any) => formatTransactionMsg(msg)),
-      transactionData.fee,
-      transactionData.memo
-    )
-    // const tx = new Uint8Array(serialize(txRaw))
-    return txRaw.bodyBytes
-  }
 
-  const result = await client.broadcastTx(await signTx())
+  const txRaw = await client.sign(
+    accounts[0].address,
+    transactionData.msgs.map((msg: any) => formatTransactionMsg(msg)),
+    transactionData.fee,
+    transactionData.memo
+  )
+
+  signingTx()
+
+  const result = await client.broadcastTx(transactionData)
 
   console.log('signAndBroadcastCosmosTransaction', result)
 
@@ -294,8 +293,8 @@ const signAndBroadcastTransaction = async (
   account: Account,
   transactionData: any,
   securityPassword: string,
-  signTx: () => void,
-  ledgerTransport?: any,
+  signingTx: () => void,
+  ledgerTransport?: any
 ): Promise<any> => {
   const channel = new BroadcastChannel('forbole-x')
   try {
@@ -309,7 +308,8 @@ const signAndBroadcastTransaction = async (
       account.crypto,
       account.index,
       transactionData,
-      ledgerTransport
+      ledgerTransport,
+      signingTx()
     )
     // signer()
     channel.postMessage({

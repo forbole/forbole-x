@@ -219,8 +219,8 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         account,
         transactionData,
         securityPassword,
-        ledgerSigner,
-        () => setStage(ConfirmTransactionStage.SignStage, true)
+        () => setStage(ConfirmTransactionStage.SignStage, true),
+        ledgerSigner
       )
       // setLoading(false)
       setStage(ConfirmTransactionStage.SuccessStage, true)
