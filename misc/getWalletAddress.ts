@@ -7,6 +7,7 @@ const getWalletAddress = async (
   mnemonic: string,
   crypto: string,
   account: number,
+  change: number,
   index: number,
   ledgerTransport?: any,
   showAddressOnLedger?: boolean
@@ -19,7 +20,9 @@ const getWalletAddress = async (
   let signer
   const signerOptions = {
     hdPaths: [
-      stringToPath(`m/44'/${cryptocurrencies[crypto].coinType}'/${account || 0}'/0/${index || 0}`),
+      stringToPath(
+        `m/44'/${cryptocurrencies[crypto].coinType}'/${account || 0}'/${change || 0}/${index || 0}`
+      ),
     ],
     prefix: cryptocurrencies[crypto].prefix,
   }

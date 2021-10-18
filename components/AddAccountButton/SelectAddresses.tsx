@@ -33,7 +33,9 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 const MAX_ADDRESSES = 100
 
 interface SelectAddressesProps {
-  onSelect: (addresses: Array<{ address: string; index: number; account: number }>) => void
+  onSelect: (
+    addresses: Array<{ address: string; index: number; account: number; change: number }>
+  ) => void
   walletId: string
   securityPassword: string
   ledgerTransport?: any
@@ -56,17 +58,19 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
     Array<{ address: string; balance: TokenAmount }>
   >(times(10).map(() => ({ address: '', balance: {} })))
   const [selectedAddresses, setSelectedAddresses] = React.useState<
-    Array<{ address: string; index: number; account: number }>
+    Array<{ address: string; index: number; account: number; change: number }>
   >([])
   const [loading, setLoading] = React.useState(false)
   // Advanced account
   const [isAdvance, setIsAdvance] = React.useState(false)
   const [hdAccount, setHdAccount] = React.useState('')
   const [hdIndex, setHdIndex] = React.useState('')
+  const [hdChange, setHdChange] = React.useState('')
   const [hdAddress, setHdAddress] = React.useState({ address: '', balance: {} })
 
-  const { viewMnemonicPhrase, accounts } = useWalletsContext()
+  const { viewMnemonicPhrase, accounts, wallets } = useWalletsContext()
   const existingAddresses = accounts.map((a) => a.address)
+  const wallet = wallets.find((w) => w.id === walletId)
 
   const updateAddresses = React.useCallback(async () => {
     try {
@@ -76,8 +80,9 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
         const address = await getWalletAddress(
           mnemonic,
           crypto,
-          Number(hdAccount),
-          Number(hdIndex),
+          Number(hdAccount) || 0,
+          Number(hdChange) || 0,
+          Number(hdIndex) || 0,
           ledgerTransport
         )
         const { total: balance } = await fetchAccountBalance(address, crypto, true)
@@ -85,7 +90,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
       } else if (!isAdvance) {
         const newAddresses = []
         for (let i = page * rowsPerPage; i < (page + 1) * rowsPerPage; i += 1) {
-          const address = await getWalletAddress(mnemonic, crypto, i, 0, ledgerTransport)
+          const address = await getWalletAddress(mnemonic, crypto, i, 0, 0, ledgerTransport)
           const { total: balance } = await fetchAccountBalance(address, crypto, true)
           newAddresses.push({ address, balance })
         }
@@ -104,12 +109,13 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
     ledgerTransport,
     isAdvance,
     hdAccount,
+    hdChange,
     hdIndex,
   ])
 
   React.useEffect(() => {
     updateAddresses()
-  }, [page, rowsPerPage, hdAccount, hdIndex, isAdvance])
+  }, [page, rowsPerPage, hdAccount, hdIndex, hdChange, isAdvance])
 
   return (
     <form
@@ -118,7 +124,14 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
         e.preventDefault()
         onSelect(
           isAdvance
-            ? [{ address: hdAddress.address, account: Number(hdAccount), index: Number(hdIndex) }]
+            ? [
+                {
+                  address: hdAddress.address,
+                  account: Number(hdAccount) || 0,
+                  index: Number(hdIndex) || 0,
+                  change: Number(hdChange) || 0,
+                },
+              ]
             : selectedAddresses
         )
       }}
@@ -147,7 +160,26 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
                 onChange={(e) => setHdAccount(e.target.value)}
               />
             </Box>
-            <Typography>'/0'/</Typography>
+            {wallet.type === 'mnemonic' ? (
+              <>
+                <Typography>'/</Typography>
+                <Box mx={2}>
+                  <TextField
+                    fullWidth
+                    variant="filled"
+                    type="number"
+                    InputProps={{
+                      disableUnderline: true,
+                    }}
+                    value={hdChange}
+                    onChange={(e) => setHdChange(e.target.value)}
+                  />
+                </Box>
+                <Typography>'/</Typography>
+              </>
+            ) : (
+              <Typography>'/0'/</Typography>
+            )}
             <Box mx={2}>
               <TextField
                 fullWidth
@@ -211,7 +243,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
                         onChange={(e) =>
                           setSelectedAddresses((a) =>
                             e.target.checked
-                              ? [...a, { address, account, index: 0 }]
+                              ? [...a, { address, account, index: 0, change: 0 }]
                               : a.filter((aa) => aa.account !== account)
                           )
                         }

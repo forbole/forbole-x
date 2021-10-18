@@ -12,6 +12,7 @@ interface Account {
   address: string
   crypto: string
   account: number // HD Path account
+  change: number // HD Path change
   index: number // HD Path index
   name: string
   fav: boolean
@@ -51,7 +52,8 @@ interface CreateAccountParams {
   crypto: string
   name: string
   address: string
-  account: index
+  account: number
+  change: number
   index: number
 }
 
