@@ -23,13 +23,15 @@ import SecurityPasswordDialogContent from '../SecurityPasswordDialogContent'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useSignerInfo from '../../misc/useSignerInfo'
-import signAndBroadcastTransaction from '../../misc/signAndBroadcastTransaction'
+// import signAndBroadcastTransaction from '../../misc/signAndBroadcastTransaction'
+import { signTransaction, broadcastTransaction } from '../../misc/signAndBroadcastTransaction'
 import useIsChromeExt from '../../misc/useIsChromeExt'
 
 enum ConfirmTransactionStage {
   ConfirmStage = 'confirm',
   SecurityPasswordStage = 'security password',
   ConnectLedgerStage = 'connect ledger',
+  SignStage = 'sign',
   SuccessStage = 'success',
   FailStage = 'fail',
 }
@@ -200,28 +202,51 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
     }
   }, [isSentFromWeb])
 
-  const confirm = React.useCallback(
-    async (securityPassword?: string, ledgerSigner?: any) => {
-      try {
-        setLoading(true)
-        await signAndBroadcastTransaction(
-          password,
-          account,
-          transactionData,
-          securityPassword,
-          ledgerSigner
-        )
-        setLoading(false)
-        setStage(ConfirmTransactionStage.SuccessStage, true)
-      } catch (err) {
-        setErrMsg(err.message)
-        setStage(ConfirmTransactionStage.FailStage, true)
-      }
-    },
-    [account, transactionData, password]
-  )
+  const confirm = React.useCallback(async (securityPassword?: string, ledgerSigner?: any) => {
+    try {
+      setLoading(true)
+      const tx = await signTransaction(
+        password,
+        account,
+        transactionData,
+        securityPassword,
+        ledgerSigner
+      )
+      console.log('tx', tx)
+      setStage(ConfirmTransactionStage.SignStage, true)
+      await broadcastTransaction(password, account, transactionData, securityPassword, ledgerSigner)
+      // setLoading(false)
+      setStage(ConfirmTransactionStage.SuccessStage, true)
+      setLoading(false)
+    } catch (err) {
+      setErrMsg(err.message)
+      setStage(ConfirmTransactionStage.FailStage, true)
+    }
+  }, [])
+
+  // const broadcast = React.useCallback(
+  //   async (securityPassword?: string, ledgerSigner?: any) => {
+  //     try {
+  //       setLoading(true)
+  //       await broadcastTransaction(
+  //         password,
+  //         account,
+  //         transactionData,
+  //         securityPassword,
+  //         ledgerSigner
+  //       )
+  //       setLoading(false)
+  //       setStage(ConfirmTransactionStage.SuccessStage, true)
+  //     } catch (err) {
+  //       setErrMsg(err.message)
+  //       setStage(ConfirmTransactionStage.FailStage, true)
+  //     }
+  //   },
+  //   [account, transactionData, password]
+  // )
 
   const content: Content = React.useMemo(() => {
+    // console.log('stage', stage)
     switch (stage) {
       case ConfirmTransactionStage.ConfirmStage:
         return {
@@ -265,6 +290,18 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
               onConnect={(ledgerSigner) => confirm(undefined, ledgerSigner)}
               ledgerAppName={cryptocurrencies[account.crypto].ledgerAppName}
               signTransaction
+            />
+          ),
+        }
+      case ConfirmTransactionStage.SignStage:
+        return {
+          title: '',
+          dialogWidth: 'sm',
+          content: (
+            <ConnectLedgerDialogContent
+              onConnect={(ledgerSigner) => confirm(undefined, ledgerSigner)}
+              ledgerAppName={cryptocurrencies[account.crypto].ledgerAppName}
+              sendingTransaction
             />
           ),
         }
