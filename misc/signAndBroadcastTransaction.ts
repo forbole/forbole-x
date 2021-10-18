@@ -239,6 +239,7 @@ const signAndBroadcastCosmosTransaction = async (
   crypto: string,
   index: number,
   transactionData: any,
+  // signTx: ()=> void,
   ledgerTransport?: any
 ): Promise<any> => {
   const signerOptions = {
@@ -259,16 +260,27 @@ const signAndBroadcastCosmosTransaction = async (
     cryptocurrencies[crypto].rpcEndpoint,
     signer
   )
-  // const signResult = await client.sign(accounts[0].address,
+  const signTx = async () => {
+    const txRaw = await client.sign(
+      accounts[0].address,
+      transactionData.msgs.map((msg: any) => formatTransactionMsg(msg)),
+      transactionData.fee,
+      transactionData.memo
+    )
+    // const tx = new Uint8Array(serialize(txRaw))
+    return txRaw.bodyBytes
+  }
+
+  const result = await client.broadcastTx(await signTx())
+
+  console.log('signAndBroadcastCosmosTransaction', result)
+
+  // const result = await client.signAndBroadcast(
+  //   accounts[0].address,
   //   transactionData.msgs.map((msg: any) => formatTransactionMsg(msg)),
   //   transactionData.fee,
-  //   transactionData.memo)
-  const result = await client.signAndBroadcast(
-    accounts[0].address,
-    transactionData.msgs.map((msg: any) => formatTransactionMsg(msg)),
-    transactionData.fee,
-    transactionData.memo
-  )
+  //   transactionData.memo
+  // )
 
   // const broadcastResult = await client.broadcastTx(transactionData)
   if (!result.rawLog.match(/^\[/)) {
@@ -282,7 +294,8 @@ const signAndBroadcastTransaction = async (
   account: Account,
   transactionData: any,
   securityPassword: string,
-  ledgerTransport?: any
+  signTx: () => void,
+  ledgerTransport?: any,
 ): Promise<any> => {
   const channel = new BroadcastChannel('forbole-x')
   try {
@@ -298,6 +311,7 @@ const signAndBroadcastTransaction = async (
       transactionData,
       ledgerTransport
     )
+    // signer()
     channel.postMessage({
       event: 'transactionSuccess',
       data: result,
@@ -312,5 +326,5 @@ const signAndBroadcastTransaction = async (
   }
 }
 
-// export default signAndBroadcastTransaction
-export { signTransaction, broadcastTransaction }
+export default signAndBroadcastTransaction
+// export { signTransaction, broadcastTransaction }

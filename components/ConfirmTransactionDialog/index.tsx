@@ -24,7 +24,7 @@ import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useSignerInfo from '../../misc/useSignerInfo'
 // import signAndBroadcastTransaction from '../../misc/signAndBroadcastTransaction'
-import { signTransaction, broadcastTransaction } from '../../misc/signAndBroadcastTransaction'
+import signAndBroadcastTransaction from '../../misc/signAndBroadcastTransaction'
 import useIsChromeExt from '../../misc/useIsChromeExt'
 
 enum ConfirmTransactionStage {
@@ -205,16 +205,23 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const confirm = React.useCallback(async (securityPassword?: string, ledgerSigner?: any) => {
     try {
       setLoading(true)
-      const tx = await signTransaction(
+      // const tx = await signTransaction(
+      //   password,
+      //   account,
+      //   transactionData,
+      //   securityPassword,
+      //   ledgerSigner
+      // )
+      // console.log('tx', tx)
+
+      await signAndBroadcastTransaction(
         password,
         account,
         transactionData,
         securityPassword,
-        ledgerSigner
+        ledgerSigner,
+        () => setStage(ConfirmTransactionStage.SignStage, true)
       )
-      console.log('tx', tx)
-      setStage(ConfirmTransactionStage.SignStage, true)
-      await broadcastTransaction(password, account, transactionData, securityPassword, ledgerSigner)
       // setLoading(false)
       setStage(ConfirmTransactionStage.SuccessStage, true)
       setLoading(false)
