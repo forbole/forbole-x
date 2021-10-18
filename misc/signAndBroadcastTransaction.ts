@@ -298,6 +298,7 @@ const signAndBroadcastTransaction = async (
 ): Promise<any> => {
   const channel = new BroadcastChannel('forbole-x')
   try {
+    console.log('account', account)
     const { mnemonic } = await sendMsgToChromeExt({
       event: 'viewMnemonicPhrase',
       data: { password, id: account.walletId, securityPassword },

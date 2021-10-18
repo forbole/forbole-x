@@ -62,8 +62,11 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const { isSentFromWeb } = useIsChromeExt()
 
   const { accounts, password, wallets } = useWalletsContext()
+
   const account = accounts.find((a) => a.address === address)
+  // console.log('firsttt', account)
   const wallet = account ? wallets.find((w) => w.id === account.walletId) : undefined
+  // console.log('first wallet', wallet)
   const crypto = account ? account.crypto : Object.keys(cryptocurrencies)[0]
 
   const [errMsg, setErrMsg] = React.useState('')
@@ -192,6 +195,8 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const [stage, setStage, toPrevStage, isPrevStageAvailable] =
     useStateHistory<ConfirmTransactionStage>(ConfirmTransactionStage.ConfirmStage)
 
+  const [sign, setSign] = React.useState(false)
+
   const [loading, setLoading] = React.useState(false)
 
   const closeDialog = React.useCallback(() => {
@@ -205,26 +210,20 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const confirm = React.useCallback(async (securityPassword?: string, ledgerSigner?: any) => {
     try {
       setLoading(true)
-      // const tx = await signTransaction(
-      //   password,
-      //   account,
-      //   transactionData,
-      //   securityPassword,
-      //   ledgerSigner
-      // )
-      // console.log('tx', tx)
-
+      // `account` keeps returning undefined here but it returned a value on line 66:
+      console.log('tx', loading, password, account, transactionData)
       await signAndBroadcastTransaction(
         password,
         account,
         transactionData,
         securityPassword,
-        () => setStage(ConfirmTransactionStage.SignStage, true),
+        () => setSign(true),
         ledgerSigner
       )
-      // setLoading(false)
-      setStage(ConfirmTransactionStage.SuccessStage, true)
       setLoading(false)
+      setSign(false)
+      setStage(ConfirmTransactionStage.SuccessStage, true)
+      // setLoading(false)
     } catch (err) {
       setErrMsg(err.message)
       setStage(ConfirmTransactionStage.FailStage, true)
@@ -253,7 +252,6 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   // )
 
   const content: Content = React.useMemo(() => {
-    // console.log('stage', stage)
     switch (stage) {
       case ConfirmTransactionStage.ConfirmStage:
         return {
@@ -297,21 +295,22 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
               onConnect={(ledgerSigner) => confirm(undefined, ledgerSigner)}
               ledgerAppName={cryptocurrencies[account.crypto].ledgerAppName}
               signTransaction
+              sign={sign}
             />
           ),
         }
-      case ConfirmTransactionStage.SignStage:
-        return {
-          title: '',
-          dialogWidth: 'sm',
-          content: (
-            <ConnectLedgerDialogContent
-              onConnect={(ledgerSigner) => confirm(undefined, ledgerSigner)}
-              ledgerAppName={cryptocurrencies[account.crypto].ledgerAppName}
-              sendingTransaction
-            />
-          ),
-        }
+      // case ConfirmTransactionStage.SignStage:
+      //   return {
+      //     title: '',
+      //     dialogWidth: 'sm',
+      //     content: (
+      //       <ConnectLedgerDialogContent
+      //         onConnect={(ledgerSigner) => confirm(undefined, ledgerSigner)}
+      //         ledgerAppName={cryptocurrencies[account.crypto].ledgerAppName}
+      //         sendingTransaction
+      //       />
+      //     ),
+      //   }
       case ConfirmTransactionStage.SuccessStage:
         return {
           title: '',

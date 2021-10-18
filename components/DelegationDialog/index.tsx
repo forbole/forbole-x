@@ -59,6 +59,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
     Array<{ amount: number; validator: Validator }>
   >([])
   const [loading, setLoading] = React.useState(false)
+  console.log('loading', loading)
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
 
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<DelegationStage>(

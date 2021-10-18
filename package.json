@@ -2,6 +2,7 @@
   "name": "forbole-x",
   "version": "0.9.0",
   "private": true,
+  "proxy": "http://localhost:3000",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
