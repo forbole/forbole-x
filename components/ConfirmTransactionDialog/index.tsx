@@ -23,7 +23,6 @@ import SecurityPasswordDialogContent from '../SecurityPasswordDialogContent'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useSignerInfo from '../../misc/useSignerInfo'
-// import signAndBroadcastTransaction from '../../misc/signAndBroadcastTransaction'
 import signAndBroadcastTransaction from '../../misc/signAndBroadcastTransaction'
 import useIsChromeExt from '../../misc/useIsChromeExt'
 
@@ -31,7 +30,6 @@ enum ConfirmTransactionStage {
   ConfirmStage = 'confirm',
   SecurityPasswordStage = 'security password',
   ConnectLedgerStage = 'connect ledger',
-  SignStage = 'sign',
   SuccessStage = 'success',
   FailStage = 'fail',
 }
@@ -62,7 +60,6 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const { isSentFromWeb } = useIsChromeExt()
 
   const { accounts, password, wallets } = useWalletsContext()
-
   const account = accounts.find((a) => a.address === address)
   const wallet = account ? wallets.find((w) => w.id === account.walletId) : undefined
   const crypto = account ? account.crypto : Object.keys(cryptocurrencies)[0]
@@ -221,13 +218,12 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         setLoading(false)
         setIsTxSigned(false)
         setStage(ConfirmTransactionStage.SuccessStage, true)
-        // setLoading(false)
       } catch (err) {
         setErrMsg(err.message)
         setStage(ConfirmTransactionStage.FailStage, true)
       }
     },
-    [account]
+    [account, transactionData, password]
   )
 
   const content: Content = React.useMemo(() => {
