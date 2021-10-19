@@ -17,7 +17,7 @@ interface ConnectLedgerDialogContentProps {
   onConnect(transport: any): void
   ledgerAppName?: string
   signTransaction?: boolean
-  sign?: boolean
+  isTxSigned?: boolean
 }
 
 const signInstructions = [
@@ -45,15 +45,11 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
   onConnect,
   ledgerAppName,
   signTransaction,
-  sign,
+  isTxSigned,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const [instruction, setInstruction] = React.useState(signInstructions[0])
-  console.log('instruction', instruction)
-
-  if (sign) setInstruction(signInstructions[3])
-  console.log('sending', sign)
 
   const connectLedger = React.useCallback(async () => {
     let transport
@@ -97,13 +93,18 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
     return () => clearTimeout(retryTimeout)
   }, [connectLedger])
 
+  React.useEffect(() => {
+    if (isTxSigned) {
+      setInstruction(signInstructions[3])
+    }
+  }, [isTxSigned])
+
   return (
     <DialogContent className={classes.dialogContent}>
       <DialogTitle>{t('connect ledger')}</DialogTitle>
       <DialogContentText>{t('connect ledger description')}</DialogContentText>
       <Box display="flex" flexDirection="column" alignItems="center" mb={6}>
-        {!!sign && <instruction.image />}
-        {signTransaction && !sign ? (
+        {signTransaction ? (
           <>
             {instruction.image instanceof Array ? (
               <Carousel indicators={false} interval={3000}>

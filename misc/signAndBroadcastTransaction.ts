@@ -9,6 +9,7 @@ import { TextProposal } from 'cosmjs-types/cosmos/gov/v1beta1/gov'
 import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/params'
 import { SoftwareUpgradeProposal } from 'cosmjs-types/cosmos/upgrade/v1beta1/upgrade'
 import { CommunityPoolSpendProposal } from 'cosmjs-types/cosmos/distribution/v1beta1/distribution'
+import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 import Long from 'long'
 import { LedgerSigner } from '@cosmjs/ledger-amino'
 import cryptocurrencies from './cryptocurrencies'
@@ -84,156 +85,6 @@ const formatTransactionMsg = (msg: TransactionMsg) => {
   return transformedMsg
 }
 
-const signCosmosTransaction = async (
-  mnemonic: string,
-  crypto: string,
-  index: number,
-  transactionData: any,
-  ledgerTransport?: any
-): Promise<any> => {
-  const signerOptions = {
-    hdPaths: [stringToPath(`m/44'/${cryptocurrencies[crypto].coinType}'/${index}'/0/0`)],
-    prefix: cryptocurrencies[crypto].prefix,
-  }
-  let signer
-  if (!ledgerTransport) {
-    signer = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, signerOptions)
-  } else {
-    signer = new LedgerSigner(ledgerTransport, {
-      ...signerOptions,
-      ledgerAppName: cryptocurrencies[crypto].ledgerAppName,
-    } as any)
-  }
-  const accounts = await signer.getAccounts()
-  const client = await SigningStargateClient.connectWithSigner(
-    cryptocurrencies[crypto].rpcEndpoint,
-    signer
-  )
-  const signResult = await client.sign(
-    accounts[0].address,
-    transactionData.msgs.map((msg: any) => formatTransactionMsg(msg)),
-    transactionData.fee,
-    transactionData.memo
-  )
-  // if (!signResult.rawLog.match(/^\[/)) {
-  //   throw new Error(result.rawLog)
-  // }
-  return signResult
-}
-
-const signTransaction = async (
-  password: string,
-  account: Account,
-  transactionData: any,
-  securityPassword: string,
-  ledgerTransport?: any
-): Promise<any> => {
-  const channel = new BroadcastChannel('forbole-x')
-  try {
-    const { mnemonic } = await sendMsgToChromeExt({
-      event: 'viewMnemonicPhrase',
-      data: { password, id: account.walletId, securityPassword },
-    })
-    // TODO: handle other ecosystem
-    const signResult = await signCosmosTransaction(
-      mnemonic,
-      account.crypto,
-      account.index,
-      transactionData,
-      ledgerTransport
-    )
-    channel.postMessage({
-      event: 'transactionSuccess',
-      data: signResult,
-    })
-    return signResult
-  } catch (err) {
-    channel.postMessage({
-      event: 'transactionFail',
-      data: err,
-    })
-    throw err
-  }
-}
-
-const broadcastCosmosTransaction = async (
-  mnemonic: string,
-  crypto: string,
-  index: number,
-  transactionData: any,
-  ledgerTransport?: any
-): Promise<any> => {
-  const signerOptions = {
-    hdPaths: [stringToPath(`m/44'/${cryptocurrencies[crypto].coinType}'/${index}'/0/0`)],
-    prefix: cryptocurrencies[crypto].prefix,
-  }
-  let signer
-  if (!ledgerTransport) {
-    signer = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, signerOptions)
-  } else {
-    signer = new LedgerSigner(ledgerTransport, {
-      ...signerOptions,
-      ledgerAppName: cryptocurrencies[crypto].ledgerAppName,
-    } as any)
-  }
-  const accounts = await signer.getAccounts()
-  const client = await SigningStargateClient.connectWithSigner(
-    cryptocurrencies[crypto].rpcEndpoint,
-    signer
-  )
-  // const signResult = await client.sign(accounts[0].address,
-  //   transactionData.msgs.map((msg: any) => formatTransactionMsg(msg)),
-  //   transactionData.fee,
-  //   transactionData.memo)
-  // const result = await client.signAndBroadcast(
-  //   accounts[0].address,
-  //   transactionData.msgs.map((msg: any) => formatTransactionMsg(msg)),
-  //   transactionData.fee,
-  //   transactionData.memo
-  // )
-
-  const broadcastResult = await client.broadcastTx(transactionData)
-  if (!broadcastResult.rawLog.match(/^\[/)) {
-    throw new Error(broadcastResult.rawLog)
-  }
-  return broadcastResult
-}
-
-const broadcastTransaction = async (
-  password: string,
-  account: Account,
-  transactionData: any,
-  securityPassword: string,
-  ledgerTransport?: any
-): Promise<any> => {
-  const channel = new BroadcastChannel('forbole-x')
-  try {
-    const { mnemonic } = await sendMsgToChromeExt({
-      event: 'viewMnemonicPhrase',
-      data: { password, id: account.walletId, securityPassword },
-    })
-    // TODO: handle other ecosystem
-    const result = await broadcastCosmosTransaction(
-      mnemonic,
-      account.crypto,
-      account.index,
-      transactionData,
-      ledgerTransport
-    )
-    channel.postMessage({
-      event: 'transactionSuccess',
-      data: result,
-    })
-    return result
-  } catch (err) {
-    channel.postMessage({
-      event: 'transactionFail',
-      data: err,
-    })
-    throw err
-  }
-}
-
 const signAndBroadcastCosmosTransaction = async (
   mnemonic: string,
   crypto: string,
@@ -241,8 +92,8 @@ const signAndBroadcastCosmosTransaction = async (
   change: number,
   index: number,
   transactionData: any,
-  signingTx: () => void,
-  ledgerTransport?: any
+  ledgerTransport?: any,
+  onSignEnd?: () => void
 ): Promise<any> => {
   const signerOptions = {
     hdPaths: [
@@ -266,28 +117,16 @@ const signAndBroadcastCosmosTransaction = async (
     cryptocurrencies[crypto].rpcEndpoint,
     signer
   )
-
-  const txRaw = await client.sign(
+  const tx = await client.sign(
     accounts[0].address,
     transactionData.msgs.map((msg: any) => formatTransactionMsg(msg)),
     transactionData.fee,
     transactionData.memo
   )
-
-  signingTx()
-
-  const result = await client.broadcastTx(transactionData)
-
-  console.log('signAndBroadcastCosmosTransaction', result)
-
-  // const result = await client.signAndBroadcast(
-  //   accounts[0].address,
-  //   transactionData.msgs.map((msg: any) => formatTransactionMsg(msg)),
-  //   transactionData.fee,
-  //   transactionData.memo
-  // )
-
-  // const broadcastResult = await client.broadcastTx(transactionData)
+  if (onSignEnd) {
+    onSignEnd()
+  }
+  const result = await client.broadcastTx(TxRaw.encode(tx).finish())
   if (!result.rawLog.match(/^\[/)) {
     throw new Error(result.rawLog)
   }
@@ -299,12 +138,11 @@ const signAndBroadcastTransaction = async (
   account: Account,
   transactionData: any,
   securityPassword: string,
-  signingTx: () => void,
-  ledgerTransport?: any
+  ledgerTransport?: any,
+  onSignEnd?: () => void
 ): Promise<any> => {
   const channel = new BroadcastChannel('forbole-x')
   try {
-    console.log('account', account)
     const { mnemonic } = await sendMsgToChromeExt({
       event: 'viewMnemonicPhrase',
       data: { password, id: account.walletId, securityPassword },
@@ -318,9 +156,8 @@ const signAndBroadcastTransaction = async (
       account.index,
       transactionData,
       ledgerTransport,
-      signingTx()
+      onSignEnd
     )
-    // signer()
     channel.postMessage({
       event: 'transactionSuccess',
       data: result,
@@ -336,4 +173,3 @@ const signAndBroadcastTransaction = async (
 }
 
 export default signAndBroadcastTransaction
-// export { signTransaction, broadcastTransaction }

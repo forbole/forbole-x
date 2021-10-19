@@ -64,9 +64,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const { accounts, password, wallets } = useWalletsContext()
 
   const account = accounts.find((a) => a.address === address)
-  // console.log('firsttt', account)
   const wallet = account ? wallets.find((w) => w.id === account.walletId) : undefined
-  // console.log('first wallet', wallet)
   const crypto = account ? account.crypto : Object.keys(cryptocurrencies)[0]
 
   const [errMsg, setErrMsg] = React.useState('')
@@ -195,7 +193,8 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const [stage, setStage, toPrevStage, isPrevStageAvailable] =
     useStateHistory<ConfirmTransactionStage>(ConfirmTransactionStage.ConfirmStage)
 
-  const [sign, setSign] = React.useState(false)
+  // For ledger
+  const [isTxSigned, setIsTxSigned] = React.useState(false)
 
   const [loading, setLoading] = React.useState(false)
 
@@ -207,49 +206,29 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
     }
   }, [isSentFromWeb])
 
-  const confirm = React.useCallback(async (securityPassword?: string, ledgerSigner?: any) => {
-    try {
-      setLoading(true)
-      // `account` keeps returning undefined here but it returned a value on line 66:
-      console.log('tx', loading, password, account, transactionData)
-      await signAndBroadcastTransaction(
-        password,
-        account,
-        transactionData,
-        securityPassword,
-        () => setSign(true),
-        ledgerSigner
-      )
-      setLoading(false)
-      setSign(false)
-      setStage(ConfirmTransactionStage.SuccessStage, true)
-      // setLoading(false)
-    } catch (err) {
-      setErrMsg(err.message)
-      setStage(ConfirmTransactionStage.FailStage, true)
-    }
-  }, [])
-
-  // const broadcast = React.useCallback(
-  //   async (securityPassword?: string, ledgerSigner?: any) => {
-  //     try {
-  //       setLoading(true)
-  //       await broadcastTransaction(
-  //         password,
-  //         account,
-  //         transactionData,
-  //         securityPassword,
-  //         ledgerSigner
-  //       )
-  //       setLoading(false)
-  //       setStage(ConfirmTransactionStage.SuccessStage, true)
-  //     } catch (err) {
-  //       setErrMsg(err.message)
-  //       setStage(ConfirmTransactionStage.FailStage, true)
-  //     }
-  //   },
-  //   [account, transactionData, password]
-  // )
+  const confirm = React.useCallback(
+    async (securityPassword?: string, ledgerSigner?: any) => {
+      try {
+        setLoading(true)
+        await signAndBroadcastTransaction(
+          password,
+          account,
+          transactionData,
+          securityPassword,
+          ledgerSigner,
+          () => setIsTxSigned(true)
+        )
+        setLoading(false)
+        setIsTxSigned(false)
+        setStage(ConfirmTransactionStage.SuccessStage, true)
+        // setLoading(false)
+      } catch (err) {
+        setErrMsg(err.message)
+        setStage(ConfirmTransactionStage.FailStage, true)
+      }
+    },
+    [account]
+  )
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
@@ -295,22 +274,10 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
               onConnect={(ledgerSigner) => confirm(undefined, ledgerSigner)}
               ledgerAppName={cryptocurrencies[account.crypto].ledgerAppName}
               signTransaction
-              sign={sign}
+              isTxSigned={isTxSigned}
             />
           ),
         }
-      // case ConfirmTransactionStage.SignStage:
-      //   return {
-      //     title: '',
-      //     dialogWidth: 'sm',
-      //     content: (
-      //       <ConnectLedgerDialogContent
-      //         onConnect={(ledgerSigner) => confirm(undefined, ledgerSigner)}
-      //         ledgerAppName={cryptocurrencies[account.crypto].ledgerAppName}
-      //         sendingTransaction
-      //       />
-      //     ),
-      //   }
       case ConfirmTransactionStage.SuccessStage:
         return {
           title: '',
