@@ -9,6 +9,7 @@ import { TextProposal } from 'cosmjs-types/cosmos/gov/v1beta1/gov'
 import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/params'
 import { SoftwareUpgradeProposal } from 'cosmjs-types/cosmos/upgrade/v1beta1/upgrade'
 import { CommunityPoolSpendProposal } from 'cosmjs-types/cosmos/distribution/v1beta1/distribution'
+import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 import Long from 'long'
 import { LedgerSigner } from '@cosmjs/ledger-amino'
 import cryptocurrencies from './cryptocurrencies'
@@ -91,7 +92,8 @@ const signAndBroadcastCosmosTransaction = async (
   change: number,
   index: number,
   transactionData: any,
-  ledgerTransport?: any
+  ledgerTransport?: any,
+  onSignEnd?: () => void
 ): Promise<any> => {
   const signerOptions = {
     hdPaths: [
@@ -115,12 +117,16 @@ const signAndBroadcastCosmosTransaction = async (
     cryptocurrencies[crypto].rpcEndpoint,
     signer
   )
-  const result = await client.signAndBroadcast(
+  const tx = await client.sign(
     accounts[0].address,
     transactionData.msgs.map((msg: any) => formatTransactionMsg(msg)),
     transactionData.fee,
     transactionData.memo
   )
+  if (onSignEnd) {
+    onSignEnd()
+  }
+  const result = await client.broadcastTx(TxRaw.encode(tx).finish())
   if (!result.rawLog.match(/^\[/)) {
     throw new Error(result.rawLog)
   }
@@ -132,7 +138,8 @@ const signAndBroadcastTransaction = async (
   account: Account,
   transactionData: any,
   securityPassword: string,
-  ledgerTransport?: any
+  ledgerTransport?: any,
+  onSignEnd?: () => void
 ): Promise<any> => {
   const channel = new BroadcastChannel('forbole-x')
   try {
@@ -148,7 +155,8 @@ const signAndBroadcastTransaction = async (
       account.change,
       account.index,
       transactionData,
-      ledgerTransport
+      ledgerTransport,
+      onSignEnd
     )
     channel.postMessage({
       event: 'transactionSuccess',
