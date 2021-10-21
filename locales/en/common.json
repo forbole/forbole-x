@@ -413,7 +413,7 @@
   "changes": "Changes",
   "sign ledger instruction 1": "Turn on and unlock your Ledger device",
   "sign ledger instruction 2": "The application is connecting and waiting for you to sign the transaction",
-  "sign ledger instruction 3": "Transaction broadcasting",
+  "sign ledger instruction 3": "Transaction broadcasting ...",
   "image upload error": "Image Upload Error",
   "advanced account": "Advanced account",
   "enter hd path": "Enter HD Derivation Path",
