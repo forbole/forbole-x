@@ -17,7 +17,7 @@ const Setting: React.FC = () => {
   const { isChromeExt } = useIsChromeExt()
 
   return (
-    <Layout>
+    <Layout passwordRequired>
       <Box display="flex" alignItems="center" mb={2}>
         {isChromeExt ? (
           <IconButton style={{ marginRight: theme.spacing(2) }} onClick={() => router.back()}>

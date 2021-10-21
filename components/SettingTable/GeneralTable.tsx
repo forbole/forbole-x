@@ -27,7 +27,14 @@ const themes = ['light', 'dark'] as const
 const GeneralTable: React.FC = () => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const { theme, currency, setCurrency, setTheme } = useGeneralContext()
+  const {
+    theme,
+    currency,
+    setCurrency,
+    setTheme,
+    alwaysRequirePassword,
+    setAlwaysRequirePassword,
+  } = useGeneralContext()
   const { locales, pathname, query } = useRouter()
   const themeStyle = useTheme()
   const iconProps = useIconProps()
@@ -228,14 +235,22 @@ const GeneralTable: React.FC = () => {
         <Box p={2} display="flex" alignItems="center" justifyContent="space-between">
           <Typography variant="subtitle1">{t('always require password')}</Typography>
           <Box my={-2}>
-            <Radio color="primary" />
+            <Radio
+              color="primary"
+              checked={alwaysRequirePassword}
+              onChange={() => setAlwaysRequirePassword(true)}
+            />
           </Box>
         </Box>
         <Divider />
         <Box p={2} display="flex" alignItems="center" justifyContent="space-between">
           <Typography variant="subtitle1">{t('require password after minutes')}</Typography>
           <Box my={-2}>
-            <Radio color="primary" />
+            <Radio
+              color="primary"
+              checked={!alwaysRequirePassword}
+              onChange={() => setAlwaysRequirePassword(false)}
+            />
           </Box>
         </Box>
         <Divider />
