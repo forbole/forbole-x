@@ -416,5 +416,7 @@
   "image upload error": "Image Upload Error",
   "advanced account": "Advanced account",
   "enter hd path": "Enter HD Derivation Path",
-  "account": "Account"
+  "account": "Account",
+  "always require password": "Always Require Password",
+  "require password after minutes": "Require password after 15 minutes"
 }

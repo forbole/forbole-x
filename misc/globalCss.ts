@@ -18,6 +18,9 @@ const GlobalCss = withStyles(
           src: 'url("/fonts/HindMadurai-Medium.ttf")',
         },
       ],
+      a: {
+        cursor: 'pointer',
+      },
       '.MuiDialog-paper': {
         backgroundColor: theme.palette.dialogBackground,
       },
