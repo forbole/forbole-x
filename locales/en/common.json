@@ -413,5 +413,14 @@
   "changes": "Changes",
   "sign ledger instruction 1": "Turn on and unlock your Ledger device",
   "sign ledger instruction 2": "The application is connecting and waiting for you to sign the transaction",
-  "image upload error": "Image Upload Error"
+  "vesting": "Vesting",
+  "sign ledger instruction 3": "Transaction broadcasting ...",
+  "image upload error": "Image Upload Error",
+  "advanced account": "Advanced account",
+  "enter hd path": "Enter HD Derivation Path",
+  "account": "Account",
+  "always require password": "Always Require Password",
+  "require password after minutes": "Require password after 15 minutes",
+  "total vesting": "Total Vesting",
+  "vesting period date": "Vesting Period Date"
 }

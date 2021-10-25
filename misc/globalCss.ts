@@ -18,6 +18,9 @@ const GlobalCss = withStyles(
           src: 'url("/fonts/HindMadurai-Medium.ttf")',
         },
       ],
+      a: {
+        cursor: 'pointer',
+      },
       '.MuiDialog-paper': {
         backgroundColor: theme.palette.dialogBackground,
       },
@@ -73,6 +76,9 @@ const GlobalCss = withStyles(
       },
       '.MuiAvatar-fallback': {
         fill: theme.palette.grey[300],
+      },
+      '.MuiTableCell-root': {
+        fontSize: theme.typography.body1.fontSize,
       },
     },
   }),

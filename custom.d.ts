@@ -11,7 +11,9 @@ interface Account {
   walletId: string
   address: string
   crypto: string
-  index: number
+  account: number // HD Path account
+  change: number // HD Path change
+  index: number // HD Path index
   name: string
   fav: boolean
   createdAt: number
@@ -50,6 +52,8 @@ interface CreateAccountParams {
   crypto: string
   name: string
   address: string
+  account: number
+  change: number
   index: number
 }
 
@@ -221,6 +225,11 @@ interface TokenPrice {
   price: number
   timestamp: string
   token_unit: TokenUnit
+}
+
+interface VestingPeriod {
+  amount: TokenAmount
+  date: number
 }
 
 interface CreateWalletParams {
