@@ -24,18 +24,32 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 interface AccountBalanceCardProps {
   account: Account
   accountBalance: AccountBalance
+  validators: Validator[]
 }
 
-const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({ accountBalance, account }) => {
+const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
+  accountBalance,
+  account,
+  validators,
+}) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const theme: CustomTheme = useTheme()
   const { currency } = useGeneralContext()
-  const data = Object.keys(accountBalance.balance).map((k, i) => ({
-    name: t(k),
-    value: get(accountBalance, `balance.${k}.${account.crypto}.amount`, 0),
-    color: theme.palette.pieChart2[i % theme.palette.pieChart2.length],
-  }))
+  const isValidator = validators.some((v) => v.address === account.address)
+  const data = isValidator
+    ? Object.keys(accountBalance.balance).map((k, i) => ({
+        name: t(k),
+        value: get(accountBalance, `balance.${k}.${account.crypto}.amount`, 0),
+        color: theme.palette.pieChart2[i % theme.palette.pieChart2.length],
+      }))
+    : Object.keys(accountBalance.balance)
+        .map((k, i) => ({
+          name: t(k),
+          value: get(accountBalance, `balance.${k}.${account.crypto}.amount`, 0),
+          color: theme.palette.pieChart2[i % theme.palette.pieChart2.length],
+        }))
+        .filter((v) => v.name !== 'Commissions')
   const usdPrice = get(accountBalance, `balance.available.${account.crypto}.price`, 0)
   const totalBalance = data.map((d) => d.value).reduce((a, b) => a + b, 0)
 

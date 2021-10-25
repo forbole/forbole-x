@@ -150,7 +150,13 @@ const Account: React.FC = () => {
           </Box>
         </Card>
       </Box> */}
-      {account ? <AccountBalanceCard accountBalance={accountBalance} account={account} /> : null}
+      {account ? (
+        <AccountBalanceCard
+          accountBalance={accountBalance}
+          account={account}
+          validators={validators}
+        />
+      ) : null}
       <DelegationsTable
         wallet={wallet}
         account={account}

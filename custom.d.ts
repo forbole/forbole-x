@@ -36,7 +36,7 @@ interface AccountBalance {
     available: TokenAmount
     delegated: TokenAmount
     rewards: TokenAmount
-    commissions: TokenAmount
+    commissions?: TokenAmount
     unbonding: TokenAmount
   }
   availableTokens: AvailableTokens
