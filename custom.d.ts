@@ -227,6 +227,11 @@ interface TokenPrice {
   token_unit: TokenUnit
 }
 
+interface VestingPeriod {
+  amount: TokenAmount
+  date: number
+}
+
 interface CreateWalletParams {
   type: WalletType
   name: string
