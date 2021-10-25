@@ -187,6 +187,7 @@ const Account: React.FC = () => {
           accountBalance={accountBalance}
           account={account}
           onVestingClick={() => setIsVestingDialogOpen(true)}
+          hideVestingButton={!vestingAccount.vestingPeriods.length}
         />
       ) : null}
       <DelegationsTable
