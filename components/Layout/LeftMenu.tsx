@@ -179,7 +179,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
           {accounts
             .filter((account) => account.fav)
             .map((account) => (
-              <StarredAccount account={account} />
+              <StarredAccount key={account.address} account={account} />
             ))}
         </Box>
       </List>

@@ -56,13 +56,11 @@ export const getTokenAmountFromDenoms = (
         const denom = base.denom.toUpperCase()
         if (result[denom]) {
           result[denom].amount += Number(
-            (Number(coin.amount) * 10 ** (unit.exponent - base.exponent)).toPrecision(6)
+            Number(coin.amount) * 10 ** (unit.exponent - base.exponent)
           )
         } else {
           result[denom] = {
-            amount: Number(
-              (Number(coin.amount) * 10 ** (unit.exponent - base.exponent)).toPrecision(6)
-            ),
+            amount: Number(Number(coin.amount) * 10 ** (unit.exponent - base.exponent)),
             price: d.price,
           }
         }
