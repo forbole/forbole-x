@@ -56,11 +56,13 @@ export const getTokenAmountFromDenoms = (
         const denom = base.denom.toUpperCase()
         if (result[denom]) {
           result[denom].amount += Number(
-            Number(coin.amount) * 10 ** (unit.exponent - base.exponent)
+            (Number(coin.amount) * 10 ** (unit.exponent - base.exponent)).toFixed(6)
           )
         } else {
           result[denom] = {
-            amount: Number(Number(coin.amount) * 10 ** (unit.exponent - base.exponent)),
+            amount: Number(
+              (Number(coin.amount) * 10 ** (unit.exponent - base.exponent)).toFixed(6)
+            ),
             price: d.price,
           }
         }
@@ -91,7 +93,7 @@ export const sumTokenAmounts = (tokenAmounts: TokenAmount[]): TokenAmount => {
       if (!amount[t]) {
         amount[t] = { amount: 0, price: 0 }
       }
-      amount[t].amount = (amount[t].amount || 0) + ba[t].amount
+      amount[t].amount = Number(((amount[t].amount || 0) + ba[t].amount).toFixed(6))
       amount[t].price = ba[t].price
     })
   })
@@ -791,4 +793,26 @@ export const transformProfile = (data: any): Profile => {
     nickname: get(data, 'profile[0].nickname', ''),
     profilePic: get(data, 'profile[0].profile_pic', ''),
   }
+}
+
+export const transformVestingAccount = (
+  data: any,
+  denoms: TokenPrice[]
+): { total: TokenAmount; vestingPeriods: VestingPeriod[] } => {
+  const vestingPeriods: VestingPeriod[] = []
+  const startTime = new Date(get(data, 'vesting_account[0].start_time')).getTime()
+  const periods = get(data, 'vesting_account[0].vesting_periods', [])
+  let sumTime = startTime
+  let total: TokenAmount = {}
+  for (let i = 0; i < periods.length; i += 1) {
+    const period = periods[i]
+    const amount = getTokenAmountFromDenoms(period.amount, denoms)
+    sumTime += period.length * 1000
+    total = sumTokenAmounts([total, amount])
+    vestingPeriods.push({
+      amount,
+      date: sumTime,
+    })
+  }
+  return { vestingPeriods, total }
 }

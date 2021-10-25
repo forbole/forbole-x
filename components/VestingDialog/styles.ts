@@ -12,6 +12,18 @@ const useStyles = makeStyles(
       top: theme.spacing(2),
       right: theme.spacing(2),
     },
+    table: {
+      border: `1px solid ${theme.palette.grey[100]}`,
+      borderRadius: theme.shape.borderRadius,
+    },
+    tableRow: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
+    tableCell: {
+      borderBottom: 'none',
+    },
   }),
   {
     name: 'HookGlobalStyles',

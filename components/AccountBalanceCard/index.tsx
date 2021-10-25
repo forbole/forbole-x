@@ -27,9 +27,14 @@ import useIconProps from '../../misc/useIconProps'
 interface AccountBalanceCardProps {
   account: Account
   accountBalance: AccountBalance
+  onVestingClick: () => void
 }
 
-const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({ accountBalance, account }) => {
+const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
+  accountBalance,
+  account,
+  onVestingClick,
+}) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const theme: CustomTheme = useTheme()
@@ -82,7 +87,9 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({ accountBalance,
       <Card className={classes.container}>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h4">{t('balance')}</Typography>
-          <Button endIcon={<ArrowNextIcon {...iconProps} />}>{t('vesting')}</Button>
+          <Button onClick={onVestingClick} endIcon={<ArrowNextIcon {...iconProps} />}>
+            {t('vesting')}
+          </Button>
         </Box>
         <Box display="flex" my={2} alignItems="center">
           <PieChart height={theme.spacing(20)} width={theme.spacing(20)}>
