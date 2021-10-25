@@ -190,6 +190,9 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const [stage, setStage, toPrevStage, isPrevStageAvailable] =
     useStateHistory<ConfirmTransactionStage>(ConfirmTransactionStage.ConfirmStage)
 
+  // For ledger
+  const [isTxSigned, setIsTxSigned] = React.useState(false)
+
   const [loading, setLoading] = React.useState(false)
 
   const closeDialog = React.useCallback(() => {
@@ -209,9 +212,11 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
           account,
           transactionData,
           securityPassword,
-          ledgerSigner
+          ledgerSigner,
+          () => setIsTxSigned(true)
         )
         setLoading(false)
+        setIsTxSigned(false)
         setStage(ConfirmTransactionStage.SuccessStage, true)
       } catch (err) {
         setErrMsg(err.message)
@@ -265,6 +270,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
               onConnect={(ledgerSigner) => confirm(undefined, ledgerSigner)}
               ledgerAppName={cryptocurrencies[account.crypto].ledgerAppName}
               signTransaction
+              isTxSigned={isTxSigned}
             />
           ),
         }

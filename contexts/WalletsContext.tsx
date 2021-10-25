@@ -1,6 +1,7 @@
 import React from 'react'
 import sendMsgToChromeExt from '../misc/sendMsgToChromeExt'
 import usePersistedState from '../misc/usePersistedState'
+import { useGeneralContext } from './GeneralContext'
 
 const PASSWORD_EXPIRES_IN_MIN = 15
 
@@ -40,6 +41,7 @@ const initialState: WalletsState = {
 const WalletsContext = React.createContext<WalletsState>(initialState)
 
 const WalletsProvider: React.FC = ({ children }) => {
+  const { alwaysRequirePassword } = useGeneralContext()
   const [wallets, setWallets] = React.useState<Wallet[]>([])
   const [accounts, setAccounts] = React.useState<Account[]>([])
   const [appUnlockState, setAppUnlockState] = React.useState(initialState.appUnlockState)
@@ -48,7 +50,8 @@ const WalletsProvider: React.FC = ({ children }) => {
   const [password, setPassword] = usePersistedState(
     'password',
     '',
-    PASSWORD_EXPIRES_IN_MIN * 60 * 1000
+    PASSWORD_EXPIRES_IN_MIN * 60 * 1000,
+    alwaysRequirePassword
   )
 
   const reset = React.useCallback(async () => {

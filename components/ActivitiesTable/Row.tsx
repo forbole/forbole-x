@@ -217,7 +217,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
                   variant="body1"
                   style={{ marginRight: theme.spacing(1) }}
                 >
-                  {input.address === account.address ? (
+                  {account && input.address === account.address ? (
                     <AccountAvatar
                       ledgerIconDisabled
                       account={account}
@@ -253,7 +253,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
                   variant="body1"
                   style={{ marginRight: theme.spacing(1) }}
                 >
-                  {output.address === account.address ? (
+                  {account && output.address === account.address ? (
                     <AccountAvatar
                       ledgerIconDisabled
                       account={account}

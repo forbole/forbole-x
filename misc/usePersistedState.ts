@@ -24,19 +24,24 @@ const retrievePersistedValue = <P>(key: string, initialValue: P, expireWithinMs?
 const usePersistedState = <P>(
   key: string,
   initialValue: P,
-  expireWithinMs?: number
+  expireWithinMs?: number,
+  disabled?: boolean
 ): [P, React.Dispatch<React.SetStateAction<P>>, boolean] => {
   const persistedValue = retrievePersistedValue(key, initialValue, expireWithinMs)
   const [value, setValue] = React.useState(persistedValue)
   const [loaded, setLoaded] = React.useState(false)
   React.useEffect(() => {
-    if (persistedValue !== value) {
+    if (persistedValue !== value && !disabled) {
       localStorage.setItem(key, JSON.stringify(value))
       if (expireWithinMs) {
         localStorage.setItem(`${key}-last-updated-at`, String(Date.now()))
       }
     }
-  }, [value, persistedValue, expireWithinMs])
+    if (disabled) {
+      localStorage.removeItem(key)
+      localStorage.removeItem(`${key}-last-updated-at`)
+    }
+  }, [value, persistedValue, expireWithinMs, disabled])
   // for conditional rendering in SSR
   React.useEffect(() => {
     setLoaded(true)

@@ -9,6 +9,8 @@ type FavAddress = { address: string; crypto: string; moniker: string; note?: str
 interface GeneralState {
   currency: Currency
   theme: Theme
+  alwaysRequirePassword: boolean
+  setAlwaysRequirePassword?: React.Dispatch<React.SetStateAction<boolean>>
   favValidators: FavValidators
   favAddresses: FavAddress[]
   setCurrency?: React.Dispatch<React.SetStateAction<Currency>>
@@ -25,6 +27,7 @@ interface GeneralState {
 const initialState: GeneralState = {
   currency: 'USD',
   theme: 'light',
+  alwaysRequirePassword: false,
   favValidators: [],
   favAddresses: [],
 }
@@ -34,6 +37,10 @@ const GeneralContext = React.createContext<GeneralState>(initialState)
 const GeneralProvider: React.FC = ({ children }) => {
   const [currency, setCurrency] = usePersistedState('currency', initialState.currency)
   const [theme, setTheme] = usePersistedState('theme', initialState.theme)
+  const [alwaysRequirePassword, setAlwaysRequirePassword] = usePersistedState(
+    'alwaysRequirePassword',
+    initialState.alwaysRequirePassword
+  )
 
   const [favValidators, setFavValidators] = usePersistedState('fav', initialState.favValidators)
   const [favAddresses, setFavAddresses] = usePersistedState('favAddress', initialState.favAddresses)
@@ -98,6 +105,8 @@ const GeneralProvider: React.FC = ({ children }) => {
         setCurrency,
         theme,
         setTheme,
+        alwaysRequirePassword,
+        setAlwaysRequirePassword,
         favValidators,
         setFavValidators,
         addFavValidators,

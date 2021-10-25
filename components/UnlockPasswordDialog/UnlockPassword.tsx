@@ -10,6 +10,7 @@ import React from 'react'
 import useStyles from './styles'
 import PasswordInput from '../PasswordInput'
 import { useWalletsContext } from '../../contexts/WalletsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface UnlockPasswordProps {
   onForgot: () => void
@@ -20,6 +21,7 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
   const classes = useStyles()
   const [password, setPassword] = React.useState('')
   const { unlockWallets } = useWalletsContext()
+  const { alwaysRequirePassword } = useGeneralContext()
   const [error, setError] = React.useState('')
 
   const onButtonClick = React.useCallback(async () => {
@@ -50,7 +52,9 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
           helperText={error}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Typography variant="body2">{t('unlock pasword helper text')}</Typography>
+        {alwaysRequirePassword ? null : (
+          <Typography variant="body2">{t('unlock pasword helper text')}</Typography>
+        )}
       </DialogContent>
       <DialogActions className={classes.action}>
         <Button
