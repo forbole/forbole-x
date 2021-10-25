@@ -42,7 +42,7 @@ const VestingDialog: React.FC<VestingDialogProps> = ({
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
   return (
-    <Dialog fullWidth maxWidth="md" open={open} onClose={onClose}>
+    <Dialog fullWidth classes={{ paper: classes.dialogPaper }} open={open} onClose={onClose}>
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
@@ -50,7 +50,7 @@ const VestingDialog: React.FC<VestingDialogProps> = ({
       <DialogContent>
         <Box m={1}>
           <Typography>{t('total vesting')}</Typography>
-          <Typography variant="h5">
+          <Typography className={classes.amount}>
             {formatTokenAmount(totalAmount, account.crypto, lang)}
           </Typography>
         </Box>

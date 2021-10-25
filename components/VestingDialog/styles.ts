@@ -3,9 +3,11 @@ import { CustomTheme } from '../../misc/theme'
 
 const useStyles = makeStyles(
   (theme: CustomTheme) => ({
-    title: {
-      fontSize: theme.spacing(3),
-      marginTop: theme.spacing(2),
+    dialogPaper: {
+      maxWidth: theme.spacing(97.5),
+    },
+    amount: {
+      fontSize: theme.typography.h5.fontSize,
     },
     closeButton: {
       position: 'absolute',
