@@ -7,7 +7,7 @@ const useSignerInfo = (account: Account) => {
 
   const getSequenceAndChainId = React.useCallback(
     async (address: string, crypto: string): Promise<any> => {
-      const client = await SigningStargateClient.connect(cryptocurrencies[crypto].rpcEndpoint)
+      const client = await SigningStargateClient.connect(cryptocurrencies[crypto].rpcApiUrl)
       const { accountNumber, sequence } = await client.getSequence(address)
       const chainId = await client.getChainId()
       setSignerInfo({ accountNumber, sequence, chainId })

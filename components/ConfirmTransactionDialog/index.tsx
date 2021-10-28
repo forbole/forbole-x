@@ -25,6 +25,7 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 import useSignerInfo from '../../misc/useSignerInfo'
 import signAndBroadcastTransaction from '../../misc/signAndBroadcastTransaction'
 import useIsChromeExt from '../../misc/useIsChromeExt'
+import estimateGasFee from '../../misc/estimateGasFee'
 
 enum ConfirmTransactionStage {
   ConfirmStage = 'confirm',
@@ -82,6 +83,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         memo: '',
       }
     }
+    estimateGasFee(defaultTransactionData, account).then((r) => console.log(r))
     const totalGas = defaultTransactionData.msgs
       .map((m) =>
         Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas["${m.typeUrl}"]`, 0))

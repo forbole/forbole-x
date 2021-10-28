@@ -100,15 +100,11 @@ interface Cryptocurrency {
   graphqlHttpUrl: string
   graphqlWsUrl: string
   blockExplorerBaseUrl: string
-  rpcEndpoint: string
+  lcdApiUrl: string
+  rpcApiUrl: string
   ledgerAppName: string
   ibcChains: Chain[]
-  defaultGasFee: {
-    amount: { amount: number; denom: string }
-    gas: {
-      [txType: string]: string
-    }
-  }
+  gasAdjustment: number
 }
 
 interface Validator {

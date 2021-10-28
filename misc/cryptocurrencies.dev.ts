@@ -11,7 +11,8 @@ const cryptocurrencies: { [key: string]: Cryptocurrency } = {
     graphqlHttpUrl: 'https://gql.morpheus.desmos.network/v1/graphql',
     graphqlWsUrl: 'wss://gql.morpheus.desmos.network/v1/graphql',
     blockExplorerBaseUrl: 'https://morpheus.desmos.network',
-    rpcEndpoint: 'https://rpc.morpheus.desmos.network',
+    lcdApiUrl: 'https://lcd.morpheus.desmos.network',
+    rpcApiUrl: 'https://rpc.morpheus.desmos.network',
     ibcChains: [
       {
         name: 'Desmos',
@@ -22,26 +23,7 @@ const cryptocurrencies: { [key: string]: Cryptocurrency } = {
         crypto: 'DSM',
       },
     ],
-    defaultGasFee: {
-      amount: {
-        amount: 0.01,
-        denom: 'udaric',
-      },
-      gas: {
-        '/cosmos.bank.v1beta1.MsgSend': '200000',
-        '/cosmos.bank.v1beta1.MsgMultiSend': '400000',
-        '/cosmos.staking.v1beta1.MsgDelegate': '400000',
-        '/cosmos.staking.v1beta1.MsgBeginRedelegate': '400000',
-        '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward': '200000',
-        '/cosmos.staking.v1beta1.MsgUndelegate': '400000',
-        '/ibc.applications.transfer.v1.MsgTransfer': '400000',
-        '/cosmos.gov.v1beta1.MsgSubmitProposal': '400000',
-        '/cosmos.gov.v1beta1.MsgDeposit': '400000',
-        '/cosmos.gov.v1beta1.MsgVote': '400000',
-        '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress': '400000',
-        '/desmos.profiles.v1beta1.MsgSaveProfile': '400000',
-      },
-    },
+    gasAdjustment: 1.5,
   },
 }
 
