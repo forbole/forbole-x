@@ -10,27 +10,34 @@ import {
   TableRow,
   TableCell,
   useTheme,
+  Button,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
 import { PieChart, Pie, Cell } from 'recharts'
+import ArrowNextIcon from '../../assets/images/icons/icon_arrow_next.svg'
 import useStyles from './styles'
 import { CustomTheme } from '../../misc/theme'
 import { formatCrypto, formatCurrency } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import useIconProps from '../../misc/useIconProps'
 
 interface AccountBalanceCardProps {
   account: Account
   accountBalance: AccountBalance
   validators: Validator[]
+  onVestingClick: () => void
+  hideVestingButton?: boolean
 }
 
 const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
   accountBalance,
   account,
   validators,
+  onVestingClick,
+  hideVestingButton,
 }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
@@ -50,6 +57,7 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
           color: theme.palette.pieChart2[i % theme.palette.pieChart2.length],
         }))
         .filter((v) => v.name !== 'Commissions')
+  const iconProps = useIconProps()
   const usdPrice = get(accountBalance, `balance.available.${account.crypto}.price`, 0)
   const totalBalance = data.map((d) => d.value).reduce((a, b) => a + b, 0)
 
@@ -90,7 +98,14 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
   return (
     <>
       <Card className={classes.container}>
-        <Typography variant="h4">{t('balance')}</Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="h4">{t('balance')}</Typography>
+          {hideVestingButton ? null : (
+            <Button onClick={onVestingClick} endIcon={<ArrowNextIcon {...iconProps} />}>
+              {t('vesting')}
+            </Button>
+          )}
+        </Box>
         <Box display="flex" my={2} alignItems="center">
           <PieChart height={theme.spacing(20)} width={theme.spacing(20)}>
             <Pie

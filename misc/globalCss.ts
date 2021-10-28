@@ -77,6 +77,9 @@ const GlobalCss = withStyles(
       '.MuiAvatar-fallback': {
         fill: theme.palette.grey[300],
       },
+      '.MuiTableCell-root': {
+        fontSize: theme.typography.body1.fontSize,
+      },
     },
   }),
   {
