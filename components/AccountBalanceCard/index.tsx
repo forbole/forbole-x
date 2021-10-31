@@ -51,12 +51,12 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
         color: theme.palette.pieChart2[i % theme.palette.pieChart2.length],
       }))
     : Object.keys(accountBalance.balance)
+        .filter((v) => t(v) !== 'Commissions')
         .map((k, i) => ({
           name: t(k),
           value: get(accountBalance, `balance.${k}.${account.crypto}.amount`, 0),
           color: theme.palette.pieChart2[i % theme.palette.pieChart2.length],
         }))
-        .filter((v) => v.name !== 'Commissions')
   const iconProps = useIconProps()
   const usdPrice = get(accountBalance, `balance.available.${account.crypto}.price`, 0)
   const totalBalance = data.map((d) => d.value).reduce((a, b) => a + b, 0)
