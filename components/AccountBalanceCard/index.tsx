@@ -51,7 +51,7 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
         color: theme.palette.pieChart2[i % theme.palette.pieChart2.length],
       }))
     : Object.keys(accountBalance.balance)
-        .filter((v) => t(v) !== 'Commissions')
+        .filter((v) => v !== 'commissions')
         .map((k, i) => ({
           name: t(k),
           value: get(accountBalance, `balance.${k}.${account.crypto}.amount`, 0),
