@@ -83,7 +83,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         memo: '',
       }
     }
-    estimateGasFee(defaultTransactionData, account).then((r) => console.log(r))
+    // estimateGasFee(defaultTransactionData, account).then((r) => console.log(r))
     const totalGas = defaultTransactionData.msgs
       .map((m) =>
         Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas["${m.typeUrl}"]`, 0))
@@ -98,11 +98,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         amount: [
           {
             amount: feeAmount,
-            denom: get(
-              cryptocurrencies,
-              `${account.crypto}.defaultGasFee.amount.denom`,
-              ''
-            ) as string,
+            denom: 'udsm',
           },
         ],
         gas: String(totalGas),

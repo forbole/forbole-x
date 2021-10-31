@@ -2,8 +2,10 @@ import React from 'react'
 import { SigningStargateClient } from '@cosmjs/stargate'
 import cryptocurrencies from './cryptocurrencies'
 
-const useSignerInfo = (account: Account) => {
-  const [signerInfo, setSignerInfo] = React.useState({})
+const useSignerInfo = (
+  account: Account
+): { accountNumber: number; sequence: number; chainId: string } => {
+  const [signerInfo, setSignerInfo] = React.useState({ accountNumber: 0, sequence: 0, chainId: '' })
 
   const getSequenceAndChainId = React.useCallback(
     async (address: string, crypto: string): Promise<any> => {
