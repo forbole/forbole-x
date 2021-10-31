@@ -96,7 +96,7 @@ const EditWalletButton: React.FC<EditWalletButtonProps> = ({ wallet }) => {
         <EditIcon {...iconProps} />
       </IconButton>
       <Dialog fullWidth open={dialogOpen} onClose={onClose} fullScreen={isMobile}>
-        {isPrevStageAvailable ? (
+        {isPrevStageAvailable && stage !== Stage.DeleteWalletStage ? (
           <IconButton className={classes.backButton} onClick={toPrevStage}>
             <BackIcon {...iconProps} />
           </IconButton>

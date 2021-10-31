@@ -27,6 +27,7 @@ import useIconProps from '../../misc/useIconProps'
 interface AccountBalanceCardProps {
   account: Account
   accountBalance: AccountBalance
+  validators: Validator[]
   onVestingClick: () => void
   hideVestingButton?: boolean
 }
@@ -34,6 +35,7 @@ interface AccountBalanceCardProps {
 const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
   accountBalance,
   account,
+  validators,
   onVestingClick,
   hideVestingButton,
 }) => {
@@ -41,12 +43,21 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
   const { t, lang } = useTranslation('common')
   const theme: CustomTheme = useTheme()
   const { currency } = useGeneralContext()
+  const isValidator = validators.some((v) => v.address === account.address)
+  const data = isValidator
+    ? Object.keys(accountBalance.balance).map((k, i) => ({
+        name: t(k),
+        value: get(accountBalance, `balance.${k}.${account.crypto}.amount`, 0),
+        color: theme.palette.pieChart2[i % theme.palette.pieChart2.length],
+      }))
+    : Object.keys(accountBalance.balance)
+        .filter((v) => v !== 'commissions')
+        .map((k, i) => ({
+          name: t(k),
+          value: get(accountBalance, `balance.${k}.${account.crypto}.amount`, 0),
+          color: theme.palette.pieChart2[i % theme.palette.pieChart2.length],
+        }))
   const iconProps = useIconProps()
-  const data = Object.keys(accountBalance.balance).map((k, i) => ({
-    name: t(k),
-    value: get(accountBalance, `balance.${k}.${account.crypto}.amount`, 0),
-    color: theme.palette.pieChart2[i % theme.palette.pieChart2.length],
-  }))
   const usdPrice = get(accountBalance, `balance.available.${account.crypto}.price`, 0)
   const totalBalance = data.map((d) => d.value).reduce((a, b) => a + b, 0)
 
