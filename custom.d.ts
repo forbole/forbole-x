@@ -105,6 +105,7 @@ interface Cryptocurrency {
   ledgerAppName: string
   ibcChains: Chain[]
   gasAdjustment: number
+  gasFee: { amount: number; denom: string }
 }
 
 interface Validator {
