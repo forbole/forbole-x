@@ -65,7 +65,6 @@ interface ProposalDetailProps {
   proposal: Proposal
   crypto: Cryptocurrency
   voteSummary?: VoteSummary
-  colors?: [string, string, string, string]
   voteDetails?: VoteDetail[]
   denoms: TokenPrice[]
 }

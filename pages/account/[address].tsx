@@ -186,7 +186,6 @@ const Account: React.FC = () => {
         <AccountBalanceCard
           accountBalance={accountBalance}
           account={account}
-          validators={validators}
           onVestingClick={() => setIsVestingDialogOpen(true)}
           hideVestingButton={!vestingAccount.vestingPeriods.length}
         />

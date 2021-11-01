@@ -229,6 +229,10 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
             <TableBody>
               {addresses.map(({ address, balance }, i) => {
                 const account = page * rowsPerPage + i
+                const color =
+                  loading || existingAddresses.includes(address)
+                    ? theme.palette.text.disabled
+                    : 'inherit'
                 return (
                   <TableRow key={account} className={classes.tableRow}>
                     <TableCell className={classes.tableCell}>
@@ -251,38 +255,15 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
                       />
                     </TableCell>
                     <TableCell className={classes.tableCell}>
-                      <Typography
-                        style={{
-                          color:
-                            loading || existingAddresses.includes(address)
-                              ? theme.palette.text.disabled
-                              : 'inherit',
-                        }}
-                      >
-                        {account}
-                      </Typography>
+                      <Typography style={{ color }}>{account}</Typography>
                     </TableCell>
                     <TableCell className={classes.tableCell}>
-                      <Typography
-                        style={{
-                          color:
-                            loading || existingAddresses.includes(address)
-                              ? theme.palette.text.disabled
-                              : 'inherit',
-                        }}
-                      >
+                      <Typography style={{ color }}>
                         {`${address.slice(0, 10)}......${address.slice(-10)}`}
                       </Typography>
                     </TableCell>
                     <TableCell className={classes.tableCell} align="right">
-                      <Typography
-                        style={{
-                          color:
-                            loading || existingAddresses.includes(address)
-                              ? theme.palette.text.disabled
-                              : 'inherit',
-                        }}
-                      >
+                      <Typography style={{ color }}>
                         {formatTokenAmount(balance, crypto, lang)}
                       </Typography>
                     </TableCell>
