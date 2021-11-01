@@ -15,7 +15,7 @@ Array [
     className="MuiDialogContent-root"
   >
     <p
-      className="MuiTypography-root MuiTypography-body1"
+      className="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"
     >
       common:delete wallet warning
     </p>
@@ -68,7 +68,7 @@ Array [
       <span
         className="MuiButton-label"
       >
-        common:delete
+        common:yes
       </span>
     </button>
   </div>,

@@ -16,7 +16,6 @@ import {
   Button,
   useTheme,
   CircularProgress,
-  Link,
   TextField,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
@@ -252,15 +251,40 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
                       />
                     </TableCell>
                     <TableCell className={classes.tableCell}>
-                      <Typography>{account}</Typography>
+                      <Typography
+                        style={{
+                          color:
+                            loading || existingAddresses.includes(address)
+                              ? theme.palette.text.disabled
+                              : 'inherit',
+                        }}
+                      >
+                        {account}
+                      </Typography>
                     </TableCell>
                     <TableCell className={classes.tableCell}>
-                      <Typography>
+                      <Typography
+                        style={{
+                          color:
+                            loading || existingAddresses.includes(address)
+                              ? theme.palette.text.disabled
+                              : 'inherit',
+                        }}
+                      >
                         {`${address.slice(0, 10)}......${address.slice(-10)}`}
                       </Typography>
                     </TableCell>
                     <TableCell className={classes.tableCell} align="right">
-                      <Typography>{formatTokenAmount(balance, crypto, lang)}</Typography>
+                      <Typography
+                        style={{
+                          color:
+                            loading || existingAddresses.includes(address)
+                              ? theme.palette.text.disabled
+                              : 'inherit',
+                        }}
+                      >
+                        {formatTokenAmount(balance, crypto, lang)}
+                      </Typography>
                     </TableCell>
                   </TableRow>
                 )

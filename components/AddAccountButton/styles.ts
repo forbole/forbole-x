@@ -41,6 +41,9 @@ const useStyles = makeStyles(
     checkbox: {
       padding: 0,
       marginLeft: theme.spacing(-1.5),
+      '&.MuiCheckbox-colorPrimary.Mui-disabled': {
+        color: theme.palette.text.disabled,
+      },
     },
   }),
   {
