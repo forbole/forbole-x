@@ -224,7 +224,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               rows={4}
               onChange={(e) => setValue(e.target.value)}
               error={value.split(' ').length - 1 >= 23 ? true : undefined}
-              helperText={value.split(' ').length - 1 >= 2 ? t('memo warning') : false}
+              helperText={value.split(' ').length - 1 >= 23 ? t('memo warning') : false}
             />
             {value.split(' ').length - 1 >= 23 ? (
               <FormControlLabel
@@ -235,7 +235,17 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                     }}
                   />
                 }
-                label={t('memo warning consent')}
+                label={
+                  <Typography
+                    variant="body2"
+                    style={{
+                      fontSize: themeStyle.spacing(1.8),
+                      color: themeStyle.palette.error.main,
+                    }}
+                  >
+                    {t('memo warning consent')}
+                  </Typography>
+                }
               />
             ) : null}
           </DialogContent>
