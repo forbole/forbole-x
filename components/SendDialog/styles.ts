@@ -42,6 +42,11 @@ const useStyles = makeStyles(
       flex: 1,
       margin: theme.spacing(2, 1),
     },
+    helperText: {
+      '& .MuiFormHelperText-contained': {
+        marginLeft: 0,
+      },
+    },
   }),
   {
     name: 'HookGlobalStyles',

@@ -10,6 +10,8 @@ import {
   CircularProgress,
   IconButton,
   useTheme,
+  FormControlLabel,
+  Checkbox,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -149,6 +151,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                 <Box mt={2}>
                   <Typography gutterBottom>{t('memo')}</Typography>
                   <TextField
+                    className={classes.helperText}
                     fullWidth
                     multiline
                     rows={3}
@@ -159,7 +162,32 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                     }}
                     value={memo}
                     onChange={(e) => setMemo(e.target.value)}
+                    error={memo.split(' ').length - 1 >= 23 ? true : undefined}
+                    helperText={memo.split(' ').length - 1 >= 23 ? t('memo warning') : false}
                   />
+                  {memo.split(' ').length - 1 >= 23 ? (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          style={{
+                            color: themeStyle.palette.error.main,
+                          }}
+                          size="small"
+                        />
+                      }
+                      label={
+                        <Typography
+                          variant="body2"
+                          style={{
+                            fontSize: themeStyle.spacing(1.49),
+                            color: themeStyle.palette.error.main,
+                          }}
+                        >
+                          {t('memo warning consent')}
+                        </Typography>
+                      }
+                    />
+                  ) : null}
                 </Box>
               </Grid>
               <Grid item xs={6}>
