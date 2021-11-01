@@ -10,7 +10,6 @@ interface ValidatorsTableProps {
   crypto: Cryptocurrency
   account: Account
   availableTokens: AvailableTokens
-  onRowClick?: (validatorInfo: Validator) => void
 }
 
 const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
