@@ -161,7 +161,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                 label={<Typography>{t('withdraw all')}</Typography>}
                 labelPlacement="end"
               />
-              <Box mt={0}>
+              <Box mt={0} minHeight="3vw">
                 {validatorList.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((v) => (
                   <FormControlLabel
                     key={v.address}
