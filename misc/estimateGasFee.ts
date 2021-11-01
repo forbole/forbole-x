@@ -55,7 +55,7 @@ const estimateGasFee = async (
                 amount: '0',
               },
             ],
-            gas_limit: '100000000',
+            gas_limit: '0',
             payer: account.address,
           },
         },
