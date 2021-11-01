@@ -22,6 +22,7 @@ import { ValidatorTag } from './index'
 import ValidatorAvatar from '../ValidatorAvatar'
 import ImageDefaultDark from '../../assets/images/image_default_dark.svg'
 import ImageDefaultLight from '../../assets/images/image_default_light.svg'
+import { CustomTheme } from '../../misc/theme'
 
 interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
   wallet: Wallet
@@ -57,7 +58,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   // const [currentTab, setCurrentTab] = React.useState(0)
   const [state, setState] = React.useState({})
-  const themeStyle = useTheme()
+  const themeStyle: CustomTheme = useTheme()
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked })
@@ -214,6 +215,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               InputProps={{
                 disableUnderline: true,
               }}
+              className={classes.helperText}
               fullWidth
               variant="filled"
               value={value}
@@ -221,7 +223,21 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               multiline
               rows={4}
               onChange={(e) => setValue(e.target.value)}
+              error={value.split(' ').length - 1 >= 23 ? true : undefined}
+              helperText={value.split(' ').length - 1 >= 2 ? t('memo warning') : false}
             />
+            {value.split(' ').length - 1 >= 23 ? (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    style={{
+                      color: themeStyle.palette.error.main,
+                    }}
+                  />
+                }
+                label={t('memo warning consent')}
+              />
+            ) : null}
           </DialogContent>
           <DialogActions>
             <Box

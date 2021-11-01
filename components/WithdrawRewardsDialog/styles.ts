@@ -70,6 +70,11 @@ const useStyles = makeStyles(
     tablePagination: {
       justifyContent: 'center',
     },
+    helperText: {
+      '& .MuiFormHelperText-contained': {
+        marginLeft: 0,
+      },
+    },
   }),
   {
     name: 'HookGlobalStyles',
