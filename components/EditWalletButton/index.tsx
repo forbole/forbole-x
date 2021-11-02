@@ -19,7 +19,6 @@ enum Stage {
   ChangeWalletMonikerStage = 'change wallet moniker',
   ChangeSecurityPasswordStage = 'change security password',
   ViewMnenomicPhraseStage = 'view mnenomic phrase',
-  AddAccountToWalletStage = 'add account to wallet',
   DeleteWalletStage = 'delete wallet stage',
 }
 
@@ -76,7 +75,6 @@ const EditWalletButton: React.FC<EditWalletButtonProps> = ({ wallet }) => {
               changeWalletMoniker={() => setStage(Stage.ChangeWalletMonikerStage)}
               changeSecurityPassword={() => setStage(Stage.ChangeSecurityPasswordStage)}
               checkMnemonicPhrase={() => setStage(Stage.ViewMnenomicPhraseStage)}
-              addAccountToWallet={() => setStage(Stage.AddAccountToWalletStage)}
               deleteWallet={() => setStage(Stage.DeleteWalletStage)}
             />
           ),
@@ -96,7 +94,7 @@ const EditWalletButton: React.FC<EditWalletButtonProps> = ({ wallet }) => {
         <EditIcon {...iconProps} />
       </IconButton>
       <Dialog fullWidth open={dialogOpen} onClose={onClose} fullScreen={isMobile}>
-        {isPrevStageAvailable ? (
+        {isPrevStageAvailable && stage !== Stage.DeleteWalletStage ? (
           <IconButton className={classes.backButton} onClick={toPrevStage}>
             <BackIcon {...iconProps} />
           </IconButton>

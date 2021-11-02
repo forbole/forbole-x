@@ -30,9 +30,7 @@ export type FavAddress = {
 
 interface AddressDetailCardProps {
   address: FavAddress
-  validators: Validator[]
   accountBalance: AccountBalance
-  availableTokens: any
 }
 
 const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountBalance }) => {

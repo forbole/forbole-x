@@ -25,6 +25,7 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 import useSignerInfo from '../../misc/useSignerInfo'
 import signAndBroadcastTransaction from '../../misc/signAndBroadcastTransaction'
 import useIsChromeExt from '../../misc/useIsChromeExt'
+import estimateGasFee from '../../misc/estimateGasFee'
 
 enum ConfirmTransactionStage {
   ConfirmStage = 'confirm',
@@ -65,6 +66,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const crypto = account ? account.crypto : Object.keys(cryptocurrencies)[0]
 
   const [errMsg, setErrMsg] = React.useState('')
+  const [fee, setFee] = React.useState({ amount: [{ amount: '0', denom: '' }], gas: '' })
 
   const { data: denomsData } = useSubscription(gql`
     ${getTokensPrices(crypto)}
@@ -82,33 +84,18 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         memo: '',
       }
     }
-    const totalGas = defaultTransactionData.msgs
-      .map((m) =>
-        Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas["${m.typeUrl}"]`, 0))
-      )
-      .reduce((a, b) => a + b, 0)
-    const feeAmount = String(
-      totalGas *
-        (get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount.amount`, 0) as number)
-    )
     return {
-      fee: {
-        amount: [
-          {
-            amount: feeAmount,
-            denom: get(
-              cryptocurrencies,
-              `${account.crypto}.defaultGasFee.amount.denom`,
-              ''
-            ) as string,
-          },
-        ],
-        gas: String(totalGas),
-      },
+      fee,
       ...signerInfo,
       ...defaultTransactionData,
     }
-  }, [account, signerInfo, defaultTransactionData])
+  }, [account, signerInfo, defaultTransactionData, fee])
+
+  React.useEffect(() => {
+    if (defaultTransactionData && account) {
+      estimateGasFee(defaultTransactionData, account).then(setFee)
+    }
+  }, [defaultTransactionData, account])
 
   const validatorsAddresses = flatten(
     transactionData.msgs.map((m) => {

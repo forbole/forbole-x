@@ -84,7 +84,6 @@ const Proposal: React.FC = () => {
       <ProposalDetail
         proposal={proposal}
         crypto={crypto}
-        colors={['#28C989', '#1C86FC', '#FD248C', '#FD7522']}
         voteSummary={voteSummary}
         voteDetails={voteDetail}
         denoms={denoms}

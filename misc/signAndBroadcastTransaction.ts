@@ -114,7 +114,7 @@ const signAndBroadcastCosmosTransaction = async (
   }
   const accounts = await signer.getAccounts()
   const client = await SigningStargateClient.connectWithSigner(
-    cryptocurrencies[crypto].rpcEndpoint,
+    cryptocurrencies[crypto].rpcApiUrl,
     signer
   )
   const tx = await client.sign(
