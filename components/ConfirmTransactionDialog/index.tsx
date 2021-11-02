@@ -193,6 +193,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   // For ledger
   const [isTxSigned, setIsTxSigned] = React.useState(false)
 
+  console.log('TX', isTxSigned)
   const [loading, setLoading] = React.useState(false)
 
   const closeDialog = React.useCallback(() => {

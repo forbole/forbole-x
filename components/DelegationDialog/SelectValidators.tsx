@@ -18,6 +18,7 @@ import {
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import { gql, useQuery } from '@apollo/client'
+import { EnglishMnemonic } from '@cosmjs/crypto'
 import get from 'lodash/get'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -79,6 +80,18 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
       : [{ amount: amount.toString(), validator: {}, percentage: '100', showSlider: false }]
   )
   const [memo, setMemo] = React.useState('')
+
+  const isValidMnemonic = (input) => {
+    try {
+      // eslint-disable-next-line no-new
+      new EnglishMnemonic(input)
+      // console.log('valid mnemonic')
+      return true
+    } catch (err) {
+      // console.log('invalid mnemonic')
+      return false
+    }
+  }
 
   const validatorsMap = keyBy(validators, 'address')
   const randomizedValidators = React.useMemo(() => shuffle(validators), [])
@@ -273,8 +286,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                   }}
                   value={memo}
                   onChange={(e) => setMemo(e.target.value)}
-                  error={memo.split(' ').length - 1 >= 23 ? true : undefined}
-                  helperText={memo.split(' ').length - 1 >= 23 ? t('memo warning') : false}
+                  error={isValidMnemonic(memo)}
+                  helperText={isValidMnemonic(memo) ? t('memo warning') : false}
                 />
                 {memo.split(' ').length - 1 >= 23 ? (
                   <FormControlLabel
