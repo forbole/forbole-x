@@ -22,6 +22,7 @@ const estimateGasFee = async (
   const crypto = cryptocurrencies[account.crypto]
   const stargateClient = await StargateClient.connect(crypto.rpcApiUrl)
   const accountInfo = await stargateClient.getAccount(account.address)
+  console.log({ accountInfo })
   const result = await fetch(`${crypto.lcdApiUrl}/cosmos/tx/v1beta1/simulate`, {
     method: 'POST',
     body: JSON.stringify({
@@ -38,14 +39,14 @@ const estimateGasFee = async (
             {
               public_key: {
                 '@type': '/cosmos.crypto.secp256k1.PubKey',
-                key: accountInfo.pubkey.value,
+                key: get(accountInfo, 'pubkey.value', ''),
               },
               mode_info: {
                 single: {
                   mode: 'SIGN_MODE_UNSPECIFIED',
                 },
               },
-              sequence: String(accountInfo.sequence),
+              sequence: String(get(accountInfo, 'sequence', '')),
             },
           ],
           fee: {
