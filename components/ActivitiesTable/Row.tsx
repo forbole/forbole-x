@@ -487,7 +487,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
       }
       return null
     },
-    [activity.ref, classes]
+    [activity.ref, JSON.stringify(activity.detail || {}), classes]
   )
 
   return (
