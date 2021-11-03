@@ -22,7 +22,6 @@ const estimateGasFee = async (
   const crypto = cryptocurrencies[account.crypto]
   const stargateClient = await StargateClient.connect(crypto.rpcApiUrl)
   const accountInfo = await stargateClient.getAccount(account.address)
-  console.log({ accountInfo })
   const result = await fetch(`${crypto.lcdApiUrl}/cosmos/tx/v1beta1/simulate`, {
     method: 'POST',
     body: JSON.stringify({
