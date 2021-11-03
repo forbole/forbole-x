@@ -38,14 +38,14 @@ const estimateGasFee = async (
             {
               public_key: {
                 '@type': '/cosmos.crypto.secp256k1.PubKey',
-                key: accountInfo.pubkey.value,
+                key: get(accountInfo, 'pubkey.value', ''),
               },
               mode_info: {
                 single: {
                   mode: 'SIGN_MODE_UNSPECIFIED',
                 },
               },
-              sequence: String(accountInfo.sequence),
+              sequence: String(get(accountInfo, 'sequence', '')),
             },
           ],
           fee: {
