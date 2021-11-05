@@ -8,9 +8,9 @@ import ChangeAccountMonikerDialog from './ChangeAccountMonikerDialog'
 import DeleteAccountDialog from './DeleteAccountDialog'
 
 const AccountMenuButton: React.FC<{
-  accountAddress: string
+  account: Account
   buttonComponent?: React.ReactElement
-}> = ({ accountAddress, buttonComponent }) => {
+}> = ({ account, buttonComponent }) => {
   const { t } = useTranslation('common')
   const iconProps = useIconProps()
   const classes = useStyles()
@@ -72,12 +72,12 @@ const AccountMenuButton: React.FC<{
       <ChangeAccountMonikerDialog
         open={changeAccountNameOpen}
         onClose={() => setChangeAccountNameOpen(false)}
-        accountAddress={accountAddress}
+        account={account}
       />
       <DeleteAccountDialog
         open={deleteAccountOpen}
         onClose={() => setDeleteAccountOpen(false)}
-        accountAddress={accountAddress}
+        account={account}
       />
     </>
   )
