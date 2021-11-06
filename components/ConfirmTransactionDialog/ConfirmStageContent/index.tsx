@@ -203,6 +203,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
           variant="contained"
           className={classes.fullWidthButton}
           color="primary"
+          disabled={!transactionData.fee.gas}
           onClick={onConfirm}
         >
           {t('confirm')}

@@ -8,7 +8,6 @@ interface SelectMenuProps {
   changeWalletMoniker(): void
   changeSecurityPassword(): void
   checkMnemonicPhrase(): void
-  addAccountToWallet(): void
   deleteWallet(): void
 }
 

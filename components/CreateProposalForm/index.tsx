@@ -112,7 +112,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                 amount: [
                   {
                     amount: String(Number(amount) * 10 ** 6),
-                    denom: network.defaultGasFee.amount.denom,
+                    denom: network.gasFee.denom,
                   },
                 ],
               },

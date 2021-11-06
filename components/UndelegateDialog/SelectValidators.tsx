@@ -19,7 +19,6 @@ import ValidatorAvatar from '../ValidatorAvatar'
 
 interface SelectValidatorsProps {
   onConfirm(amount: number, denom: string, memo: string): void
-  account: Account
   crypto: Cryptocurrency
   validator: Validator
   availableAmount: TokenAmount

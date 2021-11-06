@@ -87,7 +87,6 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
       </IconButton>
       <DialogTitle>{t('undelegate')}</DialogTitle>
       <SelectValidators
-        account={account}
         crypto={crypto}
         validator={validator}
         availableAmount={availableAmount}

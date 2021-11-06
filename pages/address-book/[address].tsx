@@ -109,12 +109,7 @@ const Account: React.FC = () => {
       activeItem="/address-book"
     >
       {addressDetail ? (
-        <AddressDetailCard
-          address={addressDetail}
-          validators={validators}
-          accountBalance={accountBalance}
-          availableTokens={availableTokens}
-        />
+        <AddressDetailCard address={addressDetail} accountBalance={accountBalance} />
       ) : null}
       <DelegationsTable
         isAddressDetail
