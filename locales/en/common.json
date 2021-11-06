@@ -424,5 +424,5 @@
   "total vesting": "Total Vesting",
   "vesting period date": "Vesting Period Date",
   "memo warning": "Please do not enter your secret recovery phrase in this field!",
-  "memo warning consent": "I understand and the memo doesn't not contain my secret recovery phrase"
+  "memo warning consent": "I understand and the memo does not contain my secret recovery phrase"
 }

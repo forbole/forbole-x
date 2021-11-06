@@ -24,6 +24,7 @@ import {
   formatCurrency,
   formatTokenAmount,
   isAddressValid,
+  isValidMnemonic,
 } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import TokenAmountInput from '../TokenAmountInput'
@@ -162,10 +163,10 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                     }}
                     value={memo}
                     onChange={(e) => setMemo(e.target.value)}
-                    error={memo.split(' ').length - 1 >= 23 ? true : undefined}
-                    helperText={memo.split(' ').length - 1 >= 23 ? t('memo warning') : false}
+                    error={isValidMnemonic(memo)}
+                    helperText={isValidMnemonic(memo) ? t('memo warning') : false}
                   />
-                  {memo.split(' ').length - 1 >= 23 ? (
+                  {isValidMnemonic(memo) ? (
                     <FormControlLabel
                       control={
                         <Checkbox
