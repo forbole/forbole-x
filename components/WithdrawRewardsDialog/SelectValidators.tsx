@@ -16,7 +16,12 @@ import React from 'react'
 import cloneDeep from 'lodash/cloneDeep'
 import TablePagination from '../TablePagination'
 import { useGeneralContext } from '../../contexts/GeneralContext'
-import { formatCurrency, formatTokenAmount, getTokenAmountBalance } from '../../misc/utils'
+import {
+  formatCurrency,
+  formatTokenAmount,
+  getTokenAmountBalance,
+  isValidMnemonic,
+} from '../../misc/utils'
 import useStyles from './styles'
 import { ValidatorTag } from './index'
 import ValidatorAvatar from '../ValidatorAvatar'
@@ -223,10 +228,10 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               multiline
               rows={4}
               onChange={(e) => setValue(e.target.value)}
-              error={value.split(' ').length - 1 >= 23 ? true : undefined}
-              helperText={value.split(' ').length - 1 >= 23 ? t('memo warning') : false}
+              error={isValidMnemonic(value) ? true : undefined}
+              helperText={isValidMnemonic(value) ? t('memo warning') : false}
             />
-            {value.split(' ').length - 1 >= 23 ? (
+            {isValidMnemonic(value) ? (
               <FormControlLabel
                 control={
                   <Checkbox
