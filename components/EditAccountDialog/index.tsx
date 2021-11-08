@@ -64,13 +64,13 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, on
   const saveMoniker = React.useCallback(
     async (name: string) => {
       try {
-        await updateAccount(account.address, { name })
+        await updateAccount(account.address, account.walletId, { name })
         onClose()
       } catch (err) {
         console.log(err)
       }
     },
-    [updateAccount, account.address]
+    [updateAccount, account.address, account.walletId]
   )
 
   const editRewardAddress = React.useCallback(
@@ -103,7 +103,7 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, on
         return {
           title: t('remove account'),
           dialogWidth: 'xs',
-          content: <RemoveAccount onClose={onClose} address={account.address} />,
+          content: <RemoveAccount onClose={onClose} account={account} />,
         }
       case EditAccountStage.RewardAddressIntroStage:
         return {

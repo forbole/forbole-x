@@ -58,7 +58,7 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
         for (let i = 0; i < addresses.length; i += 1) {
           const { address, index, account, change } = addresses[i]
           await addAccount(
-            { name: `${crypto} ${index}`, crypto, walletId, index, account, address, change },
+            { name: `${crypto} ${account}`, crypto, walletId, index, account, address, change },
             securityPassword
           )
         }

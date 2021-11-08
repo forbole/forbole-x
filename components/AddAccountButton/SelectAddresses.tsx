@@ -197,6 +197,9 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
               <Box mt={2}>
                 <Typography>{t('account')}</Typography>
                 <Typography color="textSecondary">{hdAddress.address}</Typography>
+                {accounts.find((a) => a.address === hdAddress.address) ? (
+                  <Typography color="error">{t('address already exist')}</Typography>
+                ) : null}
               </Box>
               <Box mt={2}>
                 <Typography>{t('balance')}</Typography>
@@ -309,7 +312,11 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
           variant="contained"
           color="primary"
           type="submit"
-          disabled={isAdvance ? !hdAddress.address : selectedAddresses.length === 0}
+          disabled={
+            isAdvance
+              ? !hdAddress.address || !!accounts.find((a) => a.address === hdAddress.address)
+              : selectedAddresses.length === 0
+          }
         >
           {t('next')}
         </Button>
