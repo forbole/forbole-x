@@ -463,11 +463,11 @@ type ChromeMessage =
     }
   | {
       event: 'updateAccount'
-      data: { account: UpdateAccountParams; address: string; password: string }
+      data: { account: UpdateAccountParams; address: string; walletId: string; password: string }
     }
   | {
       event: 'deleteAccount'
-      data: { address: string; password: string }
+      data: { address: string; walletId: string; password: string }
     }
   | {
       event: 'generateMnemonic'

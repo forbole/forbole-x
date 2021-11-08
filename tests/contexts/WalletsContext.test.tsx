@@ -299,7 +299,7 @@ describe('context: WalletsContext', () => {
       await result.current.unlockWallets(password)
     })
     await act(async () => {
-      await result.current.updateAccount(account.address, { name: 'name 2' })
+      await result.current.updateAccount(account.address, account.walletId, { name: 'name 2' })
     })
     const accounts = [
       {
@@ -314,6 +314,7 @@ describe('context: WalletsContext', () => {
       data: {
         address: account.address,
         account: { name: 'name 2' },
+        walletId: account.walletId,
         password,
       },
     })
@@ -337,7 +338,7 @@ describe('context: WalletsContext', () => {
       await result.current.unlockWallets(password)
     })
     await act(async () => {
-      await result.current.deleteAccount(account.address)
+      await result.current.deleteAccount(account.address, account.walletId)
     })
     const accounts = []
     expect(result.current.accounts).toStrictEqual(accounts)
@@ -345,6 +346,7 @@ describe('context: WalletsContext', () => {
       event: 'deleteAccount',
       data: {
         address: account.address,
+        walletId: account.walletId,
         password,
       },
     })

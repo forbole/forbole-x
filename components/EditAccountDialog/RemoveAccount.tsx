@@ -6,21 +6,21 @@ import useStyles from './styles'
 
 interface RemoveAccountProps {
   onClose(): void
-  address: string
+  account: Account
 }
 
-const RemoveAccount: React.FC<RemoveAccountProps> = ({ onClose, address }) => {
+const RemoveAccount: React.FC<RemoveAccountProps> = ({ onClose, account }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const { deleteAccount } = useWalletsContext()
 
   const onButtonClick = React.useCallback(async () => {
     try {
-      await deleteAccount(address)
+      await deleteAccount(account.address, account.walletId)
     } catch (err) {
       console.log(err)
     }
-  }, [deleteAccount, address])
+  }, [deleteAccount, account])
 
   return (
     <>
