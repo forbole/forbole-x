@@ -423,5 +423,6 @@
   "require password after minutes": "Require password after 15 minutes",
   "total vesting": "Total Vesting",
   "vesting period date": "Vesting Period Date",
-  "address already exist": "Address already exist"
+  "address already exist": "Address already exist",
+  "support": "Support"
 }

@@ -1,10 +1,11 @@
 import React from 'react'
-import { Dialog, IconButton } from '@material-ui/core'
+import { Dialog, IconButton, Menu, MenuItem, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import useStyles from './styles'
 import EditIcon from '../../assets/images/icons/icon_edit.svg'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
+import WalletIcon from '../../assets/images/icons/icon_wallet_manage.svg'
 import useIconProps from '../../misc/useIconProps'
 import useIsMobile from '../../misc/useIsMobile'
 import useStateHistory from '../../misc/useStateHistory'
@@ -24,6 +25,8 @@ enum Stage {
 
 interface EditWalletButtonProps {
   wallet: Wallet
+  isChromeExt?: boolean
+  onCreateWallet?: () => void
 }
 
 interface Content {
@@ -31,16 +34,22 @@ interface Content {
   dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-const EditWalletButton: React.FC<EditWalletButtonProps> = ({ wallet }) => {
+const EditWalletButton: React.FC<EditWalletButtonProps> = ({
+  wallet,
+  isChromeExt,
+  onCreateWallet,
+}) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
-  const iconProps = useIconProps()
+  const smallIconProps = useIconProps()
+  const largeIconProps = useIconProps(3)
   const isMobile = useIsMobile()
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
     Stage.SelectMenuStage
   )
 
   const [dialogOpen, setDialogOpen] = React.useState(false)
+  const [menuAnchor, setMenuAnchor] = React.useState<Element>()
   const onClose = () => {
     setDialogOpen(false)
   }
@@ -83,24 +92,77 @@ const EditWalletButton: React.FC<EditWalletButtonProps> = ({ wallet }) => {
   }, [stage, t])
 
   React.useEffect(() => {
-    if (dialogOpen) {
+    if (dialogOpen && !isChromeExt) {
       setStage(Stage.SelectMenuStage, true)
     }
-  }, [dialogOpen])
+  }, [dialogOpen, isChromeExt])
+
+  const onMenuItemClick = React.useCallback((nextStage: Stage) => {
+    setStage(nextStage, true)
+    setDialogOpen(true)
+    setMenuAnchor(undefined)
+  }, [])
 
   return (
     <>
-      <IconButton onClick={() => setDialogOpen(true)}>
-        <EditIcon {...iconProps} />
+      <IconButton
+        onClick={(e) => (isChromeExt ? setMenuAnchor(e.currentTarget) : setDialogOpen(true))}
+      >
+        {isChromeExt ? <WalletIcon {...largeIconProps} /> : <EditIcon {...smallIconProps} />}
       </IconButton>
+      {isChromeExt ? (
+        <Menu
+          anchorEl={menuAnchor}
+          getContentAnchorEl={null}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          keepMounted
+          open={!!menuAnchor}
+          onClose={() => setMenuAnchor(undefined)}
+        >
+          <MenuItem
+            button
+            onClick={() => {
+              if (onCreateWallet) {
+                onCreateWallet()
+              }
+              setMenuAnchor(undefined)
+            }}
+          >
+            {t('create wallet')}
+          </MenuItem>
+          <MenuItem button onClick={() => onMenuItemClick(Stage.ChangeWalletMonikerStage)}>
+            {t('change wallet moniker')}
+          </MenuItem>
+          {wallet.type === 'ledger' ? null : (
+            <>
+              <MenuItem button onClick={() => onMenuItemClick(Stage.ChangeSecurityPasswordStage)}>
+                {t('change security password')}
+              </MenuItem>
+              <MenuItem button onClick={() => onMenuItemClick(Stage.ViewMnenomicPhraseStage)}>
+                {t('view secret recovery phrase')}
+              </MenuItem>
+            </>
+          )}
+          <MenuItem button onClick={() => onMenuItemClick(Stage.DeleteWalletStage)}>
+            <Typography color="error">{t('delete wallet')}</Typography>
+          </MenuItem>
+        </Menu>
+      ) : null}
       <Dialog fullWidth open={dialogOpen} onClose={onClose} fullScreen={isMobile}>
         {isPrevStageAvailable && stage !== Stage.DeleteWalletStage ? (
           <IconButton className={classes.backButton} onClick={toPrevStage}>
-            <BackIcon {...iconProps} />
+            <BackIcon {...smallIconProps} />
           </IconButton>
         ) : null}
         <IconButton className={classes.closeButton} onClick={onClose}>
-          <CloseIcon {...iconProps} />
+          <CloseIcon {...smallIconProps} />
         </IconButton>
         {content.content}
       </Dialog>
