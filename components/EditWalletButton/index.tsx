@@ -1,6 +1,7 @@
 import React from 'react'
 import { Dialog, IconButton, Menu, MenuItem, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
+import capitalize from 'lodash/capitalize'
 import useStyles from './styles'
 import EditIcon from '../../assets/images/icons/icon_edit.svg'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
@@ -138,15 +139,15 @@ const EditWalletButton: React.FC<EditWalletButtonProps> = ({
             {t('create wallet')}
           </MenuItem>
           <MenuItem button onClick={() => onMenuItemClick(Stage.ChangeWalletMonikerStage)}>
-            {t('change wallet moniker')}
+            {t('change wallet moniker').split(' ').map(capitalize).join(' ')}
           </MenuItem>
           {wallet.type === 'ledger' ? null : (
             <>
               <MenuItem button onClick={() => onMenuItemClick(Stage.ChangeSecurityPasswordStage)}>
-                {t('change security password')}
+                {t('change security password').split(' ').map(capitalize).join(' ')}
               </MenuItem>
               <MenuItem button onClick={() => onMenuItemClick(Stage.ViewMnenomicPhraseStage)}>
-                {t('view secret recovery phrase')}
+                {t('view secret recovery phrase').split(' ').map(capitalize).join(' ')}
               </MenuItem>
             </>
           )}

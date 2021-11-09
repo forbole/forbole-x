@@ -14,6 +14,7 @@ import LedgerIcon from '../assets/images/icons/usb_device.svg'
 import ArrowDownIcon from '../assets/images/icons/icon_arrow down_title.svg'
 import useIsChromeExt from '../misc/useIsChromeExt'
 import useIconProps from '../misc/useIconProps'
+import usePersistedState from '../misc/usePersistedState'
 
 const Wallets: React.FC = () => {
   const { t } = useTranslation('common')
@@ -21,11 +22,13 @@ const Wallets: React.FC = () => {
   const accountsMap = React.useMemo(() => groupBy(accounts, 'walletId'), [accounts])
   const [isCreateWalletDialogOpen, setIsCreateWalletDialogOpen] = React.useState(false)
   const themeStyle: CustomTheme = useTheme()
-  const smallIconProps = useIconProps()
-  const largeIconProps = useIconProps(3)
+  const iconProps = useIconProps()
 
   const { isChromeExt } = useIsChromeExt()
-  const [chromeExtSelectedWalletIndex, setChromeExtSelectedWalletIndex] = React.useState(0)
+  const [chromeExtSelectedWalletIndex, setChromeExtSelectedWalletIndex] = usePersistedState(
+    'chromeExtSelectedWalletIndex',
+    0
+  )
   const [walletsMenuAnchor, setWalletsMenuAnchor] = React.useState<Element>()
   const selectedWallet = wallets[chromeExtSelectedWalletIndex]
 
@@ -34,44 +37,61 @@ const Wallets: React.FC = () => {
       passwordRequired
       activeItem="/wallets"
       ChromeExtTitleComponent={
-        <>
-          <Button
-            onClick={(e) => setWalletsMenuAnchor(e.currentTarget)}
-            endIcon={<ArrowDownIcon {...smallIconProps} />}
-          >
-            <Box mt={1}>
-              <Typography variant="h4">{selectedWallet ? selectedWallet.name : ''}</Typography>
-            </Box>
-          </Button>
-          <Menu
-            anchorEl={walletsMenuAnchor}
-            getContentAnchorEl={null}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'center',
-            }}
-            keepMounted
-            open={!!walletsMenuAnchor}
-            onClose={() => setWalletsMenuAnchor(undefined)}
-          >
-            {wallets.map((w, i) => (
-              <MenuItem
-                key={w.id}
-                button
-                onClick={() => {
-                  setChromeExtSelectedWalletIndex(i)
-                  setWalletsMenuAnchor(undefined)
-                }}
-              >
-                {w.name}
-              </MenuItem>
-            ))}
-          </Menu>
-        </>
+        selectedWallet ? (
+          <>
+            <Button
+              onClick={(e) => setWalletsMenuAnchor(e.currentTarget)}
+              endIcon={<ArrowDownIcon {...iconProps} />}
+            >
+              {selectedWallet.type === 'ledger' ? (
+                <LedgerIcon
+                  fill={themeStyle.palette.text.primary}
+                  style={{
+                    marginRight: themeStyle.spacing(1),
+                    marginTop: themeStyle.spacing(0.5),
+                  }}
+                />
+              ) : null}
+              <Box mt={1}>
+                <Typography variant="h4">{selectedWallet.name}</Typography>
+              </Box>
+            </Button>
+            <Menu
+              anchorEl={walletsMenuAnchor}
+              getContentAnchorEl={null}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+              }}
+              keepMounted
+              open={!!walletsMenuAnchor}
+              onClose={() => setWalletsMenuAnchor(undefined)}
+            >
+              {wallets.map((w, i) => (
+                <MenuItem
+                  key={w.id}
+                  button
+                  onClick={() => {
+                    setChromeExtSelectedWalletIndex(i)
+                    setWalletsMenuAnchor(undefined)
+                  }}
+                >
+                  {w.type === 'ledger' ? (
+                    <LedgerIcon
+                      fill={themeStyle.palette.text.primary}
+                      style={{ marginRight: themeStyle.spacing(0.75) }}
+                    />
+                  ) : null}
+                  {w.name}
+                </MenuItem>
+              ))}
+            </Menu>
+          </>
+        ) : null
       }
       ChromeExtRightComponent={
         selectedWallet ? (
