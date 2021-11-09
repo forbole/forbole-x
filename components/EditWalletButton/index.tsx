@@ -136,7 +136,7 @@ const EditWalletButton: React.FC<EditWalletButtonProps> = ({
               setMenuAnchor(undefined)
             }}
           >
-            {t('create wallet')}
+            {t('add wallet')}
           </MenuItem>
           <MenuItem button onClick={() => onMenuItemClick(Stage.ChangeWalletMonikerStage)}>
             {t('change wallet moniker').split(' ').map(capitalize).join(' ')}

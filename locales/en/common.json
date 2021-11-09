@@ -424,5 +424,7 @@
   "total vesting": "Total Vesting",
   "vesting period date": "Vesting Period Date",
   "address already exist": "Address already exist",
-  "support": "Support"
+  "support": "Support",
+  "pending rewards": "Pending Rewards",
+  "delegate inflation": "Delegate ({{inflation}} Inflation)"
 }

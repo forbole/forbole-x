@@ -121,7 +121,7 @@ const Wallets: React.FC = () => {
         <Grid container spacing={3}>
           {(accountsMap[selectedWallet.id] || []).map((a) => (
             <Grid key={a.address} item xl={4} lg={6} xs={12}>
-              <AccountCard account={a} ledgerIconDisabled />
+              <AccountCard account={a} ledgerIconDisabled isChromeExt />
             </Grid>
           ))}
         </Grid>
