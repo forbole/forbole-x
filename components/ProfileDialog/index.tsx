@@ -52,16 +52,42 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
   const [profilePicUploading, setProfilePicUploading] = React.useState(false)
   const [isUploadErr, setIsUploadErr] = React.useState(false)
 
+  const [errors, setErrors] = React.useState({ dtag: false, nickname: false, bio: false })
+
   React.useEffect(() => {
     if (open) {
       setLoading(false)
       setProfile(defaultProfile)
       setCoverPicUploading(false)
       setProfilePicUploading(false)
+      setErrors({ dtag: false, nickname: false, bio: false })
     }
   }, [open])
 
   const onSubmit = React.useCallback(async () => {
+    // Validate entries
+    let hasErr = false
+    const errs = { dtag: false, nickname: false, bio: false }
+    if (
+      profile.dtag.length < 6 ||
+      profile.dtag.length > 30 ||
+      !profile.dtag.match(/^[A-Za-z0-9_]+$/)
+    ) {
+      errs.dtag = true
+      hasErr = true
+    }
+    if (profile.nickname && profile.nickname.length < 2) {
+      errs.nickname = true
+      hasErr = true
+    }
+    if (profile.bio.length > 1000) {
+      errs.bio = true
+      hasErr = true
+    }
+    setErrors(errs)
+    if (hasErr) {
+      return
+    }
     try {
       setLoading(true)
       const value = {
@@ -172,6 +198,8 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                   }}
                   value={profile.nickname}
                   onChange={(e) => setProfile((p) => ({ ...p, nickname: e.target.value }))}
+                  error={errors.nickname}
+                  helperText={errors.nickname ? t('profile nickname rules') : undefined}
                 />
               </Box>
               <Box mt={3}>
@@ -185,6 +213,8 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                   }}
                   value={profile.dtag}
                   onChange={(e) => setProfile((p) => ({ ...p, dtag: e.target.value }))}
+                  error={errors.dtag}
+                  helperText={errors.dtag ? t('profile dtag rules') : undefined}
                 />
               </Box>
               <Box mt={3}>
@@ -200,6 +230,8 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                   }}
                   value={profile.bio}
                   onChange={(e) => setProfile((p) => ({ ...p, bio: e.target.value }))}
+                  error={errors.bio}
+                  helperText={errors.bio ? t('profile bio rules') : undefined}
                 />
               </Box>
               <Box display="flex" flex={1} pt={8}>
