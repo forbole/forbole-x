@@ -49,8 +49,8 @@ const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled }
   }, [data])
 
   const toggleFav = React.useCallback(() => {
-    updateAccount(account.address, { fav: !account.fav })
-  }, [account.address, account.fav, updateAccount])
+    updateAccount(account.address, account.walletId, { fav: !account.fav })
+  }, [account.address, account.fav, account.walletId, updateAccount])
 
   return (
     <Card
@@ -69,7 +69,7 @@ const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled }
     >
       <Box mb={5} display="flex" alignItems="flex-start" justifyContent="space-between">
         <AccountAvatar account={account} ledgerIconDisabled={ledgerIconDisabled} />
-        <AccountMenuButton accountAddress={account.address} />
+        <AccountMenuButton account={account} />
       </Box>
       <Box display="flex" alignItems="flex-end" justifyContent="space-between">
         {loading ? (

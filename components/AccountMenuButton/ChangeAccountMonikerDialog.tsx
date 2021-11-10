@@ -18,13 +18,13 @@ import useIconProps from '../../misc/useIconProps'
 import useIsMobile from '../../misc/useIsMobile'
 
 interface ChangeAccountMonikerDialogProps {
-  accountAddress: string
+  account: Account
   open: boolean
   onClose(): void
 }
 
 const ChangeAccountMonikerDialog: React.FC<ChangeAccountMonikerDialogProps> = ({
-  accountAddress,
+  account,
   open,
   onClose,
 }) => {
@@ -39,13 +39,13 @@ const ChangeAccountMonikerDialog: React.FC<ChangeAccountMonikerDialogProps> = ({
     async (e) => {
       try {
         e.preventDefault()
-        await updateAccount(accountAddress, { name })
+        await updateAccount(account.address, account.walletId, { name })
         onClose()
       } catch (err) {
         console.log(err)
       }
     },
-    [name, updateAccount, accountAddress]
+    [name, updateAccount, account]
   )
 
   React.useEffect(() => {

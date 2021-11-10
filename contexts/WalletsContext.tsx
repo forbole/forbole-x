@@ -18,8 +18,8 @@ interface WalletsState {
   updateWallet?: (id: string, wallet: UpdateWalletParams) => void
   deleteWallet?: (id: string) => void
   addAccount?: (account: CreateAccountParams, securityPassword: string) => void
-  updateAccount?: (address: string, account: UpdateAccountParams) => void
-  deleteAccount?: (address: string) => void
+  updateAccount?: (address: string, walletId: string, account: UpdateAccountParams) => void
+  deleteAccount?: (address: string, walletId: string) => void
   viewMnemonicPhrase?: (id: string, securityPassword: string) => Promise<string>
   viewMnemonicPhraseBackup?: (
     id: string,
@@ -169,6 +169,7 @@ const WalletsProvider: React.FC = ({ children }) => {
               event: 'deleteAccount',
               data: {
                 address: a.address,
+                walletId: a.walletId,
                 password,
               },
             })
@@ -202,30 +203,34 @@ const WalletsProvider: React.FC = ({ children }) => {
   )
 
   const updateAccount = React.useCallback(
-    async (address: string, account: UpdateAccountParams) => {
+    async (address: string, walletId: string, account: UpdateAccountParams) => {
       const result = await sendMsgToChromeExt({
         event: 'updateAccount',
         data: {
           account,
           address,
+          walletId,
           password,
         },
       })
-      setAccounts((acs) => acs.map((a) => (a.address === address ? result.account : a)))
+      setAccounts((acs) =>
+        acs.map((a) => (a.address === address && a.walletId === walletId ? result.account : a))
+      )
     },
     [password, setAccounts]
   )
 
   const deleteAccount = React.useCallback(
-    async (address: string) => {
+    async (address: string, walletId: string) => {
       await sendMsgToChromeExt({
         event: 'deleteAccount',
         data: {
           address,
+          walletId,
           password,
         },
       })
-      setAccounts((acs) => acs.filter((a) => a.address !== address))
+      setAccounts((acs) => acs.filter((a) => a.address !== address || a.walletId !== walletId))
     },
     [password, setAccounts]
   )

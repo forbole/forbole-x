@@ -15,16 +15,12 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
 
 interface DeleteAccountDialogProps {
-  accountAddress: string
+  account: Account
   open: boolean
   onClose(): void
 }
 
-const DeleteAccountDialog: React.FC<DeleteAccountDialogProps> = ({
-  accountAddress,
-  open,
-  onClose,
-}) => {
+const DeleteAccountDialog: React.FC<DeleteAccountDialogProps> = ({ account, open, onClose }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
@@ -32,11 +28,11 @@ const DeleteAccountDialog: React.FC<DeleteAccountDialogProps> = ({
 
   const onButtonClick = React.useCallback(async () => {
     try {
-      await deleteAccount(accountAddress)
+      await deleteAccount(account.address, account.walletId)
     } catch (err) {
       console.log(err)
     }
-  }, [deleteAccount, accountAddress])
+  }, [deleteAccount, account])
 
   return (
     <Dialog open={open} onClose={onClose}>
