@@ -423,5 +423,8 @@
   "require password after minutes": "Require password after 15 minutes",
   "total vesting": "Total Vesting",
   "vesting period date": "Vesting Period Date",
-  "address already exist": "Address already exist"
+  "address already exist": "Address already exist",
+  "profile dtag rules": "Dtag must have 6 - 30 alphanumeric or _ characters",
+  "profile nickname rules": "Nickname must have at least 2 characters",
+  "profile bio rules": "Bio can have at most 1000 characters"
 }
