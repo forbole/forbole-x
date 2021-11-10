@@ -10,7 +10,7 @@ const Setting: React.FC = () => {
   const { isChromeExt } = useIsChromeExt()
 
   return (
-    <Layout passwordRequired back>
+    <Layout back>
       {isChromeExt ? null : (
         <Box display="flex" alignItems="center" mb={2}>
           <Typography variant="h1">{t('settings')}</Typography>
