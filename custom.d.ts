@@ -106,6 +106,7 @@ interface Cryptocurrency {
   ibcChains: Chain[]
   gasAdjustment: number
   gasFee: { amount: number; denom: string }
+  defaultGas: { [typeUrl: string]: number }
 }
 
 interface Validator {
