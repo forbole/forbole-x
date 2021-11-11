@@ -13,12 +13,9 @@ import {
   useTheme,
   Slider,
   Card,
-  FormControlLabel,
-  Checkbox,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import { gql, useQuery } from '@apollo/client'
-// import { EnglishMnemonic } from '@cosmjs/crypto'
 import get from 'lodash/get'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'

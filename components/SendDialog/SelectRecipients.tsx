@@ -4,14 +4,11 @@ import {
   Button,
   DialogActions,
   DialogContent,
-  TextField,
   Typography,
   Grid,
   CircularProgress,
   IconButton,
   useTheme,
-  FormControlLabel,
-  Checkbox,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -24,7 +21,6 @@ import {
   formatCurrency,
   formatTokenAmount,
   isAddressValid,
-  isValidMnemonic,
 } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import TokenAmountInput from '../TokenAmountInput'

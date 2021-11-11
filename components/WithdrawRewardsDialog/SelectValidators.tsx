@@ -3,7 +3,6 @@ import {
   Button,
   DialogActions,
   DialogContent,
-  TextField,
   Typography,
   Checkbox,
   FormControlLabel,
@@ -17,12 +16,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import TablePagination from '../TablePagination'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 
-import {
-  formatCurrency,
-  formatTokenAmount,
-  getTokenAmountBalance,
-  isValidMnemonic,
-} from '../../misc/utils'
+import { formatCurrency, formatTokenAmount, getTokenAmountBalance } from '../../misc/utils'
 import useStyles from './styles'
 import { ValidatorTag } from './index'
 import MemoInput from '../MemoInput'
