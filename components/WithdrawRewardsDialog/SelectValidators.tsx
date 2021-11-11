@@ -16,6 +16,7 @@ import React from 'react'
 import cloneDeep from 'lodash/cloneDeep'
 import TablePagination from '../TablePagination'
 import { useGeneralContext } from '../../contexts/GeneralContext'
+
 import {
   formatCurrency,
   formatTokenAmount,
@@ -24,6 +25,7 @@ import {
 } from '../../misc/utils'
 import useStyles from './styles'
 import { ValidatorTag } from './index'
+import MemoInput from '../MemoInput'
 import ValidatorAvatar from '../ValidatorAvatar'
 import ImageDefaultDark from '../../assets/images/image_default_dark.svg'
 import ImageDefaultLight from '../../assets/images/image_default_light.svg'
@@ -217,45 +219,15 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             </Box>
 
             <Typography>{t('memo')}</Typography>
-            <TextField
-              InputProps={{
-                disableUnderline: true,
-              }}
-              className={classes.helperText}
+            <MemoInput
               fullWidth
-              variant="filled"
-              value={value}
-              placeholder={t('description optional')}
               multiline
               rows={4}
-              onChange={(e) => setValue(e.target.value)}
-              error={isValidMnemonic(value) ? true : undefined}
-              helperText={isValidMnemonic(value) ? t('memo warning') : false}
+              value={value}
+              setValue={setValue}
+              consent={consent}
+              setConsent={setConsent}
             />
-            {isValidMnemonic(value) ? (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    style={{
-                      color: themeStyle.palette.error.main,
-                    }}
-                    checked={consent}
-                    onChange={(e) => setConsent(e.target.checked)}
-                  />
-                }
-                label={
-                  <Typography
-                    variant="body2"
-                    style={{
-                      fontSize: themeStyle.spacing(1.8),
-                      color: themeStyle.palette.error.main,
-                    }}
-                  >
-                    {t('memo warning consent')}
-                  </Typography>
-                }
-              />
-            ) : null}
           </DialogContent>
           <DialogActions>
             <Box
