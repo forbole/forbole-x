@@ -1,4 +1,4 @@
-import { Breadcrumbs, Link as MLink } from '@material-ui/core'
+import { Box, Breadcrumbs, Link as MLink, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -37,6 +37,7 @@ import VestingDialog from '../../components/VestingDialog'
 const Account: React.FC = () => {
   const router = useRouter()
   const { t } = useTranslation('common')
+  const theme = useTheme()
   const { accounts, wallets } = useWalletsContext()
   const account = accounts.find((a) => a.address === router.query.address)
   const wallet = wallets.filter((x) => x.id === account?.walletId)[0]
@@ -148,10 +149,31 @@ const Account: React.FC = () => {
         account ? (
           <Breadcrumbs>
             <Link href="/wallets" passHref>
-              <MLink color="textPrimary">{t('wallet')}</MLink>
+              <MLink color="textPrimary">{wallet.name}</MLink>
             </Link>
             <AccountAvatar account={account} hideAddress size="small" />
           </Breadcrumbs>
+        ) : null
+      }
+      ChromeExtTitleComponent={
+        account ? (
+          <Box mt={1}>
+            <Breadcrumbs>
+              <Box
+                maxWidth={theme.spacing(20)}
+                textOverflow="ellipsis"
+                whiteSpace="nowrap"
+                overflow="hidden"
+              >
+                <Link href="/wallets" passHref>
+                  <MLink color="textPrimary" variant="h4">
+                    {wallet.name}
+                  </MLink>
+                </Link>
+              </Box>
+              <AccountAvatar account={account} hideAddress titleVariant="h4" avatarSize={3} />
+            </Breadcrumbs>
+          </Box>
         ) : null
       }
     >

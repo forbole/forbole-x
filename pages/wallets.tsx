@@ -118,13 +118,19 @@ const Wallets: React.FC = () => {
         </Box>
       )}
       {isChromeExt && selectedWallet ? (
-        <Grid container spacing={3}>
-          {(accountsMap[selectedWallet.id] || []).map((a) => (
-            <Grid key={a.address} item xl={4} lg={6} xs={12}>
-              <AccountCard account={a} ledgerIconDisabled isChromeExt />
-            </Grid>
-          ))}
-        </Grid>
+        <>
+          <Box p={1} display="flex" justifyContent="space-between">
+            <Typography variant="h4">{t('accounts')}</Typography>
+            <AddAccountButton walletId={selectedWallet.id} />
+          </Box>
+          <Grid container spacing={3}>
+            {(accountsMap[selectedWallet.id] || []).map((a) => (
+              <Grid key={a.address} item xl={4} lg={6} xs={12}>
+                <AccountCard account={a} ledgerIconDisabled isChromeExt />
+              </Grid>
+            ))}
+          </Grid>
+        </>
       ) : (
         wallets.map((w) => (
           <Box key={w.id} mt={2}>
