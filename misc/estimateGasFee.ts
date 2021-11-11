@@ -63,7 +63,9 @@ const estimateGasFee = async (
       },
     }),
   }).then((r) => r.json())
-  const gas = Math.round(Number(get(result, 'gas_info.gas_used', '0')) * crypto.gasAdjustment)
+  const gas =
+    Math.round(Number(get(result, 'gas_info.gas_used', '0')) * crypto.gasAdjustment) ||
+    tx.msgs.map((msg) => crypto.defaultGas[msg.typeUrl]).reduce((a, b) => a + b, 0)
   return {
     amount: [
       { amount: String(Math.round(gas * crypto.gasFee.amount)), denom: crypto.gasFee.denom },

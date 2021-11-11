@@ -28,6 +28,19 @@ const cryptocurrencies: { [key: string]: Cryptocurrency } = {
       amount: 0.01,
       denom: 'udsm',
     },
+    defaultGas: {
+      '/cosmos.bank.v1beta1.MsgSend': 200000,
+      '/cosmos.staking.v1beta1.MsgDelegate': 400000,
+      '/cosmos.staking.v1beta1.MsgBeginRedelegate': 400000,
+      '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward': 200000,
+      '/cosmos.staking.v1beta1.MsgUndelegate': 400000,
+      '/ibc.applications.transfer.v1.MsgTransfer': 400000,
+      '/cosmos.gov.v1beta1.MsgSubmitProposal': 400000,
+      '/cosmos.gov.v1beta1.MsgDeposit': 400000,
+      '/cosmos.gov.v1beta1.MsgVote': 400000,
+      '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress': 400000,
+      '/desmos.profiles.v1beta1.MsgSaveProfile': 400000,
+    },
   },
 }
 

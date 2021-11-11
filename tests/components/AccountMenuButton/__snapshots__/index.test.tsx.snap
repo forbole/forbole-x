@@ -100,13 +100,11 @@ Array [
     </div>
   </div>,
   <div
-    accountAddress="123"
     id="ChangeAccountMonikerDialog"
     onClose={[Function]}
     open={false}
   />,
   <div
-    accountAddress="123"
     id="DeleteAccountDialog"
     onClose={[Function]}
     open={false}
@@ -223,13 +221,11 @@ Array [
     </div>
   </div>,
   <div
-    accountAddress="123"
     id="ChangeAccountMonikerDialog"
     onClose={[Function]}
     open={true}
   />,
   <div
-    accountAddress="123"
     id="DeleteAccountDialog"
     onClose={[Function]}
     open={false}
@@ -346,13 +342,11 @@ Array [
     </div>
   </div>,
   <div
-    accountAddress="123"
     id="ChangeAccountMonikerDialog"
     onClose={[Function]}
     open={false}
   />,
   <div
-    accountAddress="123"
     id="DeleteAccountDialog"
     onClose={[Function]}
     open={false}
@@ -469,13 +463,11 @@ Array [
     </div>
   </div>,
   <div
-    accountAddress="123"
     id="ChangeAccountMonikerDialog"
     onClose={[Function]}
     open={false}
   />,
   <div
-    accountAddress="123"
     id="DeleteAccountDialog"
     onClose={[Function]}
     open={true}
@@ -592,13 +584,11 @@ Array [
     </div>
   </div>,
   <div
-    accountAddress="123"
     id="ChangeAccountMonikerDialog"
     onClose={[Function]}
     open={false}
   />,
   <div
-    accountAddress="123"
     id="DeleteAccountDialog"
     onClose={[Function]}
     open={false}
@@ -716,13 +706,11 @@ Array [
     </div>
   </div>,
   <div
-    accountAddress="123"
     id="ChangeAccountMonikerDialog"
     onClose={[Function]}
     open={false}
   />,
   <div
-    accountAddress="123"
     id="DeleteAccountDialog"
     onClose={[Function]}
     open={false}
@@ -839,13 +827,11 @@ Array [
     </div>
   </div>,
   <div
-    accountAddress="123"
     id="ChangeAccountMonikerDialog"
     onClose={[Function]}
     open={false}
   />,
   <div
-    accountAddress="123"
     id="DeleteAccountDialog"
     onClose={[Function]}
     open={false}

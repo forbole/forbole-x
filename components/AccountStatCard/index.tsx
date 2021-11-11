@@ -99,8 +99,8 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const increasing = usdBalance - firstBalance > 0
 
   const toggleFav = React.useCallback(() => {
-    updateAccount(account.address, { fav: !account.fav })
-  }, [account.address, account.fav, updateAccount])
+    updateAccount(account.address, account.walletId, { fav: !account.fav })
+  }, [account.address, account.fav, account.walletId, updateAccount])
 
   return (
     <>
