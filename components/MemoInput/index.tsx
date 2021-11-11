@@ -22,6 +22,8 @@ const MemoInput: React.FC<MemoInputProps> = ({
   fullWidth,
   multiline,
   rows,
+  InputProps,
+  placeholder,
   value,
   setValue,
   consent,
@@ -33,15 +35,13 @@ const MemoInput: React.FC<MemoInputProps> = ({
   return (
     <>
       <TextField
-        InputProps={{
-          disableUnderline: true,
-        }}
+        InputProps={InputProps}
         className={classes.helperText}
         fullWidth={fullWidth ? true : undefined}
         multiline={multiline ? true : undefined}
         rows={rows}
         variant="filled"
-        placeholder={t('description optional')}
+        placeholder={placeholder}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         error={isValidMnemonic(value) ? true : undefined}

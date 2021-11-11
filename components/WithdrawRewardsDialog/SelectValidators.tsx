@@ -223,6 +223,10 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               fullWidth
               multiline
               rows={4}
+              InputProps={{
+                disableUnderline: true,
+              }}
+              placeholder={t('description optional')}
               value={value}
               setValue={setValue}
               consent={consent}
