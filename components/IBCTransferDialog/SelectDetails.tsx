@@ -21,6 +21,7 @@ import useStyles from './styles'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useIconProps from '../../misc/useIconProps'
 import AddressInput from '../AddressInput'
+import MemoInput from '../MemoInput'
 import { isAddressValid } from '../../misc/utils'
 
 interface SelectDetailsProps {
@@ -46,6 +47,7 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
   const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
   const [address, setAddress] = React.useState('')
   const [memo, setMemo] = React.useState('')
+  const [consent, setConsent] = React.useState(false)
 
   const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount)
 
@@ -133,15 +135,17 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
           />
           <Box mb={2} />
           <Typography>{t('memo')}</Typography>
-          <TextField
+          <MemoInput
             placeholder={t('optional')}
             variant="filled"
-            value={memo}
-            onChange={(e) => setMemo(e.target.value)}
             fullWidth
             InputProps={{ disableUnderline: true }}
             multiline
             rows={4}
+            value={memo}
+            setValue={setMemo}
+            consent={consent}
+            setConsent={setConsent}
           />
         </Box>
       </DialogContent>
