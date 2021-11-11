@@ -52,7 +52,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onEditProfile }) => 
               className={classes.button}
               variant="outlined"
               onClick={onEditProfile}
-              size="small"
+              size={isMobile ? 'small' : 'medium'}
             >
               {t('edit profile')}
             </Button>
