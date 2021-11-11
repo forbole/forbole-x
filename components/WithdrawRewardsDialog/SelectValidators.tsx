@@ -62,6 +62,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [value, setValue] = React.useState('')
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   // const [currentTab, setCurrentTab] = React.useState(0)
+  const [consent, setConsent] = React.useState(false)
   const [state, setState] = React.useState({})
   const themeStyle: CustomTheme = useTheme()
 
@@ -238,6 +239,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                     style={{
                       color: themeStyle.palette.error.main,
                     }}
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
                   />
                 }
                 label={
@@ -279,7 +282,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                   loading ||
                   !Object.values(amount)
                     .map((a) => a.amount)
-                    .reduce((a, b) => a + b, 0)
+                    .reduce((a, b) => a + b, 0) ||
+                  !consent
                 }
                 type="submit"
               >
