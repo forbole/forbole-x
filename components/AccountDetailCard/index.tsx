@@ -4,6 +4,7 @@ import React from 'react'
 import get from 'lodash/get'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import EditIcon from '../../assets/images/icons/icon_edit_tool.svg'
+import MoreIcon from '../../assets/images/icons/icon_more.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import AccountAvatar from '../AccountAvatar'
 import { useGeneralContext } from '../../contexts/GeneralContext'
@@ -91,12 +92,12 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
     <>
       <Card className={classes.accountCard}>
         <Box
-          p={4}
+          p={isMobile ? 2 : 4}
           display={isMobile ? 'block' : 'flex'}
           justifyContent="space-between"
           alignItems="flex-start"
         >
-          <AccountAvatar ledgerIconDisabled size="large" account={account} />
+          <AccountAvatar ledgerIconDisabled size={isMobile ? 'base' : 'large'} account={account} />
           <Box display="flex" mt={isMobile ? 2 : 0} ml={isMobile ? -2 : 0}>
             {!profileExist ? (
               <Button
@@ -136,93 +137,99 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
               top={theme.spacing(2)}
               right={theme.spacing(2)}
             >
-              <Button
-                classes={{ root: classes.iconButton }}
-                variant={isMobile ? 'text' : 'outlined'}
-                onClick={toggleFav}
-              >
-                {account.fav ? (
-                  <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
-                ) : (
-                  <StarIcon {...iconProps} />
-                )}
-              </Button>
+              {isMobile ? null : (
+                <Button
+                  classes={{ root: classes.iconButton }}
+                  variant={isMobile ? 'text' : 'outlined'}
+                  onClick={toggleFav}
+                >
+                  {account.fav ? (
+                    <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
+                  ) : (
+                    <StarIcon {...iconProps} />
+                  )}
+                </Button>
+              )}
               <Button
                 classes={{ root: classes.iconButton }}
                 variant={isMobile ? 'text' : 'outlined'}
                 onClick={() => setEditAccountDialogOpen(true)}
               >
-                <EditIcon {...iconProps} />
+                {isMobile ? <MoreIcon {...iconProps} /> : <EditIcon {...iconProps} />}
               </Button>
             </Box>
           </Box>
         </Box>
       </Card>
-      <Card className={classes.container}>
-        <Divider />
-        <Box pt={0} p={4} position="relative">
-          <Box mb={5} mt={3}>
-            <Tabs
-              value={currentTab}
-              classes={{ indicator: classes.tabIndicator, root: classes.tab }}
-              onChange={(e, v) => setCurrentTab(v)}
-            >
-              {tabs.map((key) => (
-                <Tab key={key} label={key} />
-              ))}
-            </Tabs>
-          </Box>
-          <BalanceChart
-            data={chartData}
-            hideChart={isMobile}
-            onDateRangeChange={(dateRange) => {
-              setTimestamps(dateRange.timestamps.map((ts) => new Date(ts)))
-            }}
-            title={
-              currentTab === 0
-                ? formatCurrency(usdBalance, currency, lang)
-                : formatTokenAmount(
-                    { [selectedTabToken]: selectedTabTokenAmount },
-                    account.crypto,
-                    lang
-                  )
-            }
-            subtitle={
-              currentTab === 0
-                ? ''
-                : formatCurrency(
-                    selectedTabTokenAmount.amount * selectedTabTokenAmount.price,
-                    currency,
-                    lang
-                  )
-            }
-            loading={loading}
-          />
-          {/* Only show Stat Boxes for native token */}
-          {account.crypto === selectedTabToken ? (
-            <Box mt={isMobile ? 6 : 10}>
-              <Grid container spacing={4}>
-                {displayItems.map((key) => (
-                  <StatBox
-                    key={key}
-                    title={t(key)}
-                    value={formatTokenAmount(
-                      get(accountBalance, `balance.${key}`, {}),
+      {isMobile ? (
+        <Box mt={2} />
+      ) : (
+        <Card className={classes.container}>
+          <Divider />
+          <Box pt={0} p={4} position="relative">
+            <Box mb={5} mt={3}>
+              <Tabs
+                value={currentTab}
+                classes={{ indicator: classes.tabIndicator, root: classes.tab }}
+                onChange={(e, v) => setCurrentTab(v)}
+              >
+                {tabs.map((key) => (
+                  <Tab key={key} label={key} />
+                ))}
+              </Tabs>
+            </Box>
+
+            <BalanceChart
+              data={chartData}
+              onDateRangeChange={(dateRange) => {
+                setTimestamps(dateRange.timestamps.map((ts) => new Date(ts)))
+              }}
+              title={
+                currentTab === 0
+                  ? formatCurrency(usdBalance, currency, lang)
+                  : formatTokenAmount(
+                      { [selectedTabToken]: selectedTabTokenAmount },
                       account.crypto,
                       lang
-                    )}
-                    subtitle={formatCurrency(
-                      getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})),
+                    )
+              }
+              subtitle={
+                currentTab === 0
+                  ? ''
+                  : formatCurrency(
+                      selectedTabTokenAmount.amount * selectedTabTokenAmount.price,
                       currency,
                       lang
-                    )}
-                  />
-                ))}
-              </Grid>
-            </Box>
-          ) : null}
-        </Box>
-      </Card>
+                    )
+              }
+              loading={loading}
+            />
+            {/* Only show Stat Boxes for native token */}
+            {account.crypto === selectedTabToken ? (
+              <Box mt={isMobile ? 6 : 10}>
+                <Grid container spacing={4}>
+                  {displayItems.map((key) => (
+                    <StatBox
+                      key={key}
+                      title={t(key)}
+                      value={formatTokenAmount(
+                        get(accountBalance, `balance.${key}`, {}),
+                        account.crypto,
+                        lang
+                      )}
+                      subtitle={formatCurrency(
+                        getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})),
+                        currency,
+                        lang
+                      )}
+                    />
+                  ))}
+                </Grid>
+              </Box>
+            ) : null}
+          </Box>
+        </Card>
+      )}
       <DelegationDialog
         open={delegateDialogOpen}
         onClose={() => setDelegateDialogOpen(false)}

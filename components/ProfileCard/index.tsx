@@ -3,6 +3,7 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
+import useIsMobile from '../../misc/useIsMobile'
 
 interface ProfileCardProps {
   profile: Profile
@@ -13,6 +14,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onEditProfile }) => 
   const classes = useStyles()
   const { t } = useTranslation('common')
   const { theme } = useGeneralContext()
+  const isMobile = useIsMobile()
 
   return (
     <Card className={classes.container}>
@@ -22,19 +24,39 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onEditProfile }) => 
         title={profile.nickname}
       />
       <CardContent className={classes.content}>
-        <Avatar
-          className={classes.avatar}
-          title={profile.nickname}
-          src={profile.profilePic || `/static/images/default_profile_pic_${theme}.png`}
-        />
-        <Box display="flex" justifyContent="space-between" alignItems="flex-start">
-          <Box>
-            <Typography variant="h4">{profile.nickname}</Typography>
-            <Typography gutterBottom>@{profile.dtag}</Typography>
+        <Box display={isMobile ? 'flex' : 'block'} alignItems="flex-end">
+          <Avatar
+            className={classes.avatar}
+            title={profile.nickname}
+            src={profile.profilePic || `/static/images/default_profile_pic_${theme}.png`}
+          />
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems={isMobile ? 'center' : 'flex-start'}
+            flex={1}
+          >
+            <Box ml={isMobile ? 2 : 0}>
+              <Typography variant={isMobile ? 'h6' : 'h4'}>{profile.nickname}</Typography>
+              <Box mt={isMobile ? -1 : 0} mb={isMobile ? 2 : 0}>
+                <Typography
+                  variant={isMobile ? 'body2' : 'body1'}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  @{profile.dtag}
+                </Typography>
+              </Box>
+            </Box>
+            <Button
+              className={classes.button}
+              variant="outlined"
+              onClick={onEditProfile}
+              size="small"
+            >
+              {t('edit profile')}
+            </Button>
           </Box>
-          <Button className={classes.button} variant="outlined" onClick={onEditProfile}>
-            {t('edit profile')}
-          </Button>
         </Box>
         <Typography>{profile.bio}</Typography>
       </CardContent>

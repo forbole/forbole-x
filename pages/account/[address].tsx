@@ -1,4 +1,13 @@
-import { Box, Breadcrumbs, Link as MLink, useTheme } from '@material-ui/core'
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Link as MLink,
+  Menu,
+  MenuItem,
+  Typography,
+  useTheme,
+} from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -33,12 +42,15 @@ import { getProfile } from '../../graphql/queries/profile'
 import ProfileDialog from '../../components/ProfileDialog'
 import { getVestingAccount } from '../../graphql/queries/vestingAccount'
 import VestingDialog from '../../components/VestingDialog'
+import useIconProps from '../../misc/useIconProps'
+import DropDownIcon from '../../assets/images/icons/icon_arrow down_title.svg'
 
 const Account: React.FC = () => {
   const router = useRouter()
   const { t } = useTranslation('common')
   const theme = useTheme()
   const { accounts, wallets } = useWalletsContext()
+  const iconProps = useIconProps()
   const account = accounts.find((a) => a.address === router.query.address)
   const wallet = wallets.filter((x) => x.id === account?.walletId)[0]
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
@@ -141,15 +153,18 @@ const Account: React.FC = () => {
   const [isProfileDialogOpen, setIsProfileDialogOpen] = React.useState(false)
   const [isVestingDialogOpen, setIsVestingDialogOpen] = React.useState(false)
 
+  const [accountsMenuAnchor, setAccountsMenuAnchor] = React.useState<Element>()
+
   return (
     <Layout
       passwordRequired
+      back
       activeItem="/wallets"
       HeaderLeftComponent={
         account ? (
           <Breadcrumbs>
             <Link href="/wallets" passHref>
-              <MLink color="textPrimary">{wallet.name}</MLink>
+              <MLink color="textPrimary">{t('wallet')}</MLink>
             </Link>
             <AccountAvatar account={account} hideAddress size="small" />
           </Breadcrumbs>
@@ -157,7 +172,7 @@ const Account: React.FC = () => {
       }
       ChromeExtTitleComponent={
         account ? (
-          <Box mt={1}>
+          <>
             <Breadcrumbs>
               <Box
                 maxWidth={theme.spacing(20)}
@@ -166,14 +181,55 @@ const Account: React.FC = () => {
                 overflow="hidden"
               >
                 <Link href="/wallets" passHref>
-                  <MLink color="textPrimary" variant="h4">
+                  <MLink variant="h4" color="textPrimary">
                     {wallet.name}
                   </MLink>
                 </Link>
               </Box>
-              <AccountAvatar account={account} hideAddress titleVariant="h4" avatarSize={3} />
+              <MLink color="textPrimary" onClick={(e) => setAccountsMenuAnchor(e.currentTarget)}>
+                <Box display="flex" alignItems="center">
+                  <AccountAvatar
+                    account={account}
+                    hideAddress
+                    titleProps={{ variant: 'h4', color: 'textPrimary' }}
+                    avatarSize={3}
+                  />
+                  <Box ml={1}>
+                    <DropDownIcon {...iconProps} />
+                  </Box>
+                </Box>
+              </MLink>
             </Breadcrumbs>
-          </Box>
+            <Menu
+              anchorEl={accountsMenuAnchor}
+              getContentAnchorEl={null}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+              }}
+              keepMounted
+              open={!!accountsMenuAnchor}
+              onClose={() => setAccountsMenuAnchor(undefined)}
+            >
+              {accounts
+                .filter((a) => a.walletId === account.walletId)
+                .map((a) => (
+                  <Link href={`/account/${a.address}`} passHref>
+                    <MenuItem
+                      key={a.address}
+                      button
+                      onClick={() => setAccountsMenuAnchor(undefined)}
+                    >
+                      <AccountAvatar account={a} hideAddress size="small" />
+                    </MenuItem>
+                  </Link>
+                ))}
+            </Menu>
+          </>
         ) : null
       }
     >

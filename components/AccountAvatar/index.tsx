@@ -1,4 +1,12 @@
-import { Box, Avatar, Typography, Snackbar, useTheme, IconButton } from '@material-ui/core'
+import {
+  Box,
+  Avatar,
+  Typography,
+  Snackbar,
+  useTheme,
+  IconButton,
+  TypographyProps,
+} from '@material-ui/core'
 import React from 'react'
 import { Alert } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
@@ -24,7 +32,7 @@ interface AccountAvatarProps {
   disableCopyAddress?: boolean
   size?: 'small' | 'base' | 'large'
   ledgerIconDisabled?: boolean
-  titleVariant?: Variant
+  titleProps?: TypographyProps
   avatarSize?: number
 }
 
@@ -35,7 +43,7 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
   disableCopyAddress,
   address,
   ledgerIconDisabled,
-  titleVariant: defaultTitleVariant,
+  titleProps,
   avatarSize,
 }) => {
   const crypto = cryptocurrencies[account ? account.crypto : address.crypto]
@@ -54,7 +62,7 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
   )
 
   let avatarClass = ''
-  let titleVariant: Variant = defaultTitleVariant || 'h5'
+  let titleVariant: Variant = 'h5'
   if (size === 'small') {
     avatarClass = classes.smallAvatar
     titleVariant = 'body1'
@@ -86,7 +94,9 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
           src={crypto.image}
         />
         <Box mx={1}>
-          <Typography variant={titleVariant}>{account ? account.name : address.moniker}</Typography>
+          <Typography variant={titleVariant} {...titleProps}>
+            {account ? account.name : address.moniker}
+          </Typography>
           {hideAddress || disableCopyAddress ? null : (
             <Box display="flex" alignItems="center" my={-1}>
               <Typography color="textSecondary" variant="body2">

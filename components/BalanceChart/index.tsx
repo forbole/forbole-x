@@ -55,7 +55,6 @@ interface BalanceChartProps {
   data: any[]
   onDateRangeChange?(dateRange: DateRange): void
   loading?: boolean
-  hideChart?: boolean
 }
 
 const BalanceChart: React.FC<BalanceChartProps> = ({
@@ -64,7 +63,6 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
   data,
   onDateRangeChange,
   loading,
-  hideChart,
 }) => {
   const { t, lang } = useTranslation('common')
   const { currency } = useGeneralContext()
@@ -83,93 +81,89 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
           </Typography>
           <Typography variant="h6">{subtitle}</Typography>
         </Box>
-        {hideChart ? null : (
-          <Box display="flex">
-            {dateRanges.map((d) => (
-              <Button
-                key={d.title}
-                className={classes.timeRangeButton}
-                size="small"
-                variant="outlined"
-                style={{
-                  color:
-                    currentDateRange.title === d.title
-                      ? theme.palette.dataChangeButton.clicked.text
-                      : theme.palette.dataChangeButton.unClicked?.text || 'inherit',
-                  background:
-                    currentDateRange.title === d.title
-                      ? theme.palette.dataChangeButton.clicked.background
-                      : 'inherit',
-                  borderColor:
-                    currentDateRange.title === d.title
-                      ? theme.palette.dataChangeButton.clicked.border
-                      : theme.palette.dataChangeButton.unClicked?.border || 'inherit',
-                }}
-                onClick={() => {
-                  setCurrentDateRange(d)
-                  if (onDateRangeChange) {
-                    onDateRangeChange(d)
-                  }
-                }}
-              >
-                {t(d.title)}
-              </Button>
-            ))}
-          </Box>
-        )}
-      </Box>
-      {hideChart ? null : (
-        <Box position="relative" height={theme.spacing(31)}>
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data}>
-              <CartesianGrid stroke={theme.palette.grey[100]} />
-              <XAxis
-                dataKey="timestamp"
-                tickFormatter={(v) => format(v, currentDateRange.format)}
-                type="number"
-                ticks={currentDateRange.timestamps}
-                domain={['dataMin', 'dataMax']}
-                axisLine={false}
-                tickLine={false}
-              />
-              <YAxis
-                axisLine={false}
-                tickLine={false}
-                tickFormatter={(v) => formatCurrency(v, currency, lang, true, true)}
-                type="number"
-                domain={['dataMin', 'dataMax']}
-              />
-              <Tooltip
-                formatter={(v) => [formatCurrency(v, currency, lang, true)]}
-                labelFormatter={(v) => format(v, 'd MMM h:ma')}
-                contentStyle={{ backgroundColor: theme.palette.background.paper }}
-              />
-              <Line
-                type="monotone"
-                dataKey="balance"
-                stroke={theme.palette.success.main}
-                dot={false}
-                strokeWidth={3}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-          {loading ? (
-            <Box
-              position="absolute"
-              top={0}
-              left={0}
-              right={0}
-              bottom={0}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              bgcolor={theme.palette.translucent}
+        <Box display="flex">
+          {dateRanges.map((d) => (
+            <Button
+              key={d.title}
+              className={classes.timeRangeButton}
+              size="small"
+              variant="outlined"
+              style={{
+                color:
+                  currentDateRange.title === d.title
+                    ? theme.palette.dataChangeButton.clicked.text
+                    : theme.palette.dataChangeButton.unClicked?.text || 'inherit',
+                background:
+                  currentDateRange.title === d.title
+                    ? theme.palette.dataChangeButton.clicked.background
+                    : 'inherit',
+                borderColor:
+                  currentDateRange.title === d.title
+                    ? theme.palette.dataChangeButton.clicked.border
+                    : theme.palette.dataChangeButton.unClicked?.border || 'inherit',
+              }}
+              onClick={() => {
+                setCurrentDateRange(d)
+                if (onDateRangeChange) {
+                  onDateRangeChange(d)
+                }
+              }}
             >
-              <CircularProgress />
-            </Box>
-          ) : null}
+              {t(d.title)}
+            </Button>
+          ))}
         </Box>
-      )}
+      </Box>
+      <Box position="relative" height={theme.spacing(31)}>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={data}>
+            <CartesianGrid stroke={theme.palette.grey[100]} />
+            <XAxis
+              dataKey="timestamp"
+              tickFormatter={(v) => format(v, currentDateRange.format)}
+              type="number"
+              ticks={currentDateRange.timestamps}
+              domain={['dataMin', 'dataMax']}
+              axisLine={false}
+              tickLine={false}
+            />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tickFormatter={(v) => formatCurrency(v, currency, lang, true, true)}
+              type="number"
+              domain={['dataMin', 'dataMax']}
+            />
+            <Tooltip
+              formatter={(v) => [formatCurrency(v, currency, lang, true)]}
+              labelFormatter={(v) => format(v, 'd MMM h:ma')}
+              contentStyle={{ backgroundColor: theme.palette.background.paper }}
+            />
+            <Line
+              type="monotone"
+              dataKey="balance"
+              stroke={theme.palette.success.main}
+              dot={false}
+              strokeWidth={3}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+        {loading ? (
+          <Box
+            position="absolute"
+            top={0}
+            left={0}
+            right={0}
+            bottom={0}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            bgcolor={theme.palette.translucent}
+          >
+            <CircularProgress />
+          </Box>
+        ) : null}
+      </Box>
     </>
   )
 }
