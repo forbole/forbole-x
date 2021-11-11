@@ -158,7 +158,8 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
             loading ||
             !Number(amount) ||
             insufficientFund ||
-            !isAddressValid(get(destinationChain, 'addressPrefix', ''), address)
+            !isAddressValid(get(destinationChain, 'addressPrefix', ''), address) ||
+            !consent
           }
           type="submit"
         >
