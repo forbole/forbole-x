@@ -19,6 +19,7 @@ import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { formatTokenAmount } from '../../misc/utils'
+import useIsMobile from '../../misc/useIsMobile'
 
 interface VestingDialogProps {
   open: boolean
@@ -38,11 +39,18 @@ const VestingDialog: React.FC<VestingDialogProps> = ({
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
+  const isMobile = useIsMobile()
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
   return (
-    <Dialog fullWidth classes={{ paper: classes.dialogPaper }} open={open} onClose={onClose}>
+    <Dialog
+      fullWidth
+      fullScreen={isMobile}
+      classes={{ paper: classes.dialogPaper }}
+      open={open}
+      onClose={onClose}
+    >
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>

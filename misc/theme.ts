@@ -59,7 +59,7 @@ const common = {
       letterSpacing: 0,
     },
     h4: {
-      fontSize: '1.5rem',
+      fontSize: '1.375rem',
       letterSpacing: 0.25,
     },
     h5: {

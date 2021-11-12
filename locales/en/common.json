@@ -426,7 +426,11 @@
   "memo warning": "Please do not enter your secret recovery phrase in this field!",
   "memo warning consent": "I understand and the memo does not contain my secret recovery phrase",
   "address already exist": "Address already exist",
+  "support": "Support",
+  "pending rewards": "Pending Rewards",
+  "delegate inflation": "Delegate ({{inflation}} Inflation)",
   "profile dtag rules": "Dtag must have 6 - 30 alphanumeric or _ characters",
   "profile nickname rules": "Nickname must have at least 2 characters",
-  "profile bio rules": "Bio can have at most 1000 characters"
+  "profile bio rules": "Bio can have at most 1000 characters",
+  "validator commission": "Commission: {{commission}}"
 }

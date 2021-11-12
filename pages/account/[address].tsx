@@ -33,6 +33,7 @@ import { getProfile } from '../../graphql/queries/profile'
 import ProfileDialog from '../../components/ProfileDialog'
 import { getVestingAccount } from '../../graphql/queries/vestingAccount'
 import VestingDialog from '../../components/VestingDialog'
+import SelectAccountButton from '../../components/SelectAccountButton'
 
 const Account: React.FC = () => {
   const router = useRouter()
@@ -140,9 +141,12 @@ const Account: React.FC = () => {
   const [isProfileDialogOpen, setIsProfileDialogOpen] = React.useState(false)
   const [isVestingDialogOpen, setIsVestingDialogOpen] = React.useState(false)
 
+  const [accountsMenuAnchor, setAccountsMenuAnchor] = React.useState<Element>()
+
   return (
     <Layout
       passwordRequired
+      back
       activeItem="/wallets"
       HeaderLeftComponent={
         account ? (
@@ -152,6 +156,14 @@ const Account: React.FC = () => {
             </Link>
             <AccountAvatar account={account} hideAddress size="small" />
           </Breadcrumbs>
+        ) : null
+      }
+      ChromeExtTitleComponent={
+        account ? (
+          <SelectAccountButton
+            activeAccount={account}
+            onAccountChange={(a) => router.replace(`/account/${a.address}`)}
+          />
         ) : null
       }
     >

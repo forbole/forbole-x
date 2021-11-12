@@ -20,7 +20,7 @@ jest.mock('../../contexts/WalletsContext', () => ({
 
 describe('page: Wallets', () => {
   it('renders correctly', () => {
-    ;(useWalletsContext as jest.Mock).mockReturnValueOnce({
+    ;(useWalletsContext as jest.Mock).mockReturnValue({
       accounts: [
         {
           walletId: '123',
@@ -45,7 +45,7 @@ describe('page: Wallets', () => {
     expect(tree).toMatchSnapshot()
   })
   it('renders correctly with missing wallet id', () => {
-    ;(useWalletsContext as jest.Mock).mockReturnValueOnce({
+    ;(useWalletsContext as jest.Mock).mockReturnValue({
       accounts: [
         {
           walletId: '123123',

@@ -4,16 +4,17 @@ import get from 'lodash/get'
 
 const useIsChromeExt = (): { isChromeExt: boolean; isSentFromWeb: boolean } => {
   const router = useRouter()
-  const hideMenuQueryParam = get(router, 'query.hideMenu', '')
+  const isChromeExtQueryParam =
+    get(router, 'query.isChromeExt', '') || get(router, 'query.hideMenu', '') // TODO: hideMenu is deprecated
   const isSentFromWeb = !!get(router, 'query.fromWeb', '')
-  const isChromeExt = !!(hideMenuQueryParam || (process.browser && (window as any).hideMenu))
+  const isChromeExt = !!(isChromeExtQueryParam || (process.browser && (window as any).isChromeExt))
 
   React.useEffect(() => {
-    if (hideMenuQueryParam) {
+    if (isChromeExtQueryParam) {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;(window as any).hideMenu = true
+      ;(window as any).isChromeExt = true
     }
-  }, [hideMenuQueryParam])
+  }, [isChromeExtQueryParam])
 
   return { isChromeExt, isSentFromWeb }
 }

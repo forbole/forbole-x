@@ -15,9 +15,9 @@ const useStyles = makeStyles(
       textOverflow: 'ellipsis',
       whiteSpace: 'unset',
       overflow: 'hidden',
-      [theme.breakpoints.down('sm')]: {
-        maxWidth: theme.spacing(6),
-      },
+      // [theme.breakpoints.down('sm')]: {
+      //   maxWidth: theme.spacing(12),
+      // },
     },
   }),
   {
