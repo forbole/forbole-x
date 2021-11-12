@@ -57,7 +57,7 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ crypto, onNext, proposal, l
   const accountsMap = keyBy(accounts, 'address')
   const [answer, setAnswer] = React.useState<{ name: string; id: string }>()
   const [memo, setMemo] = React.useState('')
-  const [consent, setConsent] = React.useState(false)
+  const [consent, setConsent] = React.useState(true)
   const [voteAccount, setVoteAccount] = React.useState<Account>(accounts[0])
 
   return (

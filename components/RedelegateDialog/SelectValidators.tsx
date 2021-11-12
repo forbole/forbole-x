@@ -48,7 +48,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const theme = useTheme()
   const [toValidator, setToValidator] = React.useState<Validator>()
   const [memo, setMemo] = React.useState('')
-  const [consent, setConsent] = React.useState(false)
+  const [consent, setConsent] = React.useState(true)
 
   const validatorsMap = keyBy(validators, 'address')
   const randomizedValidators = React.useMemo(() => shuffle(validators), [])

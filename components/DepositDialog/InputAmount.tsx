@@ -85,7 +85,7 @@ const InputAmount: React.FC<InputAmountProps> = ({
   const accountsMap = keyBy(accounts, 'address')
   const [memo, setMemo] = React.useState('')
   const [amount, setAmount] = React.useState('')
-  const [consent, setConsent] = React.useState(false)
+  const [consent, setConsent] = React.useState(true)
 
   const { availableAmount } = React.useMemo(
     () => ({

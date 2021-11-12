@@ -42,7 +42,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [percentage, setPercentage] = React.useState('100')
   const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
   const [memo, setMemo] = React.useState('')
-  const [consent, setConsent] = React.useState(false)
+  const [consent, setConsent] = React.useState(true)
 
   return (
     <form

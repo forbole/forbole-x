@@ -32,6 +32,17 @@ const MemoInput: React.FC<MemoInputProps> = ({
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const themeStyle: CustomTheme = useTheme()
+
+  const hasError = React.useMemo(() => isValidMnemonic(value), [value])
+
+  React.useEffect(() => {
+    if (hasError) {
+      setConsent(false)
+    } else {
+      setConsent(true)
+    }
+  }, [hasError])
+
   return (
     <>
       <TextField
@@ -44,10 +55,10 @@ const MemoInput: React.FC<MemoInputProps> = ({
         placeholder={placeholder}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        error={isValidMnemonic(value) ? true : undefined}
-        helperText={isValidMnemonic(value) ? t('memo warning') : false}
+        error={hasError}
+        helperText={hasError ? t('memo warning') : false}
       />
-      {isValidMnemonic(value) ? (
+      {hasError ? (
         <FormControlLabel
           control={
             <Checkbox

@@ -60,7 +60,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const [info, setInfo] = React.useState('')
   const [recipient, setRecipient] = React.useState('')
   const [amount, setAmount] = React.useState('')
-  const [consent, setConsent] = React.useState(false)
+  const [consent, setConsent] = React.useState(true)
 
   const [changes, setChanges] = React.useState<
     Array<{ subspace: string; key: string; value: string }>

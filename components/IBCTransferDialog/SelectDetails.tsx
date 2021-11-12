@@ -47,7 +47,7 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
   const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
   const [address, setAddress] = React.useState('')
   const [memo, setMemo] = React.useState('')
-  const [consent, setConsent] = React.useState(false)
+  const [consent, setConsent] = React.useState(true)
 
   const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount)
 

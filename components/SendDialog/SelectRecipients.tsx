@@ -53,7 +53,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
     Array<{ amount: string; denom: string; address: string }>
   >([{ amount: '', denom: Object.keys(availableAmount)[0] || '', address: '' }])
   const [memo, setMemo] = React.useState('')
-  const [consent, setConsent] = React.useState(false)
+  const [consent, setConsent] = React.useState(true)
   const totalAmount: TokenAmount = React.useMemo(() => {
     const tokenAmount = {}
     recipients.forEach((r) => {

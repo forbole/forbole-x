@@ -58,7 +58,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [value, setValue] = React.useState('')
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   // const [currentTab, setCurrentTab] = React.useState(0)
-  const [consent, setConsent] = React.useState(false)
+  const [consent, setConsent] = React.useState(true)
   const [state, setState] = React.useState({})
   const themeStyle: CustomTheme = useTheme()
 

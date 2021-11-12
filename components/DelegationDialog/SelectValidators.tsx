@@ -78,7 +78,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
       : [{ amount: amount.toString(), validator: {}, percentage: '100', showSlider: false }]
   )
   const [memo, setMemo] = React.useState('')
-  const [consent, setConsent] = React.useState(false)
+  const [consent, setConsent] = React.useState(true)
 
   const validatorsMap = keyBy(validators, 'address')
   const randomizedValidators = React.useMemo(() => shuffle(validators), [])

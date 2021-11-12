@@ -29,7 +29,7 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({
   const theme = useTheme()
   const [withdrawAddress, setWithdrawAddress] = React.useState('')
   const [memo, setMemo] = React.useState('')
-  const [consent, setConsent] = React.useState(false)
+  const [consent, setConsent] = React.useState(true)
 
   return (
     <form
