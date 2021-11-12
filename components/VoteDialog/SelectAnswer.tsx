@@ -16,6 +16,7 @@ import useIconProps from '../../misc/useIconProps'
 import useStyles from './styles'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
+import MemoInput from '../MemoInput'
 
 interface SelectAnswerProps {
   crypto: Cryptocurrency
@@ -56,6 +57,7 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ crypto, onNext, proposal, l
   const accountsMap = keyBy(accounts, 'address')
   const [answer, setAnswer] = React.useState<{ name: string; id: string }>()
   const [memo, setMemo] = React.useState('')
+  const [consent, setConsent] = React.useState(true)
   const [voteAccount, setVoteAccount] = React.useState<Account>(accounts[0])
 
   return (
@@ -166,7 +168,7 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ crypto, onNext, proposal, l
               <Typography variant="button" className={classes.button}>
                 {t('memo')}
               </Typography>
-              <TextField
+              <MemoInput
                 fullWidth
                 multiline
                 rows={4}
@@ -176,7 +178,9 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ crypto, onNext, proposal, l
                   disableUnderline: true,
                 }}
                 value={memo}
-                onChange={(e) => setMemo(e.target.value)}
+                setValue={setMemo}
+                consent={consent}
+                setConsent={setConsent}
               />
             </Box>
             <Box display="flex" flex={1} pt={12}>
@@ -184,7 +188,7 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ crypto, onNext, proposal, l
                 variant="contained"
                 className={classes.button}
                 color="primary"
-                disabled={loading || answer === undefined}
+                disabled={loading || answer === undefined || !consent}
                 type="submit"
               >
                 {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}

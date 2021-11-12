@@ -36,6 +36,7 @@ import useIsMobile from '../../misc/useIsMobile'
 import ValidatorAvatar from '../ValidatorAvatar'
 import { getSlashingParams } from '../../graphql/queries/validators'
 import Condition from '../Condition'
+import MemoInput from '../MemoInput'
 
 interface SelectValidatorsProps {
   onConfirm(delegations: Array<{ amount: number; validator: Validator }>, memo: string): void
@@ -77,6 +78,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
       : [{ amount: amount.toString(), validator: {}, percentage: '100', showSlider: false }]
   )
   const [memo, setMemo] = React.useState('')
+  const [consent, setConsent] = React.useState(true)
 
   const validatorsMap = keyBy(validators, 'address')
   const randomizedValidators = React.useMemo(() => shuffle(validators), [])
@@ -259,17 +261,18 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               </Box>
               <Box mt={2}>
                 <Typography gutterBottom>{t('memo')}</Typography>
-                <TextField
+                <MemoInput
                   fullWidth
                   multiline
                   rows={3}
-                  variant="filled"
                   placeholder={t('description optional')}
                   InputProps={{
                     disableUnderline: true,
                   }}
                   value={memo}
-                  onChange={(e) => setMemo(e.target.value)}
+                  setValue={setMemo}
+                  consent={consent}
+                  setConsent={setConsent}
                 />
               </Box>
             </Grid>
@@ -412,7 +415,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               loading ||
               !delegations.filter((v) => v.validator.name && Number(v.amount)).length ||
               totalAmount > amount ||
-              delegations.filter((v) => v.validator === '').length !== 0
+              delegations.filter((v) => v.validator === '').length !== 0 ||
+              !consent
             }
             type="submit"
           >

@@ -5,6 +5,7 @@ import drop from 'lodash/drop'
 import keyBy from 'lodash/keyBy'
 import { format, differenceInDays } from 'date-fns'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
+import { EnglishMnemonic } from '@cosmjs/crypto'
 import defaultDenoms from './defaultDenoms'
 
 export const formatPercentage = (percent: number, lang: string): string =>
@@ -815,4 +816,16 @@ export const transformVestingAccount = (
     })
   }
   return { vestingPeriods, total }
+}
+
+export const isValidMnemonic = (input) => {
+  try {
+    // eslint-disable-next-line no-new
+    new EnglishMnemonic(input)
+    // console.log('valid mnemonic')
+    return true
+  } catch (err) {
+    // console.log('invalid mnemonic')
+    return false
+  }
 }

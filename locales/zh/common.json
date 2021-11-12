@@ -350,5 +350,7 @@
   "recipient name": "[zh] Recipient Name",
   "connect ledger instruction 1": "[zh] Turn on and unlock your Ledger device",
   "sign ledger instruction 2": "[zh] The application is connecting and waiting for you to sign the transaction",
-  "sign ledger instruction 3": "[zh] Transaction broadcasting ..."
+  "sign ledger instruction 3": "[zh] Transaction broadcasting ...",
+  "memo warning": "[zh] Please do not enter your secret recovery phrase in this field!",
+  "memo warning consent": "[zh] I understand and the memo does not contain my secret recovery phrase"
 }
