@@ -4,14 +4,11 @@ import {
   Button,
   DialogActions,
   DialogContent,
-  TextField,
   Typography,
   Grid,
   CircularProgress,
   IconButton,
   useTheme,
-  FormControlLabel,
-  Checkbox,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -24,12 +21,12 @@ import {
   formatCurrency,
   formatTokenAmount,
   isAddressValid,
-  isValidMnemonic,
 } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import TokenAmountInput from '../TokenAmountInput'
 import AddressInput from '../AddressInput'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import MemoInput from '../MemoInput'
 
 interface SelectRecipientsProps {
   onConfirm(
@@ -56,6 +53,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
     Array<{ amount: string; denom: string; address: string }>
   >([{ amount: '', denom: Object.keys(availableAmount)[0] || '', address: '' }])
   const [memo, setMemo] = React.useState('')
+  const [consent, setConsent] = React.useState(false)
   const totalAmount: TokenAmount = React.useMemo(() => {
     const tokenAmount = {}
     recipients.forEach((r) => {
@@ -151,8 +149,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                 </Box>
                 <Box mt={2}>
                   <Typography gutterBottom>{t('memo')}</Typography>
-                  <TextField
-                    className={classes.helperText}
+                  <MemoInput
                     fullWidth
                     multiline
                     rows={3}
@@ -162,33 +159,10 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                       disableUnderline: true,
                     }}
                     value={memo}
-                    onChange={(e) => setMemo(e.target.value)}
-                    error={isValidMnemonic(memo)}
-                    helperText={isValidMnemonic(memo) ? t('memo warning') : false}
+                    setValue={setMemo}
+                    consent={consent}
+                    setConsent={setConsent}
                   />
-                  {isValidMnemonic(memo) ? (
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          style={{
-                            color: themeStyle.palette.error.main,
-                          }}
-                          size="small"
-                        />
-                      }
-                      label={
-                        <Typography
-                          variant="body2"
-                          style={{
-                            fontSize: themeStyle.spacing(1.49),
-                            color: themeStyle.palette.error.main,
-                          }}
-                        >
-                          {t('memo warning consent')}
-                        </Typography>
-                      }
-                    />
-                  ) : null}
                 </Box>
               </Grid>
               <Grid item xs={6}>
@@ -254,7 +228,8 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                   (v) =>
                     isAddressValid(cryptocurrencies[account.crypto].prefix, v.address) &&
                     Number(v.amount)
-                ).length
+                ).length ||
+                !consent
               }
               type="submit"
             >

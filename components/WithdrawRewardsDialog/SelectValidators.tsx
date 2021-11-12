@@ -3,7 +3,6 @@ import {
   Button,
   DialogActions,
   DialogContent,
-  TextField,
   Typography,
   Checkbox,
   FormControlLabel,
@@ -16,14 +15,11 @@ import React from 'react'
 import cloneDeep from 'lodash/cloneDeep'
 import TablePagination from '../TablePagination'
 import { useGeneralContext } from '../../contexts/GeneralContext'
-import {
-  formatCurrency,
-  formatTokenAmount,
-  getTokenAmountBalance,
-  isValidMnemonic,
-} from '../../misc/utils'
+
+import { formatCurrency, formatTokenAmount, getTokenAmountBalance } from '../../misc/utils'
 import useStyles from './styles'
 import { ValidatorTag } from './index'
+import MemoInput from '../MemoInput'
 import ValidatorAvatar from '../ValidatorAvatar'
 import ImageDefaultDark from '../../assets/images/image_default_dark.svg'
 import ImageDefaultLight from '../../assets/images/image_default_light.svg'
@@ -62,6 +58,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [value, setValue] = React.useState('')
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   // const [currentTab, setCurrentTab] = React.useState(0)
+  const [consent, setConsent] = React.useState(false)
   const [state, setState] = React.useState({})
   const themeStyle: CustomTheme = useTheme()
 
@@ -216,43 +213,19 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             </Box>
 
             <Typography>{t('memo')}</Typography>
-            <TextField
+            <MemoInput
+              fullWidth
+              multiline
+              rows={4}
               InputProps={{
                 disableUnderline: true,
               }}
-              className={classes.helperText}
-              fullWidth
-              variant="filled"
-              value={value}
               placeholder={t('description optional')}
-              multiline
-              rows={4}
-              onChange={(e) => setValue(e.target.value)}
-              error={isValidMnemonic(value) ? true : undefined}
-              helperText={isValidMnemonic(value) ? t('memo warning') : false}
+              value={value}
+              setValue={setValue}
+              consent={consent}
+              setConsent={setConsent}
             />
-            {isValidMnemonic(value) ? (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    style={{
-                      color: themeStyle.palette.error.main,
-                    }}
-                  />
-                }
-                label={
-                  <Typography
-                    variant="body2"
-                    style={{
-                      fontSize: themeStyle.spacing(1.8),
-                      color: themeStyle.palette.error.main,
-                    }}
-                  >
-                    {t('memo warning consent')}
-                  </Typography>
-                }
-              />
-            ) : null}
           </DialogContent>
           <DialogActions>
             <Box
@@ -279,7 +252,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                   loading ||
                   !Object.values(amount)
                     .map((a) => a.amount)
-                    .reduce((a, b) => a + b, 0)
+                    .reduce((a, b) => a + b, 0) ||
+                  !consent
                 }
                 type="submit"
               >

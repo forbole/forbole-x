@@ -13,12 +13,9 @@ import {
   useTheme,
   Slider,
   Card,
-  FormControlLabel,
-  Checkbox,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import { gql, useQuery } from '@apollo/client'
-// import { EnglishMnemonic } from '@cosmjs/crypto'
 import get from 'lodash/get'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -33,13 +30,13 @@ import {
   formatCurrency,
   getValidatorCondition,
   getValidatorConditionClass,
-  isValidMnemonic,
 } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIsMobile from '../../misc/useIsMobile'
 import ValidatorAvatar from '../ValidatorAvatar'
 import { getSlashingParams } from '../../graphql/queries/validators'
 import Condition from '../Condition'
+import MemoInput from '../MemoInput'
 
 interface SelectValidatorsProps {
   onConfirm(delegations: Array<{ amount: number; validator: Validator }>, memo: string): void
@@ -81,6 +78,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
       : [{ amount: amount.toString(), validator: {}, percentage: '100', showSlider: false }]
   )
   const [memo, setMemo] = React.useState('')
+  const [consent, setConsent] = React.useState(false)
 
   const validatorsMap = keyBy(validators, 'address')
   const randomizedValidators = React.useMemo(() => shuffle(validators), [])
@@ -263,41 +261,19 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               </Box>
               <Box mt={2}>
                 <Typography gutterBottom>{t('memo')}</Typography>
-                <TextField
-                  className={classes.helperText}
+                <MemoInput
                   fullWidth
                   multiline
                   rows={3}
-                  variant="filled"
                   placeholder={t('description optional')}
                   InputProps={{
                     disableUnderline: true,
                   }}
                   value={memo}
-                  onChange={(e) => setMemo(e.target.value)}
-                  error={isValidMnemonic(memo)}
-                  helperText={isValidMnemonic(memo) ? t('memo warning') : false}
+                  setValue={setMemo}
+                  consent={consent}
+                  setConsent={setConsent}
                 />
-                {isValidMnemonic(memo) ? (
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        style={{
-                          color: theme.palette.error.main,
-                        }}
-                        size="small"
-                      />
-                    }
-                    label={
-                      <Typography
-                        variant="body2"
-                        style={{ fontSize: theme.spacing(1.49), color: theme.palette.error.main }}
-                      >
-                        {t('memo warning consent')}
-                      </Typography>
-                    }
-                  />
-                ) : null}
               </Box>
             </Grid>
             <Grid item xs={6}>
@@ -439,7 +415,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               loading ||
               !delegations.filter((v) => v.validator.name && Number(v.amount)).length ||
               totalAmount > amount ||
-              delegations.filter((v) => v.validator === '').length !== 0
+              delegations.filter((v) => v.validator === '').length !== 0 ||
+              !consent
             }
             type="submit"
           >
