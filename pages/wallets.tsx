@@ -1,6 +1,7 @@
 import { Box, Button, Grid, Menu, MenuItem, Typography, useTheme } from '@material-ui/core'
 import React from 'react'
 import groupBy from 'lodash/groupBy'
+import get from 'lodash/get'
 import useTranslation from 'next-translate/useTranslation'
 import Layout from '../components/Layout'
 import AccountCard from '../components/AccountCard'
@@ -25,12 +26,12 @@ const Wallets: React.FC = () => {
   const iconProps = useIconProps()
 
   const { isChromeExt } = useIsChromeExt()
-  const [chromeExtSelectedWalletIndex, setChromeExtSelectedWalletIndex] = usePersistedState(
-    'chromeExtSelectedWalletIndex',
-    0
+  const [chromeExtSelectedWalletId, setChromeExtSelectedWalletId] = usePersistedState(
+    'chromeExtSelectedWalletId',
+    get(wallets, '[0].id', '')
   )
   const [walletsMenuAnchor, setWalletsMenuAnchor] = React.useState<Element>()
-  const selectedWallet = wallets[chromeExtSelectedWalletIndex]
+  const selectedWallet = wallets.find((w) => w.id === chromeExtSelectedWalletId) || get(wallets, 0)
 
   return (
     <Layout
@@ -76,7 +77,7 @@ const Wallets: React.FC = () => {
                   key={w.id}
                   button
                   onClick={() => {
-                    setChromeExtSelectedWalletIndex(i)
+                    setChromeExtSelectedWalletId(w.id)
                     setWalletsMenuAnchor(undefined)
                   }}
                 >

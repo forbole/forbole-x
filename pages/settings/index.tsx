@@ -10,7 +10,13 @@ const Setting: React.FC = () => {
   const { isChromeExt } = useIsChromeExt()
 
   return (
-    <Layout back>
+    <Layout
+      ChromeExtTitleComponent={
+        <Box mt={1}>
+          <Typography variant="h4">{t('settings')}</Typography>
+        </Box>
+      }
+    >
       {isChromeExt ? null : (
         <Box display="flex" alignItems="center" mb={2}>
           <Typography variant="h1">{t('settings')}</Typography>

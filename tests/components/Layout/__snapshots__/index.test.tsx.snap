@@ -3,6 +3,7 @@
 exports[`component: Layout renders default state for first time user correctly 1`] = `
 Array [
   <NavBar
+    isChromeExt={false}
     menuWidth={32}
   />,
   <div
@@ -27,6 +28,7 @@ Array [
 exports[`component: Layout renders default state for non first time user correctly 1`] = `
 Array [
   <NavBar
+    isChromeExt={false}
     menuWidth={32}
   />,
   <div
@@ -51,6 +53,7 @@ Array [
 exports[`component: Layout renders menu collapsed state 1`] = `
 Array [
   <NavBar
+    isChromeExt={false}
     menuWidth={10}
   />,
   <div
@@ -74,6 +77,7 @@ Array [
 exports[`component: Layout renders passwordRequired state for first time user correctly 1`] = `
 Array [
   <NavBar
+    isChromeExt={false}
     menuWidth={32}
   />,
   <div
@@ -98,6 +102,7 @@ Array [
 exports[`component: Layout renders passwordRequired state for non first time user correctly 1`] = `
 Array [
   <NavBar
+    isChromeExt={false}
     menuWidth={32}
   />,
   <div

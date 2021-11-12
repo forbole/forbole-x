@@ -1,13 +1,4 @@
-import {
-  Box,
-  Breadcrumbs,
-  Button,
-  Link as MLink,
-  Menu,
-  MenuItem,
-  Typography,
-  useTheme,
-} from '@material-ui/core'
+import { Breadcrumbs, Link as MLink } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -42,15 +33,12 @@ import { getProfile } from '../../graphql/queries/profile'
 import ProfileDialog from '../../components/ProfileDialog'
 import { getVestingAccount } from '../../graphql/queries/vestingAccount'
 import VestingDialog from '../../components/VestingDialog'
-import useIconProps from '../../misc/useIconProps'
-import DropDownIcon from '../../assets/images/icons/icon_arrow down_title.svg'
+import SelectAccountButton from '../../components/SelectAccountButton'
 
 const Account: React.FC = () => {
   const router = useRouter()
   const { t } = useTranslation('common')
-  const theme = useTheme()
   const { accounts, wallets } = useWalletsContext()
-  const iconProps = useIconProps()
   const account = accounts.find((a) => a.address === router.query.address)
   const wallet = wallets.filter((x) => x.id === account?.walletId)[0]
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
@@ -172,64 +160,10 @@ const Account: React.FC = () => {
       }
       ChromeExtTitleComponent={
         account ? (
-          <>
-            <Breadcrumbs>
-              <Box
-                maxWidth={theme.spacing(20)}
-                textOverflow="ellipsis"
-                whiteSpace="nowrap"
-                overflow="hidden"
-              >
-                <Link href="/wallets" passHref>
-                  <MLink variant="h4" color="textPrimary">
-                    {wallet.name}
-                  </MLink>
-                </Link>
-              </Box>
-              <MLink color="textPrimary" onClick={(e) => setAccountsMenuAnchor(e.currentTarget)}>
-                <Box display="flex" alignItems="center">
-                  <AccountAvatar
-                    account={account}
-                    hideAddress
-                    titleProps={{ variant: 'h4', color: 'textPrimary' }}
-                    avatarSize={3}
-                  />
-                  <Box ml={1}>
-                    <DropDownIcon {...iconProps} />
-                  </Box>
-                </Box>
-              </MLink>
-            </Breadcrumbs>
-            <Menu
-              anchorEl={accountsMenuAnchor}
-              getContentAnchorEl={null}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
-              }}
-              keepMounted
-              open={!!accountsMenuAnchor}
-              onClose={() => setAccountsMenuAnchor(undefined)}
-            >
-              {accounts
-                .filter((a) => a.walletId === account.walletId)
-                .map((a) => (
-                  <Link href={`/account/${a.address}`} passHref>
-                    <MenuItem
-                      key={a.address}
-                      button
-                      onClick={() => setAccountsMenuAnchor(undefined)}
-                    >
-                      <AccountAvatar account={a} hideAddress size="small" />
-                    </MenuItem>
-                  </Link>
-                ))}
-            </Menu>
-          </>
+          <SelectAccountButton
+            activeAccount={account}
+            onAccountChange={(a) => router.replace(`/account/${a.address}`)}
+          />
         ) : null
       }
     >

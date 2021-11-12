@@ -19,6 +19,7 @@ import SettingsIcon from '../../assets/images/icons/icon_settings.svg'
 import AddressBookIcon from '../../assets/images/icons/icon_address_book.svg'
 import MenuIcon from '../../assets/images/icons/icon_menu.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
+import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg'
 // import CurrencyMenuButton from './CurrencyMenuButton'
 // import LangMenuButton from './LangMenuButton'
 import ThemeModeButton from './ThemeModeButton'
@@ -49,6 +50,11 @@ const NavBar: React.FC<{
   const chromeExtMenuItems = React.useMemo(
     () => [
       {
+        title: t('wallet'),
+        icon: <WalletManageIcon {...iconProps} />,
+        href: '/wallets',
+      },
+      {
         title: t('settings'),
         icon: <SettingsIcon {...iconProps} />,
         href: '/settings',
@@ -57,20 +63,20 @@ const NavBar: React.FC<{
         title: t('address book'),
         icon: <AddressBookIcon {...iconProps} />,
         href: '/address-book',
-        divider: true,
+        // divider: true,
       },
-      {
-        title: t('support'),
-        href: '/settings?tab=support',
-      },
-      {
-        title: t('feedback'),
-        href: '/settings?tab=feedback',
-      },
-      {
-        title: t('about'),
-        href: '/settings?tab=about',
-      },
+      // {
+      //   title: t('support'),
+      //   href: '/settings?tab=support',
+      // },
+      // {
+      //   title: t('feedback'),
+      //   href: '/settings?tab=feedback',
+      // },
+      // {
+      //   title: t('about'),
+      //   href: '/settings?tab=about',
+      // },
     ],
     [iconProps, t]
   )
@@ -112,11 +118,11 @@ const NavBar: React.FC<{
                     />
                   </ListItem>
                 </Link>
-                {item.divider ? (
+                {/* {item.divider ? (
                   <Box mb={4}>
                     <Divider />
                   </Box>
-                ) : null}
+                ) : null} */}
               </React.Fragment>
             )
           })}

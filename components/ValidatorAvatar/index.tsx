@@ -1,5 +1,8 @@
 import { Box, Avatar, Typography, Link } from '@material-ui/core'
+import { Variant } from '@material-ui/core/styles/createTypography'
+import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import { formatPercentage } from '../../misc/utils'
 import useStyles from './styles'
 
 interface ValidatorAvatarProps {
@@ -7,6 +10,7 @@ interface ValidatorAvatarProps {
   crypto: Cryptocurrency
   size?: 'small' | 'base' | 'large'
   withoutLink?: boolean
+  withCommission?: boolean
 }
 
 const ValidatorAvatar: React.FC<ValidatorAvatarProps> = ({
@@ -14,17 +18,23 @@ const ValidatorAvatar: React.FC<ValidatorAvatarProps> = ({
   crypto,
   size = 'base',
   withoutLink,
+  withCommission,
 }) => {
   const classes = useStyles()
+  const { t, lang } = useTranslation('common')
 
   let avatarClass = ''
-  let titleVariant: 'h3' | 'h5' | 'body1' = 'h5'
+  let titleVariant: Variant = 'h5'
   if (size === 'small') {
     avatarClass = classes.smallAvatar
     titleVariant = 'body1'
   } else if (size === 'large') {
     avatarClass = classes.largeAvatar
     titleVariant = 'h3'
+  }
+
+  if (withCommission) {
+    titleVariant = 'h6'
   }
 
   if (!validator) {
@@ -38,6 +48,13 @@ const ValidatorAvatar: React.FC<ValidatorAvatarProps> = ({
         <Typography className={classes.wrapText} color="textPrimary" variant={titleVariant}>
           {validator.name}
         </Typography>
+        {withCommission ? (
+          <Typography variant="body2">
+            {t('validator commission', {
+              commission: formatPercentage(validator.commission, lang),
+            })}
+          </Typography>
+        ) : null}
       </Box>
     </Box>
   ) : (
@@ -52,6 +69,13 @@ const ValidatorAvatar: React.FC<ValidatorAvatarProps> = ({
           <Link className={classes.wrapText} color="primary" variant={titleVariant}>
             {validator.name}
           </Link>
+          {withCommission ? (
+            <Typography variant="body2">
+              {t('validator commission', {
+                commission: formatPercentage(validator.commission, lang),
+              })}
+            </Typography>
+          ) : null}
         </Box>
       </Box>
     </Link>
