@@ -141,8 +141,6 @@ const Account: React.FC = () => {
   const [isProfileDialogOpen, setIsProfileDialogOpen] = React.useState(false)
   const [isVestingDialogOpen, setIsVestingDialogOpen] = React.useState(false)
 
-  const [accountsMenuAnchor, setAccountsMenuAnchor] = React.useState<Element>()
-
   return (
     <Layout
       passwordRequired

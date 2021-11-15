@@ -158,7 +158,13 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                     }
                   }}
                 >
-                  {coverPicUploading ? <CircularProgress /> : <CameraIcon {...iconProps} />}
+                  {coverPicUploading ? (
+                    <CircularProgress />
+                  ) : (
+                    <Box className={classes.coverCameraIconContainer}>
+                      <CameraIcon {...iconProps} fill={themeStyle.palette.text.primary} />
+                    </Box>
+                  )}
                 </ButtonBase>
               </Box>
               <Box display="flex" justifyContent="flex-start">
@@ -183,7 +189,13 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                       }
                     }}
                   >
-                    {profilePicUploading ? <CircularProgress /> : <CameraIcon {...iconProps} />}
+                    {profilePicUploading ? (
+                      <CircularProgress />
+                    ) : (
+                      <Box className={classes.avatarCameraIconContainer}>
+                        <CameraIcon {...iconProps} fill={themeStyle.palette.text.primary} />
+                      </Box>
+                    )}
                   </ButtonBase>
                 </Box>
               </Box>

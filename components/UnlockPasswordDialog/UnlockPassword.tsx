@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   DialogActions,
   DialogContent,
@@ -53,7 +54,9 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
         {alwaysRequirePassword ? null : (
-          <Typography variant="body2">{t('unlock pasword helper text')}</Typography>
+          <Box mt={1}>
+            <Typography variant="body2">{t('unlock pasword helper text')}</Typography>
+          </Box>
         )}
       </DialogContent>
       <DialogActions className={classes.action}>
