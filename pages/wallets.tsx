@@ -1,4 +1,14 @@
-import { Box, Button, Grid, Menu, MenuItem, Typography, useTheme } from '@material-ui/core'
+/* eslint-disable no-restricted-globals */
+import {
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  Menu,
+  MenuItem,
+  Typography,
+  useTheme,
+} from '@material-ui/core'
 import React from 'react'
 import groupBy from 'lodash/groupBy'
 import get from 'lodash/get'
@@ -11,7 +21,7 @@ import EditWalletButton from '../components/EditWalletButton/index'
 import CreateWalletDialog from '../components/CreateWalletDialog'
 import { CustomTheme } from '../misc/theme'
 import LedgerIcon from '../assets/images/icons/usb_device.svg'
-
+import ExternalLinkIcon from '../assets/images/icons/icon_external_link.svg'
 import ArrowDownIcon from '../assets/images/icons/icon_arrow down_title.svg'
 import useIsChromeExt from '../misc/useIsChromeExt'
 import useIconProps from '../misc/useIconProps'
@@ -121,7 +131,12 @@ const Wallets: React.FC = () => {
       {isChromeExt && selectedWallet ? (
         <>
           <Box p={1} display="flex" justifyContent="space-between">
-            <Typography variant="h4">{t('accounts')}</Typography>
+            <Box display="flex" alignItems="center">
+              <Typography variant="h4">{t('accounts')}</Typography>
+              <IconButton href={location.href.split('?')[0]} target="_blank">
+                <ExternalLinkIcon {...iconProps} />
+              </IconButton>
+            </Box>
             <AddAccountButton walletId={selectedWallet.id} />
           </Box>
           <Grid container spacing={3}>
