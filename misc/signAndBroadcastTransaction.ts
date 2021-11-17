@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
+import { DirectSecp256k1HdWallet, Registry } from '@cosmjs/proto-signing'
 import { stringToPath } from '@cosmjs/crypto'
-import { SigningStargateClient } from '@cosmjs/stargate'
+import { defaultRegistryTypes, SigningStargateClient } from '@cosmjs/stargate'
 import set from 'lodash/set'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
@@ -14,6 +14,19 @@ import Long from 'long'
 import { LedgerSigner } from '@cosmjs/ledger-amino'
 import cryptocurrencies from './cryptocurrencies'
 import sendMsgToChromeExt from './sendMsgToChromeExt'
+import { MsgSaveProfile } from '../desmos-proto/profiles/v1beta1/msgs_profile'
+import {
+  MsgLinkChainAccount,
+  MsgUnlinkChainAccount,
+} from '../desmos-proto/profiles/v1beta1/msgs_chain_links'
+import { Bech32Address } from '../desmos-proto/profiles/v1beta1/models_chain_links'
+
+const registry = new Registry([
+  ...defaultRegistryTypes,
+  ['/desmos.profiles.v1beta1.MsgSaveProfile', MsgSaveProfile],
+  ['/desmos.profiles.v1beta1.MsgLinkChainAccount', MsgLinkChainAccount],
+  ['/desmos.profiles.v1beta1.MsgUnlinkChainAccount', MsgUnlinkChainAccount],
+] as any)
 
 const formatTransactionMsg = (msg: TransactionMsg) => {
   const transformedMsg = cloneDeep(msg)
@@ -29,6 +42,17 @@ const formatTransactionMsg = (msg: TransactionMsg) => {
     transformedMsg.typeUrl === '/cosmos.gov.v1beta1.MsgVote'
   ) {
     set(transformedMsg, 'value.proposalId', new Long(get(transformedMsg, 'value.proposalId', 0)))
+  }
+  if (transformedMsg.typeUrl === '/desmos.profiles.v1beta1.MsgLinkChainAccount') {
+    set(
+      transformedMsg,
+      'value.chainAddress',
+      Uint8Array.from(
+        Bech32Address.encode(
+          Bech32Address.fromPartial(get(transformedMsg, 'value.chainAddress.value', {}))
+        ).finish()
+      )
+    )
   }
 
   if (get(msg, 'value.content.typeUrl') === '/cosmos.gov.v1beta1.TextProposal') {
@@ -115,7 +139,8 @@ const signAndBroadcastCosmosTransaction = async (
   const accounts = await signer.getAccounts()
   const client = await SigningStargateClient.connectWithSigner(
     cryptocurrencies[crypto].rpcApiUrl,
-    signer
+    signer,
+    { registry }
   )
   const tx = await client.sign(
     accounts[0].address,

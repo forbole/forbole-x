@@ -16,6 +16,9 @@ import {
 import { Alert } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import { DirectSecp256k1HdWallet, encodePubkey, makeSignDoc } from '@cosmjs/proto-signing'
+import { Secp256k1, sha256, stringToPath } from '@cosmjs/crypto'
+import { toBase64, toHex } from '@cosmjs/encoding'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
@@ -24,6 +27,7 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useSendTransaction from '../../misc/useSendTransaction'
 import uploadIPFSImage from '../../misc/uploadIPFSImage'
+import { Bech32Address } from '../../desmos-proto/profiles/v1beta1/models_chain_links'
 
 interface ProfileDialogProps {
   open: boolean
@@ -65,60 +69,99 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
   }, [open])
 
   const onSubmit = React.useCallback(async () => {
-    // Validate entries
-    let hasErr = false
-    const errs = { dtag: false, nickname: false, bio: false }
-    if (
-      profile.dtag.length < 6 ||
-      profile.dtag.length > 30 ||
-      !profile.dtag.match(/^[A-Za-z0-9_]+$/)
-    ) {
-      errs.dtag = true
-      hasErr = true
+    const signerOptions = {
+      // eslint-disable-next-line quotes
+      hdPaths: [stringToPath("m/44'/118'/0'/0/0")],
+      prefix: 'cosmos',
     }
-    if (profile.nickname && profile.nickname.length < 2) {
-      errs.nickname = true
-      hasErr = true
-    }
-    if (profile.bio.length > 1000) {
-      errs.bio = true
-      hasErr = true
-    }
-    setErrors(errs)
-    if (hasErr) {
-      return
-    }
-    try {
-      setLoading(true)
-      const value = {
-        dtag: profile.dtag,
-        nickname: profile.nickname,
-        bio: profile.bio,
-        profilePicture: profile.profilePic,
-        coverPicture: profile.coverPic,
-        creator: account.address,
-      }
-      // Remove key with empty space except profile pic and cover pic
-      Object.keys(value).forEach((k) => {
-        if (k !== 'profilePicture' && k !== 'coverPicture' && !value[k]) {
-          delete value[k]
-        }
-      })
-      const msgs: TransactionMsgSaveProfile[] = [
-        {
-          typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile',
-          value,
+    const signer = await DirectSecp256k1HdWallet.fromMnemonic(
+      'olive praise state suggest leader scan weekend exhibit glance gravity rebel kingdom',
+      signerOptions
+    )
+    const [ac] = await signer.getAccountsWithPrivkeys()
+    const signature = await Secp256k1.createSignature(new TextEncoder().encode('proof'), ac.privkey)
+
+    const msgs: TransactionMsgLinkChainAccount[] = [
+      {
+        typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount',
+        value: {
+          chainAddress: {
+            typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
+            value: {
+              prefix: 'cosmos',
+              value: 'cosmos1evclzwf4yrtjq8y4zpsaa5u6zu5hzu0m7t6m0f',
+            },
+          },
+          chainConfig: {
+            name: 'Cosmos',
+          },
+          proof: {
+            pubKey: ac.pubkey,
+            signature: toHex(signature.toDer()),
+            plainText: 'proof',
+          },
+          signer: 'desmos14t2hvslx84klhdljkltlmeyz9fj6xfs3z40ne2',
         },
-      ]
-      await sendTransaction(password, account.address, {
-        msgs,
-        memo: '',
-      })
-      setLoading(false)
-      onClose()
-    } catch (err) {
-      setLoading(false)
-    }
+      },
+    ]
+    await sendTransaction(password, account.address, {
+      msgs,
+      memo: '',
+    })
+    // Validate entries
+    // let hasErr = false
+    // const errs = { dtag: false, nickname: false, bio: false }
+    // if (
+    //   profile.dtag.length < 6 ||
+    //   profile.dtag.length > 30 ||
+    //   !profile.dtag.match(/^[A-Za-z0-9_]+$/)
+    // ) {
+    //   errs.dtag = true
+    //   hasErr = true
+    // }
+    // if (profile.nickname && profile.nickname.length < 2) {
+    //   errs.nickname = true
+    //   hasErr = true
+    // }
+    // if (profile.bio.length > 1000) {
+    //   errs.bio = true
+    //   hasErr = true
+    // }
+    // setErrors(errs)
+    // if (hasErr) {
+    //   return
+    // }
+    // try {
+    //   setLoading(true)
+    //   const value = {
+    //     dtag: profile.dtag,
+    //     nickname: profile.nickname,
+    //     bio: profile.bio,
+    //     profilePicture: profile.profilePic,
+    //     coverPicture: profile.coverPic,
+    //     creator: account.address,
+    //   }
+    //   // Remove key with empty space except profile pic and cover pic
+    //   Object.keys(value).forEach((k) => {
+    //     if (k !== 'profilePicture' && k !== 'coverPicture' && !value[k]) {
+    //       delete value[k]
+    //     }
+    //   })
+    //   const msgs: TransactionMsgSaveProfile[] = [
+    //     {
+    //       typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile',
+    //       value,
+    //     },
+    //   ]
+    //   await sendTransaction(password, account.address, {
+    //     msgs,
+    //     memo: '',
+    //   })
+    //   setLoading(false)
+    //   onClose()
+    // } catch (err) {
+    //   setLoading(false)
+    // }
   }, [password, account, profile, sendTransaction])
 
   return (
