@@ -69,16 +69,11 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
   }, [open])
 
   const onSubmit = React.useCallback(async () => {
-    const signerOptions = {
-      // eslint-disable-next-line quotes
-      hdPaths: [stringToPath("m/44'/118'/0'/0/0")],
-      prefix: 'cosmos',
-    }
     const signer = await DirectSecp256k1HdWallet.fromMnemonic(
-      'olive praise state suggest leader scan weekend exhibit glance gravity rebel kingdom',
-      signerOptions
+      'olive praise state suggest leader scan weekend exhibit glance gravity rebel kingdom'
     )
     const [ac] = await signer.getAccountsWithPrivkeys()
+
     const signature = await Secp256k1.createSignature(new TextEncoder().encode('proof'), ac.privkey)
 
     const msgs: TransactionMsgLinkChainAccount[] = [
@@ -89,14 +84,17 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
             typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
             value: {
               prefix: 'cosmos',
-              value: 'cosmos1evclzwf4yrtjq8y4zpsaa5u6zu5hzu0m7t6m0f',
+              value: ac.address,
             },
           },
           chainConfig: {
-            name: 'Cosmos',
+            name: 'cosmos',
           },
           proof: {
-            pubKey: ac.pubkey,
+            pubKey: {
+              typeUrl: '/cosmos.crypto.secp256k1.PubKey',
+              value: toBase64(ac.pubkey),
+            },
             signature: toHex(signature.toDer()),
             plainText: 'proof',
           },

@@ -1,7 +1,8 @@
+/* eslint-disable camelcase */
 /* eslint-disable import/no-extraneous-dependencies */
 import { DirectSecp256k1HdWallet, Registry } from '@cosmjs/proto-signing'
 import { stringToPath } from '@cosmjs/crypto'
-import { defaultRegistryTypes, SigningStargateClient } from '@cosmjs/stargate'
+import { AminoTypes, defaultRegistryTypes, SigningStargateClient } from '@cosmjs/stargate'
 import set from 'lodash/set'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
@@ -20,6 +21,7 @@ import {
   MsgUnlinkChainAccount,
 } from '../desmos-proto/profiles/v1beta1/msgs_chain_links'
 import { Bech32Address } from '../desmos-proto/profiles/v1beta1/models_chain_links'
+import { toAmino } from './estimateGasFee'
 
 const registry = new Registry([
   ...defaultRegistryTypes,
@@ -27,6 +29,24 @@ const registry = new Registry([
   ['/desmos.profiles.v1beta1.MsgLinkChainAccount', MsgLinkChainAccount],
   ['/desmos.profiles.v1beta1.MsgUnlinkChainAccount', MsgUnlinkChainAccount],
 ] as any)
+
+const aminoAdditions = {
+  '/desmos.profiles.v1beta1.MsgSaveProfile': {
+    aminoType: 'desmos/MsgSaveProfile',
+    toAmino,
+    fromAmino: (v) => v,
+  },
+  '/desmos.profiles.v1beta1.MsgLinkChainAccount': {
+    aminoType: 'desmos/MsgLinkChainAccount',
+    toAmino,
+    fromAmino: (v) => v,
+  },
+  '/desmos.profiles.v1beta1.MsgUnlinkChainAccount': {
+    aminoType: 'desmos/MsgUnlinkChainAccount',
+    toAmino,
+    fromAmino: (v) => v,
+  },
+}
 
 const formatTransactionMsg = (msg: TransactionMsg) => {
   const transformedMsg = cloneDeep(msg)
@@ -43,17 +63,17 @@ const formatTransactionMsg = (msg: TransactionMsg) => {
   ) {
     set(transformedMsg, 'value.proposalId', new Long(get(transformedMsg, 'value.proposalId', 0)))
   }
-  if (transformedMsg.typeUrl === '/desmos.profiles.v1beta1.MsgLinkChainAccount') {
-    set(
-      transformedMsg,
-      'value.chainAddress',
-      Uint8Array.from(
-        Bech32Address.encode(
-          Bech32Address.fromPartial(get(transformedMsg, 'value.chainAddress.value', {}))
-        ).finish()
-      )
-    )
-  }
+  // if (transformedMsg.typeUrl === '/desmos.profiles.v1beta1.MsgLinkChainAccount') {
+  //   set(
+  //     transformedMsg,
+  //     'value.chainAddress',
+  //     Uint8Array.from(
+  //       Bech32Address.encode(
+  //         Bech32Address.fromPartial(get(transformedMsg, 'value.chainAddress.value', {}))
+  //       ).finish()
+  //     )
+  //   )
+  // }
 
   if (get(msg, 'value.content.typeUrl') === '/cosmos.gov.v1beta1.TextProposal') {
     set(
@@ -140,7 +160,10 @@ const signAndBroadcastCosmosTransaction = async (
   const client = await SigningStargateClient.connectWithSigner(
     cryptocurrencies[crypto].rpcApiUrl,
     signer,
-    { registry }
+    {
+      registry,
+      aminoTypes: new AminoTypes({ additions: aminoAdditions, prefix: signerOptions.prefix }),
+    }
   )
   const tx = await client.sign(
     accounts[0].address,

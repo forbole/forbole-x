@@ -6,10 +6,18 @@ import get from 'lodash/get'
 import { StargateClient } from '@cosmjs/stargate'
 import cryptocurrencies from './cryptocurrencies'
 
-const recursiveSnakeCase = (obj: any): any =>
+export const toAmino = (obj: any): any =>
   transform(obj, (acc, value, key, target) => {
     const camelKey = isArray(target) ? key : snakeCase(String(key))
-    acc[camelKey] = isObject(value) ? recursiveSnakeCase(value) : value
+    const childKeys = Object.keys(value)
+    if (childKeys.length === 2 && childKeys.includes('typeUrl') && childKeys.includes('value')) {
+      acc[camelKey] = {
+        '@type': value.typeUrl,
+        ...toAmino(isObject(value.value) ? value.value : { key: value.value }),
+      }
+    } else {
+      acc[camelKey] = isObject(value) ? toAmino(value) : value
+    }
   })
 
 const estimateGasFee = async (
@@ -29,7 +37,7 @@ const estimateGasFee = async (
         body: {
           messages: tx.msgs.map((msg) => ({
             '@type': msg.typeUrl,
-            ...recursiveSnakeCase(msg.value),
+            ...toAmino(msg.value),
           })),
           memo: tx.memo,
         },
