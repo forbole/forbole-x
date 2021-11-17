@@ -59,6 +59,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const isMobile = useIsMobile()
   const iconProps = useIconProps()
   const { isSentFromWeb } = useIsChromeExt()
+  console.log('testing')
 
   const { accounts, password, wallets } = useWalletsContext()
   const account = accounts.find((a) => a.address === address)
