@@ -66,7 +66,6 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
   const classes = useStyles()
   const [instruction, setInstruction] = React.useState(signInstructions[0])
   const [ledgerConnection, setLedgerConnection] = React.useState(null)
-  console.log('ledgerconnection', ledgerConnection, signTransaction, isTxSigned)
   const { theme } = useGeneralContext()
   const themeStyle: CustomTheme = useTheme()
 
@@ -74,15 +73,16 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
     let transport
     try {
       if (ledgerConnection === 'bluetooth') {
+        // console.log('hi')
         transport = await BluetoothTransport.create()
       } else {
         transport = await TransportWebHID.create()
+        const ledger = new LaunchpadLedger(transport, { ledgerAppName })
+        console.log('ledgerrr', ledger)
+        // Check if ledger app is open
+        await ledger.getCosmosAppVersion()
+        setInstruction(signInstructions[1])
       }
-      const ledger = new LaunchpadLedger(transport, { ledgerAppName })
-      console.log('ledgerconnection hii', ledgerConnection, signTransaction, isTxSigned)
-      // Check if ledger app is open
-      await ledger.getCosmosAppVersion()
-      setInstruction(signInstructions[1])
       clearTimeout(retryTimeout)
       onConnect(transport)
       setInstruction(signInstructions[2])
@@ -90,18 +90,15 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
       if (err.name === 'TransportOpenUserCancelled') {
         // Ledger app is opened already
         setInstruction(signInstructions[0])
-        console.log('hiiiiiiiiiii')
         retryTimeout = setTimeout(connectLedger, 1000)
       } else if (
         err.message === 'Please close OLOS and open the Desmos Ledger app on your Ledger device.'
       ) {
         setInstruction(signInstructions[1])
-        console.log('hiiiiiiiiiii1')
         retryTimeout = setTimeout(connectLedger, 1000)
       } else if (err.message === 'The device is already open.') {
         // Ledger is connected previously. Close the previous connections
         closeAllLedgerConnections()
-        console.log('hiiiiiiiiiii2')
         setInstruction(signInstructions[1])
         retryTimeout = setTimeout(connectLedger, 1000)
         // No specific ledger app required
@@ -116,23 +113,16 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
   }, [ledgerAppName])
 
   React.useEffect(() => {
-    // console.log('ledgerconnection1', ledgerConnection)
     if (ledgerConnection !== null) {
       connectLedger()
       return () => clearTimeout(retryTimeout)
     }
-
     return null
-  }, [connectLedger])
-
-  React.useEffect(() => {
-    console.log('ledgerconnection1', ledgerConnection)
-    // return null
-  }, [])
+  }, [ledgerConnection])
 
   return (
     <DialogContent className={classes.dialogContent}>
-      {signTransaction || !isTxSigned || ledgerConnection === null ? (
+      {ledgerConnection === null ? (
         <>
           <DialogTitle>{t('connect ledger')}</DialogTitle>
           <DialogContentText>{t('ledger method description')}</DialogContentText>
