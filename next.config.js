@@ -8,6 +8,8 @@ module.exports = {
         test: /\.svg$/,
         use: ['@svgr/webpack'],
       })
+      // eslint-disable-next-line no-param-reassign
+      config.experiments = { asyncWebAssembly: true }
 
       return config
     },

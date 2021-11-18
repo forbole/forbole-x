@@ -18,6 +18,7 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { DirectSecp256k1HdWallet, encodePubkey, makeSignDoc } from '@cosmjs/proto-signing'
 import { Secp256k1, sha256, stringToPath } from '@cosmjs/crypto'
+import { sign } from 'tiny-secp256k1'
 import { toBase64, toHex } from '@cosmjs/encoding'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
@@ -27,7 +28,6 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useSendTransaction from '../../misc/useSendTransaction'
 import uploadIPFSImage from '../../misc/uploadIPFSImage'
-import { Bech32Address } from '../../desmos-proto/profiles/v1beta1/models_chain_links'
 
 interface ProfileDialogProps {
   open: boolean
@@ -74,7 +74,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
     )
     const [ac] = await signer.getAccountsWithPrivkeys()
 
-    const signature = await Secp256k1.createSignature(new TextEncoder().encode('proof'), ac.privkey)
+    const signature = sign(Buffer.from(sha256(Buffer.from(account.address))), ac.privkey)
 
     const msgs: TransactionMsgLinkChainAccount[] = [
       {
@@ -95,10 +95,10 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
               typeUrl: '/cosmos.crypto.secp256k1.PubKey',
               value: toBase64(ac.pubkey),
             },
-            signature: toHex(signature.toDer()),
-            plainText: 'proof',
+            signature: Buffer.from(signature).toString('hex'),
+            plainText: account.address,
           },
-          signer: 'desmos14t2hvslx84klhdljkltlmeyz9fj6xfs3z40ne2',
+          signer: account.address,
         },
       },
     ]

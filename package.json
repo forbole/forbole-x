@@ -43,7 +43,8 @@
     "react-share": "^4.4.0",
     "recharts": "^2.0.3",
     "secp256k1": "^4.0.2",
-    "subscriptions-transport-ws": "^0.9.18"
+    "subscriptions-transport-ws": "^0.9.18",
+    "tiny-secp256k1": "^2.1.1"
   },
   "devDependencies": {
     "@svgr/webpack": "^5.5.0",

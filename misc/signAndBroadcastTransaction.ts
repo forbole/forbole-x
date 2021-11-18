@@ -11,8 +11,10 @@ import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/para
 import { SoftwareUpgradeProposal } from 'cosmjs-types/cosmos/upgrade/v1beta1/upgrade'
 import { CommunityPoolSpendProposal } from 'cosmjs-types/cosmos/distribution/v1beta1/distribution'
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
+import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys'
 import Long from 'long'
 import { LedgerSigner } from '@cosmjs/ledger-amino'
+import { fromBase64 } from '@cosmjs/encoding'
 import cryptocurrencies from './cryptocurrencies'
 import sendMsgToChromeExt from './sendMsgToChromeExt'
 import { MsgSaveProfile } from '../desmos-proto/profiles/v1beta1/msgs_profile'
@@ -63,17 +65,29 @@ const formatTransactionMsg = (msg: TransactionMsg) => {
   ) {
     set(transformedMsg, 'value.proposalId', new Long(get(transformedMsg, 'value.proposalId', 0)))
   }
-  // if (transformedMsg.typeUrl === '/desmos.profiles.v1beta1.MsgLinkChainAccount') {
-  //   set(
-  //     transformedMsg,
-  //     'value.chainAddress',
-  //     Uint8Array.from(
-  //       Bech32Address.encode(
-  //         Bech32Address.fromPartial(get(transformedMsg, 'value.chainAddress.value', {}))
-  //       ).finish()
-  //     )
-  //   )
-  // }
+  if (transformedMsg.typeUrl === '/desmos.profiles.v1beta1.MsgLinkChainAccount') {
+    set(
+      transformedMsg,
+      'value.chainAddress.value',
+      Uint8Array.from(
+        Bech32Address.encode(
+          Bech32Address.fromPartial(get(transformedMsg, 'value.chainAddress.value', {}))
+        ).finish()
+      )
+    )
+
+    set(
+      transformedMsg,
+      'value.proof.pubKey.value',
+      Uint8Array.from(
+        PubKey.encode(
+          PubKey.fromPartial({
+            key: fromBase64(get(transformedMsg, 'value.proof.pubKey.value', '')),
+          })
+        ).finish()
+      )
+    )
+  }
 
   if (get(msg, 'value.content.typeUrl') === '/cosmos.gov.v1beta1.TextProposal') {
     set(
