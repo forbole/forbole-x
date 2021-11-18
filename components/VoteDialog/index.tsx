@@ -6,7 +6,7 @@ import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import SelectAnswer from './SelectAnswer'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import useSendTransaction from '../../misc/useSendTransaction'
+import useSendTransaction from '../../misc/tx/useSendTransaction'
 
 interface VoteDialogProps {
   crypto: Cryptocurrency

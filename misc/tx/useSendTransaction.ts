@@ -2,7 +2,7 @@ import React from 'react'
 import invoke from 'lodash/invoke'
 import qs from 'query-string'
 import { useRouter } from 'next/router'
-import useIsChromeExt from './useIsChromeExt'
+import useIsChromeExt from '../useIsChromeExt'
 
 const useSendTransaction = (): ((
   password: string,

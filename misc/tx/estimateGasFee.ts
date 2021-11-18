@@ -4,19 +4,19 @@ import isArray from 'lodash/isArray'
 import isObject from 'lodash/isObject'
 import get from 'lodash/get'
 import { StargateClient } from '@cosmjs/stargate'
-import cryptocurrencies from './cryptocurrencies'
+import cryptocurrencies from '../cryptocurrencies'
 
-export const toAmino = (obj: any): any =>
+export const transformMsg = (obj: any): any =>
   transform(obj, (acc, value, key, target) => {
     const camelKey = isArray(target) ? key : snakeCase(String(key))
     const childKeys = Object.keys(value)
     if (childKeys.length === 2 && childKeys.includes('typeUrl') && childKeys.includes('value')) {
       acc[camelKey] = {
         '@type': value.typeUrl,
-        ...toAmino(isObject(value.value) ? value.value : { key: value.value }),
+        ...transformMsg(isObject(value.value) ? value.value : { key: value.value }),
       }
     } else {
-      acc[camelKey] = isObject(value) ? toAmino(value) : value
+      acc[camelKey] = isObject(value) ? transformMsg(value) : value
     }
   })
 
@@ -37,7 +37,7 @@ const estimateGasFee = async (
         body: {
           messages: tx.msgs.map((msg) => ({
             '@type': msg.typeUrl,
-            ...toAmino(msg.value),
+            ...transformMsg(msg.value),
           })),
           memo: tx.memo,
         },

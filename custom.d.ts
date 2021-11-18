@@ -406,6 +406,15 @@ interface TransactionMsgSaveProfile {
   }
 }
 
+interface ChainLinkProof {
+  plainText: string
+  pubKey: {
+    typeUrl: '/cosmos.crypto.secp256k1.PubKey'
+    value: string
+  }
+  signature: string
+}
+
 interface TransactionMsgLinkChainAccount {
   typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount'
   value: {
@@ -416,18 +425,20 @@ interface TransactionMsgLinkChainAccount {
         value: string // address
       }
     }
-    proof: {
-      pubKey: {
-        typeUrl: '/cosmos.crypto.secp256k1.PubKey'
-        value: string
-      }
-      signature: string
-      plainText: string
-    }
     chainConfig: {
       name: string
     }
+    proof: ChainLinkProof
     signer: string
+  }
+}
+
+interface TransactionMsgUnlinkChainAccount {
+  typeUrl: '/desmos.profiles.v1beta1.MsgUnlinkChainAccount'
+  value: {
+    chainName: string
+    owner: string
+    target: string
   }
 }
 
@@ -445,6 +456,7 @@ type TransactionMsg =
   | TransactionMsgSetWithdrawAddress
   | TransactionMsgSaveProfile
   | TransactionMsgLinkChainAccount
+  | TransactionMsgUnlinkChainAccount
 
 interface Transaction {
   msgs: TransactionMsg[]

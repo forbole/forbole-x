@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable import/no-extraneous-dependencies */
-import { DirectSecp256k1HdWallet, Registry } from '@cosmjs/proto-signing'
+import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 import { stringToPath } from '@cosmjs/crypto'
-import { AminoTypes, defaultRegistryTypes, SigningStargateClient } from '@cosmjs/stargate'
+import { AminoTypes, SigningStargateClient } from '@cosmjs/stargate'
 import set from 'lodash/set'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
@@ -15,40 +15,10 @@ import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys'
 import Long from 'long'
 import { LedgerSigner } from '@cosmjs/ledger-amino'
 import { fromBase64 } from '@cosmjs/encoding'
-import cryptocurrencies from './cryptocurrencies'
-import sendMsgToChromeExt from './sendMsgToChromeExt'
-import { MsgSaveProfile } from '../desmos-proto/profiles/v1beta1/msgs_profile'
-import {
-  MsgLinkChainAccount,
-  MsgUnlinkChainAccount,
-} from '../desmos-proto/profiles/v1beta1/msgs_chain_links'
-import { Bech32Address } from '../desmos-proto/profiles/v1beta1/models_chain_links'
-import { toAmino } from './estimateGasFee'
-
-const registry = new Registry([
-  ...defaultRegistryTypes,
-  ['/desmos.profiles.v1beta1.MsgSaveProfile', MsgSaveProfile],
-  ['/desmos.profiles.v1beta1.MsgLinkChainAccount', MsgLinkChainAccount],
-  ['/desmos.profiles.v1beta1.MsgUnlinkChainAccount', MsgUnlinkChainAccount],
-] as any)
-
-const aminoAdditions = {
-  '/desmos.profiles.v1beta1.MsgSaveProfile': {
-    aminoType: 'desmos/MsgSaveProfile',
-    toAmino,
-    fromAmino: (v) => v,
-  },
-  '/desmos.profiles.v1beta1.MsgLinkChainAccount': {
-    aminoType: 'desmos/MsgLinkChainAccount',
-    toAmino,
-    fromAmino: (v) => v,
-  },
-  '/desmos.profiles.v1beta1.MsgUnlinkChainAccount': {
-    aminoType: 'desmos/MsgUnlinkChainAccount',
-    toAmino,
-    fromAmino: (v) => v,
-  },
-}
+import cryptocurrencies from '../cryptocurrencies'
+import sendMsgToChromeExt from '../sendMsgToChromeExt'
+import { Bech32Address } from '../../desmos-proto/profiles/v1beta1/models_chain_links'
+import { aminoAdditions, registry } from './customTxTypes'
 
 const formatTransactionMsg = (msg: TransactionMsg) => {
   const transformedMsg = cloneDeep(msg)

@@ -16,17 +16,13 @@ import {
 import { Alert } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { DirectSecp256k1HdWallet, encodePubkey, makeSignDoc } from '@cosmjs/proto-signing'
-import { Secp256k1, sha256, stringToPath } from '@cosmjs/crypto'
-import { sign } from 'tiny-secp256k1'
-import { toBase64, toHex } from '@cosmjs/encoding'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import CameraIcon from '../../assets/images/icons/icon_camera.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import useSendTransaction from '../../misc/useSendTransaction'
+import useSendTransaction from '../../misc/tx/useSendTransaction'
 import uploadIPFSImage from '../../misc/uploadIPFSImage'
 
 interface ProfileDialogProps {
@@ -69,97 +65,60 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
   }, [open])
 
   const onSubmit = React.useCallback(async () => {
-    const signer = await DirectSecp256k1HdWallet.fromMnemonic(
-      'olive praise state suggest leader scan weekend exhibit glance gravity rebel kingdom'
-    )
-    const [ac] = await signer.getAccountsWithPrivkeys()
-
-    const signature = sign(Buffer.from(sha256(Buffer.from(account.address))), ac.privkey)
-
-    const msgs: TransactionMsgLinkChainAccount[] = [
-      {
-        typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount',
-        value: {
-          chainAddress: {
-            typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
-            value: {
-              prefix: 'cosmos',
-              value: ac.address,
-            },
-          },
-          chainConfig: {
-            name: 'cosmos',
-          },
-          proof: {
-            pubKey: {
-              typeUrl: '/cosmos.crypto.secp256k1.PubKey',
-              value: toBase64(ac.pubkey),
-            },
-            signature: Buffer.from(signature).toString('hex'),
-            plainText: account.address,
-          },
-          signer: account.address,
-        },
-      },
-    ]
-    await sendTransaction(password, account.address, {
-      msgs,
-      memo: '',
-    })
     // Validate entries
-    // let hasErr = false
-    // const errs = { dtag: false, nickname: false, bio: false }
-    // if (
-    //   profile.dtag.length < 6 ||
-    //   profile.dtag.length > 30 ||
-    //   !profile.dtag.match(/^[A-Za-z0-9_]+$/)
-    // ) {
-    //   errs.dtag = true
-    //   hasErr = true
-    // }
-    // if (profile.nickname && profile.nickname.length < 2) {
-    //   errs.nickname = true
-    //   hasErr = true
-    // }
-    // if (profile.bio.length > 1000) {
-    //   errs.bio = true
-    //   hasErr = true
-    // }
-    // setErrors(errs)
-    // if (hasErr) {
-    //   return
-    // }
-    // try {
-    //   setLoading(true)
-    //   const value = {
-    //     dtag: profile.dtag,
-    //     nickname: profile.nickname,
-    //     bio: profile.bio,
-    //     profilePicture: profile.profilePic,
-    //     coverPicture: profile.coverPic,
-    //     creator: account.address,
-    //   }
-    //   // Remove key with empty space except profile pic and cover pic
-    //   Object.keys(value).forEach((k) => {
-    //     if (k !== 'profilePicture' && k !== 'coverPicture' && !value[k]) {
-    //       delete value[k]
-    //     }
-    //   })
-    //   const msgs: TransactionMsgSaveProfile[] = [
-    //     {
-    //       typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile',
-    //       value,
-    //     },
-    //   ]
-    //   await sendTransaction(password, account.address, {
-    //     msgs,
-    //     memo: '',
-    //   })
-    //   setLoading(false)
-    //   onClose()
-    // } catch (err) {
-    //   setLoading(false)
-    // }
+    let hasErr = false
+    const errs = { dtag: false, nickname: false, bio: false }
+    if (
+      profile.dtag.length < 6 ||
+      profile.dtag.length > 30 ||
+      !profile.dtag.match(/^[A-Za-z0-9_]+$/)
+    ) {
+      errs.dtag = true
+      hasErr = true
+    }
+    if (profile.nickname && profile.nickname.length < 2) {
+      errs.nickname = true
+      hasErr = true
+    }
+    if (profile.bio.length > 1000) {
+      errs.bio = true
+      hasErr = true
+    }
+    setErrors(errs)
+    if (hasErr) {
+      return
+    }
+    try {
+      setLoading(true)
+      const value = {
+        dtag: profile.dtag,
+        nickname: profile.nickname,
+        bio: profile.bio,
+        profilePicture: profile.profilePic,
+        coverPicture: profile.coverPic,
+        creator: account.address,
+      }
+      // Remove key with empty space except profile pic and cover pic
+      Object.keys(value).forEach((k) => {
+        if (k !== 'profilePicture' && k !== 'coverPicture' && !value[k]) {
+          delete value[k]
+        }
+      })
+      const msgs: TransactionMsgSaveProfile[] = [
+        {
+          typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile',
+          value,
+        },
+      ]
+      await sendTransaction(password, account.address, {
+        msgs,
+        memo: '',
+      })
+      setLoading(false)
+      onClose()
+    } catch (err) {
+      setLoading(false)
+    }
   }, [password, account, profile, sendTransaction])
 
   return (
