@@ -6,6 +6,9 @@ exports[`page: Home renders correctly 1`] = `
   passwordRequired={true}
 >
   <div
+    className="MuiPaper-root MuiCard-root HookGlobalStyles-container-1 MuiPaper-elevation1 MuiPaper-rounded"
+  />
+  <div
     className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
   >
     <div
@@ -20,7 +23,7 @@ exports[`page: Home renders correctly 1`] = `
     </div>
   </div>
   <div
-    className="MuiBox-root MuiBox-root-1"
+    className="MuiBox-root MuiBox-root-3"
   >
     <h4
       className="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom"
