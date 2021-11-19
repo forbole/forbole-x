@@ -1,4 +1,4 @@
-import { Card, CardMedia, alpha } from '@material-ui/core'
+import { Card, CardMedia, alpha, useTheme } from '@material-ui/core'
 import Carousel from 'react-material-ui-carousel'
 import useStyles from './style'
 
@@ -9,6 +9,8 @@ const Banner: React.FC = () => {
   ]
 
   const classes = useStyles()
+  const theme = useTheme()
+
   return (
     <Card className={classes.container}>
       <Carousel
@@ -18,24 +20,19 @@ const Banner: React.FC = () => {
             bottom: 0,
           },
         }}
-        indicatorIconButtonProps={{
-          style: {
-            color: '#007FFF',
-          },
-        }}
         activeIndicatorIconButtonProps={{
           style: {
-            color: alpha('#007FFF', 0.6),
+            color: theme.palette.primary.main,
+          },
+        }}
+        indicatorIconButtonProps={{
+          style: {
+            color: alpha(theme.palette.primary.main, 0.6),
           },
         }}
       >
         {banners.map((banner) => (
-          <CardMedia
-            className={classes.bannerImage}
-            image={banner}
-            title="banner"
-            component="img"
-          />
+          <CardMedia className={classes.bannerImage} image={banner} component="img" />
         ))}
       </Carousel>
     </Card>
