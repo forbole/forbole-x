@@ -4,6 +4,7 @@ import Home from '../../pages/index'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 
 jest.mock('../../components/Layout', () => 'Layout')
+jest.mock('../../components/Banner', () => 'Banner')
 jest.mock('../../components/AccountStatCard', () => 'AccountStatCard')
 jest.mock('../../components/AssetDistributionChart', () => 'AssetDistributionChart')
 jest.mock('../../components/WalletBalanceChart', () => 'WalletBalanceChart')
