@@ -207,6 +207,13 @@ interface Profile {
   profilePic: string
 }
 
+interface ChainConnection {
+  creationTime: number
+  externalAddress: string
+  userAddress: string
+  chainName: string
+}
+
 interface TokenUnit {
   denom: string
   exponent: number

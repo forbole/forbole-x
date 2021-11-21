@@ -7,6 +7,7 @@ import { format, differenceInDays } from 'date-fns'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
 import { EnglishMnemonic } from '@cosmjs/crypto'
 import defaultDenoms from './defaultDenoms'
+import connectableChains from './connectableChains'
 
 export const formatPercentage = (percent: number, lang: string): string =>
   new Intl.NumberFormat(lang, {
@@ -795,6 +796,16 @@ export const transformProfile = (data: any): Profile => {
     profilePic: get(data, 'profile[0].profile_pic', ''),
   }
 }
+
+export const transformChainConnections = (data: any): ChainConnection[] =>
+  get(data, 'chain_link', []).map((d) => ({
+    creationTime: new Date(d.creation_time).getTime(),
+    externalAddress: d.external_address,
+    userAddress: d.user_address,
+    chainName: Object.keys(connectableChains).find((k) =>
+      d.external_address.match(new RegExp(`^${connectableChains[k].prefix}`))
+    ),
+  }))
 
 export const transformVestingAccount = (
   data: any,

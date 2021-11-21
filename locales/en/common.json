@@ -432,5 +432,14 @@
   "profile dtag rules": "Dtag must have 6 - 30 alphanumeric or _ characters",
   "profile nickname rules": "Nickname must have at least 2 characters",
   "profile bio rules": "Bio can have at most 1000 characters",
-  "validator commission": "Commission: {{commission}}"
+  "validator commission": "Commission: {{commission}}",
+  "connections": "{{connections}} Connection(s)",
+  "connect chain title": "Connections",
+  "chain account": "Chain Account",
+  "creation time": "Creation Time",
+  "connect chain description": "Connect your chain account",
+  "connect chain": "Connect Chain",
+  "use recovery phrase": "Use Recovery Phrase",
+  "connect with ledger": "Connect with Ledger",
+  "select connect chain method": "Select the method you would like to connect your chain account"
 }
