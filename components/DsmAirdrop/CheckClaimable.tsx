@@ -5,6 +5,7 @@ import useStyles from './styles'
 import TickIcon from '../../assets/images/icons/tick.svg'
 import useIconProps from '../../misc/useIconProps'
 import { CommonStage } from '.'
+import { CustomTheme } from '../../misc/theme'
 
 interface CheckClaimableProps {
   onConfirm(): void
@@ -14,7 +15,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({ onConfirm }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
-  const theme = useTheme()
+  const theme: CustomTheme = useTheme()
 
   return (
     <form
