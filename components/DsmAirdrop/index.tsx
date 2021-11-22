@@ -4,6 +4,7 @@ import useTranslation from 'next-translate/useTranslation'
 import useStateHistory from '../../misc/useStateHistory'
 import { useStyles } from './styles'
 import CheckClaimable from './CheckClaimable'
+import CreateProfile from './CreateProfile'
 
 interface Content {
   title: string
@@ -13,6 +14,7 @@ interface Content {
 export enum CommonStage {
   StartStage = 'start',
   CheckClaimableStage = 'dsm airdrop is claimable',
+  CreateProfileStage = 'create profile',
 }
 
 type Stage = CommonStage
@@ -27,10 +29,21 @@ const DsmAirdrop: React.FC = () => {
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
+      case CommonStage.CreateProfileStage:
+        return {
+          title: t('dsm airdrop is claimable'),
+          content: (
+            <CreateProfile
+              onConfirm={() => {
+                setStage(CommonStage.CheckClaimableStage)
+              }}
+            />
+          ),
+        }
       case CommonStage.CheckClaimableStage:
         return {
           title: t('dsm airdrop is claimable'),
-          content: <CheckClaimable onConfirm={() => setStage(CommonStage.CheckClaimableStage)} />,
+          content: <CheckClaimable onConfirm={() => setStage(CommonStage.CreateProfileStage)} />,
         }
       case CommonStage.StartStage:
       default:
