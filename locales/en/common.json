@@ -441,5 +441,10 @@
   "connect chain": "Connect Chain",
   "use recovery phrase": "Use Recovery Phrase",
   "connect with ledger": "Connect with Ledger",
-  "select connect chain method": "Select the method you would like to connect your chain account"
+  "select connect chain method": "Select the method you would like to connect your chain account",
+  "select chain description": "Select the chain you would like to connect",
+  "import recovery phrase": "Import Recovery Phrase",
+  "import recovery phrase description": "Please enter your mnemonic phrase in order and make sure your mnemonic is written correctly",
+  "select address": "Select Address",
+  "select address to connect": "Select address to connect"
 }

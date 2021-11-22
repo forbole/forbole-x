@@ -245,6 +245,7 @@ const Account: React.FC = () => {
             onClose={() => setIsProfileDialogOpen(false)}
           />
           <ConnectChainDialog
+            account={account}
             connections={chainConnections}
             open={isConnectChainDialogOpen}
             onClose={() => setIsConnectChainDialogOpen(false)}

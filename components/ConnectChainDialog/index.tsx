@@ -5,7 +5,6 @@ import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
-import CreateWallet from './CreateWallet'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import Start from './Start'
 import useStateHistory from '../../misc/useStateHistory'
@@ -13,13 +12,18 @@ import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 import useIsMobile from '../../misc/useIsMobile'
 import { closeAllLedgerConnections } from '../../misc/utils'
 import SelectWalletType from './SelectWalletType'
+import SelectChain from './SelectChain'
+import ImportMnemonic from './ImportMnemonic'
+import SelectAddress from './SelectAddress'
+import connectableChains from '../../misc/connectableChains'
+import generateProof from '../../misc/tx/generateProof'
 
 let ledgerTransport
 
 enum Stage {
   StartStage = 'start',
-  SelectWalletTypeStage = 'select wallet type',
   SelectChainStage = 'select chain',
+  SelectWalletTypeStage = 'select wallet type',
   ImportMnemonicPhraseStage = 'import secret recovery phrase',
   SelectLedgerAppStage = 'select ledger app',
   SelectAddressStage = 'select address',
@@ -30,6 +34,7 @@ interface ConnectChainDialogProps {
   open: boolean
   onClose(event?: unknown, reason?: string): void
   connections: ChainConnection[]
+  account: Account
 }
 
 interface Content {
@@ -37,7 +42,12 @@ interface Content {
   content: React.ReactNode
 }
 
-const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({ open, onClose, connections }) => {
+const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
+  open,
+  onClose,
+  connections,
+  account,
+}) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
@@ -63,10 +73,42 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({ open, onClose, 
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
+      case Stage.SelectChainStage:
+        return {
+          title: t('select chain'),
+          content: (
+            <SelectChain
+              onConfirm={(c) => {
+                setChain(c)
+                setStage(Stage.SelectWalletTypeStage)
+              }}
+            />
+          ),
+        }
       case Stage.SelectWalletTypeStage:
         return {
           title: t('connect chain'),
-          content: <SelectWalletType onConfirm={() => null} />,
+          content: (
+            <SelectWalletType
+              onConfirm={(type) => {
+                setStage(
+                  type === 'mnemonic' ? Stage.ImportMnemonicPhraseStage : Stage.ConnectLedgerStage
+                )
+              }}
+            />
+          ),
+        }
+      case Stage.ImportMnemonicPhraseStage:
+        return {
+          title: t('import recovery phrase'),
+          content: (
+            <ImportMnemonic
+              onConfirm={(m) => {
+                setMnemonic(m)
+                setStage(Stage.SelectAddressStage)
+              }}
+            />
+          ),
         }
       case Stage.ConnectLedgerStage:
         return {
@@ -80,6 +122,35 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({ open, onClose, 
             />
           ),
         }
+      case Stage.SelectAddressStage:
+        return {
+          title: t('select address'),
+          content: (
+            <SelectAddress
+              coinType={connectableChains[chain].coinType}
+              prefix={connectableChains[chain].prefix}
+              mnemonic={mnemonic}
+              ledgerAppName="cosmos"
+              ledgerTransport={ledgerTransport}
+              onConfirm={async (result) => {
+                const proof = await generateProof(
+                  account.address,
+                  mnemonic,
+                  {
+                    prefix: connectableChains[chain].prefix,
+                    coinType: connectableChains[chain].coinType,
+                    ledgerAppName: 'cosmos',
+                    account: result.account,
+                    change: result.change,
+                    index: result.index,
+                  },
+                  ledgerTransport
+                )
+                console.log(proof)
+              }}
+            />
+          ),
+        }
       case Stage.StartStage:
       default:
         return {
@@ -87,7 +158,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({ open, onClose, 
           content: (
             <Start
               connections={connections}
-              onConnectClick={() => setStage(Stage.SelectWalletTypeStage)}
+              onConnectClick={() => setStage(Stage.SelectChainStage)}
             />
           ),
         }

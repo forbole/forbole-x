@@ -4,23 +4,23 @@ import { stringToPath } from '@cosmjs/crypto'
 import { LedgerSigner } from '@cosmjs/ledger-amino'
 import { toBase64 } from '@cosmjs/encoding'
 import cryptocurrencies from '../cryptocurrencies'
+import { WalletOption } from './getWalletAddress'
 
 const generateProof = async (
   signerAddress: string,
   mnemonic: string,
-  crypto: string,
-  account: number,
-  change: number,
-  index: number,
+  option: WalletOption,
   ledgerTransport?: any
 ): Promise<ChainLinkProof> => {
   const signerOptions = {
     hdPaths: [
       stringToPath(
-        `m/44'/${cryptocurrencies[crypto].coinType}'/${account || 0}'/${change || 0}/${index || 0}`
+        `m/44'/${option.coinType}'/${option.account || 0}'/${option.change || 0}/${
+          option.index || 0
+        }`
       ),
     ],
-    prefix: cryptocurrencies[crypto].prefix,
+    prefix: option.prefix,
   }
   let signer
   if (!ledgerTransport) {
@@ -28,7 +28,7 @@ const generateProof = async (
   } else {
     signer = new LedgerSigner(ledgerTransport, {
       ...signerOptions,
-      ledgerAppName: cryptocurrencies[crypto].ledgerAppName,
+      ledgerAppName: option.ledgerAppName,
     } as any)
   }
   const [ac] = await signer.getAccounts()

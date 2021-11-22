@@ -39,6 +39,15 @@ const useStyles = makeStyles(
     tableRow: {
       borderBottom: `1px solid ${theme.palette.divider}`,
     },
+    list: {
+      maxHeight: theme.spacing(50),
+      overflowY: 'auto',
+      backgroundColor: theme.palette.grey[50],
+    },
+    denseCheckbox: {
+      padding: 0,
+      marginLeft: theme.spacing(-1.5),
+    },
   }),
   {
     name: 'HookGlobalStyles',
