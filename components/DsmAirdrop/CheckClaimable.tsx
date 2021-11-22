@@ -43,7 +43,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({ onConfirm }) => {
           </Box>
           <Typography>{t('airdrop eligibility description')}</Typography>
 
-          <Box flex={1} display="flex" flexDirection="column" mb={3}>
+          <Box flex={1} display="flex" flexDirection="column" mb={3} mt={5.5}>
             <Button className={classes.button} color="primary" variant="contained" type="submit">
               {t('get started button')}
             </Button>

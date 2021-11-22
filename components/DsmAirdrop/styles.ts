@@ -23,6 +23,7 @@ export const useStyles = makeStyles(
     },
     title: {
       marginTop: theme.spacing(4),
+      marginBottom: theme.spacing(5),
     },
     mainCard: {
       minHeight: `calc(100vh - ${theme.spacing(18)}px)`,
