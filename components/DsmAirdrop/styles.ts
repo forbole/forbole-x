@@ -27,7 +27,7 @@ export const useStyles = makeStyles(
     mainCard: {
       minHeight: `calc(100vh - ${
         document.getElementById('navBar').offsetHeight
-      }px  - ${theme.spacing(3)}px - 32px)`,
+      }px  - ${theme.spacing(3)}px - ${theme.spacing(4)}px)`,
     },
   }),
   {
