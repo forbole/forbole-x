@@ -35,6 +35,7 @@ interface CustomPalette extends Palette {
   reactJsonBackground: string
   buttonDisabled: string
   validator: string
+  cardBackground: string
 }
 
 export interface CustomTheme extends Theme {
