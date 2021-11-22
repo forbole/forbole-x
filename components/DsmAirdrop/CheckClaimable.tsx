@@ -31,13 +31,13 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({ onConfirm }) => {
           <Box className={classes.stepsCard} bgcolor={theme.palette.cardBackground}>
             <Box className={classes.step} display="flex" alignItems="center">
               <TickIcon {...iconProps} />
-              <Box marginRight={`${theme.spacing(1.25)}`} />
+              <Box marginRight={theme.spacing(0.15)} />
               <Typography>{t('airdrop eligibility rule one')}</Typography>
             </Box>
             <Box bgcolor={theme.palette.background.paper} width="100%" height="1px" />
             <Box className={classes.step} display="flex" alignItems="center">
               <TickIcon {...iconProps} />
-              <Box marginRight={`${theme.spacing(1.25)}`} />
+              <Box marginRight={theme.spacing(0.15)} />
               <Typography>{t('airdrop eligibility rule two')}</Typography>
             </Box>
           </Box>
