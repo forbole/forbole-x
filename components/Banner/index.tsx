@@ -1,7 +1,7 @@
+import Link from 'next/link'
 import { Card, CardMedia, alpha, useTheme } from '@material-ui/core'
 import Carousel from 'react-material-ui-carousel'
 import useStyles from './style'
-import Link from 'next/link'
 
 const Banner: React.FC = () => {
   const banners: string[] = [
