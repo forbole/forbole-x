@@ -25,9 +25,7 @@ export const useStyles = makeStyles(
       marginTop: theme.spacing(4),
     },
     mainCard: {
-      minHeight: `calc(100vh - ${
-        document.getElementById('navBar').offsetHeight
-      }px  - ${theme.spacing(3)}px - ${theme.spacing(4)}px)`,
+      minHeight: `calc(100vh - ${theme.spacing(18)}px)`,
     },
   }),
   {

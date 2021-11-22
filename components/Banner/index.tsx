@@ -1,6 +1,7 @@
 import { Card, CardMedia, alpha, useTheme } from '@material-ui/core'
 import Carousel from 'react-material-ui-carousel'
 import useStyles from './style'
+import Link from 'next/link'
 
 const Banner: React.FC = () => {
   const banners: string[] = [
@@ -32,7 +33,14 @@ const Banner: React.FC = () => {
         }}
       >
         {banners.map((banner) => (
-          <CardMedia className={classes.bannerImage} image={banner} component="img" />
+          <Link href="/dsm-airdrop">
+            <CardMedia
+              className={classes.bannerImage}
+              image={banner}
+              component="img"
+              style={{ cursor: 'pointer' }}
+            />
+          </Link>
         ))}
       </Carousel>
     </Card>
