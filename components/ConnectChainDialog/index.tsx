@@ -17,6 +17,8 @@ import ImportMnemonic from './ImportMnemonic'
 import SelectAddress from './SelectAddress'
 import connectableChains from '../../misc/connectableChains'
 import generateProof from '../../misc/tx/generateProof'
+import SelectLedgerApp from './SelectLedgerApp'
+import useSendTransaction from '../../misc/tx/useSendTransaction'
 
 let ledgerTransport
 
@@ -28,6 +30,7 @@ enum Stage {
   SelectLedgerAppStage = 'select ledger app',
   SelectAddressStage = 'select address',
   ConnectLedgerStage = 'connect ledger',
+  SignInLedgerStage = 'sign in ledger',
 }
 
 interface ConnectChainDialogProps {
@@ -52,19 +55,26 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
   const classes = useStyles()
   const iconProps = useIconProps()
   const isMobile = useIsMobile()
+  const sendTransaction = useSendTransaction()
+  const { password } = useWalletsContext()
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
     Stage.StartStage
   )
 
   const [mnemonic, setMnemonic] = React.useState('')
-  const [error, setError] = React.useState('')
   const [chain, setChain] = React.useState('')
   const [ledgerApp, setLedgerApp] = React.useState('')
+  // for Ledger
+  const [connectChainInfo, setConnectChainInfo] = React.useState({
+    account: 0,
+    change: 0,
+    index: 0,
+    address: '',
+  })
 
   React.useEffect(() => {
     if (open) {
       setMnemonic('')
-      setError('')
       setChain('')
       setLedgerApp('')
       setStage(Stage.StartStage, true)
@@ -92,7 +102,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
             <SelectWalletType
               onConfirm={(type) => {
                 setStage(
-                  type === 'mnemonic' ? Stage.ImportMnemonicPhraseStage : Stage.ConnectLedgerStage
+                  type === 'mnemonic' ? Stage.ImportMnemonicPhraseStage : Stage.SelectLedgerAppStage
                 )
               }}
             />
@@ -110,15 +120,69 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
             />
           ),
         }
+      case Stage.SignInLedgerStage:
       case Stage.ConnectLedgerStage:
         return {
           title: '',
           content: (
             <ConnectLedgerDialogContent
-              onConnect={(transport) => {
-                ledgerTransport = transport
+              onConnect={async (transport) => {
+                if (stage === Stage.ConnectLedgerStage) {
+                  ledgerTransport = transport
+                  setStage(Stage.SelectAddressStage)
+                } else {
+                  const proof = await generateProof(
+                    account.address,
+                    mnemonic,
+                    {
+                      prefix: connectableChains[chain].prefix,
+                      coinType: connectableChains[chain].coinType,
+                      ledgerAppName: ledgerApp,
+                      account: connectChainInfo.account,
+                      change: connectChainInfo.change,
+                      index: connectChainInfo.index,
+                    },
+                    transport
+                  )
+                  await sendTransaction(password, account.address, {
+                    msgs: [
+                      {
+                        typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount',
+                        value: {
+                          chainAddress: {
+                            typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
+                            value: {
+                              prefix: connectableChains[chain].prefix,
+                              value: connectChainInfo.address,
+                            },
+                          },
+                          chainConfig: {
+                            name: chain,
+                          },
+                          proof,
+                          signer: account.address,
+                        },
+                      } as TransactionMsgLinkChainAccount,
+                    ],
+                    memo: '',
+                  })
+                }
               }}
               ledgerAppName={ledgerApp}
+              signTransaction
+            />
+          ),
+        }
+      case Stage.SelectLedgerAppStage:
+        return {
+          title: t('select ledger app'),
+          content: (
+            <SelectLedgerApp
+              ledgerAppNames={connectableChains[chain].ledgerAppNames}
+              onConfirm={(app) => {
+                setLedgerApp(app)
+                setStage(Stage.ConnectLedgerStage)
+              }}
             />
           ),
         }
@@ -130,23 +194,49 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
               coinType={connectableChains[chain].coinType}
               prefix={connectableChains[chain].prefix}
               mnemonic={mnemonic}
-              ledgerAppName="cosmos"
+              ledgerAppName={ledgerApp}
               ledgerTransport={ledgerTransport}
               onConfirm={async (result) => {
-                const proof = await generateProof(
-                  account.address,
-                  mnemonic,
-                  {
-                    prefix: connectableChains[chain].prefix,
-                    coinType: connectableChains[chain].coinType,
-                    ledgerAppName: 'cosmos',
-                    account: result.account,
-                    change: result.change,
-                    index: result.index,
-                  },
-                  ledgerTransport
-                )
-                console.log(proof)
+                if (ledgerApp) {
+                  setStage(Stage.SignInLedgerStage)
+                  setConnectChainInfo(result)
+                } else {
+                  const proof = await generateProof(
+                    account.address,
+                    mnemonic,
+                    {
+                      prefix: connectableChains[chain].prefix,
+                      coinType: connectableChains[chain].coinType,
+                      ledgerAppName: ledgerApp,
+                      account: result.account,
+                      change: result.change,
+                      index: result.index,
+                    },
+                    ledgerTransport
+                  )
+                  await sendTransaction(password, account.address, {
+                    msgs: [
+                      {
+                        typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount',
+                        value: {
+                          chainAddress: {
+                            typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
+                            value: {
+                              prefix: connectableChains[chain].prefix,
+                              value: result.address,
+                            },
+                          },
+                          chainConfig: {
+                            name: chain,
+                          },
+                          proof,
+                          signer: account.address,
+                        },
+                      } as TransactionMsgLinkChainAccount,
+                    ],
+                    memo: '',
+                  })
+                }
               }}
             />
           ),
@@ -168,6 +258,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
   return (
     <Dialog
       fullWidth
+      maxWidth={connections.length && stage === Stage.StartStage ? 'md' : 'sm'}
       open={open}
       onClose={(event, reason) => {
         if (reason !== 'backdropClick') {

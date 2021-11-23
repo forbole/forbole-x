@@ -52,7 +52,7 @@ const Start: React.FC<StartProps> = ({ onConnectClick, connections }) => {
                       src={connectableChains[chainName].image}
                       alt={connectableChains[chainName].name}
                     />
-                    <Box>
+                    <Box ml={1}>
                       <Typography>{connectableChains[chainName].name}</Typography>
                       <Typography variant="body2" color="textSecondary">
                         {externalAddress}
@@ -64,10 +64,19 @@ const Start: React.FC<StartProps> = ({ onConnectClick, connections }) => {
                   {format(creationTime, 'dd MMM yyyy, HH:mm:ss')}
                 </TableCell>
                 <TableCell className={classes.tableCell}>
-                  <Button>{t('disconnect')}</Button>
+                  <Button color="primary">{t('disconnect')}</Button>
                 </TableCell>
               </TableRow>
             ))}
+            <TableRow>
+              <TableCell />
+              <TableCell />
+              <TableCell className={classes.tableCell}>
+                <Button onClick={onConnectClick} color="primary">
+                  {t('connect chain')}
+                </Button>
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       ) : (

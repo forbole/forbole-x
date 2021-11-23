@@ -9,10 +9,8 @@ import {
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import WithMnemonicIconLight from '../../assets/images/login_light.svg'
-import WithMnemonicIconDark from '../../assets/images/login_dark.svg'
-import WithoutMnemonicIconLight from '../../assets/images/create_wallet_light.svg'
-import WithoutMnemonicIconDark from '../../assets/images/create_wallet_dark.svg'
+import ConnectLedgerIcon from '../../assets/images/connect_ledger.svg'
+import UsePhraseIcon from '../../assets/images/use_phrase.svg'
 import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 
@@ -33,7 +31,7 @@ const SelectWalletType: React.FC<SelectWalletTypeProps> = ({ onConfirm }) => {
           <Grid item xs={6}>
             <ButtonBase className={classes.selectionBox} onClick={() => onConfirm('mnemonic')}>
               <Box mb={5}>
-                {theme === 'light' ? <WithMnemonicIconLight /> : <WithMnemonicIconDark />}
+                <UsePhraseIcon />
               </Box>
               <Typography align="center" color="textSecondary">
                 {t('use recovery phrase')}
@@ -43,7 +41,7 @@ const SelectWalletType: React.FC<SelectWalletTypeProps> = ({ onConfirm }) => {
           <Grid item xs={6}>
             <ButtonBase className={classes.selectionBox} onClick={() => onConfirm('ledger')}>
               <Box mb={5}>
-                {theme === 'light' ? <WithoutMnemonicIconLight /> : <WithoutMnemonicIconDark />}
+                <ConnectLedgerIcon />
               </Box>
               <Typography align="center" color="textSecondary">
                 {t('connect with ledger')}

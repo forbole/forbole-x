@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Registry } from '@cosmjs/proto-signing'
 import { defaultRegistryTypes } from '@cosmjs/stargate'
+import { decodeBech32Pubkey, encodeBech32Pubkey } from '@cosmjs/amino'
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys'
 import { fromBase64, toBase64 } from '@cosmjs/encoding'
 import { MsgSaveProfile } from '../../desmos-proto/profiles/v1beta1/msgs_profile'
@@ -41,25 +42,56 @@ export const aminoAdditions = {
   },
   '/desmos.profiles.v1beta1.MsgLinkChainAccount': {
     aminoType: 'desmos/MsgLinkChainAccount',
-    toAmino: ({ chainAddress, proof, chainConfig, signer }) => ({
-      chain_address: {
-        type: 'desmos/Bech32Address',
-        value: {
-          ...Bech32Address.decode(chainAddress.value),
+    toAmino: ({ chainAddress, proof, chainConfig, signer }) => {
+      const chainAddressValue = Bech32Address.decode(chainAddress.value)
+      const pubKey = PubKey.decode(proof.pubKey.value)
+      return {
+        chain_address: {
+          type: 'desmos/Bech32Address',
+          value: {
+            prefix: chainAddressValue.prefix,
+            value: chainAddressValue.value,
+          },
         },
-      },
-      chain_config: chainConfig,
-      proof: {
-        plain_text: proof.plainText,
-        pub_key: {
-          type: 'cosmos/PubKey',
-          value: toBase64(PubKey.decode(proof.pubKey.value).key),
+        chain_config: chainConfig,
+        proof: {
+          plain_text: proof.plainText,
+          pub_key: encodeBech32Pubkey(
+            {
+              type: 'tendermint/PubKeySecp256k1',
+              value: toBase64(pubKey.key),
+            },
+            chainAddressValue.prefix
+          ),
+          signature: proof.signature,
         },
-        signeture: proof.signature,
-      },
-      signer,
-    }),
-    fromAmino: (v) => ({}),
+        signer,
+      }
+    },
+    fromAmino: ({ chain_address, proof, chain_config, signer }) => {
+      const decodedPubkey = decodeBech32Pubkey(proof.pub_key)
+      return {
+        chainAddress: {
+          typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
+          value: Bech32Address.encode({
+            prefix: chain_address.value.prefix,
+            value: chain_address.value.value,
+          }).finish(),
+        },
+        chainConfig: chain_config,
+        proof: {
+          plainText: proof.plain_text,
+          pubKey: {
+            typeUrl: '/cosmos.crypto.secp256k1.PubKey',
+            value: PubKey.encode({
+              key: fromBase64(decodedPubkey.value),
+            }).finish(),
+          },
+          signature: proof.signature,
+        },
+        signer,
+      }
+    },
   },
   '/desmos.profiles.v1beta1.MsgUnlinkChainAccount': {
     aminoType: 'desmos/MsgUnlinkChainAccount',

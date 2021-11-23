@@ -57,6 +57,7 @@ const formatTransactionMsg = (msg: TransactionMsg) => {
         ).finish()
       )
     )
+    console.log(transformedMsg)
   }
 
   if (get(msg, 'value.content.typeUrl') === '/cosmos.gov.v1beta1.TextProposal') {
