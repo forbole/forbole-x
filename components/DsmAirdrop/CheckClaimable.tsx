@@ -3,15 +3,17 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
 import TickIcon from '../../assets/images/icons/tick.svg'
+import TickActiveIcon from '../../assets/images/icons/tick_active.svg'
 import useIconProps from '../../misc/useIconProps'
 import { CommonStage } from '.'
 import { CustomTheme } from '../../misc/theme'
 
 interface CheckClaimableProps {
+  profile: Profile
   onConfirm(): void
 }
 
-const CheckClaimable: React.FC<CheckClaimableProps> = ({ onConfirm }) => {
+const CheckClaimable: React.FC<CheckClaimableProps> = ({ onConfirm, profile }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
@@ -30,7 +32,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({ onConfirm }) => {
           <Typography>{t('airdrop eligibility subtitle')}</Typography>
           <Box className={classes.stepsCard} bgcolor={theme.palette.cardBackground}>
             <Box className={classes.step} display="flex" alignItems="center">
-              <TickIcon {...iconProps} />
+              {profile.dtag ? <TickActiveIcon {...iconProps} /> : <TickIcon {...iconProps} />}
               <Box marginRight={theme.spacing(0.15)} />
               <Typography>{t('airdrop eligibility rule one')}</Typography>
             </Box>

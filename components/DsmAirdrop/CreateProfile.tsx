@@ -2,22 +2,28 @@ import { Box, Button, CardMedia, Typography, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
+import ProfileDialog from '../ProfileDialog/index'
 
 interface CreateProfileProps {
+  account: Account
+  profile: Profile
   onConfirm(): void
 }
 
-const CreateProfile: React.FC<CreateProfileProps> = ({ onConfirm }) => {
+const CreateProfile: React.FC<CreateProfileProps> = ({ onConfirm, account, profile }) => {
   const classes = useStyles()
   const { t } = useTranslation('common')
+
   const theme = useTheme()
+  const [isProfileDialogOpen, setIsProfileDialogOpen] = React.useState(false)
+
   return (
     <>
       <form
         noValidate
         onSubmit={(e) => {
           e.preventDefault()
-          onConfirm()
+          setIsProfileDialogOpen(true)
         }}
       >
         <Box display="flex" justifyContent="center">
@@ -40,6 +46,17 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ onConfirm }) => {
           </Box>
         </Box>
       </form>
+      <ProfileDialog
+        account={account}
+        profile={profile}
+        open={isProfileDialogOpen}
+        onClose={() => {
+          setIsProfileDialogOpen(false)
+          if (profile.dtag) {
+            onConfirm()
+          }
+        }}
+      />
     </>
   )
 }
