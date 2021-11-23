@@ -8,6 +8,7 @@ const useStyles = makeStyles(
     },
     bannerImage: {
       height: theme.spacing(11.25),
+      cursor: 'pointer',
     },
   }),
   {

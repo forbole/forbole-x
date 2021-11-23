@@ -34,12 +34,7 @@ const Banner: React.FC = () => {
       >
         {banners.map((banner) => (
           <Link href="/dsm-airdrop">
-            <CardMedia
-              className={classes.bannerImage}
-              image={banner}
-              component="img"
-              style={{ cursor: 'pointer' }}
-            />
+            <CardMedia className={classes.bannerImage} image={banner} component="img" />
           </Link>
         ))}
       </Carousel>
