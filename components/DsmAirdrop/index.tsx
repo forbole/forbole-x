@@ -1,7 +1,7 @@
 import { Box, Card, Typography } from '@material-ui/core'
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
-import { useSubscription, gql, useQuery } from '@apollo/client'
+import { useSubscription, gql } from '@apollo/client'
 import useStateHistory from '../../misc/useStateHistory'
 import { useStyles } from './styles'
 import CheckClaimable from './CheckClaimable'
@@ -37,7 +37,7 @@ const DsmAirdrop: React.FC = () => {
   )
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
 
-  const { data: profileData } = useSubscription(
+  const { data: profileData, loading } = useSubscription(
     gql`
       ${getProfile(crypto.name)}
     `,
@@ -77,6 +77,7 @@ const DsmAirdrop: React.FC = () => {
                 }
               }}
               profile={profile}
+              profileLoading={loading}
             />
           ),
         }
@@ -87,6 +88,7 @@ const DsmAirdrop: React.FC = () => {
           content: (
             <CheckClaimable
               onConfirm={() => setStage(CommonStage.CheckClaimableStage)}
+              profileLoading={loading}
               profile={profile}
             />
           ),
