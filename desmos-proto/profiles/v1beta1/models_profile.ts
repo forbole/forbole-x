@@ -1,8 +1,8 @@
 /* eslint-disable */
 import { util, configure, Writer, Reader } from 'protobufjs/minimal'
 import * as Long from 'long'
-import { Any } from '../../../google/protobuf/any'
-import { Timestamp } from '../../../google/protobuf/timestamp'
+import { Any } from 'cosmjs-types/google/protobuf/any'
+import { Timestamp } from 'cosmjs-types/google/protobuf/timestamp'
 
 export const protobufPackage = 'desmos.profiles.v1beta1'
 
@@ -53,10 +53,7 @@ export const Profile = {
       Pictures.encode(message.pictures, writer.uint32(42).fork()).ldelim()
     }
     if (message.creationDate !== undefined) {
-      Timestamp.encode(
-        toTimestamp(message.creationDate),
-        writer.uint32(50).fork()
-      ).ldelim()
+      Timestamp.encode(toTimestamp(message.creationDate), writer.uint32(50).fork()).ldelim()
     }
     return writer
   },
@@ -84,9 +81,7 @@ export const Profile = {
           message.pictures = Pictures.decode(reader, reader.uint32())
           break
         case 6:
-          message.creationDate = fromTimestamp(
-            Timestamp.decode(reader, reader.uint32())
-          )
+          message.creationDate = fromTimestamp(Timestamp.decode(reader, reader.uint32()))
           break
         default:
           reader.skipType(tag & 7)
@@ -139,11 +134,8 @@ export const Profile = {
     message.nickname !== undefined && (obj.nickname = message.nickname)
     message.bio !== undefined && (obj.bio = message.bio)
     message.pictures !== undefined &&
-      (obj.pictures = message.pictures
-        ? Pictures.toJSON(message.pictures)
-        : undefined)
-    message.creationDate !== undefined &&
-      (obj.creationDate = message.creationDate.toISOString())
+      (obj.pictures = message.pictures ? Pictures.toJSON(message.pictures) : undefined)
+    message.creationDate !== undefined && (obj.creationDate = message.creationDate.toISOString())
     return obj
   },
 
@@ -255,14 +247,7 @@ export const Pictures = {
   },
 }
 
-type Builtin =
-  | Date
-  | Function
-  | Uint8Array
-  | string
-  | number
-  | boolean
-  | undefined
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
 export type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Array<infer U>
@@ -274,13 +259,13 @@ export type DeepPartial<T> = T extends Builtin
   : Partial<T>
 
 function toTimestamp(date: Date): Timestamp {
-  const seconds = date.getTime() / 1_000
+  const seconds: any = date.getTime() / 1_000
   const nanos = (date.getTime() % 1_000) * 1_000_000
   return { seconds, nanos }
 }
 
 function fromTimestamp(t: Timestamp): Date {
-  let millis = t.seconds * 1_000
+  let millis = (t.seconds as any) * 1_000
   millis += t.nanos / 1_000_000
   return new Date(millis)
 }
@@ -293,11 +278,4 @@ function fromJsonTimestamp(o: any): Date {
   } else {
     return fromTimestamp(Timestamp.fromJSON(o))
   }
-}
-
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-  util.Long = Long as any
-  configure()
 }
