@@ -247,6 +247,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
           title: t('connect chain title'),
           content: (
             <Start
+              account={account}
               connections={connections}
               onConnectClick={() => setStage(Stage.SelectChainStage)}
             />

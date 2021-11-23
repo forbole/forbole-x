@@ -33,11 +33,16 @@ const useStyles = makeStyles(
     dialogContent: {
       overflowY: 'initial',
     },
+    table: {
+      border: `1px solid ${theme.palette.grey[100]}`,
+    },
     tableCell: {
       borderBottom: 'none',
     },
     tableRow: {
-      borderBottom: `1px solid ${theme.palette.divider}`,
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.grey[50],
+      },
     },
     list: {
       maxHeight: theme.spacing(50),
