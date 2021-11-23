@@ -449,5 +449,6 @@
   "select address to connect": "Select address to connect",
   "select ledger app": "Select Ledger App",
   "select ledger app description": "Select the ledger app you would like to connect",
-  "disconnect": "Disconnect"
+  "disconnect": "Disconnect",
+  "connect to": "Connect to"
 }

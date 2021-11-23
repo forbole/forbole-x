@@ -43,7 +43,7 @@ const Start: React.FC<StartProps> = ({ onConnectClick, connections, account }) =
     <DialogContent className={classes.dialogContent}>
       {connections.length ? (
         <>
-          <Table className={classes.table}>
+          <Table className={classes.borderedTable}>
             <TableHead>
               <TableRow>
                 <TableCell className={classes.tableCell}>{t('chain account')}</TableCell>
@@ -56,7 +56,7 @@ const Start: React.FC<StartProps> = ({ onConnectClick, connections, account }) =
 
             <TableBody>
               {connections.map(({ creationTime, externalAddress, chainName }, i) => (
-                <TableRow key={externalAddress} className={classes.tableRow}>
+                <TableRow key={externalAddress} className={classes.borderedTableRow}>
                   <TableCell className={classes.tableCell}>
                     <Box display="flex">
                       <Avatar
