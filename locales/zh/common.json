@@ -352,5 +352,11 @@
   "sign ledger instruction 2": "[zh] The application is connecting and waiting for you to sign the transaction",
   "sign ledger instruction 3": "[zh] Transaction broadcasting ...",
   "memo warning": "[zh] Please do not enter your secret recovery phrase in this field!",
-  "memo warning consent": "[zh] I understand and the memo does not contain my secret recovery phrase"
+  "memo warning consent": "[zh] I understand and the memo does not contain my secret recovery phrase",
+  "dsm airdrop announced": "[zh] DSM Airdrop announced",
+  "check your availability": "[zh] Check your eligibility now!",
+  "insert your address": "[zh] Please insert your address",
+  "cosmos address placeholder": "[zh] Cosmos/Kava/Regen... address",
+  "claim now": "[zh] Claim Now",
+  "your allocation": "[zh] Your allocation is"
 }

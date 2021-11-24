@@ -432,5 +432,11 @@
   "profile dtag rules": "Dtag must have 6 - 30 alphanumeric or _ characters",
   "profile nickname rules": "Nickname must have at least 2 characters",
   "profile bio rules": "Bio can have at most 1000 characters",
-  "validator commission": "Commission: {{commission}}"
+  "validator commission": "Commission: {{commission}}",
+  "dsm airdrop announced": "DSM Airdrop announced",
+  "check your availability": "Check your eligibility now!",
+  "insert your address": "Please insert your address",
+  "cosmos address placeholder": "Cosmos/Kava/Regen... address",
+  "claim now": "Claim Now",
+  "your allocation": "Your allocation is"
 }
