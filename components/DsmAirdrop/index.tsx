@@ -88,8 +88,7 @@ const DsmAirdrop: React.FC = () => {
           content: (
             <CheckAirdrop
               onConfirm={() => setStage(CommonStage.CheckClaimableStage)}
-              profileLoading={loading}
-              profile={profile}
+              setSelectedAddress={setSelectedAddress}
             />
           ),
         }

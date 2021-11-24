@@ -447,5 +447,6 @@
   "airdrop create profile subtitle": "The first thing is that you need to create a Desmos profile",
   "select an account": "Select an account you want to receive DSM Airdrop",
   "dsm": "DSM",
-  "lp staker": "LP Staker"
+  "lp staker": "LP Staker",
+  "invalid dsm address": "Invalid address"
 }
