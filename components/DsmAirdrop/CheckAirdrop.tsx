@@ -1,20 +1,5 @@
 import React from 'react'
-import {
-  Box,
-  Tabs,
-  Tab,
-  Divider,
-  Avatar,
-  Typography,
-  useTheme,
-  Button,
-  IconButton,
-  Menu,
-  MenuItem,
-  TextField,
-  Paper,
-  CircularProgress,
-} from '@material-ui/core'
+import { Box, Typography, useTheme, Button, TextField, CircularProgress } from '@material-ui/core'
 import axios from 'axios'
 import useTranslation from 'next-translate/useTranslation'
 import TickIcon from '../../assets/images/icons/icon_tick.svg'
