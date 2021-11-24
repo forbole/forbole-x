@@ -81,6 +81,52 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
     }
   }, [open])
 
+  const genProofAndSendTx = React.useCallback(
+    async (info: { account: number; change: number; index: number; address: string }) => {
+      try {
+        const proof = await generateProof(
+          account.address,
+          mnemonic,
+          {
+            prefix: connectableChains[chain].prefix,
+            coinType: connectableChains[chain].coinType,
+            ledgerAppName: ledgerApp,
+            account: info.account,
+            change: info.change,
+            index: info.index,
+          },
+          ledgerTransport
+        )
+        await sendTransaction(password, account.address, {
+          msgs: [
+            {
+              typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount',
+              value: {
+                chainAddress: {
+                  typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
+                  value: {
+                    prefix: connectableChains[chain].prefix,
+                    value: info.address,
+                  },
+                },
+                chainConfig: {
+                  name: chain,
+                },
+                proof,
+                signer: account.address,
+              },
+            } as TransactionMsgLinkChainAccount,
+          ],
+          memo: '',
+        })
+        onClose()
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    [account, mnemonic, chain, onClose]
+  )
+
   const content: Content = React.useMemo(() => {
     switch (stage) {
       case Stage.SelectChainStage:
@@ -126,46 +172,12 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
           title: '',
           content: (
             <ConnectLedgerDialogContent
-              onConnect={async (transport) => {
+              onConnect={(transport) => {
+                ledgerTransport = transport
                 if (stage === Stage.ConnectLedgerStage) {
-                  ledgerTransport = transport
                   setStage(Stage.SelectAddressStage)
                 } else {
-                  const proof = await generateProof(
-                    account.address,
-                    mnemonic,
-                    {
-                      prefix: connectableChains[chain].prefix,
-                      coinType: connectableChains[chain].coinType,
-                      ledgerAppName: ledgerApp,
-                      account: connectChainInfo.account,
-                      change: connectChainInfo.change,
-                      index: connectChainInfo.index,
-                    },
-                    transport
-                  )
-                  await sendTransaction(password, account.address, {
-                    msgs: [
-                      {
-                        typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount',
-                        value: {
-                          chainAddress: {
-                            typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
-                            value: {
-                              prefix: connectableChains[chain].prefix,
-                              value: connectChainInfo.address,
-                            },
-                          },
-                          chainConfig: {
-                            name: chain,
-                          },
-                          proof,
-                          signer: account.address,
-                        },
-                      } as TransactionMsgLinkChainAccount,
-                    ],
-                    memo: '',
-                  })
+                  genProofAndSendTx(connectChainInfo)
                 }
               }}
               ledgerAppName={ledgerApp}
@@ -196,46 +208,12 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
               mnemonic={mnemonic}
               ledgerAppName={ledgerApp}
               ledgerTransport={ledgerTransport}
-              onConfirm={async (result) => {
+              onConfirm={(result) => {
                 if (ledgerApp) {
                   setStage(Stage.SignInLedgerStage)
                   setConnectChainInfo(result)
                 } else {
-                  const proof = await generateProof(
-                    account.address,
-                    mnemonic,
-                    {
-                      prefix: connectableChains[chain].prefix,
-                      coinType: connectableChains[chain].coinType,
-                      ledgerAppName: ledgerApp,
-                      account: result.account,
-                      change: result.change,
-                      index: result.index,
-                    },
-                    ledgerTransport
-                  )
-                  await sendTransaction(password, account.address, {
-                    msgs: [
-                      {
-                        typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount',
-                        value: {
-                          chainAddress: {
-                            typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
-                            value: {
-                              prefix: connectableChains[chain].prefix,
-                              value: result.address,
-                            },
-                          },
-                          chainConfig: {
-                            name: chain,
-                          },
-                          proof,
-                          signer: account.address,
-                        },
-                      } as TransactionMsgLinkChainAccount,
-                    ],
-                    memo: '',
-                  })
+                  genProofAndSendTx(result)
                 }
               }}
             />
@@ -247,6 +225,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
           title: t('connect chain title'),
           content: (
             <Start
+              onClose={onClose}
               account={account}
               connections={connections}
               onConnectClick={() => setStage(Stage.SelectChainStage)}
