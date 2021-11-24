@@ -7,6 +7,11 @@ export const useStyles = makeStyles(
       flex: 1,
       marginTop: theme.spacing(2),
     },
+    secondaryButton: {
+      flex: 1,
+      marginTop: theme.spacing(2),
+      border: `1px solid ${theme.palette.indicator}`,
+    },
     dialogContent: {
       overflowY: 'initial',
     },
@@ -39,6 +44,12 @@ export const useStyles = makeStyles(
           borderWidth: '2px',
         },
       },
+    },
+    claimableAmount: {
+      margin: `${theme.spacing(7.6)}px 0 ${theme.spacing(20.3)}px 0`,
+    },
+    airdropMessage: {
+      margin: `${theme.spacing(2)}px 0 ${theme.spacing(10)}px 0`,
     },
   }),
   {

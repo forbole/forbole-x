@@ -22,10 +22,10 @@ import FailContent from './FailContent'
 import SecurityPasswordDialogContent from '../SecurityPasswordDialogContent'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import useSignerInfo from '../../misc/useSignerInfo'
-import signAndBroadcastTransaction from '../../misc/signAndBroadcastTransaction'
+import useSignerInfo from '../../misc/tx/useSignerInfo'
+import signAndBroadcastTransaction from '../../misc/tx/signAndBroadcastTransaction'
 import useIsChromeExt from '../../misc/useIsChromeExt'
-import estimateGasFee from '../../misc/estimateGasFee'
+import estimateGasFee from '../../misc/tx/estimateGasFee'
 
 enum ConfirmTransactionStage {
   ConfirmStage = 'confirm',

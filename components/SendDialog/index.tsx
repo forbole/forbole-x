@@ -13,7 +13,7 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 import ImageDefaultDark from '../../assets/images/image_default_dark.svg'
 import ImageDefaultLight from '../../assets/images/image_default_light.svg'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import useSendTransaction from '../../misc/useSendTransaction'
+import useSendTransaction from '../../misc/tx/useSendTransaction'
 
 interface SendDialogProps {
   account: Account

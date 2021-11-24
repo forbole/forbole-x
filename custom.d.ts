@@ -207,6 +207,13 @@ interface Profile {
   profilePic: string
 }
 
+interface ChainConnection {
+  creationTime: number
+  externalAddress: string
+  userAddress: string
+  chainName: string
+}
+
 interface TokenUnit {
   denom: string
   exponent: number
@@ -406,6 +413,42 @@ interface TransactionMsgSaveProfile {
   }
 }
 
+interface ChainLinkProof {
+  plainText: string
+  pubKey: {
+    typeUrl: '/cosmos.crypto.secp256k1.PubKey'
+    value: string
+  }
+  signature: string
+}
+
+interface TransactionMsgLinkChainAccount {
+  typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount'
+  value: {
+    chainAddress: {
+      typeUrl: '/desmos.profiles.v1beta1.Bech32Address'
+      value: {
+        prefix: string
+        value: string // address
+      }
+    }
+    chainConfig: {
+      name: string
+    }
+    proof: ChainLinkProof
+    signer: string
+  }
+}
+
+interface TransactionMsgUnlinkChainAccount {
+  typeUrl: '/desmos.profiles.v1beta1.MsgUnlinkChainAccount'
+  value: {
+    chainName: string
+    owner: string
+    target: string
+  }
+}
+
 type TransactionMsg =
   | TransactionMsgDelegate
   | TransactionMsgUndelegate
@@ -419,6 +462,8 @@ type TransactionMsg =
   | TransactionMsgDeposit
   | TransactionMsgSetWithdrawAddress
   | TransactionMsgSaveProfile
+  | TransactionMsgLinkChainAccount
+  | TransactionMsgUnlinkChainAccount
 
 interface Transaction {
   msgs: TransactionMsg[]

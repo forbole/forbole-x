@@ -1,6 +1,6 @@
 import React from 'react'
 import { SigningStargateClient } from '@cosmjs/stargate'
-import cryptocurrencies from './cryptocurrencies'
+import cryptocurrencies from '../cryptocurrencies'
 
 const useSignerInfo = (
   account: Account
