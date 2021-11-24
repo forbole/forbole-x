@@ -3,7 +3,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Registry } from '@cosmjs/proto-signing'
 import { defaultRegistryTypes } from '@cosmjs/stargate'
-import { decodeBech32Pubkey, encodeBech32Pubkey } from '@cosmjs/amino'
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys'
 import { fromBase64, toBase64 } from '@cosmjs/encoding'
 import { MsgSaveProfile } from '../../desmos-proto/profiles/v1beta1/msgs_profile'
@@ -47,35 +46,28 @@ export const aminoAdditions = {
       const pubKey = PubKey.decode(proof.pubKey.value)
       return {
         chain_address: {
-          type: 'desmos/Bech32Address',
-          value: {
-            prefix: chainAddressValue.prefix,
-            value: chainAddressValue.value,
-          },
+          prefix: chainAddressValue.prefix,
+          value: chainAddressValue.value,
         },
         chain_config: chainConfig,
         proof: {
           plain_text: proof.plainText,
-          pub_key: encodeBech32Pubkey(
-            {
-              type: 'tendermint/PubKeySecp256k1',
-              value: toBase64(pubKey.key),
-            },
-            chainAddressValue.prefix
-          ),
+          pub_key: {
+            type: 'tendermint/PubKeySecp256k1',
+            value: toBase64(pubKey.key),
+          },
           signature: proof.signature,
         },
         signer,
       }
     },
     fromAmino: ({ chain_address, proof, chain_config, signer }) => {
-      const decodedPubkey = decodeBech32Pubkey(proof.pub_key)
       return {
         chainAddress: {
           typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
           value: Bech32Address.encode({
-            prefix: chain_address.value.prefix,
-            value: chain_address.value.value,
+            prefix: chain_address.prefix,
+            value: chain_address.value,
           }).finish(),
         },
         chainConfig: chain_config,
@@ -84,7 +76,7 @@ export const aminoAdditions = {
           pubKey: {
             typeUrl: '/cosmos.crypto.secp256k1.PubKey',
             value: PubKey.encode({
-              key: fromBase64(decodedPubkey.value),
+              key: fromBase64(proof.pub_key.value),
             }).finish(),
           },
           signature: proof.signature,

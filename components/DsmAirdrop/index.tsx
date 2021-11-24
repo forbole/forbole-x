@@ -15,9 +15,10 @@ import { getChainConnections } from '../../graphql/queries/chainConnections'
 import ConnectChains from './ConnectChain'
 import ClaimableAmount from './ClaimableAmount'
 import AirdropResult from './AirdropResult'
+import CheckAirdrop from './CheckAirdrop'
 
 interface Content {
-  title: string
+  title?: string
   content: React.ReactNode
 }
 
@@ -192,12 +193,10 @@ const DsmAirdrop: React.FC = () => {
       case CommonStage.StartStage:
       default:
         return {
-          title: t('create wallet title'),
           content: (
-            <CheckClaimable
+            <CheckAirdrop
               onConfirm={() => setStage(CommonStage.CheckClaimableStage)}
-              profileLoading={loading}
-              profile={profile}
+              setSelectedAddress={setSelectedAddress}
             />
           ),
         }
