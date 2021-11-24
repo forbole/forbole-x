@@ -27,10 +27,11 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 interface StartProps {
   account: Account
   onConnectClick(): void
+  onClose(): void
   connections: ChainConnection[]
 }
 
-const Start: React.FC<StartProps> = ({ onConnectClick, connections, account }) => {
+const Start: React.FC<StartProps> = ({ onConnectClick, connections, account, onClose }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const { theme } = useGeneralContext()
@@ -77,8 +78,8 @@ const Start: React.FC<StartProps> = ({ onConnectClick, connections, account }) =
                   <TableCell align="center" className={classes.tableCell}>
                     <Button
                       color="primary"
-                      onClick={() => {
-                        sendTransaction(password, account.address, {
+                      onClick={async () => {
+                        await sendTransaction(password, account.address, {
                           msgs: [
                             {
                               typeUrl: '/desmos.profiles.v1beta1.MsgUnlinkChainAccount',
@@ -91,6 +92,7 @@ const Start: React.FC<StartProps> = ({ onConnectClick, connections, account }) =
                           ],
                           memo: '',
                         })
+                        onClose()
                       }}
                     >
                       {t('disconnect')}
