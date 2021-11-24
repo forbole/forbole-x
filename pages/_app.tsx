@@ -13,7 +13,7 @@ import { GeneralProvider, useGeneralContext } from '../contexts/GeneralContext'
 import { WalletsProvider } from '../contexts/WalletsContext'
 import { useApollo } from '../graphql/client'
 
-function InnerApp({ Component, pageProps }: AppProps) {
+const InnerApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const { theme } = useGeneralContext()
   const { lang } = useTranslation('common')
   const router = useRouter()
@@ -47,7 +47,7 @@ function InnerApp({ Component, pageProps }: AppProps) {
   )
 }
 
-export default function App({ Component, pageProps, ...props }: AppProps) {
+const App: React.FC<AppProps> = ({ Component, pageProps, ...props }) => {
   React.useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side')
@@ -79,3 +79,5 @@ export default function App({ Component, pageProps, ...props }: AppProps) {
     </>
   )
 }
+
+export default App

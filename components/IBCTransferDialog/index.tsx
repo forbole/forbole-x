@@ -14,7 +14,7 @@ import SelectChain from './SelectChain'
 import AddChannel from './AddChannel'
 import SelectDetails from './SelectDetails'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import useSendTransaction from '../../misc/useSendTransaction'
+import useSendTransaction from '../../misc/tx/useSendTransaction'
 
 enum IBCTransferStage {
   SelectChainStage = 'select chain',

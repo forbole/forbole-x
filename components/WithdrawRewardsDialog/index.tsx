@@ -9,7 +9,7 @@ import SelectValidators from './SelectValidators'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useIsMobile from '../../misc/useIsMobile'
-import useSendTransaction from '../../misc/useSendTransaction'
+import useSendTransaction from '../../misc/tx/useSendTransaction'
 
 export interface ValidatorTag extends Validator {
   isSelected: boolean

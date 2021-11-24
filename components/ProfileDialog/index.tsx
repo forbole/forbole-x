@@ -22,7 +22,7 @@ import useIconProps from '../../misc/useIconProps'
 import CameraIcon from '../../assets/images/icons/icon_camera.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import useSendTransaction from '../../misc/useSendTransaction'
+import useSendTransaction from '../../misc/tx/useSendTransaction'
 import uploadIPFSImage from '../../misc/uploadIPFSImage'
 
 interface ProfileDialogProps {

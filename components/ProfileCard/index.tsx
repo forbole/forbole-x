@@ -7,10 +7,17 @@ import useIsMobile from '../../misc/useIsMobile'
 
 interface ProfileCardProps {
   profile: Profile
+  chainConnections: ChainConnection[]
   onEditProfile(): void
+  onChainConnectionClick(): void
 }
 
-const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onEditProfile }) => {
+const ProfileCard: React.FC<ProfileCardProps> = ({
+  profile,
+  chainConnections,
+  onEditProfile,
+  onChainConnectionClick,
+}) => {
   const classes = useStyles()
   const { t } = useTranslation('common')
   const { theme } = useGeneralContext()
@@ -59,6 +66,9 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onEditProfile }) => 
           </Box>
         </Box>
         <Typography>{profile.bio}</Typography>
+        <Button color="primary" onClick={onChainConnectionClick}>
+          {t('connections', { connections: chainConnections.length })}
+        </Button>
       </CardContent>
     </Card>
   )

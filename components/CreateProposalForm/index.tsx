@@ -22,7 +22,7 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
 import MemoInput from '../MemoInput'
 import TokenAmountInput from '../TokenAmountInput'
-import useSendTransaction from '../../misc/useSendTransaction'
+import useSendTransaction from '../../misc/tx/useSendTransaction'
 
 interface CreateProposalFormProps {
   account: Account

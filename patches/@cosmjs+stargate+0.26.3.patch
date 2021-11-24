@@ -14,32 +14,3 @@ index 55753d0..ec8b325 100644
          default:
              throw new Error(`Unsupported type: '${typeUrl}'`);
      }
-diff --git a/node_modules/@cosmjs/stargate/build/aminotypes.js b/node_modules/@cosmjs/stargate/build/aminotypes.js
-index 11357d1..dbe2ae5 100644
---- a/node_modules/@cosmjs/stargate/build/aminotypes.js
-+++ b/node_modules/@cosmjs/stargate/build/aminotypes.js
-@@ -369,6 +369,12 @@ function createDefaultTypes(prefix) {
-                 timeoutTimestamp: long_1.default.fromString(timeout_timestamp || "0", true),
-             }),
-         },
-+        // Desmos
-+        "/desmos.profiles.v1beta1.MsgSaveProfile": {
-+            aminoType: "desmos/MsgSaveProfile",
-+            toAmino: ({ dtag, nickname, bio, profilePicture, coverPicture, creator }) => ({ dtag, nickname, bio, profile_picture: profilePicture, cover_picture: coverPicture, creator }),
-+            fromAmino: ({ dtag, nickname, bio, profile_picture, cover_picture, creator }) => ({ dtag, nickname, bio, profilePicture: profile_picture, coverPicture: cover_picture, creator }),
-+        },
-     };
- }
- /**
-diff --git a/node_modules/@cosmjs/stargate/build/signingstargateclient.js b/node_modules/@cosmjs/stargate/build/signingstargateclient.js
-index 26f0c9f..c171737 100644
---- a/node_modules/@cosmjs/stargate/build/signingstargateclient.js
-+++ b/node_modules/@cosmjs/stargate/build/signingstargateclient.js
-@@ -56,6 +56,7 @@ exports.defaultRegistryTypes = [
-     ["/ibc.core.connection.v1.MsgConnectionOpenAck", tx_9.MsgConnectionOpenAck],
-     ["/ibc.core.connection.v1.MsgConnectionOpenConfirm", tx_9.MsgConnectionOpenConfirm],
-     ["/ibc.applications.transfer.v1.MsgTransfer", tx_6.MsgTransfer],
-+    ["/desmos.profiles.v1beta1.MsgSaveProfile", tx_6.MsgSaveProfile]
- ];
- function createDefaultRegistry() {
-     return new proto_signing_1.Registry(exports.defaultRegistryTypes);
