@@ -1,16 +1,18 @@
 import { Box, Button, Typography } from '@material-ui/core'
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
+import Link from 'next/link'
 import useStyles from './styles'
 import AirdropSuccess from '../../assets/images/airdrop_success.svg'
 import AirdropFailed from '../../assets/images/airdrop_failed.svg'
 
 interface AirdropResultProps {
   success: boolean
-  amount: number
+  onCompleted: () => void
+  airdropResponse: string
 }
 
-const AirdropResult: React.FC<AirdropResultProps> = ({ success, amount }) => {
+const AirdropResult: React.FC<AirdropResultProps> = ({ success, onCompleted, airdropResponse }) => {
   const classes = useStyles()
   const { t } = useTranslation('common')
 
@@ -29,10 +31,16 @@ const AirdropResult: React.FC<AirdropResultProps> = ({ success, amount }) => {
         <Typography variant="h4">
           {t(`airdrop result title ${success ? 'success' : 'failed'}`)}
         </Typography>
-        <Typography className={classes.airdropMessage}>
-          {t(`airdrop result subtitle ${success ? 'success' : 'failed'}`, { amount: amount ?? 0 })}
-        </Typography>
-        <Button className={classes.button} color="primary" variant="contained" fullWidth>
+        <Typography className={classes.airdropMessage}>{airdropResponse}</Typography>
+        <Button
+          className={classes.button}
+          color="primary"
+          variant="contained"
+          fullWidth
+          onClick={() => {
+            onCompleted()
+          }}
+        >
           {t(`airdrop result button ${success ? 'success' : 'failed'}`)}
         </Button>
       </Box>

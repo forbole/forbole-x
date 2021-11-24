@@ -1,17 +1,23 @@
 import { Box, Button, Typography } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation'
+import axios from 'axios'
 import useStyles from './styles'
-import { formatCurrency, getTokenAmountBalance } from '../../misc/utils'
+import { formatCrypto, formatCurrency, getTokenAmountBalance } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface ClaimableAmountProps {
   onConfirm(): void
-  amount: TokenAmount
+  amount: number
+  chainConnections: ChainConnection[]
 }
 
-const ClaimableAmount: React.FC<ClaimableAmountProps> = ({ onConfirm, amount }) => {
+const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
+  onConfirm,
+  amount,
+  chainConnections,
+}) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const { currency } = useGeneralContext()
@@ -27,7 +33,7 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({ onConfirm, amount }) 
         <Box className={classes.stageContent}>
           <Typography align="center">{t('amount claimable title')}</Typography>
           <Typography align="center" variant="h1" className={classes.claimableAmount}>
-            {formatCurrency(getTokenAmountBalance(amount), currency, lang)}
+            {formatCrypto(amount, 'DSM', lang)}
           </Typography>
           <Button
             fullWidth
@@ -35,12 +41,13 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({ onConfirm, amount }) 
             className={classes.button}
             variant="contained"
             type="submit"
+            disabled={amount <= 0}
           >
-            Claim Now
+            {t('claim now')}
           </Button>
           <Link href="/">
             <Button fullWidth className={classes.secondaryButton} variant="outlined">
-              Claim Later
+              {t('claim later')}
             </Button>
           </Link>
         </Box>

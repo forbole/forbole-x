@@ -10,7 +10,7 @@ export const useStyles = makeStyles(
     secondaryButton: {
       flex: 1,
       marginTop: theme.spacing(2),
-      border: `1px solid ${theme.palette.indicator}`,
+      border: `1px solid ${theme.palette.grey[400]}`,
     },
     dialogContent: {
       overflowY: 'initial',
@@ -37,7 +37,7 @@ export const useStyles = makeStyles(
       '& .MuiOutlinedInput-root': {
         '& fieldset': {
           borderColor: theme.palette.action.selected,
-          borderRadius: theme.spacing(0.5, 0, 0, 0.5)
+          borderRadius: theme.spacing(0.5, 0, 0, 0.5),
         },
         '&.Mui-focused fieldset': {
           borderColor: theme.palette.text.primary,
