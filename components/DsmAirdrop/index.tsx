@@ -1,5 +1,5 @@
 import { Box, Card, Typography } from '@material-ui/core'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import { useSubscription, gql } from '@apollo/client'
 import axios from 'axios'
@@ -37,7 +37,9 @@ const DsmAirdrop: React.FC = () => {
   const { t } = useTranslation('common')
   const { accounts, wallets } = useWalletsContext()
 
-  const [selectedAddress, setSelectedAddress] = React.useState('')
+  const [selectedAddress, setSelectedAddress] = React.useState(
+    'desmos1tw6cs3rv6s54x6szncpupgd6p7hdtlfemhm545'
+  )
 
   const account = React.useMemo(
     () => accounts.find((acc) => acc.address === selectedAddress),
@@ -70,22 +72,24 @@ const DsmAirdrop: React.FC = () => {
 
   const [totalDsmAllocated, setTotalDsmAllocated] = useState(0)
 
-  useCallback(() => {
-    const axiosRequests = chainConnections.map((connection) =>
-      axios.get(`https://api.airdrop.desmos.network/users/${connection.externalAddress}`)
-    )
-    axios
-      .all(axiosRequests)
-      .then(
-        axios.spread((...responses) => {
-          responses.forEach((res) =>
-            setTotalDsmAllocated(totalDsmAllocated + res.data.dsm_allotted)
-          )
-        })
+  useEffect(() => {
+    if (chainConnections.length > 0) {
+      const axiosRequests = chainConnections.map((connection) =>
+        axios.get(`https://api.airdrop.desmos.network/users/${connection.externalAddress}`)
       )
-      .catch((error) => {
-        console.log(error)
-      })
+      axios
+        .all(axiosRequests)
+        .then(
+          axios.spread((...responses) => {
+            responses.forEach((res) =>
+              setTotalDsmAllocated(totalDsmAllocated + res.data.dsm_allotted)
+            )
+          })
+        )
+        .catch((error) => {
+          console.log(error)
+        })
+    }
   }, [chainConnections])
 
   const content: Content = React.useMemo(() => {
