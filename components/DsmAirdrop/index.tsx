@@ -10,9 +10,10 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { getProfile } from '../../graphql/queries/profile'
 import { transformProfile } from '../../misc/utils'
+import CheckAirdrop from './CheckAirdrop'
 
 interface Content {
-  title: string
+  title?: string
   content: React.ReactNode
 }
 
@@ -84,12 +85,10 @@ const DsmAirdrop: React.FC = () => {
       case CommonStage.StartStage:
       default:
         return {
-          title: t('create wallet title'),
           content: (
-            <CheckClaimable
+            <CheckAirdrop
               onConfirm={() => setStage(CommonStage.CheckClaimableStage)}
-              profileLoading={loading}
-              profile={profile}
+              setSelectedAddress={setSelectedAddress}
             />
           ),
         }
