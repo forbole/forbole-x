@@ -179,13 +179,16 @@ const DsmAirdrop: React.FC = () => {
           content: (
             <CheckClaimable
               onConfirm={() => {
-                if (profile.dtag) {
+                if (!profile.dtag) {
+                  setStage(CommonStage.CreateProfileStage)
+                } else if (chainConnections.length === 0) {
                   setStage(CommonStage.ConnectChainsStage)
                 } else {
-                  setStage(CommonStage.CreateProfileStage)
+                  setStage(CommonStage.ClaimableAmountStage)
                 }
               }}
               profile={profile}
+              chainConnections={chainConnections}
               profileLoading={loading}
             />
           ),
