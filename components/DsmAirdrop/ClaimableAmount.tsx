@@ -41,6 +41,7 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
             className={classes.button}
             variant="contained"
             type="submit"
+            // disabled={amount <= 0}
           >
             Claim Now
           </Button>
