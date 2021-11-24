@@ -18,7 +18,7 @@ import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import useStateHistory from '../../misc/useStateHistory'
 import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 import useIsMobile from '../../misc/useIsMobile'
-import getWalletAddress from '../../misc/getWalletAddress'
+import getWalletAddress from '../../misc/tx/getWalletAddress'
 import { closeAllLedgerConnections } from '../../misc/utils'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 
@@ -160,7 +160,18 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
         closeAllLedgerConnections()
         onClose()
       } else {
-        const addresses = await Promise.all(cryptos.map((c) => getWalletAddress(mnemonic, c, 0)))
+        const addresses = await Promise.all(
+          cryptos.map((c) =>
+            getWalletAddress(mnemonic, {
+              account: 0,
+              change: 0,
+              index: 0,
+              prefix: cryptocurrencies[c].prefix,
+              ledgerAppName: cryptocurrencies[c].ledgerAppName,
+              coinType: cryptocurrencies[c].coinType,
+            })
+          )
+        )
         await addWallet({
           type,
           name,
@@ -188,7 +199,19 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
                   setStage(CommonStage.ImportLedgerWalletStage, undefined, true)
                   // select next crypto
                 } else if (ledgerCryptos.length > ledgerAddresses.length) {
-                  const address = await getWalletAddress('', ledgerCryptos[0], 0, signer)
+                  const address = await getWalletAddress(
+                    '',
+                    {
+                      account: 0,
+                      change: 0,
+                      index: 0,
+                      prefix: cryptocurrencies[ledgerCryptos[0]].prefix,
+                      ledgerAppName: cryptocurrencies[ledgerCryptos[0]].ledgerAppName,
+                      coinType: cryptocurrencies[ledgerCryptos[0]].coinType,
+                    },
+                    signer,
+                    true
+                  )
                   setLedgerCryptosIndex((i) => i + 1)
                   setLedgerAddresses((addresses) => [...addresses, address])
                   // save wallet on last crypto

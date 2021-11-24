@@ -5,7 +5,9 @@ import drop from 'lodash/drop'
 import keyBy from 'lodash/keyBy'
 import { format, differenceInDays } from 'date-fns'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
+import { EnglishMnemonic } from '@cosmjs/crypto'
 import defaultDenoms from './defaultDenoms'
+import connectableChains from './connectableChains'
 
 export const formatPercentage = (percent: number, lang: string): string =>
   new Intl.NumberFormat(lang, {
@@ -56,12 +58,12 @@ export const getTokenAmountFromDenoms = (
         const denom = base.denom.toUpperCase()
         if (result[denom]) {
           result[denom].amount += Number(
-            (Number(coin.amount) * 10 ** (unit.exponent - base.exponent)).toPrecision(6)
+            (Number(coin.amount) * 10 ** (unit.exponent - base.exponent)).toFixed(6)
           )
         } else {
           result[denom] = {
             amount: Number(
-              (Number(coin.amount) * 10 ** (unit.exponent - base.exponent)).toPrecision(6)
+              (Number(coin.amount) * 10 ** (unit.exponent - base.exponent)).toFixed(6)
             ),
             price: d.price,
           }
@@ -93,7 +95,7 @@ export const sumTokenAmounts = (tokenAmounts: TokenAmount[]): TokenAmount => {
       if (!amount[t]) {
         amount[t] = { amount: 0, price: 0 }
       }
-      amount[t].amount = (amount[t].amount || 0) + ba[t].amount
+      amount[t].amount = Number(((amount[t].amount || 0) + ba[t].amount).toFixed(6))
       amount[t].price = ba[t].price
     })
   })
@@ -333,6 +335,29 @@ export const transformTransactions = (
           success: get(t, 'transaction.success', false),
         }
       }
+      if (t.type.includes('MsgMultiSend')) {
+        return {
+          ref: `#${get(t, 'transaction_hash', '')}`,
+          tab: 'transfer',
+          tag: 'multisend',
+          date: `${format(
+            new Date(get(t, 'transaction.block.timestamp')),
+            'dd MMM yyyy HH:mm'
+          )} UTC`,
+          detail: {
+            inputs: get(t, 'value.inputs', []).map((input) => ({
+              ...input,
+              tokenAmount: getTokenAmountFromDenoms(input.coins, tokensPrices),
+            })),
+            outputs: get(t, 'value.outputs', []).map((output) => ({
+              ...output,
+              tokenAmount: getTokenAmountFromDenoms(output.coins, tokensPrices),
+            })),
+          },
+          amount: getTokenAmountFromDenoms(get(t, 'value.amount', []), tokensPrices),
+          success: get(t, 'transaction.success', false),
+        }
+      }
       if (t.type.includes('MsgDelegate')) {
         return {
           ref: `#${get(t, 'transaction_hash', '')}`,
@@ -447,6 +472,23 @@ export const transformTransactions = (
           success: get(t, 'transaction.success', false),
         }
       }
+      if (t.type.includes('MsgSetWithdrawAddress')) {
+        return {
+          ref: `#${get(t, 'transaction_hash', '')}`,
+          tab: 'distribution',
+          tag: 'setRewardAddress',
+          date: `${format(
+            new Date(get(t, 'transaction.block.timestamp')),
+            'dd MMM yyyy HH:mm'
+          )} UTC`,
+          detail: {
+            delegatorAddress: get(t, 'value.delegator_address', ''),
+            withdrawAddress: get(t, 'value.withdraw_address', ''),
+          },
+          amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
+          success: get(t, 'transaction.success', false),
+        }
+      }
       return null
     })
     .filter((a) => !!a)
@@ -469,7 +511,9 @@ export const getEquivalentCoinToSend = (
     []
   ).find((unit) => !!availableCoins.find((c) => c.denom.toLowerCase() === unit.denom.toLowerCase()))
   return {
-    amount: amount.amount * 10 ** (get(tokenPrice, 'token_unit.exponent', 0) - coinDenom.exponent),
+    amount: Math.round(
+      amount.amount * 10 ** (get(tokenPrice, 'token_unit.exponent', 0) - coinDenom.exponent)
+    ),
     denom: coinDenom.denom,
   }
 }
@@ -627,6 +671,7 @@ export const transformProposal = (
       : null,
     quorum: get(depositParams, 'gov_params[0].tally_params.quorum', 0),
     bondedTokens: get(p, 'staking_pool_snapshot.bonded_tokens', 0) / 10 ** 6,
+    content: get(p, 'content'),
   }
 }
 
@@ -749,5 +794,49 @@ export const transformProfile = (data: any): Profile => {
     dtag: get(data, 'profile[0].dtag', ''),
     nickname: get(data, 'profile[0].nickname', ''),
     profilePic: get(data, 'profile[0].profile_pic', ''),
+  }
+}
+
+export const transformChainConnections = (data: any): ChainConnection[] =>
+  get(data, 'chain_link', []).map((d) => ({
+    creationTime: new Date(d.creation_time).getTime(),
+    externalAddress: d.external_address,
+    userAddress: d.user_address,
+    chainName: Object.keys(connectableChains).find((k) =>
+      d.external_address.match(new RegExp(`^${connectableChains[k].prefix}`))
+    ),
+  }))
+
+export const transformVestingAccount = (
+  data: any,
+  denoms: TokenPrice[]
+): { total: TokenAmount; vestingPeriods: VestingPeriod[] } => {
+  const vestingPeriods: VestingPeriod[] = []
+  const startTime = new Date(get(data, 'vesting_account[0].start_time')).getTime()
+  const periods = get(data, 'vesting_account[0].vesting_periods', [])
+  let sumTime = startTime
+  let total: TokenAmount = {}
+  for (let i = 0; i < periods.length; i += 1) {
+    const period = periods[i]
+    const amount = getTokenAmountFromDenoms(period.amount, denoms)
+    sumTime += period.length * 1000
+    total = sumTokenAmounts([total, amount])
+    vestingPeriods.push({
+      amount,
+      date: sumTime,
+    })
+  }
+  return { vestingPeriods, total }
+}
+
+export const isValidMnemonic = (input) => {
+  try {
+    // eslint-disable-next-line no-new
+    new EnglishMnemonic(input)
+    // console.log('valid mnemonic')
+    return true
+  } catch (err) {
+    // console.log('invalid mnemonic')
+    return false
   }
 }

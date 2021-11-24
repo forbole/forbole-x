@@ -16,10 +16,10 @@ import useStyles from './styles'
 import { formatCrypto, formatCurrency, formatTokenAmount } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import ValidatorAvatar from '../ValidatorAvatar'
+import MemoInput from '../MemoInput'
 
 interface SelectValidatorsProps {
   onConfirm(amount: number, denom: string, memo: string): void
-  account: Account
   crypto: Cryptocurrency
   validator: Validator
   availableAmount: TokenAmount
@@ -42,6 +42,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [percentage, setPercentage] = React.useState('100')
   const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
   const [memo, setMemo] = React.useState('')
+  const [consent, setConsent] = React.useState(true)
 
   return (
     <form
@@ -67,7 +68,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               </Box>
               <Box mt={2}>
                 <Typography gutterBottom>{t('memo')}</Typography>
-                <TextField
+                <MemoInput
                   fullWidth
                   multiline
                   rows={3}
@@ -77,7 +78,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                     disableUnderline: true,
                   }}
                   value={memo}
-                  onChange={(e) => setMemo(e.target.value)}
+                  setValue={setMemo}
+                  consent={consent}
+                  setConsent={setConsent}
                 />
               </Box>
             </Grid>
@@ -142,7 +145,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             variant="contained"
             className={classes.button}
             color="primary"
-            disabled={loading || !Number(amount) || Number(amount) > totalAmount}
+            disabled={loading || !Number(amount) || Number(amount) > totalAmount || !consent}
             type="submit"
           >
             {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}

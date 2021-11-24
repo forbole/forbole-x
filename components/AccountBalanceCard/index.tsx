@@ -10,32 +10,50 @@ import {
   TableRow,
   TableCell,
   useTheme,
+  Button,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
 import { PieChart, Pie, Cell } from 'recharts'
+import ArrowNextIcon from '../../assets/images/icons/icon_arrow_next.svg'
 import useStyles from './styles'
 import { CustomTheme } from '../../misc/theme'
 import { formatCrypto, formatCurrency } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import useIconProps from '../../misc/useIconProps'
+import useIsMobile from '../../misc/useIsMobile'
 
 interface AccountBalanceCardProps {
   account: Account
   accountBalance: AccountBalance
+  onVestingClick: () => void
+  hideVestingButton?: boolean
 }
 
-const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({ accountBalance, account }) => {
+const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
+  accountBalance,
+  account,
+  onVestingClick,
+  hideVestingButton,
+}) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const theme: CustomTheme = useTheme()
   const { currency } = useGeneralContext()
-  const data = Object.keys(accountBalance.balance).map((k, i) => ({
-    name: t(k),
-    value: get(accountBalance, `balance.${k}.${account.crypto}.amount`, 0),
-    color: theme.palette.pieChart2[i % theme.palette.pieChart2.length],
-  }))
+  const isMobile = useIsMobile()
+  const data = Object.keys(accountBalance.balance)
+    .filter(
+      (k) =>
+        k !== 'commissions' || get(accountBalance, `balance.${k}.${account.crypto}.amount`, 0) > 0
+    )
+    .map((k, i) => ({
+      name: t(k),
+      value: get(accountBalance, `balance.${k}.${account.crypto}.amount`, 0),
+      color: theme.palette.pieChart2[i % theme.palette.pieChart2.length],
+    }))
+  const iconProps = useIconProps()
   const usdPrice = get(accountBalance, `balance.available.${account.crypto}.price`, 0)
   const totalBalance = data.map((d) => d.value).reduce((a, b) => a + b, 0)
 
@@ -76,13 +94,23 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({ accountBalance,
   return (
     <>
       <Card className={classes.container}>
-        <Typography variant="h4">{t('balance')}</Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="h4">{t('balance')}</Typography>
+          {hideVestingButton ? null : (
+            <Button onClick={onVestingClick} endIcon={<ArrowNextIcon {...iconProps} />}>
+              {t('vesting')}
+            </Button>
+          )}
+        </Box>
         <Box display="flex" my={2} alignItems="center">
-          <PieChart height={theme.spacing(20)} width={theme.spacing(20)}>
+          <PieChart
+            height={theme.spacing(isMobile ? 16 : 20)}
+            width={theme.spacing(isMobile ? 16 : 20)}
+          >
             <Pie
               data={data.filter((d) => !!d.value)}
-              innerRadius={theme.spacing(8.5)}
-              outerRadius={theme.spacing(8.5)}
+              innerRadius={theme.spacing(isMobile ? 7 : 8.5)}
+              outerRadius={theme.spacing(isMobile ? 7 : 8.5)}
               paddingAngle={12}
               dataKey="value"
             >
@@ -92,13 +120,13 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({ accountBalance,
                   <Cell
                     key={d.name}
                     strokeLinejoin="round"
-                    strokeWidth={theme.spacing(1.5)}
+                    strokeWidth={theme.spacing(isMobile ? 1.2 : 1.5)}
                     stroke={d.color}
                   />
                 ))}
             </Pie>
           </PieChart>
-          <Box flex={1} ml={10}>
+          <Box flex={1} ml={isMobile ? 2 : 10}>
             {data.map((d) => (
               <Box key={d.name} display="flex" alignItems="center" justifyContent="space-between">
                 <Box display="flex" alignItems="center" mb={0.5}>
@@ -125,7 +153,9 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({ accountBalance,
             </Typography>
           </Box>
           <Box display="flex" flexDirection="column" alignItems="flex-end">
-            <Typography variant="h1">{formatCrypto(totalBalance, account.crypto, lang)}</Typography>
+            <Typography variant={isMobile ? 'h4' : 'h1'}>
+              {formatCrypto(totalBalance, account.crypto, lang)}
+            </Typography>
             <Typography>{formatCurrency(usdPrice * totalBalance, currency, lang)}</Typography>
           </Box>
         </Box>

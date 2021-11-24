@@ -27,7 +27,7 @@ const FollowUsTable: React.FC = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <Box mx={2} my={2} display="flex" alignItems="flex-start" justifyContent="space-between">
+        <Box p={2} display="flex" alignItems="flex-start" justifyContent="space-between">
           <Box display="flex">
             <TwitterIcon
               size={24}
@@ -50,7 +50,7 @@ const FollowUsTable: React.FC = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <Box mx={2} my={2} display="flex" alignItems="flex-start" justifyContent="space-between">
+        <Box p={2} display="flex" alignItems="flex-start" justifyContent="space-between">
           <Box display="flex">
             <TelegramIcon
               size={24}
@@ -73,7 +73,7 @@ const FollowUsTable: React.FC = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <Box mx={2} my={2} display="flex" alignItems="flex-start" justifyContent="space-between">
+        <Box p={2} display="flex" alignItems="flex-start" justifyContent="space-between">
           <Box display="flex">
             <ForboleIcon {...iconProps} />
             <Typography className={classes.iconText} variant="subtitle1">
@@ -90,7 +90,7 @@ const FollowUsTable: React.FC = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <Box mx={2} my={2} display="flex" alignItems="flex-start" justifyContent="space-between">
+        <Box p={2} display="flex" alignItems="flex-start" justifyContent="space-between">
           <Box display="flex">
             <BigDipperExplorerIcon {...iconProps} />
             <Typography className={classes.iconText} variant="subtitle1">
@@ -108,7 +108,7 @@ const FollowUsTable: React.FC = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <Box mx={2} my={2} display="flex" alignItems="flex-start" justifyContent="space-between">
+        <Box p={2} display="flex" alignItems="flex-start" justifyContent="space-between">
           <Box display="flex">
             <GithubIcon {...iconProps} />
             <Typography className={classes.iconText} variant="subtitle1">

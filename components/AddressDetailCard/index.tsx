@@ -30,9 +30,7 @@ export type FavAddress = {
 
 interface AddressDetailCardProps {
   address: FavAddress
-  validators: Validator[]
   accountBalance: AccountBalance
-  availableTokens: any
 }
 
 const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountBalance }) => {
@@ -44,7 +42,7 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
   const router = useRouter()
   const { accounts } = useWalletsContext()
   const account = accounts.find((a) => a.address === router.query.address)
-  accounts.filter((a) => a.crypto === address.crypto)
+
   const [timestamps, setTimestamps] = React.useState<Date[]>(
     dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
   )

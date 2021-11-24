@@ -5,11 +5,15 @@ declare module '*.svg' {
 }
 declare module '@ledgerhq/hw-transport-webusb'
 
+type AppUnlockState = 'locked' | 'unlocking' | 'unlocked'
+
 interface Account {
   walletId: string
   address: string
   crypto: string
-  index: number
+  account: number // HD Path account
+  change: number // HD Path change
+  index: number // HD Path index
   name: string
   fav: boolean
   createdAt: number
@@ -48,6 +52,8 @@ interface CreateAccountParams {
   crypto: string
   name: string
   address: string
+  account: number
+  change: number
   index: number
 }
 
@@ -94,15 +100,13 @@ interface Cryptocurrency {
   graphqlHttpUrl: string
   graphqlWsUrl: string
   blockExplorerBaseUrl: string
-  rpcEndpoint: string
+  lcdApiUrl: string
+  rpcApiUrl: string
   ledgerAppName: string
   ibcChains: Chain[]
-  defaultGasFee: {
-    amount: { amount: number; denom: string }
-    gas: {
-      [txType: string]: string
-    }
-  }
+  gasAdjustment: number
+  gasFee: { amount: number; denom: string }
+  defaultGas: { [typeUrl: string]: number }
 }
 
 interface Validator {
@@ -192,6 +196,7 @@ interface Proposal {
   minDeposit: TokenAmount
   quorum: number
   bondedTokens: number
+  content?: any
 }
 
 interface Profile {
@@ -200,6 +205,13 @@ interface Profile {
   dtag: string
   nickname: string
   profilePic: string
+}
+
+interface ChainConnection {
+  creationTime: number
+  externalAddress: string
+  userAddress: string
+  chainName: string
 }
 
 interface TokenUnit {
@@ -218,6 +230,11 @@ interface TokenPrice {
   price: number
   timestamp: string
   token_unit: TokenUnit
+}
+
+interface VestingPeriod {
+  amount: TokenAmount
+  date: number
 }
 
 interface CreateWalletParams {
@@ -280,6 +297,14 @@ interface TransactionMsgSend {
   }
 }
 
+interface TransactionMsgMultiSend {
+  typeUrl: '/cosmos.bank.v1beta1.MsgMultiSend'
+  value: {
+    inputs: Array<{ address: string; coins: Array<{ amount: string; denom: string }> }>
+    outputs: Array<{ address: string; coins: Array<{ amount: string; denom: string }> }>
+  }
+}
+
 interface TransactionMsgIBCTransfer {
   typeUrl: '/ibc.applications.transfer.v1.MsgTransfer'
   value: {
@@ -311,7 +336,7 @@ interface TransactionMsgSubmitProposal {
           value: {
             description: string
             title: string
-            changes: { supspace: string; key: string; value: string }[]
+            changes: { subspace: string; key: string; value: string }[]
           }
         }
       | {
@@ -368,15 +393,59 @@ interface TransactionMsgDeposit {
   }
 }
 
+interface TransactionMsgSetWithdrawAddress {
+  typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress'
+  value: {
+    delegatorAddress: string
+    withdrawAddress: string
+  }
+}
+
 interface TransactionMsgSaveProfile {
   typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile'
   value: {
     dtag: string
-    nickname: string
-    bio: string
-    profilePicture: string
-    coverPicture: string
+    nickname?: string
+    bio?: string
+    profilePicture?: string
+    coverPicture?: string
     creator: string
+  }
+}
+
+interface ChainLinkProof {
+  plainText: string
+  pubKey: {
+    typeUrl: '/cosmos.crypto.secp256k1.PubKey'
+    value: string
+  }
+  signature: string
+}
+
+interface TransactionMsgLinkChainAccount {
+  typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount'
+  value: {
+    chainAddress: {
+      typeUrl: '/desmos.profiles.v1beta1.Bech32Address'
+      value: {
+        prefix: string
+        value: string // address
+      }
+    }
+    chainConfig: {
+      name: string
+    }
+    proof: ChainLinkProof
+    signer: string
+  }
+}
+
+interface TransactionMsgUnlinkChainAccount {
+  typeUrl: '/desmos.profiles.v1beta1.MsgUnlinkChainAccount'
+  value: {
+    chainName: string
+    owner: string
+    target: string
   }
 }
 
@@ -386,11 +455,15 @@ type TransactionMsg =
   | TransactionMsgRedelegate
   | TransactionMsgWithdrawReward
   | TransactionMsgSend
+  | TransactionMsgMultiSend
   | TransactionMsgIBCTransfer
   | TransactionMsgSubmitProposal
   | TransactionMsgVote
   | TransactionMsgDeposit
+  | TransactionMsgSetWithdrawAddress
   | TransactionMsgSaveProfile
+  | TransactionMsgLinkChainAccount
+  | TransactionMsgUnlinkChainAccount
 
 interface Transaction {
   msgs: TransactionMsg[]
@@ -436,11 +509,11 @@ type ChromeMessage =
     }
   | {
       event: 'updateAccount'
-      data: { account: UpdateAccountParams; address: string; password: string }
+      data: { account: UpdateAccountParams; address: string; walletId: string; password: string }
     }
   | {
       event: 'deleteAccount'
-      data: { address: string; password: string }
+      data: { address: string; walletId: string; password: string }
     }
   | {
       event: 'generateMnemonic'

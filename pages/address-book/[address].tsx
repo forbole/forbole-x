@@ -3,7 +3,7 @@ import React from 'react'
 import get from 'lodash/get'
 import keyBy from 'lodash/keyBy'
 import { gql, useSubscription } from '@apollo/client'
-import { Breadcrumbs, Link as MLink } from '@material-ui/core'
+import { Box, Breadcrumbs, Link as MLink, Typography } from '@material-ui/core'
 import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation'
 import AddressDetailCard from '../../components/AddressDetailCard'
@@ -107,14 +107,15 @@ const Account: React.FC = () => {
       }
       passwordRequired
       activeItem="/address-book"
+      ChromeExtTitleComponent={
+        <Box mt={1}>
+          <Typography variant="h4">{t('address book')}</Typography>
+        </Box>
+      }
+      back
     >
       {addressDetail ? (
-        <AddressDetailCard
-          address={addressDetail}
-          validators={validators}
-          accountBalance={accountBalance}
-          availableTokens={availableTokens}
-        />
+        <AddressDetailCard address={addressDetail} accountBalance={accountBalance} />
       ) : null}
       <DelegationsTable
         isAddressDetail

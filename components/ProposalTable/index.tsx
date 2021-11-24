@@ -7,6 +7,7 @@ import Active from './Active'
 import InActive from './InActive'
 import VoteDialog from '../VoteDialog'
 import DepositDialog from '../DepositDialog'
+import Markdown from '../Markdown'
 
 interface ProposalsTableProps {
   proposals: Proposal[]
@@ -64,7 +65,7 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, crypto }) => 
                     </Box>
                     <Typography variant="h6">{x.title}</Typography>
                     <Typography variant="subtitle1" color="textSecondary">
-                      {x.description}
+                      <Markdown>{x.description || ''}</Markdown>
                     </Typography>
                     <Typography variant="subtitle1" color="textSecondary">
                       {x.tag === 'deposit'
@@ -88,7 +89,7 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, crypto }) => 
                     )}
                   </Box>
                 </Box>
-                <Divider className={classes.divider} />
+                {proposals.length > 1 && <Divider className={classes.divider} />}
               </Box>
             </Link>
           )

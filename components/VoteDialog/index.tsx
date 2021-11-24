@@ -1,12 +1,12 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import SelectAnswer from './SelectAnswer'
 import { useWalletsContext } from '../../contexts/WalletsContext'
+import useSendTransaction from '../../misc/tx/useSendTransaction'
 
 interface VoteDialogProps {
   crypto: Cryptocurrency
@@ -20,6 +20,7 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ crypto, open, onClose, proposal
   const classes = useStyles()
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
+  const sendTransaction = useSendTransaction()
 
   const [loading, setLoading] = React.useState(false)
 
@@ -40,8 +41,8 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ crypto, open, onClose, proposal
             proposalId: proposal.id,
             voter: account.address,
           },
-        }
-        await invoke(window, 'forboleX.sendTransaction', password, account.address, {
+        } as unknown as TransactionMsgVote
+        await sendTransaction(password, account.address, {
           msgs: [msg],
           memo,
         })
@@ -52,7 +53,7 @@ const VoteDialog: React.FC<VoteDialogProps> = ({ crypto, open, onClose, proposal
         console.log(err)
       }
     },
-    [proposal, password]
+    [proposal, password, sendTransaction]
   )
 
   return (

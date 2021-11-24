@@ -1,0 +1,71 @@
+diff --git a/node_modules/@cosmjs/ledger-amino/build/launchpadledger.d.ts b/node_modules/@cosmjs/ledger-amino/build/launchpadledger.d.ts
+index 897166a..51441dc 100644
+--- a/node_modules/@cosmjs/ledger-amino/build/launchpadledger.d.ts
++++ b/node_modules/@cosmjs/ledger-amino/build/launchpadledger.d.ts
+@@ -38,6 +38,7 @@ export declare class LaunchpadLedger {
+     constructor(transport: Transport, options?: LaunchpadLedgerOptions);
+     getCosmosAppVersion(): Promise<string>;
+     getPubkey(hdPath?: HdPath): Promise<Uint8Array>;
++    showAddressAndPubKey(hdPath?: HdPath, hrp?: string): Promise<any>
+     getPubkeys(): Promise<readonly Uint8Array[]>;
+     getCosmosAddress(pubkey?: Uint8Array): Promise<string>;
+     sign(message: Uint8Array, hdPath?: HdPath): Promise<Uint8Array>;
+diff --git a/node_modules/@cosmjs/ledger-amino/build/launchpadledger.js b/node_modules/@cosmjs/ledger-amino/build/launchpadledger.js
+index 1bb2b3b..0b1fb6f 100644
+--- a/node_modules/@cosmjs/ledger-amino/build/launchpadledger.js
++++ b/node_modules/@cosmjs/ledger-amino/build/launchpadledger.js
+@@ -54,6 +54,14 @@ class LaunchpadLedger {
+         this.handleLedgerErrors(response);
+         return Uint8Array.from(response.compressed_pk);
+     }
++    async showAddressAndPubKey(hdPath, hrp) {
++        await this.verifyDeviceIsReady();
++        utils_1.assert(this.app, "Cosmos Ledger App is not connected");
++        const hdPathToUse = hdPath || this.hdPaths[0];
++        // ledger-cosmos-js hardens the first three indices
++        const response = await this.app.showAddressAndPubKey(unharden(hdPathToUse), hrp);
++        return response
++    }
+     async getPubkeys() {
+         return this.hdPaths.reduce((promise, hdPath) => promise.then(async (pubkeys) => [...pubkeys, await this.getPubkey(hdPath)]), Promise.resolve([]));
+     }
+@@ -92,7 +100,7 @@ class LaunchpadLedger {
+         if (appName.toLowerCase() === `dashboard`) {
+             throw new Error(`Please open the ${this.ledgerAppName} Ledger app on your Ledger device.`);
+         }
+-        if (appName.toLowerCase() !== this.ledgerAppName.toLowerCase()) {
++        if (this.ledgerAppName && appName.toLowerCase() !== this.ledgerAppName.toLowerCase()) {
+             throw new Error(`Please close ${appName} and open the ${this.ledgerAppName} Ledger app on your Ledger device.`);
+         }
+     }
+diff --git a/node_modules/@cosmjs/ledger-amino/build/ledgersigner.d.ts b/node_modules/@cosmjs/ledger-amino/build/ledgersigner.d.ts
+index 27592aa..269319b 100644
+--- a/node_modules/@cosmjs/ledger-amino/build/ledgersigner.d.ts
++++ b/node_modules/@cosmjs/ledger-amino/build/ledgersigner.d.ts
+@@ -8,5 +8,6 @@ export declare class LedgerSigner implements OfflineAminoSigner {
+     private accounts?;
+     constructor(transport: Transport, options?: LaunchpadLedgerOptions);
+     getAccounts(): Promise<readonly AccountData[]>;
++    showAddressAndPubKey(address: string, hrp: string): Promise<any>
+     signAmino(signerAddress: string, signDoc: StdSignDoc): Promise<AminoSignResponse>;
+ }
+diff --git a/node_modules/@cosmjs/ledger-amino/build/ledgersigner.js b/node_modules/@cosmjs/ledger-amino/build/ledgersigner.js
+index 2368724..67e6fc8 100644
+--- a/node_modules/@cosmjs/ledger-amino/build/ledgersigner.js
++++ b/node_modules/@cosmjs/ledger-amino/build/ledgersigner.js
+@@ -19,6 +19,15 @@ class LedgerSigner {
+         }
+         return this.accounts;
+     }
++    async showAddressAndPubKey(address, hrp) {
++        const accounts = this.accounts || (await this.getAccounts());
++        const accountIndex = accounts.findIndex((account) => account.address === address);
++        if (accountIndex === -1) {
++            throw new Error(`Address ${address} not found in wallet`);
++        }
++        const response = await this.ledger.showAddressAndPubKey(this.hdPaths[accountIndex], hrp)
++        return response
++    }
+     async signAmino(signerAddress, signDoc) {
+         const accounts = this.accounts || (await this.getAccounts());
+         const accountIndex = accounts.findIndex((account) => account.address === signerAddress);

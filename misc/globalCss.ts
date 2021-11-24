@@ -18,6 +18,9 @@ const GlobalCss = withStyles(
           src: 'url("/fonts/HindMadurai-Medium.ttf")',
         },
       ],
+      a: {
+        cursor: 'pointer',
+      },
       '.MuiDialog-paper': {
         backgroundColor: theme.palette.dialogBackground,
       },
@@ -41,6 +44,9 @@ const GlobalCss = withStyles(
         border: `1px solid ${theme.palette.error.main}`,
       },
       '.MuiFilledInput-root.Mui-focused': {
+        backgroundColor: theme.palette.grey[50],
+      },
+      '.MuiFilledInput-root.Mui-disabled': {
         backgroundColor: theme.palette.grey[50],
       },
       '.MuiFilledInput-root:hover': {
@@ -70,6 +76,9 @@ const GlobalCss = withStyles(
       },
       '.MuiAvatar-fallback': {
         fill: theme.palette.grey[300],
+      },
+      '.MuiTableCell-root': {
+        fontSize: theme.typography.body1.fontSize,
       },
     },
   }),

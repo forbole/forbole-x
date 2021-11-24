@@ -13,7 +13,7 @@ const useStyles = makeStyles(
     },
     tableRow: {
       '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
+        backgroundColor: theme.palette.grey[50],
       },
     },
   }),

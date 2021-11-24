@@ -1,0 +1,16 @@
+diff --git a/node_modules/@cosmjs/stargate/build/accounts.js b/node_modules/@cosmjs/stargate/build/accounts.js
+index 55753d0..ec8b325 100644
+--- a/node_modules/@cosmjs/stargate/build/accounts.js
++++ b/node_modules/@cosmjs/stargate/build/accounts.js
+@@ -58,6 +58,11 @@ function accountFromAny(input) {
+             utils_1.assert(baseAccount);
+             return accountFromBaseAccount(baseAccount);
+         }
++        // custom
++        case "/desmos.profiles.v1beta1.Profile": {
++            const account = auth_1.ProfileAccount.decode(value).account;
++            return accountFromAny(account);
++        }
+         default:
+             throw new Error(`Unsupported type: '${typeUrl}'`);
+     }

@@ -6,6 +6,13 @@ const useStyles = makeStyles(
     container: {
       marginBottom: theme.spacing(2),
     },
+    accountCard: {
+      position: 'sticky',
+      top: theme.spacing(10),
+      zIndex: 1,
+      backgroundColor: theme.palette.background.paper,
+      borderRadius: '4px 4px 0px 0px',
+    },
     sendButton: {
       color: 'white',
       width: theme.spacing(18),
@@ -15,9 +22,15 @@ const useStyles = makeStyles(
         backgroundColor: theme.palette.success.dark,
       },
     },
-    fixedWidthButton: {
+    delegateButton: {
       color: 'white',
       width: theme.spacing(18),
+      marginLeft: theme.spacing(2),
+      padding: theme.spacing(0.5),
+    },
+    withdrawButton: {
+      color: 'white',
+      width: theme.spacing(22),
       marginLeft: theme.spacing(2),
       padding: theme.spacing(0.5),
     },

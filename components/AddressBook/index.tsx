@@ -182,15 +182,17 @@ const AddressBook: React.FC = () => {
       />
       <AddAddressDialog open={addAddressOpen} onClose={() => setAddAddressOpen(false)} />
       {tabs[currentTab].address.length === 0 ? (
-        <Box height={600} textAlign="center" style={{ position: 'relative' }}>
-          <Box style={{ position: 'absolute', top: '50%', left: '43%' }}>
-            <Typography style={{ marginBottom: theme.spacing(1.5) }}>
-              {t('you have not added any address')}
-            </Typography>
-            <Button color="primary" variant="contained" onClick={() => setAddAddressOpen(true)}>
-              {t('add address')}
-            </Button>
-          </Box>
+        <Box
+          display="flex"
+          height="60vh"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Typography gutterBottom>{t('you have not added any address')}</Typography>
+          <Button color="primary" variant="contained" onClick={() => setAddAddressOpen(true)}>
+            {t('add address')}
+          </Button>
         </Box>
       ) : null}
     </>

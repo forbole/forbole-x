@@ -2,12 +2,13 @@
 
 exports[`component: Layout - NavBar renders correctly 1`] = `
 <div
-  className="MuiBox-root MuiBox-root-13 HookGlobalStyles-navBar-10"
+  className="MuiBox-root MuiBox-root-14 HookGlobalStyles-navBar-11"
+  id="navBar"
 >
   <CurrencyMenuButton />
   <a
     aria-disabled={false}
-    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-navBarButton-11"
+    className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-navBarButton-12"
     href="/settings"
     onBlur={[Function]}
     onClick={[Function]}

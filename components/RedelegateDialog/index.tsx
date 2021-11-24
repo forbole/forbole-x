@@ -2,7 +2,6 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
@@ -14,6 +13,7 @@ import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/ut
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIsMobile from '../../misc/useIsMobile'
+import useSendTransaction from '../../misc/tx/useSendTransaction'
 
 enum RedelegationStage {
   SelectAmountStage = 'select amount',
@@ -50,6 +50,7 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
   const isMobile = useIsMobile()
+  const sendTransaction = useSendTransaction()
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
   const [amount, setAmount] = React.useState(0)
   const [denom, setDenom] = React.useState('')
@@ -82,7 +83,7 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
           delegatedTokens,
           tokensPrices
         )
-        await invoke(window, 'forboleX.sendTransaction', password, account.address, {
+        await sendTransaction(password, account.address, {
           msgs: [
             {
               typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate',
@@ -102,7 +103,16 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
         setLoading(false)
       }
     },
-    [amount, denom, delegatedTokens, tokensPrices, password, account, fromValidator]
+    [
+      amount,
+      denom,
+      delegatedTokens,
+      tokensPrices,
+      password,
+      account,
+      fromValidator,
+      sendTransaction,
+    ]
   )
 
   const content: Content = React.useMemo(() => {

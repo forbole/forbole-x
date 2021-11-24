@@ -1,25 +1,42 @@
-import { Box, DialogContent, Typography, TextField, DialogActions, Button } from '@material-ui/core'
+import {
+  Box,
+  DialogContent,
+  Typography,
+  TextField,
+  DialogActions,
+  Button,
+  CircularProgress,
+  useTheme,
+} from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
+import MemoInput from '../MemoInput'
 
 interface EditRewardAddressProps {
-  account: Account
+  oldWithdrawAddress: string
   onNext(r: string, m: string): void
+  loading: boolean
 }
 
-const EditRewardAddress: React.FC<EditRewardAddressProps> = ({ account, onNext }) => {
+const EditRewardAddress: React.FC<EditRewardAddressProps> = ({
+  oldWithdrawAddress,
+  onNext,
+  loading,
+}) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
-  const [rewardAddress, setRewardAddress] = React.useState('')
+  const theme = useTheme()
+  const [withdrawAddress, setWithdrawAddress] = React.useState('')
   const [memo, setMemo] = React.useState('')
+  const [consent, setConsent] = React.useState(true)
 
   return (
     <form
       noValidate
       onSubmit={(e) => {
         e.preventDefault()
-        onNext(rewardAddress, memo)
+        onNext(withdrawAddress, memo)
       }}
     >
       <DialogContent className={classes.dialogContent}>
@@ -33,7 +50,8 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({ account, onNext }
                 InputProps={{
                   disableUnderline: true,
                 }}
-                value={account.address}
+                value={oldWithdrawAddress}
+                disabled
               />
             </Box>
             <Box mb={2}>
@@ -45,13 +63,13 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({ account, onNext }
                 InputProps={{
                   disableUnderline: true,
                 }}
-                value={rewardAddress}
-                onChange={(e) => setRewardAddress(e.target.value)}
+                value={withdrawAddress}
+                onChange={(e) => setWithdrawAddress(e.target.value)}
               />
             </Box>
             <Box>
               <Typography className={classes.marginBottom}>{t('memo')}</Typography>
-              <TextField
+              <MemoInput
                 multiline
                 rows={3}
                 fullWidth
@@ -61,7 +79,9 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({ account, onNext }
                   disableUnderline: true,
                 }}
                 value={memo}
-                onChange={(e) => setMemo(e.target.value)}
+                setValue={setMemo}
+                consent={consent}
+                setConsent={setConsent}
               />
             </Box>
           </Box>
@@ -72,10 +92,10 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({ account, onNext }
           variant="contained"
           className={classes.nextButton}
           color="primary"
-          disabled={rewardAddress === ''}
+          disabled={withdrawAddress === '' || loading || !consent}
           type="submit"
         >
-          {t('next')}
+          {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
         </Button>
       </DialogActions>
     </form>

@@ -4,11 +4,13 @@ import { CustomTheme } from '../../misc/theme'
 const useStyles = makeStyles(
   (theme: CustomTheme) => ({
     addAccountButton: {
-      backgroundColor:
-        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.background.paper,
+      backgroundColor: theme.palette.grey[50],
       flex: 1,
       display: 'flex',
       padding: theme.spacing(2, 2.5),
+      '&:hover': {
+        backgroundColor: theme.palette.grey[100],
+      },
     },
     dialogButton: {
       flex: 1,
@@ -41,6 +43,9 @@ const useStyles = makeStyles(
     checkbox: {
       padding: 0,
       marginLeft: theme.spacing(-1.5),
+      '&.MuiCheckbox-colorPrimary.Mui-disabled': {
+        color: theme.palette.grey[400],
+      },
     },
   }),
   {

@@ -9,7 +9,7 @@ import useIconProps from '../../misc/useIconProps'
 import useStateHistory from '../../misc/useStateHistory'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
-import AddIcon from '../../assets/images/icons/icon_add wallet.svg'
+import AddIcon from '../../assets/images/icons/icon_add_wallet.svg'
 import useIsMobile from '../../misc/useIsMobile'
 import SelectNetworkContent from './SelectNetwork'
 import SelectAddressesContent from './SelectAddresses'
@@ -56,9 +56,9 @@ const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
     async (addresses) => {
       try {
         for (let i = 0; i < addresses.length; i += 1) {
-          const { address, index } = addresses[i]
+          const { address, index, account, change } = addresses[i]
           await addAccount(
-            { name: `${crypto} ${index}`, crypto, walletId, index, address },
+            { name: `${crypto} ${account}`, crypto, walletId, index, account, address, change },
             securityPassword
           )
         }

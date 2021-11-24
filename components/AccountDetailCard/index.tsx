@@ -4,6 +4,7 @@ import React from 'react'
 import get from 'lodash/get'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import EditIcon from '../../assets/images/icons/icon_edit_tool.svg'
+import MoreIcon from '../../assets/images/icons/icon_more.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import AccountAvatar from '../AccountAvatar'
 import { useGeneralContext } from '../../contexts/GeneralContext'
@@ -80,8 +81,8 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
     : []
 
   const toggleFav = React.useCallback(() => {
-    updateAccount(account.address, { fav: !account.fav })
-  }, [account.address, account.fav, updateAccount])
+    updateAccount(account.address, account.walletId, { fav: !account.fav })
+  }, [account.address, account.fav, account.walletId, updateAccount])
 
   const displayItems =
     getTokenAmountBalance(get(accountBalance, 'balance.commissions', {})) === 0
@@ -89,54 +90,54 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
       : ['available', 'delegated', 'unbonding', 'rewards', 'commissions']
   return (
     <>
-      <Card className={classes.container}>
-        <Box p={4} position="relative">
-          <Box
-            mb={4}
-            display={isMobile ? 'block' : 'flex'}
-            justifyContent="space-between"
-            alignItems="flex-start"
-          >
-            <AccountAvatar ledgerIconDisabled size="large" account={account} />
-            <Box display="flex" mt={isMobile ? 2 : 0} ml={isMobile ? -2 : 0}>
-              {/* !profileExist ? (
-                <Button
-                  classes={{ root: classes.profileButton }}
-                  variant="outlined"
-                  onClick={onCreateProfile}
-                >
-                  {t('create profile')}
-                </Button>
-              ) : null */}
+      <Card className={classes.accountCard}>
+        <Box
+          p={isMobile ? 2 : 4}
+          display={isMobile ? 'block' : 'flex'}
+          justifyContent="space-between"
+          alignItems="flex-start"
+        >
+          <AccountAvatar ledgerIconDisabled size={isMobile ? 'base' : 'large'} account={account} />
+          <Box display="flex" mt={isMobile ? 2 : 0} ml={isMobile ? -2 : 0}>
+            {!profileExist ? (
               <Button
-                classes={{ root: classes.fixedWidthButton }}
-                variant="contained"
-                color="primary"
-                onClick={() => setDelegateDialogOpen(true)}
+                classes={{ root: classes.profileButton }}
+                variant="outlined"
+                onClick={onCreateProfile}
               >
-                {t('delegate')}
+                {t('create profile')}
               </Button>
-              <Button
-                classes={{ root: classes.fixedWidthButton }}
-                variant="contained"
-                color="secondary"
-                onClick={() => setWithdrawRewardsDialogOpen(true)}
-              >
-                {t('withdraw')}
-              </Button>
-              <Button
-                classes={{ root: classes.sendButton }}
-                variant="contained"
-                onClick={() => setSendDialogOpen(true)}
-              >
-                {t('send')}
-              </Button>
-              <Box
-                display="flex"
-                position={isMobile ? 'absolute' : 'static'}
-                top={theme.spacing(2)}
-                right={theme.spacing(2)}
-              >
+            ) : null}
+            <Button
+              classes={{ root: classes.delegateButton }}
+              variant="contained"
+              color="primary"
+              onClick={() => setDelegateDialogOpen(true)}
+            >
+              {t('delegate')}
+            </Button>
+            <Button
+              classes={{ root: classes.sendButton }}
+              variant="contained"
+              onClick={() => setSendDialogOpen(true)}
+            >
+              {t('send')}
+            </Button>
+            <Button
+              classes={{ root: classes.withdrawButton }}
+              variant="contained"
+              color="secondary"
+              onClick={() => setWithdrawRewardsDialogOpen(true)}
+            >
+              {t('withdraw')}
+            </Button>
+            <Box
+              display="flex"
+              position={isMobile ? 'absolute' : 'static'}
+              top={theme.spacing(2)}
+              right={theme.spacing(2)}
+            >
+              {isMobile ? null : (
                 <Button
                   classes={{ root: classes.iconButton }}
                   variant={isMobile ? 'text' : 'outlined'}
@@ -148,79 +149,87 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                     <StarIcon {...iconProps} />
                   )}
                 </Button>
-                <Button
-                  classes={{ root: classes.iconButton }}
-                  variant={isMobile ? 'text' : 'outlined'}
-                  onClick={() => setEditAccountDialogOpen(true)}
-                >
-                  <EditIcon {...iconProps} />
-                </Button>
-              </Box>
+              )}
+              <Button
+                classes={{ root: classes.iconButton }}
+                variant={isMobile ? 'text' : 'outlined'}
+                onClick={() => setEditAccountDialogOpen(true)}
+              >
+                {isMobile ? <MoreIcon {...iconProps} /> : <EditIcon {...iconProps} />}
+              </Button>
             </Box>
           </Box>
-          <Divider />
-          <Box mb={5} mt={3}>
-            <Tabs
-              value={currentTab}
-              classes={{ indicator: classes.tabIndicator, root: classes.tab }}
-              onChange={(e, v) => setCurrentTab(v)}
-            >
-              {tabs.map((key) => (
-                <Tab key={key} label={key} />
-              ))}
-            </Tabs>
-          </Box>
-          <BalanceChart
-            data={chartData}
-            hideChart={isMobile}
-            onDateRangeChange={(dateRange) => {
-              setTimestamps(dateRange.timestamps.map((ts) => new Date(ts)))
-            }}
-            title={
-              currentTab === 0
-                ? formatCurrency(usdBalance, currency, lang)
-                : formatTokenAmount(
-                    { [selectedTabToken]: selectedTabTokenAmount },
-                    account.crypto,
-                    lang
-                  )
-            }
-            subtitle={
-              currentTab === 0
-                ? ''
-                : formatCurrency(
-                    selectedTabTokenAmount.amount * selectedTabTokenAmount.price,
-                    currency,
-                    lang
-                  )
-            }
-            loading={loading}
-          />
-          {/* Only show Stat Boxes for native token */}
-          {account.crypto === selectedTabToken ? (
-            <Box mt={isMobile ? 6 : 10}>
-              <Grid container spacing={4}>
-                {displayItems.map((key) => (
-                  <StatBox
-                    key={key}
-                    title={t(key)}
-                    value={formatTokenAmount(
-                      get(accountBalance, `balance.${key}`, {}),
-                      account.crypto,
-                      lang
-                    )}
-                    subtitle={formatCurrency(
-                      getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})),
-                      currency,
-                      lang
-                    )}
-                  />
-                ))}
-              </Grid>
-            </Box>
-          ) : null}
         </Box>
       </Card>
+      {isMobile ? (
+        <Box mt={2} />
+      ) : (
+        <Card className={classes.container}>
+          <Divider />
+          <Box pt={0} p={4} position="relative">
+            <Box mb={5} mt={3}>
+              <Tabs
+                value={currentTab}
+                classes={{ indicator: classes.tabIndicator, root: classes.tab }}
+                onChange={(e, v) => setCurrentTab(v)}
+              >
+                {tabs.map((key) => (
+                  <Tab key={key} label={key} />
+                ))}
+              </Tabs>
+            </Box>
+
+            <BalanceChart
+              data={chartData}
+              onDateRangeChange={(dateRange) => {
+                setTimestamps(dateRange.timestamps.map((ts) => new Date(ts)))
+              }}
+              title={
+                currentTab === 0
+                  ? formatCurrency(usdBalance, currency, lang)
+                  : formatTokenAmount(
+                      { [selectedTabToken]: selectedTabTokenAmount },
+                      account.crypto,
+                      lang
+                    )
+              }
+              subtitle={
+                currentTab === 0
+                  ? ''
+                  : formatCurrency(
+                      selectedTabTokenAmount.amount * selectedTabTokenAmount.price,
+                      currency,
+                      lang
+                    )
+              }
+              loading={loading}
+            />
+            {/* Only show Stat Boxes for native token */}
+            {account.crypto === selectedTabToken ? (
+              <Box mt={isMobile ? 6 : 10}>
+                <Grid container spacing={4}>
+                  {displayItems.map((key) => (
+                    <StatBox
+                      key={key}
+                      title={t(key)}
+                      value={formatTokenAmount(
+                        get(accountBalance, `balance.${key}`, {}),
+                        account.crypto,
+                        lang
+                      )}
+                      subtitle={formatCurrency(
+                        getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})),
+                        currency,
+                        lang
+                      )}
+                    />
+                  ))}
+                </Grid>
+              </Box>
+            ) : null}
+          </Box>
+        </Card>
+      )}
       <DelegationDialog
         open={delegateDialogOpen}
         onClose={() => setDelegateDialogOpen(false)}
@@ -234,7 +243,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
         onClose={() => setWithdrawRewardsDialogOpen(false)}
         account={account}
         tokensPrices={availableTokens.tokens_prices}
-        validators={validators.filter((v) => !!v.delegated)}
+        validators={validators.filter((v) => !!v.rewards)}
         openDelegationDialog={() => setDelegateDialogOpen(true)}
       />
       <SendDialog
@@ -247,7 +256,6 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
         open={editAccountDialogOpen}
         onClose={() => setEditAccountDialogOpen(false)}
         account={account}
-        availableTokens={availableTokens}
       />
     </>
   )

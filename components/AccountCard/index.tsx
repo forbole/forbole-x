@@ -19,13 +19,15 @@ import {
   transformGqlAcountBalance,
 } from '../../misc/utils'
 import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
+import ChromeExtBottom from './ChromeExtBottom'
 
 interface AccountCardProps {
   account: Account
   ledgerIconDisabled?: boolean
+  isChromeExt?: boolean
 }
 
-const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled }) => {
+const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled, isChromeExt }) => {
   const classes = useStyles()
   const theme = useTheme()
   const iconProps = useIconProps()
@@ -33,6 +35,7 @@ const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled }
   const { currency } = useGeneralContext()
   const { updateAccount } = useWalletsContext()
   const router = useRouter()
+
   const { data, loading } = useSubscription(
     gql`
       ${getLatestAccountBalance(account.crypto)}
@@ -40,31 +43,48 @@ const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled }
     { variables: { address: account.address } }
   )
 
-  const { tokenAmounts, usdBalance } = React.useMemo(() => {
+  const {
+    tokenAmounts,
+    usdBalance,
+    availableTokens,
+    balance: { delegated, rewards },
+  } = React.useMemo(() => {
     const accountBalance = transformGqlAcountBalance(data, Date.now())
     return {
       tokenAmounts: getTotalTokenAmount(accountBalance).amount,
       usdBalance: getTotalBalance(accountBalance).balance,
+      ...accountBalance,
     }
   }, [data])
 
   const toggleFav = React.useCallback(() => {
-    updateAccount(account.address, { fav: !account.fav })
-  }, [account.address, account.fav, updateAccount])
+    updateAccount(account.address, account.walletId, { fav: !account.fav })
+  }, [account.address, account.fav, account.walletId, updateAccount])
 
   return (
     <Card
       className={classes.container}
       onClick={(e) => {
         const targetClassName = String((e.target as any).className)
-        if (targetClassName.includes('MuiBox-root') || targetClassName.includes('MuiCard-root')) {
+        if (
+          (targetClassName.includes('MuiBox') ||
+            targetClassName.includes('MuiCard') ||
+            targetClassName.includes('MuiTypography') ||
+            targetClassName.includes('MuiAvatar')) &&
+          !document.getElementsByClassName('MuiDialog-root').length
+        ) {
           router.push(`/account/${account.address}`)
         }
       }}
     >
-      <Box id="" mb={5} display="flex" alignItems="flex-start" justifyContent="space-between">
+      <Box
+        mb={isChromeExt ? 2 : 5}
+        display="flex"
+        alignItems="flex-start"
+        justifyContent="space-between"
+      >
         <AccountAvatar account={account} ledgerIconDisabled={ledgerIconDisabled} />
-        <AccountMenuButton accountAddress={account.address} />
+        <AccountMenuButton account={account} />
       </Box>
       <Box display="flex" alignItems="flex-end" justifyContent="space-between">
         {loading ? (
@@ -79,14 +99,25 @@ const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled }
             <Typography variant="h6">{formatCurrency(usdBalance, currency, lang)}</Typography>
           </Box>
         )}
-        <IconButton onClick={toggleFav}>
-          {account.fav ? (
-            <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
-          ) : (
-            <StarIcon {...iconProps} />
-          )}
-        </IconButton>
+        {isChromeExt ? null : (
+          <IconButton onClick={toggleFav}>
+            {account.fav ? (
+              <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
+            ) : (
+              <StarIcon {...iconProps} />
+            )}
+          </IconButton>
+        )}
       </Box>
+      {isChromeExt ? (
+        <ChromeExtBottom
+          account={account}
+          availableTokens={availableTokens}
+          delegated={delegated}
+          rewards={rewards}
+          balanceData={data}
+        />
+      ) : null}
     </Card>
   )
 }

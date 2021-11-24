@@ -3,7 +3,6 @@ import {
   Button,
   DialogActions,
   DialogContent,
-  TextField,
   Typography,
   Checkbox,
   FormControlLabel,
@@ -16,12 +15,15 @@ import React from 'react'
 import cloneDeep from 'lodash/cloneDeep'
 import TablePagination from '../TablePagination'
 import { useGeneralContext } from '../../contexts/GeneralContext'
+
 import { formatCurrency, formatTokenAmount, getTokenAmountBalance } from '../../misc/utils'
 import useStyles from './styles'
 import { ValidatorTag } from './index'
+import MemoInput from '../MemoInput'
 import ValidatorAvatar from '../ValidatorAvatar'
 import ImageDefaultDark from '../../assets/images/image_default_dark.svg'
 import ImageDefaultLight from '../../assets/images/image_default_light.svg'
+import { CustomTheme } from '../../misc/theme'
 
 interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
   wallet: Wallet
@@ -56,8 +58,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const [value, setValue] = React.useState('')
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   // const [currentTab, setCurrentTab] = React.useState(0)
+  const [consent, setConsent] = React.useState(true)
   const [state, setState] = React.useState({})
-  const themeStyle = useTheme()
+  const themeStyle: CustomTheme = useTheme()
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked })
@@ -161,7 +164,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                 label={<Typography>{t('withdraw all')}</Typography>}
                 labelPlacement="end"
               />
-              <Box mt={0}>
+              <Box mt={0} minHeight="3vw">
                 {validatorList.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((v) => (
                   <FormControlLabel
                     key={v.address}
@@ -210,17 +213,18 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             </Box>
 
             <Typography>{t('memo')}</Typography>
-            <TextField
+            <MemoInput
+              fullWidth
+              multiline
+              rows={4}
               InputProps={{
                 disableUnderline: true,
               }}
-              fullWidth
-              variant="filled"
-              value={value}
               placeholder={t('description optional')}
-              multiline
-              rows={4}
-              onChange={(e) => setValue(e.target.value)}
+              value={value}
+              setValue={setValue}
+              consent={consent}
+              setConsent={setConsent}
             />
           </DialogContent>
           <DialogActions>
@@ -248,7 +252,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                   loading ||
                   !Object.values(amount)
                     .map((a) => a.amount)
-                    .reduce((a, b) => a + b, 0)
+                    .reduce((a, b) => a + b, 0) ||
+                  !consent
                 }
                 type="submit"
               >

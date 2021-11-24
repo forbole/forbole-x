@@ -17,6 +17,7 @@ const DeleteWallet: React.FC<DeleteWalletProps> = ({ walletId, onClose }) => {
   const onButtonClick = React.useCallback(async () => {
     try {
       await deleteWallet(walletId)
+      onClose()
     } catch (err) {
       console.log(err)
     }
@@ -26,7 +27,7 @@ const DeleteWallet: React.FC<DeleteWalletProps> = ({ walletId, onClose }) => {
     <>
       <DialogTitle>{t('delete wallet')}</DialogTitle>
       <DialogContent>
-        <Typography>{t('delete wallet warning')}</Typography>
+        <Typography align="center">{t('delete wallet warning')}</Typography>
       </DialogContent>
       <DialogActions>
         <Button
@@ -43,7 +44,7 @@ const DeleteWallet: React.FC<DeleteWalletProps> = ({ walletId, onClose }) => {
           color="primary"
           onClick={onButtonClick}
         >
-          {t('delete')}
+          {t('yes')}
         </Button>
       </DialogActions>
     </>

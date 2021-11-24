@@ -1,7 +1,6 @@
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import {
-  Avatar,
   Box,
   Button,
   List,
@@ -20,11 +19,11 @@ import AddressBookIcon from '../../assets/images/icons/icon_address_book.svg'
 import Logo from '../../assets/images/logo.svg'
 import LogoExpended from '../../assets/images/logo_expended.svg'
 import useStyles from './styles'
+import StarredAccount from './StarredAccount'
 import useIconProps from '../../misc/useIconProps'
 import { MenuWidth } from '.'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { CustomTheme } from '../../misc/theme'
-import cryptocurrencies from '../../misc/cryptocurrencies'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 
 interface LeftMenuProps {
@@ -117,7 +116,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
             </Box>
           </ListItemIcon>
         </ListItem>
-        <Box>
+        <Box className={classes.menuItems}>
           {items.map((item) => {
             const selected = item.href === activeItem
             return (
@@ -177,32 +176,11 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
               {t('star now')}
             </Button>
           </Link>
-          {accounts.map((account) => {
-            const crypto = cryptocurrencies[account.crypto]
-            return account.fav ? (
-              <Link
-                key={account.address}
-                href="/account/[address]"
-                as={`/account/${account.address}`}
-              >
-                <ListItem className={classes.favMenuItem} button component="a">
-                  <ListItemIcon>
-                    <Avatar
-                      alt={crypto.name}
-                      src={crypto.image}
-                      style={{ height: themeStyle.spacing(3), width: themeStyle.spacing(3) }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={account.name}
-                    primaryTypographyProps={{
-                      variant: 'h6',
-                    }}
-                  />
-                </ListItem>
-              </Link>
-            ) : null
-          })}
+          {accounts
+            .filter((account) => account.fav)
+            .map((account) => (
+              <StarredAccount key={account.address} account={account} />
+            ))}
         </Box>
       </List>
     </Paper>

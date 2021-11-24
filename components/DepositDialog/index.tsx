@@ -3,7 +3,6 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { gql, useSubscription } from '@apollo/client'
 import get from 'lodash/get'
-import invoke from 'lodash/invoke'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
@@ -11,6 +10,7 @@ import InputAmount from './InputAmount'
 import { getEquivalentCoinToSend } from '../../misc/utils'
 import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import { useWalletsContext } from '../../contexts/WalletsContext'
+import useSendTransaction from '../../misc/tx/useSendTransaction'
 
 interface DepositDialogProps {
   crypto: Cryptocurrency
@@ -25,6 +25,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ crypto, open, onClose, pr
   const iconProps = useIconProps()
   const { password, accounts: allAccounts } = useWalletsContext()
   const accounts = allAccounts.filter((a) => a.crypto === crypto.name)
+  const sendTransaction = useSendTransaction()
 
   const [loading, setLoading] = React.useState(false)
   const [address, setAddress] = React.useState('')
@@ -58,7 +59,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ crypto, open, onClose, pr
             amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
           },
         }
-        await invoke(window, 'forboleX.sendTransaction', password, depositor, {
+        await sendTransaction(password, depositor, {
           msgs: [msg],
           memo,
         })
@@ -69,7 +70,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ crypto, open, onClose, pr
         console.log(err)
       }
     },
-    [availableTokens]
+    [availableTokens, sendTransaction]
   )
 
   return (

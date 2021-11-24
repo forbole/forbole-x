@@ -11,7 +11,7 @@ import useStyles from './styles'
 import useIsMobile from '../../misc/useIsMobile'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import { getTokensPrices } from '../../graphql/queries/tokensPrices'
-// import CloseIcon from '../../assets/images/icons/icon_cross.svg'
+import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useIconProps from '../../misc/useIconProps'
 import { getValidatorsByAddresses } from '../../graphql/queries/validators'
@@ -22,8 +22,10 @@ import FailContent from './FailContent'
 import SecurityPasswordDialogContent from '../SecurityPasswordDialogContent'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import useSignerInfo from '../../misc/useSignerInfo'
-import signAndBroadcastTransaction from '../../misc/signAndBroadcastTransaction'
+import useSignerInfo from '../../misc/tx/useSignerInfo'
+import signAndBroadcastTransaction from '../../misc/tx/signAndBroadcastTransaction'
+import useIsChromeExt from '../../misc/useIsChromeExt'
+import estimateGasFee from '../../misc/tx/estimateGasFee'
 
 enum ConfirmTransactionStage {
   ConfirmStage = 'confirm',
@@ -56,6 +58,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const classes = useStyles()
   const isMobile = useIsMobile()
   const iconProps = useIconProps()
+  const { isSentFromWeb } = useIsChromeExt()
 
   const { accounts, password, wallets } = useWalletsContext()
   const account = accounts.find((a) => a.address === address)
@@ -63,6 +66,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const crypto = account ? account.crypto : Object.keys(cryptocurrencies)[0]
 
   const [errMsg, setErrMsg] = React.useState('')
+  const [fee, setFee] = React.useState({ amount: [{ amount: '0', denom: '' }], gas: '' })
 
   const { data: denomsData } = useSubscription(gql`
     ${getTokensPrices(crypto)}
@@ -80,33 +84,18 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         memo: '',
       }
     }
-    const totalGas = defaultTransactionData.msgs
-      .map((m) =>
-        Number(get(cryptocurrencies, `${account.crypto}.defaultGasFee.gas["${m.typeUrl}"]`, 0))
-      )
-      .reduce((a, b) => a + b, 0)
-    const feeAmount = String(
-      totalGas *
-        (get(cryptocurrencies, `${account.crypto}.defaultGasFee.amount.amount`, 0) as number)
-    )
     return {
-      fee: {
-        amount: [
-          {
-            amount: feeAmount,
-            denom: get(
-              cryptocurrencies,
-              `${account.crypto}.defaultGasFee.amount.denom`,
-              ''
-            ) as string,
-          },
-        ],
-        gas: String(totalGas),
-      },
+      fee,
       ...signerInfo,
       ...defaultTransactionData,
     }
-  }, [account, signerInfo, defaultTransactionData])
+  }, [account, signerInfo, defaultTransactionData, fee])
+
+  React.useEffect(() => {
+    if (defaultTransactionData && account) {
+      estimateGasFee(defaultTransactionData, account).then(setFee)
+    }
+  }, [defaultTransactionData, account])
 
   const validatorsAddresses = flatten(
     transactionData.msgs.map((m) => {
@@ -128,7 +117,12 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const totalAmount = getTokenAmountFromDenoms(
     flatten(
       transactionData.msgs
-        .map((msg) => (msg.value as any).amount || (msg.value as any).token)
+        .map(
+          (msg) =>
+            (msg.value as any).amount ||
+            (msg.value as any).token ||
+            flatten(get(msg, 'value.inputs', []).map((i) => i.coins))
+        )
         .filter((a) => a)
     ),
     denoms
@@ -137,6 +131,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const successMessage = React.useMemo(() => {
     switch (get(transactionData, 'msgs[0].typeUrl', '')) {
       case '/cosmos.bank.v1beta1.MsgSend':
+      case '/cosmos.bank.v1beta1.MsgMultiSend':
       case '/ibc.applications.transfer.v1.MsgTransfer':
         return t('successfully sent', {
           title: formatTokenAmount(totalAmount, crypto, lang),
@@ -182,7 +177,18 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const [stage, setStage, toPrevStage, isPrevStageAvailable] =
     useStateHistory<ConfirmTransactionStage>(ConfirmTransactionStage.ConfirmStage)
 
+  // For ledger
+  const [isTxSigned, setIsTxSigned] = React.useState(false)
+
   const [loading, setLoading] = React.useState(false)
+
+  const closeDialog = React.useCallback(() => {
+    if (isSentFromWeb) {
+      sendMsgToChromeExt({ event: 'closeChromeExtension' })
+    } else {
+      onClose()
+    }
+  }, [isSentFromWeb])
 
   const confirm = React.useCallback(
     async (securityPassword?: string, ledgerSigner?: any) => {
@@ -193,9 +199,11 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
           account,
           transactionData,
           securityPassword,
-          ledgerSigner
+          ledgerSigner,
+          () => setIsTxSigned(true)
         )
         setLoading(false)
+        setIsTxSigned(false)
         setStage(ConfirmTransactionStage.SuccessStage, true)
       } catch (err) {
         setErrMsg(err.message)
@@ -248,6 +256,8 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
             <ConnectLedgerDialogContent
               onConnect={(ledgerSigner) => confirm(undefined, ledgerSigner)}
               ledgerAppName={cryptocurrencies[account.crypto].ledgerAppName}
+              signTransaction
+              isTxSigned={isTxSigned}
             />
           ),
         }
@@ -255,24 +265,14 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         return {
           title: '',
           dialogWidth: 'sm',
-          content: (
-            <SuccessContent
-              message={successMessage}
-              onClose={() => sendMsgToChromeExt({ event: 'closeChromeExtension' })}
-            />
-          ),
+          content: <SuccessContent message={successMessage} onClose={closeDialog} />,
         }
       case ConfirmTransactionStage.FailStage:
       default:
         return {
           title: '',
           dialogWidth: 'sm',
-          content: (
-            <FailContent
-              message={errMsg}
-              onClose={() => sendMsgToChromeExt({ event: 'closeChromeExtension' })}
-            />
-          ),
+          content: <FailContent message={errMsg} onClose={closeDialog} />,
         }
     }
   }, [stage, t, transactionData, account, validators, wallet, confirm, successMessage, totalAmount])
@@ -284,9 +284,11 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
           <BackIcon {...iconProps} />
         </IconButton>
       ) : null}
-      {/* <IconButton className={classes.closeButton} onClick={onClose}>
-        <CloseIcon {...iconProps} />
-      </IconButton> */}
+      {isSentFromWeb ? (
+        <IconButton className={classes.closeButton} onClick={onClose}>
+          <CloseIcon {...iconProps} />
+        </IconButton>
+      ) : null}
       {content.title ? <DialogTitle>{content.title}</DialogTitle> : null}
       {account && wallet && denoms ? content.content : null}
     </Dialog>

@@ -57,7 +57,7 @@ const useStyles = makeStyles(
     },
     listItem: {
       '&:hover': {
-        backgroundColor: theme.palette.action.hover,
+        backgroundColor: theme.palette.grey[100],
       },
     },
   }),

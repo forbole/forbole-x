@@ -1,9 +1,13 @@
 import React from 'react'
 import sendMsgToChromeExt from '../misc/sendMsgToChromeExt'
+import usePersistedState from '../misc/usePersistedState'
+import { useGeneralContext } from './GeneralContext'
+
+const PASSWORD_EXPIRES_IN_MIN = 15
 
 interface WalletsState {
   isFirstTimeUser: boolean
-  isUnlocked: boolean
+  appUnlockState: AppUnlockState
   isChromeExtInstalled: boolean
   wallets: Wallet[]
   accounts: Account[]
@@ -14,8 +18,8 @@ interface WalletsState {
   updateWallet?: (id: string, wallet: UpdateWalletParams) => void
   deleteWallet?: (id: string) => void
   addAccount?: (account: CreateAccountParams, securityPassword: string) => void
-  updateAccount?: (address: string, account: UpdateAccountParams) => void
-  deleteAccount?: (address: string) => void
+  updateAccount?: (address: string, walletId: string, account: UpdateAccountParams) => void
+  deleteAccount?: (address: string, walletId: string) => void
   viewMnemonicPhrase?: (id: string, securityPassword: string) => Promise<string>
   viewMnemonicPhraseBackup?: (
     id: string,
@@ -27,7 +31,7 @@ interface WalletsState {
 
 const initialState: WalletsState = {
   isFirstTimeUser: false,
-  isUnlocked: false,
+  appUnlockState: 'locked',
   isChromeExtInstalled: false,
   wallets: [],
   accounts: [],
@@ -37,11 +41,18 @@ const initialState: WalletsState = {
 const WalletsContext = React.createContext<WalletsState>(initialState)
 
 const WalletsProvider: React.FC = ({ children }) => {
+  const { alwaysRequirePassword } = useGeneralContext()
   const [wallets, setWallets] = React.useState<Wallet[]>([])
   const [accounts, setAccounts] = React.useState<Account[]>([])
-  const [isFirstTimeUser, setIsFirstTimeUser] = React.useState(false)
+  const [appUnlockState, setAppUnlockState] = React.useState(initialState.appUnlockState)
+  const [isFirstTimeUser, setIsFirstTimeUser] = usePersistedState('isFirstTimeUser', false)
   const [isChromeExtInstalled, setIsChromeExtInstalled] = React.useState(false)
-  const [password, setPassword] = React.useState('')
+  const [password, setPassword] = usePersistedState(
+    'password',
+    '',
+    PASSWORD_EXPIRES_IN_MIN * 60 * 1000,
+    alwaysRequirePassword
+  )
 
   const reset = React.useCallback(async () => {
     await sendMsgToChromeExt({
@@ -51,7 +62,8 @@ const WalletsProvider: React.FC = ({ children }) => {
     setAccounts([])
     setWallets([])
     setPassword('')
-  }, [setIsFirstTimeUser, setAccounts, setWallets, setPassword])
+    setAppUnlockState('locked')
+  }, [setIsFirstTimeUser, setAccounts, setWallets, setPassword, setAppUnlockState])
 
   const checkIsFirstTimeUser = React.useCallback(async () => {
     try {
@@ -67,25 +79,32 @@ const WalletsProvider: React.FC = ({ children }) => {
 
   const unlockWallets = React.useCallback(
     async (pw: string) => {
-      if (!isFirstTimeUser) {
-        const walletaResponse = await sendMsgToChromeExt({
-          event: 'getWallets',
-          data: {
-            password: pw,
-          },
-        })
-        const accountsResponse = await sendMsgToChromeExt({
-          event: 'getAccounts',
-          data: {
-            password: pw,
-          },
-        })
-        setWallets(walletaResponse.wallets)
-        setAccounts(accountsResponse.accounts)
+      try {
+        if (!isFirstTimeUser) {
+          setAppUnlockState('unlocking')
+          const walletaResponse = await sendMsgToChromeExt({
+            event: 'getWallets',
+            data: {
+              password: pw,
+            },
+          })
+          const accountsResponse = await sendMsgToChromeExt({
+            event: 'getAccounts',
+            data: {
+              password: pw,
+            },
+          })
+          setWallets(walletaResponse.wallets)
+          setAccounts(accountsResponse.accounts)
+          setAppUnlockState('unlocked')
+        }
+        setPassword(pw)
+      } catch (err) {
+        setAppUnlockState('locked')
+        throw err
       }
-      setPassword(pw)
     },
-    [isFirstTimeUser, setPassword, setWallets, setAccounts]
+    [isFirstTimeUser, setPassword, setWallets, setAccounts, setAppUnlockState]
   )
 
   const updatePassword = React.useCallback(
@@ -150,6 +169,7 @@ const WalletsProvider: React.FC = ({ children }) => {
               event: 'deleteAccount',
               data: {
                 address: a.address,
+                walletId: a.walletId,
                 password,
               },
             })
@@ -158,13 +178,13 @@ const WalletsProvider: React.FC = ({ children }) => {
       setWallets((ws) => {
         const newWallets = ws.filter((w) => w.id !== id)
         if (!newWallets.length) {
-          setIsFirstTimeUser(true)
+          reset()
         }
         return newWallets
       })
       setAccounts((acs) => acs.filter((a) => a.walletId !== id))
     },
-    [password, accounts, setWallets, setIsFirstTimeUser, setAccounts]
+    [password, accounts, setWallets, setIsFirstTimeUser, setAccounts, reset]
   )
 
   const addAccount = React.useCallback(
@@ -183,30 +203,34 @@ const WalletsProvider: React.FC = ({ children }) => {
   )
 
   const updateAccount = React.useCallback(
-    async (address: string, account: UpdateAccountParams) => {
+    async (address: string, walletId: string, account: UpdateAccountParams) => {
       const result = await sendMsgToChromeExt({
         event: 'updateAccount',
         data: {
           account,
           address,
+          walletId,
           password,
         },
       })
-      setAccounts((acs) => acs.map((a) => (a.address === address ? result.account : a)))
+      setAccounts((acs) =>
+        acs.map((a) => (a.address === address && a.walletId === walletId ? result.account : a))
+      )
     },
     [password, setAccounts]
   )
 
   const deleteAccount = React.useCallback(
-    async (address: string) => {
+    async (address: string, walletId: string) => {
       await sendMsgToChromeExt({
         event: 'deleteAccount',
         data: {
           address,
+          walletId,
           password,
         },
       })
-      setAccounts((acs) => acs.filter((a) => a.address !== address))
+      setAccounts((acs) => acs.filter((a) => a.address !== address || a.walletId !== walletId))
     },
     [password, setAccounts]
   )
@@ -251,7 +275,7 @@ const WalletsProvider: React.FC = ({ children }) => {
     <WalletsContext.Provider
       value={{
         isFirstTimeUser,
-        isUnlocked: !!wallets.length,
+        appUnlockState,
         isChromeExtInstalled,
         wallets,
         accounts,

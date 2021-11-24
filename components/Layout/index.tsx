@@ -12,6 +12,7 @@ import UnlockPasswordDialog from '../UnlockPasswordDialog'
 import usePersistedState from '../../misc/usePersistedState'
 import ConfirmTransactionDialog from '../ConfirmTransactionDialog'
 import ChromeExtDialog from '../ChromeExtDialog'
+import useIsChromeExt from '../../misc/useIsChromeExt'
 
 export enum MenuWidth {
   Expanded = 32,
@@ -23,29 +24,29 @@ interface LayoutProps {
   passwordRequired?: boolean
   children: React.ReactNode
   HeaderLeftComponent?: React.ReactNode
+  ChromeExtTitleComponent?: React.ReactNode
+  ChromeExtRightComponent?: React.ReactNode
+  back?: boolean
 }
 
 const Layout: React.FC<LayoutProps> = ({
   activeItem,
   passwordRequired,
   HeaderLeftComponent,
+  ChromeExtTitleComponent,
+  ChromeExtRightComponent,
+  back,
   children,
 }) => {
   const classes = useStyles()
   const theme = useTheme()
   const [isMenuExpanded, setIsMenuExpanded, loaded] = usePersistedState('isMenuExpanded', true)
-  const { isFirstTimeUser, isUnlocked, isChromeExtInstalled } = useWalletsContext()
+  const { isFirstTimeUser, appUnlockState, isChromeExtInstalled, unlockWallets, password } =
+    useWalletsContext()
   // Hide menu for chrome extension
   const router = useRouter()
-  const hideMenuQueryParam = get(router, 'query.hideMenu', '')
-  const isHideMenu = hideMenuQueryParam || (process.browser && (window as any).hideMenu)
-
-  React.useEffect(() => {
-    if (hideMenuQueryParam) {
-      // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;(window as any).hideMenu = true
-    }
-  }, [hideMenuQueryParam])
+  const defaultPassword = router.query.password
+  const { isChromeExt } = useIsChromeExt()
 
   // Open ConfirmTransactionDialog with correct query params
   const { address, transactionData, open, onClose } = React.useMemo(() => {
@@ -64,14 +65,36 @@ const Layout: React.FC<LayoutProps> = ({
     }
   }, [router])
 
+  const initPassword = React.useCallback(async () => {
+    try {
+      if (appUnlockState !== 'unlocked') {
+        if (defaultPassword) {
+          await unlockWallets(String(defaultPassword))
+        } else if (password) {
+          await unlockWallets(password)
+        }
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }, [defaultPassword, password, appUnlockState, unlockWallets])
+
+  React.useEffect(() => {
+    initPassword()
+  }, [initPassword])
+
   return loaded ? (
     <>
       <NavBar
         HeaderLeftComponent={HeaderLeftComponent}
+        ChromeExtTitleComponent={ChromeExtTitleComponent}
+        ChromeExtRightComponent={ChromeExtRightComponent}
         // eslint-disable-next-line no-nested-ternary
-        menuWidth={isHideMenu ? 0 : isMenuExpanded ? MenuWidth.Expanded : MenuWidth.Collapsed}
+        menuWidth={isChromeExt || isMenuExpanded ? MenuWidth.Expanded : MenuWidth.Collapsed}
+        isChromeExt={isChromeExt}
+        back={back}
       />
-      {isHideMenu ? null : (
+      {isChromeExt ? null : (
         <LeftMenu
           activeItem={activeItem}
           isMenuExpanded={isMenuExpanded}
@@ -81,13 +104,13 @@ const Layout: React.FC<LayoutProps> = ({
       <Box
         className={classes.main}
         style={{
-          marginLeft: isHideMenu
+          marginLeft: isChromeExt
             ? 0
             : theme.spacing(isMenuExpanded ? MenuWidth.Expanded : MenuWidth.Collapsed),
         }}
       >
         {passwordRequired && isFirstTimeUser ? <GetStarted /> : null}
-        {!passwordRequired || isUnlocked ? children : null}
+        {!passwordRequired || appUnlockState === 'unlocked' ? children : null}
       </Box>
       {passwordRequired && !isFirstTimeUser && isChromeExtInstalled ? (
         <UnlockPasswordDialog />

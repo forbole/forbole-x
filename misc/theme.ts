@@ -35,6 +35,7 @@ interface CustomPalette extends Palette {
   reactJsonBackground: string
   buttonDisabled: string
   validator: string
+  cardBackground: string
 }
 
 export interface CustomTheme extends Theme {
@@ -59,7 +60,7 @@ const common = {
       letterSpacing: 0,
     },
     h4: {
-      fontSize: '1.5rem',
+      fontSize: '1.375rem',
       letterSpacing: 0.25,
     },
     h5: {
@@ -130,6 +131,7 @@ const lightTheme = {
     text: {
       primary: '#000000',
       secondary: '#646464',
+      disabled: '#646464',
     },
     background: {
       default: '#F2F2F2',
@@ -140,8 +142,7 @@ const lightTheme = {
       100: '#F2F2F2',
       200: '#DDDDDD',
       300: '#8B8B8B',
-      400: '#F7F7F7',
-      500: '#777777',
+      400: '#777777',
     },
     action: {
       hover: '#F7F7F7',
@@ -202,6 +203,7 @@ const lightTheme = {
     dialogBackground: '#FFFFFF',
     reactJsonBackground: '#F7F7F7',
     buttonDisabled: '#BFDFFF',
+    cardBackground: '#F7F7F7',
   },
 } as unknown as ThemeOptions
 
@@ -229,6 +231,7 @@ const darkTheme = {
     text: {
       primary: '#E6E6E6',
       secondary: '#9D9D9D',
+      disabled: '#9D9D9D',
     },
     background: {
       default: '#1D1E22',
@@ -239,8 +242,7 @@ const darkTheme = {
       100: '#34383E',
       200: '#3D4047',
       300: '#AFAFAF',
-      400: '#2B2F35',
-      500: '#777777',
+      400: '#777777',
     },
     action: {
       hover: '#1D1E22',
@@ -297,6 +299,7 @@ const darkTheme = {
       two: '#FF961B',
       three: '#FC6A8A',
     },
+    cardBackground: '#3D4047',
   },
 } as unknown as ThemeOptions
 

@@ -21,6 +21,11 @@ const useStyles = makeStyles(
       flexDirection: 'column',
       height: '100%',
     },
+    menuItems: {
+      height: '70%',
+      overflowY: 'auto',
+      overflowX: 'hidden',
+    },
     menuItem: {
       height: theme.spacing(6),
       paddingLeft: theme.spacing(1.5),
@@ -30,8 +35,9 @@ const useStyles = makeStyles(
       whiteSpace: 'nowrap',
     },
     favMenu: {
-      marginTop: 'auto',
       height: '30%',
+      overflowY: 'auto',
+      overflowX: 'hidden',
     },
     starredAccounts: {
       transition: 'display 0.2s ease-in-out',
@@ -61,7 +67,7 @@ const useStyles = makeStyles(
       width: 'fit-content',
     },
     favMenuItem: {
-      height: theme.spacing(6),
+      height: theme.spacing(8),
       borderRadius: theme.spacing(1),
       whiteSpace: 'nowrap',
       paddingLeft: theme.spacing(1.5),

@@ -24,6 +24,10 @@ import SubmitProposalContent from './SubmitProposalContent'
 import VoteContent from './VoteContent'
 import DepositContent from './DepositContent'
 import SaveProfileContent from './SaveProfileContent'
+import SetWithdrawAddressContent from './SetWithdrawAddressContent'
+import MultiSendContent from './MultiSendContent'
+import ChainLinkContent from './ChainLinkContent'
+import ChainUnlinkContent from './ChainUnlinkContent'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
@@ -62,6 +66,15 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             denoms={denoms}
             totalAmount={totalAmount}
             msgs={transactionData.msgs as TransactionMsgSend[]}
+          />
+        )
+      case '/cosmos.bank.v1beta1.MsgMultiSend':
+        return (
+          <MultiSendContent
+            account={account}
+            denoms={denoms}
+            totalAmount={totalAmount}
+            msgs={transactionData.msgs as TransactionMsgMultiSend[]}
           />
         )
       case '/cosmos.staking.v1beta1.MsgDelegate':
@@ -130,6 +143,27 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
         )
       case '/desmos.profiles.v1beta1.MsgSaveProfile':
         return <SaveProfileContent msgs={transactionData.msgs as TransactionMsgSaveProfile[]} />
+      case '/desmos.profiles.v1beta1.MsgLinkChainAccount':
+        return (
+          <ChainLinkContent
+            account={account}
+            msgs={transactionData.msgs as TransactionMsgLinkChainAccount[]}
+          />
+        )
+      case '/desmos.profiles.v1beta1.MsgUnlinkChainAccount':
+        return (
+          <ChainUnlinkContent
+            account={account}
+            msgs={transactionData.msgs as TransactionMsgUnlinkChainAccount[]}
+          />
+        )
+      case '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress':
+        return (
+          <SetWithdrawAddressContent
+            account={account}
+            msgs={transactionData.msgs as TransactionMsgSetWithdrawAddress[]}
+          />
+        )
       default:
         return null
     }
@@ -185,6 +219,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
           variant="contained"
           className={classes.fullWidthButton}
           color="primary"
+          disabled={!transactionData.fee.gas}
           onClick={onConfirm}
         >
           {t('confirm')}

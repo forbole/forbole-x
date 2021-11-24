@@ -1,9 +1,17 @@
-import { Button, DialogActions, DialogContent, DialogContentText } from '@material-ui/core'
+import {
+  Box,
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  Typography,
+} from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
 import PasswordInput from '../PasswordInput'
 import { useWalletsContext } from '../../contexts/WalletsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface UnlockPasswordProps {
   onForgot: () => void
@@ -14,6 +22,7 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
   const classes = useStyles()
   const [password, setPassword] = React.useState('')
   const { unlockWallets } = useWalletsContext()
+  const { alwaysRequirePassword } = useGeneralContext()
   const [error, setError] = React.useState('')
 
   const onButtonClick = React.useCallback(async () => {
@@ -44,6 +53,11 @@ const UnlockPassword: React.FC<UnlockPasswordProps> = ({ onForgot }) => {
           helperText={error}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {alwaysRequirePassword ? null : (
+          <Box mt={1}>
+            <Typography variant="body2">{t('unlock pasword helper text')}</Typography>
+          </Box>
+        )}
       </DialogContent>
       <DialogActions className={classes.action}>
         <Button

@@ -1,4 +1,4 @@
-import { Breadcrumbs, Link as MLink, Card, Box, Typography, Button } from '@material-ui/core'
+import { Breadcrumbs, Link as MLink } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -15,12 +15,14 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { getValidators } from '../../graphql/queries/validators'
 import {
+  transformChainConnections,
   transformGqlAcountBalance,
   transformProfile,
   transformRedelegations,
   transformTransactions,
   transformUnbonding,
   transformValidatorsWithTokenAmount,
+  transformVestingAccount,
 } from '../../misc/utils'
 import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import { getRedelegations } from '../../graphql/queries/redelegations'
@@ -30,6 +32,11 @@ import IBCTransferDialog from '../../components/IBCTransferDialog'
 import ProfileCard from '../../components/ProfileCard'
 import { getProfile } from '../../graphql/queries/profile'
 import ProfileDialog from '../../components/ProfileDialog'
+import { getVestingAccount } from '../../graphql/queries/vestingAccount'
+import VestingDialog from '../../components/VestingDialog'
+import SelectAccountButton from '../../components/SelectAccountButton'
+import { getChainConnections } from '../../graphql/queries/chainConnections'
+import ConnectChainDialog from '../../components/ConnectChainDialog'
 
 const Account: React.FC = () => {
   const router = useRouter()
@@ -74,43 +81,84 @@ const Account: React.FC = () => {
       },
     }
   )
-
-  const { data } = useSubscription(
+  const { data: profileData } = useSubscription(
     gql`
       ${getProfile(crypto.name)}
     `,
     { variables: { address: account ? account.address : '' } }
   )
-  const profile = transformProfile(data)
+  const { data: chainConnectionsData } = useSubscription(
+    gql`
+      ${getChainConnections(crypto.name)}
+    `,
+    { variables: { address: account ? account.address : '' } }
+  )
+  const { data: vestingAccountData } = useSubscription(
+    gql`
+      ${getVestingAccount(crypto.name)}
+    `,
+    { variables: { address: account ? account.address : '' } }
+  )
 
-  const validators = transformValidatorsWithTokenAmount(validatorsData, balanceData)
-  const unbondings = transformUnbonding(validatorsData, balanceData)
-  const redelegations = transformRedelegations(redelegationsData, balanceData)
-  const validatorsMap = keyBy(validators, 'address')
+  const profile = React.useMemo(() => transformProfile(profileData), [profileData])
+  const chainConnections = React.useMemo(
+    () => transformChainConnections(chainConnectionsData),
+    [chainConnectionsData]
+  )
+  const validators = React.useMemo(
+    () => transformValidatorsWithTokenAmount(validatorsData, balanceData),
+    [validatorsData, balanceData]
+  )
+  const unbondings = React.useMemo(
+    () => transformUnbonding(validatorsData, balanceData),
+    [validatorsData, balanceData]
+  )
+  const redelegations = React.useMemo(
+    () => transformRedelegations(redelegationsData, balanceData),
+    [redelegationsData, balanceData]
+  )
+  const validatorsMap = React.useMemo(() => keyBy(validators, 'address'), [validators])
 
-  const accountBalance = transformGqlAcountBalance(balanceData, Date.now())
-  const availableTokens = get(balanceData, 'account[0].available[0]', {
-    coins: [],
-    tokens_prices: [],
-  })
+  const accountBalance = React.useMemo(
+    () => transformGqlAcountBalance(balanceData, Date.now()),
+    [balanceData]
+  )
+  const availableTokens = React.useMemo(
+    () =>
+      get(balanceData, 'account[0].available[0]', {
+        coins: [],
+        tokens_prices: [],
+      }),
+    [balanceData]
+  )
 
-  const delegatedTokens = {}
-  get(balanceData, 'account[0].delegated', []).forEach((d) => {
-    delegatedTokens[get(d, 'validator.validator_info.operator_address', '')] = [d.amount]
-  })
+  const delegatedTokens = React.useMemo(() => {
+    const result = {}
+    get(balanceData, 'account[0].delegated', []).forEach((d) => {
+      result[get(d, 'validator.validator_info.operator_address', '')] = [d.amount]
+    })
+    return result
+  }, [balanceData])
 
-  const activities = transformTransactions(
-    transactionsData,
-    validatorsMap,
-    availableTokens.tokens_prices
+  const activities = React.useMemo(
+    () => transformTransactions(transactionsData, validatorsMap, availableTokens.tokens_prices),
+    [transactionsData, validatorsMap, availableTokens]
+  )
+
+  const vestingAccount = React.useMemo(
+    () => transformVestingAccount(vestingAccountData, availableTokens.tokens_prices),
+    [vestingAccountData, availableTokens]
   )
 
   const [isIBCDialogOpen, setIsIBCDialogOpen] = React.useState(false)
   const [isProfileDialogOpen, setIsProfileDialogOpen] = React.useState(false)
+  const [isConnectChainDialogOpen, setIsConnectChainDialogOpen] = React.useState(false)
+  const [isVestingDialogOpen, setIsVestingDialogOpen] = React.useState(false)
 
   return (
     <Layout
       passwordRequired
+      back
       activeItem="/wallets"
       HeaderLeftComponent={
         account ? (
@@ -122,9 +170,22 @@ const Account: React.FC = () => {
           </Breadcrumbs>
         ) : null
       }
+      ChromeExtTitleComponent={
+        account ? (
+          <SelectAccountButton
+            activeAccount={account}
+            onAccountChange={(a) => router.replace(`/account/${a.address}`)}
+          />
+        ) : null
+      }
     >
       {profile.dtag ? (
-        <ProfileCard profile={profile} onEditProfile={() => setIsProfileDialogOpen(true)} />
+        <ProfileCard
+          profile={profile}
+          chainConnections={chainConnections}
+          onEditProfile={() => setIsProfileDialogOpen(true)}
+          onChainConnectionClick={() => setIsConnectChainDialogOpen(true)}
+        />
       ) : null}
       {account ? (
         <AccountDetailCard
@@ -150,7 +211,14 @@ const Account: React.FC = () => {
           </Box>
         </Card>
       </Box> */}
-      {account ? <AccountBalanceCard accountBalance={accountBalance} account={account} /> : null}
+      {account ? (
+        <AccountBalanceCard
+          accountBalance={accountBalance}
+          account={account}
+          onVestingClick={() => setIsVestingDialogOpen(true)}
+          hideVestingButton={!vestingAccount.vestingPeriods.length}
+        />
+      ) : null}
       <DelegationsTable
         wallet={wallet}
         account={account}
@@ -163,19 +231,34 @@ const Account: React.FC = () => {
       />
       <ActivitiesTable account={account} activities={activities} crypto={crypto} />
       {account ? (
-        <IBCTransferDialog
-          account={account}
-          availableTokens={availableTokens}
-          open={isIBCDialogOpen}
-          onClose={() => setIsIBCDialogOpen(false)}
-        />
+        <>
+          <IBCTransferDialog
+            account={account}
+            availableTokens={availableTokens}
+            open={isIBCDialogOpen}
+            onClose={() => setIsIBCDialogOpen(false)}
+          />
+          <ProfileDialog
+            account={account}
+            profile={profile}
+            open={isProfileDialogOpen}
+            onClose={() => setIsProfileDialogOpen(false)}
+          />
+          <ConnectChainDialog
+            account={account}
+            connections={chainConnections}
+            open={isConnectChainDialogOpen}
+            onClose={() => setIsConnectChainDialogOpen(false)}
+          />
+          <VestingDialog
+            open={isVestingDialogOpen}
+            onClose={() => setIsVestingDialogOpen(false)}
+            account={account}
+            totalAmount={vestingAccount.total}
+            vestingPeriods={vestingAccount.vestingPeriods}
+          />
+        </>
       ) : null}
-      <ProfileDialog
-        account={account}
-        profile={profile}
-        open={isProfileDialogOpen}
-        onClose={() => setIsProfileDialogOpen(false)}
-      />
     </Layout>
   )
 }
