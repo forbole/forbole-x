@@ -10,11 +10,17 @@ import { CustomTheme } from '../../misc/theme'
 
 interface CheckClaimableProps {
   profile: Profile
+  chainConnections: ChainConnection[]
   profileLoading: boolean
   onConfirm(): void
 }
 
-const CheckClaimable: React.FC<CheckClaimableProps> = ({ onConfirm, profile, profileLoading }) => {
+const CheckClaimable: React.FC<CheckClaimableProps> = ({
+  onConfirm,
+  profile,
+  chainConnections,
+  profileLoading,
+}) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
@@ -48,7 +54,16 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({ onConfirm, profile, pro
             </Box>
             <Box bgcolor={theme.palette.background.paper} width="100%" height="1px" />
             <Box className={classes.step} display="flex" alignItems="center">
-              <TickIcon {...iconProps} />
+              {
+                // eslint-disable-next-line no-nested-ternary
+                profileLoading ? (
+                  <CircularProgress size={theme.spacing(2)} color="primary" />
+                ) : chainConnections.length ? (
+                  <TickActiveIcon {...iconProps} />
+                ) : (
+                  <TickIcon {...iconProps} />
+                )
+              }
               <Box marginRight={theme.spacing(0.15)} />
               <Typography>{t('airdrop eligibility rule two')}</Typography>
             </Box>
@@ -56,7 +71,13 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({ onConfirm, profile, pro
           <Typography>{t('airdrop eligibility description')}</Typography>
 
           <Box flex={1} display="flex" flexDirection="column" mb={3} mt={5.5}>
-            <Button className={classes.button} color="primary" variant="contained" type="submit">
+            <Button
+              className={classes.button}
+              color="primary"
+              variant="contained"
+              type="submit"
+              disabled={profileLoading}
+            >
               {t('get started button')}
             </Button>
           </Box>
