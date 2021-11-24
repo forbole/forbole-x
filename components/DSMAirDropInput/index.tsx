@@ -21,8 +21,18 @@ import TickIcon from '../../assets/images/icons/icon_tick.svg'
 
 import useStyles from './styles'
 
-const DSMAirDropInput: React.FC = () => {
-  const classes = useStyles()
+interface DsmAirDropInputProps {
+  profile: Profile
+  profileLoading: boolean
+  onConfirm(): void
+}
+
+const DsmAirDropInput: React.FC<DsmAirDropInputProps> = ({
+  onConfirm,
+  profile,
+  profileLoading,
+}) => {
+  //   const classes = useStyles()
   const { t } = useTranslation('common')
   const theme = useTheme()
   const [loading, setLoading] = React.useState(false)
@@ -62,6 +72,7 @@ const DSMAirDropInput: React.FC = () => {
         onSubmit={(e) => {
           e.preventDefault()
           verify()
+          onConfirm()
         }}
       >
         <Typography style={{ padding: theme.spacing(0, 2) }}>{t('insert your address')}</Typography>{' '}
@@ -69,7 +80,7 @@ const DSMAirDropInput: React.FC = () => {
           <TextField
             error={error}
             helperText={error ? t('invalid address') : undefined}
-            className={classes.searchBarStyle}
+            // className={classes.searchBarStyle}
             style={{
               padding: theme.spacing(0, 0, 2, 2),
               width: '70%',
@@ -158,4 +169,4 @@ const DSMAirDropInput: React.FC = () => {
   )
 }
 
-export default DSMAirDropInput
+export default DsmAirDropInput
