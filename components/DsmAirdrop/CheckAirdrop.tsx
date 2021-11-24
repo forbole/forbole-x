@@ -22,6 +22,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
   const [lpInfos, setLpInfos] = React.useState(null)
   const [error, setError] = React.useState(false)
   const [isSelectAccountDialogOpen, setIsSelectAccountDialogOpen] = React.useState(false)
+  const [feeGrant, setFeeGrant] = React.useState(null)
 
   const verify = React.useCallback(async () => {
     try {
@@ -42,6 +43,26 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
       console.log(err)
     }
   }, [address])
+
+  const submit = React.useCallback(
+    async (value) => {
+      try {
+        setLoading(true)
+        const data = await fetch(`${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/airdrop/grants`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_address: address,
+            desmos_address: value,
+          }),
+        }).then((r) => r.json())
+        setFeeGrant(data)
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    [address]
+  )
   return (
     <>
       <Box display="flex" flexDirection="row" pt={8} padding={theme.spacing(0.5)}>
@@ -170,6 +191,10 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
       <SelectAccountDialog
         setSelectedAddress={setSelectedAddress}
         open={isSelectAccountDialogOpen}
+        onSubmit={(e, value) => {
+          e.preventDefault()
+          submit(value)
+        }}
         onClose={() => {
           setIsSelectAccountDialogOpen(false)
           onConfirm()

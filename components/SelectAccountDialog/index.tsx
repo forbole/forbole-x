@@ -19,12 +19,14 @@ import AccountRow from './AccountRow'
 interface SelectAccountDialogProps {
   open: boolean
   onClose(): void
+  onSubmit: (event: any, value: string) => void
   setSelectedAddress: (address: string) => void
 }
 
 const SelectAccountDialog: React.FC<SelectAccountDialogProps> = ({
   open,
   onClose,
+  onSubmit,
   setSelectedAddress,
 }) => {
   const classes = useStyles()
@@ -40,6 +42,7 @@ const SelectAccountDialog: React.FC<SelectAccountDialogProps> = ({
   const handleSubmit = (event) => {
     event.preventDefault()
     setSelectedAddress(value)
+    onSubmit(event, value)
     onClose()
   }
 
