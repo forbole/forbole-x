@@ -1,6 +1,5 @@
 import React from 'react'
 import { Box, Typography, useTheme, Button, TextField, CircularProgress } from '@material-ui/core'
-import axios from 'axios'
 import useTranslation from 'next-translate/useTranslation'
 import TickIcon from '../../assets/images/icons/icon_tick.svg'
 import ParachuteIcon from '../../assets/images/parachute.svg'
@@ -27,8 +26,9 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
   const verify = React.useCallback(async () => {
     try {
       setLoading(true)
-      const result = await axios.get(`https://api.airdrop.desmos.network/users/${address}`)
-      const { data } = result
+      const data = await fetch(
+        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/users/${address}`
+      ).then((r) => r.json())
       setVerifyData(data)
       // eslint-disable-next-line camelcase
       const { staking_infos, dsm_allotted, lp_infos } = data
@@ -44,7 +44,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
   }, [address])
   return (
     <>
-      <Box display="flex" flexDirection="row" alignItems="center" padding={theme.spacing(0.5)}>
+      <Box display="flex" flexDirection="row" pt={8} padding={theme.spacing(0.5)}>
         <Box display="flex" flexDirection="column" justifyContent="flex-start" width="70%">
           <Box pl={theme.spacing(1)}>
             <Box mb={theme.spacing(1)}>
@@ -52,17 +52,17 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
               <Typography variant="h4">{t('check your availability')}</Typography>
             </Box>
             <form noValidate>
-              <Typography>{t('insert your address')}</Typography>{' '}
-              <Box display="flex" flexDirection="row">
+              <Typography gutterBottom>{t('insert your address')}</Typography>{' '}
+              <Box display="flex" flexDirection="row" mb={8}>
                 <TextField
                   error={error}
                   helperText={error ? t('invalid dsm address') : undefined}
-                  className={classes.searchBarStyle}
-                  style={{
-                    width: '70%',
+                  autoFocus
+                  variant="filled"
+                  InputProps={{
+                    disableUnderline: true,
                   }}
-                  fullWidth={undefined}
-                  variant="outlined"
+                  style={{ width: '70%' }}
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   placeholder={t('cosmos address placeholder')}
@@ -78,8 +78,6 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
                       verify()
                     }}
                     style={{
-                      height: 'auto',
-                      padding: theme.spacing(2, 1.75),
                       borderRadius: theme.spacing(0, 0.5, 0.5, 0),
                       marginLeft: theme.spacing(0.125),
                     }}
@@ -94,7 +92,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
               </Box>
             </form>
             {verifyData !== null && (
-              <Box>
+              <Box mb={2}>
                 <Typography>{t('your allocation')}</Typography>
                 <Typography variant="h3">{verifyData.dsm_allotted} DSM</Typography>
               </Box>
@@ -147,7 +145,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
             ) : null}
             {dataStakingInfo !== null && dataStakingInfo !== undefined ? (
               <form noValidate>
-                <Box padding={0} width="20%">
+                <Box mt={4} padding={0} width="20%">
                   <Button
                     id="button"
                     variant="contained"
