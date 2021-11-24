@@ -102,7 +102,7 @@ const NavBar: React.FC<{
         <Box display="flex" justifyContent="flex-end" m={2}>
           <ThemeModeButton />
         </Box>
-        <List style={{ width: theme.spacing(menuWidth), padding: theme.spacing(0, 2) }}>
+        <List style={{ width: theme.spacing(menuWidth), padding: theme.spacing(0, 2) }} id="navBar">
           {chromeExtMenuItems.map((item) => {
             return (
               <React.Fragment key={item.title}>
@@ -130,7 +130,7 @@ const NavBar: React.FC<{
       </Drawer>
     </>
   ) : (
-    <Box className={classes.navBar}>
+    <Box className={classes.navBar} id="navBar">
       {HeaderLeftComponent ? (
         <Box className={classes.navbarLeftComponentContainer} flex={1} ml={menuWidth}>
           {HeaderLeftComponent}
