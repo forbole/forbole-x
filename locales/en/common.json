@@ -439,5 +439,12 @@
   "airdrop eligibility rule two": "Connect Desmos Profile to your wallet accounts",
   "dsm airdrop is claimable": "DSM Airdrop is claimable",
   "airdrop create profile subtitle": "The first thing is that you need to create a Desmos profile",
-  "select an account": "Select an account you want to receive DSM Airdrop"
+  "select an account": "Select an account you want to receive DSM Airdrop",
+  "airdrop result title success": "Congratulations !",
+  "airdrop result title failed": "Unfortunately",
+  "airdrop result subtitle success": "You have successfully claimed {{amount}} DSM",
+  "airdrop result subtitle failed": "Something went wrong when handling your request",
+  "airdrop result button success": "Claim More",
+  "airdrop result button failed": "Try Again",
+  "amount claimable title": "Looks like connecting this account to you Desmos Profile has allowed you to claim"
 }
