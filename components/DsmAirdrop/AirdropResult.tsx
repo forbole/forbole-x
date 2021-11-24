@@ -8,11 +8,11 @@ import AirdropFailed from '../../assets/images/airdrop_failed.svg'
 
 interface AirdropResultProps {
   success: boolean
-  amount?: number
   onCompleted: () => void
+  airdropResponse: string
 }
 
-const AirdropResult: React.FC<AirdropResultProps> = ({ success, amount, onCompleted }) => {
+const AirdropResult: React.FC<AirdropResultProps> = ({ success, onCompleted, airdropResponse }) => {
   const classes = useStyles()
   const { t } = useTranslation('common')
 
@@ -31,9 +31,7 @@ const AirdropResult: React.FC<AirdropResultProps> = ({ success, amount, onComple
         <Typography variant="h4">
           {t(`airdrop result title ${success ? 'success' : 'failed'}`)}
         </Typography>
-        <Typography className={classes.airdropMessage}>
-          {t(`airdrop result subtitle ${success ? 'success' : 'failed'}`, { amount: amount ?? 0 })}
-        </Typography>
+        <Typography className={classes.airdropMessage}>{airdropResponse}</Typography>
         <Button
           className={classes.button}
           color="primary"

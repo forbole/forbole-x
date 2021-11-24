@@ -37,9 +37,7 @@ const DsmAirdrop: React.FC = () => {
   const { t } = useTranslation('common')
   const { accounts, wallets } = useWalletsContext()
 
-  const [selectedAddress, setSelectedAddress] = React.useState(
-    'desmos1tw6cs3rv6s54x6szncpupgd6p7hdtlfemhm545'
-  )
+  const [selectedAddress, setSelectedAddress] = React.useState('')
 
   const account = React.useMemo(
     () => accounts.find((acc) => acc.address === selectedAddress),
@@ -71,19 +69,45 @@ const DsmAirdrop: React.FC = () => {
   )
 
   const [totalDsmAllocated, setTotalDsmAllocated] = useState(0)
+  const [airdropResponse, setAirdropResponse] = useState('')
+
+  const [claimSuccess, setClaimSuccess] = useState(false)
+
+  const claimAirdrop = async () => {
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/airdrop/claims`,
+        {
+          desmos_address: selectedAddress,
+        }
+      )
+      setAirdropResponse(res.data)
+    } catch (err) {
+      setClaimSuccess(false)
+      setAirdropResponse(err.response.data)
+    }
+  }
 
   useEffect(() => {
     if (chainConnections.length > 0) {
       const axiosRequests = chainConnections.map((connection) =>
-        axios.get(`https://api.airdrop.desmos.network/users/${connection.externalAddress}`)
+        axios.get(
+          `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/users/${connection.externalAddress}`
+        )
       )
       axios
         .all(axiosRequests)
         .then(
           axios.spread((...responses) => {
-            responses.forEach((res) =>
-              setTotalDsmAllocated(totalDsmAllocated + res.data.dsm_allotted)
-            )
+            responses.forEach((res) => {
+              const chainClaimableAmount = [
+                ...(res.data.staking_infos ?? []),
+                ...(res.data.lp_infos ?? []),
+              ]
+                .filter((chain) => !chain.claimed)
+                .reduce((a, b) => a + b.dsm_allotted, 0)
+              return setTotalDsmAllocated(totalDsmAllocated + chainClaimableAmount)
+            })
           })
         )
         .catch((error) => {
@@ -99,8 +123,8 @@ const DsmAirdrop: React.FC = () => {
           title: t('dsm airdrop is claimable'),
           content: (
             <AirdropResult
-              success={!false}
-              amount={totalDsmAllocated}
+              success={claimSuccess}
+              airdropResponse={airdropResponse}
               onCompleted={() => {
                 setStage(CommonStage.StartStage)
               }}
@@ -112,7 +136,8 @@ const DsmAirdrop: React.FC = () => {
           title: t('dsm airdrop is claimable'),
           content: (
             <ClaimableAmount
-              onConfirm={() => {
+              onConfirm={async () => {
+                await claimAirdrop()
                 setStage(CommonStage.AirdropResultStage)
               }}
               amount={totalDsmAllocated}
