@@ -464,5 +464,7 @@
   "airdrop result subtitle failed": "Something went wrong when handling your request",
   "airdrop result button success": "Claim More",
   "airdrop result button failed": "Try Again",
-  "amount claimable title": "Looks like connecting this account to you Desmos Profile has allowed you to claim"
+  "amount claimable title": "Looks like connecting this account to you Desmos Profile has allowed you to claim",
+  "connect account": "Connect Account",
+  "airdrop connect account subtitle": "Now it’s time to connect your Desmos Profile to your first wallet account and claim your airdrop for such an account"
 }
