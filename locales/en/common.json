@@ -445,5 +445,7 @@
   "airdrop eligibility rule two": "Connect Desmos Profile to your wallet accounts",
   "dsm airdrop is claimable": "DSM Airdrop is claimable",
   "airdrop create profile subtitle": "The first thing is that you need to create a Desmos profile",
-  "select an account": "Select an account you want to receive DSM Airdrop"
+  "select an account": "Select an account you want to receive DSM Airdrop",
+  "dsm": "DSM",
+  "lp staker": "LP Staker"
 }

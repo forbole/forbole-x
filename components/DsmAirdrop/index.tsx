@@ -6,11 +6,11 @@ import useStateHistory from '../../misc/useStateHistory'
 import { useStyles } from './styles'
 import CheckClaimable from './CheckClaimable'
 import CreateProfile from './CreateProfile'
-import DsmAirDropInput from '../DsmAirDropInput'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { getProfile } from '../../graphql/queries/profile'
 import { transformProfile } from '../../misc/utils'
+import CheckAirdrop from './CheckAirdrop'
 
 interface Content {
   title?: string
@@ -86,7 +86,7 @@ const DsmAirdrop: React.FC = () => {
       default:
         return {
           content: (
-            <DsmAirDropInput
+            <CheckAirdrop
               onConfirm={() => setStage(CommonStage.CheckClaimableStage)}
               profileLoading={loading}
               profile={profile}

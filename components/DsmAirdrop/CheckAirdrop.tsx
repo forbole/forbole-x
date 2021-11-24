@@ -18,6 +18,7 @@ import {
 import axios from 'axios'
 import useTranslation from 'next-translate/useTranslation'
 import TickIcon from '../../assets/images/icons/icon_tick.svg'
+import ParachuteIcon from '../../assets/images/parachute.svg'
 import useStyles from './styles'
 
 interface CheckAirdropProps {
@@ -30,7 +31,6 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, profile, profile
   const classes = useStyles()
   const { t } = useTranslation('common')
   const theme = useTheme()
-  //   const formRef = React.useRef()
   const [loading, setLoading] = React.useState(false)
   const [address, setAddress] = React.useState('')
   const [verifyData, setVerifyData] = React.useState(null)
@@ -50,7 +50,6 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, profile, profile
       setLpInfos(lp_infos)
       setLoading(false)
       setError(false)
-      //   formRef.current.reset()
     } catch (err) {
       setError(true)
       setLoading(false)
@@ -58,150 +57,152 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, profile, profile
     }
   }, [address])
   return (
-    <Box display="flex" flexDirection="column" justifyContent="flex-start">
-      <Box className={classes.stageContent} width="100%">
-        <Box>
-          <Typography variant="h1">{t('dsm airdrop announced')}</Typography>
-          <Typography variant="h4">{t('check your availability')}</Typography>
-        </Box>
-        <form
-          noValidate
-          //   ref={formRef}
-          onSubmit={(e) => {
-            e.preventDefault()
-            verify()
-          }}
-        >
-          <Typography style={{ padding: theme.spacing(0, 2) }}>
-            {t('insert your address')}
-          </Typography>{' '}
-          <Box display="flex" flexDirection="row">
-            <TextField
-              error={error}
-              helperText={error ? t('invalid address') : undefined}
-              // className={classes.searchBarStyle}
-              style={{
-                padding: theme.spacing(0, 0, 2, 2),
-                width: '70%',
-              }}
-              fullWidth={undefined}
-              variant="outlined"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder={t('cosmos address placeholder')}
-            />
-            <Box padding={0} width="20%">
-              <Button
-                type="submit"
-                fullWidth={undefined}
-                variant="contained"
-                color="primary"
+    <Box
+      display="flex"
+      flexDirection="row"
+      // justifyContent="flex-start"
+      alignItems="center"
+      padding={theme.spacing(0.5)}
+    >
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="flex-start"
+        //   padding={theme.spacing(1)}
+        width="70%"
+      >
+        <Box pl={theme.spacing(1)}>
+          <Box mb={theme.spacing(1)}>
+            <Typography variant="h1">{t('dsm airdrop announced')}</Typography>
+            <Typography variant="h4">{t('check your availability')}</Typography>
+          </Box>
+          <form noValidate>
+            <Typography>{t('insert your address')}</Typography>{' '}
+            <Box display="flex" flexDirection="row">
+              <TextField
+                error={error}
+                helperText={error ? t('invalid address') : undefined}
+                className={classes.searchBarStyle}
                 style={{
-                  // backgroundColor: 'rgba(237, 108, 83, 1)',
-                  height: 'auto',
-                  padding: theme.spacing(2, 1.75),
-                  borderRadius: theme.spacing(0, 0.5, 0.5, 0),
-                  marginLeft: theme.spacing(0.125),
+                  width: '70%',
                 }}
-              >
-                {loading ? (
-                  <CircularProgress color="inherit" size={theme.spacing(3)} />
-                ) : (
-                  'claim now'
-                )}
-              </Button>
-            </Box>
-          </Box>
-        </form>
-        {verifyData !== null && (
-          <Box>
-            <Typography>The allocated DSM amount is</Typography>
-            <Typography style={{ paddingLeft: theme.spacing(2) }} variant="h3">
-              {verifyData.dsm_allotted} DSM
-            </Typography>
-          </Box>
-        )}
-        {dataStakingInfo !== null && dataStakingInfo !== undefined ? (
-          <Box>
-            {dataStakingInfo.map((item, key) => {
-              const chain = item.chain_name
-              // console.log(dataStakingInfo);
-              return (
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  pl={theme.spacing(2)}
-                  pt={theme.spacing(2)}
-                  key={key}
-                >
-                  <Box pr={theme.spacing(1)}>
-                    <TickIcon />
-                  </Box>
-                  <Typography style={{ color: 'rgba(237, 108, 83, 1)', padding: 0 }}>
-                    {chain} Staker {item.forbole_delegator ? '& Forbole Delegator' : null}
-                  </Typography>
-                </Box>
-              )
-            })}
-          </Box>
-        ) : null}
-        {lpInfos !== null && lpInfos !== undefined ? (
-          <Box>
-            {lpInfos.map((item, key) => {
-              const chain = item.chain_name
-              return (
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  pl={theme.spacing(2)}
-                  pt={theme.spacing(2)}
-                  key={key}
-                >
-                  <Box pr={theme.spacing(1)}>
-                    <TickIcon />
-                  </Box>
-                  <Typography style={{ color: 'rgba(237, 108, 83, 1)', padding: 0 }}>
-                    {chain} LP Staker
-                  </Typography>
-                </Box>
-              )
-            })}
-          </Box>
-        ) : null}
-        {dataStakingInfo !== null &&
-        dataStakingInfo !== undefined &&
-        lpInfos !== null &&
-        lpInfos !== undefined ? (
-          <form
-            noValidate
-            onSubmit={(e) => {
-              e.preventDefault()
-              onConfirm()
-            }}
-          >
-            <Box padding={0} width="20%">
-              <Button
-                type="submit"
                 fullWidth={undefined}
-                variant="contained"
-                color="primary"
-                style={{
-                  // backgroundColor: 'rgba(237, 108, 83, 1)',
-                  height: 'auto',
-                  padding: theme.spacing(2, 1.75),
-                  borderRadius: theme.spacing(0, 0.5, 0.5, 0),
-                  marginLeft: theme.spacing(0.125),
-                }}
-              >
-                {loading ? (
-                  <CircularProgress color="inherit" size={theme.spacing(3)} />
-                ) : (
-                  'claim now'
-                )}
-              </Button>
+                variant="outlined"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder={t('cosmos address placeholder')}
+              />
+              <Box padding={0} width="30%">
+                <Button
+                  type="submit"
+                  fullWidth={undefined}
+                  variant="contained"
+                  color="primary"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    verify()
+                  }}
+                  style={{
+                    height: 'auto',
+                    padding: theme.spacing(2, 1.75),
+                    borderRadius: theme.spacing(0, 0.5, 0.5, 0),
+                    marginLeft: theme.spacing(0.125),
+                  }}
+                >
+                  {loading ? (
+                    <CircularProgress color="inherit" size={theme.spacing(3)} />
+                  ) : (
+                    'calculate'
+                  )}
+                </Button>
+              </Box>
             </Box>
           </form>
-        ) : null}
+          {verifyData !== null && (
+            <Box>
+              <Typography>{t('your allocation')}</Typography>
+              <Typography variant="h3">{verifyData.dsm_allotted} DSM</Typography>
+            </Box>
+          )}
+          {dataStakingInfo !== null && dataStakingInfo !== undefined ? (
+            <Box>
+              {dataStakingInfo.map((item, key) => {
+                const chain = item.chain_name
+                // console.log(dataStakingInfo);
+                return (
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    alignItems="center"
+                    // pl={theme.spacing(0.2)}
+                    pt={theme.spacing(0.2)}
+                    key={key}
+                  >
+                    <Box pr={theme.spacing(0.2)}>
+                      <TickIcon />
+                    </Box>
+                    <Typography style={{ color: theme.palette.primary.main, padding: 0 }}>
+                      {chain} Staker {item.forbole_delegator ? '& Forbole Delegator' : null}
+                    </Typography>
+                  </Box>
+                )
+              })}
+            </Box>
+          ) : null}
+          {lpInfos !== null && lpInfos !== undefined ? (
+            <Box pb={theme.spacing(0.2)}>
+              {lpInfos.map((item, key) => {
+                const chain = item.chain_name
+                return (
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    alignItems="center"
+                    pt={theme.spacing(0.2)}
+                    key={key}
+                  >
+                    <Box pr={theme.spacing(0.2)}>
+                      <TickIcon />
+                    </Box>
+                    <Typography style={{ color: theme.palette.primary.main, padding: 0 }}>
+                      {chain} {t('lp staker')}
+                    </Typography>
+                  </Box>
+                )
+              })}
+            </Box>
+          ) : null}
+          {dataStakingInfo !== null && dataStakingInfo !== undefined ? (
+            <form noValidate>
+              <Box padding={0} width="20%">
+                <Button
+                  type="submit"
+                  fullWidth={undefined}
+                  variant="contained"
+                  color="primary"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    onConfirm()
+                  }}
+                  style={{
+                    height: 'auto',
+                    padding: theme.spacing(2, 1.75),
+                    marginLeft: theme.spacing(0.125),
+                  }}
+                >
+                  {loading ? (
+                    <CircularProgress color="inherit" size={theme.spacing(3)} />
+                  ) : (
+                    t('claim now')
+                  )}
+                </Button>
+              </Box>
+            </form>
+          ) : null}
+        </Box>
+      </Box>
+      <Box width="30%" mr={theme.spacing(0.5)} py={theme.spacing(1)}>
+        <ParachuteIcon />
       </Box>
     </Box>
   )

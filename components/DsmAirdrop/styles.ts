@@ -28,6 +28,18 @@ export const useStyles = makeStyles(
     mainCard: {
       minHeight: `calc(100vh - ${theme.spacing(18)}px)`,
     },
+    searchBarStyle: {
+      '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+          borderColor: theme.palette.action.selected,
+          borderRadius: theme.spacing(0.5, 0, 0, 0.5)
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: theme.palette.text.primary,
+          borderWidth: '2px',
+        },
+      },
+    },
   }),
   {
     name: 'HookGlobalStyles',
