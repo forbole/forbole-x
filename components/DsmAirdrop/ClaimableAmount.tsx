@@ -25,13 +25,10 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
   const { currency } = useGeneralContext()
   const theme = useTheme()
 
-  const [loading, setLoading] = React.useState(false)
-
   return (
     <form
       onSubmit={async (event) => {
         event.preventDefault()
-        setLoading(true)
         await onConfirm()
       }}
     >
