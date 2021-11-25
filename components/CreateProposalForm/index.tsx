@@ -20,8 +20,9 @@ import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.sv
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
+import MemoInput from '../MemoInput'
 import TokenAmountInput from '../TokenAmountInput'
-import useSendTransaction from '../../misc/useSendTransaction'
+import useSendTransaction from '../../misc/tx/useSendTransaction'
 
 interface CreateProposalFormProps {
   account: Account
@@ -59,6 +60,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
   const [info, setInfo] = React.useState('')
   const [recipient, setRecipient] = React.useState('')
   const [amount, setAmount] = React.useState('')
+  const [consent, setConsent] = React.useState(true)
 
   const [changes, setChanges] = React.useState<
     Array<{ subspace: string; key: string; value: string }>
@@ -505,18 +507,19 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
           <Typography variant="button" className={classes.itemButton}>
             {t('memo')}
           </Typography>
-          <TextField
+          <MemoInput
             fullWidth
             multiline
             rows={4}
-            variant="filled"
             placeholder={t('memo')}
             InputProps={{
               disableUnderline: true,
               className: classes.input,
             }}
             value={memo}
-            onChange={(e) => setMemo(e.target.value)}
+            setValue={setMemo}
+            consent={consent}
+            setConsent={setConsent}
           />
         </Box>
         <Box display="flex" justifyContent="flex-end" pt={6}>
@@ -529,7 +532,8 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
               crypto === undefined ||
               type === undefined ||
               title === '' ||
-              description === ''
+              description === '' ||
+              !consent
             }
             onClick={onNext}
           >

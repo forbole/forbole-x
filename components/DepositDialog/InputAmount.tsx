@@ -20,6 +20,7 @@ import useIconProps from '../../misc/useIconProps'
 import useStyles from './styles'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import TokenAmountInput from '../TokenAmountInput'
+import MemoInput from '../MemoInput'
 import { getTokenAmountFromDenoms, formatCrypto } from '../../misc/utils'
 
 interface InputAmountProps {
@@ -84,6 +85,7 @@ const InputAmount: React.FC<InputAmountProps> = ({
   const accountsMap = keyBy(accounts, 'address')
   const [memo, setMemo] = React.useState('')
   const [amount, setAmount] = React.useState('')
+  const [consent, setConsent] = React.useState(true)
 
   const { availableAmount } = React.useMemo(
     () => ({
@@ -209,17 +211,18 @@ const InputAmount: React.FC<InputAmountProps> = ({
               <Typography variant="button" className={classes.button}>
                 {t('memo')}
               </Typography>
-              <TextField
+              <MemoInput
                 fullWidth
                 multiline
                 rows={4}
-                variant="filled"
                 placeholder={t('description optional')}
                 InputProps={{
                   disableUnderline: true,
                 }}
                 value={memo}
-                onChange={(e) => setMemo(e.target.value)}
+                setValue={setMemo}
+                consent={consent}
+                setConsent={setConsent}
               />
             </Box>
           </Box>
@@ -231,7 +234,7 @@ const InputAmount: React.FC<InputAmountProps> = ({
             variant="contained"
             className={classes.button}
             color="primary"
-            disabled={loading || !Number(amount) || insufficientFund}
+            disabled={loading || !Number(amount) || insufficientFund || !consent}
             onClick={() => onNext(address, Number(amount), denom, memo)}
           >
             {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}

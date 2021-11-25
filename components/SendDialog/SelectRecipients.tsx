@@ -4,7 +4,6 @@ import {
   Button,
   DialogActions,
   DialogContent,
-  TextField,
   Typography,
   Grid,
   CircularProgress,
@@ -27,6 +26,7 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 import TokenAmountInput from '../TokenAmountInput'
 import AddressInput from '../AddressInput'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import MemoInput from '../MemoInput'
 
 interface SelectRecipientsProps {
   onConfirm(
@@ -53,6 +53,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
     Array<{ amount: string; denom: string; address: string }>
   >([{ amount: '', denom: Object.keys(availableAmount)[0] || '', address: '' }])
   const [memo, setMemo] = React.useState('')
+  const [consent, setConsent] = React.useState(true)
   const totalAmount: TokenAmount = React.useMemo(() => {
     const tokenAmount = {}
     recipients.forEach((r) => {
@@ -148,7 +149,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                 </Box>
                 <Box mt={2}>
                   <Typography gutterBottom>{t('memo')}</Typography>
-                  <TextField
+                  <MemoInput
                     fullWidth
                     multiline
                     rows={3}
@@ -158,7 +159,9 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                       disableUnderline: true,
                     }}
                     value={memo}
-                    onChange={(e) => setMemo(e.target.value)}
+                    setValue={setMemo}
+                    consent={consent}
+                    setConsent={setConsent}
                   />
                 </Box>
               </Grid>
@@ -225,7 +228,8 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                   (v) =>
                     isAddressValid(cryptocurrencies[account.crypto].prefix, v.address) &&
                     Number(v.amount)
-                ).length
+                ).length ||
+                !consent
               }
               type="submit"
             >

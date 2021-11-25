@@ -1,7 +1,8 @@
+/* eslint-disable camelcase */
 /* eslint-disable import/no-extraneous-dependencies */
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 import { stringToPath } from '@cosmjs/crypto'
-import { SigningStargateClient } from '@cosmjs/stargate'
+import { AminoTypes, SigningStargateClient } from '@cosmjs/stargate'
 import set from 'lodash/set'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
@@ -10,10 +11,14 @@ import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/para
 import { SoftwareUpgradeProposal } from 'cosmjs-types/cosmos/upgrade/v1beta1/upgrade'
 import { CommunityPoolSpendProposal } from 'cosmjs-types/cosmos/distribution/v1beta1/distribution'
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
+import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys'
 import Long from 'long'
 import { LedgerSigner } from '@cosmjs/ledger-amino'
-import cryptocurrencies from './cryptocurrencies'
-import sendMsgToChromeExt from './sendMsgToChromeExt'
+import { fromBase64 } from '@cosmjs/encoding'
+import cryptocurrencies from '../cryptocurrencies'
+import sendMsgToChromeExt from '../sendMsgToChromeExt'
+import { Bech32Address } from '../../desmos-proto/profiles/v1beta1/models_chain_links'
+import { aminoAdditions, registry } from './customTxTypes'
 
 const formatTransactionMsg = (msg: TransactionMsg) => {
   const transformedMsg = cloneDeep(msg)
@@ -29,6 +34,30 @@ const formatTransactionMsg = (msg: TransactionMsg) => {
     transformedMsg.typeUrl === '/cosmos.gov.v1beta1.MsgVote'
   ) {
     set(transformedMsg, 'value.proposalId', new Long(get(transformedMsg, 'value.proposalId', 0)))
+  }
+  if (transformedMsg.typeUrl === '/desmos.profiles.v1beta1.MsgLinkChainAccount') {
+    set(
+      transformedMsg,
+      'value.chainAddress.value',
+      Uint8Array.from(
+        Bech32Address.encode(
+          Bech32Address.fromPartial(get(transformedMsg, 'value.chainAddress.value', {}))
+        ).finish()
+      )
+    )
+
+    set(
+      transformedMsg,
+      'value.proof.pubKey.value',
+      Uint8Array.from(
+        PubKey.encode(
+          PubKey.fromPartial({
+            key: fromBase64(get(transformedMsg, 'value.proof.pubKey.value', '')),
+          })
+        ).finish()
+      )
+    )
+    console.log(transformedMsg)
   }
 
   if (get(msg, 'value.content.typeUrl') === '/cosmos.gov.v1beta1.TextProposal') {
@@ -115,7 +144,11 @@ const signAndBroadcastCosmosTransaction = async (
   const accounts = await signer.getAccounts()
   const client = await SigningStargateClient.connectWithSigner(
     cryptocurrencies[crypto].rpcApiUrl,
-    signer
+    signer,
+    {
+      registry,
+      aminoTypes: new AminoTypes({ additions: aminoAdditions, prefix: signerOptions.prefix }),
+    }
   )
   const tx = await client.sign(
     accounts[0].address,

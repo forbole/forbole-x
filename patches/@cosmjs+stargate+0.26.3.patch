@@ -14,32 +14,39 @@ index 55753d0..ec8b325 100644
          default:
              throw new Error(`Unsupported type: '${typeUrl}'`);
      }
-diff --git a/node_modules/@cosmjs/stargate/build/aminotypes.js b/node_modules/@cosmjs/stargate/build/aminotypes.js
-index 11357d1..dbe2ae5 100644
---- a/node_modules/@cosmjs/stargate/build/aminotypes.js
-+++ b/node_modules/@cosmjs/stargate/build/aminotypes.js
-@@ -369,6 +369,12 @@ function createDefaultTypes(prefix) {
-                 timeoutTimestamp: long_1.default.fromString(timeout_timestamp || "0", true),
-             }),
-         },
-+        // Desmos
-+        "/desmos.profiles.v1beta1.MsgSaveProfile": {
-+            aminoType: "desmos/MsgSaveProfile",
-+            toAmino: ({ dtag, nickname, bio, profilePicture, coverPicture, creator }) => ({ dtag, nickname, bio, profile_picture: profilePicture, cover_picture: coverPicture, creator }),
-+            fromAmino: ({ dtag, nickname, bio, profile_picture, cover_picture, creator }) => ({ dtag, nickname, bio, profilePicture: profile_picture, coverPicture: cover_picture, creator }),
-+        },
-     };
- }
- /**
 diff --git a/node_modules/@cosmjs/stargate/build/signingstargateclient.js b/node_modules/@cosmjs/stargate/build/signingstargateclient.js
-index 26f0c9f..c171737 100644
+index a2caf7a..5a395f2 100644
 --- a/node_modules/@cosmjs/stargate/build/signingstargateclient.js
 +++ b/node_modules/@cosmjs/stargate/build/signingstargateclient.js
-@@ -56,6 +56,7 @@ exports.defaultRegistryTypes = [
-     ["/ibc.core.connection.v1.MsgConnectionOpenAck", tx_9.MsgConnectionOpenAck],
-     ["/ibc.core.connection.v1.MsgConnectionOpenConfirm", tx_9.MsgConnectionOpenConfirm],
-     ["/ibc.applications.transfer.v1.MsgTransfer", tx_6.MsgTransfer],
-+    ["/desmos.profiles.v1beta1.MsgSaveProfile", tx_6.MsgSaveProfile]
- ];
- function createDefaultRegistry() {
-     return new proto_signing_1.Registry(exports.defaultRegistryTypes);
+@@ -227,7 +227,8 @@ class SigningStargateClient extends stargateclient_1.StargateClient {
+         };
+         const txBodyBytes = this.registry.encode(txBodyEncodeObject);
+         const gasLimit = math_1.Int53.fromString(fee.gas).toNumber();
+-        const authInfoBytes = proto_signing_1.makeAuthInfoBytes([{ pubkey, sequence }], fee.amount, gasLimit);
++        const authInfoBytes = proto_signing_1.makeAuthInfoBytes([{ pubkey, sequence }], fee.amount, gasLimit, undefined, fee.granter);
++        console.log({ fee })
+         const signDoc = proto_signing_1.makeSignDoc(txBodyBytes, authInfoBytes, chainId, accountNumber);
+         const { signature, signed } = await this.signer.signDirect(signerAddress, signDoc);
+         return tx_5.TxRaw.fromPartial({
+diff --git a/node_modules/@cosmjs/stargate/build/stargateclient.js b/node_modules/@cosmjs/stargate/build/stargateclient.js
+index 8278df5..1a44819 100644
+--- a/node_modules/@cosmjs/stargate/build/stargateclient.js
++++ b/node_modules/@cosmjs/stargate/build/stargateclient.js
+@@ -99,12 +99,12 @@ class StargateClient {
+     }
+     async getSequence(address) {
+         const account = await this.getAccount(address);
+-        if (!account) {
+-            throw new Error("Account does not exist on chain. Send some tokens there before trying to query sequence.");
+-        }
++        // if (!account) {
++        //     throw new Error("Account does not exist on chain. Send some tokens there before trying to query sequence.");
++        // }
+         return {
+-            accountNumber: account.accountNumber,
+-            sequence: account.sequence,
++            accountNumber: account ? account.accountNumber : 0,
++            sequence: account ? account.sequence : 0,
+         };
+     }
+     async getBlock(height) {

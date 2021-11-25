@@ -23,6 +23,7 @@ import { formatCrypto, formatCurrency } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useIconProps from '../../misc/useIconProps'
+import useIsMobile from '../../misc/useIsMobile'
 
 interface AccountBalanceCardProps {
   account: Account
@@ -41,6 +42,7 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
   const { t, lang } = useTranslation('common')
   const theme: CustomTheme = useTheme()
   const { currency } = useGeneralContext()
+  const isMobile = useIsMobile()
   const data = Object.keys(accountBalance.balance)
     .filter(
       (k) =>
@@ -101,11 +103,14 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
           )}
         </Box>
         <Box display="flex" my={2} alignItems="center">
-          <PieChart height={theme.spacing(20)} width={theme.spacing(20)}>
+          <PieChart
+            height={theme.spacing(isMobile ? 16 : 20)}
+            width={theme.spacing(isMobile ? 16 : 20)}
+          >
             <Pie
               data={data.filter((d) => !!d.value)}
-              innerRadius={theme.spacing(8.5)}
-              outerRadius={theme.spacing(8.5)}
+              innerRadius={theme.spacing(isMobile ? 7 : 8.5)}
+              outerRadius={theme.spacing(isMobile ? 7 : 8.5)}
               paddingAngle={12}
               dataKey="value"
             >
@@ -115,13 +120,13 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
                   <Cell
                     key={d.name}
                     strokeLinejoin="round"
-                    strokeWidth={theme.spacing(1.5)}
+                    strokeWidth={theme.spacing(isMobile ? 1.2 : 1.5)}
                     stroke={d.color}
                   />
                 ))}
             </Pie>
           </PieChart>
-          <Box flex={1} ml={10}>
+          <Box flex={1} ml={isMobile ? 2 : 10}>
             {data.map((d) => (
               <Box key={d.name} display="flex" alignItems="center" justifyContent="space-between">
                 <Box display="flex" alignItems="center" mb={0.5}>
@@ -148,7 +153,9 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
             </Typography>
           </Box>
           <Box display="flex" flexDirection="column" alignItems="flex-end">
-            <Typography variant="h1">{formatCrypto(totalBalance, account.crypto, lang)}</Typography>
+            <Typography variant={isMobile ? 'h4' : 'h1'}>
+              {formatCrypto(totalBalance, account.crypto, lang)}
+            </Typography>
             <Typography>{formatCurrency(usdPrice * totalBalance, currency, lang)}</Typography>
           </Box>
         </Box>

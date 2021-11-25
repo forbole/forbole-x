@@ -5,7 +5,9 @@ import drop from 'lodash/drop'
 import keyBy from 'lodash/keyBy'
 import { format, differenceInDays } from 'date-fns'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
+import { EnglishMnemonic } from '@cosmjs/crypto'
 import defaultDenoms from './defaultDenoms'
+import connectableChains from './connectableChains'
 
 export const formatPercentage = (percent: number, lang: string): string =>
   new Intl.NumberFormat(lang, {
@@ -795,6 +797,16 @@ export const transformProfile = (data: any): Profile => {
   }
 }
 
+export const transformChainConnections = (data: any): ChainConnection[] =>
+  get(data, 'chain_link', []).map((d) => ({
+    creationTime: new Date(d.creation_time).getTime(),
+    externalAddress: d.external_address,
+    userAddress: d.user_address,
+    chainName: Object.keys(connectableChains).find((k) =>
+      d.external_address.match(new RegExp(`^${connectableChains[k].prefix}`))
+    ),
+  }))
+
 export const transformVestingAccount = (
   data: any,
   denoms: TokenPrice[]
@@ -815,4 +827,16 @@ export const transformVestingAccount = (
     })
   }
   return { vestingPeriods, total }
+}
+
+export const isValidMnemonic = (input) => {
+  try {
+    // eslint-disable-next-line no-new
+    new EnglishMnemonic(input)
+    // console.log('valid mnemonic')
+    return true
+  } catch (err) {
+    // console.log('invalid mnemonic')
+    return false
+  }
 }

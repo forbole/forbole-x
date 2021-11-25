@@ -22,7 +22,7 @@ import useIconProps from '../../misc/useIconProps'
 import CameraIcon from '../../assets/images/icons/icon_camera.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import useSendTransaction from '../../misc/useSendTransaction'
+import useSendTransaction from '../../misc/tx/useSendTransaction'
 import uploadIPFSImage from '../../misc/uploadIPFSImage'
 
 interface ProfileDialogProps {
@@ -30,6 +30,7 @@ interface ProfileDialogProps {
   onClose(): void
   profile: Profile
   account: Account
+  granter?: string
 }
 
 const ProfileDialog: React.FC<ProfileDialogProps> = ({
@@ -37,6 +38,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
   open,
   onClose,
   account,
+  granter,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
@@ -98,9 +100,9 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
         coverPicture: profile.coverPic,
         creator: account.address,
       }
-      // Remove key with empty space except profile pic and cover pic
+      // Remove key with empty space
       Object.keys(value).forEach((k) => {
-        if (k !== 'profilePicture' && k !== 'coverPicture' && !value[k]) {
+        if (!value[k]) {
           delete value[k]
         }
       })
@@ -110,10 +112,15 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
           value,
         },
       ]
-      await sendTransaction(password, account.address, {
-        msgs,
-        memo: '',
-      })
+      await sendTransaction(
+        password,
+        account.address,
+        {
+          msgs,
+          memo: '',
+        },
+        granter
+      )
       setLoading(false)
       onClose()
     } catch (err) {
@@ -158,7 +165,13 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                     }
                   }}
                 >
-                  {coverPicUploading ? <CircularProgress /> : <CameraIcon {...iconProps} />}
+                  {coverPicUploading ? (
+                    <CircularProgress />
+                  ) : (
+                    <Box className={classes.coverCameraIconContainer}>
+                      <CameraIcon {...iconProps} fill={themeStyle.palette.text.primary} />
+                    </Box>
+                  )}
                 </ButtonBase>
               </Box>
               <Box display="flex" justifyContent="flex-start">
@@ -183,7 +196,13 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                       }
                     }}
                   >
-                    {profilePicUploading ? <CircularProgress /> : <CameraIcon {...iconProps} />}
+                    {profilePicUploading ? (
+                      <CircularProgress />
+                    ) : (
+                      <Box className={classes.avatarCameraIconContainer}>
+                        <CameraIcon {...iconProps} fill={themeStyle.palette.text.primary} />
+                      </Box>
+                    )}
                   </ButtonBase>
                 </Box>
               </Box>

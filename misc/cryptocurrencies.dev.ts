@@ -40,6 +40,8 @@ const cryptocurrencies: { [key: string]: Cryptocurrency } = {
       '/cosmos.gov.v1beta1.MsgVote': 400000,
       '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress': 400000,
       '/desmos.profiles.v1beta1.MsgSaveProfile': 400000,
+      '/desmos.profiles.v1beta1.MsgLinkChainAccount': 400000,
+      '/desmos.profiles.v1beta1.MsgUnlinkChainAccount': 400000,
     },
   },
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { SigningStargateClient } from '@cosmjs/stargate'
-import cryptocurrencies from './cryptocurrencies'
+import cryptocurrencies from '../cryptocurrencies'
 
 const useSignerInfo = (
   account: Account
@@ -9,10 +9,14 @@ const useSignerInfo = (
 
   const getSequenceAndChainId = React.useCallback(
     async (address: string, crypto: string): Promise<any> => {
-      const client = await SigningStargateClient.connect(cryptocurrencies[crypto].rpcApiUrl)
-      const { accountNumber, sequence } = await client.getSequence(address)
-      const chainId = await client.getChainId()
-      setSignerInfo({ accountNumber, sequence, chainId })
+      try {
+        const client = await SigningStargateClient.connect(cryptocurrencies[crypto].rpcApiUrl)
+        const { accountNumber, sequence } = await client.getSequence(address)
+        const chainId = await client.getChainId()
+        setSignerInfo({ accountNumber, sequence, chainId })
+      } catch (err) {
+        console.log(err)
+      }
     },
     []
   )

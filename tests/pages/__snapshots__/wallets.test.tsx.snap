@@ -2,6 +2,70 @@
 
 exports[`page: Wallets renders correctly 1`] = `
 <Layout
+  ChromeExtRightComponent={
+    <EditWalletButton
+      isChromeExt={false}
+      onCreateWallet={[Function]}
+      wallet={
+        Object {
+          "cryptos": Array [
+            "ATOM",
+          ],
+          "id": "123",
+          "name": "test",
+        }
+      }
+    />
+  }
+  ChromeExtTitleComponent={
+    <React.Fragment>
+      <WithStyles(ForwardRef(Button))
+        endIcon={
+          <SvgIcon_arrowDown_title
+            fill="#e0e0e0"
+            height={16}
+            width={16}
+          />
+        }
+        onClick={[Function]}
+      >
+        <Styled(MuiBox)
+          mt={1}
+        >
+          <WithStyles(ForwardRef(Typography))
+            variant="h4"
+          >
+            test
+          </WithStyles(ForwardRef(Typography))>
+        </Styled(MuiBox)>
+      </WithStyles(ForwardRef(Button))>
+      <WithStyles(ForwardRef(Menu))
+        anchorOrigin={
+          Object {
+            "horizontal": "center",
+            "vertical": "bottom",
+          }
+        }
+        getContentAnchorEl={null}
+        keepMounted={true}
+        onClose={[Function]}
+        open={false}
+        transformOrigin={
+          Object {
+            "horizontal": "center",
+            "vertical": "top",
+          }
+        }
+      >
+        <WithStyles(ForwardRef(MenuItem))
+          button={true}
+          onClick={[Function]}
+        >
+          test
+        </WithStyles(ForwardRef(MenuItem))>
+      </WithStyles(ForwardRef(Menu))>
+    </React.Fragment>
+  }
   activeItem="/wallets"
   passwordRequired={true}
 >
@@ -102,6 +166,70 @@ exports[`page: Wallets renders correctly 1`] = `
 
 exports[`page: Wallets renders correctly with missing wallet id 1`] = `
 <Layout
+  ChromeExtRightComponent={
+    <EditWalletButton
+      isChromeExt={false}
+      onCreateWallet={[Function]}
+      wallet={
+        Object {
+          "cryptos": Array [
+            "ATOM",
+          ],
+          "id": "123",
+          "name": "test",
+        }
+      }
+    />
+  }
+  ChromeExtTitleComponent={
+    <React.Fragment>
+      <WithStyles(ForwardRef(Button))
+        endIcon={
+          <SvgIcon_arrowDown_title
+            fill="#e0e0e0"
+            height={16}
+            width={16}
+          />
+        }
+        onClick={[Function]}
+      >
+        <Styled(MuiBox)
+          mt={1}
+        >
+          <WithStyles(ForwardRef(Typography))
+            variant="h4"
+          >
+            test
+          </WithStyles(ForwardRef(Typography))>
+        </Styled(MuiBox)>
+      </WithStyles(ForwardRef(Button))>
+      <WithStyles(ForwardRef(Menu))
+        anchorOrigin={
+          Object {
+            "horizontal": "center",
+            "vertical": "bottom",
+          }
+        }
+        getContentAnchorEl={null}
+        keepMounted={true}
+        onClose={[Function]}
+        open={false}
+        transformOrigin={
+          Object {
+            "horizontal": "center",
+            "vertical": "top",
+          }
+        }
+      >
+        <WithStyles(ForwardRef(MenuItem))
+          button={true}
+          onClick={[Function]}
+        >
+          test
+        </WithStyles(ForwardRef(MenuItem))>
+      </WithStyles(ForwardRef(Menu))>
+    </React.Fragment>
+  }
   activeItem="/wallets"
   passwordRequired={true}
 >

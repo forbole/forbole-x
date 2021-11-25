@@ -25,11 +25,39 @@ const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
   const { t, lang } = useTranslation('common')
   const isMobile = useIsMobile()
 
-  return (
+  return isMobile ? (
+    <Table>
+      <TableBody>
+        {unbondings.map((u) => {
+          return (
+            <TableRow key={u.height} className={classes.tableRow}>
+              <TableCell className={classes.tableCell}>
+                <Box mb={2}>
+                  <ValidatorAvatar
+                    crypto={crypto}
+                    validator={u.validator as Validator}
+                    withCommission
+                  />
+                </Box>
+                <Box display="flex" justifyContent="space-between" alignItems="flex-start">
+                  <Typography>{t('unbonded amount')}</Typography>
+                  <Typography>{formatTokenAmount(u.amount, crypto.name, lang)}</Typography>
+                </Box>
+                <Box display="flex" justifyContent="space-between" alignItems="flex-start">
+                  <Typography>{t('expected delivery')}</Typography>
+                  <Typography>{format(u.completionDate, 'dd MMM yyyy, HH:mm:ss')}</Typography>
+                </Box>
+              </TableCell>
+            </TableRow>
+          )
+        })}
+      </TableBody>
+    </Table>
+  ) : (
     <Table>
       <TableHead>
         <TableRow>
-          {isMobile ? null : <TableCell className={classes.tableCell}>{t('height')}</TableCell>}
+          <TableCell className={classes.tableCell}>{t('height')}</TableCell>
           <TableCell className={classes.tableCell}>{t('validator')}</TableCell>
           <TableCell className={classes.tableCell}>{t('unbonded amount')}</TableCell>
           <TableCell className={classes.tableCell}>{t('expected delivery')}</TableCell>
@@ -39,12 +67,10 @@ const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
         {unbondings.map((u) => {
           return (
             <TableRow key={u.height} className={classes.tableRow}>
-              {isMobile ? null : (
-                <TableCell className={classes.tableCell}>
-                  {' '}
-                  <Typography color="primary">{formatHeight(u.height)}</Typography>
-                </TableCell>
-              )}
+              <TableCell className={classes.tableCell}>
+                {' '}
+                <Typography color="primary">{formatHeight(u.height)}</Typography>
+              </TableCell>
               <TableCell className={classes.tableCell}>
                 <ValidatorAvatar
                   crypto={crypto}
@@ -57,7 +83,7 @@ const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
               </TableCell>
               <TableCell className={classes.tableCell}>
                 <Box display="flex" alignItems="center">
-                  {isMobile ? null : format(u.completionDate, 'dd MMM yyyy, HH:mm:ss')}
+                  {format(u.completionDate, 'dd MMM yyyy, HH:mm:ss')}
                   <Box ml={isMobile ? 0 : 2}>
                     <Typography color="secondary">
                       {differenceInCalendarDays(u.completionDate, new Date()) >= 1

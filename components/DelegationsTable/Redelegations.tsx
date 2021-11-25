@@ -28,19 +28,50 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
   const isMobile = useIsMobile()
   const iconProps = useIconProps()
 
-  return (
+  return isMobile ? (
+    <Table>
+      <TableBody>
+        {redelegations.map((r) => {
+          return (
+            <TableRow key={r.height} className={classes.tableRow}>
+              <TableCell className={classes.tableCell}>
+                <Box display="flex" justifyContent="space-between" alignItems="center">
+                  <Typography color="textSecondary">{t('from')}</Typography>
+                  <ValidatorAvatar
+                    crypto={crypto}
+                    validator={r.fromValidator as Validator}
+                    size="small"
+                  />
+                </Box>
+                <Box display="flex" justifyContent="space-between" alignItems="center">
+                  <Typography color="textSecondary">{t('to')}</Typography>
+                  <ValidatorAvatar
+                    crypto={crypto}
+                    validator={r.toValidator as Validator}
+                    size="small"
+                  />
+                </Box>
+                <Box display="flex" justifyContent="space-between" alignItems="flex-start">
+                  <Typography>{t('redelegated amount')}</Typography>
+                  <Typography>{formatTokenAmount(r.amount, crypto.name, lang)}</Typography>
+                </Box>
+                <Box display="flex" justifyContent="space-between" alignItems="flex-start">
+                  <Typography>{t('expected delivery')}</Typography>
+                  <Typography>{format(r.completionDate, 'dd MMM yyyy, HH:mm:ss')}</Typography>
+                </Box>
+              </TableCell>
+            </TableRow>
+          )
+        })}
+      </TableBody>
+    </Table>
+  ) : (
     <Table>
       <TableHead>
         <TableRow>
-          {isMobile ? null : <TableCell className={classes.tableCell}>{t('height')}</TableCell>}
-          {isMobile ? (
-            <TableCell className={classes.tableCell}>{t('redelegate')}</TableCell>
-          ) : (
-            <>
-              <TableCell className={classes.tableCell}>{t('from')}</TableCell>
-              <TableCell className={classes.tableCell}>{t('redelegate to')}</TableCell>
-            </>
-          )}
+          <TableCell className={classes.tableCell}>{t('height')}</TableCell>
+          <TableCell className={classes.tableCell}>{t('from')}</TableCell>
+          <TableCell className={classes.tableCell}>{t('redelegate to')}</TableCell>
           <TableCell className={classes.tableCell}>{t('redelegated amount')}</TableCell>
           <TableCell className={classes.tableCell}>{t('expected delivery')}</TableCell>
         </TableRow>
@@ -49,51 +80,31 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
         {redelegations.map((u) => {
           return (
             <TableRow key={u.height} className={classes.tableRow}>
-              {isMobile ? null : (
-                <TableCell className={classes.tableCell}>
-                  <Typography color="primary">{formatHeight(u.height)}</Typography>
-                </TableCell>
-              )}
-              {isMobile ? (
-                <TableCell className={classes.tableCell}>
-                  <ValidatorAvatar
-                    crypto={crypto}
-                    validator={u.fromValidator as Validator}
-                    size="small"
-                  />
-                  <Box display="flex" justifyContent="center" my={1}>
-                    <ToIcon {...iconProps} />
-                  </Box>
-                  <ValidatorAvatar
-                    crypto={crypto}
-                    validator={u.toValidator as Validator}
-                    size="small"
-                  />
-                </TableCell>
-              ) : (
-                <>
-                  <TableCell className={classes.tableCell}>
-                    <ValidatorAvatar
-                      crypto={crypto}
-                      validator={u.fromValidator as Validator}
-                      size="small"
-                    />
-                  </TableCell>
-                  <TableCell className={classes.tableCell}>
-                    <ValidatorAvatar
-                      crypto={crypto}
-                      validator={u.toValidator as Validator}
-                      size="small"
-                    />
-                  </TableCell>
-                </>
-              )}
+              <TableCell className={classes.tableCell}>
+                <Typography color="primary">{formatHeight(u.height)}</Typography>
+              </TableCell>
+
+              <TableCell className={classes.tableCell}>
+                <ValidatorAvatar
+                  crypto={crypto}
+                  validator={u.fromValidator as Validator}
+                  size="small"
+                />
+              </TableCell>
+              <TableCell className={classes.tableCell}>
+                <ValidatorAvatar
+                  crypto={crypto}
+                  validator={u.toValidator as Validator}
+                  size="small"
+                />
+              </TableCell>
+
               <TableCell className={classes.tableCell}>
                 {formatTokenAmount(u.amount, crypto.name, lang)}
               </TableCell>
               <TableCell className={classes.tableCell}>
                 <Box display="flex" alignItems="center">
-                  {isMobile ? null : format(u.completionDate, 'dd MMM yyyy, HH:mm:ss')}
+                  {format(u.completionDate, 'dd MMM yyyy, HH:mm:ss')}
                   <Box ml={isMobile ? 0 : 2}>
                     <Typography color="secondary">
                       {differenceInCalendarDays(u.completionDate, new Date()) >= 1

@@ -16,7 +16,7 @@ import useIsMobile from '../../misc/useIsMobile'
 import EditRewardAddress from './EditRewardAddress'
 import RemoveAccount from './RemoveAccount'
 import { getWithdrawAddress } from '../../graphql/queries/withdrawAddress'
-import useSendTransaction from '../../misc/useSendTransaction'
+import useSendTransaction from '../../misc/tx/useSendTransaction'
 
 enum EditAccountStage {
   AccountInfoStage = 'account info',

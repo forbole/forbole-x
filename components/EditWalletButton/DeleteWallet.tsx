@@ -17,6 +17,7 @@ const DeleteWallet: React.FC<DeleteWalletProps> = ({ walletId, onClose }) => {
   const onButtonClick = React.useCallback(async () => {
     try {
       await deleteWallet(walletId)
+      onClose()
     } catch (err) {
       console.log(err)
     }

@@ -22,7 +22,7 @@ import useTranslation from 'next-translate/useTranslation'
 import times from 'lodash/times'
 import TablePagination from '../TablePagination'
 import useStyles from './styles'
-import getWalletAddress from '../../misc/getWalletAddress'
+import getWalletAddress from '../../misc/tx/getWalletAddress'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import { fetchAccountBalance } from '../../graphql/fetch/accountBalances'
 import { formatTokenAmount } from '../../misc/utils'
@@ -78,10 +78,14 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
       if (isAdvance && hdAccount !== '' && hdIndex !== '') {
         const address = await getWalletAddress(
           mnemonic,
-          crypto,
-          Number(hdAccount) || 0,
-          Number(hdChange) || 0,
-          Number(hdIndex) || 0,
+          {
+            account: Number(hdAccount) || 0,
+            change: Number(hdChange) || 0,
+            index: Number(hdIndex) || 0,
+            prefix: cryptocurrencies[crypto].prefix,
+            ledgerAppName: cryptocurrencies[crypto].ledgerAppName,
+            coinType: cryptocurrencies[crypto].coinType,
+          },
           ledgerTransport
         )
         const { total: balance } = await fetchAccountBalance(address, crypto, true)
@@ -89,7 +93,18 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
       } else if (!isAdvance) {
         const newAddresses = []
         for (let i = page * rowsPerPage; i < (page + 1) * rowsPerPage; i += 1) {
-          const address = await getWalletAddress(mnemonic, crypto, i, 0, 0, ledgerTransport)
+          const address = await getWalletAddress(
+            mnemonic,
+            {
+              account: i,
+              change: 0,
+              index: 0,
+              prefix: cryptocurrencies[crypto].prefix,
+              ledgerAppName: cryptocurrencies[crypto].ledgerAppName,
+              coinType: cryptocurrencies[crypto].coinType,
+            },
+            ledgerTransport
+          )
           const { total: balance } = await fetchAccountBalance(address, crypto, true)
           newAddresses.push({ address, balance })
         }

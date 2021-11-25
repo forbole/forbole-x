@@ -10,7 +10,7 @@ import InputAmount from './InputAmount'
 import { getEquivalentCoinToSend } from '../../misc/utils'
 import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import useSendTransaction from '../../misc/useSendTransaction'
+import useSendTransaction from '../../misc/tx/useSendTransaction'
 
 interface DepositDialogProps {
   crypto: Cryptocurrency

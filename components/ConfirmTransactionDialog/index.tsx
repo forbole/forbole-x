@@ -22,10 +22,10 @@ import FailContent from './FailContent'
 import SecurityPasswordDialogContent from '../SecurityPasswordDialogContent'
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import useSignerInfo from '../../misc/useSignerInfo'
-import signAndBroadcastTransaction from '../../misc/signAndBroadcastTransaction'
+import useSignerInfo from '../../misc/tx/useSignerInfo'
+import signAndBroadcastTransaction from '../../misc/tx/signAndBroadcastTransaction'
 import useIsChromeExt from '../../misc/useIsChromeExt'
-import estimateGasFee from '../../misc/estimateGasFee'
+import estimateGasFee from '../../misc/tx/estimateGasFee'
 
 enum ConfirmTransactionStage {
   ConfirmStage = 'confirm',
@@ -46,6 +46,7 @@ interface ConfirmTransactionDialogProps {
   transactionData: Transaction
   open: boolean
   onClose(): void
+  granter?: string
 }
 
 const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
@@ -53,6 +54,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   transactionData: defaultTransactionData,
   open,
   onClose,
+  granter,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
@@ -66,7 +68,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const crypto = account ? account.crypto : Object.keys(cryptocurrencies)[0]
 
   const [errMsg, setErrMsg] = React.useState('')
-  const [fee, setFee] = React.useState({ amount: [{ amount: '0', denom: '' }], gas: '' })
+  const [fee, setFee] = React.useState<any>({ amount: [{ amount: '0', denom: '' }], gas: '' })
 
   const { data: denomsData } = useSubscription(gql`
     ${getTokensPrices(crypto)}
@@ -93,9 +95,11 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
 
   React.useEffect(() => {
     if (defaultTransactionData && account) {
-      estimateGasFee(defaultTransactionData, account).then(setFee)
+      estimateGasFee(defaultTransactionData, account).then((f) =>
+        setFee(granter ? { ...f, granter } : f)
+      )
     }
-  }, [defaultTransactionData, account])
+  }, [defaultTransactionData, account, granter])
 
   const validatorsAddresses = flatten(
     transactionData.msgs.map((m) => {

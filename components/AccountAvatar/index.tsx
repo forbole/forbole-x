@@ -1,7 +1,16 @@
-import { Box, Avatar, Typography, Snackbar, useTheme, IconButton } from '@material-ui/core'
+import {
+  Box,
+  Avatar,
+  Typography,
+  Snackbar,
+  useTheme,
+  IconButton,
+  TypographyProps,
+} from '@material-ui/core'
 import React from 'react'
 import { Alert } from '@material-ui/lab'
 import useTranslation from 'next-translate/useTranslation'
+import { Variant } from '@material-ui/core/styles/createTypography'
 import CopyIcon from '../../assets/images/icons/icon_copy.svg'
 import useIconProps from '../../misc/useIconProps'
 import cryptocurrencies from '../../misc/cryptocurrencies'
@@ -23,6 +32,8 @@ interface AccountAvatarProps {
   disableCopyAddress?: boolean
   size?: 'small' | 'base' | 'large'
   ledgerIconDisabled?: boolean
+  titleProps?: TypographyProps
+  avatarSize?: number
 }
 
 const AccountAvatar: React.FC<AccountAvatarProps> = ({
@@ -32,6 +43,8 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
   disableCopyAddress,
   address,
   ledgerIconDisabled,
+  titleProps,
+  avatarSize,
 }) => {
   const crypto = cryptocurrencies[account ? account.crypto : address.crypto]
   const { t } = useTranslation('common')
@@ -49,7 +62,7 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
   )
 
   let avatarClass = ''
-  let titleVariant: 'h3' | 'h5' | 'body1' = 'h5'
+  let titleVariant: Variant = 'h5'
   if (size === 'small') {
     avatarClass = classes.smallAvatar
     titleVariant = 'body1'
@@ -70,9 +83,20 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
   return (
     <>
       <Box display="flex" alignItems="center">
-        <Avatar className={avatarClass} alt={crypto.name} src={crypto.image} />
+        <Avatar
+          className={avatarClass}
+          style={
+            avatarSize
+              ? { width: themeStyle.spacing(avatarSize), height: themeStyle.spacing(avatarSize) }
+              : {}
+          }
+          alt={crypto.name}
+          src={crypto.image}
+        />
         <Box mx={1}>
-          <Typography variant={titleVariant}>{account ? account.name : address.moniker}</Typography>
+          <Typography variant={titleVariant} {...titleProps}>
+            {account ? account.name : address.moniker}
+          </Typography>
           {hideAddress || disableCopyAddress ? null : (
             <Box display="flex" alignItems="center" my={-1}>
               <Typography color="textSecondary" variant="body2">

@@ -37,11 +37,15 @@ exports[`component: UnlockPasswordDialog renders correctly 1`] = `
         placeholder="common:password"
         value=""
       />
-      <p
-        className="MuiTypography-root MuiTypography-body2"
+      <div
+        className="MuiBox-root MuiBox-root-8"
       >
-        common:unlock pasword helper text
-      </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2"
+        >
+          common:unlock pasword helper text
+        </p>
+      </div>
     </div>
     <div
       className="MuiDialogActions-root HookGlobalStyles-action-5 MuiDialogActions-spacing"
@@ -135,11 +139,15 @@ exports[`component: UnlockPasswordDialog renders correctly when password is chan
         placeholder="common:password"
         value="password"
       />
-      <p
-        className="MuiTypography-root MuiTypography-body2"
+      <div
+        className="MuiBox-root MuiBox-root-11"
       >
-        common:unlock pasword helper text
-      </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2"
+        >
+          common:unlock pasword helper text
+        </p>
+      </div>
     </div>
     <div
       className="MuiDialogActions-root HookGlobalStyles-action-5 MuiDialogActions-spacing"
@@ -239,11 +247,15 @@ exports[`component: UnlockPasswordDialog renders error state correctly 1`] = `
         placeholder="common:password"
         value=""
       />
-      <p
-        className="MuiTypography-root MuiTypography-body2"
+      <div
+        className="MuiBox-root MuiBox-root-13"
       >
-        common:unlock pasword helper text
-      </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2"
+        >
+          common:unlock pasword helper text
+        </p>
+      </div>
     </div>
     <div
       className="MuiDialogActions-root HookGlobalStyles-action-5 MuiDialogActions-spacing"
@@ -340,11 +352,15 @@ exports[`component: UnlockPasswordDialog renders non empty password correctly 1`
         placeholder="common:password"
         value=""
       />
-      <p
-        className="MuiTypography-root MuiTypography-body2"
+      <div
+        className="MuiBox-root MuiBox-root-10"
       >
-        common:unlock pasword helper text
-      </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2"
+        >
+          common:unlock pasword helper text
+        </p>
+      </div>
     </div>
     <div
       className="MuiDialogActions-root HookGlobalStyles-action-5 MuiDialogActions-spacing"
@@ -441,11 +457,15 @@ exports[`component: UnlockPasswordDialog renders non empty wallets correctly 1`]
         placeholder="common:password"
         value=""
       />
-      <p
-        className="MuiTypography-root MuiTypography-body2"
+      <div
+        className="MuiBox-root MuiBox-root-9"
       >
-        common:unlock pasword helper text
-      </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2"
+        >
+          common:unlock pasword helper text
+        </p>
+      </div>
     </div>
     <div
       className="MuiDialogActions-root HookGlobalStyles-action-5 MuiDialogActions-spacing"

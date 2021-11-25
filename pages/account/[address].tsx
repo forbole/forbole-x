@@ -15,6 +15,7 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { getValidators } from '../../graphql/queries/validators'
 import {
+  transformChainConnections,
   transformGqlAcountBalance,
   transformProfile,
   transformRedelegations,
@@ -33,6 +34,9 @@ import { getProfile } from '../../graphql/queries/profile'
 import ProfileDialog from '../../components/ProfileDialog'
 import { getVestingAccount } from '../../graphql/queries/vestingAccount'
 import VestingDialog from '../../components/VestingDialog'
+import SelectAccountButton from '../../components/SelectAccountButton'
+import { getChainConnections } from '../../graphql/queries/chainConnections'
+import ConnectChainDialog from '../../components/ConnectChainDialog'
 
 const Account: React.FC = () => {
   const router = useRouter()
@@ -83,6 +87,12 @@ const Account: React.FC = () => {
     `,
     { variables: { address: account ? account.address : '' } }
   )
+  const { data: chainConnectionsData } = useSubscription(
+    gql`
+      ${getChainConnections(crypto.name)}
+    `,
+    { variables: { address: account ? account.address : '' } }
+  )
   const { data: vestingAccountData } = useSubscription(
     gql`
       ${getVestingAccount(crypto.name)}
@@ -91,6 +101,10 @@ const Account: React.FC = () => {
   )
 
   const profile = React.useMemo(() => transformProfile(profileData), [profileData])
+  const chainConnections = React.useMemo(
+    () => transformChainConnections(chainConnectionsData),
+    [chainConnectionsData]
+  )
   const validators = React.useMemo(
     () => transformValidatorsWithTokenAmount(validatorsData, balanceData),
     [validatorsData, balanceData]
@@ -138,11 +152,13 @@ const Account: React.FC = () => {
 
   const [isIBCDialogOpen, setIsIBCDialogOpen] = React.useState(false)
   const [isProfileDialogOpen, setIsProfileDialogOpen] = React.useState(false)
+  const [isConnectChainDialogOpen, setIsConnectChainDialogOpen] = React.useState(false)
   const [isVestingDialogOpen, setIsVestingDialogOpen] = React.useState(false)
 
   return (
     <Layout
       passwordRequired
+      back
       activeItem="/wallets"
       HeaderLeftComponent={
         account ? (
@@ -154,9 +170,22 @@ const Account: React.FC = () => {
           </Breadcrumbs>
         ) : null
       }
+      ChromeExtTitleComponent={
+        account ? (
+          <SelectAccountButton
+            activeAccount={account}
+            onAccountChange={(a) => router.replace(`/account/${a.address}`)}
+          />
+        ) : null
+      }
     >
       {profile.dtag ? (
-        <ProfileCard profile={profile} onEditProfile={() => setIsProfileDialogOpen(true)} />
+        <ProfileCard
+          profile={profile}
+          chainConnections={chainConnections}
+          onEditProfile={() => setIsProfileDialogOpen(true)}
+          onChainConnectionClick={() => setIsConnectChainDialogOpen(true)}
+        />
       ) : null}
       {account ? (
         <AccountDetailCard
@@ -202,26 +231,34 @@ const Account: React.FC = () => {
       />
       <ActivitiesTable account={account} activities={activities} crypto={crypto} />
       {account ? (
-        <IBCTransferDialog
-          account={account}
-          availableTokens={availableTokens}
-          open={isIBCDialogOpen}
-          onClose={() => setIsIBCDialogOpen(false)}
-        />
+        <>
+          <IBCTransferDialog
+            account={account}
+            availableTokens={availableTokens}
+            open={isIBCDialogOpen}
+            onClose={() => setIsIBCDialogOpen(false)}
+          />
+          <ProfileDialog
+            account={account}
+            profile={profile}
+            open={isProfileDialogOpen}
+            onClose={() => setIsProfileDialogOpen(false)}
+          />
+          <ConnectChainDialog
+            account={account}
+            connections={chainConnections}
+            open={isConnectChainDialogOpen}
+            onClose={() => setIsConnectChainDialogOpen(false)}
+          />
+          <VestingDialog
+            open={isVestingDialogOpen}
+            onClose={() => setIsVestingDialogOpen(false)}
+            account={account}
+            totalAmount={vestingAccount.total}
+            vestingPeriods={vestingAccount.vestingPeriods}
+          />
+        </>
       ) : null}
-      <ProfileDialog
-        account={account}
-        profile={profile}
-        open={isProfileDialogOpen}
-        onClose={() => setIsProfileDialogOpen(false)}
-      />
-      <VestingDialog
-        open={isVestingDialogOpen}
-        onClose={() => setIsVestingDialogOpen(false)}
-        account={account}
-        totalAmount={vestingAccount.total}
-        vestingPeriods={vestingAccount.vestingPeriods}
-      />
     </Layout>
   )
 }

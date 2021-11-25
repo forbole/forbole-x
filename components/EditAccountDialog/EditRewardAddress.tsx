@@ -11,6 +11,7 @@ import {
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import useStyles from './styles'
+import MemoInput from '../MemoInput'
 
 interface EditRewardAddressProps {
   oldWithdrawAddress: string
@@ -28,6 +29,7 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({
   const theme = useTheme()
   const [withdrawAddress, setWithdrawAddress] = React.useState('')
   const [memo, setMemo] = React.useState('')
+  const [consent, setConsent] = React.useState(true)
 
   return (
     <form
@@ -67,7 +69,7 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({
             </Box>
             <Box>
               <Typography className={classes.marginBottom}>{t('memo')}</Typography>
-              <TextField
+              <MemoInput
                 multiline
                 rows={3}
                 fullWidth
@@ -77,7 +79,9 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({
                   disableUnderline: true,
                 }}
                 value={memo}
-                onChange={(e) => setMemo(e.target.value)}
+                setValue={setMemo}
+                consent={consent}
+                setConsent={setConsent}
               />
             </Box>
           </Box>
@@ -88,7 +92,7 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({
           variant="contained"
           className={classes.nextButton}
           color="primary"
-          disabled={withdrawAddress === '' || loading}
+          disabled={withdrawAddress === '' || loading || !consent}
           type="submit"
         >
           {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}

@@ -33,7 +33,7 @@ import { useAddressSendDialogHook } from './hooks'
 import TokenAmountInput from '../TokenAmountInput'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
-import useSendTransaction from '../../misc/useSendTransaction'
+import useSendTransaction from '../../misc/tx/useSendTransaction'
 
 export type FavAddress = {
   address: string

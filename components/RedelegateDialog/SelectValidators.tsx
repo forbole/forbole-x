@@ -22,6 +22,7 @@ import useIconProps from '../../misc/useIconProps'
 import { formatCrypto, formatCurrency } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import ValidatorAvatar from '../ValidatorAvatar'
+import MemoInput from '../MemoInput'
 
 interface SelectValidatorsProps {
   onConfirm(toValidator: Validator, memo: string): void
@@ -47,6 +48,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const theme = useTheme()
   const [toValidator, setToValidator] = React.useState<Validator>()
   const [memo, setMemo] = React.useState('')
+  const [consent, setConsent] = React.useState(true)
 
   const validatorsMap = keyBy(validators, 'address')
   const randomizedValidators = React.useMemo(() => shuffle(validators), [])
@@ -118,7 +120,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               </Box>
               <Box mt={2}>
                 <Typography gutterBottom>{t('memo')}</Typography>
-                <TextField
+                <MemoInput
                   fullWidth
                   multiline
                   rows={3}
@@ -128,7 +130,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                     disableUnderline: true,
                   }}
                   value={memo}
-                  onChange={(e) => setMemo(e.target.value)}
+                  setValue={setMemo}
+                  consent={consent}
+                  setConsent={setConsent}
                 />
               </Box>
             </Grid>
@@ -169,7 +173,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             variant="contained"
             className={classes.button}
             color="primary"
-            disabled={loading || !toValidator}
+            disabled={loading || !toValidator || !consent}
             type="submit"
           >
             {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
