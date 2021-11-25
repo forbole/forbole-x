@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@material-ui/core'
+import { Box, Button, CircularProgress, Typography, useTheme } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation'
@@ -21,12 +21,16 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const { currency } = useGeneralContext()
+  const theme = useTheme()
+
+  const [loading, setLoading] = React.useState(false)
 
   return (
     <form
-      onSubmit={(event) => {
+      onSubmit={async (event) => {
         event.preventDefault()
-        onConfirm()
+        setLoading(true)
+        await onConfirm()
       }}
     >
       <Box display="flex" justifyContent="center">
@@ -41,9 +45,9 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
             className={classes.button}
             variant="contained"
             type="submit"
-            disabled={amount <= 0}
+            disabled={loading || amount <= 0}
           >
-            {t('claim now')}
+            {loading ? <CircularProgress size={theme.spacing(3)} /> : t('claim now')}
           </Button>
           <Link href="/">
             <Button fullWidth className={classes.secondaryButton} variant="outlined">
