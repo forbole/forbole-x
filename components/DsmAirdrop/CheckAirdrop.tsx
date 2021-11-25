@@ -9,10 +9,15 @@ import { formatCrypto } from '../../misc/utils'
 
 interface CheckAirdropProps {
   onConfirm(): void
+  claimEnabled: boolean
   setSelectedAddress: (address: string) => void
 }
 
-const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddress }) => {
+const CheckAirdrop: React.FC<CheckAirdropProps> = ({
+  onConfirm,
+  claimEnabled,
+  setSelectedAddress,
+}) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const theme = useTheme()
@@ -177,12 +182,13 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
                     id="button"
                     variant="contained"
                     color="primary"
+                    // disabled={!claimEnabled}
                     onClick={() => setIsSelectAccountDialogOpen(true)}
                   >
                     {loading ? (
                       <CircularProgress color="inherit" size={theme.spacing(3)} />
                     ) : (
-                      t('claim now')
+                      t(claimEnabled ? 'claim now' : 'claim disabled')
                     )}
                   </Button>
                 </Box>
