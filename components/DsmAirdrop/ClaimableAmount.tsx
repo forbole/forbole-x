@@ -11,12 +11,14 @@ interface ClaimableAmountProps {
   onConfirm(): void
   amount: number
   chainConnections: ChainConnection[]
+  onConnectChains: () => void
 }
 
 const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
   onConfirm,
   amount,
   chainConnections,
+  onConnectChains,
 }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
@@ -41,15 +43,18 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
             className={classes.button}
             variant="contained"
             type="submit"
-            disabled={amount <= 0}
+            // disabled={amount <= 0}
           >
             {t('claim now')}
           </Button>
-          <Link href="/">
-            <Button fullWidth className={classes.secondaryButton} variant="outlined">
-              {t('claim later')}
-            </Button>
-          </Link>
+          <Button
+            fullWidth
+            className={classes.secondaryButton}
+            variant="outlined"
+            onClick={onConnectChains}
+          >
+            Connect To More Chains
+          </Button>
         </Box>
       </Box>
     </form>

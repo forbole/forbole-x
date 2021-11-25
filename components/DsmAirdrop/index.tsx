@@ -143,6 +143,9 @@ const DsmAirdrop: React.FC = () => {
               }}
               amount={totalDsmAllocated}
               chainConnections={chainConnections}
+              onConnectChains={() => {
+                setStage(CommonStage.ConnectChainsStage)
+              }}
             />
           ),
         }
