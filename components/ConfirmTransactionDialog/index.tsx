@@ -46,6 +46,7 @@ interface ConfirmTransactionDialogProps {
   transactionData: Transaction
   open: boolean
   onClose(): void
+  granter?: string
 }
 
 const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
@@ -53,6 +54,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   transactionData: defaultTransactionData,
   open,
   onClose,
+  granter,
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
@@ -66,7 +68,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const crypto = account ? account.crypto : Object.keys(cryptocurrencies)[0]
 
   const [errMsg, setErrMsg] = React.useState('')
-  const [fee, setFee] = React.useState({ amount: [{ amount: '0', denom: '' }], gas: '' })
+  const [fee, setFee] = React.useState<any>({ amount: [{ amount: '0', denom: '' }], gas: '' })
 
   const { data: denomsData } = useSubscription(gql`
     ${getTokensPrices(crypto)}
@@ -93,9 +95,11 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
 
   React.useEffect(() => {
     if (defaultTransactionData && account) {
-      estimateGasFee(defaultTransactionData, account).then(setFee)
+      estimateGasFee(defaultTransactionData, account).then((f) =>
+        setFee(granter ? { ...f, granter } : f)
+      )
     }
-  }, [defaultTransactionData, account])
+  }, [defaultTransactionData, account, granter])
 
   const validatorsAddresses = flatten(
     transactionData.msgs.map((m) => {

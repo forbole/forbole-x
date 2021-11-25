@@ -30,6 +30,7 @@ interface ProfileDialogProps {
   onClose(): void
   profile: Profile
   account: Account
+  granter?: string
 }
 
 const ProfileDialog: React.FC<ProfileDialogProps> = ({
@@ -37,6 +38,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
   open,
   onClose,
   account,
+  granter,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
@@ -110,10 +112,15 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
           value,
         },
       ]
-      await sendTransaction(password, account.address, {
-        msgs,
-        memo: '',
-      })
+      await sendTransaction(
+        password,
+        account.address,
+        {
+          msgs,
+          memo: '',
+        },
+        granter
+      )
       setLoading(false)
       onClose()
     } catch (err) {
