@@ -151,7 +151,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
             ) : null}
             {dataStakingInfo !== null && dataStakingInfo !== undefined ? (
               <form noValidate>
-                <Box mt={4} padding={0} width="20%">
+                <Box mt={4} padding={0} min-width="20%">
                   <Button
                     id="button"
                     variant="contained"
