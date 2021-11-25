@@ -5,6 +5,7 @@ import TickIcon from '../../assets/images/icons/icon_tick.svg'
 import ParachuteIcon from '../../assets/images/parachute.svg'
 import SelectAccountDialog from '../SelectAccountDialog'
 import useStyles from './styles'
+import { formatCrypto } from '../../misc/utils'
 
 interface CheckAirdropProps {
   onConfirm(): void
@@ -13,7 +14,7 @@ interface CheckAirdropProps {
 
 const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddress }) => {
   const classes = useStyles()
-  const { t } = useTranslation('common')
+  const { t, lang } = useTranslation('common')
   const theme = useTheme()
   const [loading, setLoading] = React.useState(false)
   const [address, setAddress] = React.useState('')
@@ -115,7 +116,9 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
             {verifyData !== null && (
               <Box mb={2}>
                 <Typography>{t('your allocation')}</Typography>
-                <Typography variant="h3">{verifyData.dsm_allotted} DSM</Typography>
+                <Typography variant="h3">
+                  {formatCrypto(verifyData.dsm_allotted, 'DSM', lang)}
+                </Typography>
               </Box>
             )}
             {dataStakingInfo !== null && dataStakingInfo !== undefined ? (
@@ -134,7 +137,10 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
                         <TickIcon />
                       </Box>
                       <Typography style={{ color: theme.palette.primary.main, padding: 0 }}>
-                        {chain} Staker {item.forbole_delegator ? '& Forbole Delegator' : null}
+                        {t('chain staker', {
+                          chain,
+                          suffix: item.forbole_delegator ? '& Forbole Delegator' : '',
+                        })}
                       </Typography>
                     </Box>
                   )

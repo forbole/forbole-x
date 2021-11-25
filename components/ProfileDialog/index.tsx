@@ -98,9 +98,9 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
         coverPicture: profile.coverPic,
         creator: account.address,
       }
-      // Remove key with empty space except profile pic and cover pic
+      // Remove key with empty space
       Object.keys(value).forEach((k) => {
-        if (k !== 'profilePicture' && k !== 'coverPicture' && !value[k]) {
+        if (!value[k]) {
           delete value[k]
         }
       })
