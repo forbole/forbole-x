@@ -49,11 +49,12 @@ const Layout: React.FC<LayoutProps> = ({
   const { isChromeExt } = useIsChromeExt()
 
   // Open ConfirmTransactionDialog with correct query params
-  const { address, transactionData, open, onClose } = React.useMemo(() => {
+  const { address, transactionData, granter, open, onClose } = React.useMemo(() => {
     const { url, query } = qs.parseUrl(router.asPath)
     return {
       address: get(router, 'query.address', ''),
       transactionData: JSON.parse(get(router, 'query.transactionData', '""')),
+      granter: get(router, 'query.granter', ''),
       open: !!get(router, 'query.transactionData', ''),
       onClose: () =>
         router.replace(
@@ -120,6 +121,7 @@ const Layout: React.FC<LayoutProps> = ({
         <ConfirmTransactionDialog
           address={address}
           transactionData={transactionData}
+          granter={granter}
           open={open}
           onClose={onClose}
         />
