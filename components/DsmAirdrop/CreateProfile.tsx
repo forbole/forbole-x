@@ -7,15 +7,22 @@ import ProfileDialog from '../ProfileDialog/index'
 interface CreateProfileProps {
   account: Account
   profile: Profile
+  granter: string
   onConfirm(): void
 }
 
-const CreateProfile: React.FC<CreateProfileProps> = ({ onConfirm, account, profile }) => {
+const CreateProfile: React.FC<CreateProfileProps> = ({ onConfirm, account, profile, granter }) => {
   const classes = useStyles()
   const { t } = useTranslation('common')
 
   const theme = useTheme()
   const [isProfileDialogOpen, setIsProfileDialogOpen] = React.useState(false)
+
+  React.useEffect(() => {
+    if (profile.dtag) {
+      onConfirm()
+    }
+  }, [profile.dtag, onConfirm])
 
   return (
     <>
@@ -49,12 +56,10 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ onConfirm, account, profi
       <ProfileDialog
         account={account}
         profile={profile}
+        granter={granter}
         open={isProfileDialogOpen}
         onClose={() => {
           setIsProfileDialogOpen(false)
-          if (profile.dtag) {
-            onConfirm()
-          }
         }}
       />
     </>

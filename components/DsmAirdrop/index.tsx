@@ -74,6 +74,7 @@ const DsmAirdrop: React.FC = () => {
   const [airdropResponse, setAirdropResponse] = useState('')
 
   const [claimSuccess, setClaimSuccess] = useState(false)
+  const [airdropConfig, setAirdropConfig] = useState({ airdrop_enabled: false, granter: '' })
 
   const claimAirdrop = async () => {
     try {
@@ -83,6 +84,7 @@ const DsmAirdrop: React.FC = () => {
           desmos_address: selectedAddress,
         }
       )
+      setClaimSuccess(true)
       setAirdropResponse(res.data)
     } catch (err) {
       setClaimSuccess(false)
@@ -120,6 +122,12 @@ const DsmAirdrop: React.FC = () => {
         })
     }
   }, [chainConnections])
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/config`)
+      .then((r) => r.json())
+      .then(setAirdropConfig)
+  }, [])
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
@@ -162,6 +170,7 @@ const DsmAirdrop: React.FC = () => {
               account={account}
               profile={profile}
               chainConnections={chainConnections}
+              granter={airdropConfig.granter}
             />
           ),
         }
@@ -175,6 +184,7 @@ const DsmAirdrop: React.FC = () => {
               }}
               account={account}
               profile={profile}
+              granter={airdropConfig.granter}
             />
           ),
         }
@@ -203,6 +213,7 @@ const DsmAirdrop: React.FC = () => {
             <CheckAirdrop
               onConfirm={() => setStage(CommonStage.CheckClaimableStage)}
               setSelectedAddress={setSelectedAddress}
+              claimEnabled={airdropConfig.airdrop_enabled}
             />
           ),
         }
