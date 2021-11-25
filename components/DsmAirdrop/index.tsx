@@ -196,8 +196,10 @@ const DsmAirdrop: React.FC = () => {
               onConfirm={() => {
                 if (!profile.dtag) {
                   setStage(CommonStage.CreateProfileStage)
-                } else {
+                } else if (chainConnections.length === 0) {
                   setStage(CommonStage.ConnectChainsStage)
+                } else {
+                  setStage(CommonStage.ClaimableAmountStage)
                 }
               }}
               profile={profile}
