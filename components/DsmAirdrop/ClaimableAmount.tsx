@@ -25,10 +25,13 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
   const { currency } = useGeneralContext()
   const theme = useTheme()
 
+  const [onClaimLoading, setOnClaimLoading] = React.useState(false)
+
   return (
     <form
       onSubmit={async (event) => {
         event.preventDefault()
+        setOnClaimLoading(true)
         await onConfirm()
       }}
     >
@@ -46,7 +49,7 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
             type="submit"
             // disabled={amount <= 0}
           >
-            {loading ? <CircularProgress size={theme.spacing(3)} /> : t('claim now')}
+            {onClaimLoading ? <CircularProgress size={theme.spacing(3)} /> : t('claim now')}
           </Button>
           <Link href="/">
             <Button fullWidth className={classes.secondaryButton} variant="outlined">
