@@ -83,6 +83,7 @@ const DsmAirdrop: React.FC = () => {
           desmos_address: selectedAddress,
         }
       )
+      setClaimSuccess(true)
       setAirdropResponse(res.data)
     } catch (err) {
       setClaimSuccess(false)
