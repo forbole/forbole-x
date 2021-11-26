@@ -6,7 +6,7 @@ import get from 'lodash/get'
 import { StargateClient } from '@cosmjs/stargate'
 import cryptocurrencies from '../cryptocurrencies'
 
-export const transformMsg = (obj: any): any =>
+const transformMsg = (obj: any): any =>
   transform(obj, (acc, value, key, target) => {
     const camelKey = isArray(target) ? key : snakeCase(String(key))
     const childKeys = Object.keys(value)
@@ -20,9 +20,37 @@ export const transformMsg = (obj: any): any =>
     }
   })
 
+const transformFee = async (
+  signer: string,
+  crypto: Cryptocurrency,
+  gas: number,
+  granter?: string
+) => {
+  const fee: any = {
+    amount: [
+      { amount: String(Math.round(gas * crypto.gasFee.amount)), denom: crypto.gasFee.denom },
+    ],
+    gas: String(gas),
+  }
+  if (granter) {
+    try {
+      const { balances } = await fetch(
+        `${crypto.lcdApiUrl}/cosmos/bank/v1beta1/balances/${signer}`
+      ).then((r) => r.json())
+      if (!balances.length) {
+        fee.granter = granter
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  return fee
+}
+
 const estimateGasFee = async (
   tx: Transaction,
-  account: Account
+  account: Account,
+  granter?: string
 ): Promise<{
   amount: Array<{ amount: string; denom: string }>
   gas: string
@@ -75,20 +103,12 @@ const estimateGasFee = async (
     const gas =
       Math.round(Number(get(result, 'gas_info.gas_used', '0')) * crypto.gasAdjustment) ||
       tx.msgs.map((msg) => crypto.defaultGas[msg.typeUrl]).reduce((a, b) => a + b, 0)
-    return {
-      amount: [
-        { amount: String(Math.round(gas * crypto.gasFee.amount)), denom: crypto.gasFee.denom },
-      ],
-      gas: String(gas),
-    }
+    const fee = await transformFee(account.address, crypto, gas, granter)
+    return fee
   } catch (err) {
     const gas = tx.msgs.map((msg) => crypto.defaultGas[msg.typeUrl]).reduce((a, b) => a + b, 0)
-    return {
-      amount: [
-        { amount: String(Math.round(gas * crypto.gasFee.amount)), denom: crypto.gasFee.denom },
-      ],
-      gas: String(gas),
-    }
+    const fee = await transformFee(account.address, crypto, gas, granter)
+    return fee
   }
 }
 

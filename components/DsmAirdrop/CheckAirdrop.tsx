@@ -242,7 +242,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                 >
                   {t('check airdrop slogan')}
                 </Typography>
-                <Box mt={4} padding={0} min-width="20%">
+                <Box mt={4} padding={0} minWidth="20%">
                   <Button
                     id="button"
                     variant="contained"
