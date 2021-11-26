@@ -478,5 +478,6 @@
   "airdrop connect account subtitle": "Now it’s time to connect your Desmos Profile to your first wallet account and claim your airdrop for such an account",
   "chain staker": "{{chain}} Staker {{suffix}}",
   "claim later": "Claim Later",
-  "claim disabled": "Claim Disabled"
+  "claim disabled": "Claim Disabled",
+  "claimed": "claimed"
 }
