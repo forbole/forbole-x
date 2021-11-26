@@ -11,25 +11,27 @@ interface ClaimableAmountProps {
   onConfirm(): void
   amount: number
   chainConnections: ChainConnection[]
+  loading: boolean
 }
 
 const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
   onConfirm,
   amount,
   chainConnections,
+  loading,
 }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const { currency } = useGeneralContext()
   const theme = useTheme()
 
-  const [loading, setLoading] = React.useState(false)
+  const [onClaimLoading, setOnClaimLoading] = React.useState(false)
 
   return (
     <form
       onSubmit={async (event) => {
         event.preventDefault()
-        setLoading(true)
+        setOnClaimLoading(true)
         await onConfirm()
       }}
     >
@@ -37,7 +39,7 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
         <Box className={classes.stageContent}>
           <Typography align="center">{t('amount claimable title')}</Typography>
           <Typography align="center" variant="h1" className={classes.claimableAmount}>
-            {formatCrypto(amount, 'DSM', lang)}
+            {loading ? <CircularProgress /> : formatCrypto(amount, 'DSM', lang)}
           </Typography>
           <Button
             fullWidth
@@ -45,9 +47,9 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
             className={classes.button}
             variant="contained"
             type="submit"
-            disabled={loading || amount <= 0}
+            // disabled={amount <= 0}
           >
-            {loading ? <CircularProgress size={theme.spacing(3)} /> : t('claim now')}
+            {onClaimLoading ? <CircularProgress size={theme.spacing(3)} /> : t('claim now')}
           </Button>
           <Link href="/">
             <Button fullWidth className={classes.secondaryButton} variant="outlined">
