@@ -33,7 +33,7 @@ const Banner: React.FC = () => {
         }}
       >
         {banners.map((banner) => (
-          <Link href="/dsm-airdrop">
+          <Link href="/dsm-airdrop" key={banner}>
             <CardMedia className={classes.bannerImage} image={banner} component="img" />
           </Link>
         ))}

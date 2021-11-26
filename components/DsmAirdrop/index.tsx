@@ -70,6 +70,7 @@ const DsmAirdrop: React.FC = () => {
   )
 
   const [totalDsmAllocated, setTotalDsmAllocated] = useState(0)
+  const [totalDsmAllocatedLoading, setTotalDsmAllocatedLoading] = useState(false)
   const [airdropResponse, setAirdropResponse] = useState('')
 
   const [claimSuccess, setClaimSuccess] = useState(false)
@@ -93,6 +94,7 @@ const DsmAirdrop: React.FC = () => {
 
   useEffect(() => {
     if (chainConnections.length > 0) {
+      setTotalDsmAllocatedLoading(true)
       const axiosRequests = chainConnections.map((connection) =>
         axios.get(
           `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/users/${connection.externalAddress}`
@@ -111,10 +113,12 @@ const DsmAirdrop: React.FC = () => {
                 .reduce((a, b) => a + b.dsm_allotted, 0)
               return setTotalDsmAllocated(totalDsmAllocated + chainClaimableAmount)
             })
+            setTotalDsmAllocatedLoading(false)
           })
         )
         .catch((error) => {
           console.log(error)
+          // setTotalDsmAllocatedLoading(false)
         })
     }
   }, [chainConnections])
@@ -151,6 +155,7 @@ const DsmAirdrop: React.FC = () => {
               }}
               amount={totalDsmAllocated}
               chainConnections={chainConnections}
+              loading={totalDsmAllocatedLoading}
             />
           ),
         }
