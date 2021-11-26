@@ -235,6 +235,13 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
             {(dataStakingInfo !== null && dataStakingInfo !== undefined) ||
             (lpInfos !== null && lpInfos !== undefined) ? (
               <form noValidate>
+                <Typography
+                  style={{
+                    color: theme.palette.text.secondary,
+                  }}
+                >
+                  {t('check airdrop slogan')}
+                </Typography>
                 <Box mt={4} padding={0} min-width="20%">
                   <Button
                     id="button"
