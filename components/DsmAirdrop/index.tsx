@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import { useSubscription, gql } from '@apollo/client'
 import axios from 'axios'
+import get from 'lodash/get'
 import useStateHistory from '../../misc/useStateHistory'
 import { useStyles } from './styles'
 import CheckClaimable from './CheckClaimable'
@@ -16,6 +17,7 @@ import ConnectChains from './ConnectChain'
 import ClaimableAmount from './ClaimableAmount'
 import AirdropResult from './AirdropResult'
 import CheckAirdrop from './CheckAirdrop'
+import connectableChains from '../../misc/connectableChains'
 
 interface Content {
   title?: string
@@ -102,14 +104,22 @@ const DsmAirdrop: React.FC = () => {
         .all(axiosRequests)
         .then(
           axios.spread((...responses) => {
-            responses.forEach((res) => {
+            responses.forEach((res, i) => {
               const chainClaimableAmount = [
                 ...(res.data.staking_infos ?? []),
                 ...(res.data.lp_infos ?? []),
               ]
-                .filter((chain) => !chain.claimed)
+                .filter(
+                  (chain) =>
+                    !chain.claimed &&
+                    chainConnections[i].externalAddress.match(
+                      new RegExp(
+                        `^${get(connectableChains, `${chain.chain_name.toLowerCase()}.prefix`)}`
+                      )
+                    )
+                )
                 .reduce((a, b) => a + b.dsm_allotted, 0)
-              return setTotalDsmAllocated(totalDsmAllocated + chainClaimableAmount)
+              return setTotalDsmAllocated((total) => total + chainClaimableAmount)
             })
           })
         )
