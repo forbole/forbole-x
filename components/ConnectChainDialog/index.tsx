@@ -91,7 +91,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
           mnemonic,
           {
             prefix: connectableChains[chain].prefix,
-            coinType: connectableChains[chain].coinType,
+            coinType: connectableChains[ledgerApp || chain].coinType,
             ledgerAppName: ledgerApp,
             account: info.account,
             change: info.change,
@@ -131,7 +131,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
         console.log(err)
       }
     },
-    [account, mnemonic, chain, onClose, granter]
+    [account, mnemonic, chain, onClose, granter, ledgerApp]
   )
 
   const content: Content = React.useMemo(() => {
@@ -167,6 +167,8 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
           content: (
             <ImportMnemonic
               onConfirm={(m) => {
+                ledgerTransport = undefined
+                setLedgerApp(undefined)
                 setMnemonic(m)
                 setStage(Stage.SelectAddressStage)
               }}
@@ -210,7 +212,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
           title: t('select address'),
           content: (
             <SelectAddress
-              coinType={connectableChains[chain].coinType}
+              coinType={connectableChains[ledgerApp || chain].coinType}
               prefix={connectableChains[chain].prefix}
               mnemonic={mnemonic}
               ledgerAppName={ledgerApp}
