@@ -12,6 +12,7 @@ import React from 'react'
 import Carousel from 'react-material-ui-carousel'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
 import { LaunchpadLedger } from '@cosmjs/ledger-amino'
+import TerraApp from '@terra-money/ledger-terra-js'
 import LedgerImage from '../../assets/images/ledger.svg'
 import LedgerSignImage from '../../assets/images/sign_ledger.svg'
 import LedgerSignPinImage from '../../assets/images/sign_ledger_with_PIN.svg'
@@ -65,9 +66,18 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
     let transport
     try {
       transport = await TransportWebHID.create()
-      const ledger = new LaunchpadLedger(transport, { ledgerAppName })
-      // Check if ledger app is open
-      await ledger.getCosmosAppVersion()
+      if (ledgerAppName === 'terra') {
+        const ledger = new TerraApp(transport)
+        // Check if ledger app is open
+        const response = await ledger.getAddressAndPubKey([44, 330, 0, 0, 0], 'terra')
+        if (!response || !response.bech32_address) {
+          throw new Error(response.error_message)
+        }
+      } else {
+        const ledger = new LaunchpadLedger(transport, { ledgerAppName })
+        // Check if ledger app is open
+        await ledger.getCosmosAppVersion()
+      }
       setInstruction(signInstructions[1])
       clearTimeout(retryTimeout)
       onConnect(transport)
