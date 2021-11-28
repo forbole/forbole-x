@@ -34,12 +34,12 @@ const connectableChains = {
     coinType: 118,
     ledgerAppNames: ['cosmos'],
   },
-  cro: {
+  'crypto.org chain': {
     name: 'Crypto.org',
     image: '/static/images/cryptocurrencies/cro.png',
     prefix: 'cro',
-    coinType: 118,
-    ledgerAppNames: ['cosmos'],
+    coinType: 394,
+    ledgerAppNames: ['crypto.org chain', 'cosmos'],
   },
   terra: {
     name: 'Terra',

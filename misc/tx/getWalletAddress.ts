@@ -1,6 +1,7 @@
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 import { stringToPath } from '@cosmjs/crypto'
 import { LedgerSigner } from '@cosmjs/ledger-amino'
+import TerraApp from '@terra-money/ledger-terra-js'
 
 export interface WalletOption {
   coinType: number
@@ -22,6 +23,15 @@ const getWalletAddress = async (
   //   const address = getPubkeyFromConfig(new SignerConfig('', mnemonic, ''))
   //   return address
   // }
+  if (option.ledgerAppName === 'terra' && ledgerTransport) {
+    const app = new TerraApp(ledgerTransport)
+    const hdPath = [44, option.coinType, option.account || 0, option.change || 0, option.index || 0]
+    const result = await app.getAddressAndPubKey(hdPath, option.prefix)
+    if (showAddressOnLedger) {
+      await app.showAddressAndPubKey(hdPath, option.prefix)
+    }
+    return result.bech32_address
+  }
   let signer
   const signerOptions = {
     hdPaths: [

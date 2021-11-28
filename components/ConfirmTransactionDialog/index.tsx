@@ -95,9 +95,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
 
   React.useEffect(() => {
     if (defaultTransactionData && account) {
-      estimateGasFee(defaultTransactionData, account).then((f) =>
-        setFee(granter ? { ...f, granter } : f)
-      )
+      estimateGasFee(defaultTransactionData, account, granter).then(setFee)
     }
   }, [defaultTransactionData, account, granter])
 
