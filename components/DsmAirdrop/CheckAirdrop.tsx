@@ -232,8 +232,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                 })}
               </Box>
             ) : null}
-            {(dataStakingInfo !== null && dataStakingInfo !== undefined) ||
-            (lpInfos !== null && lpInfos !== undefined) ? (
+            {[...(dataStakingInfo || []), ...(lpInfos || [])].filter((i) => !i.claimed).length ? (
               <form noValidate>
                 <Typography
                   style={{
@@ -247,13 +246,12 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                     id="button"
                     variant="contained"
                     color="primary"
-                    // disabled={!claimEnabled}
                     onClick={() => setIsSelectAccountDialogOpen(true)}
                   >
                     {loading ? (
                       <CircularProgress color="inherit" size={theme.spacing(3)} />
                     ) : (
-                      t(claimEnabled ? 'claim now' : 'claim disabled')
+                      t('claim now')
                     )}
                   </Button>
                 </Box>
