@@ -429,7 +429,7 @@
   "support": "Support",
   "pending rewards": "Pending Rewards",
   "delegate inflation": "Delegate ({{inflation}} Inflation)",
-  "profile dtag rules": "Dtag must have 6 - 30 alphanumeric or _ characters",
+  "profile dtag rules": "DTag can only contain 6-30 alphanumeric (a-z, 0-9) or _",
   "profile nickname rules": "Nickname must have at least 2 characters",
   "profile bio rules": "Bio can have at most 1000 characters",
   "validator commission": "Commission: {{commission}}",
