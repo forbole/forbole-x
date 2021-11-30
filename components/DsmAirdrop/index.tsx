@@ -55,7 +55,7 @@ const DsmAirdrop: React.FC = () => {
     `,
     { variables: { address: account ? account.address : '' } }
   )
-  const { data: chainConnectionsData } = useSubscription(
+  const { data: chainConnectionsData, loading: chainConnectionsLoading } = useSubscription(
     gql`
       ${getChainConnections(crypto.name)}
     `,
@@ -216,6 +216,7 @@ const DsmAirdrop: React.FC = () => {
               externalAddress={externalAddress}
               chainConnections={chainConnections}
               profileLoading={loading}
+              chainConnectionsLoading={chainConnectionsLoading}
             />
           ),
         }

@@ -29,6 +29,7 @@ interface CheckClaimableProps {
   externalAddress: string
   chainConnections: ChainConnection[]
   profileLoading: boolean
+  chainConnectionsLoading: boolean
   onConfirm(): void
 }
 
@@ -39,6 +40,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
   externalAddress,
   chainConnections,
   profileLoading,
+  chainConnectionsLoading,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
@@ -149,7 +151,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
               <Box className={classes.step} display="flex" alignItems="center">
                 {
                   // eslint-disable-next-line no-nested-ternary
-                  profileLoading ? (
+                  chainConnectionsLoading ? (
                     <CircularProgress size={themeStyle.spacing(2)} color="primary" />
                   ) : chainConnections.length ? (
                     <TickActiveIcon {...iconProps} />
@@ -169,7 +171,9 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
                 color="primary"
                 variant="contained"
                 type="submit"
-                disabled={profileLoading}
+                disabled={
+                  profileLoading || chainConnectionsLoading || (isGranting && !isGrantActive)
+                }
               >
                 {t(shouldGetGrant ? 'get a grant' : 'get started button')}
               </Button>
