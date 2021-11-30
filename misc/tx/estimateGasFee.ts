@@ -20,37 +20,19 @@ const transformMsg = (obj: any): any =>
     }
   })
 
-const transformFee = async (
-  signer: string,
-  crypto: Cryptocurrency,
-  gas: number,
-  granter?: string
-) => {
+const transformFee = async (signer: string, crypto: Cryptocurrency, gas: number) => {
   const fee: any = {
     amount: [
       { amount: String(Math.round(gas * crypto.gasFee.amount)), denom: crypto.gasFee.denom },
     ],
     gas: String(gas),
   }
-  if (granter) {
-    try {
-      const { balances } = await fetch(
-        `${crypto.lcdApiUrl}/cosmos/bank/v1beta1/balances/${signer}`
-      ).then((r) => r.json())
-      if (!balances.length) {
-        fee.granter = granter
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
   return fee
 }
 
 const estimateGasFee = async (
   tx: Transaction,
-  account: Account,
-  granter?: string
+  account: Account
 ): Promise<{
   amount: Array<{ amount: string; denom: string }>
   gas: string
@@ -59,55 +41,56 @@ const estimateGasFee = async (
   try {
     const stargateClient = await StargateClient.connect(crypto.rpcApiUrl)
     const accountInfo = await stargateClient.getAccount(account.address)
-    const result = await fetch(`${crypto.lcdApiUrl}/cosmos/tx/v1beta1/simulate`, {
-      method: 'POST',
-      body: JSON.stringify({
-        tx: {
-          body: {
-            messages: tx.msgs.map((msg) => ({
-              '@type': msg.typeUrl,
-              ...transformMsg(msg.value),
-            })),
-            memo: tx.memo,
-          },
-          auth_info: {
-            signer_infos: [
+    const body: any = {
+      tx: {
+        body: {
+          messages: tx.msgs.map((msg) => ({
+            '@type': msg.typeUrl,
+            ...transformMsg(msg.value),
+          })),
+          memo: tx.memo,
+        },
+        auth_info: {
+          signer_infos: [
+            {
+              public_key: {
+                '@type': '/cosmos.crypto.secp256k1.PubKey',
+                key: get(accountInfo, 'pubkey.value', ''),
+              },
+              mode_info: {
+                single: {
+                  mode: 'SIGN_MODE_UNSPECIFIED',
+                },
+              },
+              sequence: String(get(accountInfo, 'sequence', '')),
+            },
+          ],
+          fee: {
+            amount: [
               {
-                public_key: {
-                  '@type': '/cosmos.crypto.secp256k1.PubKey',
-                  key: get(accountInfo, 'pubkey.value', ''),
-                },
-                mode_info: {
-                  single: {
-                    mode: 'SIGN_MODE_UNSPECIFIED',
-                  },
-                },
-                sequence: String(get(accountInfo, 'sequence', '')),
+                denom: crypto.gasFee.denom,
+                amount: '0',
               },
             ],
-            fee: {
-              amount: [
-                {
-                  denom: crypto.gasFee.denom,
-                  amount: '0',
-                },
-              ],
-              gas_limit: '0',
-              payer: account.address,
-            },
+            gas_limit: '0',
           },
-          signatures: [''],
         },
-      }),
+        signatures: [''],
+      },
+    }
+
+    const result = await fetch(`${crypto.lcdApiUrl}/cosmos/tx/v1beta1/simulate`, {
+      method: 'POST',
+      body: JSON.stringify(body),
     }).then((r) => r.json())
     const gas =
       Math.round(Number(get(result, 'gas_info.gas_used', '0')) * crypto.gasAdjustment) ||
       tx.msgs.map((msg) => crypto.defaultGas[msg.typeUrl]).reduce((a, b) => a + b, 0)
-    const fee = await transformFee(account.address, crypto, gas, granter)
+    const fee = await transformFee(account.address, crypto, gas)
     return fee
   } catch (err) {
     const gas = tx.msgs.map((msg) => crypto.defaultGas[msg.typeUrl]).reduce((a, b) => a + b, 0)
-    const fee = await transformFee(account.address, crypto, gas, granter)
+    const fee = await transformFee(account.address, crypto, gas)
     return fee
   }
 }

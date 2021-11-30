@@ -11,30 +11,32 @@ interface CheckAirdropProps {
   onConfirm(): void
   claimEnabled: boolean
   setSelectedAddress: (address: string) => void
+  externalAddress: string
+  setExternalAddress: (address: string) => void
 }
 
 const CheckAirdrop: React.FC<CheckAirdropProps> = ({
   onConfirm,
   claimEnabled,
   setSelectedAddress,
+  externalAddress,
+  setExternalAddress,
 }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const theme = useTheme()
   const [loading, setLoading] = React.useState(false)
-  const [address, setAddress] = React.useState('')
   const [verifyData, setVerifyData] = React.useState(null)
   const [dataStakingInfo, setDataStakingInfo] = React.useState(null)
   const [lpInfos, setLpInfos] = React.useState(null)
   const [error, setError] = React.useState(false)
   const [isSelectAccountDialogOpen, setIsSelectAccountDialogOpen] = React.useState(false)
-  const [feeGrant, setFeeGrant] = React.useState(null)
 
   const verify = React.useCallback(async () => {
     try {
       setLoading(true)
       const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/users/${address}`
+        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/users/${externalAddress}`
       ).then((r) => r.json())
       setVerifyData(data)
       // eslint-disable-next-line camelcase
@@ -48,27 +50,8 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
       setLoading(false)
       console.log(err)
     }
-  }, [address])
+  }, [externalAddress])
 
-  const submit = React.useCallback(
-    async (value) => {
-      try {
-        setLoading(true)
-        const data = await fetch(`${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/airdrop/grants`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            user_address: address,
-            desmos_address: value,
-          }),
-        }).then((r) => r.json())
-        setFeeGrant(data)
-      } catch (err) {
-        console.log(err)
-      }
-    },
-    [address]
-  )
   return (
     <>
       <Box display="flex" flexDirection="row" pt={8} padding={theme.spacing(0.5)}>
@@ -90,8 +73,8 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                     disableUnderline: true,
                   }}
                   style={{ width: '70%' }}
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  value={externalAddress}
+                  onChange={(e) => setExternalAddress(e.target.value)}
                   placeholder={t('cosmos address placeholder')}
                 />
                 <Box padding={0} width="30%">
@@ -268,12 +251,9 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
         open={isSelectAccountDialogOpen}
         onSubmit={(e, value) => {
           e.preventDefault()
-          submit(value)
-        }}
-        onClose={() => {
-          setIsSelectAccountDialogOpen(false)
           onConfirm()
         }}
+        onClose={() => setIsSelectAccountDialogOpen(false)}
       />
     </>
   )

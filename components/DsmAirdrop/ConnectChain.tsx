@@ -8,7 +8,6 @@ import ConnectChainDialog from '../ConnectChainDialog'
 interface ConnectChainsProps {
   account: Account
   profile: Profile
-  granter: string
   onConfirm(): void
   chainConnections: ChainConnection[]
 }
@@ -17,7 +16,6 @@ const ConnectChains: React.FC<ConnectChainsProps> = ({
   onConfirm,
   account,
   profile,
-  granter,
   chainConnections,
 }) => {
   const classes = useStyles()
@@ -63,7 +61,6 @@ const ConnectChains: React.FC<ConnectChainsProps> = ({
       </form>
       <ConnectChainDialog
         account={account}
-        granter={granter}
         connections={chainConnections}
         open={isConnectChainDialogOpen}
         onClose={() => {

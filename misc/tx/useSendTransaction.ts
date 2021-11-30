@@ -7,8 +7,7 @@ import useIsChromeExt from '../useIsChromeExt'
 const useSendTransaction = (): ((
   password: string,
   address: string,
-  tx: { msgs: TransactionMsg[]; memo: string },
-  granter?: string
+  tx: { msgs: TransactionMsg[]; memo: string }
 ) => Promise<void>) => {
   const router = useRouter()
   const { isChromeExt } = useIsChromeExt()
@@ -17,8 +16,7 @@ const useSendTransaction = (): ((
     async (
       password: string,
       address: string,
-      transactionData: { msgs: TransactionMsg[]; memo: string },
-      granter?: string
+      transactionData: { msgs: TransactionMsg[]; memo: string }
     ) => {
       if (isChromeExt) {
         const { url, query: currentQuery } = qs.parseUrl(router.asPath)
@@ -27,18 +25,10 @@ const useSendTransaction = (): ((
           password,
           address,
           transactionData: JSON.stringify(transactionData),
-          granter,
         }
         router.push(qs.stringifyUrl({ url, query }))
       } else {
-        await invoke(
-          window,
-          'forboleX.sendTransaction',
-          password,
-          address,
-          transactionData,
-          granter
-        )
+        await invoke(window, 'forboleX.sendTransaction', password, address, transactionData)
       }
     },
     [isChromeExt, router]

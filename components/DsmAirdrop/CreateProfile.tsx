@@ -7,11 +7,10 @@ import ProfileDialog from '../ProfileDialog/index'
 interface CreateProfileProps {
   account: Account
   profile: Profile
-  granter: string
   onConfirm(): void
 }
 
-const CreateProfile: React.FC<CreateProfileProps> = ({ onConfirm, account, profile, granter }) => {
+const CreateProfile: React.FC<CreateProfileProps> = ({ onConfirm, account, profile }) => {
   const classes = useStyles()
   const { t } = useTranslation('common')
 
@@ -56,7 +55,6 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ onConfirm, account, profi
       <ProfileDialog
         account={account}
         profile={profile}
-        granter={granter}
         open={isProfileDialogOpen}
         onClose={() => {
           setIsProfileDialogOpen(false)

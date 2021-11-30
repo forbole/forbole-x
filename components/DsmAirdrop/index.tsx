@@ -41,6 +41,7 @@ const DsmAirdrop: React.FC = () => {
   const { accounts, wallets } = useWalletsContext()
 
   const [selectedAddress, setSelectedAddress] = React.useState('')
+  const [externalAddress, setExternalAddress] = React.useState('')
 
   const account = React.useMemo(
     () => accounts.find((acc) => acc.address === selectedAddress),
@@ -76,7 +77,7 @@ const DsmAirdrop: React.FC = () => {
   const [airdropResponse, setAirdropResponse] = useState('')
 
   const [claimSuccess, setClaimSuccess] = useState(false)
-  const [airdropConfig, setAirdropConfig] = useState({ airdrop_enabled: false, granter: '' })
+  const [airdropConfig, setAirdropConfig] = useState({ airdrop_enabled: false })
 
   const claimAirdrop = async () => {
     try {
@@ -180,7 +181,6 @@ const DsmAirdrop: React.FC = () => {
               account={account}
               profile={profile}
               chainConnections={chainConnections}
-              granter={airdropConfig.granter}
             />
           ),
         }
@@ -194,7 +194,6 @@ const DsmAirdrop: React.FC = () => {
               }}
               account={account}
               profile={profile}
-              granter={airdropConfig.granter}
             />
           ),
         }
@@ -213,6 +212,8 @@ const DsmAirdrop: React.FC = () => {
                 }
               }}
               profile={profile}
+              account={account}
+              externalAddress={externalAddress}
               chainConnections={chainConnections}
               profileLoading={loading}
             />
@@ -226,6 +227,8 @@ const DsmAirdrop: React.FC = () => {
               onConfirm={() => setStage(CommonStage.CheckClaimableStage)}
               setSelectedAddress={setSelectedAddress}
               claimEnabled={airdropConfig.airdrop_enabled}
+              externalAddress={externalAddress}
+              setExternalAddress={setExternalAddress}
             />
           ),
         }
