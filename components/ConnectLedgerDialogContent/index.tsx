@@ -49,6 +49,7 @@ const signInstructions = [
 ]
 
 let retryTimeout
+let pendingTimeout
 
 const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
   onConnect,
@@ -65,6 +66,11 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
   const connectLedger = React.useCallback(async () => {
     let transport
     try {
+      // When ledger timeout
+      pendingTimeout = setTimeout(() => {
+        closeAllLedgerConnections()
+        connectLedger()
+      }, 5000)
       transport = await TransportWebHID.create()
       if (ledgerAppName === 'terra') {
         const ledger = new TerraApp(transport)
@@ -78,11 +84,13 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
         // Check if ledger app is open
         await ledger.getCosmosAppVersion()
       }
+      clearTimeout(pendingTimeout)
       setInstruction(signInstructions[1])
       clearTimeout(retryTimeout)
       onConnect(transport)
       setInstruction(signInstructions[2])
     } catch (err) {
+      clearTimeout(pendingTimeout)
       if (err.name === 'TransportOpenUserCancelled') {
         // Ledger app is opened already
         setInstruction(signInstructions[0])
@@ -110,7 +118,10 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
 
   React.useEffect(() => {
     connectLedger()
-    return () => clearTimeout(retryTimeout)
+    return () => {
+      clearTimeout(retryTimeout)
+      clearTimeout(pendingTimeout)
+    }
   }, [connectLedger])
 
   return (
