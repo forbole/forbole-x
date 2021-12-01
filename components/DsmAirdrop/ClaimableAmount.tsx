@@ -6,12 +6,15 @@ import axios from 'axios'
 import useStyles from './styles'
 import { formatCrypto, formatCurrency, getTokenAmountBalance } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
+import AirdropEligibilityDetails from './AirdropEligibilityDetails'
 
 interface ClaimableAmountProps {
   onConfirm(): void
   amount: number
   chainConnections: ChainConnection[]
   loading: boolean
+  setIsConnectChainDialogOpen(open: boolean): void
+  externalAddress: string
 }
 
 const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
@@ -19,6 +22,8 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
   amount,
   chainConnections,
   loading,
+  setIsConnectChainDialogOpen,
+  externalAddress,
 }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
@@ -26,6 +31,27 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
   const theme = useTheme()
 
   const [onClaimLoading, setOnClaimLoading] = React.useState(false)
+
+  const [dataStakingInfo, setDataStakingInfo] = React.useState()
+  const [lpInfos, setLpInfos] = React.useState()
+
+  const verify = React.useCallback(async () => {
+    try {
+      const data = await fetch(
+        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/users/${externalAddress}`
+      ).then((r) => r.json())
+      // eslint-disable-next-line camelcase
+      const { staking_infos, dsm_allotted, lp_infos } = data
+      setDataStakingInfo(staking_infos)
+      setLpInfos(lp_infos)
+    } catch (err) {
+      console.log(err)
+    }
+  }, [externalAddress])
+
+  React.useEffect(() => {
+    verify()
+  }, [])
 
   return (
     <form
@@ -41,21 +67,30 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
           <Typography align="center" variant="h1" className={classes.claimableAmount}>
             {loading ? <CircularProgress /> : formatCrypto(amount, 'DSM', lang)}
           </Typography>
+          <Box mb={8}>
+            <AirdropEligibilityDetails lpInfos={lpInfos} dataStakingInfo={dataStakingInfo} />
+          </Box>
           <Button
             fullWidth
             color="primary"
             className={classes.button}
             variant="contained"
             type="submit"
-            // disabled={amount <= 0}
           >
-            {onClaimLoading ? <CircularProgress size={theme.spacing(3)} /> : t('claim now')}
+            {onClaimLoading ? (
+              <CircularProgress color="inherit" size={theme.spacing(3)} />
+            ) : (
+              t('claim now')
+            )}
           </Button>
-          <Link href="/">
-            <Button fullWidth className={classes.secondaryButton} variant="outlined">
-              {t('claim later')}
-            </Button>
-          </Link>
+          <Button
+            onClick={() => setIsConnectChainDialogOpen(true)}
+            fullWidth
+            className={classes.secondaryButton}
+            variant="outlined"
+          >
+            {t('connect more accounts')}
+          </Button>
         </Box>
       </Box>
     </form>
