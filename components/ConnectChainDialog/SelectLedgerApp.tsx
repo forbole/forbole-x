@@ -50,7 +50,7 @@ const SelectLedgerApp: React.FC<SelectLedgerAppProps> = ({ ledgerAppNames, onCon
                 <ListItemAvatar>
                   <Avatar src={connectableChains[c].image} />
                 </ListItemAvatar>
-                <ListItemText primary={connectableChains[c].name} />
+                <ListItemText primary={connectableChains[c].ledgerAppDisplayName} />
               </ListItem>
             </React.Fragment>
           ))}

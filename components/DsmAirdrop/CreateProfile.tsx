@@ -17,6 +17,12 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ onConfirm, account, profi
   const theme = useTheme()
   const [isProfileDialogOpen, setIsProfileDialogOpen] = React.useState(false)
 
+  React.useEffect(() => {
+    if (profile.dtag) {
+      onConfirm()
+    }
+  }, [profile.dtag, onConfirm])
+
   return (
     <>
       <form
@@ -52,9 +58,6 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ onConfirm, account, profi
         open={isProfileDialogOpen}
         onClose={() => {
           setIsProfileDialogOpen(false)
-          if (profile.dtag) {
-            onConfirm()
-          }
         }}
       />
     </>

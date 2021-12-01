@@ -4,7 +4,11 @@ import useTranslation from 'next-translate/useTranslation'
 import { useSubscription, gql } from '@apollo/client'
 import useStyles from './styles'
 import { useWalletsContext } from '../../contexts/WalletsContext'
-import { formatTokenAmount, transformValidatorsWithTokenAmount } from '../../misc/utils'
+import {
+  formatPercentage,
+  formatTokenAmount,
+  transformValidatorsWithTokenAmount,
+} from '../../misc/utils'
 import DelegationDialog from '../DelegationDialog'
 import WithdrawRewardsDialog from '../WithdrawRewardsDialog'
 import SendDialog from '../SendDialog'
@@ -15,6 +19,7 @@ interface ChromeExtBottomProps {
   delegated: TokenAmount
   rewards: TokenAmount
   account: Account
+  inflation: number
   balanceData: any
 }
 
@@ -23,6 +28,7 @@ const ChromeExtBottom: React.FC<ChromeExtBottomProps> = ({
   delegated,
   rewards,
   account,
+  inflation,
   balanceData,
 }) => {
   const classes = useStyles()
@@ -58,7 +64,7 @@ const ChromeExtBottom: React.FC<ChromeExtBottomProps> = ({
         </Box>
         <Box>
           <Typography variant="body2" color="textSecondary">
-            {t('delegate inflation', { inflation: '20%' })}
+            {t('delegate inflation', { inflation: formatPercentage(inflation, lang) })}
           </Typography>
           <Typography variant="h6">{formatTokenAmount(delegated, account.crypto, lang)}</Typography>
         </Box>

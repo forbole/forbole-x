@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import { useSubscription, gql } from '@apollo/client'
 import axios from 'axios'
+import get from 'lodash/get'
 import useStateHistory from '../../misc/useStateHistory'
 import { useStyles } from './styles'
 import CheckClaimable from './CheckClaimable'
@@ -16,6 +17,7 @@ import ConnectChains from './ConnectChain'
 import ClaimableAmount from './ClaimableAmount'
 import AirdropResult from './AirdropResult'
 import CheckAirdrop from './CheckAirdrop'
+import connectableChains from '../../misc/connectableChains'
 
 interface Content {
   title?: string
@@ -39,6 +41,7 @@ const DsmAirdrop: React.FC = () => {
   const { accounts, wallets } = useWalletsContext()
 
   const [selectedAddress, setSelectedAddress] = React.useState('')
+  const [externalAddress, setExternalAddress] = React.useState('')
 
   const account = React.useMemo(
     () => accounts.find((acc) => acc.address === selectedAddress),
@@ -52,7 +55,7 @@ const DsmAirdrop: React.FC = () => {
     `,
     { variables: { address: account ? account.address : '' } }
   )
-  const { data: chainConnectionsData } = useSubscription(
+  const { data: chainConnectionsData, loading: chainConnectionsLoading } = useSubscription(
     gql`
       ${getChainConnections(crypto.name)}
     `,
@@ -70,9 +73,11 @@ const DsmAirdrop: React.FC = () => {
   )
 
   const [totalDsmAllocated, setTotalDsmAllocated] = useState(0)
+  const [totalDsmAllocatedLoading, setTotalDsmAllocatedLoading] = useState(false)
   const [airdropResponse, setAirdropResponse] = useState('')
 
   const [claimSuccess, setClaimSuccess] = useState(false)
+  const [airdropConfig, setAirdropConfig] = useState({ airdrop_enabled: false })
 
   const claimAirdrop = async () => {
     try {
@@ -82,6 +87,7 @@ const DsmAirdrop: React.FC = () => {
           desmos_address: selectedAddress,
         }
       )
+      setClaimSuccess(true)
       setAirdropResponse(res.data)
     } catch (err) {
       setClaimSuccess(false)
@@ -91,6 +97,7 @@ const DsmAirdrop: React.FC = () => {
 
   useEffect(() => {
     if (chainConnections.length > 0) {
+      setTotalDsmAllocatedLoading(true)
       const axiosRequests = chainConnections.map((connection) =>
         axios.get(
           `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/users/${connection.externalAddress}`
@@ -100,22 +107,38 @@ const DsmAirdrop: React.FC = () => {
         .all(axiosRequests)
         .then(
           axios.spread((...responses) => {
-            responses.forEach((res) => {
+            responses.forEach((res, i) => {
               const chainClaimableAmount = [
                 ...(res.data.staking_infos ?? []),
                 ...(res.data.lp_infos ?? []),
               ]
-                .filter((chain) => !chain.claimed)
+                .filter(
+                  (chain) =>
+                    !chain.claimed &&
+                    chainConnections[i].externalAddress.match(
+                      new RegExp(
+                        `^${get(connectableChains, `${chain.chain_name.toLowerCase()}.prefix`)}`
+                      )
+                    )
+                )
                 .reduce((a, b) => a + b.dsm_allotted, 0)
-              return setTotalDsmAllocated(totalDsmAllocated + chainClaimableAmount)
+              return setTotalDsmAllocated((total) => total + chainClaimableAmount)
             })
+            setTotalDsmAllocatedLoading(false)
           })
         )
         .catch((error) => {
           console.log(error)
+          // setTotalDsmAllocatedLoading(false)
         })
     }
   }, [chainConnections])
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/config`)
+      .then((r) => r.json())
+      .then(setAirdropConfig)
+  }, [])
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
@@ -143,6 +166,7 @@ const DsmAirdrop: React.FC = () => {
               }}
               amount={totalDsmAllocated}
               chainConnections={chainConnections}
+              loading={totalDsmAllocatedLoading}
             />
           ),
         }
@@ -188,8 +212,11 @@ const DsmAirdrop: React.FC = () => {
                 }
               }}
               profile={profile}
+              account={account}
+              externalAddress={externalAddress}
               chainConnections={chainConnections}
               profileLoading={loading}
+              chainConnectionsLoading={chainConnectionsLoading}
             />
           ),
         }
@@ -200,6 +227,9 @@ const DsmAirdrop: React.FC = () => {
             <CheckAirdrop
               onConfirm={() => setStage(CommonStage.CheckClaimableStage)}
               setSelectedAddress={setSelectedAddress}
+              claimEnabled={airdropConfig.airdrop_enabled}
+              externalAddress={externalAddress}
+              setExternalAddress={setExternalAddress}
             />
           ),
         }

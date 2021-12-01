@@ -6,7 +6,7 @@ import get from 'lodash/get'
 import { StargateClient } from '@cosmjs/stargate'
 import cryptocurrencies from '../cryptocurrencies'
 
-export const transformMsg = (obj: any): any =>
+const transformMsg = (obj: any): any =>
   transform(obj, (acc, value, key, target) => {
     const camelKey = isArray(target) ? key : snakeCase(String(key))
     const childKeys = Object.keys(value)
@@ -20,6 +20,16 @@ export const transformMsg = (obj: any): any =>
     }
   })
 
+const transformFee = async (signer: string, crypto: Cryptocurrency, gas: number) => {
+  const fee: any = {
+    amount: [
+      { amount: String(Math.round(gas * crypto.gasFee.amount)), denom: crypto.gasFee.denom },
+    ],
+    gas: String(gas),
+  }
+  return fee
+}
+
 const estimateGasFee = async (
   tx: Transaction,
   account: Account
@@ -28,11 +38,10 @@ const estimateGasFee = async (
   gas: string
 }> => {
   const crypto = cryptocurrencies[account.crypto]
-  const stargateClient = await StargateClient.connect(crypto.rpcApiUrl)
-  const accountInfo = await stargateClient.getAccount(account.address)
-  const result = await fetch(`${crypto.lcdApiUrl}/cosmos/tx/v1beta1/simulate`, {
-    method: 'POST',
-    body: JSON.stringify({
+  try {
+    const stargateClient = await StargateClient.connect(crypto.rpcApiUrl)
+    const accountInfo = await stargateClient.getAccount(account.address)
+    const body: any = {
       tx: {
         body: {
           messages: tx.msgs.map((msg) => ({
@@ -64,21 +73,25 @@ const estimateGasFee = async (
               },
             ],
             gas_limit: '0',
-            payer: account.address,
           },
         },
         signatures: [''],
       },
-    }),
-  }).then((r) => r.json())
-  const gas =
-    Math.round(Number(get(result, 'gas_info.gas_used', '0')) * crypto.gasAdjustment) ||
-    tx.msgs.map((msg) => crypto.defaultGas[msg.typeUrl]).reduce((a, b) => a + b, 0)
-  return {
-    amount: [
-      { amount: String(Math.round(gas * crypto.gasFee.amount)), denom: crypto.gasFee.denom },
-    ],
-    gas: String(gas),
+    }
+
+    const result = await fetch(`${crypto.lcdApiUrl}/cosmos/tx/v1beta1/simulate`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }).then((r) => r.json())
+    const gas =
+      Math.round(Number(get(result, 'gas_info.gas_used', '0')) * crypto.gasAdjustment) ||
+      tx.msgs.map((msg) => crypto.defaultGas[msg.typeUrl]).reduce((a, b) => a + b, 0)
+    const fee = await transformFee(account.address, crypto, gas)
+    return fee
+  } catch (err) {
+    const gas = tx.msgs.map((msg) => crypto.defaultGas[msg.typeUrl]).reduce((a, b) => a + b, 0)
+    const fee = await transformFee(account.address, crypto, gas)
+    return fee
   }
 }
 

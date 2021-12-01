@@ -3,6 +3,7 @@ import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
 import { gql, useSubscription } from '@apollo/client'
+import get from 'lodash/get'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import useStyles from './styles'
@@ -20,6 +21,7 @@ import {
 } from '../../misc/utils'
 import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import ChromeExtBottom from './ChromeExtBottom'
+import { getInflation } from '../../graphql/queries/inflation'
 
 interface AccountCardProps {
   account: Account
@@ -42,6 +44,13 @@ const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled, 
     `,
     { variables: { address: account.address } }
   )
+
+  const { data: inflationData } = useSubscription(
+    gql`
+      ${getInflation(account.crypto)}
+    `
+  )
+  const inflation = get(inflationData, 'inflation[0].value', 0)
 
   const {
     tokenAmounts,
@@ -116,6 +125,7 @@ const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled, 
           delegated={delegated}
           rewards={rewards}
           balanceData={data}
+          inflation={inflation}
         />
       ) : null}
     </Card>

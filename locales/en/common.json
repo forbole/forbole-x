@@ -429,7 +429,7 @@
   "support": "Support",
   "pending rewards": "Pending Rewards",
   "delegate inflation": "Delegate ({{inflation}} Inflation)",
-  "profile dtag rules": "Dtag must have 6 - 30 alphanumeric or _ characters",
+  "profile dtag rules": "DTag can only contain 6-30 alphanumeric (a-z, 0-9) or _",
   "profile nickname rules": "Nickname must have at least 2 characters",
   "profile bio rules": "Bio can have at most 1000 characters",
   "validator commission": "Commission: {{commission}}",
@@ -477,5 +477,11 @@
   "connect account": "Connect Account",
   "airdrop connect account subtitle": "Now it’s time to connect your Desmos Profile to your first wallet account and claim your airdrop for such an account",
   "chain staker": "{{chain}} Staker {{suffix}}",
-  "claim later": "Claim Later"
+  "claim later": "Claim Later",
+  "claim disabled": "Claim Disabled",
+  "claimed": "claimed",
+  "check airdrop slogan": "*The more accounts you connected, the more DSM you could claim",
+  "get a grant": "Get a Grant",
+  "getting grant": "Getting Grant",
+  "getting grant description": "Please wait, it may take a few minutes, you can check back later..."
 }

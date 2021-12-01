@@ -1,13 +1,15 @@
 const connectableChains = {
   desmos: {
     name: 'Desmos',
+    ledgerAppDisplayName: 'Desmos (DSM)',
     image: '/static/images/cryptocurrencies/dsm.svg',
     prefix: 'desmos',
     coinType: 852,
     ledgerAppNames: ['desmos', 'cosmos'],
   },
   cosmos: {
-    name: 'Cosmos',
+    name: 'Cosmos Hub',
+    ledgerAppDisplayName: 'Cosmos (ATOM)',
     image: '/static/images/cryptocurrencies/atom.png',
     prefix: 'cosmos',
     coinType: 118,
@@ -15,6 +17,7 @@ const connectableChains = {
   },
   akash: {
     name: 'Akash',
+    ledgerAppDisplayName: 'Akash (AKT)',
     image: '/static/images/cryptocurrencies/akt.png',
     prefix: 'akash',
     coinType: 118,
@@ -22,6 +25,7 @@ const connectableChains = {
   },
   osmosis: {
     name: 'Osmosis',
+    ledgerAppDisplayName: 'Osmosis (OSMO)',
     image: '/static/images/cryptocurrencies/osmo.svg',
     prefix: 'osmo',
     coinType: 118,
@@ -29,27 +33,39 @@ const connectableChains = {
   },
   sentinel: {
     name: 'Sentinel',
+    ledgerAppDisplayName: 'Sentinel (DVPN)',
     image: '/static/images/cryptocurrencies/dvpn.png',
     prefix: 'sent',
     coinType: 118,
     ledgerAppNames: ['cosmos'],
   },
-  cro: {
+  'crypto.org chain': {
     name: 'Crypto.org',
+    ledgerAppDisplayName: 'Crypto.org (CRO)',
     image: '/static/images/cryptocurrencies/cro.png',
     prefix: 'cro',
-    coinType: 118,
-    ledgerAppNames: ['cosmos'],
+    coinType: 394,
+    ledgerAppNames: ['crypto.org chain', 'cosmos'],
   },
   terra: {
     name: 'Terra',
+    ledgerAppDisplayName: 'Terra (LUNA)',
     image: '/static/images/cryptocurrencies/terra.png',
     prefix: 'terra',
     coinType: 330,
     ledgerAppNames: ['terra', 'cosmos'],
   },
+  kava: {
+    name: 'Kava',
+    ledgerAppDisplayName: 'Kava (KAVA)',
+    image: '/static/images/cryptocurrencies/kava.png',
+    prefix: 'kava',
+    coinType: 459,
+    ledgerAppNames: ['kava', 'cosmos'],
+  },
   regen: {
     name: 'Regen',
+    ledgerAppDisplayName: 'Regen (REGEN)',
     image: '/static/images/cryptocurrencies/regen.png',
     prefix: 'regen',
     coinType: 118,
@@ -57,6 +73,7 @@ const connectableChains = {
   },
   likecoin: {
     name: 'Likecoin',
+    ledgerAppDisplayName: 'Likecoin (LIKE)',
     image: '/static/images/cryptocurrencies/likecoin.png',
     prefix: 'cosmos',
     coinType: 118,
@@ -64,6 +81,7 @@ const connectableChains = {
   },
   band: {
     name: 'Band Protocol',
+    ledgerAppDisplayName: 'Band Protocol (BAND)',
     image: '/static/images/cryptocurrencies/band.png',
     prefix: 'band',
     coinType: 494,
@@ -71,6 +89,7 @@ const connectableChains = {
   },
   emoney: {
     name: 'e-Money',
+    ledgerAppDisplayName: 'E-Money (NGM)',
     image: '/static/images/cryptocurrencies/emoney.png',
     prefix: 'emoney',
     coinType: 118,
@@ -78,6 +97,7 @@ const connectableChains = {
   },
   juno: {
     name: 'Juno',
+    ledgerAppDisplayName: 'Juno (JUNO)',
     image: '/static/images/cryptocurrencies/juno.svg',
     prefix: 'juno',
     coinType: 118,
@@ -85,6 +105,7 @@ const connectableChains = {
   },
   secretnetwork: {
     name: 'Secret Network',
+    ledgerAppDisplayName: 'Secret Network (SCRT)',
     image: '/static/images/cryptocurrencies/scrt.webp',
     prefix: 'scrt',
     coinType: 529,
@@ -92,13 +113,15 @@ const connectableChains = {
   },
   sifchain: {
     name: 'Sifchain',
+    ledgerAppDisplayName: 'Sifchain (ROWAN)',
     image: '/static/images/cryptocurrencies/rowan.webp',
-    prefix: 'juno',
+    prefix: 'sif',
     coinType: 118,
     ledgerAppNames: ['cosmos'],
   },
   irisnet: {
     name: 'IRISnet',
+    ledgerAppDisplayName: 'IRISnet (IRIS)',
     image: '/static/images/cryptocurrencies/iris.svg',
     prefix: 'iaa',
     coinType: 118,
@@ -106,6 +129,7 @@ const connectableChains = {
   },
   persistence: {
     name: 'Persistence',
+    ledgerAppDisplayName: 'Persistence (XPRT)',
     image: '/static/images/cryptocurrencies/xprt.png',
     prefix: 'persistence',
     coinType: 750,
@@ -113,6 +137,7 @@ const connectableChains = {
   },
   ixo: {
     name: 'IXO',
+    ledgerAppDisplayName: 'IXO',
     image: '/static/images/cryptocurrencies/ixo.png',
     prefix: 'ixo',
     coinType: 118,
@@ -120,6 +145,7 @@ const connectableChains = {
   },
   bitcanna: {
     name: 'Bitcanna',
+    ledgerAppDisplayName: 'Bitcanna',
     image: '/static/images/cryptocurrencies/bcna.svg',
     prefix: 'bcna',
     coinType: 118,
@@ -127,6 +153,7 @@ const connectableChains = {
   },
   bitsong: {
     name: 'Bitsong',
+    ledgerAppDisplayName: 'Bitsong',
     image: '/static/images/cryptocurrencies/btsg.svg',
     prefix: 'btsg',
     coinType: 639,

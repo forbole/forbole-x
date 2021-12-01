@@ -51,6 +51,11 @@ export const useStyles = makeStyles(
     airdropMessage: {
       margin: `${theme.spacing(2)}px 0 ${theme.spacing(10)}px 0`,
     },
+    closeButton: {
+      position: 'absolute',
+      top: theme.spacing(2),
+      right: theme.spacing(2),
+    },
   }),
   {
     name: 'HookGlobalStyles',

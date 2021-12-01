@@ -9,15 +9,23 @@ import { formatCrypto } from '../../misc/utils'
 
 interface CheckAirdropProps {
   onConfirm(): void
+  claimEnabled: boolean
   setSelectedAddress: (address: string) => void
+  externalAddress: string
+  setExternalAddress: (address: string) => void
 }
 
-const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddress }) => {
+const CheckAirdrop: React.FC<CheckAirdropProps> = ({
+  onConfirm,
+  claimEnabled,
+  setSelectedAddress,
+  externalAddress,
+  setExternalAddress,
+}) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const theme = useTheme()
   const [loading, setLoading] = React.useState(false)
-  const [address, setAddress] = React.useState('')
   const [verifyData, setVerifyData] = React.useState(null)
   const [dataStakingInfo, setDataStakingInfo] = React.useState(null)
   const [lpInfos, setLpInfos] = React.useState(null)
@@ -28,7 +36,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
     try {
       setLoading(true)
       const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/users/${address}`
+        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/users/${externalAddress}`
       ).then((r) => r.json())
       setVerifyData(data)
       // eslint-disable-next-line camelcase
@@ -42,7 +50,8 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
       setLoading(false)
       console.log(err)
     }
-  }, [address])
+  }, [externalAddress])
+
   return (
     <>
       <Box display="flex" flexDirection="row" pt={8} padding={theme.spacing(0.5)}>
@@ -64,8 +73,8 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
                     disableUnderline: true,
                   }}
                   style={{ width: '70%' }}
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  value={externalAddress}
+                  onChange={(e) => setExternalAddress(e.target.value)}
                   placeholder={t('cosmos address placeholder')}
                 />
                 <Box padding={0} width="30%">
@@ -104,6 +113,8 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
               <Box>
                 {dataStakingInfo.map((item, key) => {
                   const chain = item.chain_name
+                  const dsm = item.dsm_allotted
+                  const { claimed } = item
                   return (
                     <Box
                       display="flex"
@@ -112,14 +123,41 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
                       pt={theme.spacing(0.2)}
                       key={key}
                     >
-                      <Box pr={theme.spacing(0.2)}>
+                      <Box pr={theme.spacing(0.2)} display="flex" alignItems="center">
                         <TickIcon />
                       </Box>
-                      <Typography style={{ color: theme.palette.primary.main, padding: 0 }}>
+                      <Typography
+                        style={{
+                          color: theme.palette.primary.main,
+                          padding: 0,
+                          display: 'flex',
+                          flexDirection: 'row',
+                        }}
+                      >
                         {t('chain staker', {
                           chain,
                           suffix: item.forbole_delegator ? '& Forbole Delegator' : '',
                         })}
+                        {/* {dsm DSM} */}
+                        {claimed ? (
+                          <Typography
+                            style={{
+                              color: theme.palette.text.secondary,
+                              paddingLeft: theme.spacing(1),
+                            }}
+                          >
+                            {formatCrypto(dsm, 'DSM', lang)} {t('claimed')}
+                          </Typography>
+                        ) : (
+                          <Typography
+                            style={{
+                              color: theme.palette.text.primary,
+                              paddingLeft: theme.spacing(1),
+                            }}
+                          >
+                            {formatCrypto(dsm, 'DSM', lang)}
+                          </Typography>
+                        )}
                       </Typography>
                     </Box>
                   )
@@ -130,6 +168,8 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
               <Box pb={theme.spacing(0.2)}>
                 {lpInfos.map((item, key) => {
                   const chain = item.chain_name
+                  const dsm = item.dsm_allotted
+                  const { claimed } = item
                   return (
                     <Box
                       display="flex"
@@ -138,20 +178,53 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
                       pt={theme.spacing(0.2)}
                       key={key}
                     >
-                      <Box pr={theme.spacing(0.2)}>
+                      <Box pr={theme.spacing(0.2)} display="flex" alignItems="center">
                         <TickIcon />
                       </Box>
-                      <Typography style={{ color: theme.palette.primary.main, padding: 0 }}>
+                      <Typography
+                        style={{
+                          color: theme.palette.primary.main,
+                          padding: 0,
+                          display: 'flex',
+                          flexDirection: 'row',
+                        }}
+                      >
                         {chain} {t('lp staker')}
+                        {claimed ? (
+                          <Typography
+                            style={{
+                              color: theme.palette.text.secondary,
+                              paddingLeft: theme.spacing(1),
+                            }}
+                          >
+                            {formatCrypto(dsm, 'DSM', lang)} {t('claimed')}
+                          </Typography>
+                        ) : (
+                          <Typography
+                            style={{
+                              color: theme.palette.text.primary,
+                              paddingLeft: theme.spacing(1),
+                            }}
+                          >
+                            {formatCrypto(dsm, 'DSM', lang)}
+                          </Typography>
+                        )}{' '}
                       </Typography>
                     </Box>
                   )
                 })}
               </Box>
             ) : null}
-            {dataStakingInfo !== null && dataStakingInfo !== undefined ? (
+            {[...(dataStakingInfo || []), ...(lpInfos || [])].filter((i) => !i.claimed).length ? (
               <form noValidate>
-                <Box mt={4} padding={0} width="20%">
+                <Typography
+                  style={{
+                    color: theme.palette.text.secondary,
+                  }}
+                >
+                  {t('check airdrop slogan')}
+                </Typography>
+                <Box mt={4} padding={0} minWidth="20%">
                   <Button
                     id="button"
                     variant="contained"
@@ -176,10 +249,11 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({ onConfirm, setSelectedAddre
       <SelectAccountDialog
         setSelectedAddress={setSelectedAddress}
         open={isSelectAccountDialogOpen}
-        onClose={() => {
-          setIsSelectAccountDialogOpen(false)
+        onSubmit={(e, value) => {
+          e.preventDefault()
           onConfirm()
         }}
+        onClose={() => setIsSelectAccountDialogOpen(false)}
       />
     </>
   )

@@ -66,7 +66,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const crypto = account ? account.crypto : Object.keys(cryptocurrencies)[0]
 
   const [errMsg, setErrMsg] = React.useState('')
-  const [fee, setFee] = React.useState({ amount: [{ amount: '0', denom: '' }], gas: '' })
+  const [fee, setFee] = React.useState<any>({ amount: [{ amount: '0', denom: '' }], gas: '' })
 
   const { data: denomsData } = useSubscription(gql`
     ${getTokensPrices(crypto)}

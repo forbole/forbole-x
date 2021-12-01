@@ -23,6 +23,13 @@ const ConnectChains: React.FC<ConnectChainsProps> = ({
 
   const theme = useTheme()
   const [isConnectChainDialogOpen, setIsConnectChainDialogOpen] = React.useState(false)
+
+  React.useEffect(() => {
+    if (chainConnections.length > 0) {
+      onConfirm()
+    }
+  }, [chainConnections, onConfirm])
+
   return (
     <>
       <form
@@ -57,9 +64,6 @@ const ConnectChains: React.FC<ConnectChainsProps> = ({
         connections={chainConnections}
         open={isConnectChainDialogOpen}
         onClose={() => {
-          if (chainConnections.length > 0) {
-            onConfirm()
-          }
           setIsConnectChainDialogOpen(false)
         }}
       />
