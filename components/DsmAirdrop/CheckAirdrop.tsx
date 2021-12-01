@@ -6,6 +6,7 @@ import ParachuteIcon from '../../assets/images/parachute.svg'
 import SelectAccountDialog from '../SelectAccountDialog'
 import useStyles from './styles'
 import { formatCrypto } from '../../misc/utils'
+import AirdropEligibilityDetails from './AirdropEligibilityDetails'
 
 interface CheckAirdropProps {
   onConfirm(): void
@@ -93,7 +94,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                     }}
                   >
                     {loading ? (
-                      <CircularProgress color="inherit" size={theme.spacing(3)} />
+                      <CircularProgress color="inherit" size={theme.spacing(3.5)} />
                     ) : (
                       'calculate'
                     )}
@@ -109,132 +110,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                 </Typography>
               </Box>
             )}
-            {dataStakingInfo !== null && dataStakingInfo !== undefined ? (
-              <Box>
-                {dataStakingInfo.map((item, key) => {
-                  const chain = item.chain_name
-                  const dsm = item.dsm_allotted
-                  const { claimed } = item
-                  return (
-                    <Box key={key}>
-                      <Box
-                        display="flex"
-                        flexDirection="row"
-                        alignItems="center"
-                        pt={theme.spacing(0.2)}
-                        mb={0.5}
-                      >
-                        <Box pr={theme.spacing(0.2)} display="flex" alignItems="center">
-                          <TickIcon />
-                        </Box>
-                        <Typography
-                          style={{
-                            color: theme.palette.primary.main,
-                            padding: 0,
-                            display: 'flex',
-                            flexDirection: 'row',
-                          }}
-                        >
-                          {t('chain staker', {
-                            chain,
-                            suffix: item.forbole_delegator ? '& Forbole Delegator' : '',
-                          })}
-                          {/* {dsm DSM} */}
-                          {claimed ? (
-                            <Typography
-                              style={{
-                                color: theme.palette.text.secondary,
-                                paddingLeft: theme.spacing(1),
-                              }}
-                            >
-                              {formatCrypto(dsm, 'DSM', lang)} {t('claimed')}
-                            </Typography>
-                          ) : (
-                            <Typography
-                              style={{
-                                color: theme.palette.text.primary,
-                                paddingLeft: theme.spacing(1),
-                              }}
-                            >
-                              {formatCrypto(dsm, 'DSM', lang)}
-                            </Typography>
-                          )}
-                        </Typography>
-                      </Box>
-                      <Box
-                        bgcolor={theme.palette.grey[100]}
-                        display="inline-block"
-                        px={2}
-                        borderRadius={theme.spacing(2)}
-                      >
-                        <Typography color="textSecondary">{item.address}</Typography>
-                      </Box>
-                    </Box>
-                  )
-                })}
-              </Box>
-            ) : null}
-            {lpInfos !== null && lpInfos !== undefined ? (
-              <Box pb={theme.spacing(0.2)}>
-                {lpInfos.map((item, key) => {
-                  const chain = item.chain_name
-                  const dsm = item.dsm_allotted
-                  const { claimed } = item
-                  return (
-                    <Box key={key}>
-                      <Box
-                        display="flex"
-                        flexDirection="row"
-                        alignItems="center"
-                        pt={theme.spacing(0.2)}
-                        mb={0.5}
-                      >
-                        <Box pr={theme.spacing(0.2)} display="flex" alignItems="center">
-                          <TickIcon />
-                        </Box>
-                        <Typography
-                          style={{
-                            color: theme.palette.primary.main,
-                            padding: 0,
-                            display: 'flex',
-                            flexDirection: 'row',
-                          }}
-                        >
-                          {chain} {t('lp staker')}
-                          {claimed ? (
-                            <Typography
-                              style={{
-                                color: theme.palette.text.secondary,
-                                paddingLeft: theme.spacing(1),
-                              }}
-                            >
-                              {formatCrypto(dsm, 'DSM', lang)} {t('claimed')}
-                            </Typography>
-                          ) : (
-                            <Typography
-                              style={{
-                                color: theme.palette.text.primary,
-                                paddingLeft: theme.spacing(1),
-                              }}
-                            >
-                              {formatCrypto(dsm, 'DSM', lang)}
-                            </Typography>
-                          )}{' '}
-                        </Typography>
-                      </Box>
-                      <Box
-                        bgcolor={theme.palette.grey[100]}
-                        display="inline-block"
-                        px={2}
-                        borderRadius={theme.spacing(2)}
-                      >
-                        <Typography color="textSecondary">{item.address}</Typography>
-                      </Box>
-                    </Box>
-                  )
-                })}
-              </Box>
-            ) : null}
+            <AirdropEligibilityDetails lpInfos={lpInfos} dataStakingInfo={dataStakingInfo} />
             {[...(dataStakingInfo || []), ...(lpInfos || [])].filter((i) => !i.claimed).length ? (
               <form noValidate>
                 <Typography
@@ -252,7 +128,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                     onClick={() => setIsSelectAccountDialogOpen(true)}
                   >
                     {loading ? (
-                      <CircularProgress color="inherit" size={theme.spacing(3)} />
+                      <CircularProgress color="inherit" size={theme.spacing(3.5)} />
                     ) : (
                       t('claim now')
                     )}

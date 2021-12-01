@@ -18,6 +18,7 @@ import ClaimableAmount from './ClaimableAmount'
 import AirdropResult from './AirdropResult'
 import CheckAirdrop from './CheckAirdrop'
 import connectableChains from '../../misc/connectableChains'
+import ConnectChainDialog from '../ConnectChainDialog'
 
 interface Content {
   title?: string
@@ -78,6 +79,8 @@ const DsmAirdrop: React.FC = () => {
 
   const [claimSuccess, setClaimSuccess] = useState(false)
   const [airdropConfig, setAirdropConfig] = useState({ airdrop_enabled: false })
+
+  const [isConnectChainDialogOpen, setIsConnectChainDialogOpen] = React.useState(false)
 
   const claimAirdrop = async () => {
     try {
@@ -167,6 +170,8 @@ const DsmAirdrop: React.FC = () => {
               amount={totalDsmAllocated}
               chainConnections={chainConnections}
               loading={totalDsmAllocatedLoading}
+              setIsConnectChainDialogOpen={setIsConnectChainDialogOpen}
+              externalAddress={externalAddress}
             />
           ),
         }
@@ -178,9 +183,8 @@ const DsmAirdrop: React.FC = () => {
               onConfirm={() => {
                 setStage(CommonStage.ClaimableAmountStage)
               }}
-              account={account}
-              profile={profile}
               chainConnections={chainConnections}
+              setIsConnectChainDialogOpen={setIsConnectChainDialogOpen}
             />
           ),
         }
@@ -246,6 +250,14 @@ const DsmAirdrop: React.FC = () => {
         ) : null}
         {content.content}
       </Box>
+      <ConnectChainDialog
+        account={account}
+        connections={chainConnections}
+        open={isConnectChainDialogOpen}
+        onClose={() => {
+          setIsConnectChainDialogOpen(false)
+        }}
+      />
     </Card>
   )
 }

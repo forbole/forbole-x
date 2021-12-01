@@ -54,13 +54,27 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
 
   const [isLoadingDialogOpen, setIsLoadingDialogOpen] = React.useState(false)
 
+  const [error, setError] = React.useState('')
+
   const shouldGetGrant = canGetGrant && !isGranting && !isGrantActive
 
   const checkFeeGrant = React.useCallback(async () => {
     try {
-      const { can_get_grant, has_enough_dsm, has_requested_grant, can_claim_airdrop } = await fetch(
+      setError('')
+      const {
+        can_get_grant,
+        has_enough_dsm,
+        has_requested_grant,
+        can_claim_airdrop,
+        used_desmos_address,
+      } = await fetch(
         `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/airdrop/grants/${account.address}/${externalAddress}`
       ).then((r) => r.json())
+      if (used_desmos_address && used_desmos_address !== account.address) {
+        throw new Error(
+          `You've already been granted for claiming the airdrop with address: ${used_desmos_address}`
+        )
+      }
       setCanGetGrant(can_get_grant || has_requested_grant || has_enough_dsm)
       setIsGranting(has_requested_grant && !has_enough_dsm && !can_claim_airdrop)
       setIsGrantActive(has_enough_dsm || can_claim_airdrop)
@@ -69,6 +83,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
         setIsLoadingDialogOpen(false)
       }
     } catch (err) {
+      setError(err.message)
       console.log(err)
     }
   }, [account])
@@ -172,11 +187,19 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
                 variant="contained"
                 type="submit"
                 disabled={
-                  profileLoading || chainConnectionsLoading || (isGranting && !isGrantActive)
+                  !!error ||
+                  profileLoading ||
+                  chainConnectionsLoading ||
+                  (isGranting && !isGrantActive)
                 }
               >
                 {t(shouldGetGrant ? 'get a grant' : 'get started button')}
               </Button>
+              <Box mt={1}>
+                <Typography variant="body2" color="error">
+                  {error}
+                </Typography>
+              </Box>
             </Box>
           </Box>
         </Box>
