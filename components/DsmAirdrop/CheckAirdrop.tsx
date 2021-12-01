@@ -116,49 +116,59 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                   const dsm = item.dsm_allotted
                   const { claimed } = item
                   return (
-                    <Box
-                      display="flex"
-                      flexDirection="row"
-                      alignItems="center"
-                      pt={theme.spacing(0.2)}
-                      key={key}
-                    >
-                      <Box pr={theme.spacing(0.2)} display="flex" alignItems="center">
-                        <TickIcon />
-                      </Box>
-                      <Typography
-                        style={{
-                          color: theme.palette.primary.main,
-                          padding: 0,
-                          display: 'flex',
-                          flexDirection: 'row',
-                        }}
+                    <Box key={key}>
+                      <Box
+                        display="flex"
+                        flexDirection="row"
+                        alignItems="center"
+                        pt={theme.spacing(0.2)}
+                        mb={0.5}
                       >
-                        {t('chain staker', {
-                          chain,
-                          suffix: item.forbole_delegator ? '& Forbole Delegator' : '',
-                        })}
-                        {/* {dsm DSM} */}
-                        {claimed ? (
-                          <Typography
-                            style={{
-                              color: theme.palette.text.secondary,
-                              paddingLeft: theme.spacing(1),
-                            }}
-                          >
-                            {formatCrypto(dsm, 'DSM', lang)} {t('claimed')}
-                          </Typography>
-                        ) : (
-                          <Typography
-                            style={{
-                              color: theme.palette.text.primary,
-                              paddingLeft: theme.spacing(1),
-                            }}
-                          >
-                            {formatCrypto(dsm, 'DSM', lang)}
-                          </Typography>
-                        )}
-                      </Typography>
+                        <Box pr={theme.spacing(0.2)} display="flex" alignItems="center">
+                          <TickIcon />
+                        </Box>
+                        <Typography
+                          style={{
+                            color: theme.palette.primary.main,
+                            padding: 0,
+                            display: 'flex',
+                            flexDirection: 'row',
+                          }}
+                        >
+                          {t('chain staker', {
+                            chain,
+                            suffix: item.forbole_delegator ? '& Forbole Delegator' : '',
+                          })}
+                          {/* {dsm DSM} */}
+                          {claimed ? (
+                            <Typography
+                              style={{
+                                color: theme.palette.text.secondary,
+                                paddingLeft: theme.spacing(1),
+                              }}
+                            >
+                              {formatCrypto(dsm, 'DSM', lang)} {t('claimed')}
+                            </Typography>
+                          ) : (
+                            <Typography
+                              style={{
+                                color: theme.palette.text.primary,
+                                paddingLeft: theme.spacing(1),
+                              }}
+                            >
+                              {formatCrypto(dsm, 'DSM', lang)}
+                            </Typography>
+                          )}
+                        </Typography>
+                      </Box>
+                      <Box
+                        bgcolor={theme.palette.grey[100]}
+                        display="inline-block"
+                        px={2}
+                        borderRadius={theme.spacing(2)}
+                      >
+                        <Typography color="textSecondary">{item.address}</Typography>
+                      </Box>
                     </Box>
                   )
                 })}
@@ -171,45 +181,55 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                   const dsm = item.dsm_allotted
                   const { claimed } = item
                   return (
-                    <Box
-                      display="flex"
-                      flexDirection="row"
-                      alignItems="center"
-                      pt={theme.spacing(0.2)}
-                      key={key}
-                    >
-                      <Box pr={theme.spacing(0.2)} display="flex" alignItems="center">
-                        <TickIcon />
-                      </Box>
-                      <Typography
-                        style={{
-                          color: theme.palette.primary.main,
-                          padding: 0,
-                          display: 'flex',
-                          flexDirection: 'row',
-                        }}
+                    <Box key={key}>
+                      <Box
+                        display="flex"
+                        flexDirection="row"
+                        alignItems="center"
+                        pt={theme.spacing(0.2)}
+                        mb={0.5}
                       >
-                        {chain} {t('lp staker')}
-                        {claimed ? (
-                          <Typography
-                            style={{
-                              color: theme.palette.text.secondary,
-                              paddingLeft: theme.spacing(1),
-                            }}
-                          >
-                            {formatCrypto(dsm, 'DSM', lang)} {t('claimed')}
-                          </Typography>
-                        ) : (
-                          <Typography
-                            style={{
-                              color: theme.palette.text.primary,
-                              paddingLeft: theme.spacing(1),
-                            }}
-                          >
-                            {formatCrypto(dsm, 'DSM', lang)}
-                          </Typography>
-                        )}{' '}
-                      </Typography>
+                        <Box pr={theme.spacing(0.2)} display="flex" alignItems="center">
+                          <TickIcon />
+                        </Box>
+                        <Typography
+                          style={{
+                            color: theme.palette.primary.main,
+                            padding: 0,
+                            display: 'flex',
+                            flexDirection: 'row',
+                          }}
+                        >
+                          {chain} {t('lp staker')}
+                          {claimed ? (
+                            <Typography
+                              style={{
+                                color: theme.palette.text.secondary,
+                                paddingLeft: theme.spacing(1),
+                              }}
+                            >
+                              {formatCrypto(dsm, 'DSM', lang)} {t('claimed')}
+                            </Typography>
+                          ) : (
+                            <Typography
+                              style={{
+                                color: theme.palette.text.primary,
+                                paddingLeft: theme.spacing(1),
+                              }}
+                            >
+                              {formatCrypto(dsm, 'DSM', lang)}
+                            </Typography>
+                          )}{' '}
+                        </Typography>
+                      </Box>
+                      <Box
+                        bgcolor={theme.palette.grey[100]}
+                        display="inline-block"
+                        px={2}
+                        borderRadius={theme.spacing(2)}
+                      >
+                        <Typography color="textSecondary">{item.address}</Typography>
+                      </Box>
                     </Box>
                   )
                 })}

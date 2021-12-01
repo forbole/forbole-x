@@ -4,6 +4,9 @@ export const getChainConnections = (crypto: string): string => `
       external_address
       user_address
       creation_time
+      chain_config {
+        name
+      }
     }
   }
 `

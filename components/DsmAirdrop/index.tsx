@@ -115,11 +115,11 @@ const DsmAirdrop: React.FC = () => {
                 .filter(
                   (chain) =>
                     !chain.claimed &&
-                    chainConnections[i].externalAddress.match(
-                      new RegExp(
-                        `^${get(connectableChains, `${chain.chain_name.toLowerCase()}.prefix`)}`
-                      )
-                    )
+                    chainConnections[i].externalAddress === chain.address &&
+                    // HACK: likecoin has same address as cosmos
+                    (chainConnections[i].chainName === 'likecoin'
+                      ? chain.chain_name === 'Likecoin'
+                      : true)
                 )
                 .reduce((a, b) => a + b.dsm_allotted, 0)
               return setTotalDsmAllocated((total) => total + chainClaimableAmount)

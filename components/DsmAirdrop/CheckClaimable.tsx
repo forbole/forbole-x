@@ -58,12 +58,12 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
 
   const checkFeeGrant = React.useCallback(async () => {
     try {
-      const { can_get_grant, has_enough_dsm, has_requested_grant } = await fetch(
+      const { can_get_grant, has_enough_dsm, has_requested_grant, can_claim_airdrop } = await fetch(
         `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/airdrop/grants/${account.address}/${externalAddress}`
       ).then((r) => r.json())
       setCanGetGrant(can_get_grant || has_requested_grant || has_enough_dsm)
-      setIsGranting(has_requested_grant && !has_enough_dsm)
-      setIsGrantActive(has_enough_dsm)
+      setIsGranting(has_requested_grant && !has_enough_dsm && !can_claim_airdrop)
+      setIsGrantActive(has_enough_dsm || can_claim_airdrop)
       if (has_enough_dsm) {
         clearInterval(timer)
         setIsLoadingDialogOpen(false)
