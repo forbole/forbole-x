@@ -20,7 +20,7 @@ const cryptocurrencies: { [key: string]: Cryptocurrency } = {
         channel: 'channel 1',
         chainId: 'morpheus-apollo-2',
         addressPrefix: 'desmos',
-        crypto: 'DSM',
+        crypto: 'DARIC',
       },
     ],
     gasAdjustment: 1.5,
