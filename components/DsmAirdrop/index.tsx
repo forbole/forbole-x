@@ -7,17 +7,17 @@ import get from 'lodash/get'
 import useStateHistory from '../../misc/useStateHistory'
 import { useStyles } from './styles'
 import CheckClaimable from './CheckClaimable'
-import CreateProfile from './CreateProfile'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { getProfile } from '../../graphql/queries/profile'
 import { transformChainConnections, transformProfile } from '../../misc/utils'
 import { getChainConnections } from '../../graphql/queries/chainConnections'
-import ConnectChains from './ConnectChain'
 import ClaimableAmount from './ClaimableAmount'
 import AirdropResult from './AirdropResult'
 import CheckAirdrop from './CheckAirdrop'
 import connectableChains from '../../misc/connectableChains'
+import ConnectChainDialog from '../ConnectChainDialog'
+import ProfileDialog from '../ProfileDialog'
 
 interface Content {
   title?: string
@@ -41,6 +41,7 @@ const DsmAirdrop: React.FC = () => {
   const { accounts, wallets } = useWalletsContext()
 
   const [selectedAddress, setSelectedAddress] = React.useState('')
+  const [externalAddress, setExternalAddress] = React.useState('')
 
   const account = React.useMemo(
     () => accounts.find((acc) => acc.address === selectedAddress),
@@ -54,7 +55,7 @@ const DsmAirdrop: React.FC = () => {
     `,
     { variables: { address: account ? account.address : '' } }
   )
-  const { data: chainConnectionsData } = useSubscription(
+  const { data: chainConnectionsData, loading: chainConnectionsLoading } = useSubscription(
     gql`
       ${getChainConnections(crypto.name)}
     `,
@@ -76,7 +77,10 @@ const DsmAirdrop: React.FC = () => {
   const [airdropResponse, setAirdropResponse] = useState('')
 
   const [claimSuccess, setClaimSuccess] = useState(false)
-  const [airdropConfig, setAirdropConfig] = useState({ airdrop_enabled: false, granter: '' })
+  const [airdropConfig, setAirdropConfig] = useState({ airdrop_enabled: false })
+
+  const [isConnectChainDialogOpen, setIsConnectChainDialogOpen] = React.useState(false)
+  const [isProfileDialogOpen, setIsProfileDialogOpen] = React.useState(false)
 
   const claimAirdrop = async () => {
     try {
@@ -114,11 +118,11 @@ const DsmAirdrop: React.FC = () => {
                 .filter(
                   (chain) =>
                     !chain.claimed &&
-                    chainConnections[i].externalAddress.match(
-                      new RegExp(
-                        `^${get(connectableChains, `${chain.chain_name.toLowerCase()}.prefix`)}`
-                      )
-                    )
+                    chainConnections[i].externalAddress === chain.address &&
+                    // HACK: likecoin has same address as cosmos
+                    (chainConnections[i].chainName === 'likecoin'
+                      ? chain.chain_name === 'Likecoin'
+                      : true)
                 )
                 .reduce((a, b) => a + b.dsm_allotted, 0)
               return setTotalDsmAllocated((total) => total + chainClaimableAmount)
@@ -166,35 +170,8 @@ const DsmAirdrop: React.FC = () => {
               amount={totalDsmAllocated}
               chainConnections={chainConnections}
               loading={totalDsmAllocatedLoading}
-            />
-          ),
-        }
-      case CommonStage.ConnectChainsStage:
-        return {
-          title: t('dsm airdrop is claimable'),
-          content: (
-            <ConnectChains
-              onConfirm={() => {
-                setStage(CommonStage.ClaimableAmountStage)
-              }}
-              account={account}
-              profile={profile}
-              chainConnections={chainConnections}
-              granter={airdropConfig.granter}
-            />
-          ),
-        }
-      case CommonStage.CreateProfileStage:
-        return {
-          title: t('dsm airdrop is claimable'),
-          content: (
-            <CreateProfile
-              onConfirm={() => {
-                setStage(CommonStage.ConnectChainsStage)
-              }}
-              account={account}
-              profile={profile}
-              granter={airdropConfig.granter}
+              setIsConnectChainDialogOpen={setIsConnectChainDialogOpen}
+              externalAddress={externalAddress}
             />
           ),
         }
@@ -205,16 +182,19 @@ const DsmAirdrop: React.FC = () => {
             <CheckClaimable
               onConfirm={() => {
                 if (!profile.dtag) {
-                  setStage(CommonStage.CreateProfileStage)
+                  setIsProfileDialogOpen(true)
                 } else if (chainConnections.length === 0) {
-                  setStage(CommonStage.ConnectChainsStage)
+                  setIsConnectChainDialogOpen(true)
                 } else {
                   setStage(CommonStage.ClaimableAmountStage)
                 }
               }}
               profile={profile}
+              account={account}
+              externalAddress={externalAddress}
               chainConnections={chainConnections}
               profileLoading={loading}
+              chainConnectionsLoading={chainConnectionsLoading}
             />
           ),
         }
@@ -226,6 +206,8 @@ const DsmAirdrop: React.FC = () => {
               onConfirm={() => setStage(CommonStage.CheckClaimableStage)}
               setSelectedAddress={setSelectedAddress}
               claimEnabled={airdropConfig.airdrop_enabled}
+              externalAddress={externalAddress}
+              setExternalAddress={setExternalAddress}
             />
           ),
         }
@@ -242,6 +224,22 @@ const DsmAirdrop: React.FC = () => {
         ) : null}
         {content.content}
       </Box>
+      <ProfileDialog
+        account={account}
+        profile={profile}
+        open={isProfileDialogOpen}
+        onClose={() => {
+          setIsProfileDialogOpen(false)
+        }}
+      />
+      <ConnectChainDialog
+        account={account}
+        connections={chainConnections}
+        open={isConnectChainDialogOpen}
+        onClose={() => {
+          setIsConnectChainDialogOpen(false)
+        }}
+      />
     </Card>
   )
 }

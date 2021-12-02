@@ -471,7 +471,6 @@ interface Transaction {
   fee?: {
     amount: Array<{ amount: string; denom: string }>
     gas: string
-    granter?: string
   }
 }
 

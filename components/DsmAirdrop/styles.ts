@@ -46,10 +46,15 @@ export const useStyles = makeStyles(
       },
     },
     claimableAmount: {
-      margin: `${theme.spacing(7.6)}px 0 ${theme.spacing(20.3)}px 0`,
+      margin: theme.spacing(8),
     },
     airdropMessage: {
       margin: `${theme.spacing(2)}px 0 ${theme.spacing(10)}px 0`,
+    },
+    closeButton: {
+      position: 'absolute',
+      top: theme.spacing(2),
+      right: theme.spacing(2),
     },
   }),
   {

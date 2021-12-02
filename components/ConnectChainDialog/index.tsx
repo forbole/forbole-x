@@ -38,7 +38,6 @@ interface ConnectChainDialogProps {
   onClose(event?: unknown, reason?: string): void
   connections: ChainConnection[]
   account: Account
-  granter?: string
 }
 
 interface Content {
@@ -51,7 +50,6 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
   onClose,
   connections,
   account,
-  granter,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
@@ -99,39 +97,34 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
           },
           ledgerTransport
         )
-        await sendTransaction(
-          password,
-          account.address,
-          {
-            msgs: [
-              {
-                typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount',
-                value: {
-                  chainAddress: {
-                    typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
-                    value: {
-                      prefix: connectableChains[chain].prefix,
-                      value: info.address,
-                    },
+        await sendTransaction(password, account.address, {
+          msgs: [
+            {
+              typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount',
+              value: {
+                chainAddress: {
+                  typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
+                  value: {
+                    prefix: connectableChains[chain].prefix,
+                    value: info.address,
                   },
-                  chainConfig: {
-                    name: chain,
-                  },
-                  proof,
-                  signer: account.address,
                 },
-              } as TransactionMsgLinkChainAccount,
-            ],
-            memo: '',
-          },
-          granter
-        )
+                chainConfig: {
+                  name: chain,
+                },
+                proof,
+                signer: account.address,
+              },
+            } as TransactionMsgLinkChainAccount,
+          ],
+          memo: '',
+        })
         onClose()
       } catch (err) {
         console.log(err)
       }
     },
-    [account, mnemonic, chain, onClose, granter, ledgerApp]
+    [account, mnemonic, chain, onClose, ledgerApp]
   )
 
   const content: Content = React.useMemo(() => {

@@ -797,15 +797,17 @@ export const transformProfile = (data: any): Profile => {
   }
 }
 
-export const transformChainConnections = (data: any): ChainConnection[] =>
-  get(data, 'chain_link', []).map((d) => ({
+export const transformChainConnections = (data: any): ChainConnection[] => {
+  const chains = Object.keys(connectableChains)
+  return get(data, 'chain_link', []).map((d) => ({
     creationTime: new Date(d.creation_time).getTime(),
     externalAddress: d.external_address,
     userAddress: d.user_address,
-    chainName: Object.keys(connectableChains).find((k) =>
-      d.external_address.match(new RegExp(`^${connectableChains[k].prefix}`))
-    ),
+    chainName:
+      chains.find((k) => k === d.chain_config.name) ||
+      chains.find((k) => d.external_address.match(new RegExp(`^${connectableChains[k].prefix}`))),
   }))
+}
 
 export const transformVestingAccount = (
   data: any,

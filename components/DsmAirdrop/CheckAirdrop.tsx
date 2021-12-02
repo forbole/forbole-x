@@ -6,35 +6,38 @@ import ParachuteIcon from '../../assets/images/parachute.svg'
 import SelectAccountDialog from '../SelectAccountDialog'
 import useStyles from './styles'
 import { formatCrypto } from '../../misc/utils'
+import AirdropEligibilityDetails from './AirdropEligibilityDetails'
 
 interface CheckAirdropProps {
   onConfirm(): void
   claimEnabled: boolean
   setSelectedAddress: (address: string) => void
+  externalAddress: string
+  setExternalAddress: (address: string) => void
 }
 
 const CheckAirdrop: React.FC<CheckAirdropProps> = ({
   onConfirm,
   claimEnabled,
   setSelectedAddress,
+  externalAddress,
+  setExternalAddress,
 }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const theme = useTheme()
   const [loading, setLoading] = React.useState(false)
-  const [address, setAddress] = React.useState('')
   const [verifyData, setVerifyData] = React.useState(null)
   const [dataStakingInfo, setDataStakingInfo] = React.useState(null)
   const [lpInfos, setLpInfos] = React.useState(null)
   const [error, setError] = React.useState(false)
   const [isSelectAccountDialogOpen, setIsSelectAccountDialogOpen] = React.useState(false)
-  const [feeGrant, setFeeGrant] = React.useState(null)
 
   const verify = React.useCallback(async () => {
     try {
       setLoading(true)
       const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/users/${address}`
+        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/users/${externalAddress}`
       ).then((r) => r.json())
       setVerifyData(data)
       // eslint-disable-next-line camelcase
@@ -48,27 +51,8 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
       setLoading(false)
       console.log(err)
     }
-  }, [address])
+  }, [externalAddress])
 
-  const submit = React.useCallback(
-    async (value) => {
-      try {
-        setLoading(true)
-        const data = await fetch(`${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/airdrop/grants`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            user_address: address,
-            desmos_address: value,
-          }),
-        }).then((r) => r.json())
-        setFeeGrant(data)
-      } catch (err) {
-        console.log(err)
-      }
-    },
-    [address]
-  )
   return (
     <>
       <Box display="flex" flexDirection="row" pt={8} padding={theme.spacing(0.5)}>
@@ -90,8 +74,8 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                     disableUnderline: true,
                   }}
                   style={{ width: '70%' }}
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  value={externalAddress}
+                  onChange={(e) => setExternalAddress(e.target.value)}
                   placeholder={t('cosmos address placeholder')}
                 />
                 <Box padding={0} width="30%">
@@ -110,7 +94,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                     }}
                   >
                     {loading ? (
-                      <CircularProgress color="inherit" size={theme.spacing(3)} />
+                      <CircularProgress color="inherit" size={theme.spacing(3.5)} />
                     ) : (
                       'calculate'
                     )}
@@ -126,112 +110,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                 </Typography>
               </Box>
             )}
-            {dataStakingInfo !== null && dataStakingInfo !== undefined ? (
-              <Box>
-                {dataStakingInfo.map((item, key) => {
-                  const chain = item.chain_name
-                  const dsm = item.dsm_allotted
-                  const { claimed } = item
-                  return (
-                    <Box
-                      display="flex"
-                      flexDirection="row"
-                      alignItems="center"
-                      pt={theme.spacing(0.2)}
-                      key={key}
-                    >
-                      <Box pr={theme.spacing(0.2)} display="flex" alignItems="center">
-                        <TickIcon />
-                      </Box>
-                      <Typography
-                        style={{
-                          color: theme.palette.primary.main,
-                          padding: 0,
-                          display: 'flex',
-                          flexDirection: 'row',
-                        }}
-                      >
-                        {t('chain staker', {
-                          chain,
-                          suffix: item.forbole_delegator ? '& Forbole Delegator' : '',
-                        })}
-                        {/* {dsm DSM} */}
-                        {claimed ? (
-                          <Typography
-                            style={{
-                              color: theme.palette.text.secondary,
-                              paddingLeft: theme.spacing(1),
-                            }}
-                          >
-                            {formatCrypto(dsm, 'DSM', lang)} {t('claimed')}
-                          </Typography>
-                        ) : (
-                          <Typography
-                            style={{
-                              color: theme.palette.text.primary,
-                              paddingLeft: theme.spacing(1),
-                            }}
-                          >
-                            {formatCrypto(dsm, 'DSM', lang)}
-                          </Typography>
-                        )}
-                      </Typography>
-                    </Box>
-                  )
-                })}
-              </Box>
-            ) : null}
-            {lpInfos !== null && lpInfos !== undefined ? (
-              <Box pb={theme.spacing(0.2)}>
-                {lpInfos.map((item, key) => {
-                  const chain = item.chain_name
-                  const dsm = item.dsm_allotted
-                  const { claimed } = item
-                  return (
-                    <Box
-                      display="flex"
-                      flexDirection="row"
-                      alignItems="center"
-                      pt={theme.spacing(0.2)}
-                      key={key}
-                    >
-                      <Box pr={theme.spacing(0.2)} display="flex" alignItems="center">
-                        <TickIcon />
-                      </Box>
-                      <Typography
-                        style={{
-                          color: theme.palette.primary.main,
-                          padding: 0,
-                          display: 'flex',
-                          flexDirection: 'row',
-                        }}
-                      >
-                        {chain} {t('lp staker')}
-                        {claimed ? (
-                          <Typography
-                            style={{
-                              color: theme.palette.text.secondary,
-                              paddingLeft: theme.spacing(1),
-                            }}
-                          >
-                            {formatCrypto(dsm, 'DSM', lang)} {t('claimed')}
-                          </Typography>
-                        ) : (
-                          <Typography
-                            style={{
-                              color: theme.palette.text.primary,
-                              paddingLeft: theme.spacing(1),
-                            }}
-                          >
-                            {formatCrypto(dsm, 'DSM', lang)}
-                          </Typography>
-                        )}{' '}
-                      </Typography>
-                    </Box>
-                  )
-                })}
-              </Box>
-            ) : null}
+            <AirdropEligibilityDetails lpInfos={lpInfos} dataStakingInfo={dataStakingInfo} />
             {[...(dataStakingInfo || []), ...(lpInfos || [])].filter((i) => !i.claimed).length ? (
               <form noValidate>
                 <Typography
@@ -249,7 +128,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                     onClick={() => setIsSelectAccountDialogOpen(true)}
                   >
                     {loading ? (
-                      <CircularProgress color="inherit" size={theme.spacing(3)} />
+                      <CircularProgress color="inherit" size={theme.spacing(3.5)} />
                     ) : (
                       t('claim now')
                     )}
@@ -268,12 +147,9 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
         open={isSelectAccountDialogOpen}
         onSubmit={(e, value) => {
           e.preventDefault()
-          submit(value)
-        }}
-        onClose={() => {
-          setIsSelectAccountDialogOpen(false)
           onConfirm()
         }}
+        onClose={() => setIsSelectAccountDialogOpen(false)}
       />
     </>
   )
