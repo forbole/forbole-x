@@ -46,11 +46,8 @@ export const aminoAdditions = {
       const pubKey = PubKey.decode(proof.pubKey.value)
       return {
         chain_address: {
-          type: 'desmos/Bech32Address',
-          value: {
-            prefix: chainAddressValue.prefix,
-            value: chainAddressValue.value,
-          },
+          prefix: chainAddressValue.prefix,
+          value: chainAddressValue.value,
         },
         chain_config: chainConfig,
         proof: {
@@ -69,8 +66,8 @@ export const aminoAdditions = {
         chainAddress: {
           typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
           value: Bech32Address.encode({
-            prefix: chain_address.value.prefix,
-            value: chain_address.value.value,
+            prefix: chain_address.prefix,
+            value: chain_address.value,
           }).finish(),
         },
         chainConfig: chain_config,

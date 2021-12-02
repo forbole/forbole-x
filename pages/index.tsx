@@ -12,9 +12,17 @@ const Home: React.FC = () => {
   const { t } = useTranslation('common')
   const { accounts } = useWalletsContext()
 
+  const [airdropEnabled, setAirdropEnabled] = React.useState(false)
+
+  React.useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/config`)
+      .then((r) => r.json())
+      .then((data) => setAirdropEnabled(data.airdrop_enabled))
+  }, [])
+
   return (
     <Layout passwordRequired activeItem="/">
-      <Banner />
+      {airdropEnabled ? <Banner /> : null}
       <Grid container spacing={3}>
         <Grid item md={6} sm={12} xs={12}>
           <WalletBalanceChart />
