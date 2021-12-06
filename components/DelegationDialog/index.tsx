@@ -1,5 +1,13 @@
 /* eslint-disable camelcase */
-import { Typography, Box, Dialog, DialogTitle, IconButton, DialogContent } from '@material-ui/core'
+import {
+  Typography,
+  Box,
+  Dialog,
+  DialogTitle,
+  IconButton,
+  DialogContent,
+  useTheme,
+} from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
@@ -48,6 +56,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
+  const themeStyle = useTheme()
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
   const { theme } = useGeneralContext()
@@ -187,7 +196,11 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
           <DialogTitle>{t('delegate')}</DialogTitle>
           <DialogContent className={classes.dialogContent}>
             <Box justifyContent="center" display="flex" mt={6}>
-              {theme === 'light' ? <ImageDefaultLight /> : <ImageDefaultDark />}
+              {theme === 'light' ? (
+                <ImageDefaultLight width={themeStyle.spacing(25)} height={themeStyle.spacing(25)} />
+              ) : (
+                <ImageDefaultDark width={themeStyle.spacing(25)} height={themeStyle.spacing(25)} />
+              )}
             </Box>
             <Box textAlign="center" mt={4} mb={8}>
               <Typography>{t('no available token yet')}</Typography>
