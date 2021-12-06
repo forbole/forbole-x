@@ -10,14 +10,24 @@ jest.mock('../../../components/AccountMenuButton/DeleteAccountDialog', () => (pr
   <div id="DeleteAccountDialog" {...props} />
 ))
 
+const account = {
+  walletId: '123',
+  address: 'address',
+  crypto: 'DSM',
+  index: 0,
+  name: 'name',
+  fav: false,
+  createdAt: 0,
+}
+
 describe('component: AccountMenuButton', () => {
   it('renders correctly', () => {
-    const component = renderer.create(<AccountMenuButton accountAddress="123" />)
+    const component = renderer.create(<AccountMenuButton account={account} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders open / close menu correctly', () => {
-    const component = renderer.create(<AccountMenuButton accountAddress="123" />)
+    const component = renderer.create(<AccountMenuButton account={account} />)
     renderer.act(() => {
       component.root.findAllByType('button')[0].props.onClick({ currentTarget: 'anchor' })
     })
@@ -30,7 +40,7 @@ describe('component: AccountMenuButton', () => {
     expect(closedTree).toMatchSnapshot()
   })
   it('renders open / close change account name dialog correctly', () => {
-    const component = renderer.create(<AccountMenuButton accountAddress="123" />)
+    const component = renderer.create(<AccountMenuButton account={account} />)
     renderer.act(() => {
       component.root.findAllByType('button')[0].props.onClick({ currentTarget: 'anchor' })
     })
@@ -46,7 +56,7 @@ describe('component: AccountMenuButton', () => {
     expect(closedTree).toMatchSnapshot()
   })
   it('renders open / close delete wallet dialog correctly', () => {
-    const component = renderer.create(<AccountMenuButton accountAddress="123" />)
+    const component = renderer.create(<AccountMenuButton account={account} />)
     renderer.act(() => {
       component.root.findAllByType('button')[0].props.onClick({ currentTarget: 'anchor' })
     })
