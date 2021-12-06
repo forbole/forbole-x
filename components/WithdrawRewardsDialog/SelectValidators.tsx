@@ -266,7 +266,11 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
         <>
           <DialogContent className={classes.dialogContent}>
             <Box justifyContent="center" display="flex" mt={6}>
-              {theme === 'light' ? <ImageDefaultLight /> : <ImageDefaultDark />}
+              {theme === 'light' ? (
+                <ImageDefaultLight width={themeStyle.spacing(25)} height={themeStyle.spacing(25)} />
+              ) : (
+                <ImageDefaultDark width={themeStyle.spacing(25)} height={themeStyle.spacing(25)} />
+              )}
             </Box>
             <Box textAlign="center" mt={4}>
               <Typography>{t('no rewards yet')}</Typography>
