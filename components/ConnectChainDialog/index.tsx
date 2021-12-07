@@ -42,6 +42,7 @@ interface ConnectChainDialogProps {
 
 interface Content {
   title: string
+  dialogSize: 'sm' | 'md' | 'lg'
   content: React.ReactNode
 }
 
@@ -132,6 +133,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       case Stage.SelectChainStage:
         return {
           title: t('select chain'),
+          dialogSize: 'sm',
           content: (
             <SelectChain
               onConfirm={(c) => {
@@ -144,6 +146,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       case Stage.SelectWalletTypeStage:
         return {
           title: t('connect chain'),
+          dialogSize: 'md',
           content: (
             <SelectWalletType
               onConfirm={(type) => {
@@ -157,6 +160,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       case Stage.ImportMnemonicPhraseStage:
         return {
           title: t('import recovery phrase'),
+          dialogSize: 'sm',
           content: (
             <ImportMnemonic
               onConfirm={(m) => {
@@ -172,6 +176,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       case Stage.ConnectLedgerStage:
         return {
           title: '',
+          dialogSize: 'sm',
           content: (
             <ConnectLedgerDialogContent
               onConnect={(transport) => {
@@ -190,6 +195,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       case Stage.SelectLedgerAppStage:
         return {
           title: t('select ledger app'),
+          dialogSize: 'sm',
           content: (
             <SelectLedgerApp
               ledgerAppNames={connectableChains[chain].ledgerAppNames}
@@ -203,6 +209,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       case Stage.SelectAddressStage:
         return {
           title: t('select address'),
+          dialogSize: 'sm',
           content: (
             <SelectAddress
               coinType={connectableChains[ledgerApp || chain].coinType}
@@ -225,6 +232,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       default:
         return {
           title: t('connect chain title'),
+          dialogSize: connections.length ? 'md' : 'sm',
           content: (
             <Start
               onClose={onClose}
@@ -235,12 +243,12 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
           ),
         }
     }
-  }, [stage, t])
+  }, [stage, t, connections])
 
   return (
     <Dialog
       fullWidth
-      maxWidth={connections.length && stage === Stage.StartStage ? 'md' : 'sm'}
+      maxWidth={content.dialogSize}
       open={open}
       onClose={(event, reason) => {
         if (reason !== 'backdropClick') {

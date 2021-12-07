@@ -16,7 +16,7 @@ const generateProof = async (
   const proof = {
     account_number: '0',
     chain_id: '',
-    fee: { amount: [], gas: '200000' },
+    fee: { amount: [], gas: '1' },
     memo: signerAddress,
     msgs: [],
     sequence: '0',
