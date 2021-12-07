@@ -1,6 +1,6 @@
 {
   "name": "forbole-x",
-  "version": "0.14.4",
+  "version": "0.15.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -48,6 +48,7 @@
     "subscriptions-transport-ws": "^0.9.18"
   },
   "devDependencies": {
+    "@keplr-wallet/types": "^0.9.9",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/dom": "^7.29.0",
     "@testing-library/jest-dom": "^5.11.8",

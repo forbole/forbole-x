@@ -6,6 +6,8 @@ const connectableChains = {
     prefix: 'desmos',
     coinType: 852,
     ledgerAppNames: ['desmos', 'cosmos'],
+    chainId: 'desmos-mainnet',
+    feeDenom: 'udsm',
   },
   cosmos: {
     name: 'Cosmos Hub',
@@ -14,6 +16,8 @@ const connectableChains = {
     prefix: 'cosmos',
     coinType: 118,
     ledgerAppNames: ['cosmos'],
+    chainId: 'cosmoshub-4',
+    feeDenom: 'uatom',
   },
   akash: {
     name: 'Akash',
@@ -22,6 +26,8 @@ const connectableChains = {
     prefix: 'akash',
     coinType: 118,
     ledgerAppNames: ['cosmos'],
+    chainId: 'akashnet-2',
+    feeDenom: 'uakt',
   },
   osmosis: {
     name: 'Osmosis',
@@ -30,6 +36,8 @@ const connectableChains = {
     prefix: 'osmo',
     coinType: 118,
     ledgerAppNames: ['cosmos'],
+    chainId: 'osmosis-1',
+    feeDenom: 'uosmo',
   },
   sentinel: {
     name: 'Sentinel',
@@ -38,6 +46,8 @@ const connectableChains = {
     prefix: 'sent',
     coinType: 118,
     ledgerAppNames: ['cosmos'],
+    chainId: 'sentinelhub-2',
+    feeDenom: 'udvpn',
   },
   'crypto.org chain': {
     name: 'Crypto.org',
@@ -46,6 +56,8 @@ const connectableChains = {
     prefix: 'cro',
     coinType: 394,
     ledgerAppNames: ['crypto.org chain', 'cosmos'],
+    chainId: 'crypto-org-chain-mainnet-1',
+    feeDenom: 'ucro',
   },
   terra: {
     name: 'Terra',
@@ -54,6 +66,8 @@ const connectableChains = {
     prefix: 'terra',
     coinType: 330,
     ledgerAppNames: ['terra', 'cosmos'],
+    chainId: 'columbus-5',
+    feeDenom: 'uluna',
   },
   kava: {
     name: 'Kava',
@@ -62,6 +76,8 @@ const connectableChains = {
     prefix: 'kava',
     coinType: 459,
     ledgerAppNames: ['kava', 'cosmos'],
+    chainId: 'kava-7',
+    feeDenom: 'ukava',
   },
   regen: {
     name: 'Regen',
@@ -70,6 +86,8 @@ const connectableChains = {
     prefix: 'regen',
     coinType: 118,
     ledgerAppNames: ['cosmos'],
+    chainId: 'regen-1',
+    feeDenom: 'uregen',
   },
   likecoin: {
     name: 'Likecoin',
@@ -78,6 +96,8 @@ const connectableChains = {
     prefix: 'cosmos',
     coinType: 118,
     ledgerAppNames: ['cosmos'],
+    chainId: 'likecoin-mainnet-2',
+    feeDenom: 'nanolike',
   },
   band: {
     name: 'Band Protocol',
@@ -86,6 +106,8 @@ const connectableChains = {
     prefix: 'band',
     coinType: 494,
     ledgerAppNames: ['band', 'cosmos'],
+    chainId: 'laozi-mainnet',
+    feeDenom: 'uband',
   },
   emoney: {
     name: 'e-Money',
@@ -94,6 +116,8 @@ const connectableChains = {
     prefix: 'emoney',
     coinType: 118,
     ledgerAppNames: ['cosmos'],
+    chainId: 'emoney-3',
+    feeDenom: 'ungm',
   },
   juno: {
     name: 'Juno',
@@ -102,6 +126,8 @@ const connectableChains = {
     prefix: 'juno',
     coinType: 118,
     ledgerAppNames: ['cosmos'],
+    chainId: 'juno-1',
+    feeDenom: 'ujuno',
   },
   secretnetwork: {
     name: 'Secret Network',
@@ -110,6 +136,8 @@ const connectableChains = {
     prefix: 'scrt',
     coinType: 529,
     ledgerAppNames: ['cosmos'],
+    chainId: 'secret-4',
+    feeDenom: 'uscrt',
   },
   sifchain: {
     name: 'Sifchain',
@@ -118,6 +146,8 @@ const connectableChains = {
     prefix: 'sif',
     coinType: 118,
     ledgerAppNames: ['cosmos'],
+    chainId: 'sifchain-1',
+    feeDenom: 'urowan',
   },
   irisnet: {
     name: 'IRISnet',
@@ -126,6 +156,8 @@ const connectableChains = {
     prefix: 'iaa',
     coinType: 118,
     ledgerAppNames: ['cosmos'],
+    chainId: 'irishub-1',
+    feeDenom: 'uiris',
   },
   persistence: {
     name: 'Persistence',
@@ -134,6 +166,8 @@ const connectableChains = {
     prefix: 'persistence',
     coinType: 750,
     ledgerAppNames: ['persistence', 'cosmos'],
+    chainId: 'core-1',
+    feeDenom: 'uxprt',
   },
   ixo: {
     name: 'IXO',
@@ -142,6 +176,8 @@ const connectableChains = {
     prefix: 'ixo',
     coinType: 118,
     ledgerAppNames: ['cosmos'],
+    chainId: 'impacthub-3',
+    feeDenom: 'uixo',
   },
   bitcanna: {
     name: 'Bitcanna',
@@ -150,6 +186,8 @@ const connectableChains = {
     prefix: 'bcna',
     coinType: 118,
     ledgerAppNames: ['cosmos'],
+    chainId: 'bitcanna-1',
+    feeDenom: 'ubcna',
   },
   bitsong: {
     name: 'Bitsong',
@@ -158,6 +196,8 @@ const connectableChains = {
     prefix: 'btsg',
     coinType: 639,
     ledgerAppNames: ['cosmos'],
+    chainId: 'bitsong-2b',
+    feeDenom: 'ubtsg',
   },
 }
 

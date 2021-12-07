@@ -11,15 +11,46 @@ const generateProof = async (
   signerAddress: string,
   mnemonic: string,
   option: WalletOption,
-  ledgerTransport?: any
-): Promise<ChainLinkProof> => {
+  ledgerTransport?: any,
+  isKeplr?: boolean
+): Promise<{ proof: ChainLinkProof; address: string }> => {
   const proof = {
     account_number: '0',
-    chain_id: '',
-    fee: { amount: [], gas: '200000' },
+    chain_id: option.chainId,
+    fee: {
+      amount: [
+        {
+          amount: '0',
+          denom: option.feeDenom,
+        },
+      ],
+      gas: '1',
+    },
     memo: signerAddress,
     msgs: [],
     sequence: '0',
+  }
+
+  if (isKeplr) {
+    if (!window.keplr) {
+      throw new Error('no keplr')
+    }
+    await window.keplr.enable(option.chainId)
+    const signer = window.keplr.getOfflineSigner(option.chainId)
+    const [keplrAccount] = await signer.getAccounts()
+    const result = await signer.signAmino(keplrAccount.address, proof)
+
+    return {
+      proof: {
+        plainText: Buffer.from(JSON.stringify(proof, null, 0)).toString('hex'),
+        pubKey: {
+          typeUrl: '/cosmos.crypto.secp256k1.PubKey',
+          value: result.signature.pub_key.value,
+        },
+        signature: Buffer.from(result.signature.signature, 'base64').toString('hex'),
+      },
+      address: keplrAccount.address,
+    }
   }
 
   if (option.ledgerAppName === 'terra' && ledgerTransport) {
@@ -28,12 +59,15 @@ const generateProof = async (
     const result = await app.getAddressAndPubKey(hdPath, option.prefix)
     const { signature } = await app.sign(hdPath, serializeSignDoc(proof))
     return {
-      plainText: Buffer.from(JSON.stringify(proof, null, 0)).toString('hex'),
-      pubKey: {
-        typeUrl: '/cosmos.crypto.secp256k1.PubKey',
-        value: toBase64(Buffer.from(result.compressed_pk.data)),
+      proof: {
+        plainText: Buffer.from(JSON.stringify(proof, null, 0)).toString('hex'),
+        pubKey: {
+          typeUrl: '/cosmos.crypto.secp256k1.PubKey',
+          value: toBase64(Buffer.from(result.compressed_pk.data)),
+        },
+        signature: Buffer.from(signatureImport(Buffer.from(signature as any))).toString('hex'),
       },
-      signature: Buffer.from(signatureImport(Buffer.from(signature as any))).toString('hex'),
+      address: result.bech32_address,
     }
   }
   const signerOptions = {
@@ -60,12 +94,15 @@ const generateProof = async (
   const { signature } = await signer.signAmino(ac.address, proof)
 
   return {
-    plainText: Buffer.from(JSON.stringify(proof, null, 0)).toString('hex'),
-    pubKey: {
-      typeUrl: '/cosmos.crypto.secp256k1.PubKey',
-      value: toBase64(ac.pubkey),
+    proof: {
+      plainText: Buffer.from(JSON.stringify(proof, null, 0)).toString('hex'),
+      pubKey: {
+        typeUrl: '/cosmos.crypto.secp256k1.PubKey',
+        value: toBase64(ac.pubkey),
+      },
+      signature: Buffer.from(signature.signature, 'base64').toString('hex'),
     },
-    signature: Buffer.from(signature.signature, 'base64').toString('hex'),
+    address: ac.address,
   }
 }
 
