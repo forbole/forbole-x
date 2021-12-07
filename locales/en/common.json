@@ -485,5 +485,6 @@
   "getting grant": "Getting Grant",
   "getting grant description": "Please wait, it may take a few minutes, you can check back later...",
   "connect more accounts": "Connect more Accounts",
-  "show address on ledger": "Show address on ledger"
+  "show address on ledger": "Show address on ledger",
+  "connect with keplr": "Connect with Keplr"
 }

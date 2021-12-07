@@ -42,6 +42,7 @@ interface ConnectChainDialogProps {
 
 interface Content {
   title: string
+  dialogSize: 'sm' | 'md' | 'lg'
   content: React.ReactNode
 }
 
@@ -82,20 +83,26 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
   }, [open])
 
   const genProofAndSendTx = React.useCallback(
-    async (info: { account: number; change: number; index: number; address: string }) => {
+    async (
+      info?: { account: number; change: number; index: number; address: string },
+      isKeplr?: boolean
+    ) => {
       try {
-        const proof = await generateProof(
+        const { proof, address } = await generateProof(
           account.address,
           mnemonic,
           {
             prefix: connectableChains[chain].prefix,
             coinType: connectableChains[ledgerApp || chain].coinType,
             ledgerAppName: ledgerApp,
-            account: info.account,
-            change: info.change,
-            index: info.index,
+            account: info ? info.account : 0,
+            change: info ? info.change : 0,
+            index: info ? info.index : 0,
+            chainId: connectableChains[chain].chainId,
+            feeDenom: connectableChains[chain].feeDenom,
           },
-          ledgerTransport
+          ledgerTransport,
+          isKeplr
         )
         await sendTransaction(password, account.address, {
           msgs: [
@@ -106,7 +113,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
                   typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
                   value: {
                     prefix: connectableChains[chain].prefix,
-                    value: info.address,
+                    value: address,
                   },
                 },
                 chainConfig: {
@@ -132,6 +139,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       case Stage.SelectChainStage:
         return {
           title: t('select chain'),
+          dialogSize: 'sm',
           content: (
             <SelectChain
               onConfirm={(c) => {
@@ -144,12 +152,19 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       case Stage.SelectWalletTypeStage:
         return {
           title: t('connect chain'),
+          dialogSize: 'md',
           content: (
             <SelectWalletType
               onConfirm={(type) => {
-                setStage(
-                  type === 'mnemonic' ? Stage.ImportMnemonicPhraseStage : Stage.SelectLedgerAppStage
-                )
+                if (type === 'keplr') {
+                  genProofAndSendTx(undefined, true)
+                } else {
+                  setStage(
+                    type === 'mnemonic'
+                      ? Stage.ImportMnemonicPhraseStage
+                      : Stage.SelectLedgerAppStage
+                  )
+                }
               }}
             />
           ),
@@ -157,6 +172,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       case Stage.ImportMnemonicPhraseStage:
         return {
           title: t('import recovery phrase'),
+          dialogSize: 'sm',
           content: (
             <ImportMnemonic
               onConfirm={(m) => {
@@ -172,6 +188,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       case Stage.ConnectLedgerStage:
         return {
           title: '',
+          dialogSize: 'sm',
           content: (
             <ConnectLedgerDialogContent
               onConnect={(transport) => {
@@ -190,6 +207,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       case Stage.SelectLedgerAppStage:
         return {
           title: t('select ledger app'),
+          dialogSize: 'sm',
           content: (
             <SelectLedgerApp
               ledgerAppNames={connectableChains[chain].ledgerAppNames}
@@ -203,6 +221,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       case Stage.SelectAddressStage:
         return {
           title: t('select address'),
+          dialogSize: 'sm',
           content: (
             <SelectAddress
               coinType={connectableChains[ledgerApp || chain].coinType}
@@ -225,6 +244,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       default:
         return {
           title: t('connect chain title'),
+          dialogSize: connections.length ? 'md' : 'sm',
           content: (
             <Start
               onClose={onClose}
@@ -235,12 +255,12 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
           ),
         }
     }
-  }, [stage, t])
+  }, [stage, t, connections])
 
   return (
     <Dialog
       fullWidth
-      maxWidth={connections.length && stage === Stage.StartStage ? 'md' : 'sm'}
+      maxWidth={content.dialogSize}
       open={open}
       onClose={(event, reason) => {
         if (reason !== 'backdropClick') {
