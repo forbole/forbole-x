@@ -5,7 +5,6 @@ import { LedgerSigner } from '@cosmjs/ledger-amino'
 import { toBase64 } from '@cosmjs/encoding'
 import TerraApp from '@terra-money/ledger-terra-js'
 import { signatureImport } from 'secp256k1'
-import { info } from 'console'
 import { WalletOption } from './getWalletAddress'
 
 const generateProof = async (
