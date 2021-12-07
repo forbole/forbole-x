@@ -17,9 +17,10 @@ import useStyles from './styles'
 
 interface SelectWalletTypeProps {
   onConfirm(type: 'mnemonic' | 'ledger' | 'keplr'): void
+  error: string
 }
 
-const SelectWalletType: React.FC<SelectWalletTypeProps> = ({ onConfirm }) => {
+const SelectWalletType: React.FC<SelectWalletTypeProps> = ({ onConfirm, error }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const theme = useTheme()
@@ -60,6 +61,7 @@ const SelectWalletType: React.FC<SelectWalletTypeProps> = ({ onConfirm }) => {
             </ButtonBase>
           </Grid>
         </Grid>
+        {error ? <Typography color="error">{error}</Typography> : null}
       </Box>
     </DialogContent>
   )

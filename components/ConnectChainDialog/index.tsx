@@ -65,6 +65,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
   const [mnemonic, setMnemonic] = React.useState('')
   const [chain, setChain] = React.useState('')
   const [ledgerApp, setLedgerApp] = React.useState('')
+  const [error, setError] = React.useState('')
   // for Ledger
   const [connectChainInfo, setConnectChainInfo] = React.useState({
     account: 0,
@@ -78,9 +79,14 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       setMnemonic('')
       setChain('')
       setLedgerApp('')
+      setError('')
       setStage(Stage.StartStage, true)
     }
   }, [open])
+
+  React.useEffect(() => {
+    setError('')
+  }, [stage])
 
   const genProofAndSendTx = React.useCallback(
     async (
@@ -88,6 +94,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       isKeplr?: boolean
     ) => {
       try {
+        setError('')
         const { proof, address } = await generateProof(
           account.address,
           mnemonic,
@@ -128,6 +135,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
         })
         onClose()
       } catch (err) {
+        setError(err.message)
         console.log(err)
       }
     },
@@ -155,6 +163,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
           dialogSize: 'md',
           content: (
             <SelectWalletType
+              error={error}
               onConfirm={(type) => {
                 if (type === 'keplr') {
                   genProofAndSendTx(undefined, true)
