@@ -83,20 +83,26 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
   }, [open])
 
   const genProofAndSendTx = React.useCallback(
-    async (info: { account: number; change: number; index: number; address: string }) => {
+    async (
+      info?: { account: number; change: number; index: number; address: string },
+      isKeplr?: boolean
+    ) => {
       try {
-        const proof = await generateProof(
+        const { proof, address } = await generateProof(
           account.address,
           mnemonic,
           {
             prefix: connectableChains[chain].prefix,
             coinType: connectableChains[ledgerApp || chain].coinType,
             ledgerAppName: ledgerApp,
-            account: info.account,
-            change: info.change,
-            index: info.index,
+            account: info ? info.account : 0,
+            change: info ? info.change : 0,
+            index: info ? info.index : 0,
+            chainId: connectableChains[chain].chainId,
+            feeDenom: connectableChains[chain].feeDenom,
           },
-          ledgerTransport
+          ledgerTransport,
+          isKeplr
         )
         await sendTransaction(password, account.address, {
           msgs: [
@@ -107,7 +113,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
                   typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
                   value: {
                     prefix: connectableChains[chain].prefix,
-                    value: info.address,
+                    value: address,
                   },
                 },
                 chainConfig: {
@@ -150,9 +156,15 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
           content: (
             <SelectWalletType
               onConfirm={(type) => {
-                setStage(
-                  type === 'mnemonic' ? Stage.ImportMnemonicPhraseStage : Stage.SelectLedgerAppStage
-                )
+                if (type === 'keplr') {
+                  genProofAndSendTx(undefined, true)
+                } else {
+                  setStage(
+                    type === 'mnemonic'
+                      ? Stage.ImportMnemonicPhraseStage
+                      : Stage.SelectLedgerAppStage
+                  )
+                }
               }}
             />
           ),

@@ -10,6 +10,8 @@ export interface WalletOption {
   index: number
   prefix: string
   ledgerAppName: string
+  chainId?: string
+  feeDenom?: string
 }
 
 const getWalletAddress = async (

@@ -16,7 +16,7 @@ import KeplrIcon from '../../assets/images/keplr.svg'
 import useStyles from './styles'
 
 interface SelectWalletTypeProps {
-  onConfirm(type: 'mnemonic' | 'ledger'): void
+  onConfirm(type: 'mnemonic' | 'ledger' | 'keplr'): void
 }
 
 const SelectWalletType: React.FC<SelectWalletTypeProps> = ({ onConfirm }) => {
@@ -50,26 +50,7 @@ const SelectWalletType: React.FC<SelectWalletTypeProps> = ({ onConfirm }) => {
             </ButtonBase>
           </Grid>
           <Grid item xs={4}>
-            <ButtonBase
-              className={classes.selectionBox}
-              onClick={async () => {
-                if (!window.keplr) {
-                  return console.log('no keplr')
-                }
-                await window.keplr.enable('cosmoshub-4')
-                const signer = window.keplr.getOfflineSigner('cosmoshub-4')
-                const [keplrAccount] = await signer.getAccounts()
-                const result = await signer.signAmino(keplrAccount.address, {
-                  account_number: '0',
-                  chain_id: 'cosmoshub-4',
-                  fee: { amount: [], gas: '0' },
-                  memo: 'desmos14t2hvslx84klhdljkltlmeyz9fj6xfs3z40ne2',
-                  msgs: [],
-                  sequence: '0',
-                })
-                console.log(result)
-              }}
-            >
+            <ButtonBase className={classes.selectionBox} onClick={() => onConfirm('keplr')}>
               <Box mb={5}>
                 <KeplrIcon width={theme.spacing(8)} height={theme.spacing(8)} />
               </Box>
