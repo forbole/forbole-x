@@ -72,7 +72,7 @@ const connectableChains = {
   kava: {
     name: 'Kava',
     ledgerAppDisplayName: 'Kava (KAVA)',
-    image: '/static/images/cryptocurrencies/kava.png',
+    image: '/static/images/cryptocurrencies/kava.svg',
     prefix: 'kava',
     coinType: 459,
     ledgerAppNames: ['kava', 'cosmos'],
@@ -133,7 +133,7 @@ const connectableChains = {
     name: 'Secret Network',
     ledgerAppDisplayName: 'Secret Network (SCRT)',
     image: '/static/images/cryptocurrencies/scrt.webp',
-    prefix: 'scrt',
+    prefix: 'secret',
     coinType: 529,
     ledgerAppNames: ['cosmos'],
     chainId: 'secret-4',
