@@ -61,15 +61,19 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
   const checkFeeGrant = React.useCallback(async () => {
     try {
       setError('')
+      const result = await fetch(
+        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/airdrop/grants/${account.address}/${externalAddress}`
+      ).then((r) => (r.ok ? r.json() : r.text()))
+      if (typeof result === 'string') {
+        throw new Error(result)
+      }
       const {
         can_get_grant,
         has_enough_dsm,
         has_requested_grant,
         can_claim_airdrop,
         used_desmos_address,
-      } = await fetch(
-        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/airdrop/grants/${account.address}/${externalAddress}`
-      ).then((r) => r.json())
+      } = result
       if (used_desmos_address && used_desmos_address !== account.address) {
         throw new Error(
           `You've already been granted for claiming the airdrop with address: ${used_desmos_address}`
