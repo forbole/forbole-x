@@ -128,6 +128,7 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
               denom={denom}
               onConfirm={confirmRedelegations}
               loading={loading}
+              availableAmount={availableAmount}
             />
           ),
         }
