@@ -34,11 +34,6 @@ const Delegations: React.FC<DelegationsProps> = ({
   // const themeStyle = useTheme()
   const isMobile = useIsMobile()
 
-  const totalVotingPower = React.useMemo(
-    () => validators.map((v) => v.votingPower).reduce((a, b) => a + b, 0),
-    [validators]
-  )
-
   return isMobile ? (
     <Table>
       <TableBody>
@@ -72,7 +67,6 @@ const Delegations: React.FC<DelegationsProps> = ({
         <TableRow>
           <TableCell className={classes.tableCell}>{t('validator')}</TableCell>
           <TableCell className={classes.tableCell}>{t('commissions')}</TableCell>
-          <TableCell className={classes.tableCell}>{t('vp ratios')}</TableCell>
           <TableCell className={classes.tableCell}>{t('delegated amount')}</TableCell>
           {/* <TableCell className={classes.tableCell}>{t('amt ratio')}</TableCell> */}
           <TableCell className={classes.tableCell}>{t('rewards')}</TableCell>
@@ -91,9 +85,6 @@ const Delegations: React.FC<DelegationsProps> = ({
               </TableCell>
               <TableCell className={classes.tableCell}>
                 {formatPercentage(v.commission, lang)}
-              </TableCell>
-              <TableCell className={classes.tableCell}>
-                {formatPercentage(v.votingPower / totalVotingPower, lang)}
               </TableCell>
               <TableCell className={classes.tableCell}>
                 {formatTokenAmount(v.delegated, crypto.name, lang)}

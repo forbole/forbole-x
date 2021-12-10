@@ -243,13 +243,18 @@ export const transformValidatorsWithTokenAmount = (data: any, balanceData: any) 
   const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
   const delegatedByValidator = {}
   get(balanceData, 'account[0].delegated', []).forEach((d) => {
-    delegatedByValidator[get(d, 'validator.validator_info.operator_address', '')] =
-      getTokenAmountFromDenoms([d.amount], tokensPrices)
+    if (Number(get(d, 'amount.amount', '0')) > 0) {
+      delegatedByValidator[get(d, 'validator.validator_info.operator_address', '')] =
+        getTokenAmountFromDenoms([d.amount], tokensPrices)
+    }
   })
   const rewardsByValidator = {}
   get(balanceData, 'account[0].rewards', []).forEach((d) => {
-    rewardsByValidator[get(d, 'validator.validator_info.operator_address', '')] =
-      getTokenAmountFromDenoms(d.amount, tokensPrices)
+    const coins = d.amount.filter((a) => Number(a.amount) > 0)
+    if (coins.length > 0) {
+      rewardsByValidator[get(d, 'validator.validator_info.operator_address', '')] =
+        getTokenAmountFromDenoms(coins, tokensPrices)
+    }
   })
   const unbondingByValidator = {}
   get(balanceData, 'account[0].unbonding', []).forEach((d) => {

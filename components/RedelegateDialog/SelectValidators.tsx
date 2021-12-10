@@ -31,6 +31,7 @@ interface SelectValidatorsProps {
   denom: string
   crypto: Cryptocurrency
   loading: boolean
+  availableAmount: TokenAmount
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
@@ -40,7 +41,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   onConfirm,
   crypto,
   loading,
+  availableAmount,
 }) => {
+  const { amount: totalAmount, price } = Object.values(availableAmount)[0]
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
@@ -167,7 +170,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
         >
           <Box>
             <Typography variant="h5">{formatCrypto(amount, denom, lang)}</Typography>
-            <Typography>{formatCurrency(amount, currency, lang)}</Typography>
+            <Typography>{formatCurrency(Number(amount) * price, currency, lang)}</Typography>
           </Box>
           <Button
             variant="contained"
