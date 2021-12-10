@@ -57,7 +57,7 @@ const connectableChains = {
     coinType: 394,
     ledgerAppNames: ['crypto.org chain', 'cosmos'],
     chainId: 'crypto-org-chain-mainnet-1',
-    feeDenom: 'ucro',
+    feeDenom: 'basecro',
   },
   terra: {
     name: 'Terra',
