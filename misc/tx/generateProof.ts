@@ -4,15 +4,48 @@ import { stringToPath } from '@cosmjs/crypto'
 import { LedgerSigner } from '@cosmjs/ledger-amino'
 import { toBase64 } from '@cosmjs/encoding'
 import TerraApp from '@terra-money/ledger-terra-js'
+import { Extension, Fee, LCDClient, Msg, MsgSend } from '@terra-money/terra.js'
 import { signatureImport } from 'secp256k1'
+import get from 'lodash/get'
+import { sortedJsonStringify } from '@cosmjs/amino/build/signdoc'
 import { WalletOption } from './getWalletAddress'
+
+let terraStation: Extension
+
+const signProofWithTerraStation = (tx) =>
+  new Promise((resolve, reject) => {
+    if (!terraStation) {
+      terraStation = new Extension()
+    }
+    if (!terraStation.isAvailable) {
+      reject(new Error('no terra station'))
+    }
+    terraStation.connect()
+    terraStation.once(({ error, address }) => {
+      if (error) {
+        reject(new Error(error.message || 'Unknown Error'))
+      }
+      terraStation.sign({
+        msgs: [new MsgSend(address, address, { uluna: 0 })],
+        memo: tx.memo,
+        fee: Fee.fromAmino(tx.fee),
+      })
+      terraStation.once((payload) => {
+        if (payload.error) {
+          reject(new Error(payload.error.message || 'Unknown Error'))
+        }
+        resolve(payload)
+      })
+    })
+  })
 
 const generateProof = async (
   signerAddress: string,
   mnemonic: string,
   option: WalletOption,
   ledgerTransport?: any,
-  isKeplr?: boolean
+  isKeplr?: boolean,
+  isTerraStation?: boolean
 ): Promise<{ proof: ChainLinkProof; address: string }> => {
   const proof = {
     account_number: '0',
@@ -50,6 +83,32 @@ const generateProof = async (
         signature: Buffer.from(result.signature.signature, 'base64').toString('hex'),
       },
       address: keplrAccount.address,
+    }
+  }
+
+  if (isTerraStation) {
+    const result = await signProofWithTerraStation(proof)
+    const terraAddress = get(result, 'result.body.messages[0].from_address', '')
+    const signature = get(result, 'result.signatures[0]', '')
+    const pubkey = get(result, 'result.auth_info.signer_infos[0].public_key.key', '')
+    proof.msgs = get(result, 'result.body.messages', []).map((m) => MsgSend.fromData(m).toAmino())
+    proof.sequence = get(result, 'result.auth_info.signer_infos[0].sequence', '')
+    const terraLCDClient = new LCDClient({
+      URL: 'https://lcd.terra.dev',
+      chainID: option.chainId,
+    })
+    const auth = await terraLCDClient.auth.accountInfo(terraAddress)
+    proof.account_number = String(auth.getAccountNumber())
+    return {
+      proof: {
+        plainText: Buffer.from(sortedJsonStringify(proof)).toString('hex'),
+        pubKey: {
+          typeUrl: '/cosmos.crypto.secp256k1.PubKey',
+          value: pubkey,
+        },
+        signature: Buffer.from(signature, 'base64').toString('hex'),
+      },
+      address: terraAddress,
     }
   }
 

@@ -24,6 +24,7 @@
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@socialgouv/matomo-next": "^1.2.2",
     "@terra-money/ledger-terra-js": "^1.1.0",
+    "@terra-money/terra.js": "^3.0.1",
     "axios": "^0.24.0",
     "check-password-strength": "^1.0.15",
     "date-fns": "^2.16.1",

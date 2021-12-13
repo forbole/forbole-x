@@ -91,7 +91,8 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
   const genProofAndSendTx = React.useCallback(
     async (
       info?: { account: number; change: number; index: number; address: string },
-      isKeplr?: boolean
+      isKeplr?: boolean,
+      isTerraStation?: boolean
     ) => {
       try {
         setError('')
@@ -109,7 +110,8 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
             feeDenom: connectableChains[chain].feeDenom,
           },
           ledgerTransport,
-          isKeplr
+          isKeplr,
+          isTerraStation
         )
         await sendTransaction(password, account.address, {
           msgs: [
@@ -160,13 +162,16 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       case Stage.SelectWalletTypeStage:
         return {
           title: t('connect chain'),
-          dialogSize: 'md',
+          dialogSize: chain === 'terra' ? 'lg' : 'md',
           content: (
             <SelectWalletType
+              chain={chain}
               error={error}
               onConfirm={(type) => {
                 if (type === 'keplr') {
                   genProofAndSendTx(undefined, true)
+                } else if (type === 'terra station') {
+                  genProofAndSendTx(undefined, false, true)
                 } else {
                   setStage(
                     type === 'mnemonic'
