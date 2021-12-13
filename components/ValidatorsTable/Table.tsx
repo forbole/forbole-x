@@ -10,15 +10,23 @@ import {
   IconButton,
   TableSortLabel,
 } from '@material-ui/core'
+import { gql, useQuery } from '@apollo/client'
 import useTranslation from 'next-translate/useTranslation'
+import keyBy from 'lodash/keyBy'
+import get from 'lodash/get'
 import { ArrowDropDown } from '@material-ui/icons'
 import { useRouter } from 'next/router'
 import TablePagination from '../TablePagination'
-import ActiveStatus from './Active'
 import InActiveStatus from './InActive'
 import { useGetStyles } from './styles'
 import useIconProps from '../../misc/useIconProps'
-import { formatPercentage, formatCrypto } from '../../misc/utils'
+import { getSlashingParams } from '../../graphql/queries/validators'
+import {
+  formatPercentage,
+  formatCrypto,
+  getValidatorCondition,
+  getValidatorConditionClass,
+} from '../../misc/utils'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import { useGeneralContext } from '../../contexts/GeneralContext'
@@ -26,6 +34,7 @@ import { useTableDefaultHook } from './hooks'
 import DelegationDialog from '../DelegationDialog'
 import InfoPopover from './InfoPopover'
 import ValidatorAvatar from '../ValidatorAvatar'
+import Condition from '../Condition'
 
 interface ValidatorsTableProps {
   validators: Validator[]
@@ -60,6 +69,17 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
   const { addFavValidators, deleteFavValidators, favValidators } = useGeneralContext()
   const [delegatingValidator, setDelegatingValidator] = React.useState<Validator>()
   const router = useRouter()
+  const validatorsMap = keyBy(validators, 'address')
+
+  const { data: paramsData } = useQuery(
+    gql`
+      ${getSlashingParams(get(crypto, 'name', ''))}
+    `
+  )
+  const slashingParams = get(paramsData, ['slashing_params', 0, 'params'], {
+    signed_blocks_window: 0,
+  })
+  const signedBlockWindow = slashingParams.signed_blocks_window
 
   const totalVotingPower = React.useMemo(
     () => validators.map((v) => v.votingPower).reduce((a, b) => a + b, 0),
@@ -164,6 +184,12 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
               state.page * state.rowsPerPage + state.rowsPerPage
             )
             .map((v) => {
+              const missedBlockCounter = get(validatorsMap, [v.address, 'missedBlockCounter'], 0)
+              const conditionClass = getValidatorCondition(signedBlockWindow, missedBlockCounter)
+              const condition =
+                get(validatorsMap, [v.address, 'status'], '') === 'active'
+                  ? getValidatorConditionClass(conditionClass)
+                  : undefined
               return (
                 <TableRow key={v.address} className={classes.tableRow}>
                   <TableCell className={classes.tableCell}>
@@ -198,7 +224,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                   </TableCell>
                   <TableCell className={classes.tableCell}>
                     {v.isActive ? (
-                      <ActiveStatus status={v.status} onClick={() => setDelegatingValidator(v)} />
+                      <Condition className={condition} onClick={() => setDelegatingValidator(v)} />
                     ) : (
                       <InActiveStatus
                         status={v.status}

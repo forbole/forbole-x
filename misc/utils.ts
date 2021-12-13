@@ -810,7 +810,8 @@ export const transformChainConnections = (data: any): ChainConnection[] => {
     userAddress: d.user_address,
     chainName:
       chains.find((k) => k === d.chain_config.name) ||
-      chains.find((k) => d.external_address.match(new RegExp(`^${connectableChains[k].prefix}`))),
+      chains.find((k) => d.external_address.match(new RegExp(`^${connectableChains[k].prefix}`))) ||
+      d.chain_config.name,
   }))
 }
 
