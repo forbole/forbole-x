@@ -7,7 +7,7 @@ const Condition: React.FC<{
   className?: string
   onClick?: () => void
 }> = ({ className, onClick }) => {
-  const classes = useStyles(className)
+  const classes = useStyles()
   const { t } = useTranslation('common')
   return onClick ? (
     <Box
