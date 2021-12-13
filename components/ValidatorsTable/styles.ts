@@ -78,9 +78,9 @@ export const useGetStyles = (status?: string, alignRight?: boolean) => {
           marginLeft: theme.spacing(4),
           '&:before': {
             content: '""',
-            width: theme.spacing(1.5),
+            width: theme.spacing(1),
             marginLeft: theme.spacing(-2.5),
-            height: theme.spacing(1.5),
+            height: theme.spacing(1),
             top: '20%',
             background: theme.palette.statusColor[status]
               ? theme.palette.statusColor[status]

@@ -187,7 +187,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
               const missedBlockCounter = get(validatorsMap, [v.address, 'missedBlockCounter'], 0)
               const conditionClass = getValidatorCondition(signedBlockWindow, missedBlockCounter)
               const condition =
-                validatorsMap[v.address].status === 'active'
+                get(validatorsMap, [v.address, 'status'], '') === 'active'
                   ? getValidatorConditionClass(conditionClass)
                   : undefined
               return (
