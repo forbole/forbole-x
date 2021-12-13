@@ -9,23 +9,31 @@ import { signatureImport } from 'secp256k1'
 import get from 'lodash/get'
 import { sortedJsonStringify } from '@cosmjs/amino/build/signdoc'
 import { WalletOption } from './getWalletAddress'
-import { Proof } from '../../desmos-proto/profiles/v1beta1/models_chain_links'
+
+let terraStation: Extension
 
 const signProofWithTerraStation = (tx) =>
   new Promise((resolve, reject) => {
-    const terraStation = new Extension()
+    if (!terraStation) {
+      terraStation = new Extension()
+    }
     if (!terraStation.isAvailable) {
       reject(new Error('no terra station'))
     }
     terraStation.connect()
-    terraStation.once(({ address }) => {
+    terraStation.once(({ error, address }) => {
+      if (error) {
+        reject(new Error(error.message || 'Unknown Error'))
+      }
       terraStation.sign({
         msgs: [new MsgSend(address, address, { uluna: 0 })],
         memo: tx.memo,
         fee: Fee.fromAmino(tx.fee),
       })
       terraStation.once((payload) => {
-        terraStation.destroy()
+        if (payload.error) {
+          reject(new Error(payload.error.message || 'Unknown Error'))
+        }
         resolve(payload)
       })
     })
@@ -80,7 +88,6 @@ const generateProof = async (
 
   if (isTerraStation) {
     const result = await signProofWithTerraStation(proof)
-    console.log(result)
     const terraAddress = get(result, 'result.body.messages[0].from_address', '')
     const signature = get(result, 'result.signatures[0]', '')
     const pubkey = get(result, 'result.auth_info.signer_infos[0].public_key.key', '')
@@ -92,7 +99,6 @@ const generateProof = async (
     })
     const auth = await terraLCDClient.auth.accountInfo(terraAddress)
     proof.account_number = String(auth.getAccountNumber())
-    console.log(proof)
     return {
       proof: {
         plainText: Buffer.from(sortedJsonStringify(proof)).toString('hex'),
