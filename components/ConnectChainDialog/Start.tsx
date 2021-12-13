@@ -56,50 +56,53 @@ const Start: React.FC<StartProps> = ({ onConnectClick, connections, account, onC
             </TableHead>
 
             <TableBody>
-              {connections.map(({ creationTime, externalAddress, chainName }, i) => (
-                <TableRow key={externalAddress} className={classes.borderedTableRow}>
-                  <TableCell className={classes.tableCell}>
-                    <Box display="flex">
-                      <Avatar
-                        src={connectableChains[chainName].image}
-                        alt={connectableChains[chainName].name}
-                      />
-                      <Box ml={1}>
-                        <Typography>{connectableChains[chainName].name}</Typography>
-                        <Typography variant="body2" color="textSecondary">
-                          {externalAddress}
-                        </Typography>
+              {connections.map(({ creationTime, externalAddress, chainName }, i) => {
+                const chain = connectableChains[chainName]
+                return (
+                  <TableRow key={externalAddress} className={classes.borderedTableRow}>
+                    <TableCell className={classes.tableCell}>
+                      <Box display="flex">
+                        <Avatar
+                          src={chain ? chain.image : undefined}
+                          alt={chain ? chain.name : chainName}
+                        />
+                        <Box ml={1}>
+                          <Typography>{chain ? chain.name : chainName}</Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {externalAddress}
+                          </Typography>
+                        </Box>
                       </Box>
-                    </Box>
-                  </TableCell>
-                  <TableCell className={classes.tableCell}>
-                    {format(creationTime, 'dd MMM yyyy, HH:mm:ss')}
-                  </TableCell>
-                  <TableCell align="center" className={classes.tableCell}>
-                    <Button
-                      color="primary"
-                      onClick={async () => {
-                        await sendTransaction(password, account.address, {
-                          msgs: [
-                            {
-                              typeUrl: '/desmos.profiles.v1beta1.MsgUnlinkChainAccount',
-                              value: {
-                                chainName,
-                                owner: account.address,
-                                target: externalAddress,
+                    </TableCell>
+                    <TableCell className={classes.tableCell}>
+                      {format(creationTime, 'dd MMM yyyy, HH:mm:ss')}
+                    </TableCell>
+                    <TableCell align="center" className={classes.tableCell}>
+                      <Button
+                        color="primary"
+                        onClick={async () => {
+                          await sendTransaction(password, account.address, {
+                            msgs: [
+                              {
+                                typeUrl: '/desmos.profiles.v1beta1.MsgUnlinkChainAccount',
+                                value: {
+                                  chainName,
+                                  owner: account.address,
+                                  target: externalAddress,
+                                },
                               },
-                            },
-                          ],
-                          memo: '',
-                        })
-                        onClose()
-                      }}
-                    >
-                      {t('disconnect')}
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+                            ],
+                            memo: '',
+                          })
+                          onClose()
+                        }}
+                      >
+                        {t('disconnect')}
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
             </TableBody>
           </Table>
           <Box m={2} display="flex" justifyContent="flex-end">
