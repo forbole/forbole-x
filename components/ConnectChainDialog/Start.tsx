@@ -59,7 +59,7 @@ const Start: React.FC<StartProps> = ({ onConnectClick, connections, account, onC
               {connections.map(({ creationTime, externalAddress, chainName }, i) => {
                 const chain = connectableChains[chainName]
                 return (
-                  <TableRow key={externalAddress} className={classes.borderedTableRow}>
+                  <TableRow key={chainName + externalAddress} className={classes.borderedTableRow}>
                     <TableCell className={classes.tableCell}>
                       <Box display="flex">
                         <Avatar
