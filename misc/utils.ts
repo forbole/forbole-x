@@ -3,6 +3,7 @@ import last from 'lodash/last'
 import cloneDeep from 'lodash/cloneDeep'
 import drop from 'lodash/drop'
 import keyBy from 'lodash/keyBy'
+import flatten from 'lodash/flatten'
 import { format, differenceInDays } from 'date-fns'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
 import { EnglishMnemonic } from '@cosmjs/crypto'
@@ -167,6 +168,7 @@ export const getWalletsBalancesFromAccountsBalances = (
 
 export const transformGqlAcountBalance = (data: any, timestamp: number): AccountBalance => {
   const denoms = get(data, 'account[0].available[0].tokens_prices', [])
+  console.log(data)
   const balance = {
     available: getTokenAmountFromDenoms(get(data, 'account[0].available[0].coins', []), denoms),
     delegated: getTokenAmountFromDenoms(
@@ -184,7 +186,7 @@ export const transformGqlAcountBalance = (data: any, timestamp: number): Account
       denoms
     ),
     commissions: getTokenAmountFromDenoms(
-      get(data, 'account[0].validator.validator.commissions', []).map((d) => d.amount),
+      flatten(get(data, 'account[0].validator[0].validator.commissions', []).map((d) => d.amount)),
       denoms
     ),
   }

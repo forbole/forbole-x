@@ -1,6 +1,7 @@
 import { Card, CardMedia, CardContent, Typography, Avatar, Box, Button } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import Markdown from '../Markdown'
 import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import useIsMobile from '../../misc/useIsMobile'
@@ -65,7 +66,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             </Button>
           </Box>
         </Box>
-        <Typography>{profile.bio}</Typography>
+        <Markdown>{profile.bio}</Markdown>
         <Button color="primary" onClick={onChainConnectionClick}>
           {t('connections', { connections: chainConnections.length })}
         </Button>

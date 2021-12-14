@@ -36,17 +36,18 @@ const Chart: React.FC<ChartProp> = ({ data: rawData, setPopoverIndex, setAnchorP
   const [activeIndex, setActiveIndex] = React.useState(0)
   const theme: CustomTheme = useTheme()
 
+  const activeData = data[activeIndex] || data[0]
+
   // todo: how to override light mode color of the pie? it shows black when it is activeIndex
 
   const { top, left } = React.useMemo(() => {
-    const midAngle =
-      (((data[activeIndex].startAngle + data[activeIndex].endAngle) / 2) * Math.PI) / 180
-    const radius = (1.27 * Number(data[activeIndex].outerRadius.replace('%', ''))) / 2
+    const midAngle = (((activeData.startAngle + activeData.endAngle) / 2) * Math.PI) / 180
+    const radius = (1.27 * Number(activeData.outerRadius.replace('%', ''))) / 2
     return {
       top: `calc(50% - ${Math.sin(midAngle) * radius}px)`,
       left: `calc(30% + ${Math.cos(midAngle) * radius}px)`,
     }
-  }, [activeIndex, data])
+  }, [activeData])
 
   return (
     <Box position="relative" height={theme.spacing(33.5)} maxWidth={theme.spacing(64)} mx="auto">
@@ -82,11 +83,11 @@ const Chart: React.FC<ChartProp> = ({ data: rawData, setPopoverIndex, setAnchorP
       </ResponsiveContainer>
       <Box className={classes.divider} style={{ top, left }}>
         <Typography className={classes.percentText} variant="h2" gutterBottom>
-          {formatPercentage(data[activeIndex].value, lang)}
+          {formatPercentage(activeData.value, lang)}
         </Typography>
         <Box display="flex" alignItems="center">
-          <Avatar className={classes.avatar} src={data[activeIndex].image} />
-          <Typography>{data[activeIndex].name}</Typography>
+          <Avatar className={classes.avatar} src={activeData.image} />
+          <Typography>{activeData.name}</Typography>
         </Box>
       </Box>
     </Box>
