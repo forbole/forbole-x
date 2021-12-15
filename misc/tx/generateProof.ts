@@ -4,7 +4,15 @@ import { stringToPath } from '@cosmjs/crypto'
 import { LedgerSigner } from '@cosmjs/ledger-amino'
 import { toBase64 } from '@cosmjs/encoding'
 import TerraApp from '@terra-money/ledger-terra-js'
-import { Extension, Fee, LCDClient, Msg, MsgSend } from '@terra-money/terra.js'
+import {
+  Extension,
+  AuthInfo,
+  Fee,
+  LCDClient,
+  MsgSend,
+  SignDoc,
+  TxBody,
+} from '@terra-money/terra.js'
 import { signatureImport } from 'secp256k1'
 import get from 'lodash/get'
 import { sortedJsonStringify } from '@cosmjs/amino/build/signdoc'
@@ -91,13 +99,37 @@ const generateProof = async (
     const terraAddress = get(result, 'result.body.messages[0].from_address', '')
     const signature = get(result, 'result.signatures[0]', '')
     const pubkey = get(result, 'result.auth_info.signer_infos[0].public_key.key', '')
-    proof.msgs = get(result, 'result.body.messages', []).map((m) => MsgSend.fromData(m).toAmino())
-    proof.sequence = get(result, 'result.auth_info.signer_infos[0].sequence', '')
+    const signMode = get(result, 'result.auth_info.signer_infos[0].mode_info.single.mode', '')
     const terraLCDClient = new LCDClient({
       URL: 'https://lcd.terra.dev',
       chainID: option.chainId,
     })
     const auth = await terraLCDClient.auth.accountInfo(terraAddress)
+
+    if (signMode === 'SIGN_MODE_DIRECT') {
+      const txBody = get(result, 'result.body', {})
+      const signDoc = new SignDoc(
+        proof.chain_id,
+        auth.getAccountNumber(),
+        get(result, 'result.auth_info.signer_infos[0].sequence', ''),
+        AuthInfo.fromData(get(result, 'result.auth_info', {})),
+        TxBody.fromData(txBody)
+      )
+      return {
+        proof: {
+          plainText: Buffer.from(signDoc.toBytes()).toString('hex'),
+          pubKey: {
+            typeUrl: '/cosmos.crypto.secp256k1.PubKey',
+            value: pubkey,
+          },
+          signature: Buffer.from(signature, 'base64').toString('hex'),
+        },
+        address: terraAddress,
+      }
+    }
+    proof.msgs = get(result, 'result.body.messages', []).map((m) => MsgSend.fromData(m).toAmino())
+    proof.sequence = get(result, 'result.auth_info.signer_infos[0].sequence', '')
+
     proof.account_number = String(auth.getAccountNumber())
     return {
       proof: {
