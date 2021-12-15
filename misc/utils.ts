@@ -168,7 +168,6 @@ export const getWalletsBalancesFromAccountsBalances = (
 
 export const transformGqlAcountBalance = (data: any, timestamp: number): AccountBalance => {
   const denoms = get(data, 'account[0].available[0].tokens_prices', [])
-  console.log(data)
   const balance = {
     available: getTokenAmountFromDenoms(get(data, 'account[0].available[0].coins', []), denoms),
     delegated: getTokenAmountFromDenoms(
@@ -843,10 +842,8 @@ export const isValidMnemonic = (input) => {
   try {
     // eslint-disable-next-line no-new
     new EnglishMnemonic(input)
-    // console.log('valid mnemonic')
     return true
   } catch (err) {
-    // console.log('invalid mnemonic')
     return false
   }
 }

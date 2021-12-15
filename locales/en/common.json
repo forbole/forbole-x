@@ -486,5 +486,11 @@
   "connect more accounts": "Connect more Accounts",
   "show address on ledger": "Show address on ledger",
   "connect with keplr": "Connect with Keplr",
-  "connect with terra station": "Connect with Terra Station"
+  "connect with terra station": "Connect with Terra Station",
+  "get a grant description": "Get a grant to create a Desmos Profile for free",
+  "create profile description": "The first thing is that you need to create a Desmos profile",
+  "connect account description": "Please make sure you have connected the correct eligible account",
+  "connected accounts": "Connected accounts",
+  "claim more description": "If you want to claim more, please connect the following accounts",
+  "not eligible for airdrop": "This account is not eligible to receive the airdrop"
 }
