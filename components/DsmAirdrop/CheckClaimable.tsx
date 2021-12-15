@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable camelcase */
 import {
   Button,
@@ -182,7 +183,17 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
                 <Typography>{t('airdrop eligibility rule two')}</Typography>
               </Box>
             </Box>
-            <Typography>{t('airdrop eligibility description')}</Typography>
+            <Typography>
+              {t(
+                shouldGetGrant
+                  ? 'get a grant description'
+                  : !profile.dtag
+                  ? 'create profile description'
+                  : chainConnections.length === 0
+                  ? 'connect account description'
+                  : 'airdrop eligibility description'
+              )}
+            </Typography>
 
             <Box flex={1} display="flex" flexDirection="column" mb={3} mt={5.5}>
               <Button
@@ -197,7 +208,15 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
                   (isGranting && !isGrantActive)
                 }
               >
-                {t(shouldGetGrant ? 'get a grant' : 'get started button')}
+                {t(
+                  shouldGetGrant
+                    ? 'get a grant'
+                    : !profile.dtag
+                    ? 'create profile'
+                    : chainConnections.length === 0
+                    ? 'connect account'
+                    : 'get started button'
+                )}
               </Button>
               <Box mt={1}>
                 <Typography variant="body2" color="error">

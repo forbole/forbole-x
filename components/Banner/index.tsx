@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Card, CardMedia, alpha, useTheme } from '@material-ui/core'
+import { Box, Card, CardMedia, alpha, useTheme } from '@material-ui/core'
 import Carousel from 'react-material-ui-carousel'
 import useStyles from './style'
 
@@ -23,14 +23,17 @@ const Banner: React.FC = () => {
         }}
         activeIndicatorIconButtonProps={{
           style: {
-            color: theme.palette.primary.main,
+            backgroundColor: theme.palette.primary.main,
+            margin: theme.spacing(0.5, 0.5, 0),
           },
         }}
         indicatorIconButtonProps={{
           style: {
-            color: alpha(theme.palette.primary.main, 0.6),
+            backgroundColor: alpha(theme.palette.primary.main, 0.6),
+            margin: theme.spacing(0.5, 0.5, 0),
           },
         }}
+        IndicatorIcon={<Box p={0.5} borderRadius="50%" />}
       >
         {banners.map((banner) => (
           <Link href="/dsm-airdrop" key={banner}>
