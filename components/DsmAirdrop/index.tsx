@@ -4,6 +4,7 @@ import useTranslation from 'next-translate/useTranslation'
 import { useSubscription, gql } from '@apollo/client'
 import axios from 'axios'
 import get from 'lodash/get'
+import { uniqBy } from 'lodash'
 import useStateHistory from '../../misc/useStateHistory'
 import { useStyles } from './styles'
 import CheckClaimable from './CheckClaimable'
@@ -75,6 +76,8 @@ const DsmAirdrop: React.FC = () => {
   const [totalDsmAllocated, setTotalDsmAllocated] = useState(0)
   const [totalDsmAllocatedLoading, setTotalDsmAllocatedLoading] = useState(false)
   const [airdropResponse, setAirdropResponse] = useState('')
+  const [connectedChainsStakingInfo, setConnectedChainStakingInfo] = useState([])
+  const [connectedChainsLpInfo, setConnectedChainLpInfo] = useState([])
 
   const [claimSuccess, setClaimSuccess] = useState(false)
   const [airdropConfig, setAirdropConfig] = useState({ airdrop_enabled: false })
@@ -111,6 +114,15 @@ const DsmAirdrop: React.FC = () => {
         .then(
           axios.spread((...responses) => {
             responses.forEach((res, i) => {
+              setConnectedChainStakingInfo((a) =>
+                uniqBy(
+                  [...a, ...(res.data.staking_infos ?? [])],
+                  (b: any) => b.address + b.chain_name
+                )
+              )
+              setConnectedChainLpInfo((a) =>
+                uniqBy([...a, ...(res.data.lp_infos ?? [])], (b: any) => b.address + b.chain_name)
+              )
               const chainClaimableAmount = [
                 ...(res.data.staking_infos ?? []),
                 ...(res.data.lp_infos ?? []),
@@ -169,6 +181,8 @@ const DsmAirdrop: React.FC = () => {
               }}
               amount={totalDsmAllocated}
               chainConnections={chainConnections}
+              connectedChainsStakingInfo={connectedChainsStakingInfo}
+              connectedChainsLpInfo={connectedChainsLpInfo}
               loading={totalDsmAllocatedLoading}
               setIsConnectChainDialogOpen={setIsConnectChainDialogOpen}
               externalAddress={externalAddress}
@@ -236,6 +250,7 @@ const DsmAirdrop: React.FC = () => {
         account={account}
         connections={chainConnections}
         open={isConnectChainDialogOpen}
+        shouldConnect
         onClose={() => {
           setIsConnectChainDialogOpen(false)
         }}

@@ -38,6 +38,7 @@ interface ConnectChainDialogProps {
   onClose(event?: unknown, reason?: string): void
   connections: ChainConnection[]
   account: Account
+  shouldConnect?: boolean
 }
 
 interface Content {
@@ -51,6 +52,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
   onClose,
   connections,
   account,
+  shouldConnect,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
@@ -59,7 +61,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
   const sendTransaction = useSendTransaction()
   const { password } = useWalletsContext()
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
-    Stage.StartStage
+    shouldConnect ? Stage.SelectChainStage : Stage.StartStage
   )
 
   const [mnemonic, setMnemonic] = React.useState('')
@@ -80,9 +82,9 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       setChain('')
       setLedgerApp('')
       setError('')
-      setStage(Stage.StartStage, true)
+      setStage(shouldConnect ? Stage.SelectChainStage : Stage.StartStage, true)
     }
-  }, [open])
+  }, [open, shouldConnect])
 
   React.useEffect(() => {
     setError('')

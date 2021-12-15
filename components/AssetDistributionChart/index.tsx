@@ -75,23 +75,25 @@ const AssetDistributionChart: React.FC = () => {
         Object.keys(balancesByValidator).forEach((moniker) => {
           rawData.push({
             name: moniker,
-            value: getTokenAmountBalance(balancesByValidator[moniker].amount),
+            // TODO: uncomment the line below when DSM has value > 0
+            // value: getTokenAmountBalance(balancesByValidator[moniker].amount),
+            value: Object.values(balancesByValidator[moniker].amount)
+              .map((a: any) => a.amount)
+              .reduce((a, b) => a + b, 0),
           })
         })
         const total = rawData.map((d) => d.value).reduce((a, b) => a + b, 0)
         setData(
-          rawData.map((d) => ({
-            name: d.name,
-            image: balancesByValidator[d.name].avatar,
-            value:
-              // eslint-disable-next-line no-nested-ternary
-              total === 0
-                ? 1 / rawData.length
-                : d.value === total
-                ? 1
-                : Math.round(d.value / total),
-            extraData: balancesByValidator[d.name],
-          }))
+          rawData
+            .filter((d) => d.value > 0)
+            .map((d) => ({
+              name: d.name,
+              image: balancesByValidator[d.name].avatar,
+              value:
+                // eslint-disable-next-line no-nested-ternary
+                total === 0 ? 1 / rawData.length : d.value === total ? 1 : d.value / total,
+              extraData: balancesByValidator[d.name],
+            }))
         )
       }
     } catch (err) {
