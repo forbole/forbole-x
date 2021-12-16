@@ -164,7 +164,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       case Stage.SelectWalletTypeStage:
         return {
           title: t('connect chain'),
-          dialogSize: chain === 'terra' ? 'lg' : 'md',
+          dialogSize: 'sm',
           content: (
             <SelectWalletType
               chain={chain}

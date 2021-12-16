@@ -32,53 +32,35 @@ const SelectWalletType: React.FC<SelectWalletTypeProps> = ({ onConfirm, error, c
     <DialogContent className={classes.dialogContent}>
       <DialogContentText>{t('select connect chain method')}</DialogContentText>
       <Box m={4} mb={8}>
-        <Grid container spacing={5}>
-          <Grid item xs={isTerra ? 3 : 4}>
-            <ButtonBase className={classes.selectionBox} onClick={() => onConfirm('mnemonic')}>
-              <Box mb={5}>
-                <UsePhraseIcon />
-              </Box>
-              <Typography align="center" color="textSecondary">
-                {t('use recovery phrase')}
-              </Typography>
-            </ButtonBase>
-          </Grid>
-          <Grid item xs={isTerra ? 3 : 4}>
-            <ButtonBase className={classes.selectionBox} onClick={() => onConfirm('ledger')}>
-              <Box mb={5}>
-                <ConnectLedgerIcon />
-              </Box>
-              <Typography align="center" color="textSecondary">
-                {t('connect with ledger')}
-              </Typography>
-            </ButtonBase>
-          </Grid>
-          <Grid item xs={isTerra ? 3 : 4}>
-            <ButtonBase className={classes.selectionBox} onClick={() => onConfirm('keplr')}>
-              <Box mb={5}>
-                <KeplrIcon width={theme.spacing(8)} height={theme.spacing(8)} />
-              </Box>
-              <Typography align="center" color="textSecondary">
-                {t('connect with keplr')}
-              </Typography>
-            </ButtonBase>
-          </Grid>
-          {isTerra ? (
-            <Grid item xs={3}>
-              <ButtonBase
-                className={classes.selectionBox}
-                onClick={() => onConfirm('terra station')}
-              >
-                <Box mb={5}>
-                  <TerraStationIcon width={theme.spacing(8)} height={theme.spacing(8)} />
-                </Box>
-                <Typography align="center" color="textSecondary">
-                  {t('connect with terra station')}
-                </Typography>
-              </ButtonBase>
-            </Grid>
-          ) : null}
-        </Grid>
+        <ButtonBase className={classes.selectionBox} onClick={() => onConfirm('mnemonic')}>
+          <Box mr={3}>
+            <UsePhraseIcon width={theme.spacing(6)} height={theme.spacing(6)} />
+          </Box>
+          <Typography variant="h6">{t('use recovery phrase')}</Typography>
+        </ButtonBase>
+
+        <ButtonBase className={classes.selectionBox} onClick={() => onConfirm('ledger')}>
+          <Box mr={3}>
+            <ConnectLedgerIcon width={theme.spacing(6)} height={theme.spacing(6)} />
+          </Box>
+          <Typography variant="h6">{t('connect with ledger')}</Typography>
+        </ButtonBase>
+
+        <ButtonBase className={classes.selectionBox} onClick={() => onConfirm('keplr')}>
+          <Box mr={3}>
+            <KeplrIcon width={theme.spacing(6)} height={theme.spacing(6)} />
+          </Box>
+          <Typography variant="h6">{t('connect with keplr')}</Typography>
+        </ButtonBase>
+
+        {isTerra ? (
+          <ButtonBase className={classes.selectionBox} onClick={() => onConfirm('terra station')}>
+            <Box mr={3}>
+              <TerraStationIcon width={theme.spacing(6)} height={theme.spacing(6)} />
+            </Box>
+            <Typography variant="h6">{t('connect with terra station')}</Typography>
+          </ButtonBase>
+        ) : null}
         {error ? <Typography color="error">{error}</Typography> : null}
       </Box>
     </DialogContent>
