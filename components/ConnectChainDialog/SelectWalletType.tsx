@@ -23,7 +23,9 @@ import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface SelectWalletTypeProps {
   chain: string
-  onConfirm(type: 'mnemonic' | 'ledger' | 'keplr' | 'terra station'): void
+  onConfirm(
+    type: 'mnemonic' | 'ledger' | 'private key' | 'upload proof' | 'keplr' | 'terra station'
+  ): void
   error: string
 }
 
@@ -43,7 +45,7 @@ const SelectWalletType: React.FC<SelectWalletTypeProps> = ({ onConfirm, error, c
           <Box mr={3}>{theme === 'light' ? <UsePhraseIconLight /> : <UsePhraseIconDark />}</Box>
           <Typography>{t('use recovery phrase')}</Typography>
         </ButtonBase>
-        <ButtonBase className={classes.selectionBox} onClick={() => onConfirm('mnemonic')}>
+        <ButtonBase className={classes.selectionBox} onClick={() => onConfirm('private key')}>
           <Box mr={3}>{theme === 'light' ? <PrivateKeyIconLight /> : <PrivateKeyIconDark />}</Box>
           <Typography>{t('use private key')}</Typography>
         </ButtonBase>
@@ -53,7 +55,7 @@ const SelectWalletType: React.FC<SelectWalletTypeProps> = ({ onConfirm, error, c
           </Box>
           <Typography>{t('connect with ledger')}</Typography>
         </ButtonBase>
-        <ButtonBase className={classes.selectionBox} onClick={() => onConfirm('mnemonic')}>
+        <ButtonBase className={classes.selectionBox} onClick={() => onConfirm('upload proof')}>
           <Box mr={3}>{theme === 'light' ? <UploadProofIconLight /> : <UploadProofIconDark />}</Box>
           <Typography>{t('upload chain link proof')}</Typography>
         </ButtonBase>

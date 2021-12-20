@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { Secp256k1HdWallet, serializeSignDoc } from '@cosmjs/amino'
+import { Secp256k1HdWallet, Secp256k1Wallet, serializeSignDoc } from '@cosmjs/amino'
 import { stringToPath } from '@cosmjs/crypto'
 import { LedgerSigner } from '@cosmjs/ledger-amino'
 import { toBase64 } from '@cosmjs/encoding'
@@ -49,7 +49,7 @@ const signProofWithTerraStation = (tx) =>
 
 const generateProof = async (
   signerAddress: string,
-  mnemonic: string,
+  mnemonicOrPrivateKey: string,
   option: WalletOption,
   ledgerTransport?: any,
   isKeplr?: boolean,
@@ -70,6 +70,26 @@ const generateProof = async (
     memo: signerAddress,
     msgs: [],
     sequence: '0',
+  }
+
+  if (option.isPrivateKey) {
+    const signer = await Secp256k1Wallet.fromKey(
+      Buffer.from(mnemonicOrPrivateKey, 'hex'),
+      option.prefix
+    )
+    const [ac] = await signer.getAccounts()
+    const { signature } = await signer.signAmino(ac.address, proof)
+    return {
+      proof: {
+        plainText: Buffer.from(JSON.stringify(proof, null, 0)).toString('hex'),
+        pubKey: {
+          typeUrl: '/cosmos.crypto.secp256k1.PubKey',
+          value: toBase64(ac.pubkey),
+        },
+        signature: Buffer.from(signature.signature, 'base64').toString('hex'),
+      },
+      address: ac.address,
+    }
   }
 
   if (isKeplr) {
@@ -173,7 +193,7 @@ const generateProof = async (
   }
   let signer
   if (!ledgerTransport) {
-    signer = await Secp256k1HdWallet.fromMnemonic(mnemonic, signerOptions)
+    signer = await Secp256k1HdWallet.fromMnemonic(mnemonicOrPrivateKey, signerOptions)
   } else {
     signer = new LedgerSigner(ledgerTransport, {
       ...signerOptions,
