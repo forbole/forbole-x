@@ -1,6 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import { pubkeyToAddress } from '@cosmjs/amino'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
@@ -19,6 +21,7 @@ import connectableChains from '../../misc/connectableChains'
 import generateProof from '../../misc/tx/generateProof'
 import SelectLedgerApp from './SelectLedgerApp'
 import useSendTransaction from '../../misc/tx/useSendTransaction'
+import TextInputDialogContent from './TextInputDialogContent'
 
 let ledgerTransport
 
@@ -30,6 +33,8 @@ enum Stage {
   SelectLedgerAppStage = 'select ledger app',
   SelectAddressStage = 'select address',
   ConnectLedgerStage = 'connect ledger',
+  EnterPrivateKeyStage = 'enter private key',
+  EnterChainLinkProofStage = 'enter chain link proof',
   SignInLedgerStage = 'sign in ledger',
 }
 
@@ -94,27 +99,45 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
     async (
       info?: { account: number; change: number; index: number; address: string },
       isKeplr?: boolean,
-      isTerraStation?: boolean
+      isTerraStation?: boolean,
+      privateKey?: string,
+      proofText?: string
     ) => {
       try {
         setError('')
-        const { proof, address } = await generateProof(
-          account.address,
-          mnemonic,
-          {
-            prefix: connectableChains[chain].prefix,
-            coinType: connectableChains[ledgerApp || chain].coinType,
-            ledgerAppName: ledgerApp,
-            account: info ? info.account : 0,
-            change: info ? info.change : 0,
-            index: info ? info.index : 0,
-            chainId: connectableChains[chain].chainId,
-            feeDenom: connectableChains[chain].feeDenom,
-          },
-          ledgerTransport,
-          isKeplr,
-          isTerraStation
-        )
+        let proof
+        let address
+        if (proofText) {
+          proof = JSON.parse(proofText)
+          address = pubkeyToAddress(
+            {
+              type: 'tendermint/PubKeySecp256k1',
+              value: proof.pubKey.value,
+            },
+            connectableChains[chain].prefix
+          )
+        } else {
+          const proofObj = await generateProof(
+            account.address,
+            privateKey || mnemonic,
+            {
+              prefix: connectableChains[chain].prefix,
+              coinType: connectableChains[ledgerApp || chain].coinType,
+              ledgerAppName: ledgerApp,
+              account: info ? info.account : 0,
+              change: info ? info.change : 0,
+              index: info ? info.index : 0,
+              chainId: connectableChains[chain].chainId,
+              feeDenom: connectableChains[chain].feeDenom,
+              isPrivateKey: !!privateKey,
+            },
+            ledgerTransport,
+            isKeplr,
+            isTerraStation
+          )
+          proof = proofObj.proof
+          address = proofObj.address
+        }
         await sendTransaction(password, account.address, {
           msgs: [
             {
@@ -164,7 +187,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       case Stage.SelectWalletTypeStage:
         return {
           title: t('connect chain'),
-          dialogSize: chain === 'terra' ? 'lg' : 'md',
+          dialogSize: 'sm',
           content: (
             <SelectWalletType
               chain={chain}
@@ -174,12 +197,14 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
                   genProofAndSendTx(undefined, true)
                 } else if (type === 'terra station') {
                   genProofAndSendTx(undefined, false, true)
+                } else if (type === 'private key') {
+                  setStage(Stage.EnterPrivateKeyStage)
+                } else if (type === 'upload proof') {
+                  setStage(Stage.EnterChainLinkProofStage)
+                } else if (type === 'mnemonic') {
+                  setStage(Stage.ImportMnemonicPhraseStage)
                 } else {
-                  setStage(
-                    type === 'mnemonic'
-                      ? Stage.ImportMnemonicPhraseStage
-                      : Stage.SelectLedgerAppStage
-                  )
+                  setStage(Stage.SelectLedgerAppStage)
                 }
               }}
             />
@@ -230,6 +255,30 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
               onConfirm={(app) => {
                 setLedgerApp(app)
                 setStage(Stage.ConnectLedgerStage)
+              }}
+            />
+          ),
+        }
+      case Stage.EnterChainLinkProofStage:
+      case Stage.EnterPrivateKeyStage:
+        return {
+          title: t(
+            stage === Stage.EnterChainLinkProofStage ? 'chain link proof' : 'import private key'
+          ),
+          dialogSize: 'sm',
+          content: (
+            <TextInputDialogContent
+              title={t(stage === Stage.EnterChainLinkProofStage ? 'proof' : 'private key')}
+              placeholder={t(
+                stage === Stage.EnterChainLinkProofStage ? 'proof description' : 'private key'
+              )}
+              error={error}
+              onConfirm={(text) => {
+                if (stage === Stage.EnterChainLinkProofStage) {
+                  genProofAndSendTx(undefined, undefined, undefined, undefined, text)
+                } else {
+                  genProofAndSendTx(undefined, undefined, undefined, text)
+                }
               }}
             />
           ),
