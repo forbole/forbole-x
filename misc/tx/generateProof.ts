@@ -53,8 +53,28 @@ const generateProof = async (
   option: WalletOption,
   ledgerTransport?: any,
   isKeplr?: boolean,
-  isTerraStation?: boolean
+  isTerraStation?: boolean,
+  proofText?: string
 ): Promise<{ proof: ChainLinkProof; address: string }> => {
+  // Raw proof text given
+  if (proofText) {
+    try {
+      const proofObj = JSON.parse(proofText)
+      return {
+        proof: {
+          plainText: proofObj.proof.plain_text,
+          pubKey: {
+            typeUrl: '/cosmos.crypto.secp256k1.PubKey',
+            value: proofObj.proof.pub_key.value,
+          },
+          signature: proofObj.proof.signature,
+        },
+        address: proofObj.address.value,
+      }
+    } catch (err) {
+      throw new Error('Invalid Proof')
+    }
+  }
   const proof = {
     account_number: '0',
     chain_id: option.chainId,
