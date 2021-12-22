@@ -105,39 +105,27 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
     ) => {
       try {
         setError('')
-        let proof
-        let address
-        if (proofText) {
-          proof = JSON.parse(proofText)
-          address = pubkeyToAddress(
-            {
-              type: 'tendermint/PubKeySecp256k1',
-              value: proof.pubKey.value,
-            },
-            connectableChains[chain].prefix
-          )
-        } else {
-          const proofObj = await generateProof(
-            account.address,
-            privateKey || mnemonic,
-            {
-              prefix: connectableChains[chain].prefix,
-              coinType: connectableChains[ledgerApp || chain].coinType,
-              ledgerAppName: ledgerApp,
-              account: info ? info.account : 0,
-              change: info ? info.change : 0,
-              index: info ? info.index : 0,
-              chainId: connectableChains[chain].chainId,
-              feeDenom: connectableChains[chain].feeDenom,
-              isPrivateKey: !!privateKey,
-            },
-            ledgerTransport,
-            isKeplr,
-            isTerraStation
-          )
-          proof = proofObj.proof
-          address = proofObj.address
-        }
+
+        const { proof, address } = await generateProof(
+          account.address,
+          privateKey || mnemonic,
+          {
+            prefix: connectableChains[chain].prefix,
+            coinType: connectableChains[ledgerApp || chain].coinType,
+            ledgerAppName: ledgerApp,
+            account: info ? info.account : 0,
+            change: info ? info.change : 0,
+            index: info ? info.index : 0,
+            chainId: connectableChains[chain].chainId,
+            feeDenom: connectableChains[chain].feeDenom,
+            isPrivateKey: !!privateKey,
+          },
+          ledgerTransport,
+          isKeplr,
+          isTerraStation,
+          proofText
+        )
+
         await sendTransaction(password, account.address, {
           msgs: [
             {
