@@ -8,7 +8,6 @@ import {
   useTheme,
   Typography,
   IconButton,
-  TextField,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -218,42 +217,45 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
             </>
           ) : (
             <>
-              <LedgerImage />
-              <Box mt={4}>
-                <Typography>
-                  {ledgerAppName
-                    ? t('open ledger app instruction', { ledgerAppName })
-                    : t('connect ledger instruction')}
-                </Typography>
-                {account && (
-                  <>
-                    <LedgerDevice />
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      my={-1}
-                      pl={themeStyle.spacing(0.2)}
-                      bgcolor="rgba(196, 196, 196, 0.1)"
-                      borderRadius={themeStyle.spacing(1)}
-                    >
-                      <Typography color="textSecondary" variant="body2">
-                        {account.address}
-                      </Typography>
-                      <Divider
-                        orientation="vertical"
-                        flexItem
-                        style={{
-                          margin: themeStyle.spacing(1),
-                          backgroundColor: themeStyle.palette.button,
-                        }}
-                      />
-                      <IconButton style={{ paddingLeft: '0px' }} onClick={copyText}>
-                        <CopyIcon {...iconProps} />
-                      </IconButton>
-                    </Box>
-                  </>
-                )}
-              </Box>
+              {account ? (
+                <Box display="flex" alignItems="center" flexDirection="column">
+                  <LedgerDevice />
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    my={3}
+                    pl={themeStyle.spacing(0.2)}
+                    bgcolor="rgba(196, 196, 196, 0.1)"
+                    borderRadius={themeStyle.spacing(1)}
+                  >
+                    <Typography color="textSecondary" variant="body2">
+                      {account.address}
+                    </Typography>
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      style={{
+                        margin: themeStyle.spacing(1),
+                        backgroundColor: themeStyle.palette.button,
+                      }}
+                    />
+                    <IconButton style={{ paddingLeft: '0px' }} onClick={copyText}>
+                      <CopyIcon {...iconProps} />
+                    </IconButton>
+                  </Box>
+                </Box>
+              ) : (
+                <>
+                  <LedgerImage />
+                  <Box mt={4}>
+                    <Typography>
+                      {ledgerAppName
+                        ? t('open ledger app instruction', { ledgerAppName })
+                        : t('connect ledger instruction')}
+                    </Typography>
+                  </Box>
+                </>
+              )}
             </>
           )}
         </Box>
