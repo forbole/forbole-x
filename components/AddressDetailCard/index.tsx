@@ -63,10 +63,11 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
     }
   }, [accountBalance])
 
-  const displayItems =
-    getTokenAmountBalance(get(accountBalance, 'balance.commissions', {})) === 0
-      ? ['available', 'delegated', 'unbonding', 'rewards']
-      : ['available', 'delegated', 'unbonding', 'rewards', 'commissions']
+  const displayItems = Object.values(get(accountBalance, 'balance.commissions', {})).find(
+    (c: any) => c.amount
+  )
+    ? ['available', 'delegated', 'unbonding', 'rewards', 'commissions']
+    : ['available', 'delegated', 'unbonding', 'rewards']
   return (
     <>
       <Card className={classes.container}>
