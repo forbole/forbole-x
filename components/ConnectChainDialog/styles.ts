@@ -20,12 +20,13 @@ const useStyles = makeStyles(
     selectionBox: {
       border: `1px solid ${theme.palette.grey[200]}`,
       borderRadius: theme.shape.borderRadius,
-      height: theme.spacing(32),
       padding: theme.spacing(2, 4),
+      marginBottom: theme.spacing(2),
       display: 'flex',
-      flexDirection: 'column',
+      flexDirection: 'row',
       width: '100%',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
       '&:hover': {
         border: `1px solid ${theme.palette.grey[300]}`,
       },

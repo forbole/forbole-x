@@ -15,10 +15,8 @@ interface GeneralState {
   favAddresses: FavAddress[]
   setCurrency?: React.Dispatch<React.SetStateAction<Currency>>
   setTheme?: React.Dispatch<React.SetStateAction<Theme>>
-  setFavValidators?: React.Dispatch<React.SetStateAction<FavValidators>>
   addFavValidators?: (id: string) => void
   deleteFavValidators?: (id: string) => void
-  setFavAddresses?: React.Dispatch<React.SetStateAction<FavAddress[]>>
   addFavAddresses?: (n: FavAddress) => void
   deleteFavAddresses?: (id: string) => void
   updateFavAddresses?: (n: FavAddress) => void
@@ -108,11 +106,9 @@ const GeneralProvider: React.FC = ({ children }) => {
         alwaysRequirePassword,
         setAlwaysRequirePassword,
         favValidators,
-        setFavValidators,
         addFavValidators,
         deleteFavValidators,
         favAddresses,
-        setFavAddresses,
         addFavAddresses,
         deleteFavAddresses,
         updateFavAddresses,
