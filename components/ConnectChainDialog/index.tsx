@@ -119,6 +119,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
             chainId: connectableChains[chain].chainId,
             feeDenom: connectableChains[chain].feeDenom,
             isPrivateKey: !!privateKey,
+            keplrChainInfo: connectableChains[chain].keplrChainInfo,
           },
           ledgerTransport,
           isKeplr,

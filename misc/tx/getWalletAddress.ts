@@ -2,6 +2,8 @@ import { DirectSecp256k1HdWallet, DirectSecp256k1Wallet } from '@cosmjs/proto-si
 import { stringToPath } from '@cosmjs/crypto'
 import { LedgerSigner } from '@cosmjs/ledger-amino'
 import TerraApp from '@terra-money/ledger-terra-js'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ChainInfo } from '@keplr-wallet/types'
 
 export interface WalletOption {
   coinType?: number
@@ -13,6 +15,7 @@ export interface WalletOption {
   chainId?: string
   feeDenom?: string
   isPrivateKey?: boolean
+  keplrChainInfo?: ChainInfo
 }
 
 const getWalletAddress = async (

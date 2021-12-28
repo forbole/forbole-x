@@ -16,11 +16,12 @@ import {
 import { signatureImport } from 'secp256k1'
 import get from 'lodash/get'
 import { sortedJsonStringify } from '@cosmjs/amino/build/signdoc'
+import { ChainInfo } from '@keplr-wallet/types'
 import { WalletOption } from './getWalletAddress'
 
 let terraStation: Extension
 
-const signProofWithTerraStation = (tx) =>
+const signProofWithTerraStation = (tx: any) =>
   new Promise((resolve, reject) => {
     if (!terraStation) {
       terraStation = new Extension()
@@ -46,6 +47,30 @@ const signProofWithTerraStation = (tx) =>
       })
     })
   })
+
+const signProofWithKeplr = async (proof: any, chainId: string, keplrChainInfo: ChainInfo) => {
+  try {
+    if (!window.keplr) {
+      throw new Error('no keplr')
+    }
+    await window.keplr.enable(chainId)
+    const signer = window.keplr.getOfflineSigner(chainId)
+    const [account] = await signer.getAccounts()
+    const result = await signer.signAmino(account.address, proof)
+    return { account, result }
+  } catch (err) {
+    if (err.message.includes('There is no chain info') && keplrChainInfo) {
+      // Suggest chain
+      await window.keplr.experimentalSuggestChain(keplrChainInfo)
+      await window.keplr.enable(chainId)
+      const signer = window.keplr.getOfflineSigner(chainId)
+      const [account] = await signer.getAccounts()
+      const result = await signer.signAmino(account.address, proof)
+      return { account, result }
+    }
+    throw err
+  }
+}
 
 const generateProof = async (
   signerAddress: string,
@@ -113,13 +138,11 @@ const generateProof = async (
   }
 
   if (isKeplr) {
-    if (!window.keplr) {
-      throw new Error('no keplr')
-    }
-    await window.keplr.enable(option.chainId)
-    const signer = window.keplr.getOfflineSigner(option.chainId)
-    const [keplrAccount] = await signer.getAccounts()
-    const result = await signer.signAmino(keplrAccount.address, proof)
+    const { account, result } = await signProofWithKeplr(
+      proof,
+      option.chainId,
+      option.keplrChainInfo
+    )
 
     return {
       proof: {
@@ -130,7 +153,7 @@ const generateProof = async (
         },
         signature: Buffer.from(result.signature.signature, 'base64').toString('hex'),
       },
-      address: keplrAccount.address,
+      address: account.address,
     }
   }
 

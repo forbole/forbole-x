@@ -108,6 +108,46 @@ const connectableChains = {
     ledgerAppNames: ['band', 'cosmos'],
     chainId: 'laozi-mainnet',
     feeDenom: 'uband',
+    keplrChainInfo: {
+      rpc: 'https://rpc.band.forbole.com:443',
+      rest: 'https://lcd.band.forbole.com:443',
+      chainId: 'laozi-mainnet',
+      chainName: 'Band Protocol',
+      stakeCurrency: {
+        coinDenom: 'BAND',
+        coinMinimalDenom: 'uband',
+        coinDecimals: 6,
+        coinGeckoId: 'band-protocol',
+      },
+      bip44: {
+        coinType: 494,
+      },
+      bech32Config: {
+        bech32PrefixAccAddr: 'band',
+        bech32PrefixAccPub: 'bandpub',
+        bech32PrefixValAddr: 'bandvaloper',
+        bech32PrefixValPub: 'bandvaloperpub',
+        bech32PrefixConsAddr: 'bandvalcons',
+        bech32PrefixConsPub: 'bandvalconspub',
+      },
+      currencies: [
+        {
+          coinDenom: 'BAND',
+          coinMinimalDenom: 'uband',
+          coinDecimals: 6,
+          coinGeckoId: 'band-protocol',
+        },
+      ],
+      feeCurrencies: [
+        {
+          coinDenom: 'BAND',
+          coinMinimalDenom: 'uband',
+          coinDecimals: 6,
+          coinGeckoId: 'band-protocol',
+        },
+      ],
+      coinType: 494,
+    },
   },
   emoney: {
     name: 'e-Money',
