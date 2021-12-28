@@ -32,6 +32,7 @@ const ShowAddressOnLedgerDialog: React.FC<ShowAddressOnLedgerDialogProps> = ({
         <CloseIcon {...iconProps} />
       </IconButton>
       <ConnectLedgerDialogContent
+        account={account}
         onConnect={async (transport) => {
           const crypto = cryptocurrencies[account.crypto]
           await getWalletAddress(
