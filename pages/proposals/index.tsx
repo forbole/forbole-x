@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Button, Menu, MenuItem, Typography, Avatar, useTheme } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
-import { gql, useSubscription } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import Link from 'next/link'
 import Layout from '../../components/Layout'
 import ProposalTable from '../../components/ProposalTable'
@@ -21,7 +21,7 @@ const Proposals: React.FC = () => {
   const [activeCrypto, setActiveCrypto] = React.useState(Object.keys(cryptocurrencies)[0])
   const crypto = cryptocurrencies[activeCrypto]
 
-  const { data: proposalData } = useSubscription(
+  const { data: proposalData } = useQuery(
     gql`
       ${getProposals(activeCrypto)}
     `

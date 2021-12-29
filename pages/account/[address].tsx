@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import get from 'lodash/get'
 import keyBy from 'lodash/keyBy'
-import { gql, useQuery, useSubscription } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import AccountAvatar from '../../components/AccountAvatar'
 import AccountDetailCard from '../../components/AccountDetailCard'
 import Layout from '../../components/Layout'
@@ -46,12 +46,13 @@ const Account: React.FC = () => {
   const wallet = wallets.filter((x) => x.id === account?.walletId)[0]
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
 
-  const { data: validatorsData } = useSubscription(
+  const { data: validatorsData } = useQuery(
     gql`
       ${getValidators(crypto.name)}
-    `
+    `,
+    { pollInterval: 3000 }
   )
-  const { data: balanceData } = useSubscription(
+  const { data: balanceData } = useQuery(
     gql`
       ${getLatestAccountBalance(crypto.name)}
     `,
@@ -59,9 +60,10 @@ const Account: React.FC = () => {
       variables: {
         address: account ? account.address : '',
       },
+      pollInterval: 3000,
     }
   )
-  const { data: redelegationsData } = useSubscription(
+  const { data: redelegationsData } = useQuery(
     gql`
       ${getRedelegations(crypto.name)}
     `,
@@ -69,6 +71,7 @@ const Account: React.FC = () => {
       variables: {
         address: account ? account.address : '',
       },
+      pollInterval: 3000,
     }
   )
   const { data: transactionsData } = useQuery(
@@ -81,19 +84,19 @@ const Account: React.FC = () => {
       },
     }
   )
-  const { data: profileData } = useSubscription(
+  const { data: profileData } = useQuery(
     gql`
       ${getProfile(crypto.name)}
     `,
-    { variables: { address: account ? account.address : '' } }
+    { variables: { address: account ? account.address : '' }, pollInterval: 3000 }
   )
-  const { data: chainConnectionsData } = useSubscription(
+  const { data: chainConnectionsData } = useQuery(
     gql`
       ${getChainConnections(crypto.name)}
     `,
-    { variables: { address: account ? account.address : '' } }
+    { variables: { address: account ? account.address : '' }, pollInterval: 3000 }
   )
-  const { data: vestingAccountData } = useSubscription(
+  const { data: vestingAccountData } = useQuery(
     gql`
       ${getVestingAccount(crypto.name)}
     `,

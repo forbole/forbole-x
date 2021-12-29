@@ -1,5 +1,5 @@
 export const getProfile = (crypto: string): string => `
-  subscription Profile($address: String!) {
+  query Profile($address: String!) {
     profile(where: {address: {_eq: $address}}) {
       bio
       cover_pic
