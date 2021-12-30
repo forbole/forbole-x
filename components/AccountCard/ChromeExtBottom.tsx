@@ -44,7 +44,7 @@ const ChromeExtBottom: React.FC<ChromeExtBottomProps> = ({
     gql`
       ${getValidators(account.crypto)}
     `,
-    { pollInterval: 3000 }
+    { pollInterval: 5000 }
   )
   const validators = React.useMemo(
     () => transformValidatorsWithTokenAmount(validatorsData, balanceData),

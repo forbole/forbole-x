@@ -30,7 +30,7 @@ const AccountRow: React.FC<AccountRowProps> = ({ account }) => {
     gql`
       ${getLatestAccountBalance(account.crypto)}
     `,
-    { variables: { address: account.address }, pollInterval: 3000 }
+    { variables: { address: account.address }, pollInterval: 5000 }
   )
   const { tokenAmounts, usdBalance } = React.useMemo(() => {
     const accountBalance = transformGqlAcountBalance(balanceData, Date.now())

@@ -72,13 +72,13 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
     gql`
       ${getLatestAccountBalance(account.crypto)}
     `,
-    { variables: { address: account.address }, pollInterval: 3000 }
+    { variables: { address: account.address }, pollInterval: 5000 }
   )
   const { data: validatorsData } = useQuery(
     gql`
       ${getValidators(crypto.name)}
     `,
-    { pollInterval: 3000 }
+    { pollInterval: 5000 }
   )
 
   const { tokenAmounts, usdBalance, availableTokens, validators } = React.useMemo(() => {
