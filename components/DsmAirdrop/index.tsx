@@ -1,9 +1,8 @@
 import { Box, Card, Typography } from '@material-ui/core'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useTranslation from 'next-translate/useTranslation'
-import { useSubscription, gql } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import axios from 'axios'
-import get from 'lodash/get'
 import { uniqBy } from 'lodash'
 import useStateHistory from '../../misc/useStateHistory'
 import { useStyles } from './styles'
@@ -16,7 +15,6 @@ import { getChainConnections } from '../../graphql/queries/chainConnections'
 import ClaimableAmount from './ClaimableAmount'
 import AirdropResult from './AirdropResult'
 import CheckAirdrop from './CheckAirdrop'
-import connectableChains from '../../misc/connectableChains'
 import ConnectChainDialog from '../ConnectChainDialog'
 import ProfileDialog from '../ProfileDialog'
 
@@ -50,17 +48,17 @@ const DsmAirdrop: React.FC = () => {
   )
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
 
-  const { data: profileData, loading } = useSubscription(
+  const { data: profileData, loading } = useQuery(
     gql`
       ${getProfile(crypto.name)}
     `,
-    { variables: { address: account ? account.address : '' } }
+    { variables: { address: account ? account.address : '' }, pollInterval: 3000 }
   )
-  const { data: chainConnectionsData, loading: chainConnectionsLoading } = useSubscription(
+  const { data: chainConnectionsData, loading: chainConnectionsLoading } = useQuery(
     gql`
       ${getChainConnections(crypto.name)}
     `,
-    { variables: { address: account ? account.address : '' } }
+    { variables: { address: account ? account.address : '' }, pollInterval: 3000 }
   )
 
   const profile = React.useMemo(() => transformProfile(profileData), [profileData])

@@ -2,7 +2,7 @@ import { Breadcrumbs, Link as MLink, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { gql, useSubscription } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import React from 'react'
 import get from 'lodash/get'
 import Layout from '../../../components/Layout'
@@ -23,7 +23,7 @@ const Proposal: React.FC = () => {
   const { t } = useTranslation('common')
   const { id, crypto: cryptoId } = router.query
   const crypto = cryptocurrencies[String(cryptoId)]
-  const { data: proposalData } = useSubscription(
+  const { data: proposalData } = useQuery(
     gql`
       ${getProposal(crypto.name)}
     `,
@@ -33,35 +33,42 @@ const Proposal: React.FC = () => {
       },
     }
   )
-  const { data: depositParamsData } = useSubscription(
+  const { data: depositParamsData } = useQuery(
     gql`
       ${getDepositParams(crypto.name)}
-    `
+    `,
+    { pollInterval: 3000 }
   )
 
-  const { data: balanceData } = useSubscription(
+  const { data: balanceData } = useQuery(
     gql`
       ${getLatestAccountBalance(crypto.name)}
     `,
-    { variables: { address: get(proposalData, 'proposal[0].proposer_address') } }
+    {
+      variables: { address: get(proposalData, 'proposal[0].proposer_address') },
+      pollInterval: 3000,
+    }
   )
 
-  const { data: proporslReaultData } = useSubscription(
+  const { data: proporslReaultData } = useQuery(
     gql`
       ${getProposalResult(crypto.name)}
     `,
-    { variables: { id } }
+    { variables: { id }, pollInterval: 3000 }
   )
 
-  const { data: voteDetailData } = useSubscription(
+  const { data: voteDetailData } = useQuery(
     gql`
       ${getVoteDetail(crypto.name)}
     `,
-    { variables: { id } }
+    { variables: { id }, pollInterval: 3000 }
   )
-  const { data: denomsData } = useSubscription(gql`
-    ${getTokensPrices(crypto.name)}
-  `)
+  const { data: denomsData } = useQuery(
+    gql`
+      ${getTokensPrices(crypto.name)}
+    `,
+    { pollInterval: 3000 }
+  )
   const denoms = get(denomsData, 'token_price', [])
 
   const proposal = transformProposal(proposalData, balanceData, depositParamsData)

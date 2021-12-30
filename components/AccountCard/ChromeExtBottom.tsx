@@ -1,7 +1,7 @@
 import { Box, Typography, Divider, Button } from '@material-ui/core'
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
-import { useSubscription, gql } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import useStyles from './styles'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import {
@@ -40,10 +40,11 @@ const ChromeExtBottom: React.FC<ChromeExtBottomProps> = ({
   const [withdrawRewardsDialogOpen, setWithdrawRewardsDialogOpen] = React.useState(false)
   const [sendDialogOpen, setSendDialogOpen] = React.useState(false)
 
-  const { data: validatorsData } = useSubscription(
+  const { data: validatorsData } = useQuery(
     gql`
       ${getValidators(account.crypto)}
-    `
+    `,
+    { pollInterval: 3000 }
   )
   const validators = React.useMemo(
     () => transformValidatorsWithTokenAmount(validatorsData, balanceData),

@@ -1,5 +1,5 @@
 export const getValidators = (crypto: string): string => `
-subscription Validators {
+query Validators {
   validator(where: {validator_info: {operator_address: {_neq: ""}}}) {
     self_delegations(limit: 1, order_by: {height: desc}) {
       amount
