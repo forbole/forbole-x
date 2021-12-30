@@ -72,7 +72,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
     gql`
       ${getTokensPrices(crypto)}
     `,
-    { pollInterval: 3000 }
+    { pollInterval: 5000 }
   )
   const denoms = get(denomsData, 'token_price', [])
   const signerInfo = useSignerInfo(account)
@@ -172,7 +172,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
       variables: {
         addresses: validatorsAddresses,
       },
-      pollInterval: 3000,
+      pollInterval: 5000,
     }
   )
 

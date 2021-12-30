@@ -25,7 +25,7 @@ const Delegate: React.FC = () => {
     gql`
       ${getValidators(crypto.name)}
     `,
-    { pollInterval: 3000 }
+    { pollInterval: 5000 }
   )
   const validators = transformValidators(data)
 
@@ -33,7 +33,7 @@ const Delegate: React.FC = () => {
     gql`
       ${getLatestAccountBalance(crypto.name)}
     `,
-    { variables: { address: activeAccount ? activeAccount.address : '' }, pollInterval: 3000 }
+    { variables: { address: activeAccount ? activeAccount.address : '' }, pollInterval: 5000 }
   )
   const availableTokens = get(balanceData, 'account[0].available[0]', {
     coins: [],
