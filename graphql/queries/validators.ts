@@ -33,7 +33,7 @@ query Validators {
 `
 
 export const getValidatorsByAddresses = (crypto: string): string => `
-subscription Validators($addresses: [String!]) {
+query Validators($addresses: [String!]) {
   validator(where: {validator_info: {operator_address: { _in: $addresses }}}) {
     info: validator_info {
       operator_address
