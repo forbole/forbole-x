@@ -117,7 +117,13 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
           }
         }}
       >
-        <Box mb={3} display="flex" alignItems="center" justifyContent="space-between">
+        <Box
+          mb={3}
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          className={classes.account}
+        >
           <AccountAvatar account={account} hideAddress />
           <Button
             id="button"
