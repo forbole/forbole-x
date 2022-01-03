@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@alfonmga/react-lottie-light-ts@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@alfonmga/react-lottie-light-ts/-/react-lottie-light-ts-0.0.1.tgz#06f99ba72c0b9d148004d7261893e909dd786d45"
+  integrity sha512-rdSuaCyWZ2Tq/UR9w3kkrTSoQCcUJjf/jSG2RNEL8615T1pgMk92kKJOxY0Y3rmuWj5Nn8S7/IQ4mDTNWXCjgQ==
+  dependencies:
+    lottie-web "5.5.9"
+
 "@apollo/client@^3.3.12":
   version "3.4.16"
   resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.4.16.tgz#67090d5655aa843fa64d26f1913315e384a5fa0f"
@@ -6906,6 +6913,11 @@ loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
+
+lottie-web@5.5.9:
+  version "5.5.9"
+  resolved "https://registry.yarnpkg.com/lottie-web/-/lottie-web-5.5.9.tgz#f8775e8c36dfada428f9acea826ab674750419a8"
+  integrity sha512-3Zdxnuyi6WXnMj+0ZfwDd17EXCM87Hcbhd+sVFq6EPGfkVoGzoIkZt9OafcgXw4mzjyILOkPDLaBumrgGKoCaw==
 
 lru-cache@^6.0.0:
   version "6.0.0"
