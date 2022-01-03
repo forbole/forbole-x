@@ -34,7 +34,6 @@ interface AccountAvatarProps {
   ledgerIconDisabled?: boolean
   titleProps?: TypographyProps
   avatarSize?: number
-  className?: string
 }
 
 const AccountAvatar: React.FC<AccountAvatarProps> = ({
