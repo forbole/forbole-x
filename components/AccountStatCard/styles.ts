@@ -16,6 +16,10 @@ const useStyles = makeStyles(
     timeRangeButton: {
       borderColor: theme.palette.iconBorder,
       margin: theme.spacing(0, 1),
+      // width: '30%',
+    },
+    account: {
+      // width: '70%',
     },
   }),
   {
