@@ -101,7 +101,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
     },
     {
       label: 'name',
-      display: 'moniker',
+      display: 'validator',
       sort: true,
     },
     // {
