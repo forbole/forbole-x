@@ -2,6 +2,7 @@ import React from 'react'
 import invoke from 'lodash/invoke'
 import qs from 'query-string'
 import { useRouter } from 'next/router'
+import lzutf8 from 'lzutf8'
 import useIsChromeExt from '../useIsChromeExt'
 
 const useSendTransaction = (): ((
@@ -24,7 +25,9 @@ const useSendTransaction = (): ((
           ...currentQuery,
           password,
           address,
-          transactionData: JSON.stringify(transactionData),
+          transactionData: lzutf8.compress(JSON.stringify(transactionData), {
+            outputEncoding: 'Base64',
+          }),
         }
         router.push(qs.stringifyUrl({ url, query }))
       } else {
