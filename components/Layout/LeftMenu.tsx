@@ -12,7 +12,8 @@ import {
 } from '@material-ui/core'
 import Link from 'next/link'
 import { Lottie } from '@alfonmga/react-lottie-light-ts'
-import animationJsonData from '../../assets/lotties/starred-account-animation.json'
+import DarkModeAnimationJsonData from '../../assets/lotties/starred-account-animation-dark.json'
+import LightModeAnimationJsonData from '../../assets/lotties/starred-account-animation-light.json'
 import OverviewIcon from '../../assets/images/icons/icon_overview.svg'
 import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg'
 import DelegateIcon from '../../assets/images/icons/icon_delegate_08.svg'
@@ -167,7 +168,12 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
             height="auto"
             className="lottie-container basic"
             style={{ display: favAccount || !isMenuExpanded ? 'none' : 'block' }}
-            config={{ animationData: animationJsonData, loop: true, autoplay: true }}
+            config={{
+              animationData:
+                theme === 'light' ? LightModeAnimationJsonData : DarkModeAnimationJsonData,
+              loop: true,
+              autoplay: true,
+            }}
           />
           <ListItemText
             primary={t('manageAccounts')}
