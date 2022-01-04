@@ -22,7 +22,7 @@ const useStyles = makeStyles(
       height: '100%',
     },
     menuItems: {
-      height: '70%',
+      height: '60%',
       overflowY: 'auto',
       overflowX: 'hidden',
     },
@@ -35,9 +35,10 @@ const useStyles = makeStyles(
       whiteSpace: 'nowrap',
     },
     favMenu: {
-      height: '30%',
+      height: '40%',
       overflowY: 'auto',
       overflowX: 'hidden',
+      marginBottom: theme.spacing(4),
     },
     starredAccounts: {
       transition: 'display 0.2s ease-in-out',
@@ -60,7 +61,7 @@ const useStyles = makeStyles(
       hyphens: 'auto',
     },
     starButton: {
-      marginTop: theme.spacing(3),
+      marginTop: theme.spacing(2),
       marginLeft: theme.spacing(2),
       paddingLeft: theme.spacing(3),
       paddingRight: theme.spacing(3),

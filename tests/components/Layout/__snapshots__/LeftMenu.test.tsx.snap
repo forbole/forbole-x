@@ -293,6 +293,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         style={
           Object {
             "display": "block",
+            "marginBottom": 8,
           }
         }
       >
@@ -303,6 +304,16 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         </span>
       </div>
       <div
+        className="lottie-container basic"
+        style={
+          Object {
+            "display": "block",
+            "height": "auto",
+            "width": "auto",
+          }
+        }
+      />
+      <div
         className="MuiListItemText-root HookGlobalStyles-manageAccounts-8"
         style={
           Object {
@@ -311,7 +322,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         }
       >
         <span
-          className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+          className="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
         >
           common:manageAccounts
         </span>
@@ -629,6 +640,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         style={
           Object {
             "display": "block",
+            "marginBottom": 8,
           }
         }
       >
@@ -639,6 +651,16 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         </span>
       </div>
       <div
+        className="lottie-container basic"
+        style={
+          Object {
+            "display": "block",
+            "height": "auto",
+            "width": "auto",
+          }
+        }
+      />
+      <div
         className="MuiListItemText-root HookGlobalStyles-manageAccounts-8"
         style={
           Object {
@@ -647,7 +669,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         }
       >
         <span
-          className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+          className="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
         >
           common:manageAccounts
         </span>

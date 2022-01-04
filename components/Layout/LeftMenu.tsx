@@ -11,6 +11,9 @@ import {
   useTheme,
 } from '@material-ui/core'
 import Link from 'next/link'
+import { Lottie } from '@alfonmga/react-lottie-light-ts'
+import DarkModeAnimationJsonData from '../../assets/lotties/starred-account-animation-dark.json'
+import LightModeAnimationJsonData from '../../assets/lotties/starred-account-animation-light.json'
 import OverviewIcon from '../../assets/images/icons/icon_overview.svg'
 import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg'
 import DelegateIcon from '../../assets/images/icons/icon_delegate_08.svg'
@@ -155,12 +158,27 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
               color: 'textSecondary',
             }}
             className={classes.starredAccounts}
-            style={{ display: isMenuExpanded ? 'block' : 'none' }}
+            style={{
+              display: isMenuExpanded ? 'block' : 'none',
+              marginBottom: favAccount ? 0 : themeStyle.spacing(1),
+            }}
+          />
+          <Lottie
+            width="auto"
+            height="auto"
+            className="lottie-container basic"
+            style={{ display: favAccount || !isMenuExpanded ? 'none' : 'block' }}
+            config={{
+              animationData:
+                theme === 'light' ? LightModeAnimationJsonData : DarkModeAnimationJsonData,
+              loop: true,
+              autoplay: true,
+            }}
           />
           <ListItemText
             primary={t('manageAccounts')}
             primaryTypographyProps={{
-              variant: 'h6',
+              variant: 'body1',
               color: 'textSecondary',
             }}
             style={{ display: favAccount || !isMenuExpanded ? 'none' : 'block' }}
