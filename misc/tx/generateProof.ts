@@ -146,7 +146,7 @@ const generateProof = async (
 
     return {
       proof: {
-        plainText: Buffer.from(JSON.stringify(proof, null, 0)).toString('hex'),
+        plainText: Buffer.from(sortedJsonStringify(result.signed)).toString('hex'),
         pubKey: {
           typeUrl: '/cosmos.crypto.secp256k1.PubKey',
           value: result.signature.pub_key.value,
