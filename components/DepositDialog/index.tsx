@@ -34,7 +34,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ crypto, open, onClose, pr
     gql`
       ${getLatestAccountBalance(crypto.name)}
     `,
-    { variables: { address }, pollInterval: 5000 }
+    { variables: { address }, pollInterval: 15000 }
   )
 
   const availableTokens = get(balanceData, 'account[0].available[0]', {

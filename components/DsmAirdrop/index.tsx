@@ -52,13 +52,13 @@ const DsmAirdrop: React.FC = () => {
     gql`
       ${getProfile(crypto.name)}
     `,
-    { variables: { address: account ? account.address : '' }, pollInterval: 5000 }
+    { variables: { address: account ? account.address : '' }, pollInterval: 15000 }
   )
   const { data: chainConnectionsData, loading: chainConnectionsLoading } = useQuery(
     gql`
       ${getChainConnections(crypto.name)}
     `,
-    { variables: { address: account ? account.address : '' }, pollInterval: 5000 }
+    { variables: { address: account ? account.address : '' }, pollInterval: 15000 }
   )
 
   const profile = React.useMemo(() => transformProfile(profileData), [profileData])

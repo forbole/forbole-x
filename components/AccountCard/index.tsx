@@ -42,14 +42,13 @@ const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled, 
     gql`
       ${getLatestAccountBalance(account.crypto)}
     `,
-    { variables: { address: account.address }, pollInterval: 5000 }
+    { variables: { address: account.address }, pollInterval: 15000 }
   )
 
   const { data: inflationData } = useQuery(
     gql`
       ${getInflation(account.crypto)}
-    `,
-    { pollInterval: 5000 }
+    `
   )
   const inflation = get(inflationData, 'inflation[0].value', 0)
 

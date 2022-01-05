@@ -43,8 +43,7 @@ const ChromeExtBottom: React.FC<ChromeExtBottomProps> = ({
   const { data: validatorsData } = useQuery(
     gql`
       ${getValidators(account.crypto)}
-    `,
-    { pollInterval: 5000 }
+    `
   )
   const validators = React.useMemo(
     () => transformValidatorsWithTokenAmount(validatorsData, balanceData),
