@@ -19,19 +19,20 @@ const useSendTransaction = (): ((
       address: string,
       transactionData: { msgs: TransactionMsg[]; memo: string }
     ) => {
+      const compressedTxData = lzutf8.compress(JSON.stringify(transactionData), {
+        outputEncoding: 'Base64',
+      })
       if (isChromeExt) {
         const { url, query: currentQuery } = qs.parseUrl(router.asPath)
         const query = {
           ...currentQuery,
           password,
           address,
-          transactionData: lzutf8.compress(JSON.stringify(transactionData), {
-            outputEncoding: 'Base64',
-          }),
+          transactionData: compressedTxData,
         }
         router.push(qs.stringifyUrl({ url, query }))
       } else {
-        await invoke(window, 'forboleX.sendTransaction', password, address, transactionData)
+        await invoke(window, 'forboleX.sendTransaction', password, address, compressedTxData)
       }
     },
     [isChromeExt, router]
