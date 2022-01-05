@@ -19,7 +19,7 @@ export const useAddressSendDialogHook = ({ account, crypto }: useAddressSendDial
         variables: {
           address: account?.address || '',
         },
-        pollInterval: 5000,
+        pollInterval: 15000,
       }
     )
     const availableTokens = get(balanceData, 'account[0].available[0]', {

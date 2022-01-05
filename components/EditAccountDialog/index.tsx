@@ -50,7 +50,7 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, on
     gql`
       ${getWithdrawAddress(account.crypto)}
     `,
-    { variables: { address: account.address }, pollInterval: 5000 }
+    { variables: { address: account.address }, pollInterval: 15000 }
   )
   const withdrawAddress = get(data, 'delegation_reward[0].withdraw_address', account.address)
 

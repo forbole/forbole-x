@@ -37,8 +37,7 @@ const Account: React.FC = () => {
   const { data: validatorsData } = useQuery(
     gql`
       ${getValidators(crypto.name)}
-    `,
-    { pollInterval: 5000 }
+    `
   )
   const { data: balanceData } = useQuery(
     gql`
@@ -48,7 +47,7 @@ const Account: React.FC = () => {
       variables: {
         address: address || '',
       },
-      pollInterval: 5000,
+      pollInterval: 15000,
     }
   )
   const { data: redelegationsData } = useQuery(
@@ -59,7 +58,7 @@ const Account: React.FC = () => {
       variables: {
         address: address || '',
       },
-      pollInterval: 5000,
+      pollInterval: 15000,
     }
   )
 

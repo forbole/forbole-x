@@ -49,8 +49,7 @@ const Account: React.FC = () => {
   const { data: validatorsData } = useQuery(
     gql`
       ${getValidators(crypto.name)}
-    `,
-    { pollInterval: 5000 }
+    `
   )
   const { data: balanceData } = useQuery(
     gql`
@@ -60,7 +59,7 @@ const Account: React.FC = () => {
       variables: {
         address: account ? account.address : '',
       },
-      pollInterval: 5000,
+      pollInterval: 15000,
     }
   )
   const { data: redelegationsData } = useQuery(
@@ -71,7 +70,7 @@ const Account: React.FC = () => {
       variables: {
         address: account ? account.address : '',
       },
-      pollInterval: 5000,
+      pollInterval: 15000,
     }
   )
   const { data: transactionsData } = useQuery(
@@ -88,13 +87,13 @@ const Account: React.FC = () => {
     gql`
       ${getProfile(crypto.name)}
     `,
-    { variables: { address: account ? account.address : '' }, pollInterval: 5000 }
+    { variables: { address: account ? account.address : '' }, pollInterval: 15000 }
   )
   const { data: chainConnectionsData } = useQuery(
     gql`
       ${getChainConnections(crypto.name)}
     `,
-    { variables: { address: account ? account.address : '' }, pollInterval: 5000 }
+    { variables: { address: account ? account.address : '' }, pollInterval: 15000 }
   )
   const { data: vestingAccountData } = useQuery(
     gql`

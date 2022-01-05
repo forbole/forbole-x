@@ -37,7 +37,7 @@ const Proposal: React.FC = () => {
     gql`
       ${getDepositParams(crypto.name)}
     `,
-    { pollInterval: 5000 }
+    { pollInterval: 15000 }
   )
 
   const { data: balanceData } = useQuery(
@@ -46,7 +46,7 @@ const Proposal: React.FC = () => {
     `,
     {
       variables: { address: get(proposalData, 'proposal[0].proposer_address') },
-      pollInterval: 5000,
+      pollInterval: 15000,
     }
   )
 
@@ -54,20 +54,19 @@ const Proposal: React.FC = () => {
     gql`
       ${getProposalResult(crypto.name)}
     `,
-    { variables: { id }, pollInterval: 5000 }
+    { variables: { id }, pollInterval: 15000 }
   )
 
   const { data: voteDetailData } = useQuery(
     gql`
       ${getVoteDetail(crypto.name)}
     `,
-    { variables: { id }, pollInterval: 5000 }
+    { variables: { id }, pollInterval: 15000 }
   )
   const { data: denomsData } = useQuery(
     gql`
       ${getTokensPrices(crypto.name)}
-    `,
-    { pollInterval: 5000 }
+    `
   )
   const denoms = get(denomsData, 'token_price', [])
 
