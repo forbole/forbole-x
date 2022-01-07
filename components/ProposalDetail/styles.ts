@@ -63,9 +63,8 @@ export const useGetStyles = (color?: string, status?: string) => {
           color: '#00000000',
         },
         vote: {
-          position: 'absolute',
-          bottom: '32px',
-          right: '32px',
+          float: 'right',
+          margin: theme.spacing(2, 0),
         },
         deposit: {
           position: 'absolute',
