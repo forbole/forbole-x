@@ -88,7 +88,8 @@ export const useGetStyles = (color?: string, status?: string) => {
         },
         tableRow: {
           '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.grey[50],
+            backgroundColor:
+              theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[100],
           },
           verticalAlign: 'baseline',
         },
@@ -143,6 +144,7 @@ export const useGetStyles = (color?: string, status?: string) => {
         detailTable: {
           '& th,td': {
             fontSize: theme.typography.body1.fontSize,
+            borderBottom: 'none',
           },
         },
       }),
