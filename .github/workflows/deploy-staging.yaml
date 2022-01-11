@@ -20,6 +20,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Replace .env File
+        run: mv .env.staging .env
       - name: Update env variables
         run: |
           sed -i 's/MAILGUN_USER=secret/MAILGUN_USER=${{ secrets.MAILGUN_USER }}/g' .env
