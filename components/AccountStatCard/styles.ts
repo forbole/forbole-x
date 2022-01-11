@@ -17,6 +17,11 @@ const useStyles = makeStyles(
       borderColor: theme.palette.iconBorder,
       margin: theme.spacing(0, 1),
     },
+    account: {
+      '& svg': {
+        overflow: 'visible',
+      },
+    },
   }),
   {
     name: 'HookGlobalStyles',

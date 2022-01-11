@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import get from 'lodash/get'
 import keyBy from 'lodash/keyBy'
-import { gql, useSubscription } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import { Box, Breadcrumbs, Link as MLink, Typography } from '@material-ui/core'
 import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation'
@@ -34,12 +34,12 @@ const Account: React.FC = () => {
   const crypto = addressDetail
     ? cryptocurrencies[addressDetail.crypto]
     : Object.values(cryptocurrencies)[0]
-  const { data: validatorsData } = useSubscription(
+  const { data: validatorsData } = useQuery(
     gql`
       ${getValidators(crypto.name)}
     `
   )
-  const { data: balanceData } = useSubscription(
+  const { data: balanceData } = useQuery(
     gql`
       ${getLatestAccountBalance(crypto.name)}
     `,
@@ -47,9 +47,10 @@ const Account: React.FC = () => {
       variables: {
         address: address || '',
       },
+      pollInterval: 15000,
     }
   )
-  const { data: redelegationsData } = useSubscription(
+  const { data: redelegationsData } = useQuery(
     gql`
       ${getRedelegations(crypto.name)}
     `,
@@ -57,10 +58,11 @@ const Account: React.FC = () => {
       variables: {
         address: address || '',
       },
+      pollInterval: 15000,
     }
   )
 
-  const { data: transactionsData } = useSubscription(
+  const { data: transactionsData } = useQuery(
     gql`
       ${getTransactions(crypto.name)}
     `,

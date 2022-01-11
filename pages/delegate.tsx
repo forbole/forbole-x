@@ -1,5 +1,5 @@
 import React from 'react'
-import { gql, useSubscription } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import { Box, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import get from 'lodash/get'
@@ -21,18 +21,18 @@ const Delegate: React.FC = () => {
     ? cryptocurrencies[activeAccount.crypto]
     : Object.values(cryptocurrencies)[0]
 
-  const { data } = useSubscription(
+  const { data } = useQuery(
     gql`
       ${getValidators(crypto.name)}
     `
   )
   const validators = transformValidators(data)
 
-  const { data: balanceData } = useSubscription(
+  const { data: balanceData } = useQuery(
     gql`
       ${getLatestAccountBalance(crypto.name)}
     `,
-    { variables: { address: activeAccount ? activeAccount.address : '' } }
+    { variables: { address: activeAccount ? activeAccount.address : '' }, pollInterval: 15000 }
   )
   const availableTokens = get(balanceData, 'account[0].available[0]', {
     coins: [],

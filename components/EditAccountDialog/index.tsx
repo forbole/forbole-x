@@ -3,7 +3,7 @@ import { Dialog, DialogTitle, IconButton, DialogContent, Box, Typography } from 
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import get from 'lodash/get'
-import { useSubscription, gql } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
@@ -46,11 +46,11 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, on
   const isMobile = useIsMobile()
   const sendTransaction = useSendTransaction()
 
-  const { data } = useSubscription(
+  const { data } = useQuery(
     gql`
       ${getWithdrawAddress(account.crypto)}
     `,
-    { variables: { address: account.address } }
+    { variables: { address: account.address }, pollInterval: 15000 }
   )
   const withdrawAddress = get(data, 'delegation_reward[0].withdraw_address', account.address)
 

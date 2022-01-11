@@ -30,6 +30,7 @@ import { CustomTheme } from '../../misc/theme'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 
 const MAX_ADDRESSES = 100
+let inputTimeout
 
 interface SelectAddressesProps {
   onSelect: (
@@ -128,7 +129,12 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
   ])
 
   React.useEffect(() => {
-    updateAddresses()
+    if (!isAdvance) {
+      updateAddresses()
+    } else {
+      clearTimeout(inputTimeout)
+      inputTimeout = setTimeout(updateAddresses, 500)
+    }
   }, [page, rowsPerPage, hdAccount, hdIndex, hdChange, isAdvance])
 
   return (
@@ -316,7 +322,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
       )}
       {isAdvance ? null : (
         <Box ml={2} mb={-2}>
-          <Button onClick={() => setIsAdvance(true)} color="primary">
+          <Button disabled={loading} onClick={() => setIsAdvance(true)} color="primary">
             {t('advanced account')}
           </Button>
         </Box>
@@ -328,9 +334,10 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
           color="primary"
           type="submit"
           disabled={
-            isAdvance
+            loading ||
+            (isAdvance
               ? !hdAddress.address || !!accounts.find((a) => a.address === hdAddress.address)
-              : selectedAddresses.length === 0
+              : selectedAddresses.length === 0)
           }
         >
           {t('next')}

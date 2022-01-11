@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation'
-import { gql, useSubscription } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import {
   Avatar,
   Box,
@@ -36,11 +36,11 @@ const StarredAccount: React.FC<StarredAccountProps> = ({ account }) => {
   const classes = useStyles()
   const crypto = cryptocurrencies[account.crypto]
   // Latest data
-  const { data: balanceData, loading } = useSubscription(
+  const { data: balanceData, loading } = useQuery(
     gql`
       ${getLatestAccountBalance(account.crypto)}
     `,
-    { variables: { address: account.address } }
+    { variables: { address: account.address }, pollInterval: 15000 }
   )
   const { tokenAmounts, usdBalance } = React.useMemo(() => {
     const accountBalance = transformGqlAcountBalance(balanceData, Date.now())

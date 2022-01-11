@@ -3,7 +3,7 @@ const getGqlDateFormat = (date: Date) => date.toISOString().split('.')[0]
 const now = getGqlDateFormat(new Date())
 
 export const getLatestAccountBalance = (crypto: string): string => `
-  subscription AccountBalance($address: String!) {
+  query AccountBalance($address: String!) {
     account(where: {address: {_eq: $address}}) {
       address
       available: account_balances(limit: 1, order_by: {height: desc}) {

@@ -1,9 +1,9 @@
 import { Box, Card, Typography } from '@material-ui/core'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useTranslation from 'next-translate/useTranslation'
-import { useSubscription, gql } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import axios from 'axios'
-import get from 'lodash/get'
+import { uniqBy } from 'lodash'
 import useStateHistory from '../../misc/useStateHistory'
 import { useStyles } from './styles'
 import CheckClaimable from './CheckClaimable'
@@ -15,7 +15,6 @@ import { getChainConnections } from '../../graphql/queries/chainConnections'
 import ClaimableAmount from './ClaimableAmount'
 import AirdropResult from './AirdropResult'
 import CheckAirdrop from './CheckAirdrop'
-import connectableChains from '../../misc/connectableChains'
 import ConnectChainDialog from '../ConnectChainDialog'
 import ProfileDialog from '../ProfileDialog'
 
@@ -49,17 +48,17 @@ const DsmAirdrop: React.FC = () => {
   )
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
 
-  const { data: profileData, loading } = useSubscription(
+  const { data: profileData, loading } = useQuery(
     gql`
       ${getProfile(crypto.name)}
     `,
-    { variables: { address: account ? account.address : '' } }
+    { variables: { address: account ? account.address : '' }, pollInterval: 15000 }
   )
-  const { data: chainConnectionsData, loading: chainConnectionsLoading } = useSubscription(
+  const { data: chainConnectionsData, loading: chainConnectionsLoading } = useQuery(
     gql`
       ${getChainConnections(crypto.name)}
     `,
-    { variables: { address: account ? account.address : '' } }
+    { variables: { address: account ? account.address : '' }, pollInterval: 15000 }
   )
 
   const profile = React.useMemo(() => transformProfile(profileData), [profileData])
@@ -75,6 +74,8 @@ const DsmAirdrop: React.FC = () => {
   const [totalDsmAllocated, setTotalDsmAllocated] = useState(0)
   const [totalDsmAllocatedLoading, setTotalDsmAllocatedLoading] = useState(false)
   const [airdropResponse, setAirdropResponse] = useState('')
+  const [connectedChainsStakingInfo, setConnectedChainStakingInfo] = useState([])
+  const [connectedChainsLpInfo, setConnectedChainLpInfo] = useState([])
 
   const [claimSuccess, setClaimSuccess] = useState(false)
   const [airdropConfig, setAirdropConfig] = useState({ airdrop_enabled: false })
@@ -111,6 +112,15 @@ const DsmAirdrop: React.FC = () => {
         .then(
           axios.spread((...responses) => {
             responses.forEach((res, i) => {
+              setConnectedChainStakingInfo((a) =>
+                uniqBy(
+                  [...a, ...(res.data.staking_infos ?? [])],
+                  (b: any) => b.address + b.chain_name
+                )
+              )
+              setConnectedChainLpInfo((a) =>
+                uniqBy([...a, ...(res.data.lp_infos ?? [])], (b: any) => b.address + b.chain_name)
+              )
               const chainClaimableAmount = [
                 ...(res.data.staking_infos ?? []),
                 ...(res.data.lp_infos ?? []),
@@ -169,6 +179,8 @@ const DsmAirdrop: React.FC = () => {
               }}
               amount={totalDsmAllocated}
               chainConnections={chainConnections}
+              connectedChainsStakingInfo={connectedChainsStakingInfo}
+              connectedChainsLpInfo={connectedChainsLpInfo}
               loading={totalDsmAllocatedLoading}
               setIsConnectChainDialogOpen={setIsConnectChainDialogOpen}
               externalAddress={externalAddress}
@@ -236,6 +248,7 @@ const DsmAirdrop: React.FC = () => {
         account={account}
         connections={chainConnections}
         open={isConnectChainDialogOpen}
+        shouldConnect
         onClose={() => {
           setIsConnectChainDialogOpen(false)
         }}

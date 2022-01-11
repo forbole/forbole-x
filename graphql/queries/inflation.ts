@@ -1,5 +1,5 @@
 export const getInflation = (crypto: string): string => `
-  subscription Inflation {
+  query Inflation {
     inflation(limit: 1, order_by: {height: desc}) {
       value
       height

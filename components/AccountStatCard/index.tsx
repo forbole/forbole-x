@@ -14,7 +14,7 @@ import DownIcon from '@material-ui/icons/ArrowDropDown'
 import useTranslation from 'next-translate/useTranslation'
 import get from 'lodash/get'
 import { useRouter } from 'next/router'
-import { gql, useSubscription } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
@@ -68,13 +68,13 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
     1
   )
   // Latest data
-  const { data: latestData } = useSubscription(
+  const { data: latestData } = useQuery(
     gql`
       ${getLatestAccountBalance(account.crypto)}
     `,
-    { variables: { address: account.address } }
+    { variables: { address: account.address }, pollInterval: 15000 }
   )
-  const { data: validatorsData } = useSubscription(
+  const { data: validatorsData } = useQuery(
     gql`
       ${getValidators(crypto.name)}
     `
@@ -116,7 +116,13 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
           }
         }}
       >
-        <Box mb={3} display="flex" alignItems="center" justifyContent="space-between">
+        <Box
+          mb={3}
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          className={classes.account}
+        >
           <AccountAvatar account={account} hideAddress />
           <Button
             id="button"

@@ -2,6 +2,7 @@ import React from 'react'
 import invoke from 'lodash/invoke'
 import qs from 'query-string'
 import { useRouter } from 'next/router'
+import lzutf8 from 'lzutf8'
 import useIsChromeExt from '../useIsChromeExt'
 
 const useSendTransaction = (): ((
@@ -18,17 +19,20 @@ const useSendTransaction = (): ((
       address: string,
       transactionData: { msgs: TransactionMsg[]; memo: string }
     ) => {
+      const compressedTxData = lzutf8.compress(JSON.stringify(transactionData), {
+        outputEncoding: 'Base64',
+      })
       if (isChromeExt) {
         const { url, query: currentQuery } = qs.parseUrl(router.asPath)
         const query = {
           ...currentQuery,
           password,
           address,
-          transactionData: JSON.stringify(transactionData),
+          transactionData: compressedTxData,
         }
         router.push(qs.stringifyUrl({ url, query }))
       } else {
-        await invoke(window, 'forboleX.sendTransaction', password, address, transactionData)
+        await invoke(window, 'forboleX.sendTransaction', password, address, compressedTxData)
       }
     },
     [isChromeExt, router]

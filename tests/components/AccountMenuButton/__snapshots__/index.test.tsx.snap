@@ -100,11 +100,33 @@ Array [
     </div>
   </div>,
   <div
+    account={
+      Object {
+        "address": "address",
+        "createdAt": 0,
+        "crypto": "DSM",
+        "fav": false,
+        "index": 0,
+        "name": "name",
+        "walletId": "123",
+      }
+    }
     id="ChangeAccountMonikerDialog"
     onClose={[Function]}
     open={false}
   />,
   <div
+    account={
+      Object {
+        "address": "address",
+        "createdAt": 0,
+        "crypto": "DSM",
+        "fav": false,
+        "index": 0,
+        "name": "name",
+        "walletId": "123",
+      }
+    }
     id="DeleteAccountDialog"
     onClose={[Function]}
     open={false}
@@ -221,11 +243,33 @@ Array [
     </div>
   </div>,
   <div
+    account={
+      Object {
+        "address": "address",
+        "createdAt": 0,
+        "crypto": "DSM",
+        "fav": false,
+        "index": 0,
+        "name": "name",
+        "walletId": "123",
+      }
+    }
     id="ChangeAccountMonikerDialog"
     onClose={[Function]}
     open={true}
   />,
   <div
+    account={
+      Object {
+        "address": "address",
+        "createdAt": 0,
+        "crypto": "DSM",
+        "fav": false,
+        "index": 0,
+        "name": "name",
+        "walletId": "123",
+      }
+    }
     id="DeleteAccountDialog"
     onClose={[Function]}
     open={false}
@@ -342,11 +386,33 @@ Array [
     </div>
   </div>,
   <div
+    account={
+      Object {
+        "address": "address",
+        "createdAt": 0,
+        "crypto": "DSM",
+        "fav": false,
+        "index": 0,
+        "name": "name",
+        "walletId": "123",
+      }
+    }
     id="ChangeAccountMonikerDialog"
     onClose={[Function]}
     open={false}
   />,
   <div
+    account={
+      Object {
+        "address": "address",
+        "createdAt": 0,
+        "crypto": "DSM",
+        "fav": false,
+        "index": 0,
+        "name": "name",
+        "walletId": "123",
+      }
+    }
     id="DeleteAccountDialog"
     onClose={[Function]}
     open={false}
@@ -463,11 +529,33 @@ Array [
     </div>
   </div>,
   <div
+    account={
+      Object {
+        "address": "address",
+        "createdAt": 0,
+        "crypto": "DSM",
+        "fav": false,
+        "index": 0,
+        "name": "name",
+        "walletId": "123",
+      }
+    }
     id="ChangeAccountMonikerDialog"
     onClose={[Function]}
     open={false}
   />,
   <div
+    account={
+      Object {
+        "address": "address",
+        "createdAt": 0,
+        "crypto": "DSM",
+        "fav": false,
+        "index": 0,
+        "name": "name",
+        "walletId": "123",
+      }
+    }
     id="DeleteAccountDialog"
     onClose={[Function]}
     open={true}
@@ -584,11 +672,33 @@ Array [
     </div>
   </div>,
   <div
+    account={
+      Object {
+        "address": "address",
+        "createdAt": 0,
+        "crypto": "DSM",
+        "fav": false,
+        "index": 0,
+        "name": "name",
+        "walletId": "123",
+      }
+    }
     id="ChangeAccountMonikerDialog"
     onClose={[Function]}
     open={false}
   />,
   <div
+    account={
+      Object {
+        "address": "address",
+        "createdAt": 0,
+        "crypto": "DSM",
+        "fav": false,
+        "index": 0,
+        "name": "name",
+        "walletId": "123",
+      }
+    }
     id="DeleteAccountDialog"
     onClose={[Function]}
     open={false}
@@ -706,11 +816,33 @@ Array [
     </div>
   </div>,
   <div
+    account={
+      Object {
+        "address": "address",
+        "createdAt": 0,
+        "crypto": "DSM",
+        "fav": false,
+        "index": 0,
+        "name": "name",
+        "walletId": "123",
+      }
+    }
     id="ChangeAccountMonikerDialog"
     onClose={[Function]}
     open={false}
   />,
   <div
+    account={
+      Object {
+        "address": "address",
+        "createdAt": 0,
+        "crypto": "DSM",
+        "fav": false,
+        "index": 0,
+        "name": "name",
+        "walletId": "123",
+      }
+    }
     id="DeleteAccountDialog"
     onClose={[Function]}
     open={false}
@@ -827,11 +959,33 @@ Array [
     </div>
   </div>,
   <div
+    account={
+      Object {
+        "address": "address",
+        "createdAt": 0,
+        "crypto": "DSM",
+        "fav": false,
+        "index": 0,
+        "name": "name",
+        "walletId": "123",
+      }
+    }
     id="ChangeAccountMonikerDialog"
     onClose={[Function]}
     open={false}
   />,
   <div
+    account={
+      Object {
+        "address": "address",
+        "createdAt": 0,
+        "crypto": "DSM",
+        "fav": false,
+        "index": 0,
+        "name": "name",
+        "walletId": "123",
+      }
+    }
     id="DeleteAccountDialog"
     onClose={[Function]}
     open={false}

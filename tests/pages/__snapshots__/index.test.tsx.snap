@@ -5,7 +5,6 @@ exports[`page: Home renders correctly 1`] = `
   activeItem="/"
   passwordRequired={true}
 >
-  <Banner />
   <div
     className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
   >

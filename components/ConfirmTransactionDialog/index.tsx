@@ -4,7 +4,7 @@ import React from 'react'
 import flatten from 'lodash/flatten'
 import keyBy from 'lodash/keyBy'
 import get from 'lodash/get'
-import { gql, useSubscription } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import useStateHistory from '../../misc/useStateHistory'
 import { formatTokenAmount, getTokenAmountFromDenoms, transformValidators } from '../../misc/utils'
 import useStyles from './styles'
@@ -68,9 +68,11 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const [errMsg, setErrMsg] = React.useState('')
   const [fee, setFee] = React.useState<any>({ amount: [{ amount: '0', denom: '' }], gas: '' })
 
-  const { data: denomsData } = useSubscription(gql`
-    ${getTokensPrices(crypto)}
-  `)
+  const { data: denomsData } = useQuery(
+    gql`
+      ${getTokensPrices(crypto)}
+    `
+  )
   const denoms = get(denomsData, 'token_price', [])
   const signerInfo = useSignerInfo(account)
   const transactionData = React.useMemo(() => {
@@ -161,7 +163,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
     }
   }, [transactionData, t, totalAmount, crypto, lang])
 
-  const { data: validatorsData } = useSubscription(
+  const { data: validatorsData } = useQuery(
     gql`
       ${getValidatorsByAddresses(crypto)}
     `,

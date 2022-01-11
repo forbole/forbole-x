@@ -2,7 +2,7 @@ import { Box, Card, Typography, useTheme, IconButton, CircularProgress } from '@
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
-import { gql, useSubscription } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import get from 'lodash/get'
 import StarIcon from '../../assets/images/icons/icon_star.svg'
 import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
@@ -38,14 +38,14 @@ const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled, 
   const { updateAccount } = useWalletsContext()
   const router = useRouter()
 
-  const { data, loading } = useSubscription(
+  const { data, loading } = useQuery(
     gql`
       ${getLatestAccountBalance(account.crypto)}
     `,
-    { variables: { address: account.address } }
+    { variables: { address: account.address }, pollInterval: 15000 }
   )
 
-  const { data: inflationData } = useSubscription(
+  const { data: inflationData } = useQuery(
     gql`
       ${getInflation(account.crypto)}
     `

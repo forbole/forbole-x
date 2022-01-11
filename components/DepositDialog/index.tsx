@@ -1,7 +1,7 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { gql, useSubscription } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import get from 'lodash/get'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
@@ -30,11 +30,11 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ crypto, open, onClose, pr
   const [loading, setLoading] = React.useState(false)
   const [address, setAddress] = React.useState('')
 
-  const { data: balanceData } = useSubscription(
+  const { data: balanceData } = useQuery(
     gql`
       ${getLatestAccountBalance(crypto.name)}
     `,
-    { variables: { address } }
+    { variables: { address }, pollInterval: 15000 }
   )
 
   const availableTokens = get(balanceData, 'account[0].available[0]', {

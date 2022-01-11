@@ -16,7 +16,7 @@ export const useStyles = makeStyles(
       overflowY: 'initial',
     },
     stageContent: {
-      maxWidth: theme.spacing(58),
+      maxWidth: theme.spacing(64),
       padding: theme.spacing(2),
     },
     stepsCard: {

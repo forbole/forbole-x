@@ -6,6 +6,8 @@ import MoreIcon from '../../assets/images/icons/icon_more.svg'
 import useIconProps from '../../misc/useIconProps'
 import ChangeAccountMonikerDialog from './ChangeAccountMonikerDialog'
 import DeleteAccountDialog from './DeleteAccountDialog'
+import { useWalletsContext } from '../../contexts/WalletsContext'
+import ShowAddressOnLedgerDialog from './ShowAddressOnLedgerDialog'
 
 const AccountMenuButton: React.FC<{
   account: Account
@@ -14,10 +16,13 @@ const AccountMenuButton: React.FC<{
   const { t } = useTranslation('common')
   const iconProps = useIconProps()
   const classes = useStyles()
+  const { wallets } = useWalletsContext()
+  const wallet = wallets.find((w) => w.id === account.walletId)
   const [anchor, setAnchor] = React.useState<Element>()
 
   const [changeAccountNameOpen, setChangeAccountNameOpen] = React.useState(false)
   const [deleteAccountOpen, setDeleteAccountOpen] = React.useState(false)
+  const [showAddressOnLedgerDialogOpen, setShowAddressOnLedgerDialogOpen] = React.useState(false)
 
   const onClose = React.useCallback(() => setAnchor(undefined), [setAnchor])
 
@@ -45,6 +50,18 @@ const AccountMenuButton: React.FC<{
         open={!!anchor}
         onClose={onClose}
       >
+        {wallet && wallet.type === 'ledger' ? (
+          <MenuItem
+            className={classes.menuItem}
+            button
+            onClick={() => {
+              setShowAddressOnLedgerDialogOpen(true)
+              onClose()
+            }}
+          >
+            {t('show address on ledger')}
+          </MenuItem>
+        ) : null}
         <MenuItem
           className={classes.menuItem}
           button
@@ -77,6 +94,11 @@ const AccountMenuButton: React.FC<{
       <DeleteAccountDialog
         open={deleteAccountOpen}
         onClose={() => setDeleteAccountOpen(false)}
+        account={account}
+      />
+      <ShowAddressOnLedgerDialog
+        open={showAddressOnLedgerDialogOpen}
+        onClose={() => setShowAddressOnLedgerDialogOpen(false)}
         account={account}
       />
     </>

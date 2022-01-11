@@ -1,5 +1,13 @@
 /* eslint-disable camelcase */
-import { Dialog, DialogTitle, IconButton, DialogContent, Box, Typography } from '@material-ui/core'
+import {
+  Dialog,
+  DialogTitle,
+  IconButton,
+  DialogContent,
+  Box,
+  Typography,
+  useTheme,
+} from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
@@ -25,6 +33,7 @@ interface SendDialogProps {
 const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open, onClose }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
+  const themeStyle = useTheme()
   const iconProps = useIconProps()
   const { password } = useWalletsContext()
   const isMobile = useIsMobile()
@@ -140,7 +149,11 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
         ) : (
           <DialogContent className={classes.dialogContent}>
             <Box justifyContent="center" display="flex" mt={6}>
-              {theme === 'light' ? <ImageDefaultLight /> : <ImageDefaultDark />}
+              {theme === 'light' ? (
+                <ImageDefaultLight width={themeStyle.spacing(25)} height={themeStyle.spacing(25)} />
+              ) : (
+                <ImageDefaultDark width={themeStyle.spacing(25)} height={themeStyle.spacing(25)} />
+              )}
             </Box>
             <Box textAlign="center" mt={4} mb={8}>
               <Typography>{t('no available token yet')}</Typography>

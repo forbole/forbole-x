@@ -3,6 +3,7 @@ import last from 'lodash/last'
 import cloneDeep from 'lodash/cloneDeep'
 import drop from 'lodash/drop'
 import keyBy from 'lodash/keyBy'
+import flatten from 'lodash/flatten'
 import { format, differenceInDays } from 'date-fns'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
 import { EnglishMnemonic } from '@cosmjs/crypto'
@@ -184,7 +185,7 @@ export const transformGqlAcountBalance = (data: any, timestamp: number): Account
       denoms
     ),
     commissions: getTokenAmountFromDenoms(
-      get(data, 'account[0].validator.validator.commissions', []).map((d) => d.amount),
+      flatten(get(data, 'account[0].validator[0].validator.commissions', []).map((d) => d.amount)),
       denoms
     ),
   }
@@ -243,13 +244,18 @@ export const transformValidatorsWithTokenAmount = (data: any, balanceData: any) 
   const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
   const delegatedByValidator = {}
   get(balanceData, 'account[0].delegated', []).forEach((d) => {
-    delegatedByValidator[get(d, 'validator.validator_info.operator_address', '')] =
-      getTokenAmountFromDenoms([d.amount], tokensPrices)
+    if (Number(get(d, 'amount.amount', '0')) > 0) {
+      delegatedByValidator[get(d, 'validator.validator_info.operator_address', '')] =
+        getTokenAmountFromDenoms([d.amount], tokensPrices)
+    }
   })
   const rewardsByValidator = {}
   get(balanceData, 'account[0].rewards', []).forEach((d) => {
-    rewardsByValidator[get(d, 'validator.validator_info.operator_address', '')] =
-      getTokenAmountFromDenoms(d.amount, tokensPrices)
+    const coins = d.amount.filter((a) => Number(a.amount) > 0)
+    if (coins.length > 0) {
+      rewardsByValidator[get(d, 'validator.validator_info.operator_address', '')] =
+        getTokenAmountFromDenoms(coins, tokensPrices)
+    }
   })
   const unbondingByValidator = {}
   get(balanceData, 'account[0].unbonding', []).forEach((d) => {
@@ -805,7 +811,8 @@ export const transformChainConnections = (data: any): ChainConnection[] => {
     userAddress: d.user_address,
     chainName:
       chains.find((k) => k === d.chain_config.name) ||
-      chains.find((k) => d.external_address.match(new RegExp(`^${connectableChains[k].prefix}`))),
+      chains.find((k) => d.external_address.match(new RegExp(`^${connectableChains[k].prefix}`))) ||
+      d.chain_config.name,
   }))
 }
 
@@ -835,10 +842,8 @@ export const isValidMnemonic = (input) => {
   try {
     // eslint-disable-next-line no-new
     new EnglishMnemonic(input)
-    // console.log('valid mnemonic')
     return true
   } catch (err) {
-    // console.log('invalid mnemonic')
     return false
   }
 }

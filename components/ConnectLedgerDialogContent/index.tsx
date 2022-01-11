@@ -1,11 +1,13 @@
 import {
   Box,
   CircularProgress,
+  Divider,
   DialogContent,
   DialogContentText,
   DialogTitle,
   useTheme,
   Typography,
+  IconButton,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
@@ -13,7 +15,9 @@ import Carousel from 'react-material-ui-carousel'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
 import { LaunchpadLedger } from '@cosmjs/ledger-amino'
 import TerraApp from '@terra-money/ledger-terra-js'
+import CopyIcon from '../../assets/images/icons/icon_copy.svg'
 import LedgerImage from '../../assets/images/ledger.svg'
+import LedgerDevice from '../../assets/images/ledger_device.svg'
 import LedgerSignImage from '../../assets/images/sign_ledger.svg'
 import LedgerSignPinImage from '../../assets/images/sign_ledger_with_PIN.svg'
 import LedgerOpenAppImage from '../../assets/images/ledger_open_app.svg'
@@ -21,12 +25,14 @@ import LedgerViewTxImage from '../../assets/images/ledger_view_tx.svg'
 import LedgerSignTxImage from '../../assets/images/ledger_sign_tx.svg'
 import ImageDefaultDark from '../../assets/images/image_default_dark.svg'
 import ImageDefaultLight from '../../assets/images/image_default_light.svg'
+import useIconProps from '../../misc/useIconProps'
 import useStyles from './styles'
 import { closeAllLedgerConnections } from '../../misc/utils'
 import { CustomTheme } from '../../misc/theme'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface ConnectLedgerDialogContentProps {
+  account?: Account
   onConnect(transport: any): void
   ledgerAppName?: string
   signTransaction?: boolean
@@ -56,12 +62,24 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
   ledgerAppName,
   signTransaction,
   isTxSigned,
+  account,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
   const [instruction, setInstruction] = React.useState(signInstructions[0])
   const { theme } = useGeneralContext()
   const themeStyle: CustomTheme = useTheme()
+  const iconProps = useIconProps()
+  const [isCopySuccess, setIsCopySuccess] = React.useState(false)
+
+  const copyText = React.useCallback(
+    (e) => {
+      e.stopPropagation()
+      navigator.clipboard.writeText(account ? account.address : null)
+      setIsCopySuccess(true)
+    },
+    [account?.address]
+  )
 
   const connectLedger = React.useCallback(async () => {
     let transport
@@ -166,8 +184,17 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
         </Box>
       ) : (
         <Box display="flex" flexDirection="column" alignItems="center" mb={6}>
-          <DialogTitle>{t('connect ledger')}</DialogTitle>
-          <DialogContentText>{t('connect ledger description')}</DialogContentText>
+          {account ? (
+            <>
+              <DialogTitle>{t('verify your address')}</DialogTitle>
+              <DialogContentText>{t('verify your address description')}</DialogContentText>{' '}
+            </>
+          ) : (
+            <>
+              <DialogTitle>{t('connect ledger')}</DialogTitle>
+              <DialogContentText>{t('connect ledger description')}</DialogContentText>
+            </>
+          )}
           {signTransaction && !isTxSigned ? (
             <>
               {instruction.image instanceof Array ? (
@@ -190,14 +217,45 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
             </>
           ) : (
             <>
-              <LedgerImage />
-              <Box mt={4}>
-                <Typography>
-                  {ledgerAppName
-                    ? t('open ledger app instruction', { ledgerAppName })
-                    : t('connect ledger instruction')}
-                </Typography>
-              </Box>
+              {account ? (
+                <Box display="flex" alignItems="center" flexDirection="column">
+                  <LedgerDevice />
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    my={3}
+                    pl={themeStyle.spacing(0.2)}
+                    bgcolor="rgba(196, 196, 196, 0.1)"
+                    borderRadius={themeStyle.spacing(1)}
+                  >
+                    <Typography color="textSecondary" variant="body2">
+                      {account.address}
+                    </Typography>
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      style={{
+                        margin: themeStyle.spacing(1),
+                        backgroundColor: themeStyle.palette.button,
+                      }}
+                    />
+                    <IconButton style={{ paddingLeft: '0px' }} onClick={copyText}>
+                      <CopyIcon {...iconProps} />
+                    </IconButton>
+                  </Box>
+                </Box>
+              ) : (
+                <>
+                  <LedgerImage />
+                  <Box mt={4}>
+                    <Typography>
+                      {ledgerAppName
+                        ? t('open ledger app instruction', { ledgerAppName })
+                        : t('connect ledger instruction')}
+                    </Typography>
+                  </Box>
+                </>
+              )}
             </>
           )}
         </Box>

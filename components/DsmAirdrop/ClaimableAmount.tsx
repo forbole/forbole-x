@@ -15,6 +15,8 @@ interface ClaimableAmountProps {
   loading: boolean
   setIsConnectChainDialogOpen(open: boolean): void
   externalAddress: string
+  connectedChainsStakingInfo: any
+  connectedChainsLpInfo: any
 }
 
 const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
@@ -24,6 +26,8 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
   loading,
   setIsConnectChainDialogOpen,
   externalAddress,
+  connectedChainsStakingInfo,
+  connectedChainsLpInfo,
 }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
@@ -42,16 +46,37 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
       ).then((r) => r.json())
       // eslint-disable-next-line camelcase
       const { staking_infos, dsm_allotted, lp_infos } = data
-      setDataStakingInfo(staking_infos)
-      setLpInfos(lp_infos)
+      setDataStakingInfo(
+        staking_infos.filter((s) => !chainConnections.find((c) => c.externalAddress === s.address))
+      )
+      setLpInfos(
+        lp_infos.filter((s) => !chainConnections.find((c) => c.externalAddress === s.address))
+      )
     } catch (err) {
       console.log(err)
     }
-  }, [externalAddress])
+  }, [externalAddress, chainConnections])
 
   React.useEffect(() => {
     verify()
   }, [])
+
+  const nonEligibleAddresses = React.useMemo(() => {
+    const eligibleAddresses = [...connectedChainsStakingInfo, ...connectedChainsLpInfo]
+    const nonEligible = []
+    chainConnections.forEach((c) => {
+      if (
+        !eligibleAddresses.find(
+          (a) =>
+            a.address === c.externalAddress &&
+            (c.chainName === 'likecoin' ? a.chain_name === 'Likecoin' : true)
+        )
+      ) {
+        nonEligible.push(c)
+      }
+    })
+    return nonEligible
+  }, [chainConnections, connectedChainsStakingInfo, connectedChainsLpInfo])
 
   return (
     <form
@@ -67,8 +92,21 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
           <Typography align="center" variant="h1" className={classes.claimableAmount}>
             {loading ? <CircularProgress /> : formatCrypto(amount, 'DSM', lang)}
           </Typography>
-          <Box mb={8}>
-            <AirdropEligibilityDetails lpInfos={lpInfos} dataStakingInfo={dataStakingInfo} />
+          <Box mb={2}>
+            <Typography>{t('connected accounts')}</Typography>
+            <AirdropEligibilityDetails
+              lpInfos={connectedChainsLpInfo}
+              dataStakingInfo={connectedChainsStakingInfo}
+              nonEligibleAddresses={nonEligibleAddresses}
+            />
+          </Box>
+          <Box mb={2}>
+            <Typography>{t('claim more description')}</Typography>
+            <AirdropEligibilityDetails
+              greyTick
+              lpInfos={lpInfos}
+              dataStakingInfo={dataStakingInfo}
+            />
           </Box>
           <Button
             fullWidth

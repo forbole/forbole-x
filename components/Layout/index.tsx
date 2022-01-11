@@ -3,6 +3,7 @@ import { Box, useTheme } from '@material-ui/core'
 import { useRouter } from 'next/router'
 import get from 'lodash/get'
 import qs from 'query-string'
+import lzutf8 from 'lzutf8'
 import useStyles from './styles'
 import LeftMenu from './LeftMenu'
 import NavBar from './NavBar'
@@ -53,7 +54,13 @@ const Layout: React.FC<LayoutProps> = ({
     const { url, query } = qs.parseUrl(router.asPath)
     return {
       address: get(router, 'query.address', ''),
-      transactionData: JSON.parse(get(router, 'query.transactionData', '""')),
+      transactionData: get(router, 'query.transactionData', '')
+        ? JSON.parse(
+            lzutf8.decompress(get(router, 'query.transactionData', '""'), {
+              inputEncoding: 'Base64',
+            })
+          )
+        : '',
       open: !!get(router, 'query.transactionData', ''),
       onClose: () =>
         router.replace(

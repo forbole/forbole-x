@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable camelcase */
 import {
   Button,
@@ -61,15 +62,19 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
   const checkFeeGrant = React.useCallback(async () => {
     try {
       setError('')
+      const result = await fetch(
+        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/airdrop/grants/${account.address}/${externalAddress}`
+      ).then((r) => (r.ok ? r.json() : r.text()))
+      if (typeof result === 'string') {
+        throw new Error(result)
+      }
       const {
         can_get_grant,
         has_enough_dsm,
         has_requested_grant,
         can_claim_airdrop,
         used_desmos_address,
-      } = await fetch(
-        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/airdrop/grants/${account.address}/${externalAddress}`
-      ).then((r) => r.json())
+      } = result
       if (used_desmos_address && used_desmos_address !== account.address) {
         throw new Error(
           `You've already been granted for claiming the airdrop with address: ${used_desmos_address}`
@@ -178,7 +183,17 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
                 <Typography>{t('airdrop eligibility rule two')}</Typography>
               </Box>
             </Box>
-            <Typography>{t('airdrop eligibility description')}</Typography>
+            <Typography>
+              {t(
+                shouldGetGrant
+                  ? 'get a grant description'
+                  : !profile.dtag
+                  ? 'create profile description'
+                  : chainConnections.length === 0
+                  ? 'connect account description'
+                  : 'airdrop eligibility description'
+              )}
+            </Typography>
 
             <Box flex={1} display="flex" flexDirection="column" mb={3} mt={5.5}>
               <Button
@@ -193,7 +208,15 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
                   (isGranting && !isGrantActive)
                 }
               >
-                {t(shouldGetGrant ? 'get a grant' : 'get started button')}
+                {t(
+                  shouldGetGrant
+                    ? 'get a grant'
+                    : !profile.dtag
+                    ? 'create profile'
+                    : chainConnections.length === 0
+                    ? 'connect account'
+                    : 'get started button'
+                )}
               </Button>
               <Box mt={1}>
                 <Typography variant="body2" color="error">

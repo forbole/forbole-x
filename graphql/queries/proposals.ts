@@ -1,5 +1,5 @@
 export const getProposals = (crypto: string): string => `
-subscription Proposals {
+query Proposals {
   proposal {
     content
     deposit_end_time
@@ -28,7 +28,7 @@ subscription Proposals {
 `
 
 export const getDepositParams = (crypto: string): string => `
-subscription DepositParams {
+query DepositParams {
   gov_params {
     deposit_params
     tally_params
@@ -37,7 +37,7 @@ subscription DepositParams {
 `
 
 export const getProposal = (crypto: string): string => `
-subscription Proposal($id: Int!) {
+query Proposal($id: Int!) {
   proposal(where: {id: {_eq: $id }}) {
     content
     description
@@ -86,7 +86,7 @@ subscription Proposal($id: Int!) {
 `
 
 export const getProposalResult = (crypto: string): string => `
-subscription ProposalResult($id: Int!) {
+query ProposalResult($id: Int!) {
   proposal_tally_result(where: {proposal_id: {_eq: $id}}) {
     abstain
     height
@@ -99,7 +99,7 @@ subscription ProposalResult($id: Int!) {
 `
 
 export const getVoteDetail = (crypto: string): string => `
-subscription VoteDetail($id: Int!) {
+query VoteDetail($id: Int!) {
   proposal_vote(where: {proposal_id: {_eq: $id}}) {
     voter_address
     proposal_id
