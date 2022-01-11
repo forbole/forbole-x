@@ -24,12 +24,18 @@ jobs:
         run: |
           sed -i 's/MAILGUN_USER=secret/MAILGUN_USER=${{ secrets.MAILGUN_USER }}/g' .env
           sed -i 's/MAILGUN_KEY=secret/MAILGUN_KEY=${{ secrets.MAILGUN_KEY }}/g' .env
+      - name: Get Version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@master
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: forbole/forbole-x-staging:latest
+          tags: forbole/forbole-portal:v${{ steps.package-version.outputs.current-version }}
+      - name: Deploy to Akash
+        run: |
+          curl -i -X POST -H "Content-Type: application/json" -d '{"parameters":{"tag": "v${{ steps.package-version.outputs.current-version }}"}}' -k ${{ secrets.AKASH_WEBHOOK_URL_STAGING }} -u "deploy:${{ secrets.AKASH_WEBHOOK_SECRET }}"
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
