@@ -39,7 +39,7 @@ const Account: React.FC = () => {
       ${getValidators(crypto.name)}
     `
   )
-  const { data: balanceData } = useLatestAccountBalance(crypto.name, address || '')
+  const { data: balanceData } = useLatestAccountBalance(crypto.name, (address || '') as string)
   const { data: redelegationsData } = useQuery(
     gql`
       ${getRedelegations(crypto.name)}
