@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation'
-import { gql, useQuery } from '@apollo/client'
 import {
   Avatar,
   Box,
@@ -14,7 +13,6 @@ import {
 } from '@material-ui/core'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import {
-  formatCurrency,
   formatTokenAmount,
   getTotalBalance,
   getTotalTokenAmount,
@@ -23,7 +21,7 @@ import {
 import { CustomTheme } from '../../misc/theme'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useStyles from './styles'
-import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
+import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance'
 
 interface StarredAccountProps {
   account: Account
@@ -36,12 +34,7 @@ const StarredAccount: React.FC<StarredAccountProps> = ({ account }) => {
   const classes = useStyles()
   const crypto = cryptocurrencies[account.crypto]
   // Latest data
-  const { data: balanceData, loading } = useQuery(
-    gql`
-      ${getLatestAccountBalance(account.crypto)}
-    `,
-    { variables: { address: account.address }, pollInterval: 15000 }
-  )
+  const { data: balanceData, loading } = useLatestAccountBalance(account.crypto, account.address)
   const { tokenAmounts, usdBalance } = React.useMemo(() => {
     const accountBalance = transformGqlAcountBalance(balanceData, Date.now())
     return {

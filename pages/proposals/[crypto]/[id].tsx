@@ -15,8 +15,8 @@ import {
   getVoteDetail,
 } from '../../../graphql/queries/proposals'
 import { transformProposal, transformVoteSummary, transformVoteDetail } from '../../../misc/utils'
-import { getLatestAccountBalance } from '../../../graphql/queries/accountBalances'
 import { getTokensPrices } from '../../../graphql/queries/tokensPrices'
+import useLatestAccountBalance from '../../../graphql/hooks/useLatestAccountBalance'
 
 const Proposal: React.FC = () => {
   const router = useRouter()
@@ -40,14 +40,9 @@ const Proposal: React.FC = () => {
     { pollInterval: 15000 }
   )
 
-  const { data: balanceData } = useQuery(
-    gql`
-      ${getLatestAccountBalance(crypto.name)}
-    `,
-    {
-      variables: { address: get(proposalData, 'proposal[0].proposer_address') },
-      pollInterval: 15000,
-    }
+  const { data: balanceData } = useLatestAccountBalance(
+    crypto.name,
+    get(proposalData, 'proposal[0].proposer_address')
   )
 
   const { data: proporslReaultData } = useQuery(

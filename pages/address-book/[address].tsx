@@ -19,11 +19,11 @@ import {
   transformUnbonding,
   transformValidatorsWithTokenAmount,
 } from '../../misc/utils'
-import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import { getRedelegations } from '../../graphql/queries/redelegations'
 import { getTransactions } from '../../graphql/queries/transactions'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import AccountAvatar from '../../components/AccountAvatar'
+import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance'
 
 const Account: React.FC = () => {
   const { favAddresses } = useGeneralContext()
@@ -39,17 +39,7 @@ const Account: React.FC = () => {
       ${getValidators(crypto.name)}
     `
   )
-  const { data: balanceData } = useQuery(
-    gql`
-      ${getLatestAccountBalance(crypto.name)}
-    `,
-    {
-      variables: {
-        address: address || '',
-      },
-      pollInterval: 15000,
-    }
-  )
+  const { data: balanceData } = useLatestAccountBalance(crypto.name, address || '')
   const { data: redelegationsData } = useQuery(
     gql`
       ${getRedelegations(crypto.name)}

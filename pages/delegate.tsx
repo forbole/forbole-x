@@ -9,8 +9,8 @@ import { useWalletsContext } from '../contexts/WalletsContext'
 import cryptocurrencies from '../misc/cryptocurrencies'
 import { getValidators } from '../graphql/queries/validators'
 import { transformValidators } from '../misc/utils'
-import { getLatestAccountBalance } from '../graphql/queries/accountBalances'
 import SelectAccountButton from '../components/SelectAccountButton'
+import useLatestAccountBalance from '../graphql/hooks/useLatestAccountBalance'
 
 const Delegate: React.FC = () => {
   const { t } = useTranslation('common')
@@ -28,11 +28,9 @@ const Delegate: React.FC = () => {
   )
   const validators = transformValidators(data)
 
-  const { data: balanceData } = useQuery(
-    gql`
-      ${getLatestAccountBalance(crypto.name)}
-    `,
-    { variables: { address: activeAccount ? activeAccount.address : '' }, pollInterval: 15000 }
+  const { data: balanceData } = useLatestAccountBalance(
+    crypto.name,
+    activeAccount ? activeAccount.address : ''
   )
   const availableTokens = get(balanceData, 'account[0].available[0]', {
     coins: [],

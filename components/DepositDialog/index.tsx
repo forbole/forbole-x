@@ -1,16 +1,15 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { gql, useQuery } from '@apollo/client'
 import get from 'lodash/get'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import InputAmount from './InputAmount'
 import { getEquivalentCoinToSend } from '../../misc/utils'
-import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useSendTransaction from '../../misc/tx/useSendTransaction'
+import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance'
 
 interface DepositDialogProps {
   crypto: Cryptocurrency
@@ -30,12 +29,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ crypto, open, onClose, pr
   const [loading, setLoading] = React.useState(false)
   const [address, setAddress] = React.useState('')
 
-  const { data: balanceData } = useQuery(
-    gql`
-      ${getLatestAccountBalance(crypto.name)}
-    `,
-    { variables: { address }, pollInterval: 15000 }
-  )
+  const { data: balanceData } = useLatestAccountBalance(crypto.name, address)
 
   const availableTokens = get(balanceData, 'account[0].available[0]', {
     coins: [],
