@@ -1,8 +1,7 @@
 import React from 'react'
 import get from 'lodash/get'
-import { gql, useQuery } from '@apollo/client'
 import { getTokenAmountFromDenoms } from '../../misc/utils'
-import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
+import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance'
 
 interface useAddressSendDialogHookProps {
   crypto: any
@@ -11,17 +10,7 @@ interface useAddressSendDialogHookProps {
 
 export const useAddressSendDialogHook = ({ account, crypto }: useAddressSendDialogHookProps) => {
   const getAvailableAmount = () => {
-    const { data: balanceData } = useQuery(
-      gql`
-        ${getLatestAccountBalance(crypto.name)}
-      `,
-      {
-        variables: {
-          address: account?.address || '',
-        },
-        pollInterval: 15000,
-      }
-    )
+    const { data: balanceData } = useLatestAccountBalance(crypto.name, account?.address || '')
     const availableTokens = get(balanceData, 'account[0].available[0]', {
       coins: [],
       tokens_prices: [],

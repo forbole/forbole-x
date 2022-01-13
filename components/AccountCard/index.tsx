@@ -19,9 +19,9 @@ import {
   getTotalTokenAmount,
   transformGqlAcountBalance,
 } from '../../misc/utils'
-import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import ChromeExtBottom from './ChromeExtBottom'
 import { getInflation } from '../../graphql/queries/inflation'
+import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance'
 
 interface AccountCardProps {
   account: Account
@@ -38,12 +38,7 @@ const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled, 
   const { updateAccount } = useWalletsContext()
   const router = useRouter()
 
-  const { data, loading } = useQuery(
-    gql`
-      ${getLatestAccountBalance(account.crypto)}
-    `,
-    { variables: { address: account.address }, pollInterval: 15000 }
-  )
+  const { data, loading } = useLatestAccountBalance(account.crypto, account.address)
 
   const { data: inflationData } = useQuery(
     gql`

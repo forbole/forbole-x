@@ -37,7 +37,7 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
 import DelegationDialog from '../DelegationDialog'
 import { getValidators } from '../../graphql/queries/validators'
-import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
+import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance'
 
 const dailyTimestamps = dateRanges
   .find((d) => d.title === 'day')
@@ -68,12 +68,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
     1
   )
   // Latest data
-  const { data: latestData } = useQuery(
-    gql`
-      ${getLatestAccountBalance(account.crypto)}
-    `,
-    { variables: { address: account.address }, pollInterval: 15000 }
-  )
+  const { data: latestData } = useLatestAccountBalance(account.crypto, account.address)
   const { data: validatorsData } = useQuery(
     gql`
       ${getValidators(crypto.name)}

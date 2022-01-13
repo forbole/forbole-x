@@ -109,6 +109,7 @@ const common = {
 const lightTheme = {
   ...common,
   palette: {
+    type: 'light',
     primary: {
       main: '#007FFF',
     },
@@ -210,6 +211,7 @@ const lightTheme = {
 const darkTheme = {
   ...common,
   palette: {
+    type: 'dark',
     primary: {
       main: '#007FFF',
     },

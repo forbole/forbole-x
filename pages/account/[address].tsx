@@ -24,7 +24,6 @@ import {
   transformValidatorsWithTokenAmount,
   transformVestingAccount,
 } from '../../misc/utils'
-import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import { getRedelegations } from '../../graphql/queries/redelegations'
 import { getTransactions } from '../../graphql/queries/transactions'
 import AccountBalanceCard from '../../components/AccountBalanceCard'
@@ -37,6 +36,7 @@ import VestingDialog from '../../components/VestingDialog'
 import SelectAccountButton from '../../components/SelectAccountButton'
 import { getChainConnections } from '../../graphql/queries/chainConnections'
 import ConnectChainDialog from '../../components/ConnectChainDialog'
+import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance'
 
 const Account: React.FC = () => {
   const router = useRouter()
@@ -51,17 +51,7 @@ const Account: React.FC = () => {
       ${getValidators(crypto.name)}
     `
   )
-  const { data: balanceData } = useQuery(
-    gql`
-      ${getLatestAccountBalance(crypto.name)}
-    `,
-    {
-      variables: {
-        address: account ? account.address : '',
-      },
-      pollInterval: 15000,
-    }
-  )
+  const { data: balanceData } = useLatestAccountBalance(crypto.name, account ? account.address : '')
   const { data: redelegationsData } = useQuery(
     gql`
       ${getRedelegations(crypto.name)}

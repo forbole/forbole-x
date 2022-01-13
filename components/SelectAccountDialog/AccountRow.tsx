@@ -7,9 +7,7 @@ import {
   useTheme,
 } from '@material-ui/core'
 import React from 'react'
-import { gql, useQuery } from '@apollo/client'
 import useTranslation from 'next-translate/useTranslation'
-import { getLatestAccountBalance } from '../../graphql/queries/accountBalances'
 import {
   transformGqlAcountBalance,
   getTotalBalance,
@@ -17,6 +15,7 @@ import {
   formatTokenAmount,
 } from '../../misc/utils'
 import useStyles from './styles'
+import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance'
 
 interface AccountRowProps {
   account: Account
@@ -26,12 +25,7 @@ const AccountRow: React.FC<AccountRowProps> = ({ account }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const theme = useTheme()
-  const { data: balanceData, loading } = useQuery(
-    gql`
-      ${getLatestAccountBalance(account.crypto)}
-    `,
-    { variables: { address: account.address }, pollInterval: 15000 }
-  )
+  const { data: balanceData, loading } = useLatestAccountBalance(account.crypto, account.address)
   const { tokenAmounts, usdBalance } = React.useMemo(() => {
     const accountBalance = transformGqlAcountBalance(balanceData, Date.now())
     return {
