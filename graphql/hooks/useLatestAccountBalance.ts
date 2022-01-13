@@ -5,6 +5,8 @@ import set from 'lodash/set'
 import cloneDeep from 'lodash/cloneDeep'
 import { getLatestAccountBalance } from '../queries/accountBalances'
 
+let isSkippedState = false
+
 const useLatestAccountBalance = (crypto: string, address: string) => {
   const queryResult = useQuery(
     gql`
@@ -25,9 +27,13 @@ const useLatestAccountBalance = (crypto: string, address: string) => {
       const resultToReturn = cloneDeep(queryResult)
       if (
         get(resultToReturn, 'data.account[0].rewards', []).length === 0 &&
-        get(r, 'data.account[0].rewards', []) > 0
+        get(r, 'data.account[0].rewards', []).length > 0 &&
+        !isSkippedState
       ) {
         set(resultToReturn, 'data.account[0].rewards', get(r, 'data.account[0].rewards', []))
+        isSkippedState = true
+      } else {
+        isSkippedState = false
       }
       return resultToReturn
     })
