@@ -6,7 +6,7 @@ import keyBy from 'lodash/keyBy'
 import get from 'lodash/get'
 import { gql, useQuery } from '@apollo/client'
 import useStateHistory from '../../misc/useStateHistory'
-import { formatTokenAmount, getTokenAmountFromDenoms, transformValidators } from '../../misc/utils'
+import { formatTokenAmount, getTokenAmountFromDenoms } from '../../misc/utils'
 import useStyles from './styles'
 import useIsMobile from '../../misc/useIsMobile'
 import { useWalletsContext } from '../../contexts/WalletsContext'
@@ -14,7 +14,6 @@ import { getTokensPrices } from '../../graphql/queries/tokensPrices'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useIconProps from '../../misc/useIconProps'
-import { getValidatorsByAddresses } from '../../graphql/queries/validators'
 import ConfirmStageContent from './ConfirmStageContent'
 import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 import SuccessContent from './SuccessContent'
@@ -26,6 +25,7 @@ import useSignerInfo from '../../misc/tx/useSignerInfo'
 import signAndBroadcastTransaction from '../../misc/tx/signAndBroadcastTransaction'
 import useIsChromeExt from '../../misc/useIsChromeExt'
 import estimateGasFee from '../../misc/tx/estimateGasFee'
+import useValidators from '../../graphql/hooks/useValidators'
 
 enum ConfirmTransactionStage {
   ConfirmStage = 'confirm',
@@ -163,18 +163,9 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
     }
   }, [transactionData, t, totalAmount, crypto, lang])
 
-  const { data: validatorsData } = useQuery(
-    gql`
-      ${getValidatorsByAddresses(crypto)}
-    `,
-    {
-      variables: {
-        addresses: validatorsAddresses,
-      },
-    }
-  )
+  const validatorsData = useValidators(crypto, validatorsAddresses)
 
-  const validators = keyBy(transformValidators(validatorsData), 'address')
+  const validators = keyBy(validatorsData, 'address')
 
   const [stage, setStage, toPrevStage, isPrevStageAvailable] =
     useStateHistory<ConfirmTransactionStage>(ConfirmTransactionStage.ConfirmStage)

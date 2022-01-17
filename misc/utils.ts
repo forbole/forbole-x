@@ -205,15 +205,24 @@ export const getValidatorStatus = (status: number, jailed: boolean): string => {
   return statuses[status]
 }
 
-export const transformValidators = (data: any): Validator[] => {
+export const transformValidators = (data: any, profilesData?: any): Validator[] => {
   if (!data) {
     return []
   }
+  const profiles = profilesData ? keyBy(profilesData.profile, 'address') : {}
   const validators = data.validator
     .map((validator) => ({
       address: get(validator, 'info.operator_address', ''),
-      image: get(validator, 'description[0].avatar_url', ''),
-      name: get(validator, 'description[0].moniker', get(validator, 'address', '')),
+      image: get(
+        profiles,
+        `${get(validator, 'info.self_delegate_address', '')}.profile_pic`,
+        get(validator, 'description[0].avatar_url', '')
+      ),
+      name: get(
+        profiles,
+        `${get(validator, 'info.self_delegate_address', '')}.nickname`,
+        get(validator, 'description[0].moniker', '')
+      ),
       commission: get(validator, 'commission[0].commission', 0),
       votingPower: get(validator, 'voting_power[0].voting_power', 0),
       selfRatio:
@@ -239,8 +248,7 @@ export const transformValidators = (data: any): Validator[] => {
   return validators
 }
 
-export const transformValidatorsWithTokenAmount = (data: any, balanceData: any) => {
-  const validators = transformValidators(data)
+export const transformValidatorsWithTokenAmount = (validators: Validator[], balanceData: any) => {
   const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
   const delegatedByValidator = {}
   get(balanceData, 'account[0].delegated', []).forEach((d) => {
@@ -272,8 +280,8 @@ export const transformValidatorsWithTokenAmount = (data: any, balanceData: any) 
   }))
 }
 
-export const transformUnbonding = (data: any, balanceData: any): Unbonding[] => {
-  const validators = keyBy(transformValidators(data), 'address')
+export const transformUnbonding = (validatorsData: Validator[], balanceData: any): Unbonding[] => {
+  const validators = keyBy(validatorsData, 'address')
   const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
   return get(balanceData, 'account[0].unbonding', [])
     .map((u) => ({

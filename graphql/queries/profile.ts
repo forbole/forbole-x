@@ -9,3 +9,13 @@ export const getProfile = (crypto: string): string => `
     }
   }
 `
+
+export const getProfiles = (crypto: string): string => `
+  query Profiles($addresses: [String!]) {
+    profile(where: {address: {_in: $addresses}}) {
+      nickname
+      profile_pic
+      address
+    }
+  }
+`
