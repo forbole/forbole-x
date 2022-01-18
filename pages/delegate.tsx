@@ -1,5 +1,4 @@
 import React from 'react'
-import { gql, useQuery } from '@apollo/client'
 import { Box, Typography } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import get from 'lodash/get'
@@ -7,10 +6,9 @@ import Layout from '../components/Layout'
 import ValidatorsTable from '../components/ValidatorsTable'
 import { useWalletsContext } from '../contexts/WalletsContext'
 import cryptocurrencies from '../misc/cryptocurrencies'
-import { getValidators } from '../graphql/queries/validators'
-import { transformValidators } from '../misc/utils'
 import SelectAccountButton from '../components/SelectAccountButton'
 import useLatestAccountBalance from '../graphql/hooks/useLatestAccountBalance'
+import useValidators from '../graphql/hooks/useValidators'
 
 const Delegate: React.FC = () => {
   const { t } = useTranslation('common')
@@ -21,12 +19,7 @@ const Delegate: React.FC = () => {
     ? cryptocurrencies[activeAccount.crypto]
     : Object.values(cryptocurrencies)[0]
 
-  const { data } = useQuery(
-    gql`
-      ${getValidators(crypto.name)}
-    `
-  )
-  const validators = transformValidators(data)
+  const validators = useValidators(crypto.name)
 
   const { data: balanceData } = useLatestAccountBalance(
     crypto.name,
