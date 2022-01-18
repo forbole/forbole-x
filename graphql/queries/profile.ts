@@ -13,6 +13,7 @@ export const getProfile = (crypto: string): string => `
 export const getProfiles = (crypto: string): string => `
   query Profiles($addresses: [String!]) {
     profile(where: {address: {_in: $addresses}}) {
+      dtag
       nickname
       profile_pic
       address

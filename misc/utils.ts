@@ -213,16 +213,13 @@ export const transformValidators = (data: any, profilesData?: any): Validator[] 
   const validators = data.validator
     .map((validator) => ({
       address: get(validator, 'info.operator_address', ''),
-      image: get(
-        profiles,
-        `${get(validator, 'info.self_delegate_address', '')}.profile_pic`,
-        get(validator, 'description[0].avatar_url', '')
-      ),
-      name: get(
-        profiles,
-        `${get(validator, 'info.self_delegate_address', '')}.nickname`,
-        get(validator, 'description[0].moniker', '')
-      ),
+      image:
+        get(profiles, `${get(validator, 'info.self_delegate_address', '')}.profile_pic`) ||
+        get(validator, 'description[0].avatar_url', ''),
+      name:
+        get(profiles, `${get(validator, 'info.self_delegate_address', '')}.nickname`) ||
+        get(profiles, `${get(validator, 'info.self_delegate_address', '')}.dtag`) ||
+        get(validator, 'description[0].moniker', ''),
       commission: get(validator, 'commission[0].commission', 0),
       votingPower: get(validator, 'voting_power[0].voting_power', 0),
       selfRatio:
