@@ -11,9 +11,10 @@ import {
   Tooltip,
   Line,
 } from 'recharts'
+import get from 'lodash/get'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import useStyles from './styles'
-import { formatCurrency } from '../../misc/utils'
+import { formatCrypto, formatCurrency } from '../../misc/utils'
 import { CustomTheme } from '../../misc/theme'
 
 const now = new Date()
@@ -53,6 +54,7 @@ interface BalanceChartProps {
   title: string
   subtitle: string
   data: any[]
+  crypto?: string
   onDateRangeChange?(dateRange: DateRange): void
   loading?: boolean
   hideChart?: boolean
@@ -62,6 +64,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
   title,
   subtitle,
   data,
+  crypto,
   onDateRangeChange,
   loading,
   hideChart,
@@ -133,6 +136,8 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
                 tickLine={false}
               />
               <YAxis
+                yAxisId="balance"
+                dataKey="balance"
                 axisLine={false}
                 tickLine={false}
                 tickFormatter={(v) => formatCurrency(v, currency, lang, true, true)}
@@ -140,17 +145,44 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
                 domain={['dataMin', 'dataMax']}
               />
               <Tooltip
-                formatter={(v) => [formatCurrency(v, currency, lang, true)]}
+                formatter={(v, i) => [
+                  i === 'balance'
+                    ? formatCurrency(v, currency, lang, true)
+                    : formatCrypto(v, crypto, lang),
+                ]}
                 labelFormatter={(v) => format(v, 'd MMM h:ma')}
                 contentStyle={{ backgroundColor: theme.palette.background.paper }}
               />
               <Line
                 type="monotone"
+                yAxisId="balance"
                 dataKey="balance"
                 stroke={theme.palette.success.main}
                 dot={false}
                 strokeWidth={3}
               />
+              {get(data, '[0].amount') ? (
+                <>
+                  <YAxis
+                    yAxisId="amount"
+                    dataKey="amount"
+                    orientation="right"
+                    axisLine={false}
+                    tickLine={false}
+                    tickFormatter={(v) => formatCrypto(v, crypto, lang, true, true)}
+                    type="number"
+                    domain={['dataMin', 'dataMax']}
+                  />
+                  <Line
+                    yAxisId="amount"
+                    type="monotone"
+                    dataKey="amount"
+                    stroke={theme.palette.primary.main}
+                    dot={false}
+                    strokeWidth={3}
+                  />
+                </>
+              ) : null}
             </LineChart>
           </ResponsiveContainer>
           {loading ? (
