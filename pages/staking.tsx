@@ -39,7 +39,7 @@ const Delegate: React.FC = () => {
   return (
     <Layout passwordRequired activeItem="/delegate">
       <Box display="flex" alignItems="center" mb={2}>
-        <Typography variant="h1">{t('delegate')}</Typography>
+        <Typography variant="h1">{t('staking')}</Typography>
         {activeAccount ? (
           <Box ml={2}>
             <SelectAccountButton
