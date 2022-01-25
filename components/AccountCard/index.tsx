@@ -27,9 +27,15 @@ interface AccountCardProps {
   account: Account
   ledgerIconDisabled?: boolean
   isChromeExt?: boolean
+  altBackground?: boolean
 }
 
-const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled, isChromeExt }) => {
+const AccountCard: React.FC<AccountCardProps> = ({
+  account,
+  ledgerIconDisabled,
+  isChromeExt,
+  altBackground,
+}) => {
   const classes = useStyles()
   const theme = useTheme()
   const iconProps = useIconProps()
@@ -67,7 +73,7 @@ const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled, 
 
   return (
     <Card
-      className={classes.container}
+      className={`${classes.container} ${altBackground ? classes.altBackground : ''}`}
       onClick={(e) => {
         const targetClassName = String((e.target as any).className)
         if (
