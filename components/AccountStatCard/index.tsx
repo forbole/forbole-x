@@ -14,7 +14,6 @@ import DownIcon from '@material-ui/icons/ArrowDropDown'
 import useTranslation from 'next-translate/useTranslation'
 import get from 'lodash/get'
 import { useRouter } from 'next/router'
-import { gql, useQuery } from '@apollo/client'
 import useStyles from './styles'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
@@ -36,8 +35,8 @@ import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import useIconProps from '../../misc/useIconProps'
 import DelegationDialog from '../DelegationDialog'
-import { getValidators } from '../../graphql/queries/validators'
 import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance'
+import useValidators from '../../graphql/hooks/useValidators'
 
 const dailyTimestamps = dateRanges
   .find((d) => d.title === 'day')
@@ -69,11 +68,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   )
   // Latest data
   const { data: latestData } = useLatestAccountBalance(account.crypto, account.address)
-  const { data: validatorsData } = useQuery(
-    gql`
-      ${getValidators(crypto.name)}
-    `
-  )
+  const validatorsData = useValidators(account.crypto)
 
   const { tokenAmounts, usdBalance, availableTokens, validators } = React.useMemo(() => {
     const accountBalance = transformGqlAcountBalance(latestData, Date.now())

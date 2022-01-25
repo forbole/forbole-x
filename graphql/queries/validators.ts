@@ -6,6 +6,7 @@ query Validators {
     }
     info: validator_info {
       operator_address
+      self_delegate_address
     }
     description: validator_descriptions(limit: 1, order_by: { height: desc }) {
       moniker
@@ -37,6 +38,7 @@ query Validators($addresses: [String!]) {
   validator(where: {validator_info: {operator_address: { _in: $addresses }}}) {
     info: validator_info {
       operator_address
+      self_delegate_address
     }
     description: validator_descriptions(limit: 1, order_by: { height: desc }) {
       moniker

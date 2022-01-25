@@ -70,14 +70,19 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
   }, [accountBalance])
   // Chart Data
   const tabs = [t('overview'), ...Object.keys(totalTokenAmount)]
-  const selectedTabToken = tabs[currentTab]
+  const selectedTabToken = currentTab === 0 ? undefined : tabs[currentTab]
   const selectedTabTokenAmount = totalTokenAmount[selectedTabToken]
   const { data: accountsWithBalance, loading } = useAccountsBalancesWithinPeriod(
     [account],
     timestamps
   )
   const chartData = accountsWithBalance.length
-    ? accountsWithBalance[0].balances.map((b) => getTotalBalance(b, selectedTabToken))
+    ? accountsWithBalance[0].balances.map((b) => ({
+        ...getTotalBalance(b, selectedTabToken),
+        amount: selectedTabToken
+          ? getTotalTokenAmount(b).amount[selectedTabToken].amount
+          : undefined,
+      }))
     : []
 
   const toggleFav = React.useCallback(() => {
@@ -181,6 +186,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
             </Box>
 
             <BalanceChart
+              crypto={account.crypto}
               data={chartData}
               onDateRangeChange={(dateRange) => {
                 setTimestamps(dateRange.timestamps.map((ts) => new Date(ts)))
