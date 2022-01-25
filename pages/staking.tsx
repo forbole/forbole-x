@@ -10,7 +10,7 @@ import SelectAccountButton from '../components/SelectAccountButton'
 import useLatestAccountBalance from '../graphql/hooks/useLatestAccountBalance'
 import useValidators from '../graphql/hooks/useValidators'
 
-const Delegate: React.FC = () => {
+const Staking: React.FC = () => {
   const { t } = useTranslation('common')
   const { accounts } = useWalletsContext()
   const [activeAccount, setActiveAccount] = React.useState(get(accounts, 0))
@@ -59,4 +59,4 @@ const Delegate: React.FC = () => {
   )
 }
 
-export default Delegate
+export default Staking
