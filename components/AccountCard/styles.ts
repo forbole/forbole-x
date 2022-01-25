@@ -12,11 +12,12 @@ const useStyles = makeStyles(
     },
     altBackground: {
       backgroundColor:
-        theme.palette.type === 'light'
-          ? theme.palette.background.default
-          : theme.palette.menuBackground,
+        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.menuBackground,
       '&:hover': {
-        backgroundColor: theme.palette.grey[50],
+        backgroundColor:
+          theme.palette.type === 'light'
+            ? theme.palette.background.default
+            : theme.palette.grey[100],
       },
     },
     sendButton: {
