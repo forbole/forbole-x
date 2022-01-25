@@ -56,9 +56,9 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
         href: '/wallets',
       },
       {
-        title: t('delegate'),
+        title: t('staking'),
         icon: <DelegateIcon {...iconProps} />,
-        href: '/delegate',
+        href: '/staking',
       },
       // {
       //   title: t('market'),

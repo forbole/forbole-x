@@ -146,7 +146,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       <a
         aria-disabled={false}
         className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-5 MuiListItem-gutters MuiListItem-button"
-        href="/delegate"
+        href="/staking"
         onBlur={[Function]}
         onClick={[Function]}
         onDragLeave={[Function]}
@@ -183,7 +183,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
           <span
             className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
           >
-            common:delegate
+            common:staking
           </span>
         </div>
         <span
@@ -502,7 +502,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
       <a
         aria-disabled={false}
         className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-5 MuiListItem-gutters MuiListItem-button"
-        href="/delegate"
+        href="/staking"
         onBlur={[Function]}
         onClick={[Function]}
         onDragLeave={[Function]}
@@ -539,7 +539,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           <span
             className="MuiTypography-root MuiListItemText-primary MuiTypography-h6 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
           >
-            common:delegate
+            common:staking
           </span>
         </div>
       </a>

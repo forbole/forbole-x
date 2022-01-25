@@ -10,7 +10,7 @@ import SelectAccountButton from '../components/SelectAccountButton'
 import useLatestAccountBalance from '../graphql/hooks/useLatestAccountBalance'
 import useValidators from '../graphql/hooks/useValidators'
 
-const Delegate: React.FC = () => {
+const Staking: React.FC = () => {
   const { t } = useTranslation('common')
   const { accounts } = useWalletsContext()
   const [activeAccount, setActiveAccount] = React.useState(get(accounts, 0))
@@ -39,7 +39,7 @@ const Delegate: React.FC = () => {
   return (
     <Layout passwordRequired activeItem="/delegate">
       <Box display="flex" alignItems="center" mb={2}>
-        <Typography variant="h1">{t('delegate')}</Typography>
+        <Typography variant="h1">{t('staking')}</Typography>
         {activeAccount ? (
           <Box ml={2}>
             <SelectAccountButton
@@ -59,4 +59,4 @@ const Delegate: React.FC = () => {
   )
 }
 
-export default Delegate
+export default Staking
