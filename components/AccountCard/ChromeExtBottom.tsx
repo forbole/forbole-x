@@ -1,7 +1,6 @@
 import { Box, Typography, Divider, Button } from '@material-ui/core'
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
-import { gql, useQuery } from '@apollo/client'
 import useStyles from './styles'
 import { useWalletsContext } from '../../contexts/WalletsContext'
 import {
@@ -12,7 +11,7 @@ import {
 import DelegationDialog from '../DelegationDialog'
 import WithdrawRewardsDialog from '../WithdrawRewardsDialog'
 import SendDialog from '../SendDialog'
-import { getValidators } from '../../graphql/queries/validators'
+import useValidators from '../../graphql/hooks/useValidators'
 
 interface ChromeExtBottomProps {
   availableTokens: AvailableTokens
@@ -40,11 +39,7 @@ const ChromeExtBottom: React.FC<ChromeExtBottomProps> = ({
   const [withdrawRewardsDialogOpen, setWithdrawRewardsDialogOpen] = React.useState(false)
   const [sendDialogOpen, setSendDialogOpen] = React.useState(false)
 
-  const { data: validatorsData } = useQuery(
-    gql`
-      ${getValidators(account.crypto)}
-    `
-  )
+  const validatorsData = useValidators(account.crypto)
   const validators = React.useMemo(
     () => transformValidatorsWithTokenAmount(validatorsData, balanceData),
     [validatorsData, balanceData]

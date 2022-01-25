@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   DialogActions,
   DialogContent,
   Divider,
@@ -181,11 +182,13 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
         <Box my={1}>
           <Typography gutterBottom>{t('fee')}</Typography>
           <Typography color="textSecondary">
-            {formatTokenAmount(
-              getTokenAmountFromDenoms(transactionData.fee.amount, denoms || []),
-              account.crypto,
-              lang
-            )}
+            {!transactionData.fee.gas
+              ? t('estimating gas')
+              : formatTokenAmount(
+                  getTokenAmountFromDenoms(transactionData.fee.amount, denoms || []),
+                  account.crypto,
+                  lang
+                )}
           </Typography>
         </Box>
         <Divider />
@@ -222,7 +225,11 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
           disabled={!transactionData.fee.gas}
           onClick={onConfirm}
         >
-          {t('confirm')}
+          {!transactionData.fee.gas ? (
+            <CircularProgress size={themeStyle.spacing(3.5)} />
+          ) : (
+            t('confirm')
+          )}
         </Button>
       </DialogActions>
     </>

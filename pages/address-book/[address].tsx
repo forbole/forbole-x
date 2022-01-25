@@ -11,7 +11,6 @@ import Layout from '../../components/Layout'
 import DelegationsTable from '../../components/DelegationsTable'
 import ActivitiesTable from '../../components/ActivitiesTable'
 import cryptocurrencies from '../../misc/cryptocurrencies'
-import { getValidators } from '../../graphql/queries/validators'
 import {
   transformGqlAcountBalance,
   transformRedelegations,
@@ -24,6 +23,7 @@ import { getTransactions } from '../../graphql/queries/transactions'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import AccountAvatar from '../../components/AccountAvatar'
 import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance'
+import useValidators from '../../graphql/hooks/useValidators'
 
 const Account: React.FC = () => {
   const { favAddresses } = useGeneralContext()
@@ -34,11 +34,7 @@ const Account: React.FC = () => {
   const crypto = addressDetail
     ? cryptocurrencies[addressDetail.crypto]
     : Object.values(cryptocurrencies)[0]
-  const { data: validatorsData } = useQuery(
-    gql`
-      ${getValidators(crypto.name)}
-    `
-  )
+  const validatorsData = useValidators(crypto.name)
   const { data: balanceData } = useLatestAccountBalance(crypto.name, (address || '') as string)
   const { data: redelegationsData } = useQuery(
     gql`
