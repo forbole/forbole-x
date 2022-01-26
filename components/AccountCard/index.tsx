@@ -40,7 +40,7 @@ const AccountCard: React.FC<AccountCardProps> = ({
   const theme = useTheme()
   const iconProps = useIconProps()
   const { lang } = useTranslation('common')
-  const { currency } = useGeneralContext()
+  const { currency, currencyRate } = useGeneralContext()
   const { updateAccount } = useWalletsContext()
   const router = useRouter()
 
@@ -106,7 +106,9 @@ const AccountCard: React.FC<AccountCardProps> = ({
             <Typography variant="h4">
               {formatTokenAmount(tokenAmounts, account.crypto, lang)}
             </Typography>
-            <Typography variant="h6">{formatCurrency(usdBalance, currency, lang)}</Typography>
+            <Typography variant="h6">
+              {formatCurrency(usdBalance * currencyRate, currency, lang)}
+            </Typography>
           </Box>
         )}
         {isChromeExt ? null : (
