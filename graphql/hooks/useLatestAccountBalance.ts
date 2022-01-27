@@ -1,45 +1,52 @@
 import { gql, useQuery } from '@apollo/client'
 import React from 'react'
 import get from 'lodash/get'
-import set from 'lodash/set'
-import cloneDeep from 'lodash/cloneDeep'
+import flatten from 'lodash/flatten'
 import { getLatestAccountBalance } from '../queries/accountBalances'
-
-let isSkippedState = false
 
 const useLatestAccountBalance = (crypto: string, address: string) => {
   const queryResult = useQuery(
     gql`
-      ${getLatestAccountBalance(crypto)}
+      ${getLatestAccountBalance(crypto, address)}
     `,
     {
-      variables: {
-        address,
-      },
       pollInterval: 15000,
     }
   )
-  const [result, setResult] = React.useState<any>({ data: {} })
 
-  // HACK: prevent rewards returned from bdjuno to jump to 0
-  React.useEffect(() => {
-    setResult((r) => {
-      const resultToReturn = cloneDeep(queryResult)
-      if (
-        get(resultToReturn, 'data.account[0].rewards', []).length === 0 &&
-        get(r, 'data.account[0].rewards', []).length > 0 &&
-        !isSkippedState
-      ) {
-        set(resultToReturn, 'data.account[0].rewards', get(r, 'data.account[0].rewards', []))
-        isSkippedState = true
-      } else {
-        isSkippedState = false
-      }
-      return resultToReturn
-    })
-  }, [queryResult])
+  const data = {
+    account: [
+      {
+        available: [
+          {
+            tokens_prices: get(queryResult, 'data.token_price', []),
+            coins: get(queryResult, 'data.action_account_balance.coins', []),
+          },
+        ],
+        delegated: get(queryResult, 'data.action_delegation_total.coins', []).map((r) => ({
+          amount: r,
+        })),
+        unbonding: get(queryResult, 'data.action_unbonding_delegation_total.coins', []).map(
+          (r) => ({
+            amount: r,
+          })
+        ),
+        rewards: flatten(
+          get(queryResult, 'data.action_delegation_reward', []).map((r) => ({
+            amount: r.coins,
+          }))
+        ).filter((c: any) => c.amount),
+        commissions: get(queryResult, 'data.action_validator_commission_amount.coins', []).map(
+          (r) => ({
+            amount: r,
+          })
+        ),
+      },
+    ],
+  }
+  console.log(data)
 
-  return result
+  return { ...queryResult, data }
 }
 
 export default useLatestAccountBalance

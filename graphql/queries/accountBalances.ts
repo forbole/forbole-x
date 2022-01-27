@@ -2,68 +2,42 @@ const getGqlDateFormat = (date: Date) => date.toISOString().split('.')[0]
 
 const now = getGqlDateFormat(new Date())
 
-export const getLatestAccountBalance = (crypto: string): string => `
-  query AccountBalance($address: String!) {
-    account(where: {address: {_eq: $address}}) {
-      address
-      available: account_balances(limit: 1, order_by: {height: desc}) {
-        coins
-        height
-        tokens_prices {
-          unit_name
-          price
-          timestamp
-          token_unit {
+export const getLatestAccountBalance = (crypto: string, address: string): string => `
+  query AccountBalance {
+    token_price {
+      token_unit {
+        denom
+        exponent
+        token {
+          token_units {
             denom
             exponent
-            token {
-              token_units {
-                denom
-                exponent
-              }
-            }
           }
         }
       }
-      delegated: delegations(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}]) {
-        amount
-        validator {
-          validator_info {
-            operator_address
-          }
-        }
-        validator_address
-      }
-      unbonding: unbonding_delegations(where: {completion_timestamp: {_gt: "${now}"}}, order_by: [{validator_address: desc}, {height: desc}]) {
-        amount
-        completion_timestamp
-        height
-        validator {
-          validator_info {
-            operator_address
-          }
-        }
-        validator_address
-      }
-      rewards: delegation_rewards(distinct_on: [validator_address], order_by: [{validator_address: desc}, {height: desc}]) {
-        amount
-        validator {
-          validator_info {
-            operator_address
-          }
-        }
-        validator_address
-      }
-      validator: validator_infos(where: {self_delegate_address: {_eq: $address}}) {
-        consensus_address
-        operator_address
-        self_delegate_address
-        validator {
-          commissions: validator_commission_amounts(limit: 1, order_by: {height: desc}) {
-            amount
-          }
-        }
-      }
+      price
+      timestamp
+      unit_name
+    }
+    action_account_balance(address: "${address}") {
+      coins
+    }
+    action_delegation_total(address: "${address}") {
+      coins
+    }
+    action_unbonding_delegation_total(address: "${address}") {
+      coins
+    }
+    ${
+      address.includes('valoper') // validator only
+        ? `action_validator_commission_amount(address: "${address}") {
+      coins
+    }`
+        : ''
+    }
+    action_delegation_reward(address: "${address}") {
+      coins
+      validator_address
     }
   }  
 `
