@@ -70,7 +70,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
   hideChart,
 }) => {
   const { t, lang } = useTranslation('common')
-  const { currency } = useGeneralContext()
+  const { currency, currencyRate } = useGeneralContext()
   const theme: CustomTheme = useTheme()
   const [currentDateRange, setCurrentDateRange] = React.useState(
     dateRanges.find((d) => d.isDefault)
@@ -140,14 +140,14 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
                 dataKey="balance"
                 axisLine={false}
                 tickLine={false}
-                tickFormatter={(v) => formatCurrency(v, currency, lang, true, true)}
+                tickFormatter={(v) => formatCurrency(v * currencyRate, currency, lang, true, true)}
                 type="number"
                 domain={['dataMin', 'dataMax']}
               />
               <Tooltip
                 formatter={(v, i) => [
                   i === 'balance'
-                    ? formatCurrency(v, currency, lang, true)
+                    ? formatCurrency(v * currencyRate, currency, lang, true)
                     : formatCrypto(v, crypto, lang),
                 ]}
                 labelFormatter={(v) => format(v, 'd MMM h:ma')}
