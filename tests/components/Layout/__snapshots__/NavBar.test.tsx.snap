@@ -6,6 +6,7 @@ exports[`component: Layout - NavBar renders correctly 1`] = `
   id="navBar"
 >
   <CurrencyMenuButton />
+  <CurrencyMenuButton />
   <a
     aria-disabled={false}
     className="MuiButtonBase-root MuiIconButton-root HookGlobalStyles-navBarButton-12"
