@@ -25,7 +25,7 @@ const cryptocurrencies: { [key: string]: Cryptocurrency } = {
     ],
     gasAdjustment: 1.5,
     gasFee: {
-      amount: 0.02,
+      amount: 0.01,
       denom: 'udsm',
     },
     defaultGas: {
