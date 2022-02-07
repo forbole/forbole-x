@@ -269,11 +269,21 @@ export const transformValidatorsWithTokenAmount = (validators: Validator[], bala
         getTokenAmountFromDenoms([d.amount], tokensPrices)
     }
   })
+  const commissionsByValidator = {}
+  get(balanceData, 'account[0].validator', []).forEach((v) => {
+    get(v, 'validator.commissions', []).forEach((d) => {
+      commissionsByValidator[get(v, 'operator_address', '')] = getTokenAmountFromDenoms(
+        d.amount,
+        tokensPrices
+      )
+    })
+  })
   return validators.map((v) => ({
     ...v,
     delegated: delegatedByValidator[v.address],
     rewards: rewardsByValidator[v.address],
     unbonding: unbondingByValidator[v.address],
+    commissionAmount: commissionsByValidator[v.address],
   }))
 }
 

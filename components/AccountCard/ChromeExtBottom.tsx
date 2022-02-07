@@ -17,6 +17,7 @@ interface ChromeExtBottomProps {
   availableTokens: AvailableTokens
   delegated: TokenAmount
   rewards: TokenAmount
+  commissions: TokenAmount
   account: Account
   inflation: number
   balanceData: any
@@ -26,6 +27,7 @@ const ChromeExtBottom: React.FC<ChromeExtBottomProps> = ({
   availableTokens,
   delegated,
   rewards,
+  commissions,
   account,
   inflation,
   balanceData,
@@ -103,6 +105,7 @@ const ChromeExtBottom: React.FC<ChromeExtBottomProps> = ({
         account={account}
         tokensPrices={availableTokens.tokens_prices}
         validators={validators.filter((v) => !!v.rewards)}
+        commissions={commissions}
         openDelegationDialog={() => setDelegateDialogOpen(true)}
       />
       <SendDialog

@@ -252,6 +252,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
         account={account}
         tokensPrices={availableTokens.tokens_prices}
         validators={validators.filter((v) => !!v.rewards)}
+        commissions={get(accountBalance, 'balance.commissions', {})}
         openDelegationDialog={() => setDelegateDialogOpen(true)}
       />
       <SendDialog

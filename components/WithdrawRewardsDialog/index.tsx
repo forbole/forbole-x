@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
+import { Dialog, DialogTitle, IconButton, Tabs, Tab } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import cloneDeep from 'lodash/cloneDeep'
@@ -10,6 +10,7 @@ import { useWalletsContext } from '../../contexts/WalletsContext'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import useIsMobile from '../../misc/useIsMobile'
 import useSendTransaction from '../../misc/tx/useSendTransaction'
+import WithdrawCommission from './WithdrawCommission'
 
 export interface ValidatorTag extends Validator {
   isSelected: boolean
@@ -22,6 +23,7 @@ interface WithdrawRewardsDialogProps {
   open: boolean
   onClose(): void
   validators: Validator[]
+  commissions: TokenAmount
   preselectedValidatorAddresses?: string[]
   openDelegationDialog: () => void
 }
@@ -32,6 +34,7 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
   open,
   onClose,
   validators,
+  commissions,
   preselectedValidatorAddresses,
   openDelegationDialog,
 }) => {
@@ -42,10 +45,12 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
   const sendTransaction = useSendTransaction()
   const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
   const [loading, setLoading] = React.useState(false)
+  const [currentTab, setCurrentTab] = React.useState(0)
   const { password } = useWalletsContext()
 
   const confirm = React.useCallback(
     async (delegations: Array<ValidatorTag>, memo: string) => {
+      console.log(delegations)
       try {
         setLoading(true)
         const msgs: TransactionMsgWithdrawReward[] = delegations.map((r) => ({
@@ -100,19 +105,50 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
-      <DialogTitle>{t('withdraw reward')}</DialogTitle>
-      <SelectValidators
-        wallet={wallet}
-        account={account}
-        crypto={crypto}
-        totalAmount={totalAmount}
-        onConfirm={confirm}
-        validators={validators}
-        preselectedValidatorAddresses={preselectedValidatorAddresses}
-        loading={loading}
-        openDelegationDialog={openDelegationDialog}
-        onClose={onClose}
-      />
+
+      <DialogTitle>
+        {commissions && Object.values(commissions).length ? (
+          <Tabs
+            value={currentTab}
+            classes={{ indicator: classes.tabIndicator, root: classes.tabs }}
+            onChange={(e, v) => setCurrentTab(v)}
+            centered
+          >
+            <Tab classes={{ root: classes.tab }} label={t('withdraw reward')} />
+            <Tab classes={{ root: classes.tab }} label={t('withdraw commission')} />
+          </Tabs>
+        ) : (
+          t('withdraw reward')
+        )}
+      </DialogTitle>
+      {currentTab === 0 ? (
+        <SelectValidators
+          wallet={wallet}
+          account={account}
+          crypto={crypto}
+          totalAmount={totalAmount}
+          onConfirm={confirm}
+          validators={validators}
+          preselectedValidatorAddresses={preselectedValidatorAddresses}
+          loading={loading}
+          openDelegationDialog={openDelegationDialog}
+          onClose={onClose}
+        />
+      ) : (
+        <WithdrawCommission
+          account={account}
+          loading={loading}
+          totalAmount={commissions}
+          onConfirm={(m) =>
+            confirm(
+              validators
+                .filter((v) => Object.values(v.commissionAmount || {}).length > 0)
+                .map((v) => ({ ...v, isSelected: true })),
+              m
+            )
+          }
+        />
+      )}
     </Dialog>
   )
 }

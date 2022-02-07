@@ -57,7 +57,7 @@ const AccountCard: React.FC<AccountCardProps> = ({
     tokenAmounts,
     usdBalance,
     availableTokens,
-    balance: { delegated, rewards },
+    balance: { delegated, rewards, commissions },
   } = React.useMemo(() => {
     const accountBalance = transformGqlAcountBalance(data, Date.now())
     return {
@@ -127,6 +127,7 @@ const AccountCard: React.FC<AccountCardProps> = ({
           availableTokens={availableTokens}
           delegated={delegated}
           rewards={rewards}
+          commissions={commissions}
           balanceData={data}
           inflation={inflation}
         />
