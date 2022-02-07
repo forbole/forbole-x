@@ -77,10 +77,9 @@ const Proposal: React.FC = () => {
 
   const myVotes = React.useMemo(
     () =>
-      // accounts
-      //   .filter((a) => !!voteDetailMap[a.address])
-      //   .map((a) => ({ account: a, vote: voteDetailMap[a.address] })),
-      accounts[0] && voteDetail[0] ? [{ account: accounts[0], vote: voteDetail[0] }] : [],
+      accounts
+        .filter((a) => !!voteDetailMap[a.address])
+        .map((a) => ({ account: a, vote: voteDetailMap[a.address] })),
     [voteDetailMap, accounts]
   )
 
