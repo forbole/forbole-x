@@ -50,7 +50,6 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
 
   const confirm = React.useCallback(
     async (delegations: Array<ValidatorTag>, memo: string) => {
-      console.log(delegations)
       try {
         setLoading(true)
         const msgs: TransactionMsgWithdrawReward[] = delegations.map((r) => ({
@@ -76,15 +75,17 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
   const totalAmount = React.useMemo(() => {
     const total: TokenAmount = {}
 
-    validators.forEach((x) => {
-      Object.keys(x.rewards || {}).forEach((denom) => {
-        if (total[denom]) {
-          total[denom].amount += x.rewards[denom].amount
-        } else {
-          total[denom] = cloneDeep(x.rewards[denom])
-        }
+    validators
+      .filter((v) => !!v.rewards)
+      .forEach((x) => {
+        Object.keys(x.rewards || {}).forEach((denom) => {
+          if (total[denom]) {
+            total[denom].amount += x.rewards[denom].amount
+          } else {
+            total[denom] = cloneDeep(x.rewards[denom])
+          }
+        })
       })
-    })
     return total
   }, [validators])
 
@@ -128,7 +129,7 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
           crypto={crypto}
           totalAmount={totalAmount}
           onConfirm={confirm}
-          validators={validators}
+          validators={validators.filter((v) => !!v.rewards)}
           preselectedValidatorAddresses={preselectedValidatorAddresses}
           loading={loading}
           openDelegationDialog={openDelegationDialog}
