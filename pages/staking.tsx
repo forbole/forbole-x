@@ -37,7 +37,7 @@ const Staking: React.FC = () => {
   }, [activeAccount, accounts])
 
   return (
-    <Layout passwordRequired activeItem="/delegate">
+    <Layout passwordRequired activeItem="/staking">
       <Box display="flex" alignItems="center" mb={2}>
         <Typography variant="h1">{t('staking')}</Typography>
         {activeAccount ? (

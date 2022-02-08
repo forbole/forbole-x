@@ -198,7 +198,7 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
             onClose={() => setClaimingRewards(false)}
             account={account}
             tokensPrices={availableTokens.tokens_prices}
-            validators={validators.filter((v) => !!v.rewards)}
+            validators={validators}
             commissions={commissions}
             preselectedValidatorAddresses={[managingValidator.address]}
           />

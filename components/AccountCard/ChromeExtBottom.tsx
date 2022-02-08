@@ -104,7 +104,7 @@ const ChromeExtBottom: React.FC<ChromeExtBottomProps> = ({
         onClose={() => setWithdrawRewardsDialogOpen(false)}
         account={account}
         tokensPrices={availableTokens.tokens_prices}
-        validators={validators.filter((v) => !!v.rewards)}
+        validators={validators}
         commissions={commissions}
         openDelegationDialog={() => setDelegateDialogOpen(true)}
       />
