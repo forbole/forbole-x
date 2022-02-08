@@ -47,7 +47,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
   validators,
 }) => {
   const { lang, t } = useTranslation('common')
-  const { currency } = useGeneralContext()
+  const { currency, currencyRate } = useGeneralContext()
   const classes = useStyles()
   const iconProps = useIconProps()
   const theme = useTheme()
@@ -193,7 +193,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
               }}
               title={
                 currentTab === 0
-                  ? formatCurrency(usdBalance, currency, lang)
+                  ? formatCurrency(usdBalance * currencyRate, currency, lang)
                   : formatTokenAmount(
                       { [selectedTabToken]: selectedTabTokenAmount },
                       account.crypto,
@@ -204,7 +204,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                 currentTab === 0
                   ? ''
                   : formatCurrency(
-                      selectedTabTokenAmount.amount * selectedTabTokenAmount.price,
+                      selectedTabTokenAmount.amount * selectedTabTokenAmount.price * currencyRate,
                       currency,
                       lang
                     )
@@ -225,7 +225,8 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                         lang
                       )}
                       subtitle={formatCurrency(
-                        getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})),
+                        getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})) *
+                          currencyRate,
                         currency,
                         lang
                       )}
@@ -251,6 +252,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
         account={account}
         tokensPrices={availableTokens.tokens_prices}
         validators={validators.filter((v) => !!v.rewards)}
+        commissions={get(accountBalance, 'balance.commissions', {})}
         openDelegationDialog={() => setDelegateDialogOpen(true)}
       />
       <SendDialog

@@ -41,7 +41,7 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const theme: CustomTheme = useTheme()
-  const { currency } = useGeneralContext()
+  const { currency, currencyRate } = useGeneralContext()
   const isMobile = useIsMobile()
   const data = Object.keys(accountBalance.balance)
     .filter(
@@ -149,14 +149,16 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
           <Box>
             <Typography variant="h4">{t('total balance')}</Typography>
             <Typography>
-              {formatCurrency(usdPrice, currency, lang, true)} / {account.crypto}
+              {formatCurrency(usdPrice * currencyRate, currency, lang, true)} / {account.crypto}
             </Typography>
           </Box>
           <Box display="flex" flexDirection="column" alignItems="flex-end">
             <Typography variant={isMobile ? 'h4' : 'h1'}>
               {formatCrypto(totalBalance, account.crypto, lang)}
             </Typography>
-            <Typography>{formatCurrency(usdPrice * totalBalance, currency, lang)}</Typography>
+            <Typography>
+              {formatCurrency(usdPrice * totalBalance * currencyRate, currency, lang)}
+            </Typography>
           </Box>
         </Box>
       </Card>

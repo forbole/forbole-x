@@ -36,6 +36,7 @@ interface CustomPalette extends Palette {
   buttonDisabled: string
   validator: string
   cardBackground: string
+  bannerBackground: string
 }
 
 export interface CustomTheme extends Theme {
@@ -205,6 +206,7 @@ const lightTheme = {
     reactJsonBackground: '#F7F7F7',
     buttonDisabled: '#BFDFFF',
     cardBackground: '#F7F7F7',
+    bannerBackground: '#1A2A3D',
   },
 } as unknown as ThemeOptions
 
@@ -302,6 +304,7 @@ const darkTheme = {
       three: '#FC6A8A',
     },
     cardBackground: '#3D4047',
+    bannerBackground: '#1A2A3D',
   },
 } as unknown as ThemeOptions
 

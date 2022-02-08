@@ -52,7 +52,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const { currency, theme } = useGeneralContext()
+  const { currency, theme, currencyRate } = useGeneralContext()
   const [amount, setAmount] = React.useState<TokenAmount>({})
   const [page, setPage] = React.useState(0)
   const [value, setValue] = React.useState('')
@@ -67,8 +67,6 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   }
 
   const [isSelectAll, setIsSelectAll] = React.useState(false)
-
-  // const tabs = [{ label: 'withdraw reward' }, { label: 'withdraw commission' }]
 
   const validatorsWithTag = []
   validators.forEach((x) => {
@@ -241,7 +239,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                   {formatTokenAmount(amount, account.crypto, lang)}
                 </Typography>
                 <Typography>
-                  {formatCurrency(getTokenAmountBalance(amount), currency, lang)}
+                  {formatCurrency(getTokenAmountBalance(amount) * currencyRate, currency, lang)}
                 </Typography>
               </Box>
               <Button

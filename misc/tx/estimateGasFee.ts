@@ -22,9 +22,7 @@ const transformMsg = (obj: any): any =>
 
 const transformFee = async (signer: string, crypto: Cryptocurrency, gas: number) => {
   const fee: any = {
-    amount: [
-      { amount: String(Math.round(gas * crypto.gasFee.amount)), denom: crypto.gasFee.denom },
-    ],
+    amount: [{ amount: String(Math.ceil(gas * crypto.gasFee.amount)), denom: crypto.gasFee.denom }],
     gas: String(gas),
   }
   return fee

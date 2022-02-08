@@ -24,7 +24,8 @@ const fetchBalance = async (address: string, crypto: string, timestamp: Date) =>
     denoms
   )
   const unbonding = getTokenAmountFromDenoms(
-    get(balance, 'data.account_balance_history[0].unbonding', []),
+    // BDJuno mixes up redelegating and unbinding. will be fixed in hasura action
+    get(balance, 'data.account_balance_history[0].redelegating', []),
     denoms
   )
   const commissions = getTokenAmountFromDenoms(

@@ -29,16 +29,6 @@ const useStyles = makeStyles(
       flex: 1,
       margin: theme.spacing(2, 1),
     },
-    tabs: {
-      marginTop: theme.spacing(6),
-    },
-    tab: {
-      margin: theme.spacing(0, 4),
-    },
-    tabIndicator: {
-      backgroundColor:
-        theme.palette.type === 'light' ? theme.palette.text.primary : theme.palette.indicator,
-    },
     totalReward: {
       marginBottom: theme.spacing(3),
     },
@@ -69,6 +59,18 @@ const useStyles = makeStyles(
     },
     tablePagination: {
       justifyContent: 'center',
+    },
+    tabIndicator: {
+      backgroundColor: theme.palette.indicator,
+      width: theme.spacing(1),
+    },
+    tabs: {
+      '& .Mui-selected': {
+        color: theme.palette.indicator,
+      },
+    },
+    tab: {
+      margin: theme.spacing(0, 4),
     },
   }),
   {
