@@ -52,13 +52,23 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
     async (delegations: Array<ValidatorTag>, memo: string) => {
       try {
         setLoading(true)
-        const msgs: TransactionMsgWithdrawReward[] = delegations.map((r) => ({
-          typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
-          value: {
-            delegatorAddress: account.address,
-            validatorAddress: r.address,
-          },
-        }))
+        const msgs: (TransactionMsgWithdrawReward | TransactionMsgWithdrawCommission)[] =
+          delegations.map((r) =>
+            currentTab === 0
+              ? {
+                  typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+                  value: {
+                    delegatorAddress: account.address,
+                    validatorAddress: r.address,
+                  },
+                }
+              : {
+                  typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission',
+                  value: {
+                    validatorAddress: r.address,
+                  },
+                }
+          )
         await sendTransaction(password, account.address, {
           msgs,
           memo,
@@ -69,7 +79,7 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
         setLoading(false)
       }
     },
-    [password, account, sendTransaction]
+    [password, account, sendTransaction, currentTab]
   )
 
   const totalAmount = React.useMemo(() => {
