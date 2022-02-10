@@ -289,6 +289,13 @@ interface TransactionMsgWithdrawReward {
   }
 }
 
+interface TransactionMsgWithdrawCommission {
+  typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission'
+  value: {
+    validatorAddress: string
+  }
+}
+
 interface TransactionMsgSend {
   typeUrl: '/cosmos.bank.v1beta1.MsgSend'
   value: {
@@ -455,6 +462,7 @@ type TransactionMsg =
   | TransactionMsgUndelegate
   | TransactionMsgRedelegate
   | TransactionMsgWithdrawReward
+  | TransactionMsgWithdrawCommission
   | TransactionMsgSend
   | TransactionMsgMultiSend
   | TransactionMsgIBCTransfer
