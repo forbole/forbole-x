@@ -1,4 +1,5 @@
 import React from 'react'
+import get from 'lodash/get'
 import currencies from '../misc/currencies'
 import usePersistedState from '../misc/usePersistedState'
 
@@ -8,6 +9,7 @@ type FavValidators = string[]
 type FavAddress = { address: string; crypto: string; moniker: string; note?: string; img?: string }
 interface GeneralState {
   currency: Currency
+  currencyRate: number // per USD rate
   theme: Theme
   alwaysRequirePassword: boolean
   setAlwaysRequirePassword?: React.Dispatch<React.SetStateAction<boolean>>
@@ -24,6 +26,7 @@ interface GeneralState {
 
 const initialState: GeneralState = {
   currency: 'USD',
+  currencyRate: 1,
   theme: 'light',
   alwaysRequirePassword: false,
   favValidators: [],
@@ -34,6 +37,10 @@ const GeneralContext = React.createContext<GeneralState>(initialState)
 
 const GeneralProvider: React.FC = ({ children }) => {
   const [currency, setCurrency] = usePersistedState('currency', initialState.currency)
+  const [currencyRate, setCurrencyRate] = usePersistedState(
+    'currencyRate',
+    initialState.currencyRate
+  )
   const [theme, setTheme] = usePersistedState('theme', initialState.theme)
   const [alwaysRequirePassword, setAlwaysRequirePassword] = usePersistedState(
     'alwaysRequirePassword',
@@ -96,10 +103,27 @@ const GeneralProvider: React.FC = ({ children }) => {
     [setFavAddresses]
   )
 
+  React.useEffect(() => {
+    if (currency === 'USD') {
+      setCurrencyRate(1)
+    } else {
+      fetch(
+        `${process.env.NEXT_PUBLIC_ALPHAVANTAGE_API_URL}/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=${currency}&apikey=${process.env.NEXT_PUBLIC_ALPHAVANTAGE_API_KEY}`
+      )
+        .then((r) => r.json())
+        .then((r) =>
+          setCurrencyRate(
+            Number(get(r, ['Realtime Currency Exchange Rate', '5. Exchange Rate'], ''))
+          )
+        )
+    }
+  }, [currency])
+
   return (
     <GeneralContext.Provider
       value={{
         currency,
+        currencyRate,
         setCurrency,
         theme,
         setTheme,

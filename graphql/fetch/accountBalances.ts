@@ -6,7 +6,8 @@ import {
   sumTokenAmounts,
   transformGqlAcountBalance,
 } from '../../misc/utils'
-import { getBalance, getDelegatedBalance } from '../queries/accountBalances'
+import { transformHasuraActionResult } from '../hooks/useLatestAccountBalance'
+import { getDelegatedBalance, getLatestAccountBalance } from '../queries/accountBalances'
 
 export const fetchAccountBalance = async (
   address: string,
@@ -22,15 +23,15 @@ export const fetchAccountBalance = async (
   }
   total: TokenAmount
 }> => {
-  const balance = await fetch(cryptocurrencies[crypto].graphqlHttpUrl, {
+  const data = await fetch(cryptocurrencies[crypto].graphqlHttpUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      query: getBalance(crypto, availableBalanceOnly),
-      variables: { address },
+      query: getLatestAccountBalance(crypto, address, availableBalanceOnly),
     }),
   }).then((r) => r.json())
-  const accountBalance = transformGqlAcountBalance(balance.data, Date.now())
+  const balance = transformHasuraActionResult(data)
+  const accountBalance = transformGqlAcountBalance(balance, Date.now())
   return {
     accountBalance: accountBalance.balance,
     total: getTotalTokenAmount(accountBalance).amount,
