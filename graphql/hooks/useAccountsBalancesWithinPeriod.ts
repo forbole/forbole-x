@@ -2,17 +2,28 @@ import React from 'react'
 import get from 'lodash/get'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { getTokenAmountFromDenoms } from '../../misc/utils'
-import { getBalanceAtTimestamp } from '../queries/accountBalances'
+import { getAccountBalanceAtHeight } from '../queries/accountBalances'
+import { getBlockByTimestamp } from '../queries/blocks'
+import { transformHasuraActionResult } from './useLatestAccountBalance'
 
 const fetchBalance = async (address: string, crypto: string, timestamp: Date) => {
-  const balance = await fetch(cryptocurrencies[crypto].graphqlHttpUrl, {
+  const block = await fetch(cryptocurrencies[crypto].graphqlHttpUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      query: getBalanceAtTimestamp(crypto),
-      variables: { address, timestamp },
+      query: getBlockByTimestamp(crypto),
+      variables: { timestamp },
     }),
   }).then((r) => r.json())
+  const balanceResult = await fetch(cryptocurrencies[crypto].graphqlHttpUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query: getAccountBalanceAtHeight(crypto, address),
+      variables: { height: get(block, 'data.block[0].height'), timestamp },
+    }),
+  }).then((r) => r.json())
+  const balance = transformHasuraActionResult(balanceResult)
 
   const denoms = get(balance, 'data.account_balance_history[0].tokens_prices', [])
   const available = getTokenAmountFromDenoms(
