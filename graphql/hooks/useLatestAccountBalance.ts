@@ -12,15 +12,38 @@ export const transformHasuraActionResult = (queryResult: any) => ({
           coins: get(queryResult, 'data.action_account_balance.coins', []),
         },
       ],
-      delegated: get(queryResult, 'data.action_delegation_total.coins', []).map((r) => ({
-        amount: r,
+      delegated: get(queryResult, 'data.action_delegation.delegations', []).map((r) => ({
+        amount: r.coins,
+        validator: {
+          validator_info: {
+            operator_address: r.validator_address,
+          },
+        },
       })),
-      unbonding: get(queryResult, 'data.action_unbonding_delegation_total.coins', []).map((r) => ({
-        amount: r,
-      })),
+      unbonding: flatten(
+        get(queryResult, 'data.action_unbonding_delegation.unbonding_delegations', []).map((r) =>
+          get(r, 'entries', []).map((u) => ({
+            amount: {
+              amount: u.balance,
+              denom: 'udsm', // HACK
+            },
+            completion_timestamp: u.completion_time,
+            validator: {
+              validator_info: {
+                operator_address: r.validator_address,
+              },
+            },
+          }))
+        )
+      ),
       rewards: flatten(
         get(queryResult, 'data.action_delegation_reward', []).map((r) => ({
           amount: r.coins,
+          validator: {
+            validator_info: {
+              operator_address: r.validator_address,
+            },
+          },
         }))
       ).filter((c: any) => c.amount),
       commissions: get(queryResult, 'data.action_validator_commission_amount.coins', []).map(

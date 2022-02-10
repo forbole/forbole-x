@@ -1,5 +1,6 @@
 import React from 'react'
 import get from 'lodash/get'
+import flatten from 'lodash/flatten'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { getTokenAmountFromDenoms } from '../../misc/utils'
 import { getAccountBalanceAtHeight } from '../queries/accountBalances'
@@ -23,27 +24,31 @@ const fetchBalance = async (address: string, crypto: string, timestamp: Date) =>
       variables: { height: get(block, 'data.block[0].height'), timestamp },
     }),
   }).then((r) => r.json())
-  const balance = transformHasuraActionResult(balanceResult)
 
-  const denoms = get(balance, 'data.account_balance_history[0].tokens_prices', [])
+  const denoms = get(balanceResult, 'data.token_price', [])
   const available = getTokenAmountFromDenoms(
-    get(balance, 'data.account_balance_history[0].balance', []),
+    get(balanceResult, 'data.action_account_balance.coins', []),
     denoms
   )
   const delegated = getTokenAmountFromDenoms(
-    get(balance, 'data.account_balance_history[0].delegated', []),
+    flatten(get(balanceResult, 'data.action_delegation.delegations', []).map((d) => d.coins)),
     denoms
   )
   const unbonding = getTokenAmountFromDenoms(
-    get(balance, 'data.account_balance_history[0].unbonding', []),
+    flatten(
+      get(balanceResult, 'data.action_unbonding_delegation.unbonding_delegations', []).map((d) =>
+        d.entries.map((e) => ({ amount: e.balance, denom: 'udsm' }))
+      )
+    ),
     denoms
   )
+
   const commissions = getTokenAmountFromDenoms(
-    get(balance, 'data.account_balance_history[0].commission', []),
+    get(balanceResult, 'data.action_validator_commission_amount.coins', []),
     denoms
   )
   const rewards = getTokenAmountFromDenoms(
-    get(balance, 'data.account_balance_history[0].reward', []),
+    flatten(get(balanceResult, 'data.action_delegation_reward', []).map((r) => r.coins)),
     denoms
   )
 
@@ -57,7 +62,7 @@ const fetchBalance = async (address: string, crypto: string, timestamp: Date) =>
     },
     timestamp: timestamp.getTime(),
     availableTokens: {
-      coins: get(balance, 'data.account_balance_history[0].balance', []),
+      coins: get(balanceResult, 'data.action_account_balance.coins', []),
       tokens_prices: denoms,
     },
   }

@@ -30,12 +30,12 @@ export const getLatestAccountBalance = (
       availableBalanceOnly
         ? ''
         : `
-      action_delegation_total(address: "${address}") {
-        coins
-      }
-      action_unbonding_delegation_total(address: "${address}") {
-        coins
-      }
+        action_delegation(address: "${address}") {
+          delegations
+        }
+        action_unbonding_delegation(address: "${address}") {
+          unbonding_delegations
+        }
       ${
         address.includes('valoper') // validator only
           ? `action_validator_commission_amount(address: "${address}") {
@@ -72,11 +72,11 @@ export const getAccountBalanceAtHeight = (crypto: string, address: string): stri
     action_account_balance(address: "${address}", height: $height) {
       coins
     }
-    action_delegation_total(address: "${address}", height: $height) {
-      coins
+    action_delegation(address: "${address}") {
+      delegations
     }
-    action_unbonding_delegation_total(address: "${address}", height: $height) {
-      coins
+    action_unbonding_delegation(address: "${address}") {
+      unbonding_delegations
     }
     ${
       address.includes('valoper') // validator only

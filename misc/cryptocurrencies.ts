@@ -8,7 +8,7 @@ const cryptocurrencies: { [key: string]: Cryptocurrency } = {
     chainName: 'Desmos Mainnet',
     image: '/static/images/cryptocurrencies/dsm.svg',
     coinType: 852,
-    graphqlHttpUrl: 'https://gql-dev.mainnet.desmos.network/v1/graphql',
+    graphqlHttpUrl: 'https://gql.mainnet.desmos.network/v1/graphql',
     graphqlWsUrl: 'wss://gql-ws.mainnet.desmos.network/v1/graphql',
     blockExplorerBaseUrl: 'https://explorer.desmos.network',
     lcdApiUrl: 'https://api.mainnet.desmos.network',
