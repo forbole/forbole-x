@@ -216,6 +216,7 @@ const Account: React.FC = () => {
         delegatedTokens={delegatedTokens}
         crypto={crypto}
         availableTokens={availableTokens}
+        commissions={get(accountBalance, 'balance.commissions', {})}
       />
       <ActivitiesTable account={account} activities={activities} crypto={crypto} />
       {account ? (

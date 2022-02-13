@@ -109,10 +109,16 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
           />
         )
       case '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward':
+      case '/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission':
         return (
           <ClaimRewardsContent
             account={account}
-            msgs={transactionData.msgs as TransactionMsgWithdrawReward[]}
+            msgs={
+              transactionData.msgs as (
+                | TransactionMsgWithdrawReward
+                | TransactionMsgWithdrawCommission
+              )[]
+            }
             validators={validators}
           />
         )
