@@ -32,7 +32,7 @@ const ValidatorPopover: React.FC<ValidatorPopoverProps> = ({
 }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency } = useGeneralContext()
   const theme = useTheme()
 
   return (
@@ -63,9 +63,7 @@ const ValidatorPopover: React.FC<ValidatorPopoverProps> = ({
         <Typography variant="body2" color="textSecondary">
           {t('total delegation amount')}
         </Typography>
-        <Typography>
-          {formatCurrency(getTokenAmountBalance(balance) * currencyRate, currency, lang)}
-        </Typography>
+        <Typography>{formatCurrency(getTokenAmountBalance(balance), currency, lang)}</Typography>
       </Box>
       {Object.keys(balance).map((key) => (
         <React.Fragment key={key}>
@@ -80,9 +78,7 @@ const ValidatorPopover: React.FC<ValidatorPopoverProps> = ({
               </Typography>
               <Typography variant="body2" color="textSecondary">
                 {formatCurrency(
-                  get(balance as any, `${key}.amount`, 0) *
-                    get(balance as any, `${key}.price`, 0) *
-                    currencyRate,
+                  get(balance as any, `${key}.amount`, 0) * get(balance as any, `${key}.price`, 0),
                   currency,
                   lang
                 )}

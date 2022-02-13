@@ -149,7 +149,7 @@ const Wallets: React.FC = () => {
         </>
       ) : (
         wallets.map((w) => (
-          <Box key={w.id} mt={2} bgcolor={themeStyle.palette.background.paper} p={3}>
+          <Box key={w.id} mt={2}>
             <Box display="flex" alignItems="center" mb={1}>
               {w.type === 'ledger' ? (
                 <LedgerIcon
@@ -164,7 +164,7 @@ const Wallets: React.FC = () => {
             <Grid container spacing={3}>
               {(accountsMap[w.id] || []).map((a) => (
                 <Grid key={a.address + a.walletId} item xl={4} lg={6} xs={12}>
-                  <AccountCard altBackground account={a} ledgerIconDisabled />
+                  <AccountCard account={a} ledgerIconDisabled />
                 </Grid>
               ))}
             </Grid>

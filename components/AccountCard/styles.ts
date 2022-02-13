@@ -10,16 +10,6 @@ const useStyles = makeStyles(
         backgroundColor: theme.palette.menuBackground,
       },
     },
-    altBackground: {
-      backgroundColor:
-        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.menuBackground,
-      '&:hover': {
-        backgroundColor:
-          theme.palette.type === 'light'
-            ? theme.palette.background.default
-            : theme.palette.grey[100],
-      },
-    },
     sendButton: {
       color: 'white',
       width: theme.spacing(18),

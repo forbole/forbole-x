@@ -1,54 +1,38 @@
 import React from 'react'
 import get from 'lodash/get'
-import flatten from 'lodash/flatten'
 import cryptocurrencies from '../../misc/cryptocurrencies'
 import { getTokenAmountFromDenoms } from '../../misc/utils'
-import { getAccountBalanceAtHeight } from '../queries/accountBalances'
-import { getBlockByTimestamp } from '../queries/blocks'
-import { transformHasuraActionResult } from './useLatestAccountBalance'
+import { getBalanceAtTimestamp } from '../queries/accountBalances'
 
 const fetchBalance = async (address: string, crypto: string, timestamp: Date) => {
-  const block = await fetch(cryptocurrencies[crypto].graphqlHttpUrl, {
+  const balance = await fetch(cryptocurrencies[crypto].graphqlHttpUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      query: getBlockByTimestamp(crypto),
-      variables: { timestamp },
-    }),
-  }).then((r) => r.json())
-  const balanceResult = await fetch(cryptocurrencies[crypto].graphqlHttpUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      query: getAccountBalanceAtHeight(crypto, address),
-      variables: { height: get(block, 'data.block[0].height'), timestamp },
+      query: getBalanceAtTimestamp(crypto),
+      variables: { address, timestamp },
     }),
   }).then((r) => r.json())
 
-  const denoms = get(balanceResult, 'data.token_price', [])
+  const denoms = get(balance, 'data.account_balance_history[0].tokens_prices', [])
   const available = getTokenAmountFromDenoms(
-    get(balanceResult, 'data.action_account_balance.coins', []),
+    get(balance, 'data.account_balance_history[0].balance', []),
     denoms
   )
   const delegated = getTokenAmountFromDenoms(
-    flatten(get(balanceResult, 'data.action_delegation.delegations', []).map((d) => d.coins)),
+    get(balance, 'data.account_balance_history[0].delegated', []),
     denoms
   )
   const unbonding = getTokenAmountFromDenoms(
-    flatten(
-      get(balanceResult, 'data.action_unbonding_delegation.unbonding_delegations', []).map((d) =>
-        d.entries.map((e) => ({ amount: e.balance, denom: 'udsm' }))
-      )
-    ),
+    get(balance, 'data.account_balance_history[0].unbonding', []),
     denoms
   )
-
   const commissions = getTokenAmountFromDenoms(
-    get(balanceResult, 'data.action_validator_commission_amount.coins', []),
+    get(balance, 'data.account_balance_history[0].commission', []),
     denoms
   )
   const rewards = getTokenAmountFromDenoms(
-    flatten(get(balanceResult, 'data.action_delegation_reward', []).map((r) => r.coins)),
+    get(balance, 'data.account_balance_history[0].reward', []),
     denoms
   )
 
@@ -62,7 +46,7 @@ const fetchBalance = async (address: string, crypto: string, timestamp: Date) =>
     },
     timestamp: timestamp.getTime(),
     availableTokens: {
-      coins: get(balanceResult, 'data.action_account_balance.coins', []),
+      coins: get(balance, 'data.account_balance_history[0].balance', []),
       tokens_prices: denoms,
     },
   }

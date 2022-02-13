@@ -1,73 +1,45 @@
 import { gql, useQuery } from '@apollo/client'
+import React from 'react'
 import get from 'lodash/get'
-import flatten from 'lodash/flatten'
+import set from 'lodash/set'
+import cloneDeep from 'lodash/cloneDeep'
 import { getLatestAccountBalance } from '../queries/accountBalances'
 
-export const transformHasuraActionResult = (queryResult: any) => ({
-  account: [
-    {
-      available: [
-        {
-          tokens_prices: get(queryResult, 'data.token_price', []),
-          coins: get(queryResult, 'data.action_account_balance.coins', []),
-        },
-      ],
-      delegated: get(queryResult, 'data.action_delegation.delegations', []).map((r) => ({
-        amount: r.coins,
-        validator: {
-          validator_info: {
-            operator_address: r.validator_address,
-          },
-        },
-      })),
-      unbonding: flatten(
-        get(queryResult, 'data.action_unbonding_delegation.unbonding_delegations', []).map((r) =>
-          get(r, 'entries', []).map((u) => ({
-            amount: {
-              amount: u.balance,
-              denom: 'udsm', // HACK
-            },
-            completion_timestamp: u.completion_time,
-            validator: {
-              validator_info: {
-                operator_address: r.validator_address,
-              },
-            },
-          }))
-        )
-      ),
-      rewards: flatten(
-        get(queryResult, 'data.action_delegation_reward', []).map((r) => ({
-          amount: r.coins,
-          validator: {
-            validator_info: {
-              operator_address: r.validator_address,
-            },
-          },
-        }))
-      ).filter((c: any) => c.amount),
-      commissions: get(queryResult, 'data.action_validator_commission_amount.coins', []).map(
-        (r) => ({
-          amount: r,
-        })
-      ),
-    },
-  ],
-})
+let isSkippedState = false
 
 const useLatestAccountBalance = (crypto: string, address: string) => {
   const queryResult = useQuery(
     gql`
-      ${getLatestAccountBalance(crypto, address)}
+      ${getLatestAccountBalance(crypto)}
     `,
     {
+      variables: {
+        address,
+      },
       pollInterval: 15000,
     }
   )
+  const [result, setResult] = React.useState<any>({ data: {} })
 
-  const data = transformHasuraActionResult(queryResult)
+  // HACK: prevent rewards returned from bdjuno to jump to 0
+  React.useEffect(() => {
+    setResult((r) => {
+      const resultToReturn = cloneDeep(queryResult)
+      if (
+        get(resultToReturn, 'data.account[0].rewards', []).length === 0 &&
+        get(r, 'data.account[0].rewards', []).length > 0 &&
+        !isSkippedState
+      ) {
+        set(resultToReturn, 'data.account[0].rewards', get(r, 'data.account[0].rewards', []))
+        isSkippedState = true
+      } else {
+        isSkippedState = false
+      }
+      return resultToReturn
+    })
+  }, [queryResult])
 
-  return { ...queryResult, data }
+  return result
 }
 
 export default useLatestAccountBalance

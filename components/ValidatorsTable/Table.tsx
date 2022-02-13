@@ -113,11 +113,11 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
       display: 'voting power',
       sort: true,
     },
-    // {
-    //   label: 'selfRatio',
-    //   display: 'self ratio',
-    //   sort: true,
-    // },
+    {
+      label: 'selfRatio',
+      display: 'self ratio',
+      sort: true,
+    },
     {
       label: 'commission',
       display: 'commission',
@@ -216,9 +216,9 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                     {formatCrypto(v.votingPower, crypto.name, lang)} (
                     {formatPercentage(v.votingPower / totalVotingPower, lang)})
                   </TableCell>
-                  {/* <TableCell className={classes.tableCell}>
+                  <TableCell className={classes.tableCell}>
                     {formatPercentage(v.selfRatio, lang)}
-                  </TableCell> */}
+                  </TableCell>
                   <TableCell className={classes.tableCell}>
                     {formatPercentage(v.commission, lang)}
                   </TableCell>

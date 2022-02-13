@@ -176,7 +176,7 @@ export const transformGqlAcountBalance = (data: any, timestamp: number): Account
     ),
     unbonding: getTokenAmountFromDenoms(
       get(data, 'account[0].unbonding', [])
-        // .filter((d) => new Date(d.completion_timestamp).getTime() > Date.now())
+        .filter((d) => new Date(d.completion_timestamp).getTime() > Date.now())
         .map((d) => d.amount),
       denoms
     ),
