@@ -16,7 +16,7 @@ interface SelectAmountProps {
 const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availableAmount }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency } = useGeneralContext()
   const [amount, setAmount] = React.useState('')
   const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
 
@@ -64,11 +64,7 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availab
           <Box>
             <Typography variant="h5">{formatCrypto(Number(amount), denom, lang)}</Typography>
             <Typography>
-              {formatCurrency(
-                Number(amount) * availableAmount[denom]?.price * currencyRate,
-                currency,
-                lang
-              )}
+              {formatCurrency(Number(amount) * availableAmount[denom]?.price, currency, lang)}
             </Typography>
           </Box>
           <Button

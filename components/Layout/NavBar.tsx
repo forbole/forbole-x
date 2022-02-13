@@ -20,7 +20,7 @@ import AddressBookIcon from '../../assets/images/icons/icon_address_book.svg'
 import MenuIcon from '../../assets/images/icons/icon_menu.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg'
-import CurrencyMenuButton from './CurrencyMenuButton'
+// import CurrencyMenuButton from './CurrencyMenuButton'
 // import LangMenuButton from './LangMenuButton'
 import ThemeModeButton from './ThemeModeButton'
 import useIconProps from '../../misc/useIconProps'
@@ -136,8 +136,8 @@ const NavBar: React.FC<{
           {HeaderLeftComponent}
         </Box>
       ) : null}
-      <CurrencyMenuButton />
-      {/* <LangMenuButton />
+      {/* <CurrencyMenuButton />
+      <LangMenuButton />
       <IconButton className={classes.navBarButton}>
         <NotiIcon {...iconProps} />
       </IconButton> */}

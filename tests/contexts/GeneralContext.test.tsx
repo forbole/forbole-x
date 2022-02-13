@@ -1,8 +1,6 @@
 import { renderHook, act, cleanup } from '@testing-library/react-hooks'
 import { GeneralProvider, useGeneralContext } from '../../contexts/GeneralContext'
 
-global.fetch = jest.fn().mockResolvedValue({ json: () => ({}) })
-
 describe('context: GeneralContext', () => {
   it('changes currency when setCurrency is called', async () => {
     const wrapper: React.FC = ({ children }) => <GeneralProvider>{children}</GeneralProvider>

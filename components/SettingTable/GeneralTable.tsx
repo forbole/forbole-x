@@ -86,7 +86,7 @@ const GeneralTable: React.FC = () => {
           >
             {currencies.map((x, i) => {
               return (
-                <div>
+                <>
                   <MenuItem
                     className={classes.menuItem}
                     button
@@ -100,7 +100,7 @@ const GeneralTable: React.FC = () => {
                   {i + 1 === currencies.length ? null : (
                     <Divider style={{ margin: themeStyle.spacing(1) }} />
                   )}
-                </div>
+                </>
               )
             })}
           </Menu>
@@ -186,7 +186,7 @@ const GeneralTable: React.FC = () => {
           >
             {themes.map((x, i) => {
               return (
-                <div>
+                <>
                   <MenuItem
                     className={classes.menuItem}
                     button
@@ -200,7 +200,7 @@ const GeneralTable: React.FC = () => {
                   {i + 1 === themes.length ? null : (
                     <Divider style={{ margin: themeStyle.spacing(1) }} />
                   )}
-                </div>
+                </>
               )
             })}
           </Menu>

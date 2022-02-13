@@ -52,7 +52,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const classes = useStyles()
   const theme = useTheme()
   const { t, lang } = useTranslation('common')
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency } = useGeneralContext()
   const { updateAccount } = useWalletsContext()
   const router = useRouter()
   // Historic data
@@ -133,9 +133,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
           ) : (
             <Typography variant="h4">{formatCrypto(0, crypto.name, lang)}</Typography>
           )}
-          <Typography variant="h6">
-            {formatCurrency(usdBalance * currencyRate, currency, lang)}
-          </Typography>
+          <Typography variant="h6">{formatCurrency(usdBalance, currency, lang)}</Typography>
           <Box>
             <Box>
               {loading ? (
@@ -173,9 +171,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
                       {formatPercentage(percentageChange, lang)} {t('24h')}
                     </Typography>
                   </Box>
-                  <Typography variant="caption">
-                    {formatCurrency(diff * currencyRate, currency, lang)}
-                  </Typography>
+                  <Typography variant="caption">{formatCurrency(diff, currency, lang)}</Typography>
                 </Box>
                 <Box display="flex" flex={1} flexDirection="column" alignItems="flex-end">
                   <IconButton onClick={toggleFav} id="button">

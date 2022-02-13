@@ -27,20 +27,14 @@ interface AccountCardProps {
   account: Account
   ledgerIconDisabled?: boolean
   isChromeExt?: boolean
-  altBackground?: boolean
 }
 
-const AccountCard: React.FC<AccountCardProps> = ({
-  account,
-  ledgerIconDisabled,
-  isChromeExt,
-  altBackground,
-}) => {
+const AccountCard: React.FC<AccountCardProps> = ({ account, ledgerIconDisabled, isChromeExt }) => {
   const classes = useStyles()
   const theme = useTheme()
   const iconProps = useIconProps()
   const { lang } = useTranslation('common')
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency } = useGeneralContext()
   const { updateAccount } = useWalletsContext()
   const router = useRouter()
 
@@ -73,7 +67,7 @@ const AccountCard: React.FC<AccountCardProps> = ({
 
   return (
     <Card
-      className={`${classes.container} ${altBackground ? classes.altBackground : ''}`}
+      className={classes.container}
       onClick={(e) => {
         const targetClassName = String((e.target as any).className)
         if (
@@ -106,9 +100,7 @@ const AccountCard: React.FC<AccountCardProps> = ({
             <Typography variant="h4">
               {formatTokenAmount(tokenAmounts, account.crypto, lang)}
             </Typography>
-            <Typography variant="h6">
-              {formatCurrency(usdBalance * currencyRate, currency, lang)}
-            </Typography>
+            <Typography variant="h6">{formatCurrency(usdBalance, currency, lang)}</Typography>
           </Box>
         )}
         {isChromeExt ? null : (

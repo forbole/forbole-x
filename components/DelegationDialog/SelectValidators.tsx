@@ -62,7 +62,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency } = useGeneralContext()
   const isMobile = useIsMobile()
   const theme = useTheme()
   const [delegations, setDelegations] = React.useState<
@@ -405,9 +405,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
         >
           <Box>
             <Typography variant="h5">{formatCrypto(totalAmount, denom, lang)}</Typography>
-            <Typography>
-              {formatCurrency(totalAmount * price * currencyRate, currency, lang)}
-            </Typography>
+            <Typography>{formatCurrency(totalAmount * price, currency, lang)}</Typography>
           </Box>
           <Button
             variant="contained"

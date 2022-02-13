@@ -57,7 +57,7 @@ const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
     <Table>
       <TableHead>
         <TableRow>
-          {/* <TableCell className={classes.tableCell}>{t('height')}</TableCell> */}
+          <TableCell className={classes.tableCell}>{t('height')}</TableCell>
           <TableCell className={classes.tableCell}>{t('validator')}</TableCell>
           <TableCell className={classes.tableCell}>{t('unbonded amount')}</TableCell>
           <TableCell className={classes.tableCell}>{t('expected delivery')}</TableCell>
@@ -67,10 +67,10 @@ const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
         {unbondings.map((u) => {
           return (
             <TableRow key={u.height} className={classes.tableRow}>
-              {/* <TableCell className={classes.tableCell}>
+              <TableCell className={classes.tableCell}>
                 {' '}
                 <Typography color="primary">{formatHeight(u.height)}</Typography>
-              </TableCell> */}
+              </TableCell>
               <TableCell className={classes.tableCell}>
                 <ValidatorAvatar
                   crypto={crypto}

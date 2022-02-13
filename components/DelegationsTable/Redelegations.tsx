@@ -69,7 +69,7 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
     <Table>
       <TableHead>
         <TableRow>
-          {/* <TableCell className={classes.tableCell}>{t('height')}</TableCell> */}
+          <TableCell className={classes.tableCell}>{t('height')}</TableCell>
           <TableCell className={classes.tableCell}>{t('from')}</TableCell>
           <TableCell className={classes.tableCell}>{t('redelegate to')}</TableCell>
           <TableCell className={classes.tableCell}>{t('redelegated amount')}</TableCell>
@@ -80,9 +80,9 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
         {redelegations.map((u) => {
           return (
             <TableRow key={u.height} className={classes.tableRow}>
-              {/* <TableCell className={classes.tableCell}>
+              <TableCell className={classes.tableCell}>
                 <Typography color="primary">{formatHeight(u.height)}</Typography>
-              </TableCell> */}
+              </TableCell>
 
               <TableCell className={classes.tableCell}>
                 <ValidatorAvatar
