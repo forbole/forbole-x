@@ -22,6 +22,7 @@ import generateProof from '../../misc/tx/generateProof'
 import SelectLedgerApp from './SelectLedgerApp'
 import useSendTransaction from '../../misc/tx/useSendTransaction'
 import TextInputDialogContent from './TextInputDialogContent'
+import RequestPrivateKey from './RequestPrivateKey'
 
 let ledgerTransport
 
@@ -33,6 +34,7 @@ enum Stage {
   SelectLedgerAppStage = 'select ledger app',
   SelectAddressStage = 'select address',
   ConnectLedgerStage = 'connect ledger',
+  RequestPrivateKeyStage = 'recovery phrase request',
   EnterPrivateKeyStage = 'enter private key',
   EnterChainLinkProofStage = 'enter chain link proof',
   SignInLedgerStage = 'sign in ledger',
@@ -69,6 +71,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
     shouldConnect ? Stage.SelectChainStage : Stage.StartStage
   )
 
+  const [consent, setConsent] = React.useState(false)
   const [mnemonic, setMnemonic] = React.useState('')
   const [chain, setChain] = React.useState('')
   const [ledgerApp, setLedgerApp] = React.useState('')
@@ -187,7 +190,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
                 } else if (type === 'terra station') {
                   genProofAndSendTx(undefined, false, true)
                 } else if (type === 'private key') {
-                  setStage(Stage.EnterPrivateKeyStage)
+                  setStage(Stage.RequestPrivateKeyStage)
                 } else if (type === 'upload proof') {
                   setStage(Stage.EnterChainLinkProofStage)
                 } else if (type === 'mnemonic') {
@@ -244,6 +247,23 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
               onConfirm={(app) => {
                 setLedgerApp(app)
                 setStage(Stage.ConnectLedgerStage)
+              }}
+            />
+          ),
+        }
+      case Stage.RequestPrivateKeyStage:
+        return {
+          title: t('recovery phrase request'),
+          dialogSize: 'sm',
+          content: (
+            <RequestPrivateKey
+              consent={consent}
+              setConsent={setConsent}
+              error={error}
+              title={t('request description')}
+              onConfirm={(app) => {
+                setLedgerApp(app)
+                setStage(Stage.EnterPrivateKeyStage)
               }}
             />
           ),
