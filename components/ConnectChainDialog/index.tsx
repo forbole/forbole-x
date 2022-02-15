@@ -22,7 +22,7 @@ import generateProof from '../../misc/tx/generateProof'
 import SelectLedgerApp from './SelectLedgerApp'
 import useSendTransaction from '../../misc/tx/useSendTransaction'
 import TextInputDialogContent from './TextInputDialogContent'
-import RequestPrivateKey from './RequestPrivateKey'
+import RequestPhrase from './RequestPhrase'
 
 let ledgerTransport
 
@@ -34,7 +34,7 @@ enum Stage {
   SelectLedgerAppStage = 'select ledger app',
   SelectAddressStage = 'select address',
   ConnectLedgerStage = 'connect ledger',
-  RequestPrivateKeyStage = 'recovery phrase request',
+  RequestPhraseStage = 'recovery phrase request',
   EnterPrivateKeyStage = 'enter private key',
   EnterChainLinkProofStage = 'enter chain link proof',
   SignInLedgerStage = 'sign in ledger',
@@ -190,11 +190,11 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
                 } else if (type === 'terra station') {
                   genProofAndSendTx(undefined, false, true)
                 } else if (type === 'private key') {
-                  setStage(Stage.RequestPrivateKeyStage)
+                  setStage(Stage.EnterPrivateKeyStage)
                 } else if (type === 'upload proof') {
                   setStage(Stage.EnterChainLinkProofStage)
                 } else if (type === 'mnemonic') {
-                  setStage(Stage.ImportMnemonicPhraseStage)
+                  setStage(Stage.RequestPhraseStage)
                 } else {
                   setStage(Stage.SelectLedgerAppStage)
                 }
@@ -251,17 +251,17 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
             />
           ),
         }
-      case Stage.RequestPrivateKeyStage:
+      case Stage.RequestPhraseStage:
         return {
           title: t('recovery phrase request'),
           dialogSize: 'sm',
           content: (
-            <RequestPrivateKey
+            <RequestPhrase
               consent={consent}
               setConsent={setConsent}
               title={t('request description')}
               onConfirm={() => {
-                setStage(Stage.EnterPrivateKeyStage)
+                setStage(Stage.ImportMnemonicPhraseStage)
               }}
             />
           ),

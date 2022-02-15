@@ -16,14 +16,14 @@ import React from 'react'
 import useStyles from './styles'
 import { CustomTheme } from '../../misc/theme'
 
-interface RequestPrivateKeyDialogContentProps {
+interface RequestPhraseDialogContentProps {
   onConfirm(): void
   consent: boolean
   setConsent: (value: boolean) => void
   title: string
 }
 
-const RequestPrivateKeyDialogContent: React.FC<RequestPrivateKeyDialogContentProps> = ({
+const RequestPhraseDialogContent: React.FC<RequestPhraseDialogContentProps> = ({
   onConfirm,
   consent,
   setConsent,
@@ -98,4 +98,4 @@ const RequestPrivateKeyDialogContent: React.FC<RequestPrivateKeyDialogContentPro
   )
 }
 
-export default RequestPrivateKeyDialogContent
+export default RequestPhraseDialogContent
