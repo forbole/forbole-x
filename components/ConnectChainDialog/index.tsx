@@ -259,10 +259,8 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
             <RequestPrivateKey
               consent={consent}
               setConsent={setConsent}
-              error={error}
               title={t('request description')}
-              onConfirm={(app) => {
-                setLedgerApp(app)
+              onConfirm={() => {
                 setStage(Stage.EnterPrivateKeyStage)
               }}
             />
