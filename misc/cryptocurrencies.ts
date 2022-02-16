@@ -12,7 +12,7 @@ const cryptocurrencies: { [key: string]: Cryptocurrency } = {
     graphqlWsUrl: 'wss://gql.desmos.forbole.com/v1/graphql',
     blockExplorerBaseUrl: 'https://explorer.desmos.network',
     lcdApiUrl: 'https://api.mainnet.desmos.network',
-    rpcApiUrl: 'https://rpc.desmos.forbole.com',
+    rpcApiUrl: 'https://rpc.mainnet.desmos.network',
     ibcChains: [
       {
         name: 'Desmos Mainnet',
