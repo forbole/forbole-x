@@ -68,8 +68,6 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
 
   const [isSelectAll, setIsSelectAll] = React.useState(false)
 
-  // const tabs = [{ label: 'withdraw reward' }, { label: 'withdraw commission' }]
-
   const validatorsWithTag = []
   validators.forEach((x) => {
     validatorsWithTag.push({ ...x, isSelected: false })

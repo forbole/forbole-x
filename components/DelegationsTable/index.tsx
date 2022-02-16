@@ -11,7 +11,7 @@ import Unbonding from './Unbonding'
 import RedelegationDialog from '../RedelegateDialog'
 import Redelegations from './Redelegations'
 import DelegationDialog from '../DelegationDialog'
-import ClaimRewardsDialog from '../WithdrawRewardsDialog'
+import WithdrawRewardsDialog from '../WithdrawRewardsDialog'
 
 interface DelegationsTableProps {
   isAddressDetail?: boolean
@@ -23,6 +23,7 @@ interface DelegationsTableProps {
   delegatedTokens: { [address: string]: Array<{ amount: string; denom: string }> }
   crypto: Cryptocurrency
   availableTokens: any
+  commissions: TokenAmount
 }
 
 const DelegationsTable: React.FC<DelegationsTableProps> = ({
@@ -35,6 +36,7 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
   delegatedTokens,
   crypto,
   availableTokens,
+  commissions,
 }) => {
   const classes = useStyles()
   const { t } = useTranslation('common')
@@ -189,14 +191,15 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
             defaultValidator={managingValidator}
             availableTokens={availableTokens}
           />
-          <ClaimRewardsDialog
+          <WithdrawRewardsDialog
             wallet={wallet}
             openDelegationDialog={() => setDelegating(true)}
             open={claimingRewards}
             onClose={() => setClaimingRewards(false)}
             account={account}
             tokensPrices={availableTokens.tokens_prices}
-            validators={validators.filter((v) => !!v.rewards)}
+            validators={validators}
+            commissions={commissions}
             preselectedValidatorAddresses={[managingValidator.address]}
           />
         </>

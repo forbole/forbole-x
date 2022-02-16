@@ -109,6 +109,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         case '/cosmos.staking.v1beta1.MsgUndelegate':
           return [m.value.validatorAddress]
         case '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward':
+        case '/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission':
           return [m.value.validatorAddress]
         default:
           return []
@@ -151,6 +152,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
           title: formatTokenAmount(totalAmount, crypto, lang),
         })
       case '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward':
+      case '/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission':
         return t('rewards was successfully withdrew')
       case '/cosmos.gov.v1beta1.MsgDeposit':
         return t('successfully deposited', {

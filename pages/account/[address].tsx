@@ -67,6 +67,7 @@ const Account: React.FC = () => {
       variables: {
         address: account ? `{${account.address}}` : '',
       },
+      pollInterval: 15000,
     }
   )
   const { data: profileData } = useQuery(
@@ -216,6 +217,7 @@ const Account: React.FC = () => {
         delegatedTokens={delegatedTokens}
         crypto={crypto}
         availableTokens={availableTokens}
+        commissions={get(accountBalance, 'balance.commissions', {})}
       />
       <ActivitiesTable account={account} activities={activities} crypto={crypto} />
       {account ? (

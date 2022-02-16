@@ -6,7 +6,7 @@ import ValidatorAvatar from '../../ValidatorAvatar'
 import cryptocurrencies from '../../../misc/cryptocurrencies'
 
 interface ClaimRewardsContentProps {
-  msgs: TransactionMsgWithdrawReward[]
+  msgs: (TransactionMsgWithdrawReward | TransactionMsgWithdrawCommission)[]
   account: Account
   validators: { [address: string]: Validator }
 }

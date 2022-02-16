@@ -122,6 +122,7 @@ interface Validator {
   rewards?: TokenAmount
   delegated?: TokenAmount
   unbonding?: TokenAmount
+  commissionAmount?: TokenAmount
   missedBlockCounter: number
 }
 
@@ -284,6 +285,13 @@ interface TransactionMsgWithdrawReward {
   typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward'
   value: {
     delegatorAddress: string
+    validatorAddress: string
+  }
+}
+
+interface TransactionMsgWithdrawCommission {
+  typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission'
+  value: {
     validatorAddress: string
   }
 }
@@ -454,6 +462,7 @@ type TransactionMsg =
   | TransactionMsgUndelegate
   | TransactionMsgRedelegate
   | TransactionMsgWithdrawReward
+  | TransactionMsgWithdrawCommission
   | TransactionMsgSend
   | TransactionMsgMultiSend
   | TransactionMsgIBCTransfer

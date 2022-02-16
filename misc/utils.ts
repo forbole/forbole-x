@@ -175,9 +175,7 @@ export const transformGqlAcountBalance = (data: any, timestamp: number): Account
       denoms
     ),
     unbonding: getTokenAmountFromDenoms(
-      get(data, 'account[0].unbonding', [])
-        // .filter((d) => new Date(d.completion_timestamp).getTime() > Date.now())
-        .map((d) => d.amount),
+      get(data, 'account[0].unbonding', []).map((d) => d.amount),
       denoms
     ),
     rewards: getTokenAmountFromDenoms(
@@ -264,16 +262,26 @@ export const transformValidatorsWithTokenAmount = (validators: Validator[], bala
   })
   const unbondingByValidator = {}
   get(balanceData, 'account[0].unbonding', []).forEach((d) => {
-    if (new Date(d.completion_timestamp).getTime() > Date.now()) {
+    if (new Date(`${d.completion_timestamp}Z`).getTime() > Date.now()) {
       unbondingByValidator[get(d, 'validator.validator_info.operator_address', '')] =
         getTokenAmountFromDenoms([d.amount], tokensPrices)
     }
+  })
+  const commissionsByValidator = {}
+  get(balanceData, 'account[0].validator', []).forEach((v) => {
+    get(v, 'validator.commissions', []).forEach((d) => {
+      commissionsByValidator[get(v, 'operator_address', '')] = getTokenAmountFromDenoms(
+        d.amount,
+        tokensPrices
+      )
+    })
   })
   return validators.map((v) => ({
     ...v,
     delegated: delegatedByValidator[v.address],
     rewards: rewardsByValidator[v.address],
     unbonding: unbondingByValidator[v.address],
+    commissionAmount: commissionsByValidator[v.address],
   }))
 }
 
@@ -285,7 +293,7 @@ export const transformUnbonding = (validatorsData: Validator[], balanceData: any
       validator: validators[get(u, 'validator.validator_info.operator_address', '')],
       amount: getTokenAmountFromDenoms([u.amount], tokensPrices),
       height: Number(u.height),
-      completionDate: new Date(u.completion_timestamp),
+      completionDate: new Date(`${u.completion_timestamp}Z`),
     }))
     .filter((r) => r.completionDate.getTime() > Date.now())
     .sort((a, b) => b.height - a.height)
@@ -315,7 +323,7 @@ export const transformRedelegations = (data: any, balanceData: any): Redelegatio
       },
       amount: getTokenAmountFromDenoms([u.amount], tokensPrices),
       height: Number(u.height),
-      completionDate: new Date(u.completion_timestamp),
+      completionDate: new Date(`${u.completion_timestamp}Z`),
     }))
     .filter((r) => r.completionDate.getTime() > Date.now())
     .sort((a, b) => b.height - a.height)
@@ -614,7 +622,7 @@ export const transformProposals = (proposalData: any): Proposal[] => {
         get(p, 'status', '') === 'PROPOSAL_STATUS_DEPOSIT'
       ),
       tag: getTag(get(p, 'status', '')),
-      duration: differenceInDays(new Date(get(p, 'voting_end_time')), Date.now()),
+      duration: differenceInDays(new Date(`${get(p, 'voting_end_time')}Z`), Date.now()),
     }))
     .sort((a, b) => (a.id < b.id ? 1 : -1))
 }
@@ -655,7 +663,7 @@ export const transformProposal = (
       get(p, 'status') === 'PROPOSAL_STATUS_DEPOSIT_PERIOD'
     ),
     tag: getTag(get(p, 'status')),
-    duration: differenceInDays(new Date(get(p, 'voting_end_time')), Date.now()),
+    duration: differenceInDays(new Date(`${get(p, 'voting_end_time')}Z`), Date.now()),
     depositDetails: get(p, 'proposal_deposits', []).map((x) => {
       if (get(x, 'denom') === tokensPrices.unit_name) {
         totalDepositsList = [...totalDepositsList, get(x, 'amount[0]')]
@@ -811,7 +819,7 @@ export const transformProfile = (data: any): Profile => {
 export const transformChainConnections = (data: any): ChainConnection[] => {
   const chains = Object.keys(connectableChains)
   return get(data, 'chain_link', []).map((d) => ({
-    creationTime: new Date(d.creation_time).getTime(),
+    creationTime: new Date(`${d.creation_time}Z`).getTime(),
     externalAddress: d.external_address,
     userAddress: d.user_address,
     chainName:
@@ -826,7 +834,7 @@ export const transformVestingAccount = (
   denoms: TokenPrice[]
 ): { total: TokenAmount; vestingPeriods: VestingPeriod[] } => {
   const vestingPeriods: VestingPeriod[] = []
-  const startTime = new Date(get(data, 'vesting_account[0].start_time')).getTime()
+  const startTime = new Date(`${get(data, 'vesting_account[0].start_time')}Z`).getTime()
   const periods = get(data, 'vesting_account[0].vesting_periods', [])
   let sumTime = startTime
   let total: TokenAmount = {}
