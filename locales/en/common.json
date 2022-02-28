@@ -509,5 +509,6 @@
   "request description": "Make sure you understand why Forbole X requires the recovery phrase to connect the chain",
   "private key consent": "<0>I’ve read and understood <1>Why does Forbole X ask for the recovery phrase of my accounts to connect all the different chain?</1></0>",
   "consent button": "Yes, I understand",
-  "sign out": "Sign Out"
+  "sign out": "Sign Out",
+  "set gas": "Set Gas"
 }
