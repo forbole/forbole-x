@@ -34,7 +34,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         className="MuiListItemIcon-root"
       >
         <div
-          className="MuiBox-root MuiBox-root-17"
+          className="MuiBox-root MuiBox-root-18"
         >
           <svg
             data-file-name="SvgLogo_expended"
@@ -47,7 +47,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       />
     </div>
     <div
-      className="MuiBox-root MuiBox-root-18 HookGlobalStyles-menuItems-4"
+      className="MuiBox-root MuiBox-root-19 HookGlobalStyles-menuItems-4"
     >
       <a
         aria-disabled={false}
@@ -286,7 +286,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       </a>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-19 HookGlobalStyles-favMenu-6"
+      className="MuiBox-root MuiBox-root-20 HookGlobalStyles-favMenu-6"
     >
       <div
         className="MuiListItemText-root HookGlobalStyles-starredAccounts-7"
@@ -399,7 +399,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         className="MuiListItemIcon-root"
       >
         <div
-          className="MuiBox-root MuiBox-root-14"
+          className="MuiBox-root MuiBox-root-15"
         >
           <svg
             data-file-name="SvgLogo_expended"
@@ -409,7 +409,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-15 HookGlobalStyles-menuItems-4"
+      className="MuiBox-root MuiBox-root-16 HookGlobalStyles-menuItems-4"
     >
       <a
         aria-disabled={false}
@@ -633,7 +633,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
       </a>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-16 HookGlobalStyles-favMenu-6"
+      className="MuiBox-root MuiBox-root-17 HookGlobalStyles-favMenu-6"
     >
       <div
         className="MuiListItemText-root HookGlobalStyles-starredAccounts-7"
