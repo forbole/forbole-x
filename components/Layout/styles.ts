@@ -98,6 +98,13 @@ const useStyles = makeStyles(
       flexDirection: 'column',
       transition: 'margin-left 0.2s ease-in-out',
     },
+    mobileSignoutButton: {
+      margin: theme.spacing(3),
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+    },
   }),
   {
     name: 'HookGlobalStyles',
