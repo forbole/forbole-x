@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Divider,
   Drawer,
   IconButton,
@@ -20,10 +21,12 @@ import AddressBookIcon from '../../assets/images/icons/icon_address_book.svg'
 import MenuIcon from '../../assets/images/icons/icon_menu.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg'
+import LogOutIcon from '../../assets/images/icons/log-out.svg'
 import CurrencyMenuButton from './CurrencyMenuButton'
 // import LangMenuButton from './LangMenuButton'
 import ThemeModeButton from './ThemeModeButton'
 import useIconProps from '../../misc/useIconProps'
+import { useWalletsContext } from '../../contexts/WalletsContext'
 
 const NavBar: React.FC<{
   HeaderLeftComponent?: React.ReactNode
@@ -45,6 +48,7 @@ const NavBar: React.FC<{
   const { t } = useTranslation('common')
   const theme = useTheme()
   const router = useRouter()
+  const { signOut } = useWalletsContext()
   const [isChromeExtMenuOpen, setIsChromeExtMenuOpen] = React.useState(false)
 
   const chromeExtMenuItems = React.useMemo(
@@ -127,6 +131,14 @@ const NavBar: React.FC<{
             )
           })}
         </List>
+        <Button
+          className={classes.mobileSignoutButton}
+          variant="outlined"
+          startIcon={<LogOutIcon {...iconProps} />}
+          onClick={signOut}
+        >
+          {t('sign out')}
+        </Button>
       </Drawer>
     </>
   ) : (
@@ -147,6 +159,13 @@ const NavBar: React.FC<{
           <SettingsIcon {...iconProps} />
         </IconButton>
       </Link>
+      <Button
+        className={classes.navBarButton}
+        startIcon={<LogOutIcon {...iconProps} />}
+        onClick={signOut}
+      >
+        {t('sign out')}
+      </Button>
     </Box>
   )
 }
