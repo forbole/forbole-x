@@ -22,6 +22,7 @@ import generateProof from '../../misc/tx/generateProof'
 import SelectLedgerApp from './SelectLedgerApp'
 import useSendTransaction from '../../misc/tx/useSendTransaction'
 import TextInputDialogContent from './TextInputDialogContent'
+import RequestPhrase from './RequestPhrase'
 
 let ledgerTransport
 
@@ -33,6 +34,7 @@ enum Stage {
   SelectLedgerAppStage = 'select ledger app',
   SelectAddressStage = 'select address',
   ConnectLedgerStage = 'connect ledger',
+  RequestPhraseStage = 'recovery phrase request',
   EnterPrivateKeyStage = 'enter private key',
   EnterChainLinkProofStage = 'enter chain link proof',
   SignInLedgerStage = 'sign in ledger',
@@ -69,6 +71,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
     shouldConnect ? Stage.SelectChainStage : Stage.StartStage
   )
 
+  const [consent, setConsent] = React.useState(false)
   const [mnemonic, setMnemonic] = React.useState('')
   const [chain, setChain] = React.useState('')
   const [ledgerApp, setLedgerApp] = React.useState('')
@@ -191,7 +194,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
                 } else if (type === 'upload proof') {
                   setStage(Stage.EnterChainLinkProofStage)
                 } else if (type === 'mnemonic') {
-                  setStage(Stage.ImportMnemonicPhraseStage)
+                  setStage(Stage.RequestPhraseStage)
                 } else {
                   setStage(Stage.SelectLedgerAppStage)
                 }
@@ -244,6 +247,21 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
               onConfirm={(app) => {
                 setLedgerApp(app)
                 setStage(Stage.ConnectLedgerStage)
+              }}
+            />
+          ),
+        }
+      case Stage.RequestPhraseStage:
+        return {
+          title: t('recovery phrase request'),
+          dialogSize: 'sm',
+          content: (
+            <RequestPhrase
+              consent={consent}
+              setConsent={setConsent}
+              title={t('request description')}
+              onConfirm={() => {
+                setStage(Stage.ImportMnemonicPhraseStage)
               }}
             />
           ),

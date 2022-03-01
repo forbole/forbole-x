@@ -67,6 +67,7 @@ const Account: React.FC = () => {
       variables: {
         address: account ? `{${account.address}}` : '',
       },
+      pollInterval: 15000,
     }
   )
   const { data: profileData } = useQuery(

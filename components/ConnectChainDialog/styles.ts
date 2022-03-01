@@ -57,6 +57,18 @@ const useStyles = makeStyles(
       padding: 0,
       marginLeft: theme.spacing(-1.5),
     },
+    requestBox: {
+      display: 'flex',
+      justifyContent: 'center',
+      textAlign: 'center',
+    },
+    checkboxContent: {
+      paddingTop: theme.spacing(8),
+      textAlign: 'initial',
+    },
+    requestButton: {
+      margin: theme.spacing(4, 2, 2, 0),
+    },
   }),
   {
     name: 'HookGlobalStyles',
