@@ -13,7 +13,7 @@ export const transformHasuraActionResult = (queryResult: any) => ({
         },
       ],
       delegated: get(queryResult, 'data.action_delegation.delegations', []).map((r) => ({
-        amount: r.coins,
+        amount: get(r, 'coins[0]', { amount: '0', denom: 'udsm' }),
         validator: {
           validator_info: {
             operator_address: r.validator_address,
