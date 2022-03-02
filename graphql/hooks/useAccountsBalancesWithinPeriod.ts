@@ -24,7 +24,7 @@ const fetchBalance = async (address: string, crypto: string, timestamp: Date) =>
     }),
   }).then((r) => r.json())
 
-  const denoms = get(balanceResult, 'data.token_price', [])
+  const denoms = get(balanceResult, 'data.token_price_history', [])
 
   const available = getTokenAmountFromDenoms(
     get(balanceResult, 'data.action_account_balance.coins', []),
