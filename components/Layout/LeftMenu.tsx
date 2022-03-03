@@ -41,7 +41,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
   const themeStyle: CustomTheme = useTheme()
   const iconProps = useIconProps(3)
   const { theme } = useGeneralContext()
-  const classes = useStyles({ theme })
+  const classes = useStyles({ mode: theme })
   const { accounts } = useWalletsContext()
   const favAccount = accounts.some((acc) => !!acc.fav)
   const items = React.useMemo(

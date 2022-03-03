@@ -1,5 +1,9 @@
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, } from '@material-ui/core/styles'
 import { CustomTheme } from '../../misc/theme'
+
+interface StyleProps {
+  mode?: string;
+}
 
 const useStyles = makeStyles(
   (theme: CustomTheme) => ({
@@ -108,15 +112,15 @@ const useStyles = makeStyles(
     },
     arrow: {
       '&:before': {
-        border: (props?: { theme: string }) =>
-          props.theme === 'light' ? `1px solid ${theme.palette.text.secondary}` : 'none',
+        border: (props: StyleProps) =>
+          props.mode === 'light' ? `1px solid ${theme.palette.text.secondary}` : 'none',
       },
       color: theme.palette.dialogBackground,
     },
     tooltip: {
       backgroundColor: theme.palette.dialogBackground,
-      border: (props?: { theme: string }) =>
-        props.theme === 'light' ? `1px solid ${theme.palette.text.secondary}` : 'none',
+      border: (props: StyleProps) =>
+        props.mode === 'light' ? `1px solid ${theme.palette.text.secondary}` : 'none',
       color: theme.palette.text.secondary,
       fontSize: theme.spacing(1.8),
       padding: theme.spacing(1, 1.5),

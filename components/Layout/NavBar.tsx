@@ -44,7 +44,7 @@ const NavBar: React.FC<{
   back,
 }) => {
   const iconProps = useIconProps(3)
-  const classes = useStyles()
+  const classes = useStyles({})
   const { t } = useTranslation('common')
   const theme = useTheme()
   const router = useRouter()

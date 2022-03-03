@@ -39,7 +39,7 @@ const Layout: React.FC<LayoutProps> = ({
   back,
   children,
 }) => {
-  const classes = useStyles()
+  const classes = useStyles({})
   const theme = useTheme()
   const [isMenuExpanded, setIsMenuExpanded, loaded] = usePersistedState('isMenuExpanded', true)
   const { isFirstTimeUser, appUnlockState, isChromeExtInstalled, unlockWallets, password } =

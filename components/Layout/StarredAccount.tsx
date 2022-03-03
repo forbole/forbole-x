@@ -31,7 +31,7 @@ const StarredAccount: React.FC<StarredAccountProps> = ({ account }) => {
   const themeStyle: CustomTheme = useTheme()
   const { lang } = useTranslation('common')
   const { currency } = useGeneralContext()
-  const classes = useStyles()
+  const classes = useStyles({})
   const crypto = cryptocurrencies[account.crypto]
   // Latest data
   const { data: balanceData, loading } = useLatestAccountBalance(account.crypto, account.address)
