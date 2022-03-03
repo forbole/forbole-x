@@ -94,7 +94,7 @@ const FollowUsTable: React.FC = () => {
           <Box display="flex">
             <BigDipperExplorerIcon {...iconProps} />
             <Typography className={classes.iconText} variant="subtitle1">
-              {t('big dipper blog explorer')}
+              {t('big dipper block explorer')}
             </Typography>
           </Box>
           <Typography>bigdipper.live</Typography>
