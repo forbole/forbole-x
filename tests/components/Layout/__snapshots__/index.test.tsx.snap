@@ -13,7 +13,7 @@ Array [
     setIsMenuExpanded={[Function]}
   />,
   <div
-    className="MuiBox-root MuiBox-root-15 HookGlobalStyles-main-13"
+    className="MuiBox-root MuiBox-root-19 HookGlobalStyles-main-13"
     style={
       Object {
         "marginLeft": 256,
@@ -38,7 +38,7 @@ Array [
     setIsMenuExpanded={[Function]}
   />,
   <div
-    className="MuiBox-root MuiBox-root-17 HookGlobalStyles-main-13"
+    className="MuiBox-root MuiBox-root-25 HookGlobalStyles-main-13"
     style={
       Object {
         "marginLeft": 256,
@@ -63,7 +63,7 @@ Array [
     setIsMenuExpanded={[Function]}
   />,
   <div
-    className="MuiBox-root MuiBox-root-19 HookGlobalStyles-main-13"
+    className="MuiBox-root MuiBox-root-31 HookGlobalStyles-main-13"
     style={
       Object {
         "marginLeft": 80,
@@ -87,7 +87,7 @@ Array [
     setIsMenuExpanded={[Function]}
   />,
   <div
-    className="MuiBox-root MuiBox-root-16 HookGlobalStyles-main-13"
+    className="MuiBox-root MuiBox-root-22 HookGlobalStyles-main-13"
     style={
       Object {
         "marginLeft": 256,
@@ -112,7 +112,7 @@ Array [
     setIsMenuExpanded={[Function]}
   />,
   <div
-    className="MuiBox-root MuiBox-root-18 HookGlobalStyles-main-13"
+    className="MuiBox-root MuiBox-root-28 HookGlobalStyles-main-13"
     style={
       Object {
         "marginLeft": 256,
