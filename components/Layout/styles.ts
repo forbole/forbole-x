@@ -1,10 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles'
 import { CustomTheme } from '../../misc/theme'
 
-interface StyleProps {
-  theme: string
-}
-
 const useStyles = makeStyles(
   (theme: CustomTheme) => ({
     leftMenuContainer: {
@@ -112,14 +108,14 @@ const useStyles = makeStyles(
     },
     arrow: {
       '&:before': {
-        border: (props: StyleProps) =>
+        border: (props?: { theme: string }) =>
           props.theme === 'light' ? `1px solid ${theme.palette.text.secondary}` : 'none',
       },
       color: theme.palette.dialogBackground,
     },
     tooltip: {
       backgroundColor: theme.palette.dialogBackground,
-      border: (props: StyleProps) =>
+      border: (props?: { theme: string }) =>
         props.theme === 'light' ? `1px solid ${theme.palette.text.secondary}` : 'none',
       color: theme.palette.text.secondary,
       fontSize: theme.spacing(1.8),
