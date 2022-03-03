@@ -130,6 +130,9 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
                   title={item.title}
                   placement="right"
                   arrow
+                  disableFocusListener={isMenuExpanded}
+                  disableHoverListener={isMenuExpanded}
+                  disableTouchListener={isMenuExpanded}
                 >
                   <ListItem
                     selected={selected}

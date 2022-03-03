@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { CustomTheme } from '../../misc/theme'
 
 interface StyleProps {
-  mode?: string;
+  mode?: string
 }
 
 const useStyles = makeStyles(
@@ -124,7 +124,7 @@ const useStyles = makeStyles(
       color: theme.palette.text.secondary,
       fontSize: theme.spacing(1.8),
       padding: theme.spacing(1, 1.5),
-    }
+    },
   }),
   {
     name: 'HookGlobalStyles',
