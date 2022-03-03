@@ -11,7 +11,7 @@ const LangMenuButton: React.FC = () => {
   const { t, lang } = useTranslation('common')
   const { locales, pathname, query } = useRouter()
   const iconProps = useIconProps(3)
-  const classes = useStyles()
+  const classes = useStyles({})
   const [anchor, setAnchor] = React.useState<Element>()
 
   const onClose = React.useCallback(() => setAnchor(undefined), [setAnchor])

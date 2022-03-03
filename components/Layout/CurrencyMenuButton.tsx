@@ -8,7 +8,7 @@ import useIconProps from '../../misc/useIconProps'
 
 const CurrencyMenuButton: React.FC = () => {
   const { currency, setCurrency } = useGeneralContext()
-  const classes = useStyles()
+  const classes = useStyles({})
   const iconProps = useIconProps(3)
 
   const [currencyAnchor, setCurrencyAnchor] = React.useState<Element>()

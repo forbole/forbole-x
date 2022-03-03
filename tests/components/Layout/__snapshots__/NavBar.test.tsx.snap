@@ -2,7 +2,7 @@
 
 exports[`component: Layout - NavBar renders correctly 1`] = `
 <div
-  className="MuiBox-root MuiBox-root-15 HookGlobalStyles-navBar-11"
+  className="MuiBox-root MuiBox-root-19 HookGlobalStyles-navBar-11"
   id="navBar"
 >
   <CurrencyMenuButton />

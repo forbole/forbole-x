@@ -9,7 +9,7 @@ import useIconProps from '../../misc/useIconProps'
 const ThemeModeButton: React.FC = () => {
   const { theme, setTheme } = useGeneralContext()
   const iconProps = useIconProps(3)
-  const classes = useStyles()
+  const classes = useStyles({})
   const isDarkMode = theme === 'dark'
   return (
     <IconButton
