@@ -5,7 +5,6 @@ import cryptocurrencies from '../../misc/cryptocurrencies'
 import { getTokenAmountFromDenoms } from '../../misc/utils'
 import { getAccountBalanceAtHeight } from '../queries/accountBalances'
 import { getBlockByTimestamp } from '../queries/blocks'
-import { transformHasuraActionResult } from './useLatestAccountBalance'
 
 const fetchBalance = async (address: string, crypto: string, timestamp: Date) => {
   const block = await fetch(cryptocurrencies[crypto].graphqlHttpUrl, {
@@ -25,7 +24,8 @@ const fetchBalance = async (address: string, crypto: string, timestamp: Date) =>
     }),
   }).then((r) => r.json())
 
-  const denoms = get(balanceResult, 'data.token_price', [])
+  const denoms = get(balanceResult, 'data.token_price_history', [])
+
   const available = getTokenAmountFromDenoms(
     get(balanceResult, 'data.action_account_balance.coins', []),
     denoms
@@ -37,7 +37,7 @@ const fetchBalance = async (address: string, crypto: string, timestamp: Date) =>
   const unbonding = getTokenAmountFromDenoms(
     flatten(
       get(balanceResult, 'data.action_unbonding_delegation.unbonding_delegations', []).map((d) =>
-        d.entries.map((e) => ({ amount: e.balance, denom: 'udsm' }))
+        d.entries.map((e) => ({ amount: e.balance, denom: cryptocurrencies[crypto].gasFee.denom }))
       )
     ),
     denoms

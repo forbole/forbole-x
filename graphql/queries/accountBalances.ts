@@ -1,7 +1,5 @@
 const getGqlDateFormat = (date: Date) => date.toISOString().split('.')[0]
 
-const now = getGqlDateFormat(new Date())
-
 export const getLatestAccountBalance = (
   crypto: string,
   address: string,
@@ -54,7 +52,7 @@ export const getLatestAccountBalance = (
 
 export const getAccountBalanceAtHeight = (crypto: string, address: string): string => `
   query AccountBalance($height: Int!, $timestamp: timestamp! ) {
-    token_price(limit: 1, order_by: { timestamp: desc }, where: { timestamp: { _lte: $timestamp } }) {
+    token_price_history(limit: 1, order_by: { timestamp: desc }, where: { timestamp: { _lte: $timestamp } }) {
       token_unit {
         denom
         exponent

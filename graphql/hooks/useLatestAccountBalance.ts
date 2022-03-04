@@ -2,8 +2,9 @@ import { gql, useQuery } from '@apollo/client'
 import get from 'lodash/get'
 import flatten from 'lodash/flatten'
 import { getLatestAccountBalance } from '../queries/accountBalances'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
-export const transformHasuraActionResult = (queryResult: any) => ({
+export const transformHasuraActionResult = (queryResult: any, denom: string) => ({
   account: [
     {
       available: [
@@ -13,7 +14,7 @@ export const transformHasuraActionResult = (queryResult: any) => ({
         },
       ],
       delegated: get(queryResult, 'data.action_delegation.delegations', []).map((r) => ({
-        amount: get(r, 'coins[0]', { amount: '0', denom: 'udsm' }),
+        amount: get(r, 'coins[0]', { amount: '0', denom }),
         validator: {
           validator_info: {
             operator_address: r.validator_address,
@@ -25,7 +26,7 @@ export const transformHasuraActionResult = (queryResult: any) => ({
           get(r, 'entries', []).map((u) => ({
             amount: {
               amount: u.balance,
-              denom: 'udsm', // HACK
+              denom,
             },
             completion_timestamp: u.completion_time,
             validator: {
@@ -65,7 +66,7 @@ const useLatestAccountBalance = (crypto: string, address: string) => {
     }
   )
 
-  const data = transformHasuraActionResult(queryResult)
+  const data = transformHasuraActionResult(queryResult, cryptocurrencies[crypto].gasFee.denom)
 
   return { ...queryResult, data }
 }
