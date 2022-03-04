@@ -30,7 +30,7 @@ export const fetchAccountBalance = async (
       query: getLatestAccountBalance(crypto, address, availableBalanceOnly),
     }),
   }).then((r) => r.json())
-  const balance = transformHasuraActionResult(data)
+  const balance = transformHasuraActionResult(data, cryptocurrencies[crypto].gasFee.denom)
   const accountBalance = transformGqlAcountBalance(balance, Date.now())
   return {
     accountBalance: accountBalance.balance,
