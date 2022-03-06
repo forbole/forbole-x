@@ -70,10 +70,10 @@ export const getAccountBalanceAtHeight = (crypto: string, address: string): stri
     action_account_balance(address: "${address}", height: $height) {
       coins
     }
-    action_delegation(address: "${address}") {
+    action_delegation(address: "${address}", height: $height) {
       delegations
     }
-    action_unbonding_delegation(address: "${address}") {
+    action_unbonding_delegation(address: "${address}", height: $height) {
       unbonding_delegations
     }
     ${
