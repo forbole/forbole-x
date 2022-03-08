@@ -22,11 +22,11 @@ const useSendTransaction = (): ((
       const compressedTxData = lzutf8.compress(JSON.stringify(transactionData), {
         outputEncoding: 'Base64',
       })
+      localStorage.setItem('web-unlock-pasword', password)
       if (isChromeExt) {
         const { url, query: currentQuery } = qs.parseUrl(router.asPath)
         const query = {
           ...currentQuery,
-          password,
           address,
           transactionData: compressedTxData,
         }

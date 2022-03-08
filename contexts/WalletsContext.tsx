@@ -27,6 +27,7 @@ interface WalletsState {
     backupPassword: string
   ) => Promise<string>
   reset?: () => void
+  signOut?: () => void
 }
 
 const initialState: WalletsState = {
@@ -106,6 +107,13 @@ const WalletsProvider: React.FC = ({ children }) => {
     },
     [isFirstTimeUser, setPassword, setWallets, setAccounts, setAppUnlockState]
   )
+
+  const signOut = React.useCallback(() => {
+    setAppUnlockState(initialState.appUnlockState)
+    setPassword(initialState.password)
+    setWallets(initialState.wallets)
+    setAccounts(initialState.accounts)
+  }, [])
 
   const updatePassword = React.useCallback(
     async (pw: string) => {
@@ -291,6 +299,7 @@ const WalletsProvider: React.FC = ({ children }) => {
         viewMnemonicPhrase,
         reset,
         updatePassword,
+        signOut,
       }}
     >
       {children}

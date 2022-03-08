@@ -48,6 +48,8 @@ interface ConfirmTransactionDialogProps {
   onClose(): void
 }
 
+const emptyGas = { amount: [{ amount: '0', denom: '' }], gas: '' }
+
 const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   address,
   transactionData: defaultTransactionData,
@@ -66,7 +68,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const crypto = account ? account.crypto : Object.keys(cryptocurrencies)[0]
 
   const [errMsg, setErrMsg] = React.useState('')
-  const [fee, setFee] = React.useState<any>({ amount: [{ amount: '0', denom: '' }], gas: '' })
+  const [fee, setFee] = React.useState<any>(emptyGas)
 
   const { data: denomsData } = useQuery(
     gql`
@@ -92,12 +94,6 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
       ...defaultTransactionData,
     }
   }, [account, signerInfo, defaultTransactionData, fee])
-
-  React.useEffect(() => {
-    if (defaultTransactionData && account) {
-      estimateGasFee(defaultTransactionData, account).then(setFee)
-    }
-  }, [defaultTransactionData, account])
 
   const validatorsAddresses = flatten(
     transactionData.msgs.map((m) => {
@@ -172,6 +168,12 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
   const [stage, setStage, toPrevStage, isPrevStageAvailable] =
     useStateHistory<ConfirmTransactionStage>(ConfirmTransactionStage.ConfirmStage)
 
+  React.useEffect(() => {
+    if (defaultTransactionData && account && stage === ConfirmTransactionStage.ConfirmStage) {
+      setFee(emptyGas)
+      estimateGasFee(defaultTransactionData, account).then(setFee)
+    }
+  }, [defaultTransactionData, account, stage])
   // For ledger
   const [isTxSigned, setIsTxSigned] = React.useState(false)
 
@@ -221,13 +223,14 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
               transactionData={transactionData}
               account={account}
               validators={validators}
-              onConfirm={() =>
+              onConfirm={(f) => {
+                setFee(f)
                 setStage(
                   get(wallet, 'type', '') === 'ledger'
                     ? ConfirmTransactionStage.ConnectLedgerStage
                     : ConfirmTransactionStage.SecurityPasswordStage
                 )
-              }
+              }}
             />
           ),
         }

@@ -20,7 +20,7 @@ const transformMsg = (obj: any): any =>
     }
   })
 
-const transformFee = async (signer: string, crypto: Cryptocurrency, gas: number) => {
+export const transformFee = (crypto: Cryptocurrency, gas: number) => {
   const fee: any = {
     amount: [{ amount: String(Math.ceil(gas * crypto.gasFee.amount)), denom: crypto.gasFee.denom }],
     gas: String(gas),
@@ -84,11 +84,11 @@ const estimateGasFee = async (
     const gas =
       Math.round(Number(get(result, 'gas_info.gas_used', '0')) * crypto.gasAdjustment) ||
       tx.msgs.map((msg) => crypto.defaultGas[msg.typeUrl]).reduce((a, b) => a + b, 0)
-    const fee = await transformFee(account.address, crypto, gas)
+    const fee = transformFee(crypto, gas)
     return fee
   } catch (err) {
     const gas = tx.msgs.map((msg) => crypto.defaultGas[msg.typeUrl]).reduce((a, b) => a + b, 0)
-    const fee = await transformFee(account.address, crypto, gas)
+    const fee = transformFee(crypto, gas)
     return fee
   }
 }

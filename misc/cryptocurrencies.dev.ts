@@ -8,11 +8,11 @@ const cryptocurrencies: { [key: string]: Cryptocurrency } = {
     chainName: 'Desmos',
     image: '/static/images/cryptocurrencies/dsm.svg',
     coinType: 852,
-    graphqlHttpUrl: 'https://gql.morpheus.desmos.network/v1/graphql',
-    graphqlWsUrl: 'wss://gql.morpheus.desmos.network/v1/graphql',
+    graphqlHttpUrl: 'https://gql-morpheus.desmos.forbole.com/v1/graphql',
+    graphqlWsUrl: 'wss://gql-morpheus.desmos.forbole.com/v1/graphql',
     blockExplorerBaseUrl: 'https://morpheus.desmos.network',
     lcdApiUrl: 'https://lcd.morpheus.desmos.network',
-    rpcApiUrl: 'https://rpc.morpheus.desmos.network',
+    rpcApiUrl: 'https://rpc-morpheus.desmos.forbole.com',
     ibcChains: [
       {
         name: 'Desmos',
