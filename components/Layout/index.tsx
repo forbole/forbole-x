@@ -46,7 +46,6 @@ const Layout: React.FC<LayoutProps> = ({
     useWalletsContext()
   // Hide menu for chrome extension
   const router = useRouter()
-  const defaultPassword = router.query.password
   const { isChromeExt } = useIsChromeExt()
 
   // Open ConfirmTransactionDialog with correct query params
@@ -75,8 +74,9 @@ const Layout: React.FC<LayoutProps> = ({
   const initPassword = React.useCallback(async () => {
     try {
       if (appUnlockState !== 'unlocked') {
-        if (defaultPassword) {
-          await unlockWallets(String(defaultPassword))
+        if (localStorage.getItem('web-unlock-pasword')) {
+          await unlockWallets(String(localStorage.getItem('web-unlock-pasword')))
+          localStorage.removeItem('web-unlock-pasword')
         } else if (password) {
           await unlockWallets(password)
         }
@@ -84,7 +84,7 @@ const Layout: React.FC<LayoutProps> = ({
     } catch (err) {
       console.log(err)
     }
-  }, [defaultPassword, password, appUnlockState, unlockWallets])
+  }, [password, appUnlockState, unlockWallets])
 
   React.useEffect(() => {
     initPassword()
