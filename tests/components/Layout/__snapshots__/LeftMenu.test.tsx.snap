@@ -34,7 +34,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         className="MuiListItemIcon-root"
       >
         <div
-          className="MuiBox-root MuiBox-root-17"
+          className="MuiBox-root MuiBox-root-24"
         >
           <svg
             data-file-name="SvgLogo_expended"
@@ -47,9 +47,10 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       />
     </div>
     <div
-      className="MuiBox-root MuiBox-root-18 HookGlobalStyles-menuItems-4"
+      className="MuiBox-root MuiBox-root-25 HookGlobalStyles-menuItems-4"
     >
       <a
+        aria-describedby={null}
         aria-disabled={false}
         className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-5 MuiListItem-gutters MuiListItem-button Mui-selected"
         href="/"
@@ -62,6 +63,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
+        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -72,6 +74,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
           }
         }
         tabIndex={0}
+        title="common:portfolio"
       >
         <div
           className="MuiListItemIcon-root"
@@ -97,6 +100,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         />
       </a>
       <a
+        aria-describedby={null}
         aria-disabled={false}
         className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-5 MuiListItem-gutters MuiListItem-button"
         href="/wallets"
@@ -109,6 +113,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
+        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -119,6 +124,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
           }
         }
         tabIndex={0}
+        title="common:wallet"
       >
         <div
           className="MuiListItemIcon-root"
@@ -144,6 +150,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         />
       </a>
       <a
+        aria-describedby={null}
         aria-disabled={false}
         className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-5 MuiListItem-gutters MuiListItem-button"
         href="/staking"
@@ -156,6 +163,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
+        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -166,6 +174,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
           }
         }
         tabIndex={0}
+        title="common:staking"
       >
         <div
           className="MuiListItemIcon-root"
@@ -191,6 +200,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         />
       </a>
       <a
+        aria-describedby={null}
         aria-disabled={false}
         className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-5 MuiListItem-gutters MuiListItem-button"
         href="/address-book"
@@ -203,6 +213,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
+        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -213,6 +224,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
           }
         }
         tabIndex={0}
+        title="common:address book"
       >
         <div
           className="MuiListItemIcon-root"
@@ -238,6 +250,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         />
       </a>
       <a
+        aria-describedby={null}
         aria-disabled={false}
         className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-5 MuiListItem-gutters MuiListItem-button"
         href="/proposals"
@@ -250,6 +263,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
+        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -260,6 +274,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
           }
         }
         tabIndex={0}
+        title="common:proposals"
       >
         <div
           className="MuiListItemIcon-root"
@@ -286,7 +301,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
       </a>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-19 HookGlobalStyles-favMenu-6"
+      className="MuiBox-root MuiBox-root-26 HookGlobalStyles-favMenu-6"
     >
       <div
         className="MuiListItemText-root HookGlobalStyles-starredAccounts-7"
@@ -399,7 +414,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         className="MuiListItemIcon-root"
       >
         <div
-          className="MuiBox-root MuiBox-root-14"
+          className="MuiBox-root MuiBox-root-19"
         >
           <svg
             data-file-name="SvgLogo_expended"
@@ -407,11 +422,15 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           />
         </div>
       </div>
+      <span
+        className="MuiTouchRipple-root"
+      />
     </div>
     <div
-      className="MuiBox-root MuiBox-root-15 HookGlobalStyles-menuItems-4"
+      className="MuiBox-root MuiBox-root-20 HookGlobalStyles-menuItems-4"
     >
       <a
+        aria-describedby={null}
         aria-disabled={false}
         className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-5 MuiListItem-gutters MuiListItem-button"
         href="/"
@@ -424,6 +443,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
+        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -434,6 +454,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           }
         }
         tabIndex={0}
+        title="common:portfolio"
       >
         <div
           className="MuiListItemIcon-root"
@@ -454,8 +475,12 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
             common:portfolio
           </span>
         </div>
+        <span
+          className="MuiTouchRipple-root"
+        />
       </a>
       <a
+        aria-describedby={null}
         aria-disabled={false}
         className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-5 MuiListItem-gutters MuiListItem-button"
         href="/wallets"
@@ -468,6 +493,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
+        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -478,6 +504,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           }
         }
         tabIndex={0}
+        title="common:wallet"
       >
         <div
           className="MuiListItemIcon-root"
@@ -498,8 +525,12 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
             common:wallet
           </span>
         </div>
+        <span
+          className="MuiTouchRipple-root"
+        />
       </a>
       <a
+        aria-describedby={null}
         aria-disabled={false}
         className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-5 MuiListItem-gutters MuiListItem-button"
         href="/staking"
@@ -512,6 +543,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
+        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -522,6 +554,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           }
         }
         tabIndex={0}
+        title="common:staking"
       >
         <div
           className="MuiListItemIcon-root"
@@ -542,8 +575,12 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
             common:staking
           </span>
         </div>
+        <span
+          className="MuiTouchRipple-root"
+        />
       </a>
       <a
+        aria-describedby={null}
         aria-disabled={false}
         className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-5 MuiListItem-gutters MuiListItem-button"
         href="/address-book"
@@ -556,6 +593,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
+        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -566,6 +604,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           }
         }
         tabIndex={0}
+        title="common:address book"
       >
         <div
           className="MuiListItemIcon-root"
@@ -586,8 +625,12 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
             common:address book
           </span>
         </div>
+        <span
+          className="MuiTouchRipple-root"
+        />
       </a>
       <a
+        aria-describedby={null}
         aria-disabled={false}
         className="MuiButtonBase-root MuiListItem-root HookGlobalStyles-menuItem-5 MuiListItem-gutters MuiListItem-button"
         href="/proposals"
@@ -600,6 +643,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
+        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -610,6 +654,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           }
         }
         tabIndex={0}
+        title="common:proposals"
       >
         <div
           className="MuiListItemIcon-root"
@@ -630,10 +675,13 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
             common:proposals
           </span>
         </div>
+        <span
+          className="MuiTouchRipple-root"
+        />
       </a>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-16 HookGlobalStyles-favMenu-6"
+      className="MuiBox-root MuiBox-root-21 HookGlobalStyles-favMenu-6"
     >
       <div
         className="MuiListItemText-root HookGlobalStyles-starredAccounts-7"
@@ -703,6 +751,9 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         >
           common:star now
         </span>
+        <span
+          className="MuiTouchRipple-root"
+        />
       </a>
     </div>
   </ul>

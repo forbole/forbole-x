@@ -23,7 +23,7 @@ const FollowUsTable: React.FC = () => {
     >
       <Link
         className={classes.socialMediaLink}
-        href="https://twitter.com/forbole"
+        href="https://twitter.com/forboleX"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -40,7 +40,7 @@ const FollowUsTable: React.FC = () => {
             </Typography>
           </Box>
 
-          <Typography>@forbole</Typography>
+          <Typography>@forboleX</Typography>
         </Box>
       </Link>
       <Divider />
@@ -94,7 +94,7 @@ const FollowUsTable: React.FC = () => {
           <Box display="flex">
             <BigDipperExplorerIcon {...iconProps} />
             <Typography className={classes.iconText} variant="subtitle1">
-              {t('big dipper blog explorer')}
+              {t('big dipper block explorer')}
             </Typography>
           </Box>
           <Typography>bigdipper.live</Typography>

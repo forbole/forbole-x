@@ -1,7 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CustomTheme } from '../../misc/theme'
+
+interface StyleProps {
+  mode?: string
+}
 
 const useStyles = makeStyles(
-  (theme) => ({
+  (theme: CustomTheme) => ({
     leftMenuContainer: {
       position: 'fixed',
       top: 0,
@@ -97,6 +102,28 @@ const useStyles = makeStyles(
       display: 'flex',
       flexDirection: 'column',
       transition: 'margin-left 0.2s ease-in-out',
+    },
+    mobileSignoutButton: {
+      margin: theme.spacing(3),
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+    },
+    arrow: {
+      '&:before': {
+        border: (props: StyleProps) =>
+          props.mode === 'light' ? `1px solid ${theme.palette.text.secondary}` : 'none',
+      },
+      color: theme.palette.dialogBackground,
+    },
+    tooltip: {
+      backgroundColor: theme.palette.dialogBackground,
+      border: (props: StyleProps) =>
+        props.mode === 'light' ? `1px solid ${theme.palette.text.secondary}` : 'none',
+      color: theme.palette.text.secondary,
+      fontSize: theme.spacing(1.8),
+      padding: theme.spacing(1, 1.5),
     },
   }),
   {
