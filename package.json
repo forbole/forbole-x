@@ -1,6 +1,6 @@
 {
   "name": "forbole-x",
-  "version": "0.18.4",
+  "version": "0.19.4",
   "private": true,
   "scripts": {
     "dev": "next dev",

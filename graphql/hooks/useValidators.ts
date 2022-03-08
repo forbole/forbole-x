@@ -12,6 +12,7 @@ const useValidators = (crypto: string, addresses?: string[]) => {
     `,
     addresses ? { variables: { addresses } } : undefined
   )
+
   const [fetchProfiles, { data: profilesData }] = useLazyQuery(
     gql`
       ${getProfiles(crypto)}
