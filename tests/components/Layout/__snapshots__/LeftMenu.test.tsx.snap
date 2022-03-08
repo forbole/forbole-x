@@ -63,7 +63,6 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -74,7 +73,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
           }
         }
         tabIndex={0}
-        title="common:portfolio"
+        title={null}
       >
         <div
           className="MuiListItemIcon-root"
@@ -113,7 +112,6 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -124,7 +122,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
           }
         }
         tabIndex={0}
-        title="common:wallet"
+        title={null}
       >
         <div
           className="MuiListItemIcon-root"
@@ -163,7 +161,6 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -174,7 +171,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
           }
         }
         tabIndex={0}
-        title="common:staking"
+        title={null}
       >
         <div
           className="MuiListItemIcon-root"
@@ -213,7 +210,6 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -224,7 +220,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
           }
         }
         tabIndex={0}
-        title="common:address book"
+        title={null}
       >
         <div
           className="MuiListItemIcon-root"
@@ -263,7 +259,6 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -274,7 +269,7 @@ exports[`component: Layout - LeftMenu renders activeItem "/" correctly 1`] = `
           }
         }
         tabIndex={0}
-        title="common:proposals"
+        title={null}
       >
         <div
           className="MuiListItemIcon-root"
@@ -443,7 +438,6 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -454,7 +448,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           }
         }
         tabIndex={0}
-        title="common:portfolio"
+        title={null}
       >
         <div
           className="MuiListItemIcon-root"
@@ -493,7 +487,6 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -504,7 +497,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           }
         }
         tabIndex={0}
-        title="common:wallet"
+        title={null}
       >
         <div
           className="MuiListItemIcon-root"
@@ -543,7 +536,6 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -554,7 +546,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           }
         }
         tabIndex={0}
-        title="common:staking"
+        title={null}
       >
         <div
           className="MuiListItemIcon-root"
@@ -593,7 +585,6 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -604,7 +595,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           }
         }
         tabIndex={0}
-        title="common:address book"
+        title={null}
       >
         <div
           className="MuiListItemIcon-root"
@@ -643,7 +634,6 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
         onMouseUp={[Function]}
         onTouchEnd={[Function]}
         onTouchMove={[Function]}
@@ -654,7 +644,7 @@ exports[`component: Layout - LeftMenu renders no matching activeItem correctly 1
           }
         }
         tabIndex={0}
-        title="common:proposals"
+        title={null}
       >
         <div
           className="MuiListItemIcon-root"
