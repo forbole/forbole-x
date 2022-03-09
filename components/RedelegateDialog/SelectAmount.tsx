@@ -35,9 +35,9 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
   const { amount: totalAmount, price } = Object.values(availableAmount)[0]
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const theme = useTheme()
-  const [amount, setAmount] = React.useState(totalAmount.toString())
+  const [amount, setAmount] = React.useState(hideAmount ? '' : totalAmount.toString())
   const [percentage, setPercentage] = React.useState('100')
   const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
 
@@ -56,7 +56,12 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
           <Typography className={classes.marginBottom}>
             {t('total delegation amount')}{' '}
             <b className={classes.marginLeft}>
-              {formatTokenAmount(availableAmount, account.crypto, lang, ', ')}
+              {formatTokenAmount(availableAmount, {
+                defaultUnit: account.crypto,
+                lang,
+                delimiter: ', ',
+                hideAmount,
+              })}
             </b>
           </Typography>
           <Grid container spacing={4}>
@@ -118,9 +123,14 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
           mx={2}
         >
           <Box>
-            <Typography variant="h5">{formatCrypto(Number(amount), denom, lang)}</Typography>
+            <Typography variant="h5">
+              {formatCrypto(Number(amount), { unit: denom, lang })}
+            </Typography>
             <Typography>
-              {formatCurrency(Number(amount) * price * currencyRate, currency, lang)}
+              {formatCurrency(Number(amount) * price * currencyRate, {
+                currency,
+                lang,
+              })}
             </Typography>
           </Box>
           <Button

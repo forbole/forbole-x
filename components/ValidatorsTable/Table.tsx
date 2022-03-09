@@ -213,7 +213,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                     <ValidatorAvatar crypto={crypto} validator={v} size="small" />
                   </TableCell>
                   <TableCell className={classes.tableCell}>
-                    {formatCrypto(v.votingPower, crypto.name, lang)} (
+                    {formatCrypto(v.votingPower, { unit: crypto.name, lang })} (
                     {formatPercentage(v.votingPower / totalVotingPower, lang)})
                   </TableCell>
                   {/* <TableCell className={classes.tableCell}>

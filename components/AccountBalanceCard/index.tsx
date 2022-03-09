@@ -41,7 +41,7 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const theme: CustomTheme = useTheme()
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const isMobile = useIsMobile()
   const data = Object.keys(accountBalance.balance)
     .filter(
@@ -139,7 +139,9 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
                   />
                   <Typography>{d.name}</Typography>
                 </Box>
-                <Typography>{formatCrypto(d.value, account.crypto, lang)}</Typography>
+                <Typography>
+                  {formatCrypto(d.value, { unit: account.crypto, lang, hideAmount })}
+                </Typography>
               </Box>
             ))}
           </Box>
@@ -149,15 +151,24 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
           <Box>
             <Typography variant="h4">{t('total balance')}</Typography>
             <Typography>
-              {formatCurrency(usdPrice * currencyRate, currency, lang, true)} / {account.crypto}
+              {formatCurrency(usdPrice * currencyRate, {
+                currency,
+                lang,
+                hideUnit: true,
+              })}{' '}
+              / {account.crypto}
             </Typography>
           </Box>
           <Box display="flex" flexDirection="column" alignItems="flex-end">
             <Typography variant={isMobile ? 'h4' : 'h1'}>
-              {formatCrypto(totalBalance, account.crypto, lang)}
+              {formatCrypto(totalBalance, { unit: account.crypto, lang, hideAmount })}
             </Typography>
             <Typography>
-              {formatCurrency(usdPrice * totalBalance * currencyRate, currency, lang)}
+              {formatCurrency(usdPrice * totalBalance * currencyRate, {
+                currency,
+                lang,
+                hideAmount,
+              })}
             </Typography>
           </Box>
         </Box>
@@ -190,16 +201,28 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
                   </TableCell>
                   <TableCell align="right">
                     {otherTokens.rewards[token]
-                      ? formatCrypto(otherTokens.rewards[token].amount, token, lang)
+                      ? formatCrypto(otherTokens.rewards[token].amount, {
+                          unit: token,
+                          lang,
+                          hideAmount,
+                        })
                       : ''}
                   </TableCell>
                   <TableCell align="right">
                     {otherTokens.commissions[token]
-                      ? formatCrypto(otherTokens.commissions[token].amount, token, lang)
+                      ? formatCrypto(otherTokens.commissions[token].amount, {
+                          unit: token,
+                          lang,
+                          hideAmount,
+                        })
                       : ''}
                   </TableCell>
                   <TableCell align="right">
-                    {formatCrypto(otherTokens.balances[token].amount, token, lang)}
+                    {formatCrypto(otherTokens.balances[token].amount, {
+                      unit: token,
+                      lang,
+                      hideAmount,
+                    })}
                   </TableCell>
                 </TableRow>
               ))}

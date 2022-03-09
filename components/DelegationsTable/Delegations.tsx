@@ -15,6 +15,7 @@ import useStyles from './styles'
 import { formatPercentage, formatTokenAmount } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
 import ValidatorAvatar from '../ValidatorAvatar'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface DelegationsProps {
   isAddressDetail?: boolean
@@ -33,6 +34,7 @@ const Delegations: React.FC<DelegationsProps> = ({
   const { t, lang } = useTranslation('common')
   // const themeStyle = useTheme()
   const isMobile = useIsMobile()
+  const { hideAmount } = useGeneralContext()
 
   return isMobile ? (
     <Table>
@@ -49,11 +51,15 @@ const Delegations: React.FC<DelegationsProps> = ({
                 </Box>
                 <Box display="flex" justifyContent="space-between" alignItems="flex-start">
                   <Typography>{t('delegated')}</Typography>
-                  <Typography>{formatTokenAmount(v.delegated, crypto.name, lang)}</Typography>
+                  <Typography>
+                    {formatTokenAmount(v.delegated, { defaultUnit: crypto.name, lang, hideAmount })}
+                  </Typography>
                 </Box>
                 <Box display="flex" justifyContent="space-between" alignItems="flex-start">
                   <Typography>{t('rewards')}</Typography>
-                  <Typography>{formatTokenAmount(v.rewards, crypto.name, lang)}</Typography>
+                  <Typography>
+                    {formatTokenAmount(v.rewards, { defaultUnit: crypto.name, lang, hideAmount })}
+                  </Typography>
                 </Box>
               </TableCell>
             </TableRow>
@@ -87,13 +93,13 @@ const Delegations: React.FC<DelegationsProps> = ({
                 {formatPercentage(v.commission, lang)}
               </TableCell>
               <TableCell className={classes.tableCell}>
-                {formatTokenAmount(v.delegated, crypto.name, lang)}
+                {formatTokenAmount(v.delegated, { defaultUnit: crypto.name, lang, hideAmount })}
               </TableCell>
               {/* <TableCell className={classes.tableCell}>
                 {formatPercentage(v.amtRatio, lang)}
               </TableCell> */}
               <TableCell className={classes.tableCell}>
-                {formatTokenAmount(v.rewards, crypto.name, lang)}
+                {formatTokenAmount(v.rewards, { defaultUnit: crypto.name, lang, hideAmount })}
               </TableCell>
               {isAddressDetail ? null : (
                 <TableCell className={classes.tableCell}>

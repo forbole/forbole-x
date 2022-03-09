@@ -16,6 +16,7 @@ import { formatTokenAmount, formatHeight } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
 import useIconProps from '../../misc/useIconProps'
 import ValidatorAvatar from '../ValidatorAvatar'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface RedelegationsProps {
   redelegations: Redelegation[]
@@ -26,7 +27,7 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const isMobile = useIsMobile()
-  const iconProps = useIconProps()
+  const { hideAmount } = useGeneralContext()
 
   return isMobile ? (
     <Table>
@@ -53,7 +54,9 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
                 </Box>
                 <Box display="flex" justifyContent="space-between" alignItems="flex-start">
                   <Typography>{t('redelegated amount')}</Typography>
-                  <Typography>{formatTokenAmount(r.amount, crypto.name, lang)}</Typography>
+                  <Typography>
+                    {formatTokenAmount(r.amount, { defaultUnit: crypto.name, lang, hideAmount })}
+                  </Typography>
                 </Box>
                 <Box display="flex" justifyContent="space-between" alignItems="flex-start">
                   <Typography>{t('expected delivery')}</Typography>
@@ -100,7 +103,7 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
               </TableCell>
 
               <TableCell className={classes.tableCell}>
-                {formatTokenAmount(u.amount, crypto.name, lang)}
+                {formatTokenAmount(u.amount, { defaultUnit: crypto.name, lang, hideAmount })}
               </TableCell>
               <TableCell className={classes.tableCell}>
                 <Box display="flex" alignItems="center">

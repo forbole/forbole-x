@@ -28,6 +28,7 @@ import { fetchAccountBalance } from '../../graphql/fetch/accountBalances'
 import { formatTokenAmount } from '../../misc/utils'
 import { CustomTheme } from '../../misc/theme'
 import cryptocurrencies from '../../misc/cryptocurrencies'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 const MAX_ADDRESSES = 100
 let inputTimeout
@@ -51,6 +52,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
+  const { hideAmount } = useGeneralContext()
   const theme: CustomTheme = useTheme()
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
@@ -225,7 +227,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
               <Box mt={2}>
                 <Typography>{t('balance')}</Typography>
                 <Typography color="textSecondary">
-                  {formatTokenAmount(hdAddress.balance, crypto, lang)}
+                  {formatTokenAmount(hdAddress.balance, { defaultUnit: crypto, lang, hideAmount })}
                 </Typography>
               </Box>
             </>
@@ -288,7 +290,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
                     </TableCell>
                     <TableCell className={classes.tableCell} align="right">
                       <Typography style={{ color }}>
-                        {formatTokenAmount(balance, crypto, lang)}
+                        {formatTokenAmount(balance, { defaultUnit: crypto, lang, hideAmount })}
                       </Typography>
                     </TableCell>
                   </TableRow>

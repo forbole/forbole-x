@@ -52,7 +52,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
   const classes = useStyles()
   const theme = useTheme()
   const { t, lang } = useTranslation('common')
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const { updateAccount } = useWalletsContext()
   const router = useRouter()
   // Historic data
@@ -127,14 +127,16 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
           {Object.keys(tokenAmounts).length ? (
             Object.keys(tokenAmounts).map((ta) => (
               <Typography key={ta} variant="h4">
-                {formatCrypto(tokenAmounts[ta].amount, ta, lang)}
+                {formatCrypto(tokenAmounts[ta].amount, { unit: ta, lang, hideAmount })}
               </Typography>
             ))
           ) : (
-            <Typography variant="h4">{formatCrypto(0, crypto.name, lang)}</Typography>
+            <Typography variant="h4">
+              {formatCrypto(0, { unit: crypto.name, lang, hideAmount })}
+            </Typography>
           )}
           <Typography variant="h6">
-            {formatCurrency(usdBalance * currencyRate, currency, lang)}
+            {formatCurrency(usdBalance * currencyRate, { currency, lang, hideAmount })}
           </Typography>
           <Box>
             <Box>
@@ -174,7 +176,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
                     </Typography>
                   </Box>
                   <Typography variant="caption">
-                    {formatCurrency(diff * currencyRate, currency, lang)}
+                    {formatCurrency(diff * currencyRate, { currency, lang, hideAmount })}
                   </Typography>
                 </Box>
                 <Box display="flex" flex={1} flexDirection="column" alignItems="flex-end">

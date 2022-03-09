@@ -70,7 +70,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
   hideChart,
 }) => {
   const { t, lang } = useTranslation('common')
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const theme: CustomTheme = useTheme()
   const [currentDateRange, setCurrentDateRange] = React.useState(
     dateRanges.find((d) => d.isDefault)
@@ -140,15 +140,28 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
                 dataKey="balance"
                 axisLine={false}
                 tickLine={false}
-                tickFormatter={(v) => formatCurrency(v * currencyRate, currency, lang, true, true)}
+                tickFormatter={(v) =>
+                  formatCurrency(v * currencyRate, {
+                    lang,
+                    currency,
+                    hideUnit: true,
+                    compact: true,
+                    hideAmount,
+                  })
+                }
                 type="number"
                 domain={['dataMin', 'dataMax']}
               />
               <Tooltip
                 formatter={(v, i) => [
                   i === 'balance'
-                    ? formatCurrency(v * currencyRate, currency, lang, true)
-                    : formatCrypto(v, crypto, lang),
+                    ? formatCurrency(v * currencyRate, {
+                        currency,
+                        lang,
+                        hideUnit: true,
+                        hideAmount,
+                      })
+                    : formatCrypto(v, { unit: crypto, lang, hideAmount }),
                 ]}
                 labelFormatter={(v) => format(v, 'd MMM h:ma')}
                 contentStyle={{ backgroundColor: theme.palette.background.paper }}
@@ -161,7 +174,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
                 dot={false}
                 strokeWidth={3}
               />
-              {get(data, '[0].amount') ? (
+              {get(data, '[0].amount') !== undefined ? (
                 <>
                   <YAxis
                     yAxisId="amount"
@@ -169,7 +182,15 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
                     orientation="right"
                     axisLine={false}
                     tickLine={false}
-                    tickFormatter={(v) => formatCrypto(v, crypto, lang, true, true)}
+                    tickFormatter={(v) =>
+                      formatCrypto(v, {
+                        unit: crypto,
+                        lang,
+                        hideUnit: true,
+                        compact: true,
+                        hideAmount,
+                      })
+                    }
                     type="number"
                     domain={['dataMin', 'dataMax']}
                   />

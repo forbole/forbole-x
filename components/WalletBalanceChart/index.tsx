@@ -20,7 +20,7 @@ import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBala
 const WalletBalanceChart: React.FC = () => {
   const classes = useStyles()
   const { lang } = useTranslation('common')
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const { accounts, wallets } = useWalletsContext()
   const [currentWallet, setCurrentWallet] = React.useState(wallets[0])
   const [timestamps, setTimestamps] = React.useState<Date[]>(
@@ -75,8 +75,8 @@ const WalletBalanceChart: React.FC = () => {
       />
       <BalanceChart
         data={data}
-        title={formatCurrency(balance * currencyRate, currency, lang)}
-        subtitle={formatCrypto(btcBalance, '฿', lang)}
+        title={formatCurrency(balance * currencyRate, { currency, lang, hideAmount })}
+        subtitle={formatCrypto(btcBalance, { unit: '฿', lang, hideAmount })}
         onDateRangeChange={(dateRange) => {
           setTimestamps(dateRange.timestamps.map((t) => new Date(t)))
         }}

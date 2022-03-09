@@ -47,7 +47,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
   validators,
 }) => {
   const { lang, t } = useTranslation('common')
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const classes = useStyles()
   const iconProps = useIconProps()
   const theme = useTheme()
@@ -77,12 +77,14 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
     timestamps
   )
   const chartData = accountsWithBalance.length
-    ? accountsWithBalance[0].balances.map((b) => ({
-        ...getTotalBalance(b, selectedTabToken),
-        amount: selectedTabToken
-          ? getTotalTokenAmount(b).amount[selectedTabToken].amount
-          : undefined,
-      }))
+    ? accountsWithBalance[0].balances.map((b) => {
+        return {
+          ...getTotalBalance(b, selectedTabToken),
+          amount: selectedTabToken
+            ? get(getTotalTokenAmount(b), ['amount', selectedTabToken, 'amount'], 0)
+            : undefined,
+        }
+      })
     : []
 
   const toggleFav = React.useCallback(() => {
@@ -193,11 +195,10 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
               }}
               title={
                 currentTab === 0
-                  ? formatCurrency(usdBalance * currencyRate, currency, lang)
+                  ? formatCurrency(usdBalance * currencyRate, { currency, lang, hideAmount })
                   : formatTokenAmount(
                       { [selectedTabToken]: selectedTabTokenAmount },
-                      account.crypto,
-                      lang
+                      { defaultUnit: account.crypto, lang, hideAmount }
                     )
               }
               subtitle={
@@ -205,8 +206,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                   ? ''
                   : formatCurrency(
                       selectedTabTokenAmount.amount * selectedTabTokenAmount.price * currencyRate,
-                      currency,
-                      lang
+                      { currency, lang, hideAmount }
                     )
               }
               loading={loading}
@@ -219,16 +219,15 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                     <StatBox
                       key={key}
                       title={t(key)}
-                      value={formatTokenAmount(
-                        get(accountBalance, `balance.${key}`, {}),
-                        account.crypto,
-                        lang
-                      )}
+                      value={formatTokenAmount(get(accountBalance, `balance.${key}`, {}), {
+                        defaultUnit: account.crypto,
+                        lang,
+                        hideAmount,
+                      })}
                       subtitle={formatCurrency(
                         getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})) *
                           currencyRate,
-                        currency,
-                        lang
+                        { currency, lang, hideAmount }
                       )}
                     />
                   ))}

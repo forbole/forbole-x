@@ -47,7 +47,7 @@ const Proposal: React.FC = () => {
 
   const { data: balanceData } = useLatestAccountBalance(
     crypto.name,
-    get(proposalData, 'proposal[0].proposer_address')
+    get(proposalData, 'proposal[0].proposer_address', '')
   )
 
   const { data: proporslReaultData } = useQuery(

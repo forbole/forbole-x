@@ -117,7 +117,7 @@ const VoteTable: React.FC<DepositTableProps> = ({ voteDetails, crypto }) => {
                   </TableCell>
                   <TableCell align="right">
                     <Typography variant="subtitle1">
-                      {formatCrypto(v.votingPower, crypto.name, lang)}
+                      {formatCrypto(v.votingPower, { unit: crypto.name, lang })}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">

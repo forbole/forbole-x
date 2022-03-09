@@ -22,6 +22,7 @@ import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.sv
 import TokenAmountInput from '../TokenAmountInput'
 import MemoInput from '../MemoInput'
 import { getTokenAmountFromDenoms, formatCrypto } from '../../misc/utils'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface InputAmountProps {
   loading: boolean
@@ -81,6 +82,7 @@ const InputAmount: React.FC<InputAmountProps> = ({
   const classes = useStyles()
   const iconProps = useIconProps()
   const theme = useTheme()
+  const { hideAmount } = useGeneralContext()
 
   const accountsMap = keyBy(accounts, 'address')
   const [memo, setMemo] = React.useState('')
@@ -133,7 +135,7 @@ const InputAmount: React.FC<InputAmountProps> = ({
           {proposal.depositEndTimeRaw ? <Timer timeString={proposal.depositEndTimeRaw} /> : null}
           <Typography variant="subtitle1" color="textSecondary">
             {`${t('remaining deposit amount')} `}
-            {formatCrypto(remainAmount(), crypto.name, lang)}
+            {formatCrypto(remainAmount(), { unit: crypto.name, lang, hideAmount })}
           </Typography>
         </Box>
         <Box>
@@ -201,8 +203,7 @@ const InputAmount: React.FC<InputAmountProps> = ({
               <Typography variant="subtitle1" color="textSecondary">
                 {`${'available amount'} ${formatCrypto(
                   Number(get(availableAmount, `${denom}.amount`, 0)),
-                  crypto.name,
-                  lang
+                  { unit: crypto.name, lang, hideAmount }
                 )}`}
               </Typography>
             </Box>

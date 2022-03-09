@@ -25,7 +25,8 @@ const MultiSendContent: React.FC<MultiSendContentProps> = ({
         <SendIcon width={theme.spacing(6)} height={theme.spacing(6)} />
         <Box mt={2} mb={4}>
           <Typography variant="h4">
-            {t('send')} {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
+            {t('send')}{' '}
+            {formatTokenAmount(totalAmount, { defaultUnit: account.crypto, lang, delimiter: ', ' })}
           </Typography>
         </Box>
       </Box>
@@ -44,11 +45,10 @@ const MultiSendContent: React.FC<MultiSendContentProps> = ({
             </Typography>
             <Typography>{t('amount')}</Typography>
             <Typography color="textSecondary">
-              {formatTokenAmount(
-                getTokenAmountFromDenoms(m.coins, denoms || []),
-                account.crypto,
-                lang
-              )}
+              {formatTokenAmount(getTokenAmountFromDenoms(m.coins, denoms || []), {
+                defaultUnit: account.crypto,
+                lang,
+              })}
             </Typography>
           </Box>
           <Divider />
