@@ -104,7 +104,12 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
             <Typography className={classes.marginBottom}>
               {t('available amount')}{' '}
               <b className={classes.marginLeft}>
-                {formatTokenAmount(availableAmount, account.crypto, lang, ', ')}
+                {formatTokenAmount(availableAmount, {
+                  defaultUnit: account.crypto,
+                  lang,
+                  delimiter: ', ',
+                  hideAmount,
+                })}
               </b>
             </Typography>
             <Grid container spacing={4}>
@@ -211,13 +216,16 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
           >
             <Box>
               <Typography variant="h5">
-                {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
+                {formatTokenAmount(totalAmount, {
+                  defaultUnit: account.crypto,
+                  lang,
+                  delimiter: ', ',
+                })}
               </Typography>
               <Typography>
                 {formatCurrency(getTokenAmountBalance(totalAmount) * currencyRate, {
                   currency,
                   lang,
-                  hideAmount,
                 })}
               </Typography>
             </Box>

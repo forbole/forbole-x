@@ -66,7 +66,11 @@ const AssetPopover: React.FC<AssetPopoverProps> = ({
             </Typography>
             <Box display="flex" flexDirection="column" alignItems="flex-end">
               <Typography>
-                {formatTokenAmount(get(accountBalance, key, {}), cryptocurrency.name, lang)}
+                {formatTokenAmount(get(accountBalance, key, {}), {
+                  defaultUnit: cryptocurrency.name,
+                  lang,
+                  hideAmount,
+                })}
               </Typography>
               <Typography variant="body2" color="textSecondary">
                 {formatCurrency(

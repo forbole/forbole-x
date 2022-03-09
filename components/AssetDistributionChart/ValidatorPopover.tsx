@@ -7,7 +7,6 @@ import {
   formatCrypto,
   formatCurrency,
   formatPercentage,
-  formatTokenAmount,
   getTokenAmountBalance,
 } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'

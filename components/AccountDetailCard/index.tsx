@@ -77,12 +77,14 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
     timestamps
   )
   const chartData = accountsWithBalance.length
-    ? accountsWithBalance[0].balances.map((b) => ({
-        ...getTotalBalance(b, selectedTabToken),
-        amount: selectedTabToken
-          ? getTotalTokenAmount(b).amount[selectedTabToken].amount
-          : undefined,
-      }))
+    ? accountsWithBalance[0].balances.map((b) => {
+        return {
+          ...getTotalBalance(b, selectedTabToken),
+          amount: selectedTabToken
+            ? get(getTotalTokenAmount(b), ['amount', selectedTabToken, 'amount'], 0)
+            : undefined,
+        }
+      })
     : []
 
   const toggleFav = React.useCallback(() => {
@@ -196,8 +198,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                   ? formatCurrency(usdBalance * currencyRate, { currency, lang, hideAmount })
                   : formatTokenAmount(
                       { [selectedTabToken]: selectedTabTokenAmount },
-                      account.crypto,
-                      lang
+                      { defaultUnit: account.crypto, lang, hideAmount }
                     )
               }
               subtitle={
@@ -218,11 +219,11 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                     <StatBox
                       key={key}
                       title={t(key)}
-                      value={formatTokenAmount(
-                        get(accountBalance, `balance.${key}`, {}),
-                        account.crypto,
-                        lang
-                      )}
+                      value={formatTokenAmount(get(accountBalance, `balance.${key}`, {}), {
+                        defaultUnit: account.crypto,
+                        lang,
+                        hideAmount,
+                      })}
                       subtitle={formatCurrency(
                         getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})) *
                           currencyRate,

@@ -133,26 +133,26 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
       case '/cosmos.bank.v1beta1.MsgMultiSend':
       case '/ibc.applications.transfer.v1.MsgTransfer':
         return t('successfully sent', {
-          title: formatTokenAmount(totalAmount, crypto, lang),
+          title: formatTokenAmount(totalAmount, { defaultUnit: crypto, lang }),
         })
       case '/cosmos.staking.v1beta1.MsgDelegate':
         return t('successfully delegated', {
-          title: formatTokenAmount(totalAmount, crypto, lang),
+          title: formatTokenAmount(totalAmount, { defaultUnit: crypto, lang }),
         })
       case '/cosmos.staking.v1beta1.MsgBeginRedelegate':
         return t('successfully redelegated', {
-          title: formatTokenAmount(totalAmount, crypto, lang),
+          title: formatTokenAmount(totalAmount, { defaultUnit: crypto, lang }),
         })
       case '/cosmos.staking.v1beta1.MsgUndelegate':
         return t('successfully undelegated', {
-          title: formatTokenAmount(totalAmount, crypto, lang),
+          title: formatTokenAmount(totalAmount, { defaultUnit: crypto, lang }),
         })
       case '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward':
       case '/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission':
         return t('rewards was successfully withdrew')
       case '/cosmos.gov.v1beta1.MsgDeposit':
         return t('successfully deposited', {
-          title: formatTokenAmount(totalAmount, crypto, lang),
+          title: formatTokenAmount(totalAmount, { defaultUnit: crypto, lang }),
         })
       case '/desmos.profiles.v1beta1.MsgSaveProfile':
         return t('profile was saved')

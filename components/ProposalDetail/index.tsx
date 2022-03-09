@@ -252,8 +252,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
                       <Typography variant="subtitle1" display="inline">
                         {formatTokenAmount(
                           getTokenAmountFromDenoms(get(proposal, 'content.amount', []), denoms),
-                          crypto.name,
-                          lang
+                          { defaultUnit: crypto.name, lang }
                         )}
                       </Typography>
                     </Grid>

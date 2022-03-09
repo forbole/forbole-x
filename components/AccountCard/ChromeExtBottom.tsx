@@ -3,6 +3,7 @@ import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import useStyles from './styles'
 import { useWalletsContext } from '../../contexts/WalletsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 import {
   formatPercentage,
   formatTokenAmount,
@@ -35,6 +36,7 @@ const ChromeExtBottom: React.FC<ChromeExtBottomProps> = ({
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const { wallets } = useWalletsContext()
+  const { hideAmount } = useGeneralContext()
   const wallet = wallets.find((w) => w.id === account.walletId)
 
   const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
@@ -57,13 +59,17 @@ const ChromeExtBottom: React.FC<ChromeExtBottomProps> = ({
           <Typography variant="body2" color="textSecondary">
             {t('pending rewards')}
           </Typography>
-          <Typography variant="h6">{formatTokenAmount(rewards, account.crypto, lang)}</Typography>
+          <Typography variant="h6">
+            {formatTokenAmount(rewards, { defaultUnit: account.crypto, lang, hideAmount })}
+          </Typography>
         </Box>
         <Box>
           <Typography variant="body2" color="textSecondary">
             {t('delegate inflation', { inflation: formatPercentage(inflation, lang) })}
           </Typography>
-          <Typography variant="h6">{formatTokenAmount(delegated, account.crypto, lang)}</Typography>
+          <Typography variant="h6">
+            {formatTokenAmount(delegated, { defaultUnit: account.crypto, lang })}
+          </Typography>
         </Box>
       </Box>
       <Box display="flex">

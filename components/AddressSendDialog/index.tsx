@@ -228,7 +228,12 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
           >
             <Box>
               <Typography variant="h5">
-                {formatTokenAmount(availableAmount, address.crypto, lang, ', ')}
+                {formatTokenAmount(availableAmount, {
+                  defaultUnit: address.crypto,
+                  lang,
+                  delimiter: ', ',
+                  hideAmount,
+                })}
               </Typography>
               <Typography>
                 {formatCurrency(getTokenAmountBalance(availableAmount) * currencyRate, {

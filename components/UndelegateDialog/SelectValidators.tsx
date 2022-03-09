@@ -38,7 +38,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const classes = useStyles()
   const { currency, currencyRate, hideAmount } = useGeneralContext()
   const theme = useTheme()
-  const [amount, setAmount] = React.useState(totalAmount.toString())
+  const [amount, setAmount] = React.useState(hideAmount ? '' : totalAmount.toString())
   const [percentage, setPercentage] = React.useState('100')
   const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
   const [memo, setMemo] = React.useState('')
@@ -57,7 +57,12 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
           <Typography className={classes.marginBottom}>
             {t('total delegation amount')}{' '}
             <b className={classes.marginLeft}>
-              {formatTokenAmount(availableAmount, denom, lang, ', ')}
+              {formatTokenAmount(availableAmount, {
+                defaultUnit: denom,
+                lang,
+                delimiter: ', ',
+                hideAmount,
+              })}
             </b>
           </Typography>
           <Grid container spacing={4}>

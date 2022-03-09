@@ -21,12 +21,15 @@ import AddressBookIcon from '../../assets/images/icons/icon_address_book.svg'
 import MenuIcon from '../../assets/images/icons/icon_menu.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg'
+import HideIcon from '../../assets/images/icons/icon_hide.svg'
+import ShowIcon from '../../assets/images/icons/icon_show.svg'
 import LogOutIcon from '../../assets/images/icons/log-out.svg'
 import CurrencyMenuButton from './CurrencyMenuButton'
 // import LangMenuButton from './LangMenuButton'
 import ThemeModeButton from './ThemeModeButton'
 import useIconProps from '../../misc/useIconProps'
 import { useWalletsContext } from '../../contexts/WalletsContext'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 const NavBar: React.FC<{
   HeaderLeftComponent?: React.ReactNode
@@ -49,6 +52,7 @@ const NavBar: React.FC<{
   const theme = useTheme()
   const router = useRouter()
   const { signOut } = useWalletsContext()
+  const { setHideAmount, hideAmount } = useGeneralContext()
   const [isChromeExtMenuOpen, setIsChromeExtMenuOpen] = React.useState(false)
 
   const chromeExtMenuItems = React.useMemo(
@@ -153,6 +157,9 @@ const NavBar: React.FC<{
       <IconButton className={classes.navBarButton}>
         <NotiIcon {...iconProps} />
       </IconButton> */}
+      <IconButton className={classes.navBarButton} onClick={() => setHideAmount((h) => !h)}>
+        {hideAmount ? <HideIcon {...iconProps} /> : <ShowIcon {...iconProps} />}
+      </IconButton>
       <ThemeModeButton />
       <Link href="/settings" passHref>
         <IconButton className={classes.navBarButton}>

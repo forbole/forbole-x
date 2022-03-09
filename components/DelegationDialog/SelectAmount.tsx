@@ -36,7 +36,12 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availab
           <Typography className={classes.marginBottom}>
             {t('available amount')}{' '}
             <b className={classes.marginLeft}>
-              {formatTokenAmount(availableAmount, account.crypto, lang, ', ')}
+              {formatTokenAmount(availableAmount, {
+                defaultUnit: account.crypto,
+                lang,
+                delimiter: ', ',
+                hideAmount,
+              })}
             </b>
           </Typography>
           <Typography>{t('total delegation amount')}</Typography>
@@ -63,13 +68,12 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availab
         >
           <Box>
             <Typography variant="h5">
-              {formatCrypto(Number(amount), { unit: denom, lang, hideAmount })}
+              {formatCrypto(Number(amount), { unit: denom, lang })}
             </Typography>
             <Typography>
               {formatCurrency(Number(amount) * availableAmount[denom]?.price * currencyRate, {
                 currency,
                 lang,
-                hideAmount,
               })}
             </Typography>
           </Box>

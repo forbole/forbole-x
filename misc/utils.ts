@@ -27,11 +27,15 @@ export const formatCrypto = (
     hideAmount?: boolean
   }
 ): string =>
-  `${new Intl.NumberFormat(option.lang, {
-    signDisplay: 'never',
-    maximumFractionDigits: option.compact ? 2 : 6,
-    notation: option.compact ? 'compact' : undefined,
-  }).format(amount || 0)}${option.hideUnit ? '' : ` ${(option.unit || '').toUpperCase()}`}`
+  `${
+    option.hideAmount
+      ? '******'
+      : new Intl.NumberFormat(option.lang, {
+          signDisplay: 'never',
+          maximumFractionDigits: option.compact ? 2 : 6,
+          notation: option.compact ? 'compact' : undefined,
+        }).format(amount || 0)
+  }${option.hideUnit ? '' : ` ${(option.unit || '').toUpperCase()}`}`
 
 export const formatCurrency = (
   amount: number,
@@ -43,11 +47,15 @@ export const formatCurrency = (
     hideAmount?: boolean
   }
 ): string =>
-  `${new Intl.NumberFormat(option.lang, {
-    style: 'currency',
-    currency: option.currency,
-    notation: option.compact ? 'compact' : undefined,
-  }).format(amount || 0)}${option.hideUnit ? '' : ` ${option.currency}`}`
+  `${
+    option.hideAmount
+      ? '******'
+      : new Intl.NumberFormat(option.lang, {
+          style: 'currency',
+          currency: option.currency,
+          notation: option.compact ? 'compact' : undefined,
+        }).format(amount || 0)
+  }${option.hideUnit ? '' : ` ${option.currency}`}`
 
 export const getTokenAmountFromDenoms = (
   coins: Array<{ denom: string; amount: string }>,

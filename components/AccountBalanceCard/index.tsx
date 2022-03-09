@@ -155,7 +155,6 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
                 currency,
                 lang,
                 hideUnit: true,
-                hideAmount,
               })}{' '}
               / {account.crypto}
             </Typography>

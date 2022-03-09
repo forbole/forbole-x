@@ -174,7 +174,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
                 dot={false}
                 strokeWidth={3}
               />
-              {get(data, '[0].amount') ? (
+              {get(data, '[0].amount') !== undefined ? (
                 <>
                   <YAxis
                     yAxisId="amount"

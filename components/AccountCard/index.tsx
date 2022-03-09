@@ -104,7 +104,7 @@ const AccountCard: React.FC<AccountCardProps> = ({
         ) : (
           <Box>
             <Typography variant="h4">
-              {formatTokenAmount(tokenAmounts, account.crypto, lang)}
+              {formatTokenAmount(tokenAmounts, { defaultUnit: account.crypto, lang, hideAmount })}
             </Typography>
             <Typography variant="h6">
               {formatCurrency(usdBalance * currencyRate, { currency, lang, hideAmount })}

@@ -95,7 +95,11 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
             onDateRangeChange={(dateRange) => {
               setTimestamps(dateRange.timestamps.map((ts) => new Date(ts)))
             }}
-            title={formatTokenAmount(totalTokenAmount, address.crypto, lang)}
+            title={formatTokenAmount(totalTokenAmount, {
+              defaultUnit: address.crypto,
+              lang,
+              hideAmount,
+            })}
             subtitle={formatCurrency(usdBalance * currencyRate, { currency, lang, hideAmount })}
             loading={loading}
           />
@@ -105,11 +109,11 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
                 <StatBox
                   key={key}
                   title={t(key)}
-                  value={formatTokenAmount(
-                    get(accountBalance, `balance.${key}`, {}),
-                    address.crypto,
-                    lang
-                  )}
+                  value={formatTokenAmount(get(accountBalance, `balance.${key}`, {}), {
+                    defaultUnit: address.crypto,
+                    lang,
+                    hideAmount,
+                  })}
                   subtitle={formatCurrency(
                     getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})) * currencyRate,
                     { currency, lang, hideAmount }
