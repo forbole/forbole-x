@@ -5,12 +5,18 @@ import {
   DialogActions,
   DialogContent,
   Divider,
+  IconButton,
+  Slider,
+  TextField,
   Typography,
   useTheme,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import dynamic from 'next/dynamic'
+import get from 'lodash/get'
+import EditGasIcon from '../../../assets/images/icons/edit_gas.svg'
+import CloseIcon from '../../../assets/images/icons/icon_cross.svg'
 import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils'
 import useStyles from '../styles'
 import SendContent from './SendContent'
@@ -29,6 +35,9 @@ import SetWithdrawAddressContent from './SetWithdrawAddressContent'
 import MultiSendContent from './MultiSendContent'
 import ChainLinkContent from './ChainLinkContent'
 import ChainUnlinkContent from './ChainUnlinkContent'
+import useIconProps from '../../../misc/useIconProps'
+import cryptocurrencies from '../../../misc/cryptocurrencies'
+import { transformFee } from '../../../misc/tx/estimateGasFee'
 
 const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
@@ -37,7 +46,7 @@ interface ConfirmStageContentProps {
   denoms: TokenPrice[]
   validators: { [address: string]: Validator }
   transactionData: Transaction
-  onConfirm(): void
+  onConfirm(fee: { amount: { amount: string; denom: string }[]; gas: string }): void
   totalAmount: TokenAmount
 }
 
@@ -53,8 +62,16 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
   const classes = useStyles()
   const { theme } = useGeneralContext()
   const themeStyle: CustomTheme = useTheme()
+  const iconProps = useIconProps()
 
   const [viewingData, setViewingData] = React.useState(false)
+  const [gas, setGas] = React.useState(transactionData.fee.gas)
+  const fee = transformFee(cryptocurrencies[account.crypto], Number(gas))
+  const [isEdittingGas, setIsEdittingGas] = React.useState(false)
+
+  React.useEffect(() => {
+    setGas(transactionData.fee.gas)
+  }, [transactionData.fee.gas])
 
   const { typeUrl } = transactionData.msgs[0]
 
@@ -185,18 +202,51 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
           <Typography color="textSecondary">{transactionData.memo || t('NA')}</Typography>
         </Box>
         <Divider />
-        <Box my={1}>
-          <Typography gutterBottom>{t('fee')}</Typography>
-          <Typography color="textSecondary">
-            {!transactionData.fee.gas
-              ? t('estimating gas')
-              : formatTokenAmount(
-                  getTokenAmountFromDenoms(transactionData.fee.amount, denoms || []),
-                  account.crypto,
-                  lang
-                )}
-          </Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography>{t('fee')}</Typography>
+          <Box display="flex" alignItems="center">
+            <Typography color="textSecondary">
+              {!transactionData.fee.gas
+                ? t('estimating gas')
+                : formatTokenAmount(
+                    getTokenAmountFromDenoms(fee.amount, denoms || []),
+                    account.crypto,
+                    lang
+                  )}
+            </Typography>
+            <IconButton onClick={() => setIsEdittingGas((g) => !g)}>
+              {isEdittingGas ? <CloseIcon {...iconProps} /> : <EditGasIcon {...iconProps} />}
+            </IconButton>
+          </Box>
         </Box>
+        {isEdittingGas ? (
+          <>
+            <Typography color="textSecondary">{t('set gas')}</Typography>
+            <TextField
+              fullWidth
+              autoFocus
+              variant="filled"
+              InputProps={{
+                disableUnderline: true,
+              }}
+              placeholder={get(transactionData, 'fee.gas', '0')}
+              value={gas}
+              onChange={(e) => setGas(e.target.value)}
+            />
+            <Box px={1}>
+              <Slider
+                value={Number(gas) / Number(get(transactionData, 'fee.gas', '0'))}
+                onChange={(e, v: number) =>
+                  setGas((Number(get(transactionData, 'fee.gas', '0')) * v).toFixed(0))
+                }
+                min={1}
+                max={2}
+                step={0.01}
+              />
+            </Box>
+          </>
+        ) : null}
+
         <Divider />
         <Box my={1} display="flex" justifyContent="flex-end">
           <Button onClick={() => setViewingData((v) => !v)} variant="text" color="primary">
@@ -206,7 +256,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
         {viewingData ? (
           <Box flex={1} overflow="auto">
             <ReactJson
-              src={transactionData}
+              src={{ ...transactionData, fee }}
               style={{
                 backgroundColor: themeStyle.palette.reactJsonBackground,
                 borderRadius: themeStyle.spacing(1),
@@ -228,8 +278,8 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
           variant="contained"
           className={classes.fullWidthButton}
           color="primary"
-          disabled={!transactionData.fee.gas}
-          onClick={onConfirm}
+          disabled={!Number(fee.gas)}
+          onClick={() => onConfirm(fee)}
         >
           {!transactionData.fee.gas ? (
             <CircularProgress size={themeStyle.spacing(3.5)} />
