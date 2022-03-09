@@ -52,7 +52,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const { currency, theme, currencyRate } = useGeneralContext()
+  const { currency, theme, currencyRate, hideAmount } = useGeneralContext()
   const [amount, setAmount] = React.useState<TokenAmount>({})
   const [page, setPage] = React.useState(0)
   const [value, setValue] = React.useState('')
@@ -239,7 +239,11 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                   {formatTokenAmount(amount, account.crypto, lang)}
                 </Typography>
                 <Typography>
-                  {formatCurrency(getTokenAmountBalance(amount) * currencyRate, currency, lang)}
+                  {formatCurrency(getTokenAmountBalance(amount) * currencyRate, {
+                    currency,
+                    lang,
+                    hideAmount,
+                  })}
                 </Typography>
               </Box>
               <Button

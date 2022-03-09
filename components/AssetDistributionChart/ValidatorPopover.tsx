@@ -32,7 +32,7 @@ const ValidatorPopover: React.FC<ValidatorPopoverProps> = ({
 }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const theme = useTheme()
 
   return (
@@ -64,7 +64,11 @@ const ValidatorPopover: React.FC<ValidatorPopoverProps> = ({
           {t('total delegation amount')}
         </Typography>
         <Typography>
-          {formatCurrency(getTokenAmountBalance(balance) * currencyRate, currency, lang)}
+          {formatCurrency(getTokenAmountBalance(balance) * currencyRate, {
+            currency,
+            lang,
+            hideAmount,
+          })}
         </Typography>
       </Box>
       {Object.keys(balance).map((key) => (
@@ -76,15 +80,18 @@ const ValidatorPopover: React.FC<ValidatorPopoverProps> = ({
             </Typography>
             <Box display="flex" flexDirection="column" alignItems="flex-end">
               <Typography>
-                {formatCrypto(get(balance, `${key}.amount`, 0) as number, key, lang)}
+                {formatCrypto(get(balance, `${key}.amount`, 0) as number, {
+                  unit: key,
+                  lang,
+                  hideAmount,
+                })}
               </Typography>
               <Typography variant="body2" color="textSecondary">
                 {formatCurrency(
                   get(balance as any, `${key}.amount`, 0) *
                     get(balance as any, `${key}.price`, 0) *
                     currencyRate,
-                  currency,
-                  lang
+                  { currency, lang, hideAmount }
                 )}
               </Typography>
             </Box>

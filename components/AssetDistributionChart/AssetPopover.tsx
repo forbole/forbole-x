@@ -30,7 +30,7 @@ const AssetPopover: React.FC<AssetPopoverProps> = ({
 }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const theme = useTheme()
 
   return (
@@ -73,8 +73,7 @@ const AssetPopover: React.FC<AssetPopoverProps> = ({
                   get(accountBalance, `${key}.${cryptocurrency.name.toLowerCase()}.amount`, 0) *
                     get(accountBalance, `${key}.${cryptocurrency.name.toLowerCase()}.price`, 0) *
                     currencyRate,
-                  currency,
-                  lang
+                  { currency, lang, hideAmount }
                 )}
               </Typography>
             </Box>

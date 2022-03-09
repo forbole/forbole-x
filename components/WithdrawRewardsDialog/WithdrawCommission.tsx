@@ -32,7 +32,7 @@ const WithdrawCommission: React.FC<WithdrawCommissionProps> = ({
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const [value, setValue] = React.useState('')
   const [consent, setConsent] = React.useState(true)
   const themeStyle: CustomTheme = useTheme()
@@ -84,7 +84,11 @@ const WithdrawCommission: React.FC<WithdrawCommissionProps> = ({
               {formatTokenAmount(totalAmount, account.crypto, lang)}
             </Typography>
             <Typography>
-              {formatCurrency(getTokenAmountBalance(totalAmount) * currencyRate, currency, lang)}
+              {formatCurrency(getTokenAmountBalance(totalAmount) * currencyRate, {
+                currency,
+                lang,
+                hideAmount,
+              })}
             </Typography>
           </Box>
           <Button

@@ -35,7 +35,7 @@ interface AddressDetailCardProps {
 
 const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountBalance }) => {
   const { lang, t } = useTranslation('common')
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const classes = useStyles()
   const isMobile = useIsMobile()
 
@@ -96,7 +96,7 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
               setTimestamps(dateRange.timestamps.map((ts) => new Date(ts)))
             }}
             title={formatTokenAmount(totalTokenAmount, address.crypto, lang)}
-            subtitle={formatCurrency(usdBalance * currencyRate, currency, lang)}
+            subtitle={formatCurrency(usdBalance * currencyRate, { currency, lang, hideAmount })}
             loading={loading}
           />
           <Box mt={isMobile ? 6 : 10}>
@@ -112,8 +112,7 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
                   )}
                   subtitle={formatCurrency(
                     getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})) * currencyRate,
-                    currency,
-                    lang
+                    { currency, lang, hideAmount }
                   )}
                 />
               ))}

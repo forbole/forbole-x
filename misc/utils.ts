@@ -19,29 +19,35 @@ export const formatPercentage = (percent: number, lang: string): string =>
 
 export const formatCrypto = (
   amount: number,
-  unit: string,
-  lang: string,
-  hideUnit?: boolean,
-  compact?: boolean
+  option: {
+    unit: string
+    lang: string
+    hideUnit?: boolean
+    compact?: boolean
+    hideAmount?: boolean
+  }
 ): string =>
-  `${new Intl.NumberFormat(lang, {
+  `${new Intl.NumberFormat(option.lang, {
     signDisplay: 'never',
-    maximumFractionDigits: compact ? 2 : 6,
-    notation: compact ? 'compact' : undefined,
-  }).format(amount || 0)}${hideUnit ? '' : ` ${(unit || '').toUpperCase()}`}`
+    maximumFractionDigits: option.compact ? 2 : 6,
+    notation: option.compact ? 'compact' : undefined,
+  }).format(amount || 0)}${option.hideUnit ? '' : ` ${(option.unit || '').toUpperCase()}`}`
 
 export const formatCurrency = (
   amount: number,
-  currency: string,
-  lang: string,
-  hideUnit?: boolean,
-  compact?: boolean
+  option: {
+    currency: string
+    lang: string
+    hideUnit?: boolean
+    compact?: boolean
+    hideAmount?: boolean
+  }
 ): string =>
-  `${new Intl.NumberFormat(lang, {
+  `${new Intl.NumberFormat(option.lang, {
     style: 'currency',
-    currency,
-    notation: compact ? 'compact' : undefined,
-  }).format(amount || 0)}${hideUnit ? '' : ` ${currency}`}`
+    currency: option.currency,
+    notation: option.compact ? 'compact' : undefined,
+  }).format(amount || 0)}${option.hideUnit ? '' : ` ${option.currency}`}`
 
 export const getTokenAmountFromDenoms = (
   coins: Array<{ denom: string; amount: string }>,
@@ -79,15 +85,23 @@ export const getTokenAmountFromDenoms = (
 
 export const formatTokenAmount = (
   tokenAmount: TokenAmount,
-  defaultUnit: string,
-  lang: string,
-  delimiter?: string
+  option: { defaultUnit: string; lang: string; delimiter?: string; hideAmount?: boolean }
 ): string =>
   tokenAmount && Object.keys(tokenAmount).length
     ? Object.keys(tokenAmount)
-        .map((ta) => formatCrypto(tokenAmount[ta].amount, ta, lang))
-        .join(delimiter || '\n')
-    : formatCrypto(0, defaultUnit, lang)
+        .map((ta) =>
+          formatCrypto(tokenAmount[ta].amount, {
+            unit: ta,
+            lang: option.lang,
+            hideAmount: option.hideAmount,
+          })
+        )
+        .join(option.delimiter || '\n')
+    : formatCrypto(0, {
+        unit: option.defaultUnit,
+        lang: option.lang,
+        hideAmount: option.hideAmount,
+      })
 
 export const sumTokenAmounts = (tokenAmounts: TokenAmount[]): TokenAmount => {
   const amount: TokenAmount = {}

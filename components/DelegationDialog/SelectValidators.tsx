@@ -62,7 +62,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const isMobile = useIsMobile()
   const theme = useTheme()
   const [delegations, setDelegations] = React.useState<
@@ -138,7 +138,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
             {t('target delegation amount')}{' '}
-            <b className={classes.marginLeft}>{formatCrypto(amount, denom, lang)}</b>
+            <b className={classes.marginLeft}>
+              {formatCrypto(amount, { unit: denom, lang, hideAmount })}
+            </b>
           </Typography>
           <Grid container spacing={4}>
             <Grid item xs={6}>
@@ -404,9 +406,11 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
           mx={2}
         >
           <Box>
-            <Typography variant="h5">{formatCrypto(totalAmount, denom, lang)}</Typography>
+            <Typography variant="h5">
+              {formatCrypto(totalAmount, { unit: denom, lang, hideAmount })}
+            </Typography>
             <Typography>
-              {formatCurrency(totalAmount * price * currencyRate, currency, lang)}
+              {formatCurrency(totalAmount * price * currencyRate, { currency, lang, hideAmount })}
             </Typography>
           </Box>
           <Button

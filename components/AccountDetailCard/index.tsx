@@ -47,7 +47,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
   validators,
 }) => {
   const { lang, t } = useTranslation('common')
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const classes = useStyles()
   const iconProps = useIconProps()
   const theme = useTheme()
@@ -193,7 +193,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
               }}
               title={
                 currentTab === 0
-                  ? formatCurrency(usdBalance * currencyRate, currency, lang)
+                  ? formatCurrency(usdBalance * currencyRate, { currency, lang, hideAmount })
                   : formatTokenAmount(
                       { [selectedTabToken]: selectedTabTokenAmount },
                       account.crypto,
@@ -205,8 +205,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                   ? ''
                   : formatCurrency(
                       selectedTabTokenAmount.amount * selectedTabTokenAmount.price * currencyRate,
-                      currency,
-                      lang
+                      { currency, lang, hideAmount }
                     )
               }
               loading={loading}
@@ -227,8 +226,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                       subtitle={formatCurrency(
                         getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})) *
                           currencyRate,
-                        currency,
-                        lang
+                        { currency, lang, hideAmount }
                       )}
                     />
                   ))}

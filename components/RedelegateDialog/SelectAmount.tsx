@@ -35,7 +35,7 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
   const { amount: totalAmount, price } = Object.values(availableAmount)[0]
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const theme = useTheme()
   const [amount, setAmount] = React.useState(totalAmount.toString())
   const [percentage, setPercentage] = React.useState('100')
@@ -118,9 +118,14 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
           mx={2}
         >
           <Box>
-            <Typography variant="h5">{formatCrypto(Number(amount), denom, lang)}</Typography>
+            <Typography variant="h5">
+              {formatCrypto(Number(amount), { unit: denom, lang })}
+            </Typography>
             <Typography>
-              {formatCurrency(Number(amount) * price * currencyRate, currency, lang)}
+              {formatCurrency(Number(amount) * price * currencyRate, {
+                currency,
+                lang,
+              })}
             </Typography>
           </Box>
           <Button

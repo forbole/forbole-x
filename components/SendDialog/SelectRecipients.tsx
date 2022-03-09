@@ -47,7 +47,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const themeStyle = useTheme()
   const [recipients, setRecipients] = React.useState<
     Array<{ amount: string; denom: string; address: string }>
@@ -214,7 +214,11 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                 {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
               </Typography>
               <Typography>
-                {formatCurrency(getTokenAmountBalance(totalAmount) * currencyRate, currency, lang)}
+                {formatCurrency(getTokenAmountBalance(totalAmount) * currencyRate, {
+                  currency,
+                  lang,
+                  hideAmount,
+                })}
               </Typography>
             </Box>
             <Button

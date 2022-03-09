@@ -75,7 +75,7 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                           paddingLeft: theme.spacing(1),
                         }}
                       >
-                        {formatCrypto(dsm, 'DSM', lang)} {t('claimed')}
+                        {formatCrypto(dsm, { unit: 'DSM', lang })} {t('claimed')}
                       </Typography>
                     ) : (
                       <Typography
@@ -84,7 +84,7 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                           paddingLeft: theme.spacing(1),
                         }}
                       >
-                        {formatCrypto(dsm, 'DSM', lang)}
+                        {formatCrypto(dsm, { unit: 'DSM', lang })}
                       </Typography>
                     )}
                   </Typography>
@@ -137,7 +137,7 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                           paddingLeft: theme.spacing(1),
                         }}
                       >
-                        {formatCrypto(dsm, 'DSM', lang)} {t('claimed')}
+                        {formatCrypto(dsm, { unit: 'DSM', lang })} {t('claimed')}
                       </Typography>
                     ) : (
                       <Typography
@@ -146,7 +146,7 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                           paddingLeft: theme.spacing(1),
                         }}
                       >
-                        {formatCrypto(dsm, 'DSM', lang)}
+                        {formatCrypto(dsm, { unit: 'DSM', lang })}
                       </Typography>
                     )}{' '}
                   </Typography>
