@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -6,6 +7,7 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
+  LinearProgress,
   Typography,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
@@ -104,6 +106,15 @@ const OnboardingDialog: React.FC<OnboardingDialogProps> = ({ open, onClose, onSu
           </Button>
         </DialogActions>
       </form>
+      <Box m={4} mt={0} display="flex">
+        <LinearProgress style={{ flex: 1 }} variant="determinate" value={100} />
+        <Box ml={1} />
+        <LinearProgress style={{ flex: 1 }} variant="determinate" value={0} />
+        <Box ml={1} />
+        <LinearProgress style={{ flex: 1 }} variant="determinate" value={0} />
+        <Box ml={1} />
+        <LinearProgress style={{ flex: 1 }} variant="determinate" value={0} />
+      </Box>
     </Dialog>
   )
 }
