@@ -102,6 +102,103 @@ exports[`component: OnboardingDialog renders closed state correctly 1`] = `
       </button>
     </div>
   </form>
+  <div
+    className="MuiBox-root MuiBox-root-8"
+  >
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={100}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(0%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-9"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-10"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-11"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+  </div>
 </div>
 `;
 
@@ -207,6 +304,103 @@ exports[`component: OnboardingDialog renders confirming password state when subm
       </button>
     </div>
   </form>
+  <div
+    className="MuiBox-root MuiBox-root-20"
+  >
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={100}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(0%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-21"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-22"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-23"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+  </div>
 </div>
 `;
 
@@ -312,6 +506,103 @@ exports[`component: OnboardingDialog renders correctly when submit valid confirm
       </button>
     </div>
   </form>
+  <div
+    className="MuiBox-root MuiBox-root-28"
+  >
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={100}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(0%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-29"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-30"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-31"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+  </div>
 </div>
 `;
 
@@ -417,6 +708,103 @@ exports[`component: OnboardingDialog renders error state when submit invalid con
       </button>
     </div>
   </form>
+  <div
+    className="MuiBox-root MuiBox-root-24"
+  >
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={100}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(0%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-25"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-26"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-27"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+  </div>
 </div>
 `;
 
@@ -522,6 +910,103 @@ exports[`component: OnboardingDialog renders error state when submit invalid pas
       </button>
     </div>
   </form>
+  <div
+    className="MuiBox-root MuiBox-root-16"
+  >
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={100}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(0%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-17"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-18"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-19"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+  </div>
 </div>
 `;
 
@@ -624,5 +1109,102 @@ exports[`component: OnboardingDialog renders open state correctly 1`] = `
       </button>
     </div>
   </form>
+  <div
+    className="MuiBox-root MuiBox-root-4"
+  >
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={100}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(0%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-5"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-6"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-7"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+  </div>
 </div>
 `;
