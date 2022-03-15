@@ -50,7 +50,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
     </h2>
   </div>
   <div
-    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-9"
   >
     <p
       className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -58,7 +58,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
       common:create wallet description
     </p>
     <div
-      className="MuiBox-root MuiBox-root-11"
+      className="MuiBox-root MuiBox-root-13"
     >
       <div
         className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-5"
@@ -85,7 +85,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-12"
+              className="MuiBox-root MuiBox-root-14"
             >
               <svg
                 data-file-name="SvgLogin_light"
@@ -123,7 +123,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-13"
+              className="MuiBox-root MuiBox-root-15"
             >
               <svg
                 data-file-name="SvgCreate_wallet_light"
@@ -195,7 +195,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
     </h2>
   </div>
   <div
-    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-9"
   >
     <p
       className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -203,7 +203,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
       common:create wallet description
     </p>
     <div
-      className="MuiBox-root MuiBox-root-8"
+      className="MuiBox-root MuiBox-root-10"
     >
       <div
         className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-5"
@@ -230,7 +230,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-9"
+              className="MuiBox-root MuiBox-root-11"
             >
               <svg
                 data-file-name="SvgLogin_light"
@@ -265,7 +265,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-10"
+              className="MuiBox-root MuiBox-root-12"
             >
               <svg
                 data-file-name="SvgCreate_wallet_light"
