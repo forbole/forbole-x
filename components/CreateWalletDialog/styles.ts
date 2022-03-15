@@ -57,6 +57,19 @@ const useStyles = makeStyles(
         border: `1px solid ${theme.palette.grey[300]}`,
       },
     },
+    menuItem: {
+      padding: theme.spacing(1),
+      width: theme.spacing(20),
+    },
+    timeRangeButton: {
+      borderColor: theme.palette.iconBorder,
+      margin: theme.spacing(0, 1),
+      padding: theme.spacing(0.5, 1.5),
+      width: theme.spacing(20),
+      display: 'flex',
+      alignItems: 'flex-start',
+      justifyContent: 'space-between',
+    },
     dialogContent: {
       overflowY: 'initial',
     },

@@ -8,6 +8,7 @@ import useIconProps from '../../misc/useIconProps'
 import CreateWallet from './CreateWallet'
 import ConfirmMnemonic from './ConfirmMnemonic'
 import { useWalletsContext } from '../../contexts/WalletsContext'
+import SetPreference from './SetPreference'
 import SecurityPassword from './SecurityPassword'
 import ImportWallet from './ImportWallet'
 import AccessMyWallet from './AccessMyWallet'
@@ -33,6 +34,7 @@ export enum CommonStage {
   AccessMyWalletStage = 'access my wallet',
   CreateWalletStage = 'create wallet',
   ConfirmMnemonicStage = 'confirm secret recovery',
+  SetPreferenceStage = 'your preference',
   SetSecurityPasswordStage = 'set security password',
   ImportWalletStage = 'import wallet',
   ImportLedgerWalletStage = 'import ledger wallet',
@@ -97,7 +99,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           data: { mnemonic: input },
         })
         setMnemonic(wallet.mnemonic)
-        setStage(CommonStage.SetSecurityPasswordStage)
+        setStage(CommonStage.SetPreferenceStage)
       } catch (err) {
         setError(t(err.message))
       }
@@ -113,7 +115,8 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           data,
         })
         setMnemonic(wallet.mnemonic)
-        setStage(CommonStage.SetSecurityPasswordStage)
+        // this one?
+        setStage(CommonStage.SetPreferenceStage)
       } catch (err) {
         setError(t(err.message))
       }
@@ -124,13 +127,22 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
   const confirmMnemonic = React.useCallback(
     (input) => {
       if (input === mnemonic) {
-        setStage(CommonStage.SetSecurityPasswordStage)
+        console.log('confirm Mn')
+        setStage(CommonStage.SetPreferenceStage)
       } else {
         setError(t('invalid secret recovery phrase'))
       }
     },
     [mnemonic, setStage, setError]
   )
+
+  const setPreference = React.useCallback(() => {
+    try {
+      setStage(CommonStage.SetSecurityPasswordStage)
+    } catch (err) {
+      setError(t(err.message))
+    }
+  }, [setStage, setError])
 
   const confirmSecurityPassword = React.useCallback(
     (pw: string) => {
@@ -267,6 +279,11 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
               error={error}
             />
           ),
+        }
+      case CommonStage.SetPreferenceStage:
+        return {
+          title: t('your preference'),
+          content: <SetPreference onConfirm={setPreference} />,
         }
       case CommonStage.SetSecurityPasswordStage:
         return {
