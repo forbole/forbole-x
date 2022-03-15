@@ -1,6 +1,5 @@
 import React from 'react'
 import { Switch, SwitchProps, styled } from '@material-ui/core'
-import { CustomTheme } from '../../misc/theme'
 
 const IOSSwitch = styled((props: SwitchProps) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />

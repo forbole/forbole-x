@@ -11,15 +11,12 @@ import {
   Paper,
   useTheme,
 } from '@material-ui/core'
-// import { styled } from '@mui/material/styles'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { CustomTheme } from '../../misc/theme'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import IOSSwitch from '../IOSSwitch'
-import PasswordInput from '../PasswordInput'
 import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
@@ -28,8 +25,6 @@ import currencies from '../../misc/currencies'
 interface SetPreferenceProps {
   onConfirm(): void
 }
-
-const themes = ['light', 'dark'] as const
 
 const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
   const { t, lang } = useTranslation('common')
@@ -42,7 +37,6 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
     alwaysRequirePassword,
     setAlwaysRequirePassword,
   } = useGeneralContext()
-  const [password, setPassword] = React.useState('')
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAlwaysRequirePassword(event.target.checked)
   }
@@ -71,14 +65,6 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
     >
       <DialogContent className={classes.dialogContent}>
         <DialogContentText>{t('your preference description')}</DialogContentText>
-        {/* <Box mb={30}>
-          <PasswordInput
-            placeholder={t('password')}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            withSecurityLevel
-          />
-        </Box> */}
         <Paper style={{ paddingLeft: themeStyle.spacing(1), paddingRight: themeStyle.spacing(1) }}>
           <Box px={2} py={2} display="flex" alignItems="center" justifyContent="space-between">
             <Typography variant="subtitle1">{t('dark mode')}</Typography>
@@ -92,8 +78,6 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
           <Box px={2} py={2} display="flex" alignItems="center" justifyContent="space-between">
             <Typography variant="subtitle1">{t('currency')}</Typography>
             <Button
-              // style={{ background: 'red' }}
-              // onClick={() => setAddAddressOpen(true)}
               onClick={(e) => {
                 setAnchor(e.currentTarget)
               }}
@@ -201,16 +185,15 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
             />
           </Box>
         </Paper>
+        <Box pt={1}>
+          <Typography variant="body2" color="textSecondary">
+            {t('require password reminder')}
+          </Typography>
+        </Box>
       </DialogContent>
       <DialogActions>
         <Box flex={1} display="flex" flexDirection="column" mb={3}>
-          <Button
-            className={classes.button}
-            variant="contained"
-            color="primary"
-            // disabled={password.length < 6}
-            type="submit"
-          >
+          <Button className={classes.button} variant="contained" color="primary" type="submit">
             {t('start now')}
           </Button>
         </Box>

@@ -514,5 +514,6 @@
   "your preference": "Your Preference",
   "your preference description": "Select your preferred way to use Forbole X",
   "start now": "Start Now",
-  "dark mode": "Dark Mode"
+  "dark mode": "Dark Mode",
+  "require password reminder": "* A shorter period can protect your account from being exposed."
 }

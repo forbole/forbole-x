@@ -115,7 +115,6 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           data,
         })
         setMnemonic(wallet.mnemonic)
-        // this one?
         setStage(CommonStage.SetPreferenceStage)
       } catch (err) {
         setError(t(err.message))
@@ -127,7 +126,6 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
   const confirmMnemonic = React.useCallback(
     (input) => {
       if (input === mnemonic) {
-        console.log('confirm Mn')
         setStage(CommonStage.SetPreferenceStage)
       } else {
         setError(t('invalid secret recovery phrase'))
