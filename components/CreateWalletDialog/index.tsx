@@ -52,7 +52,7 @@ interface CreateWalletDialogProps {
 interface Content {
   title: string
   content: React.ReactNode
-  step: 1 | 2 | 3 | 4
+  step: 1 | 2 | 3 | 4 | 5
 }
 
 const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, initialStage }) => {
@@ -287,19 +287,20 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       case CommonStage.SetPreferenceStage:
         return {
           title: t('your preference'),
+          step: 3,
           content: <SetPreference onConfirm={setPreference} />,
         }
       case CommonStage.SetSecurityPasswordStage:
         return {
           title: t('security password title'),
-          step: 3,
+          step: 4,
           content: <SecurityPassword onConfirm={confirmSecurityPassword} />,
         }
       case CommonStage.ImportWalletStage:
       case CommonStage.ImportLedgerWalletStage:
         return {
           title: t('import wallet title'),
-          step: 4,
+          step: 5,
           content: (
             <ImportWallet
               onConfirm={(name, cryptos) =>
