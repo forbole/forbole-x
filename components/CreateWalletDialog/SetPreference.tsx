@@ -88,6 +88,7 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
               <DropDownIcon {...iconProps} style={{ marginTop: '4px' }} />
             </Button>
             <Menu
+              id="currency"
               anchorEl={anchor}
               getContentAnchorEl={null}
               anchorOrigin={{
@@ -106,6 +107,7 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
                 return (
                   <div>
                     <MenuItem
+                      value={x}
                       className={classes.menuItem}
                       key={i}
                       button
@@ -138,6 +140,7 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
               <DropDownIcon {...iconProps} style={{ marginTop: '4px' }} />
             </Button>
             <Menu
+              id="lang"
               anchorEl={anchorLanguage}
               getContentAnchorEl={null}
               anchorOrigin={{

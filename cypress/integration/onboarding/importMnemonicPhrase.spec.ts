@@ -55,6 +55,12 @@ describe('Create wallet by importing secret recovery phrase on first visit', () 
     cy.get('#mnemonic-0').type(mnemonic)
     cy.contains('Next').click()
   })
+  it('sets preferences', () => {
+    cy.get('.MuiBox-root > span').should('have.class', 'MuiSwitch-root').click({ multiple: true })
+    cy.get('.MuiButton-outlined').contains('USD').dblclick()
+    cy.get('.MuiButton-outlined').contains('ENG').dblclick()
+    cy.get('button').contains('Start Now').click()
+  })
   it('sets a secure security password', () => {
     cy.get('input').type('123qweASD!@#').should('have.value', '123qweASD!@#')
     cy.contains('Strong').should('be.visible')
