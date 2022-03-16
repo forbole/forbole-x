@@ -397,6 +397,12 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           variant="determinate"
           value={content.step > 3 ? 100 : 0}
         />
+        <Box ml={1} />
+        <LinearProgress
+          style={{ flex: 1 }}
+          variant="determinate"
+          value={content.step > 4 ? 100 : 0}
+        />
       </Box>
     </Dialog>
   )
