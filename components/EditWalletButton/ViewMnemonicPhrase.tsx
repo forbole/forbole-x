@@ -11,6 +11,7 @@ import {
   useTheme,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
+import Trans from 'next-translate/Trans'
 import React from 'react'
 import { Alert } from '@material-ui/lab'
 import {
@@ -172,9 +173,24 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
         {stage === Stage.DisplayMnemonic ? (
           <Box mb={4}>
             <Box mb={4} textAlign="center">
-              <Typography color="textSecondary">
-                {t('display secret recovery phrase details')}
-              </Typography>
+              <Trans
+                i18nKey={t('display secret recovery phrase details')}
+                components={[
+                  <Typography color="textSecondary" />,
+                  <Typography
+                    style={{
+                      display: 'block',
+                    }}
+                  />,
+                  <Typography
+                    color="textPrimary"
+                    style={{
+                      display: 'inline-block',
+                      fontWeight: 900,
+                    }}
+                  />,
+                ]}
+              />
             </Box>
             <MnemonicPhraseInput
               disabled

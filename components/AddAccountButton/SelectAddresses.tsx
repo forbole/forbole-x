@@ -163,7 +163,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
         <DialogContent>
           <Box mt={2} mb={2} display="flex" flex={1}>
             <Button onClick={() => setIsAdvance(false)} color="primary">
-              {t('select account(s) you want to add')}
+              {t('select account(s) you would like to add')}
             </Button>
           </Box>
           <Typography gutterBottom>{t('advanced account')}</Typography>
@@ -236,7 +236,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
       ) : (
         <DialogContent>
           <Box mt={2} mb={2} display="flex" flex={1}>
-            <Typography>{t('select account(s) you want to add')}</Typography>
+            <Typography>{t('select account(s) you would like to add')}</Typography>
           </Box>
           <Table style={{ position: 'relative' }}>
             <TableHead>

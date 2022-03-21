@@ -7,6 +7,7 @@ import {
   Box,
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
+import Trans from 'next-translate/Trans'
 import React from 'react'
 import MnemonicPhraseInput from '../MnemonicPhraseInput'
 import useStyles from './styles'
@@ -29,7 +30,26 @@ const CreateWallet: React.FC<CreateWalletProps> = ({ mnemonic, onConfirm }) => {
       }}
     >
       <DialogContent className={classes.dialogContent}>
-        <DialogContentText>{t('create new wallet description')}</DialogContentText>
+        <DialogContentText>
+          <Trans
+            i18nKey={t('create new wallet description')}
+            components={[
+              <Typography color="textSecondary" />,
+              <Typography
+                style={{
+                  display: 'block',
+                }}
+              />,
+              <Typography
+                color="textPrimary"
+                style={{
+                  display: 'inline-block',
+                  fontWeight: 900,
+                }}
+              />,
+            ]}
+          />
+        </DialogContentText>
         <MnemonicPhraseInput disabled mnemonic={mnemonic} />
         <Box mt={6} />
       </DialogContent>
