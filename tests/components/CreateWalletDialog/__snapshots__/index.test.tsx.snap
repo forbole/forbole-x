@@ -58,7 +58,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
       common:create wallet description
     </p>
     <div
-      className="MuiBox-root MuiBox-root-17"
+      className="MuiBox-root MuiBox-root-18"
     >
       <div
         className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-5"
@@ -85,7 +85,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-18"
+              className="MuiBox-root MuiBox-root-19"
             >
               <svg
                 data-file-name="SvgLogin_light"
@@ -123,7 +123,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-19"
+              className="MuiBox-root MuiBox-root-20"
             >
               <svg
                 data-file-name="SvgCreate_wallet_light"
@@ -146,7 +146,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
     className="MuiDialogActions-root MuiDialogActions-spacing"
   />
   <div
-    className="MuiBox-root MuiBox-root-20"
+    className="MuiBox-root MuiBox-root-21"
   >
     <div
       aria-valuemax={100}
@@ -165,30 +165,6 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
         style={
           Object {
             "transform": "translateX(0%)",
-          }
-        }
-      />
-    </div>
-    <div
-      className="MuiBox-root MuiBox-root-21"
-    />
-    <div
-      aria-valuemax={100}
-      aria-valuemin={0}
-      aria-valuenow={0}
-      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
-      role="progressbar"
-      style={
-        Object {
-          "flex": 1,
-        }
-      }
-    >
-      <div
-        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
-        style={
-          Object {
-            "transform": "translateX(-100%)",
           }
         }
       />
@@ -219,6 +195,54 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
     </div>
     <div
       className="MuiBox-root MuiBox-root-23"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-24"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-25"
     />
     <div
       aria-valuemax={100}
@@ -455,6 +479,30 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
     </div>
     <div
       className="MuiBox-root MuiBox-root-16"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-17"
     />
     <div
       aria-valuemax={100}
