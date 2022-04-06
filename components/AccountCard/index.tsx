@@ -40,7 +40,7 @@ const AccountCard: React.FC<AccountCardProps> = ({
   const theme = useTheme()
   const iconProps = useIconProps()
   const { lang } = useTranslation('common')
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const { updateAccount } = useWalletsContext()
   const router = useRouter()
 
@@ -104,10 +104,10 @@ const AccountCard: React.FC<AccountCardProps> = ({
         ) : (
           <Box>
             <Typography variant="h4">
-              {formatTokenAmount(tokenAmounts, account.crypto, lang)}
+              {formatTokenAmount(tokenAmounts, { defaultUnit: account.crypto, lang, hideAmount })}
             </Typography>
             <Typography variant="h6">
-              {formatCurrency(usdBalance * currencyRate, currency, lang)}
+              {formatCurrency(usdBalance * currencyRate, { currency, lang, hideAmount })}
             </Typography>
           </Box>
         )}

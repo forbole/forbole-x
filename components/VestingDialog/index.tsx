@@ -20,6 +20,7 @@ import useStyles from './styles'
 import useIconProps from '../../misc/useIconProps'
 import { formatTokenAmount } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface VestingDialogProps {
   open: boolean
@@ -40,6 +41,7 @@ const VestingDialog: React.FC<VestingDialogProps> = ({
   const classes = useStyles()
   const iconProps = useIconProps()
   const isMobile = useIsMobile()
+  const { hideAmount } = useGeneralContext()
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
@@ -59,7 +61,7 @@ const VestingDialog: React.FC<VestingDialogProps> = ({
         <Box m={1}>
           <Typography>{t('total vesting')}</Typography>
           <Typography className={classes.amount}>
-            {formatTokenAmount(totalAmount, account.crypto, lang)}
+            {formatTokenAmount(totalAmount, { defaultUnit: account.crypto, lang, hideAmount })}
           </Typography>
         </Box>
         <Box my={2}>
@@ -77,7 +79,11 @@ const VestingDialog: React.FC<VestingDialogProps> = ({
                 return (
                   <TableRow key={v.date} className={classes.tableRow}>
                     <TableCell className={classes.tableCell}>
-                      {formatTokenAmount(v.amount, account.crypto, lang)}
+                      {formatTokenAmount(v.amount, {
+                        defaultUnit: account.crypto,
+                        lang,
+                        hideAmount,
+                      })}
                     </TableCell>
                     <TableCell align="right" className={classes.tableCell}>
                       {format(v.date, 'dd MMM, yyyy HH:mm')}

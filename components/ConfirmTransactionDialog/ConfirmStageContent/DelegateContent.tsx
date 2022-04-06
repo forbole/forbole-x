@@ -29,7 +29,8 @@ const DelegateContent: React.FC<DelegateContentProps> = ({
         <DelegateIcon width={theme.spacing(6)} height={theme.spacing(6)} />
         <Box mt={2} mb={4}>
           <Typography variant="h4">
-            {t('delegate')} {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
+            {t('delegate')}{' '}
+            {formatTokenAmount(totalAmount, { defaultUnit: account.crypto, lang, delimiter: ', ' })}
           </Typography>
         </Box>
       </Box>
@@ -52,11 +53,10 @@ const DelegateContent: React.FC<DelegateContentProps> = ({
                 size="small"
               />
               <Typography color="textSecondary">
-                {formatTokenAmount(
-                  getTokenAmountFromDenoms([m.value.amount], denoms || []),
-                  account.crypto,
-                  lang
-                )}
+                {formatTokenAmount(getTokenAmountFromDenoms([m.value.amount], denoms || []), {
+                  defaultUnit: account.crypto,
+                  lang,
+                })}
               </Typography>
             </Box>
             {i === msgs.length - 1 ? null : <Divider />}

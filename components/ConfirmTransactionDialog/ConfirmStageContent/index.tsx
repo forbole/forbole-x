@@ -208,11 +208,10 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             <Typography color="textSecondary">
               {!transactionData.fee.gas
                 ? t('estimating gas')
-                : formatTokenAmount(
-                    getTokenAmountFromDenoms(fee.amount, denoms || []),
-                    account.crypto,
-                    lang
-                  )}
+                : formatTokenAmount(getTokenAmountFromDenoms(fee.amount, denoms || []), {
+                    defaultUnit: account.crypto,
+                    lang,
+                  })}
             </Typography>
             <IconButton onClick={() => setIsEdittingGas((g) => !g)}>
               {isEdittingGas ? <CloseIcon {...iconProps} /> : <EditGasIcon {...iconProps} />}

@@ -53,7 +53,7 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const iconProps = useIconProps()
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
 
   const { accounts, password } = useWalletsContext()
   const isMobile = useIsMobile()
@@ -228,14 +228,19 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
           >
             <Box>
               <Typography variant="h5">
-                {formatTokenAmount(availableAmount, address.crypto, lang, ', ')}
+                {formatTokenAmount(availableAmount, {
+                  defaultUnit: address.crypto,
+                  lang,
+                  delimiter: ', ',
+                  hideAmount,
+                })}
               </Typography>
               <Typography>
-                {formatCurrency(
-                  getTokenAmountBalance(availableAmount) * currencyRate,
+                {formatCurrency(getTokenAmountBalance(availableAmount) * currencyRate, {
                   currency,
-                  lang
-                )}
+                  lang,
+                  hideAmount,
+                })}
               </Typography>
             </Box>
             <Button

@@ -16,6 +16,7 @@ import {
 } from '../../misc/utils'
 import useStyles from './styles'
 import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface AccountRowProps {
   account: Account
@@ -25,6 +26,7 @@ const AccountRow: React.FC<AccountRowProps> = ({ account }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const theme = useTheme()
+  const { hideAmount } = useGeneralContext()
   const { data: balanceData, loading } = useLatestAccountBalance(account.crypto, account.address)
   const { tokenAmounts, usdBalance } = React.useMemo(() => {
     const accountBalance = transformGqlAcountBalance(balanceData, Date.now())
@@ -52,7 +54,7 @@ const AccountRow: React.FC<AccountRowProps> = ({ account }) => {
           <CircularProgress size={theme.spacing(2)} />
         ) : (
           <Typography align="right">
-            {formatTokenAmount(tokenAmounts, account.crypto, lang)}
+            {formatTokenAmount(tokenAmounts, { defaultUnit: account.crypto, lang, hideAmount })}
           </Typography>
         )}
       </Box>

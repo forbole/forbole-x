@@ -77,12 +77,22 @@ const VoteResult: React.FC<VoteResultProps> = ({ voteSummary, crypto, proposal }
           })}
         </Typography>
         <Typography variant="h4" className={classes.amount}>
-          {formatCrypto(voteSummary.amount, crypto.name, lang)}
+          {formatCrypto(voteSummary.amount, { unit: crypto.name, lang })}
         </Typography>
         <Typography variant="subtitle1" className={classes.title}>
           {t('voted over bonded', {
-            voted: formatCrypto(voteSummary.amount, crypto.name, lang, true, true),
-            bonded: formatCrypto(proposal.bondedTokens, crypto.name, lang, false, true),
+            voted: formatCrypto(voteSummary.amount, {
+              unit: crypto.name,
+              lang,
+              hideUnit: true,
+              compact: true,
+            }),
+            bonded: formatCrypto(proposal.bondedTokens, {
+              unit: crypto.name,
+              lang,
+              hideUnit: false,
+              compact: true,
+            }),
           })}
         </Typography>
         <Box display="flex">

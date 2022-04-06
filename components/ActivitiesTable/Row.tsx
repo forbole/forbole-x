@@ -6,6 +6,7 @@ import { formatTokenAmount, getVoteAnswer } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
 import AccountAvatar from '../AccountAvatar'
 import ValidatorAvatar from '../ValidatorAvatar'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 export type FavAddress = {
   address: string
@@ -27,6 +28,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
   const theme = useTheme()
   const { t, lang } = useTranslation('common')
   const isMobile = useIsMobile()
+  const { hideAmount } = useGeneralContext()
   const accountDetail = account
     ? { name: account.name, address: account.address }
     : { name: address.moniker, address: address.address }
@@ -52,7 +54,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Typography>
               {t(`${activity.tag}Activity`)}
               <span className={classes.amount}>
-                {formatTokenAmount(activity.amount, crypto.name, lang)}
+                {formatTokenAmount(activity.amount, { defaultUnit: crypto.name, lang, hideAmount })}
               </span>
               {t('to')}
             </Typography>
@@ -82,7 +84,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Typography>
               {t(`${activity.tag}Activity`)}
               <span className={classes.amount}>
-                {formatTokenAmount(activity.amount, crypto.name, lang)}
+                {formatTokenAmount(activity.amount, { defaultUnit: crypto.name, lang, hideAmount })}
               </span>
               {t('from').toLocaleLowerCase()}
             </Typography>
@@ -124,7 +126,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Typography>
               {t(`${activity.tag}Activity`)}
               <span className={classes.amount}>
-                {formatTokenAmount(activity.amount, crypto.name, lang)}
+                {formatTokenAmount(activity.amount, { defaultUnit: crypto.name, lang, hideAmount })}
               </span>
               {t('from').toLocaleLowerCase()}
             </Typography>
@@ -154,7 +156,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Typography>
               {t(`${activity.tag}Activity`)}
               <span className={classes.amount}>
-                {formatTokenAmount(activity.amount, crypto.name, lang)}
+                {formatTokenAmount(activity.amount, { defaultUnit: crypto.name, lang, hideAmount })}
               </span>
               {t('to')}
             </Typography>
@@ -232,7 +234,11 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
                   </Link>
                   <Typography>{t(`${activity.tag}Activity`)}</Typography>
                   <span className={classes.amount}>
-                    {formatTokenAmount(input.tokenAmount, crypto.name, lang)}
+                    {formatTokenAmount(input.tokenAmount, {
+                      defaultUnit: crypto.name,
+                      lang,
+                      hideAmount,
+                    })}
                   </span>
                   {i === activity.detail.inputs.length - 1 ? (
                     <Typography>{t('toTheFollowingRecepients')}</Typography>
@@ -268,7 +274,11 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
                   </Link>
                   <Typography>{t('received')}</Typography>
                   <span className={classes.amount}>
-                    {formatTokenAmount(output.tokenAmount, crypto.name, lang)}
+                    {formatTokenAmount(output.tokenAmount, {
+                      defaultUnit: crypto.name,
+                      lang,
+                      hideAmount,
+                    })}
                   </span>
                 </Box>
               ))}
@@ -301,7 +311,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Typography>
               {t(`${activity.tag}Activity`)}
               <span className={classes.amount}>
-                {formatTokenAmount(activity.amount, crypto.name, lang)}
+                {formatTokenAmount(activity.amount, { defaultUnit: crypto.name, lang, hideAmount })}
               </span>
               {t('toCommunityPool')}
             </Typography>
@@ -424,7 +434,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Typography>
               {t(`${activity.tag}Activity`)}
               <span className={classes.amount}>
-                {formatTokenAmount(activity.amount, crypto.name, lang)}
+                {formatTokenAmount(activity.amount, { defaultUnit: crypto.name, lang, hideAmount })}
               </span>
               {t('to')}
             </Typography>

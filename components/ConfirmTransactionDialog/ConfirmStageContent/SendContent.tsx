@@ -20,7 +20,8 @@ const SendContent: React.FC<SendContentProps> = ({ msgs, denoms, totalAmount, ac
         <SendIcon width={theme.spacing(6)} height={theme.spacing(6)} />
         <Box mt={2} mb={4}>
           <Typography variant="h4">
-            {t('send')} {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
+            {t('send')}{' '}
+            {formatTokenAmount(totalAmount, { defaultUnit: account.crypto, lang, delimiter: ', ' })}
           </Typography>
         </Box>
       </Box>
@@ -39,11 +40,10 @@ const SendContent: React.FC<SendContentProps> = ({ msgs, denoms, totalAmount, ac
             </Typography>
             <Typography>{t('amount')}</Typography>
             <Typography color="textSecondary">
-              {formatTokenAmount(
-                getTokenAmountFromDenoms(m.value.amount, denoms || []),
-                account.crypto,
-                lang
-              )}
+              {formatTokenAmount(getTokenAmountFromDenoms(m.value.amount, denoms || []), {
+                defaultUnit: account.crypto,
+                lang,
+              })}
             </Typography>
           </Box>
           <Divider />
