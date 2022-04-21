@@ -5,7 +5,7 @@ export const getLatestAccountBalance = (
   address: string,
   availableBalanceOnly?: boolean
 ): string => `
-  query AccountBalance {
+  query AccountBalance @api(name: ${crypto}bdjuno) {
     token_price {
       token_unit {
         denom
@@ -51,7 +51,7 @@ export const getLatestAccountBalance = (
 `
 
 export const getAccountBalanceAtHeight = (crypto: string, address: string): string => `
-  query AccountBalance($height: Int!, $timestamp: timestamp! ) {
+  query AccountBalance($height: Int!, $timestamp: timestamp! ) @api(name: ${crypto}bdjuno) {
     token_price_history(limit: 1, order_by: { timestamp: desc }, where: { timestamp: { _lte: $timestamp } }) {
       token_unit {
         denom
@@ -92,7 +92,7 @@ export const getAccountBalanceAtHeight = (crypto: string, address: string): stri
 
 // TODO
 export const getDelegatedBalance = (crypto: string): string => `
-query AccountBalance($address: String!) {
+query AccountBalance($address: String!) @api(name: ${crypto}bdjuno) {
   account(where: {address: {_eq: $address}}) {
     address
     available: account_balances(limit: 1, order_by: {height: desc}) {

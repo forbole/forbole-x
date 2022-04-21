@@ -1,5 +1,5 @@
 export const getValidators = (crypto: string): string => `
-query Validators {
+query Validators @api(name: ${crypto}bdjuno) {
   validator(where: {validator_info: {operator_address: {_neq: ""}}}) {
     info: validator_info {
       operator_address
@@ -31,7 +31,7 @@ query Validators {
 `
 
 export const getValidatorsByAddresses = (crypto: string): string => `
-query Validators($addresses: [String!]) {
+query Validators($addresses: [String!]) @api(name: ${crypto}bdjuno) {
   validator(where: {validator_info: {operator_address: { _in: $addresses }}}) {
     info: validator_info {
       operator_address
@@ -60,7 +60,7 @@ query Validators($addresses: [String!]) {
 `
 
 export const getSlashingParams = (crypto: string) => `
-query Validators {
+query Validators @api(name: ${crypto}bdjuno) {
   slashing_params(order_by: {height: desc}, limit: 1) {
     params
   }

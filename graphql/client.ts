@@ -1,9 +1,8 @@
-import WebSocket from 'isomorphic-ws'
-import { ApolloClient, InMemoryCache, split, HttpLink, ApolloLink, concat } from '@apollo/client'
-import { getMainDefinition, concatPagination } from '@apollo/client/utilities'
-import { WebSocketLink } from '@apollo/client/link/ws'
-
+import { ApolloClient, InMemoryCache, ApolloLink } from '@apollo/client'
+import { concatPagination } from '@apollo/client/utilities'
 import { useMemo } from 'react'
+import { MultiAPILink } from '@habx/apollo-multi-endpoint-link'
+import { createHttpLink } from 'apollo-link-http'
 import cryptocurrencies from '../misc/cryptocurrencies'
 
 const defaultOptions: any = {
@@ -18,68 +17,22 @@ const defaultOptions: any = {
 }
 
 let apolloClient
+const endpoints = {}
 
-const links = {}
-Object.keys(cryptocurrencies).forEach((crypto) => {
-  const httpLink = new HttpLink({
-    uri: cryptocurrencies[crypto].graphqlHttpUrl,
-  })
-
-  const wsLink = new WebSocketLink({
-    uri: cryptocurrencies[crypto].graphqlWsUrl,
-    options: {
-      reconnect: true,
-      lazy: true,
-      inactivityTimeout: 30000,
-    },
-    webSocketImpl: WebSocket,
-  })
-
-  const link =
-    typeof window !== 'undefined'
-      ? split(
-          ({ query }) => {
-            const { kind, operation }: any = getMainDefinition(query)
-            return kind === 'OperationDefinition' && operation === 'subscription'
-          },
-          wsLink,
-          httpLink
-        )
-      : httpLink
-
-  links[crypto] = link
-})
-
-const authMiddleware = new ApolloLink((operation, forward) => {
-  operation.setContext({
-    headers: {},
-  })
-
-  return forward(operation)
-})
-
-const directiveMiddleware = new ApolloLink((operation) => {
-  // TODO: custom directive is not supported in Hasura 2.0, need to rewrite structure for handling multi endpoint
-
-  // const { query } = operation
-
-  // const definition = getMainDefinition(query)
-
-  // const foundDirective =
-  //   'operation' in definition &&
-  //   definition.directives?.find((item) => Object.keys(cryptocurrencies).includes(item.name.value))
-  // const directive = foundDirective ? foundDirective.name.value : 'default'
-  // if (!links[directive]) {
-  //   return null
-  // }
-  // return links[directive].request(operation)
-  return (Object.values(links)[0] as any).request(operation)
+Object.values(cryptocurrencies).forEach((c) => {
+  endpoints[`${c.name}bdjuno`] = c.graphqlHttpUrl
+  endpoints[`${c.name}djuno`] = c.djunoUrl
 })
 
 function createApolloClient() {
   const client = new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: concat(authMiddleware, directiveMiddleware),
+    link: ApolloLink.from([
+      new MultiAPILink({
+        endpoints,
+        createHttpLink: () => (createHttpLink as any)(),
+      }),
+    ]),
     cache: new InMemoryCache({
       typePolicies: {
         Query: {
