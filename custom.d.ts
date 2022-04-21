@@ -99,6 +99,7 @@ interface Cryptocurrency {
   coinType: number
   graphqlHttpUrl: string
   graphqlWsUrl: string
+  djunoUrl: string
   blockExplorerBaseUrl: string
   lcdApiUrl: string
   rpcApiUrl: string
