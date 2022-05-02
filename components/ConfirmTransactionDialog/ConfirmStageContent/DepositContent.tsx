@@ -35,11 +35,10 @@ const DepositContent: React.FC<DepositContentProps> = ({ msgs, account, denoms }
           <Box my={1}>
             <Typography>{t('amount')}</Typography>
             <Typography color="textSecondary">
-              {formatTokenAmount(
-                getTokenAmountFromDenoms(msg.value.amount, denoms),
-                account.crypto,
-                lang
-              )}
+              {formatTokenAmount(getTokenAmountFromDenoms(msg.value.amount, denoms), {
+                defaultUnit: account.crypto,
+                lang,
+              })}
             </Typography>
           </Box>
           <Divider />

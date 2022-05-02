@@ -23,7 +23,7 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({ onConfirm }) => {
     >
       <DialogContent className={classes.dialogContent}>
         <DialogContentText>{t('security password description')}</DialogContentText>
-        <Box mb={30}>
+        <Box mb={20}>
           <PasswordInput
             placeholder={t('password')}
             value={password}

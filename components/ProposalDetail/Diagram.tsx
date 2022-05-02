@@ -23,7 +23,7 @@ const Diagram: React.FC<DiagramProps> = ({ value, title, color, crypto, percenta
           {`${t(title)} (${formatPercentage(percentage, lang)})`}
         </Typography>
         <Typography variant="subtitle2" className={classes.amount}>
-          {formatCrypto(value, crypto.name, lang)}
+          {formatCrypto(value, { unit: crypto.name, lang })}
         </Typography>
       </Box>
     </Box>

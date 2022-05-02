@@ -96,7 +96,7 @@ const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto }) =>
                   </TableCell>
                   <TableCell align="right">
                     <Typography variant="subtitle1">
-                      {formatTokenAmount(d.amount, crypto.name, lang)}
+                      {formatTokenAmount(d.amount, { defaultUnit: crypto.name, lang })}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">

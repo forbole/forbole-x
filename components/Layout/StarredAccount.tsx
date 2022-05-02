@@ -30,7 +30,7 @@ interface StarredAccountProps {
 const StarredAccount: React.FC<StarredAccountProps> = ({ account }) => {
   const themeStyle: CustomTheme = useTheme()
   const { lang } = useTranslation('common')
-  const { currency } = useGeneralContext()
+  const { currency, hideAmount } = useGeneralContext()
   const classes = useStyles({})
   const crypto = cryptocurrencies[account.crypto]
   // Latest data
@@ -66,7 +66,7 @@ const StarredAccount: React.FC<StarredAccountProps> = ({ account }) => {
           ) : (
             <Box mt={-1}>
               <Typography variant="body2" color="textSecondary">
-                {formatTokenAmount(tokenAmounts, account.crypto, lang)}
+                {formatTokenAmount(tokenAmounts, { defaultUnit: account.crypto, lang, hideAmount })}
               </Typography>
               {/* after USD balance is added */}
               {/* <Typography>{formatCurrency(usdBalance, currency, lang)}</Typography> */}

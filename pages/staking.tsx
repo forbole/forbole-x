@@ -51,7 +51,7 @@ const Staking: React.FC = () => {
       </Box>
       <ValidatorsTable
         account={activeAccount}
-        validators={validators}
+        validators={validators || []}
         crypto={crypto}
         availableTokens={availableTokens}
       />

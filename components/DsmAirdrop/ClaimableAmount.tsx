@@ -1,10 +1,8 @@
 import { Box, Button, CircularProgress, Typography, useTheme } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
+import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
-import axios from 'axios'
 import useStyles from './styles'
-import { formatCrypto, formatCurrency, getTokenAmountBalance } from '../../misc/utils'
+import { formatCrypto } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
 import AirdropEligibilityDetails from './AirdropEligibilityDetails'
 
@@ -90,7 +88,7 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
         <Box className={classes.stageContent}>
           <Typography align="center">{t('amount claimable title')}</Typography>
           <Typography align="center" variant="h1" className={classes.claimableAmount}>
-            {loading ? <CircularProgress /> : formatCrypto(amount, 'DSM', lang)}
+            {loading ? <CircularProgress /> : formatCrypto(amount, { unit: 'DSM', lang })}
           </Typography>
           <Box mb={2}>
             <Typography>{t('connected accounts')}</Typography>

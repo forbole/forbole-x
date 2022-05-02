@@ -14,6 +14,7 @@ import useStyles from './styles'
 import { formatTokenAmount, formatHeight } from '../../misc/utils'
 import useIsMobile from '../../misc/useIsMobile'
 import ValidatorAvatar from '../ValidatorAvatar'
+import { useGeneralContext } from '../../contexts/GeneralContext'
 
 interface UnbondingProps {
   unbondings: Unbonding[]
@@ -24,6 +25,7 @@ const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
   const classes = useStyles()
   const { t, lang } = useTranslation('common')
   const isMobile = useIsMobile()
+  const { hideAmount } = useGeneralContext()
 
   return isMobile ? (
     <Table>
@@ -41,7 +43,9 @@ const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
                 </Box>
                 <Box display="flex" justifyContent="space-between" alignItems="flex-start">
                   <Typography>{t('unbonded amount')}</Typography>
-                  <Typography>{formatTokenAmount(u.amount, crypto.name, lang)}</Typography>
+                  <Typography>
+                    {formatTokenAmount(u.amount, { defaultUnit: crypto.name, lang, hideAmount })}
+                  </Typography>
                 </Box>
                 <Box display="flex" justifyContent="space-between" alignItems="flex-start">
                   <Typography>{t('expected delivery')}</Typography>
@@ -79,7 +83,7 @@ const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
                 />
               </TableCell>
               <TableCell className={classes.tableCell}>
-                {formatTokenAmount(u.amount, crypto.name, lang)}
+                {formatTokenAmount(u.amount, { defaultUnit: crypto.name, lang, hideAmount })}
               </TableCell>
               <TableCell className={classes.tableCell}>
                 <Box display="flex" alignItems="center">

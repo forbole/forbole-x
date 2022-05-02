@@ -32,7 +32,7 @@ const WithdrawCommission: React.FC<WithdrawCommissionProps> = ({
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const [value, setValue] = React.useState('')
   const [consent, setConsent] = React.useState(true)
   const themeStyle: CustomTheme = useTheme()
@@ -50,7 +50,12 @@ const WithdrawCommission: React.FC<WithdrawCommissionProps> = ({
           <Box mt={4} mb={2}>
             <Typography>{t('total commission amount')}</Typography>
             <Typography variant="h1" className={classes.h1}>
-              {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
+              {formatTokenAmount(totalAmount, {
+                defaultUnit: account.crypto,
+                lang,
+                delimiter: ', ',
+                hideAmount,
+              })}
             </Typography>
           </Box>
         </Box>
@@ -81,10 +86,13 @@ const WithdrawCommission: React.FC<WithdrawCommissionProps> = ({
         >
           <Box>
             <Typography variant="h5">
-              {formatTokenAmount(totalAmount, account.crypto, lang)}
+              {formatTokenAmount(totalAmount, { defaultUnit: account.crypto, lang })}
             </Typography>
             <Typography>
-              {formatCurrency(getTokenAmountBalance(totalAmount) * currencyRate, currency, lang)}
+              {formatCurrency(getTokenAmountBalance(totalAmount) * currencyRate, {
+                currency,
+                lang,
+              })}
             </Typography>
           </Box>
           <Button

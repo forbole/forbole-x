@@ -52,7 +52,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
 }) => {
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
-  const { currency, theme, currencyRate } = useGeneralContext()
+  const { currency, theme, currencyRate, hideAmount } = useGeneralContext()
   const [amount, setAmount] = React.useState<TokenAmount>({})
   const [page, setPage] = React.useState(0)
   const [value, setValue] = React.useState('')
@@ -146,11 +146,21 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               <Box mt={4} mb={2}>
                 <Typography className={classes.totalReward}>
                   {t('total reward amount')}&nbsp;
-                  {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
+                  {formatTokenAmount(totalAmount, {
+                    defaultUnit: account.crypto,
+                    lang,
+                    delimiter: ', ',
+                    hideAmount,
+                  })}
                 </Typography>
                 <Typography>{t('withdraw amount')}</Typography>
                 <Typography variant="h1" className={classes.h1}>
-                  {formatTokenAmount(amount, account.crypto, lang, ', ')}
+                  {formatTokenAmount(amount, {
+                    defaultUnit: account.crypto,
+                    lang,
+                    delimiter: ', ',
+                    hideAmount,
+                  })}
                 </Typography>
                 <Typography>
                   {t('select the validator below you want to claim the reward amount')}
@@ -182,7 +192,12 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                       <Box display="flex" alignItems="center" style={{ flex: 1, width: '25rem' }}>
                         <ValidatorAvatar crypto={crypto} withoutLink validator={v} size="small" />
                         <Typography className={classes.rewardsAmount}>
-                          {formatTokenAmount(v.rewards, account.crypto, lang, ', ')}
+                          {formatTokenAmount(v.rewards, {
+                            defaultUnit: account.crypto,
+                            lang,
+                            delimiter: ', ',
+                            hideAmount,
+                          })}
                         </Typography>
                       </Box>
                     }
@@ -236,10 +251,14 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             >
               <Box>
                 <Typography variant="h5">
-                  {formatTokenAmount(amount, account.crypto, lang)}
+                  {formatTokenAmount(amount, { defaultUnit: account.crypto, lang, hideAmount })}
                 </Typography>
                 <Typography>
-                  {formatCurrency(getTokenAmountBalance(amount) * currencyRate, currency, lang)}
+                  {formatCurrency(getTokenAmountBalance(amount) * currencyRate, {
+                    currency,
+                    lang,
+                    hideAmount,
+                  })}
                 </Typography>
               </Box>
               <Button

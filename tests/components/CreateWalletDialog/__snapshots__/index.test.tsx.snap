@@ -50,7 +50,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
     </h2>
   </div>
   <div
-    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-9"
   >
     <p
       className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -58,7 +58,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
       common:create wallet description
     </p>
     <div
-      className="MuiBox-root MuiBox-root-11"
+      className="MuiBox-root MuiBox-root-18"
     >
       <div
         className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-5"
@@ -85,7 +85,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-12"
+              className="MuiBox-root MuiBox-root-19"
             >
               <svg
                 data-file-name="SvgLogin_light"
@@ -123,7 +123,7 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-13"
+              className="MuiBox-root MuiBox-root-20"
             >
               <svg
                 data-file-name="SvgCreate_wallet_light"
@@ -145,6 +145,127 @@ exports[`component: CreateWalletDialog renders closed state correctly 1`] = `
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   />
+  <div
+    className="MuiBox-root MuiBox-root-21"
+  >
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={100}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(0%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-22"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-23"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-24"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-25"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+  </div>
 </div>
 `;
 
@@ -195,7 +316,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
     </h2>
   </div>
   <div
-    className="MuiDialogContent-root HookGlobalStyles-dialogContent-7"
+    className="MuiDialogContent-root HookGlobalStyles-dialogContent-9"
   >
     <p
       className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -203,7 +324,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
       common:create wallet description
     </p>
     <div
-      className="MuiBox-root MuiBox-root-8"
+      className="MuiBox-root MuiBox-root-10"
     >
       <div
         className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-5"
@@ -230,7 +351,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-9"
+              className="MuiBox-root MuiBox-root-11"
             >
               <svg
                 data-file-name="SvgLogin_light"
@@ -265,7 +386,7 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-10"
+              className="MuiBox-root MuiBox-root-12"
             >
               <svg
                 data-file-name="SvgCreate_wallet_light"
@@ -284,5 +405,126 @@ exports[`component: CreateWalletDialog renders open state correctly 1`] = `
   <div
     className="MuiDialogActions-root MuiDialogActions-spacing"
   />
+  <div
+    className="MuiBox-root MuiBox-root-13"
+  >
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={100}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(0%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-14"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-15"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-16"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-17"
+    />
+    <div
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={0}
+      className="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+      role="progressbar"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        className="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style={
+          Object {
+            "transform": "translateX(-100%)",
+          }
+        }
+      />
+    </div>
+  </div>
 </div>
 `;

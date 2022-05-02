@@ -29,7 +29,8 @@ const UndelegateContent: React.FC<UndelegateContentProps> = ({
         <DelegateIcon width={theme.spacing(6)} height={theme.spacing(6)} />
         <Box mt={2} mb={4}>
           <Typography variant="h4">
-            {t('undelegate')} {formatTokenAmount(totalAmount, account.crypto, lang, ', ')}
+            {t('undelegate')}{' '}
+            {formatTokenAmount(totalAmount, { defaultUnit: account.crypto, lang, delimiter: ', ' })}
           </Typography>
         </Box>
       </Box>
@@ -52,11 +53,10 @@ const UndelegateContent: React.FC<UndelegateContentProps> = ({
                 size="small"
               />
               <Typography color="textSecondary">
-                {formatTokenAmount(
-                  getTokenAmountFromDenoms([m.value.amount], denoms || []),
-                  account.crypto,
-                  lang
-                )}
+                {formatTokenAmount(getTokenAmountFromDenoms([m.value.amount], denoms || []), {
+                  defaultUnit: account.crypto,
+                  lang,
+                })}
               </Typography>
             </Box>
             {i === msgs.length - 1 ? null : <Divider />}

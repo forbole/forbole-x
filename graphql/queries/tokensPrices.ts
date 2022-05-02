@@ -1,5 +1,5 @@
 export const getTokensPrices = (crypto: string): string => `
-query TokenPrice {
+query TokenPrice @api(name: ${crypto}bdjuno) {
     token_price(limit: 1, order_by: {timestamp: desc, id: desc}) {
       unit_name
       price

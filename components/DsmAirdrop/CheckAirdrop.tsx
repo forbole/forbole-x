@@ -106,7 +106,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
               <Box mb={2}>
                 <Typography>{t('your allocation')}</Typography>
                 <Typography variant="h3">
-                  {formatCrypto(verifyData.dsm_allotted, 'DSM', lang)}
+                  {formatCrypto(verifyData.dsm_allotted, { unit: 'DSM', lang })}
                 </Typography>
               </Box>
             )}

@@ -35,7 +35,7 @@ interface AddressDetailCardProps {
 
 const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountBalance }) => {
   const { lang, t } = useTranslation('common')
-  const { currency, currencyRate } = useGeneralContext()
+  const { currency, currencyRate, hideAmount } = useGeneralContext()
   const classes = useStyles()
   const isMobile = useIsMobile()
 
@@ -95,8 +95,12 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
             onDateRangeChange={(dateRange) => {
               setTimestamps(dateRange.timestamps.map((ts) => new Date(ts)))
             }}
-            title={formatTokenAmount(totalTokenAmount, address.crypto, lang)}
-            subtitle={formatCurrency(usdBalance * currencyRate, currency, lang)}
+            title={formatTokenAmount(totalTokenAmount, {
+              defaultUnit: address.crypto,
+              lang,
+              hideAmount,
+            })}
+            subtitle={formatCurrency(usdBalance * currencyRate, { currency, lang, hideAmount })}
             loading={loading}
           />
           <Box mt={isMobile ? 6 : 10}>
@@ -105,15 +109,14 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
                 <StatBox
                   key={key}
                   title={t(key)}
-                  value={formatTokenAmount(
-                    get(accountBalance, `balance.${key}`, {}),
-                    address.crypto,
-                    lang
-                  )}
+                  value={formatTokenAmount(get(accountBalance, `balance.${key}`, {}), {
+                    defaultUnit: address.crypto,
+                    lang,
+                    hideAmount,
+                  })}
                   subtitle={formatCurrency(
                     getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})) * currencyRate,
-                    currency,
-                    lang
+                    { currency, lang, hideAmount }
                   )}
                 />
               ))}

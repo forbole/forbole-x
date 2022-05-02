@@ -13,6 +13,8 @@ interface GeneralState {
   theme: Theme
   alwaysRequirePassword: boolean
   setAlwaysRequirePassword?: React.Dispatch<React.SetStateAction<boolean>>
+  hideAmount: boolean
+  setHideAmount?: React.Dispatch<React.SetStateAction<boolean>>
   favValidators: FavValidators
   favAddresses: FavAddress[]
   setCurrency?: React.Dispatch<React.SetStateAction<Currency>>
@@ -29,6 +31,7 @@ const initialState: GeneralState = {
   currencyRate: 1,
   theme: 'light',
   alwaysRequirePassword: false,
+  hideAmount: false,
   favValidators: [],
   favAddresses: [],
 }
@@ -46,6 +49,7 @@ const GeneralProvider: React.FC = ({ children }) => {
     'alwaysRequirePassword',
     initialState.alwaysRequirePassword
   )
+  const [hideAmount, setHideAmount] = usePersistedState('hideAmount', initialState.hideAmount)
 
   const [favValidators, setFavValidators] = usePersistedState('fav', initialState.favValidators)
   const [favAddresses, setFavAddresses] = usePersistedState('favAddress', initialState.favAddresses)
@@ -129,6 +133,8 @@ const GeneralProvider: React.FC = ({ children }) => {
         setTheme,
         alwaysRequirePassword,
         setAlwaysRequirePassword,
+        hideAmount,
+        setHideAmount,
         favValidators,
         addFavValidators,
         deleteFavValidators,

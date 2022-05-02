@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
+import { Box, Dialog, DialogTitle, IconButton, LinearProgress } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
@@ -8,6 +8,7 @@ import useIconProps from '../../misc/useIconProps'
 import CreateWallet from './CreateWallet'
 import ConfirmMnemonic from './ConfirmMnemonic'
 import { useWalletsContext } from '../../contexts/WalletsContext'
+import SetPreference from './SetPreference'
 import SecurityPassword from './SecurityPassword'
 import ImportWallet from './ImportWallet'
 import AccessMyWallet from './AccessMyWallet'
@@ -33,6 +34,7 @@ export enum CommonStage {
   AccessMyWalletStage = 'access my wallet',
   CreateWalletStage = 'create wallet',
   ConfirmMnemonicStage = 'confirm secret recovery',
+  SetPreferenceStage = 'your preference',
   SetSecurityPasswordStage = 'set security password',
   ImportWalletStage = 'import wallet',
   ImportLedgerWalletStage = 'import ledger wallet',
@@ -50,6 +52,7 @@ interface CreateWalletDialogProps {
 interface Content {
   title: string
   content: React.ReactNode
+  step: 1 | 2 | 3 | 4 | 5
 }
 
 const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, initialStage }) => {
@@ -97,7 +100,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           data: { mnemonic: input },
         })
         setMnemonic(wallet.mnemonic)
-        setStage(CommonStage.SetSecurityPasswordStage)
+        setStage(CommonStage.SetPreferenceStage)
       } catch (err) {
         setError(t(err.message))
       }
@@ -113,7 +116,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           data,
         })
         setMnemonic(wallet.mnemonic)
-        setStage(CommonStage.SetSecurityPasswordStage)
+        setStage(CommonStage.SetPreferenceStage)
       } catch (err) {
         setError(t(err.message))
       }
@@ -124,13 +127,21 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
   const confirmMnemonic = React.useCallback(
     (input) => {
       if (input === mnemonic) {
-        setStage(CommonStage.SetSecurityPasswordStage)
+        setStage(CommonStage.SetPreferenceStage)
       } else {
         setError(t('invalid secret recovery phrase'))
       }
     },
     [mnemonic, setStage, setError]
   )
+
+  const setPreference = React.useCallback(() => {
+    try {
+      setStage(CommonStage.SetSecurityPasswordStage)
+    } catch (err) {
+      setError(t(err.message))
+    }
+  }, [setStage, setError])
 
   const confirmSecurityPassword = React.useCallback(
     (pw: string) => {
@@ -191,6 +202,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       case ImportStage.ConnectLedgerDeviceStage:
         return {
           title: '',
+          step: 3,
           content: (
             <ConnectLedgerDialogContent
               onConnect={async (signer) => {
@@ -234,6 +246,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       case ImportStage.ImportMnemonicPhraseStage:
         return {
           title: t('secret recovery phrase'),
+          step: 2,
           content: (
             <ConfirmMnemonic
               description={t('secret recovery description')}
@@ -245,11 +258,13 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       case ImportStage.MnemonicPhraseBackupStage:
         return {
           title: t('secret recovery phrase backup title'),
+          step: 2,
           content: <ImportMnemonicBackup onConfirm={importMnemonicBackup} error={error} />,
         }
       case CommonStage.CreateWalletStage:
         return {
           title: t('create new wallet title'),
+          step: 2,
           content: (
             <CreateWallet
               mnemonic={mnemonic}
@@ -260,6 +275,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       case CommonStage.ConfirmMnemonicStage:
         return {
           title: t('create new wallet title'),
+          step: 2,
           content: (
             <ConfirmMnemonic
               description={t('confirm secret recovery description')}
@@ -268,15 +284,23 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
             />
           ),
         }
+      case CommonStage.SetPreferenceStage:
+        return {
+          title: t('your preference'),
+          step: 3,
+          content: <SetPreference onConfirm={setPreference} />,
+        }
       case CommonStage.SetSecurityPasswordStage:
         return {
           title: t('security password title'),
+          step: 4,
           content: <SecurityPassword onConfirm={confirmSecurityPassword} />,
         }
       case CommonStage.ImportWalletStage:
       case CommonStage.ImportLedgerWalletStage:
         return {
           title: t('import wallet title'),
+          step: 5,
           content: (
             <ImportWallet
               onConfirm={(name, cryptos) =>
@@ -292,11 +316,13 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       case CommonStage.WhatIsMnemonicStage:
         return {
           title: t('what is secret recovery phrase'),
+          step: 1,
           content: <WhatIsMnemonic />,
         }
       case CommonStage.AccessMyWalletStage:
         return {
           title: t('access my wallet title'),
+          step: 1,
           content: (
             <AccessMyWallet
               onConfirm={setStage}
@@ -308,6 +334,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       default:
         return {
           title: t('create wallet title'),
+          step: 1,
           content: (
             <Start
               onWhatIsMnemonicClick={() => setStage(CommonStage.WhatIsMnemonicStage)}
@@ -346,6 +373,37 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       </IconButton>
       {content.title ? <DialogTitle>{content.title}</DialogTitle> : null}
       {content.content}
+      <Box m={4} mt={0} display="flex">
+        <LinearProgress
+          style={{ flex: 1 }}
+          variant="determinate"
+          value={content.step > 0 ? 100 : 0}
+        />
+        <Box ml={1} />
+        <LinearProgress
+          style={{ flex: 1 }}
+          variant="determinate"
+          value={content.step > 1 ? 100 : 0}
+        />
+        <Box ml={1} />
+        <LinearProgress
+          style={{ flex: 1 }}
+          variant="determinate"
+          value={content.step > 2 ? 100 : 0}
+        />
+        <Box ml={1} />
+        <LinearProgress
+          style={{ flex: 1 }}
+          variant="determinate"
+          value={content.step > 3 ? 100 : 0}
+        />
+        <Box ml={1} />
+        <LinearProgress
+          style={{ flex: 1 }}
+          variant="determinate"
+          value={content.step > 4 ? 100 : 0}
+        />
+      </Box>
     </Dialog>
   )
 }

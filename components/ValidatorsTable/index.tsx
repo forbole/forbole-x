@@ -54,7 +54,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
           ))}
         </Tabs>
         <Table
-          validators={tabs[currentTab].validators}
+          validators={tabs[currentTab].validators || []}
           availableTokens={availableTokens}
           crypto={crypto}
           account={account}
