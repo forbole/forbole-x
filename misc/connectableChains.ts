@@ -93,7 +93,7 @@ const connectableChains = {
     name: 'Likecoin',
     ledgerAppDisplayName: 'Likecoin (LIKE)',
     image: '/static/images/cryptocurrencies/likecoin.png',
-    prefix: 'cosmos',
+    prefix: 'like',
     coinType: 118,
     ledgerAppNames: ['cosmos'],
     chainId: 'likecoin-mainnet-2',
