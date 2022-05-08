@@ -2,7 +2,6 @@
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { pubkeyToAddress } from '@cosmjs/amino'
 import CloseIcon from '../../assets/images/icons/icon_cross.svg'
 import BackIcon from '../../assets/images/icons/icon_back.svg'
 import useStyles from './styles'
@@ -12,7 +11,7 @@ import Start from './Start'
 import useStateHistory from '../../misc/useStateHistory'
 import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
 import useIsMobile from '../../misc/useIsMobile'
-import { closeAllLedgerConnections } from '../../misc/utils'
+import { closeAllLedgerConnections, getPrefix } from '../../misc/utils'
 import SelectWalletType from './SelectWalletType'
 import SelectChain from './SelectChain'
 import ImportMnemonic from './ImportMnemonic'
@@ -138,7 +137,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
                 chainAddress: {
                   typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
                   value: {
-                    prefix: connectableChains[chain].prefix,
+                    prefix: getPrefix(address),
                     value: address,
                   },
                 },
