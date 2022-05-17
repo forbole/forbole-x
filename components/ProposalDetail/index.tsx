@@ -151,7 +151,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
                 </Grid>
                 <Grid item xs={10}>
                   <Typography variant="subtitle1" display="inline">
-                    <Markdown>{proposal.description || ''}</Markdown>
+                    <Markdown>{proposal.description.replace('#','') || ''}</Markdown>
                   </Typography>
                 </Grid>
                 {/* Software Upgrade Proposal */}

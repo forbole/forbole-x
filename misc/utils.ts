@@ -630,7 +630,8 @@ export const transformProposals = (proposalData: any): Proposal[] => {
         address: get(p, 'proposer.address', ''),
       },
       title: get(p, 'title', ''),
-      description: get(p, 'description', ''),
+      // hacky fix to prevent headers from breaking descriptions
+      description: get(p, 'description', '').replace('#', ''),
       type: get(p, 'proposal_type', ''),
       votingStartTime: `${format(new Date(get(p, 'voting_start_time')), 'dd MMM yyyy HH:mm')} UTC`,
       votingEndTime: `${format(new Date(get(p, 'voting_end_time')), 'dd MMM yyyy HH:mm')} UTC`,
