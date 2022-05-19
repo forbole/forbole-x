@@ -58,8 +58,8 @@ const cryptocurrencies: { [key: string]: Cryptocurrency } = {
     graphqlWsUrl: 'wss://gql.regen.forbole.com/v1',
     djunoUrl: 'https://gql.mainnet.desmos.network/v1',
     blockExplorerBaseUrl: 'https://regen.bigdipper.live',
-    lcdApiUrl: 'https://api.regen.forbole.com/',
-    rpcApiUrl: 'https://rpc.regen.forbole.com/',
+    lcdApiUrl: 'https://api.regen.forbole.com',
+    rpcApiUrl: 'https://rpc.regen.forbole.com',
     ibcChains: [
       {
         name: 'Regen Mainnet',
