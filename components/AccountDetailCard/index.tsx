@@ -26,6 +26,7 @@ import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBala
 import SendDialog from '../SendDialog'
 import useIsMobile from '../../misc/useIsMobile'
 import EditAccountDialog from '../EditAccountDialog'
+import cryptocurrencies from '../../misc/cryptocurrencies'
 
 interface AccountDetailCardProps {
   profileExist: boolean
@@ -107,7 +108,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
         >
           <AccountAvatar ledgerIconDisabled size={isMobile ? 'base' : 'large'} account={account} />
           <Box display="flex" mt={isMobile ? 2 : 0} ml={isMobile ? -2 : 0}>
-            {!profileExist ? (
+            {!profileExist && cryptocurrencies[account.crypto].supportsDesmosProfile ? (
               <Button
                 classes={{ root: classes.profileButton }}
                 variant="outlined"
