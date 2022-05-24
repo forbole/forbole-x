@@ -1,6 +1,6 @@
 const getGqlDateFormat = (date: Date) => date.toISOString().split('.')[0]
 
-export const getLatestAccountBalance = (
+export const getLatestAccountBalanceOld = (
   crypto: string,
   address: string,
   availableBalanceOnly?: boolean
@@ -47,57 +47,58 @@ export const getLatestAccountBalance = (
       }
     `
 }
-  }  
+  }
 `
-// export const getLatestAccountBalance = (
-//   crypto: string,
-//   address: string,
-//   availableBalanceOnly?: boolean
-// ): string => `
-//   query AccountBalance @api(name: ${crypto}bdjuno) {
-//     token_price {
-//       token_unit {
-//         denom
-//         exponent
-//         token {
-//           token_units {
-//             denom
-//             exponent
-//           }
-//         }
-//       }
-//       price
-//       timestamp
-//       unit_name
-//     }
-//     action_account_balance(address: "${address}") {
-//       coins
-//     }
-//     ${
-//       availableBalanceOnly
-//         ? ''
-//         : `
-//         action_delegation(address: "${address}") {
-//           delegations
-//         }
-//         action_unbonding_delegation(address: "${address}") {
-//           unbonding_delegations
-//         }
-//       ${
-//         address.includes('valoper') // validator only
-//           ? `action_validator_commission_amount(address: "${address}") {
-//         coins
-//       }`
-//           : ''
-//       }
-//       action_delegation_reward(address: "${address}") {
-//         coins
-//         validator_address
-//       }
-//     `
-//     }
-//   }
-// `
+
+export const getLatestAccountBalance = (
+  crypto: string,
+  address: string,
+  availableBalanceOnly?: boolean
+): string => `
+  query AccountBalance @api(name: ${crypto}bdjuno) {
+    token_price {
+      token_unit {
+        denom
+        exponent
+        token {
+          token_units {
+            denom
+            exponent
+          }
+        }
+      }
+      price
+      timestamp
+      unit_name
+    }
+    action_account_balance(address: "${address}") {
+      coins
+    }
+    ${
+      availableBalanceOnly
+        ? ''
+        : `
+        action_delegation(address: "${address}") {
+          delegations
+        }
+        action_unbonding_delegation(address: "${address}") {
+          unbonding_delegations
+        }
+      ${
+        address.includes('valoper') // validator only
+          ? `action_validator_commission_amount(address: "${address}") {
+        coins
+      }`
+          : ''
+      }
+      action_delegation_reward(address: "${address}") {
+        coins
+        validator_address
+      }
+    `
+    }
+  }
+`
 
 export const getAccountBalanceAtHeight = (crypto: string, address: string): string => `
   query AccountBalance($height: Int!, $timestamp: timestamp! ){
