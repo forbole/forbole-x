@@ -7,7 +7,7 @@ import {
   transformGqlAcountBalance,
 } from '../../misc/utils'
 import { transformHasuraActionResult } from '../hooks/useLatestAccountBalance'
-import { getDelegatedBalance, getLatestAccountBalance } from '../queries/accountBalances'
+import { getDelegatedBalance, getLatestAccountBalanceOld } from '../queries/accountBalances'
 
 export const fetchAccountBalance = async (
   address: string,
@@ -27,7 +27,7 @@ export const fetchAccountBalance = async (
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      query: getLatestAccountBalance(crypto, address, availableBalanceOnly),
+      query: getLatestAccountBalanceOld(crypto, address, availableBalanceOnly),
     }),
   }).then((r) => r.json())
   const balance = transformHasuraActionResult(data, cryptocurrencies[crypto].gasFee.denom)
