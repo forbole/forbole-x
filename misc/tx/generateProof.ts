@@ -236,7 +236,8 @@ const generateProof = async (
   }
   let signer
   if (!ledgerTransport) {
-    signer = await Secp256k1HdWallet.fromMnemonic(mnemonicOrPrivateKey, signerOptions)
+    // don't try this at home
+    signer = await Secp256k1HdWallet.fromMnemonic(mnemonicOrPrivateKey, signerOptions as any)
   } else {
     signer = new LedgerSigner(ledgerTransport, {
       ...signerOptions,
