@@ -54,9 +54,6 @@ const signInstructions = [
   },
 ]
 
-let retryTimeout
-let pendingTimeout
-
 const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
   onConnect,
   ledgerAppName,
@@ -71,6 +68,7 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
   const themeStyle: CustomTheme = useTheme()
   const iconProps = useIconProps()
   const [isCopySuccess, setIsCopySuccess] = React.useState(false)
+  const retryTimeoutRef = React.useRef<any>(undefined)
 
   const copyText = React.useCallback(
     (e) => {
@@ -84,11 +82,6 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
   const connectLedger = React.useCallback(async () => {
     let transport
     try {
-      // When ledger timeout
-      pendingTimeout = setTimeout(() => {
-        closeAllLedgerConnections()
-        connectLedger()
-      }, 5000)
       transport = await TransportWebHID.create()
       if (ledgerAppName === 'terra') {
         const ledger = new TerraApp(transport)
@@ -102,43 +95,39 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
         // Check if ledger app is open
         await ledger.getCosmosAppVersion()
       }
-      clearTimeout(pendingTimeout)
       setInstruction(signInstructions[1])
-      clearTimeout(retryTimeout)
       onConnect(transport)
       setInstruction(signInstructions[2])
+      clearTimeout(retryTimeoutRef.current)
     } catch (err) {
-      clearTimeout(pendingTimeout)
       if (err.name === 'TransportOpenUserCancelled') {
         // Ledger app is opened already
         setInstruction(signInstructions[0])
-        retryTimeout = setTimeout(connectLedger, 1000)
       } else if (
         err.message === 'Please close OLOS and open the Desmos Ledger app on your Ledger device.'
       ) {
         setInstruction(signInstructions[1])
-        retryTimeout = setTimeout(connectLedger, 1000)
-      } else if (err.message === 'The device is already open.') {
+      } else if (err.message.includes('The device is already open.')) {
         // Ledger is connected previously. Close the previous connections
-        closeAllLedgerConnections()
         setInstruction(signInstructions[1])
-        retryTimeout = setTimeout(connectLedger, 1000)
+        closeAllLedgerConnections()
         // No specific ledger app required
       } else if (!ledgerAppName && err.message !== 'Ledger’s screensaver mode is on') {
         setInstruction(signInstructions[0])
-        clearTimeout(retryTimeout)
         onConnect(transport)
-      } else {
-        retryTimeout = setTimeout(connectLedger, 1000)
       }
     }
-  }, [ledgerAppName])
+  }, [ledgerAppName, retryTimeoutRef])
 
   React.useEffect(() => {
-    connectLedger()
+    retryTimeoutRef.current = setInterval(() => {
+      connectLedger()
+    }, 2000)
+
+    const retryTimeoutID = retryTimeoutRef.current
+
     return () => {
-      clearTimeout(retryTimeout)
-      clearTimeout(pendingTimeout)
+      clearTimeout(retryTimeoutID)
     }
   }, [connectLedger])
 
