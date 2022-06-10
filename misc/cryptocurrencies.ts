@@ -49,7 +49,7 @@ const cryptocurrencies: { [key: string]: Cryptocurrency } = {
   REGEN: {
     name: 'REGEN',
     prefix: 'regen',
-    ledgerAppName: 'Regen',
+    ledgerAppName: 'Cosmos',
     ecosystem: 'cosmos',
     chainId: 'regen-1',
     chainName: 'Regen Mainnet',
