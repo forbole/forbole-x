@@ -7,7 +7,7 @@ import { getAccountBalanceAtHeight } from '../queries/accountBalances'
 import { getBlockByTimestamp } from '../queries/blocks'
 
 const fetchBalance = async (address: string, crypto: string, timestamp: Date) => {
-  const block = await fetch(cryptocurrencies[crypto].graphqlHttpUrl, {
+  const block = await fetch(`${cryptocurrencies[crypto].graphqlHttpUrl}/graphql`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -15,7 +15,7 @@ const fetchBalance = async (address: string, crypto: string, timestamp: Date) =>
       variables: { timestamp },
     }),
   }).then((r) => r.json())
-  const balanceResult = await fetch(cryptocurrencies[crypto].graphqlHttpUrl, {
+  const balanceResult = await fetch(`${cryptocurrencies[crypto].graphqlHttpUrl}/graphql`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

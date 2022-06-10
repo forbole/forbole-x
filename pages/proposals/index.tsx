@@ -24,10 +24,15 @@ const Proposals: React.FC = () => {
   const { data: proposalData } = useQuery(
     gql`
       ${getProposals(activeCrypto)}
-    `
+    `,
+    {
+      fetchPolicy: 'no-cache',
+    }
   )
 
-  const proposalList = transformProposals(proposalData)
+  const proposalList = React.useMemo(() => {
+    return transformProposals(proposalData)
+  }, [proposalData])
 
   return (
     <Layout passwordRequired activeItem="/proposals">

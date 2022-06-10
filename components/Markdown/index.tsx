@@ -3,7 +3,7 @@ import ReactMarkdown from 'markdown-to-jsx'
 import { Typography, Link } from '@material-ui/core'
 
 const options = {
-  disableParsingRawHTML: true,
+  // disableParsingRawHTML: true,
   forceBlock: true,
   overrides: {
     h1: {
@@ -46,6 +46,7 @@ const options = {
       component: Typography,
       props: {
         variant: 'h6',
+        // variant: 'body1',
       },
     },
     p: {

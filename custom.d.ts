@@ -90,6 +90,7 @@ interface Chain {
 }
 
 interface Cryptocurrency {
+  supportsDesmosProfile?: boolean
   name: string
   prefix?: string
   ecosystem: 'cosmos'

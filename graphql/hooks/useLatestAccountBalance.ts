@@ -63,6 +63,7 @@ const useLatestAccountBalance = (crypto: string, address: string) => {
     `,
     {
       pollInterval: 15000,
+      fetchPolicy: 'no-cache',
     }
   )
 
