@@ -33,9 +33,10 @@ jobs:
         with:
           context: .
           push: true
-          tags: forbole/forbole-portal:v${{ steps.package-version.outputs.current-version }}
-      - name: Deploy to Akash
-        run: |
-          curl -i -X POST -H "Content-Type: application/json" -d '{"parameters":{"tag": "v${{ steps.package-version.outputs.current-version }}"}}' -k ${{ secrets.AKASH_WEBHOOK_URL }} -u "deploy:${{ secrets.AKASH_WEBHOOK_SECRET }}"
+          tags: forbole/forbole-portal:latest
+      #          tags: forbole/forbole-portal:v${{ steps.package-version.outputs.current-version }}
+#      - name: Deploy to Akash
+#        run: |
+#          curl -i -X POST -H "Content-Type: application/json" -d '{"parameters":{"tag": "v${{ steps.package-version.outputs.current-version }}"}}' -k ${{ secrets.AKASH_WEBHOOK_URL }} -u "deploy:${{ secrets.AKASH_WEBHOOK_SECRET }}"
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
