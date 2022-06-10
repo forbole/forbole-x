@@ -1021,7 +1021,7 @@
     "@cosmjs/math" "0.26.3"
     "@cosmjs/utils" "0.26.3"
 
-"@cosmjs/crypto@0.26.3", "@cosmjs/crypto@^0.26.0":
+"@cosmjs/crypto@0.26.3":
   version "0.26.3"
   resolved "https://registry.yarnpkg.com/@cosmjs/crypto/-/crypto-0.26.3.tgz#09fae81502fbc9c7a7ebacedc60bfef1f750d439"
   integrity sha512-Y+Spq8TCerhnO+IKbnHu43AmGyS78AmeoWET/W8Ym+MHwiY6a7g8duIZtj//AN7xzhmVyFkp5EOXcJkeq0M7Hg==
@@ -1102,7 +1102,7 @@
     axios "^0.21.1"
     fast-deep-equal "^3.1.3"
 
-"@cosmjs/ledger-amino@^0.26.0":
+"@cosmjs/ledger-amino@0.26.3":
   version "0.26.3"
   resolved "https://registry.yarnpkg.com/@cosmjs/ledger-amino/-/ledger-amino-0.26.3.tgz#4b2b6c95f623baadbad9c6181a74a77197bfa45e"
   integrity sha512-PcI3UjYQHbTEGncuf65lcLyvMwSEQZChuoQiLxANrd9dVZ1SN6b8jl/IWdeCA2I8GVo5OwXlA9CxpJuNC6Z4rg==
@@ -1136,7 +1136,7 @@
   dependencies:
     bn.js "^4.11.8"
 
-"@cosmjs/proto-signing@0.26.3", "@cosmjs/proto-signing@^0.26.0":
+"@cosmjs/proto-signing@0.26.3":
   version "0.26.3"
   resolved "https://registry.yarnpkg.com/@cosmjs/proto-signing/-/proto-signing-0.26.3.tgz#0051dc12c9fa75afc32afd72b767b0888255232a"
   integrity sha512-gyOcB+/zZbITrPOxuWfR2m9TI1RAFMgl6P7PPpeFh50tYjVvGj0q32r0w67xhLtXAYyyi4J7GUqDQyK+XQDqEg==
@@ -1167,7 +1167,7 @@
     ws "^7"
     xstream "^11.14.0"
 
-"@cosmjs/stargate@^0.26.0":
+"@cosmjs/stargate@0.26.3":
   version "0.26.3"
   resolved "https://registry.yarnpkg.com/@cosmjs/stargate/-/stargate-0.26.3.tgz#477f844e1b9994a83579555148c0dfc964b520fd"
   integrity sha512-EEAFGsTCI+mXVHG2o/EYu57or9mk3VvjrZJ0iJKfUlhkPxJOAB0TldvBX9HGlNqzQfqc3CIpzj6k5/yvN/JThw==
