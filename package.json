@@ -1,6 +1,6 @@
 {
   "name": "forbole-x",
-  "version": "0.22.2",
+  "version": "0.22.4",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -15,10 +15,10 @@
   "dependencies": {
     "@alfonmga/react-lottie-light-ts": "^0.0.1",
     "@apollo/client": "^3.3.12",
-    "@cosmjs/crypto": "^0.26.0",
-    "@cosmjs/ledger-amino": "^0.26.0",
-    "@cosmjs/proto-signing": "^0.26.0",
-    "@cosmjs/stargate": "^0.26.0",
+    "@cosmjs/crypto": "0.26.3",
+    "@cosmjs/ledger-amino": "0.26.3",
+    "@cosmjs/proto-signing": "0.26.3",
+    "@cosmjs/stargate": "0.26.3",
     "@habx/apollo-multi-endpoint-link": "^2.7.0",
     "@ledgerhq/hw-transport-webhid": "^6.1.0",
     "@material-ui/core": "^4.11.2",

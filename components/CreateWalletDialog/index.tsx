@@ -197,6 +197,15 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
     [addWallet, mnemonic, securityPassword, onClose]
   )
 
+  React.useEffect(() => {
+    if (
+      ledgerAddresses.length === ledgerCryptos.length &&
+      stage === ImportStage.ConnectLedgerDeviceStage
+    ) {
+      saveWallet(ledgerWalletName, ledgerCryptos, 'ledger', ledgerAddresses)
+    }
+  }, [ledgerAddresses, ledgerCryptos])
+
   const content: Content = React.useMemo(() => {
     switch (stage) {
       case ImportStage.ConnectLedgerDeviceStage:
@@ -217,22 +226,16 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
                       account: 0,
                       change: 0,
                       index: 0,
-                      prefix: cryptocurrencies[ledgerCryptos[0]].prefix,
-                      ledgerAppName: cryptocurrencies[ledgerCryptos[0]].ledgerAppName,
-                      coinType: cryptocurrencies[ledgerCryptos[0]].coinType,
+                      prefix: cryptocurrencies[ledgerCryptos[ledgerCryptosIndex]].prefix,
+                      ledgerAppName:
+                        cryptocurrencies[ledgerCryptos[ledgerCryptosIndex]].ledgerAppName,
+                      coinType: cryptocurrencies[ledgerCryptos[ledgerCryptosIndex]].coinType,
                     },
                     signer,
                     true
                   )
                   setLedgerCryptosIndex((i) => i + 1)
                   setLedgerAddresses((addresses) => [...addresses, address])
-                  // save wallet on last crypto
-                  if (ledgerCryptos.length === ledgerAddresses.length + 1) {
-                    saveWallet(ledgerWalletName, ledgerCryptos, 'ledger', [
-                      ...ledgerAddresses,
-                      address,
-                    ])
-                  }
                 }
               }}
               ledgerAppName={
