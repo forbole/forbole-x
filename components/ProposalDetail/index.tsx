@@ -90,6 +90,13 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
   const { t, lang } = useTranslation('common')
   const [voteDialogOpen, setVoteDialogOpen] = React.useState(false)
 
+  const cleanedProposalDescription = React.useMemo(() => {
+    if (proposal && proposal.description) {
+      return proposal.description.replace(/\\n\s?/g, '<br/>').replace('#', '') || ''
+    }
+    return ''
+  }, [proposal])
+
   return (
     <>
       <Card className={classes.card}>
@@ -151,12 +158,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
                 </Grid>
                 <Grid item xs={10}>
                   <Typography variant="subtitle1" display="inline">
-                    <Markdown>
-                      {(proposal && proposal.description.replace(/\\n\s?/g, '<br/>')).replace(
-                        '#',
-                        ''
-                      ) || ''}
-                    </Markdown>
+                    <Markdown>{cleanedProposalDescription}</Markdown>
                   </Typography>
                 </Grid>
                 {/* Software Upgrade Proposal */}
