@@ -131,7 +131,7 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
                     placeholder={t('select network')}
                     inputProps={{
                       ...inputProps,
-                      value: `${Object.values(cryptocurrencies)[0].name}`,
+                      value: `${cryptocurrencies[editedAddress.crypto].name}`,
                     }}
                     // eslint-disable-next-line react/jsx-no-duplicate-props
                     InputProps={{
