@@ -243,6 +243,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
                   ? cryptocurrencies[ledgerCryptos[ledgerCryptosIndex]].ledgerAppName
                   : undefined
               }
+              ledgerAppIndex={ledgerCryptosIndex}
             />
           ),
         }
