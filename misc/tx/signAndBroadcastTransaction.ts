@@ -15,6 +15,7 @@ import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys'
 import Long from 'long'
 import { LedgerSigner } from '@cosmjs/ledger-amino'
 import { fromBase64 } from '@cosmjs/encoding'
+import { DesmosClient, OfflineSignerAdapter } from '@desmoslabs/desmjs'
 import cryptocurrencies from '../cryptocurrencies'
 import sendMsgToChromeExt from '../sendMsgToChromeExt'
 import { Bech32Address } from '../../desmos-proto/profiles/v1beta1/models_chain_links'
@@ -35,7 +36,7 @@ const formatTransactionMsg = (msg: TransactionMsg) => {
   ) {
     set(transformedMsg, 'value.proposalId', new Long(get(transformedMsg, 'value.proposalId', 0)))
   }
-  if (transformedMsg.typeUrl === '/desmos.profiles.v1beta1.MsgLinkChainAccount') {
+  if (transformedMsg.typeUrl === '/desmos.profiles.v3.MsgLinkChainAccount') {
     set(
       transformedMsg,
       'value.chainAddress.value',
@@ -141,14 +142,25 @@ const signAndBroadcastCosmosTransaction = async (
     } as any)
   }
   const accounts = await signer.getAccounts()
-  const client = await SigningStargateClient.connectWithSigner(
-    cryptocurrencies[crypto].rpcApiUrl,
-    signer,
-    {
-      registry,
-      aminoTypes: new AminoTypes({ additions: aminoAdditions, prefix: signerOptions.prefix }),
-    }
-  )
+
+  let client
+  // very bad hacky fix
+  if (crypto === 'DSM') {
+    // eslint-disable-next-line no-underscore-dangle
+    const _signer = new OfflineSignerAdapter(signer)
+    client = await DesmosClient.connectWithSigner(cryptocurrencies[crypto].rpcApiUrl, _signer)
+  } else {
+    client = await SigningStargateClient.connectWithSigner(
+      cryptocurrencies[crypto].rpcApiUrl,
+      signer,
+      {
+        registry,
+        aminoTypes: new AminoTypes({ additions: aminoAdditions, prefix: signerOptions.prefix }),
+      }
+    )
+  }
+
+  console.log('attempting to sign')
   const tx = await client.sign(
     accounts[0].address,
     transactionData.msgs.map((msg: any) => formatTransactionMsg(msg)),
@@ -158,6 +170,8 @@ const signAndBroadcastCosmosTransaction = async (
   if (onSignEnd) {
     onSignEnd()
   }
+
+  console.log('help')
   const result = await client.broadcastTx(TxRaw.encode(tx).finish())
   if (!result.rawLog.match(/^\[/)) {
     throw new Error(result.rawLog)

@@ -14,13 +14,13 @@ import { Bech32Address } from '../../desmos-proto/profiles/v1beta1/models_chain_
 
 export const registry = new Registry([
   ...defaultRegistryTypes,
-  ['/desmos.profiles.v1beta1.MsgSaveProfile', MsgSaveProfile],
-  ['/desmos.profiles.v1beta1.MsgLinkChainAccount', MsgLinkChainAccount],
-  ['/desmos.profiles.v1beta1.MsgUnlinkChainAccount', MsgUnlinkChainAccount],
+  ['/desmos.profiles.v3.MsgSaveProfile', MsgSaveProfile],
+  ['/desmos.profiles.v3.MsgLinkChainAccount', MsgLinkChainAccount],
+  ['/desmos.profiles.v3.MsgUnlinkChainAccount', MsgUnlinkChainAccount],
 ] as any)
 
 export const aminoAdditions = {
-  '/desmos.profiles.v1beta1.MsgSaveProfile': {
+  '/desmos.profiles.v3.MsgSaveProfile': {
     aminoType: 'desmos/MsgSaveProfile',
     toAmino: ({ dtag, nickname, bio, profilePicture, coverPicture, creator }) => ({
       dtag,
@@ -39,7 +39,7 @@ export const aminoAdditions = {
       creator,
     }),
   },
-  '/desmos.profiles.v1beta1.MsgLinkChainAccount': {
+  '/desmos.profiles.v3.MsgLinkChainAccount': {
     aminoType: 'desmos/MsgLinkChainAccount',
     toAmino: ({ chainAddress, proof, chainConfig, signer }) => {
       const chainAddressValue = Bech32Address.decode(chainAddress.value)
@@ -67,7 +67,7 @@ export const aminoAdditions = {
     fromAmino: ({ chain_address, proof, chain_config, signer }) => {
       return {
         chainAddress: {
-          typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
+          typeUrl: '/desmos.profiles.v3.Bech32Address',
           value: Bech32Address.encode({
             prefix: chain_address.value.prefix,
             value: chain_address.value.value,
@@ -88,7 +88,7 @@ export const aminoAdditions = {
       }
     },
   },
-  '/desmos.profiles.v1beta1.MsgUnlinkChainAccount': {
+  '/desmos.profiles.v3.MsgUnlinkChainAccount': {
     aminoType: 'desmos/MsgUnlinkChainAccount',
     toAmino: ({ chainName, owner, target }) => ({ chain_name: chainName, owner, target }),
     fromAmino: ({ chain_name, owner, target }) => ({ chainName: chain_name, owner, target }),

@@ -412,7 +412,7 @@ interface TransactionMsgSetWithdrawAddress {
 }
 
 interface TransactionMsgSaveProfile {
-  typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile'
+  typeUrl: '/desmos.profiles.v3.MsgSaveProfile'
   value: {
     dtag: string
     nickname?: string
@@ -433,10 +433,10 @@ interface ChainLinkProof {
 }
 
 interface TransactionMsgLinkChainAccount {
-  typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount'
+  typeUrl: '/desmos.profiles.v3.MsgLinkChainAccount'
   value: {
     chainAddress: {
-      typeUrl: '/desmos.profiles.v1beta1.Bech32Address'
+      typeUrl: '/desmos.profiles.v3.Bech32Address'
       value: {
         prefix: string
         value: string // address
@@ -451,7 +451,7 @@ interface TransactionMsgLinkChainAccount {
 }
 
 interface TransactionMsgUnlinkChainAccount {
-  typeUrl: '/desmos.profiles.v1beta1.MsgUnlinkChainAccount'
+  typeUrl: '/desmos.profiles.v3.MsgUnlinkChainAccount'
   value: {
     chainName: string
     owner: string

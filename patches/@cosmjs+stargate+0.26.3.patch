@@ -1,5 +1,5 @@
 diff --git a/node_modules/@cosmjs/stargate/build/accounts.js b/node_modules/@cosmjs/stargate/build/accounts.js
-index 55753d0..ec8b325 100644
+index 55753d0..53cc8f8 100644
 --- a/node_modules/@cosmjs/stargate/build/accounts.js
 +++ b/node_modules/@cosmjs/stargate/build/accounts.js
 @@ -58,6 +58,11 @@ function accountFromAny(input) {
@@ -7,7 +7,7 @@ index 55753d0..ec8b325 100644
              return accountFromBaseAccount(baseAccount);
          }
 +        // custom
-+        case "/desmos.profiles.v1beta1.Profile": {
++        case "/desmos.profiles.v3.Profile": {
 +            const account = auth_1.ProfileAccount.decode(value).account;
 +            return accountFromAny(account);
 +        }
