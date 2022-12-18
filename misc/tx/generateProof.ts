@@ -169,13 +169,17 @@ const generateProof = async (
     })
     const auth = await terraLCDClient.auth.accountInfo(terraAddress)
 
+    // @ts-ignore
     if (signMode === 'SIGN_MODE_DIRECT') {
       const txBody = get(result, 'result.body', {})
       const signDoc = new SignDoc(
         proof.chain_id,
         auth.getAccountNumber(),
+        // @ts-ignore
         get(result, 'result.auth_info.signer_infos[0].sequence', ''),
+        // @ts-ignore
         AuthInfo.fromData(get(result, 'result.auth_info', {})),
+        // @ts-ignore
         TxBody.fromData(txBody)
       )
       return {
@@ -236,6 +240,7 @@ const generateProof = async (
   }
   let signer
   if (!ledgerTransport) {
+    // @ts-ignore
     signer = await Secp256k1HdWallet.fromMnemonic(mnemonicOrPrivateKey, signerOptions)
   } else {
     signer = new LedgerSigner(ledgerTransport, {

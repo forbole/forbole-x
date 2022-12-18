@@ -125,7 +125,7 @@ const Layout: React.FC<LayoutProps> = ({
       {!isChromeExtInstalled ? <ChromeExtDialog /> : null}
       {open ? (
         <ConfirmTransactionDialog
-          address={address}
+          address={address as string}
           transactionData={transactionData}
           open={open}
           onClose={onClose}
