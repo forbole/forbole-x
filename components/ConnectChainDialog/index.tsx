@@ -135,7 +135,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
               typeUrl: '/desmos.profiles.v3.MsgLinkChainAccount',
               value: {
                 chainAddress: {
-                  typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
+                  typeUrl: '/desmos.profiles.v3.Bech32Address',
                   value: {
                     prefix: getPrefix(address),
                     value: address,
