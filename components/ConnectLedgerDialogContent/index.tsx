@@ -37,6 +37,11 @@ interface ConnectLedgerDialogContentProps {
   ledgerAppName?: string
   signTransaction?: boolean
   isTxSigned?: boolean
+
+  /**
+   * Used to force the UI to update to the next ledgerapp to be connected
+   */
+  ledgerAppIndex?: number
 }
 
 const signInstructions = [
@@ -60,6 +65,7 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
   signTransaction,
   isTxSigned,
   account,
+  ledgerAppIndex,
 }) => {
   const { t } = useTranslation('common')
   const classes = useStyles()
@@ -117,7 +123,7 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
         onConnect(transport)
       }
     }
-  }, [ledgerAppName, retryTimeoutRef])
+  }, [ledgerAppName, retryTimeoutRef, ledgerAppIndex])
 
   React.useEffect(() => {
     retryTimeoutRef.current = setInterval(() => {

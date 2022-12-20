@@ -106,7 +106,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
       })
       const msgs: TransactionMsgSaveProfile[] = [
         {
-          typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile',
+          typeUrl: '/desmos.profiles.v3.MsgSaveProfile',
           value,
         },
       ]

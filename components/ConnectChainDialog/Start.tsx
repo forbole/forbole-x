@@ -84,7 +84,7 @@ const Start: React.FC<StartProps> = ({ onConnectClick, connections, account, onC
                           await sendTransaction(password, account.address, {
                             msgs: [
                               {
-                                typeUrl: '/desmos.profiles.v1beta1.MsgUnlinkChainAccount',
+                                typeUrl: '/desmos.profiles.v3.MsgUnlinkChainAccount',
                                 value: {
                                   chainName,
                                   owner: account.address,

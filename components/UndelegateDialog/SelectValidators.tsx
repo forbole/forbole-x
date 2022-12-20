@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
+import _ from 'lodash'
 import useStyles from './styles'
 import { formatCrypto, formatCurrency, formatTokenAmount } from '../../misc/utils'
 import { useGeneralContext } from '../../contexts/GeneralContext'
@@ -33,7 +34,12 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   crypto,
   loading,
 }) => {
-  const { amount: totalAmount, price } = Object.values(availableAmount)[0]
+  const delegatedAmount = React.useMemo(() => {
+    return Object.values(availableAmount)[0]
+  }, [availableAmount])
+
+  const totalAmount = _.get(delegatedAmount, 'amount', 1)
+  const price = _.get(delegatedAmount, 'price')
   const { t, lang } = useTranslation('common')
   const classes = useStyles()
   const { currency, currencyRate, hideAmount } = useGeneralContext()

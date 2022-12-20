@@ -154,7 +154,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         return t('successfully deposited', {
           title: formatTokenAmount(totalAmount, { defaultUnit: crypto, lang }),
         })
-      case '/desmos.profiles.v1beta1.MsgSaveProfile':
+      case '/desmos.profiles.v3.MsgSaveProfile':
         return t('profile was saved')
       default:
         return ''
@@ -203,6 +203,7 @@ const ConfirmTransactionDialog: React.FC<ConfirmTransactionDialogProps> = ({
         setIsTxSigned(false)
         setStage(ConfirmTransactionStage.SuccessStage, true)
       } catch (err) {
+        console.log(err)
         setErrMsg(err.message)
         setStage(ConfirmTransactionStage.FailStage, true)
       }

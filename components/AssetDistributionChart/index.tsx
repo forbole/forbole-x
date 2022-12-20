@@ -124,6 +124,7 @@ const AssetDistributionChart: React.FC = () => {
         <AssetPopover
           anchorPosition={anchorPosition}
           onClose={() => setAnchorPosition(null)}
+          // @ts-ignore
           accountBalance={get(data, `[${popoverIndex}].extraData`, {})}
           cryptocurrency={
             cryptocurrencies[get(data, `[${popoverIndex}].name`, '')] ||

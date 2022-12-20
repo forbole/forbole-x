@@ -165,16 +165,16 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             denoms={denoms}
           />
         )
-      case '/desmos.profiles.v1beta1.MsgSaveProfile':
+      case '/desmos.profiles.v3.MsgSaveProfile':
         return <SaveProfileContent msgs={transactionData.msgs as TransactionMsgSaveProfile[]} />
-      case '/desmos.profiles.v1beta1.MsgLinkChainAccount':
+      case '/desmos.profiles.v3.MsgLinkChainAccount':
         return (
           <ChainLinkContent
             account={account}
             msgs={transactionData.msgs as TransactionMsgLinkChainAccount[]}
           />
         )
-      case '/desmos.profiles.v1beta1.MsgUnlinkChainAccount':
+      case '/desmos.profiles.v3.MsgUnlinkChainAccount':
         return (
           <ChainUnlinkContent
             account={account}

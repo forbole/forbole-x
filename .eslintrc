@@ -85,6 +85,7 @@
         "variables": false,
         "typedefs": false
       }
-    ]
+    ],
+    "@typescript-eslint/ban-ts-comment": 0
   }
 }

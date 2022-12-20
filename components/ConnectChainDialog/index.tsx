@@ -132,10 +132,10 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
         await sendTransaction(password, account.address, {
           msgs: [
             {
-              typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount',
+              typeUrl: '/desmos.profiles.v3.MsgLinkChainAccount',
               value: {
                 chainAddress: {
-                  typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
+                  typeUrl: '/desmos.profiles.v3.Bech32Address',
                   value: {
                     prefix: getPrefix(address),
                     value: address,

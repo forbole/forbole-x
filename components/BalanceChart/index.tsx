@@ -155,13 +155,15 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
               <Tooltip
                 formatter={(v, i) => [
                   i === 'balance'
-                    ? formatCurrency(v * currencyRate, {
+                    ? // @ts-ignore
+                      formatCurrency(v * currencyRate, {
                         currency,
                         lang,
                         hideUnit: true,
                         hideAmount,
                       })
-                    : formatCrypto(v, { unit: crypto, lang, hideAmount }),
+                    : // @ts-ignore
+                      formatCrypto(v, { unit: crypto, lang, hideAmount }),
                 ]}
                 labelFormatter={(v) => format(v, 'd MMM h:ma')}
                 contentStyle={{ backgroundColor: theme.palette.background.paper }}
