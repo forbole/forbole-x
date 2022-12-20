@@ -130,47 +130,6 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly 1`] = `
             </p>
           </button>
         </div>
-        <div
-          className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-4"
-        >
-          <button
-            className="MuiButtonBase-root HookGlobalStyles-cryptoButton-6"
-            disabled={false}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            style={Object {}}
-            tabIndex={0}
-            type="button"
-          >
-            <div
-              className="MuiBox-root MuiBox-root-13"
-            >
-              <div
-                className="MuiAvatar-root MuiAvatar-circular"
-              >
-                <img
-                  className="MuiAvatar-img"
-                  src="/static/images/cryptocurrencies/atom.png"
-                />
-              </div>
-            </div>
-            <p
-              className="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
-            >
-              ATOM
-            </p>
-          </button>
-        </div>
       </div>
     </div>
   </div>
@@ -178,7 +137,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly 1`] = `
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-14"
+      className="MuiBox-root MuiBox-root-13"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary Mui-disabled Mui-disabled"
@@ -245,7 +204,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly with wal
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-15"
+      className="MuiBox-root MuiBox-root-14"
     >
       <p
         className="MuiTypography-root MuiTypography-body1"
@@ -279,7 +238,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly with wal
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-16"
+              className="MuiBox-root MuiBox-root-15"
             >
               <div
                 className="MuiAvatar-root MuiAvatar-circular"
@@ -323,7 +282,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly with wal
             type="button"
           >
             <div
-              className="MuiBox-root MuiBox-root-17"
+              className="MuiBox-root MuiBox-root-16"
             >
               <div
                 className="MuiAvatar-root MuiAvatar-circular"
@@ -344,50 +303,6 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly with wal
             />
           </button>
         </div>
-        <div
-          className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-4"
-        >
-          <button
-            className="MuiButtonBase-root HookGlobalStyles-cryptoButton-6"
-            disabled={false}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            style={Object {}}
-            tabIndex={0}
-            type="button"
-          >
-            <div
-              className="MuiBox-root MuiBox-root-18"
-            >
-              <div
-                className="MuiAvatar-root MuiAvatar-circular"
-              >
-                <img
-                  className="MuiAvatar-img"
-                  src="/static/images/cryptocurrencies/atom.png"
-                />
-              </div>
-            </div>
-            <p
-              className="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
-            >
-              ATOM
-            </p>
-            <span
-              className="MuiTouchRipple-root"
-            />
-          </button>
-        </div>
       </div>
     </div>
   </div>
@@ -395,7 +310,7 @@ exports[`component: CreateWalletDialog - ImportWallet renders correctly with wal
     className="MuiDialogActions-root MuiDialogActions-spacing"
   >
     <div
-      className="MuiBox-root MuiBox-root-19"
+      className="MuiBox-root MuiBox-root-17"
     >
       <button
         className="MuiButtonBase-root MuiButton-root MuiButton-contained HookGlobalStyles-button-1 MuiButton-containedPrimary Mui-disabled Mui-disabled"
