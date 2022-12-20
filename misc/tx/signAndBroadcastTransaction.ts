@@ -160,10 +160,11 @@ const signAndBroadcastCosmosTransaction = async (
     )
   }
 
-  console.log('attempting to sign')
+  const formattedMsgs = transactionData.msgs.map(formatTransactionMsg)
+
   const tx = await client.sign(
     accounts[0].address,
-    transactionData.msgs.map((msg: any) => formatTransactionMsg(msg)),
+    formattedMsgs,
     transactionData.fee,
     transactionData.memo
   )
