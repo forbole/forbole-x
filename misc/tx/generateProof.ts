@@ -201,6 +201,8 @@ const generateProof = async (
   proofText?: string
 ): Promise<{ proof: ChainLinkProof; address: string }> => {
   // Reformat input proof if it is already provided
+
+  // TODO: fix this implementation
   if (proofText) {
     try {
       const proofObj = JSON.parse(proofText)
@@ -294,18 +296,6 @@ const generateProof = async (
       })
     )
     proofAddress = account.address
-
-    // return {
-    //   proof: {
-    //     plainText: Buffer.from(sortedJsonStringify(result.signed)).toString('hex'),
-    //     pubKey: {
-    //       typeUrl: '/cosmos.crypto.secp256k1.PubKey',
-    //       value: result.signature.pub_key.value,
-    //     },
-    //     signature: Buffer.from(result.signature.signature, 'base64').toString('hex'),
-    //   },
-    //   address: account.address,
-    // }
   }
 
   // TerraStation
@@ -348,18 +338,6 @@ const generateProof = async (
       )
 
       proofAddress = terraAddress
-
-      // return {
-      //   proof: {
-      //     plainText: Buffer.from(signDoc.toBytes()).toString('hex'),
-      //     pubKey: {
-      //       typeUrl: '/cosmos.crypto.secp256k1.PubKey',
-      //       value: pubkey,
-      //     },
-      //     signature: Buffer.from(signature, 'base64').toString('hex'),
-      //   },
-      //   address: terraAddress,
-      // }
     }
     proof.msgs = get(result, 'result.body.messages', []).map((m) => MsgSend.fromData(m).toAmino())
     proof.sequence = get(result, 'result.auth_info.signer_infos[0].sequence', '')
@@ -379,17 +357,6 @@ const generateProof = async (
     )
 
     proofAddress = terraAddress
-    // return {
-    //   proof: {
-    //     plainText: Buffer.from(sortedJsonStringify(proof)).toString('hex'),
-    //     pubKey: {
-    //       typeUrl: '/cosmos.crypto.secp256k1.PubKey',
-    //       value: pubkey,
-    //     },
-    //     signature: Buffer.from(signature, 'base64').toString('hex'),
-    //   },
-    //   address: terraAddress,
-    // }
   }
 
   if (option.ledgerAppName === 'terra' && ledgerTransport) {
@@ -397,17 +364,7 @@ const generateProof = async (
     const hdPath = [44, option.coinType, option.account || 0, option.change || 0, option.index || 0]
     const result = await app.getAddressAndPubKey(hdPath, option.prefix)
     const { signature } = await app.sign(hdPath, serializeSignDoc(proof))
-    // return {
-    //   proof: {
-    //     plainText: Buffer.from(JSON.stringify(proof, null, 0)).toString('hex'),
-    //     pubKey: {
-    //       typeUrl: '/cosmos.crypto.secp256k1.PubKey',
-    //       value: toBase64(Buffer.from(result.compressed_pk.data)),
-    //     },
-    //     signature: Buffer.from(signatureImport(Buffer.from(signature as any))).toString('hex'),
-    //   },
-    //   address: result.bech32_address,
-    // }
+
     proofPlainText = Buffer.from(JSON.stringify(proof, null, 0)).toString('hex')
     proofPubKey = {
       typeUrl: '/cosmos.crypto.secp256k1.PubKey',
