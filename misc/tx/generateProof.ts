@@ -397,17 +397,28 @@ const generateProof = async (
     const hdPath = [44, option.coinType, option.account || 0, option.change || 0, option.index || 0]
     const result = await app.getAddressAndPubKey(hdPath, option.prefix)
     const { signature } = await app.sign(hdPath, serializeSignDoc(proof))
-    return {
-      proof: {
-        plainText: Buffer.from(JSON.stringify(proof, null, 0)).toString('hex'),
-        pubKey: {
-          typeUrl: '/cosmos.crypto.secp256k1.PubKey',
-          value: toBase64(Buffer.from(result.compressed_pk.data)),
-        },
-        signature: Buffer.from(signatureImport(Buffer.from(signature as any))).toString('hex'),
-      },
-      address: result.bech32_address,
+    // return {
+    //   proof: {
+    //     plainText: Buffer.from(JSON.stringify(proof, null, 0)).toString('hex'),
+    //     pubKey: {
+    //       typeUrl: '/cosmos.crypto.secp256k1.PubKey',
+    //       value: toBase64(Buffer.from(result.compressed_pk.data)),
+    //     },
+    //     signature: Buffer.from(signatureImport(Buffer.from(signature as any))).toString('hex'),
+    //   },
+    //   address: result.bech32_address,
+    // }
+    proofPlainText = Buffer.from(JSON.stringify(proof, null, 0)).toString('hex')
+    proofPubKey = {
+      typeUrl: '/cosmos.crypto.secp256k1.PubKey',
+      value: Buffer.from(result.compressed_pk.data),
     }
+    proofSignature = singleSignatureToAny(
+      SingleSignature.fromPartial({
+        valueType: SignatureValueType.SIGNATURE_VALUE_TYPE_COSMOS_AMINO,
+        signature: Buffer.from(signatureImport(Buffer.from(signature as any))),
+      })
+    )
   }
   const signerOptions = {
     hdPaths: [
