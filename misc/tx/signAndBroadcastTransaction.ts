@@ -14,8 +14,13 @@ import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys'
 import Long from 'long'
 import { LedgerSigner } from '@cosmjs/ledger-amino'
-import { fromBase64 } from '@cosmjs/encoding'
+import { fromBase64, fromHex } from '@cosmjs/encoding'
 import { DesmosClient, OfflineSignerAdapter } from '@desmoslabs/desmjs'
+import {
+  bech32AddressToAny,
+  singleSignatureToAny,
+} from '@desmoslabs/desmjs/build/aminomessages/profiles'
+import { SingleSignature } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links'
 import cryptocurrencies from '../cryptocurrencies'
 import sendMsgToChromeExt from '../sendMsgToChromeExt'
 import { Bech32Address } from '../../desmos-proto/profiles/v1beta1/models_chain_links'
@@ -39,25 +44,23 @@ const formatTransactionMsg = (msg: TransactionMsg) => {
   if (transformedMsg.typeUrl === '/desmos.profiles.v3.MsgLinkChainAccount') {
     set(
       transformedMsg,
-      'value.chainAddress.value',
-      Uint8Array.from(
-        Bech32Address.encode(
-          Bech32Address.fromPartial(get(transformedMsg, 'value.chainAddress.value', {}))
-        ).finish()
-      )
+      'value.chainAddress',
+      bech32AddressToAny(Bech32Address.fromPartial(get(transformedMsg, 'value.chainAddress.value')))
+    )
+
+    set(
+      transformedMsg,
+      'value.proof.signature.value',
+      Uint8Array.from(fromHex(get(transformedMsg, 'value.proof.signature.value')))
     )
 
     set(
       transformedMsg,
       'value.proof.pubKey.value',
-      Uint8Array.from(
-        PubKey.encode(
-          PubKey.fromPartial({
-            key: fromBase64(get(transformedMsg, 'value.proof.pubKey.value', '')),
-          })
-        ).finish()
-      )
+      Uint8Array.from(fromHex(get(transformedMsg, 'value.proof.pubKey.value', '')))
     )
+
+    const proof = get(transformedMsg, 'value.proof')
   }
 
   if (get(msg, 'value.content.typeUrl') === '/cosmos.gov.v1beta1.TextProposal') {
@@ -172,7 +175,7 @@ const signAndBroadcastCosmosTransaction = async (
     onSignEnd()
   }
 
-  console.log('help')
+  console.log(formattedMsgs)
   const result = await client.broadcastTx(TxRaw.encode(tx).finish())
   if (!result.rawLog.match(/^\[/)) {
     throw new Error(result.rawLog)
