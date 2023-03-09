@@ -100,7 +100,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           data: { mnemonic: input },
         })
         setMnemonic(wallet.mnemonic)
-        setStage(CommonStage.SetPreferenceStage)
+        setStage(CommonStage.SetSecurityPasswordStage)
       } catch (err) {
         setError(t(err.message))
       }
@@ -116,7 +116,8 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           data,
         })
         setMnemonic(wallet.mnemonic)
-        setStage(CommonStage.SetPreferenceStage)
+
+        setStage(CommonStage.SetSecurityPasswordStage)
       } catch (err) {
         setError(t(err.message))
       }
@@ -137,7 +138,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
 
   const setPreference = React.useCallback(() => {
     try {
-      setStage(CommonStage.SetSecurityPasswordStage)
+      onClose()
     } catch (err) {
       setError(t(err.message))
     }
@@ -169,7 +170,9 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           addresses: defaultAddresses,
         })
         closeAllLedgerConnections()
-        onClose()
+        // onClose()
+        console.log('adding wallet')
+        setStage(CommonStage.SetPreferenceStage)
       } else {
         const addresses = await Promise.all(
           cryptos.map((c) =>
@@ -191,7 +194,8 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           securityPassword,
           addresses,
         })
-        onClose()
+
+        setStage(CommonStage.SetPreferenceStage)
       }
     },
     [addWallet, mnemonic, securityPassword, onClose]
@@ -211,7 +215,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       case ImportStage.ConnectLedgerDeviceStage:
         return {
           title: '',
-          step: 3,
+          step: ledgerCryptos.length ? 3 : 2,
           content: (
             <ConnectLedgerDialogContent
               onConnect={async (signer) => {
@@ -291,20 +295,20 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       case CommonStage.SetPreferenceStage:
         return {
           title: t('your preference'),
-          step: 3,
+          step: 5,
           content: <SetPreference onConfirm={setPreference} />,
         }
       case CommonStage.SetSecurityPasswordStage:
         return {
           title: t('security password title'),
-          step: 4,
+          step: 3,
           content: <SecurityPassword onConfirm={confirmSecurityPassword} />,
         }
       case CommonStage.ImportWalletStage:
       case CommonStage.ImportLedgerWalletStage:
         return {
           title: t('import wallet title'),
-          step: 5,
+          step: stage === CommonStage.ImportLedgerWalletStage ? 3 : 4,
           content: (
             <ImportWallet
               onConfirm={(name, cryptos) =>
