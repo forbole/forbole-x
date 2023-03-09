@@ -93,5 +93,6 @@
   },
   "resolutions": {
     "@types/react": "17.0.38"
-  }
+  },
+  "packageManager": "yarn@3.4.1"
 }
