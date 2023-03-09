@@ -1,6 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable camelcase */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Registry } from '@cosmjs/proto-signing'
 import { defaultRegistryTypes } from '@cosmjs/stargate'
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys'
@@ -30,6 +27,7 @@ export const aminoAdditions = {
       cover_picture: coverPicture,
       creator,
     }),
+    // eslint-disable-next-line camelcase
     fromAmino: ({ dtag, nickname, bio, profile_picture, cover_picture, creator }) => ({
       dtag,
       nickname,
@@ -64,6 +62,7 @@ export const aminoAdditions = {
         signer,
       }
     },
+    // eslint-disable-next-line camelcase
     fromAmino: ({ chain_address, proof, chain_config, signer }) => {
       return {
         chainAddress: {
@@ -91,6 +90,7 @@ export const aminoAdditions = {
   '/desmos.profiles.v3.MsgUnlinkChainAccount': {
     aminoType: 'desmos/MsgUnlinkChainAccount',
     toAmino: ({ chainName, owner, target }) => ({ chain_name: chainName, owner, target }),
+    // eslint-disable-next-line camelcase
     fromAmino: ({ chain_name, owner, target }) => ({ chainName: chain_name, owner, target }),
   },
 }

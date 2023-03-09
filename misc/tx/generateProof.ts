@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { Secp256k1HdWallet, Secp256k1Wallet, serializeSignDoc } from '@cosmjs/amino'
 import { stringToPath } from '@cosmjs/crypto'
 import { LedgerSigner } from '@cosmjs/ledger-amino'
