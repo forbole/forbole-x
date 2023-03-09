@@ -34,7 +34,6 @@ import { Any } from '@desmoslabs/desmjs-types/google/protobuf/any'
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys'
 import _ from 'lodash'
 import { WalletOption } from './getWalletAddress'
-import { ChainLinkProof } from '../../custom'
 
 let terraStation: Extension
 
