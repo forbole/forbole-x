@@ -110,8 +110,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
                 <Typography variant="h6">{t('proposer')}</Typography>
                 <Link
                   href={`${crypto.blockExplorerBaseUrl}/accounts/${proposal.proposer.address}`}
-                  target="_blank"
-                >
+                  target="_blank">
                   <Box display="flex">
                     <Avatar
                       className={classes.validatorAvatar}
@@ -188,8 +187,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
                                   <Link target="_blank" href={href}>
                                     {text}
                                   </Link>
-                                )}
-                              >
+                                )}>
                                 {get(proposal, 'content.plan.info', '')}
                               </Linkify>
                             </TableCell>
@@ -245,8 +243,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
                           proposal,
                           'content.recipient',
                           '',
-                        )}`}
-                      >
+                        )}`}>
                         {get(proposal, 'content.recipient', '')}
                       </Link>
                     </Grid>

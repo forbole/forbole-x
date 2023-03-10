@@ -21,8 +21,7 @@ const Active: React.FC<ActiveProps> = ({ status, onClick }) => {
         }}
         size="small"
         variant="contained"
-        className={classes.activeStatus}
-      >
+        className={classes.activeStatus}>
         {t(status)}
       </Button>
     </Box>

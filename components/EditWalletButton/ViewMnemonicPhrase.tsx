@@ -132,8 +132,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
       onSubmit={e => {
         e.preventDefault();
         onButtonClick();
-      }}
-    >
+      }}>
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={() => onPrev()}>
           <BackIcon {...iconProps} />
@@ -228,8 +227,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
                 url="https://www.forbole.com/"
                 quote={encryptionPhrase}
                 hashtag="#forbole-X"
-                className={classes.socialMediaButton}
-              >
+                className={classes.socialMediaButton}>
                 <FacebookIcon
                   size={42}
                   round
@@ -245,8 +243,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
                 url="https://www.forbole.com/"
                 title={encryptionPhrase}
                 hashtags={['#forbole']}
-                className={classes.socialMediaButton}
-              >
+                className={classes.socialMediaButton}>
                 <TwitterIcon
                   size={42}
                   round
@@ -261,8 +258,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
               <TelegramShareButton
                 url="https://www.forbole.com/"
                 title={encryptionPhrase}
-                className={classes.socialMediaButton}
-              >
+                className={classes.socialMediaButton}>
                 <TelegramIcon
                   size={42}
                   round
@@ -278,8 +274,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
                 url="https://www.forbole.com/"
                 title={encryptionPhrase}
                 separator=":: "
-                className={classes.socialMediaButton}
-              >
+                className={classes.socialMediaButton}>
                 <WhatsappIcon
                   size={42}
                   round
@@ -296,8 +291,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
                 subject="backup mnemonic phrase"
                 body={encryptionPhrase}
                 separator=":: "
-                className={classes.socialMediaButton}
-              >
+                className={classes.socialMediaButton}>
                 <EmailIcon
                   size={42}
                   round
@@ -318,8 +312,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
                 className={classes.copyButton}
                 variant="contained"
                 color="secondary"
-                onClick={copyText}
-              >
+                onClick={copyText}>
                 {t('copy')}
               </Button>
             </Box>
@@ -331,8 +324,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
                 variant="contained"
                 color="primary"
                 type="submit"
-                disabled={stage === Stage.BackupPassword && backupPassword.length < 6}
-              >
+                disabled={stage === Stage.BackupPassword && backupPassword.length < 6}>
                 {t(buttonText)}
               </Button>
             </Box>
@@ -342,8 +334,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
       <Snackbar
         open={isCopySuccess}
         autoHideDuration={5000}
-        onClose={() => setIsCopySuccess(false)}
-      >
+        onClose={() => setIsCopySuccess(false)}>
         <Alert onClose={() => setIsCopySuccess(false)} severity="success">
           {t('copied to clipboard')}
         </Alert>

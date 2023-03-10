@@ -48,16 +48,14 @@ const DeleteAccountDialog: React.FC<DeleteAccountDialogProps> = ({ account, open
           className={classes.dialogButton}
           variant="contained"
           color="secondary"
-          onClick={onClose}
-        >
+          onClick={onClose}>
           {t('cancel')}
         </Button>
         <Button
           className={classes.dialogButton}
           variant="contained"
           color="primary"
-          onClick={onButtonClick}
-        >
+          onClick={onButtonClick}>
           {t('delete')}
         </Button>
       </DialogActions>

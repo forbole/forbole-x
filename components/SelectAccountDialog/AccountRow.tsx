@@ -42,8 +42,7 @@ const AccountRow: React.FC<AccountRowProps> = ({ account }) => {
       alignItems="center"
       width="100%"
       justifyContent="space-between"
-      className={classes.accountRow}
-    >
+      className={classes.accountRow}>
       <FormControlLabel
         value={account.address}
         control={<Radio color="primary" />}

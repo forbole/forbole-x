@@ -70,8 +70,7 @@ const OnboardingDialog: React.FC<OnboardingDialogProps> = ({ open, onClose, onSu
         onSubmit={e => {
           e.preventDefault();
           onButtonClick();
-        }}
-      >
+        }}>
         <DialogContent>
           <DialogContentText>
             {isConfirmingPassword
@@ -100,8 +99,7 @@ const OnboardingDialog: React.FC<OnboardingDialogProps> = ({ open, onClose, onSu
             disabled={
               (!isConfirmingPassword && password.length < 6) ||
               (isConfirmingPassword && confirmPassword.length < 6)
-            }
-          >
+            }>
             {isConfirmingPassword ? t('confirm') : t('next')}
           </Button>
         </DialogActions>

@@ -111,8 +111,7 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
       maxWidth={Object.keys(totalAmount).length > 0 ? 'md' : 'sm'}
       open={open}
       onClose={onClose}
-      fullScreen={isMobile}
-    >
+      fullScreen={isMobile}>
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
@@ -123,8 +122,7 @@ const WithdrawRewardsDialog: React.FC<WithdrawRewardsDialogProps> = ({
             value={currentTab}
             classes={{ indicator: classes.tabIndicator, root: classes.tabs }}
             onChange={(e, v) => setCurrentTab(v)}
-            centered
-          >
+            centered>
             <Tab classes={{ root: classes.tab }} label={t('withdraw reward')} />
             <Tab classes={{ root: classes.tab }} label={t('withdraw commission')} />
           </Tabs>

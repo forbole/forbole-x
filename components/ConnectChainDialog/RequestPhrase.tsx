@@ -40,8 +40,7 @@ const RequestPhraseDialogContent: React.FC<RequestPhraseDialogContentProps> = ({
         onSubmit={e => {
           e.preventDefault();
           onConfirm();
-        }}
-      >
+        }}>
         <DialogContent className={classes.dialogContent}>
           <Typography>{title}</Typography>
           <Box className={classes.checkboxContent}>
@@ -87,8 +86,7 @@ const RequestPhraseDialogContent: React.FC<RequestPhraseDialogContentProps> = ({
               classes={{ root: classes.requestButton }}
               color="primary"
               disabled={!consent}
-              type="submit"
-            >
+              type="submit">
               {t('consent button')}
             </Button>
           </Box>

@@ -14,8 +14,7 @@ const ThemeModeButton: React.FC = () => {
   return (
     <IconButton
       onClick={() => setTheme(isDarkMode ? 'light' : 'dark')}
-      className={classes.navBarButton}
-    >
+      className={classes.navBarButton}>
       {isDarkMode ? <LightModeIcon {...iconProps} /> : <DarkModeIcon {...iconProps} />}
     </IconButton>
   );

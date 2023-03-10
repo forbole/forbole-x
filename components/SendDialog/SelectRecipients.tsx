@@ -97,8 +97,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
               })),
             memo,
           );
-        }}
-      >
+        }}>
         <DialogContent className={classes.dialogContent}>
           <Box ml={4} minHeight={360} maxHeight={600}>
             <Typography className={classes.marginBottom}>
@@ -121,8 +120,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                     display="flex"
                     alignItems="center"
                     ml={recipients.length <= 1 ? 0 : -5}
-                    mt={i === 0 ? 0 : 1}
-                  >
+                    mt={i === 0 ? 0 : 1}>
                     {recipients.length <= 1 ? null : (
                       <IconButton onClick={() => setRecipients(d => d.filter((a, j) => j !== i))}>
                         <RemoveIcon {...iconProps} />
@@ -147,8 +145,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                         ...d,
                         { address: '', amount: '', denom: Object.keys(availableAmount)[0] },
                       ]);
-                    }}
-                  >
+                    }}>
                     {t('add address')}
                   </Button>
                 </Box>
@@ -212,8 +209,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
             justifyContent="space-between"
             alignItems="center"
             mb={3}
-            mx={2}
-          >
+            mx={2}>
             <Box>
               <Typography variant="h5">
                 {formatTokenAmount(totalAmount, {
@@ -243,8 +239,7 @@ const SelectRecipients: React.FC<SelectRecipientsProps> = ({
                 ).length ||
                 !consent
               }
-              type="submit"
-            >
+              type="submit">
               {loading ? <CircularProgress size={themeStyle.spacing(3.5)} /> : t('next')}
             </Button>
           </Box>

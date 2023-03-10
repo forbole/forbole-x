@@ -50,8 +50,7 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                   flexDirection="row"
                   alignItems="center"
                   pt={theme.spacing(0.2)}
-                  mb={0.5}
-                >
+                  mb={0.5}>
                   <Box pr={theme.spacing(0.2)} display="flex" alignItems="center">
                     <TickIcon {...iconProps} />
                   </Box>
@@ -61,8 +60,7 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                       padding: 0,
                       display: 'flex',
                       flexDirection: 'row',
-                    }}
-                  >
+                    }}>
                     {t('chain staker', {
                       chain,
                       suffix: item.forbole_delegator ? '& Forbole Delegator' : '',
@@ -73,8 +71,7 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                         style={{
                           color: theme.palette.text.secondary,
                           paddingLeft: theme.spacing(1),
-                        }}
-                      >
+                        }}>
                         {formatCrypto(dsm, { unit: 'DSM', lang })} {t('claimed')}
                       </Typography>
                     ) : (
@@ -82,8 +79,7 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                         style={{
                           color: theme.palette.text.primary,
                           paddingLeft: theme.spacing(1),
-                        }}
-                      >
+                        }}>
                         {formatCrypto(dsm, { unit: 'DSM', lang })}
                       </Typography>
                     )}
@@ -94,8 +90,7 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                   display="inline-block"
                   px={2}
                   ml={3}
-                  borderRadius={theme.spacing(2)}
-                >
+                  borderRadius={theme.spacing(2)}>
                   <Typography color="textSecondary">{item.address}</Typography>
                 </Box>
               </Box>
@@ -116,8 +111,7 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                   flexDirection="row"
                   alignItems="center"
                   pt={theme.spacing(0.2)}
-                  mb={0.5}
-                >
+                  mb={0.5}>
                   <Box pr={theme.spacing(0.2)} display="flex" alignItems="center">
                     <TickIcon {...iconProps} />
                   </Box>
@@ -127,16 +121,14 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                       padding: 0,
                       display: 'flex',
                       flexDirection: 'row',
-                    }}
-                  >
+                    }}>
                     {chain} {t('lp staker')}
                     {claimed ? (
                       <Typography
                         style={{
                           color: theme.palette.text.secondary,
                           paddingLeft: theme.spacing(1),
-                        }}
-                      >
+                        }}>
                         {formatCrypto(dsm, { unit: 'DSM', lang })} {t('claimed')}
                       </Typography>
                     ) : (
@@ -144,8 +136,7 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                         style={{
                           color: theme.palette.text.primary,
                           paddingLeft: theme.spacing(1),
-                        }}
-                      >
+                        }}>
                         {formatCrypto(dsm, { unit: 'DSM', lang })}
                       </Typography>
                     )}{' '}
@@ -156,8 +147,7 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                   display="inline-block"
                   px={2}
                   ml={3}
-                  borderRadius={theme.spacing(2)}
-                >
+                  borderRadius={theme.spacing(2)}>
                   <Typography color="textSecondary">{item.address}</Typography>
                 </Box>
               </Box>
@@ -174,8 +164,7 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                 flexDirection="row"
                 alignItems="center"
                 pt={theme.spacing(0.2)}
-                mb={0.5}
-              >
+                mb={0.5}>
                 <Box pr={1} display="flex" alignItems="center">
                   <WarningIcon {...errorIconProps} />
                 </Box>
@@ -183,8 +172,7 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                   bgcolor={alpha(theme.palette.error.main, 0.15)}
                   display="inline-block"
                   px={2}
-                  borderRadius={theme.spacing(2)}
-                >
+                  borderRadius={theme.spacing(2)}>
                   <Typography color="error">{a.externalAddress}</Typography>
                 </Box>
               </Box>
@@ -194,8 +182,7 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                   padding: 0,
                   display: 'flex',
                   flexDirection: 'row',
-                }}
-              >
+                }}>
                 {t('not eligible for airdrop')}
               </Typography>
             </Box>

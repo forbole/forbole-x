@@ -104,16 +104,14 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
           p={isMobile ? 2 : 4}
           display={isMobile ? 'block' : 'flex'}
           justifyContent="space-between"
-          alignItems="flex-start"
-        >
+          alignItems="flex-start">
           <AccountAvatar ledgerIconDisabled size={isMobile ? 'base' : 'large'} account={account} />
           <Box display="flex" mt={isMobile ? 2 : 0} ml={isMobile ? -2 : 0}>
             {!profileExist && cryptocurrencies[account.crypto].supportsDesmosProfile ? (
               <Button
                 classes={{ root: classes.profileButton }}
                 variant="outlined"
-                onClick={onCreateProfile}
-              >
+                onClick={onCreateProfile}>
                 {t('create profile')}
               </Button>
             ) : null}
@@ -121,37 +119,32 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
               classes={{ root: classes.delegateButton }}
               variant="contained"
               color="primary"
-              onClick={() => setDelegateDialogOpen(true)}
-            >
+              onClick={() => setDelegateDialogOpen(true)}>
               {t('delegate')}
             </Button>
             <Button
               classes={{ root: classes.sendButton }}
               variant="contained"
-              onClick={() => setSendDialogOpen(true)}
-            >
+              onClick={() => setSendDialogOpen(true)}>
               {t('send')}
             </Button>
             <Button
               classes={{ root: classes.withdrawButton }}
               variant="contained"
               color="secondary"
-              onClick={() => setWithdrawRewardsDialogOpen(true)}
-            >
+              onClick={() => setWithdrawRewardsDialogOpen(true)}>
               {t('withdraw')}
             </Button>
             <Box
               display="flex"
               position={isMobile ? 'absolute' : 'static'}
               top={theme.spacing(2)}
-              right={theme.spacing(2)}
-            >
+              right={theme.spacing(2)}>
               {isMobile ? null : (
                 <Button
                   classes={{ root: classes.iconButton }}
                   variant={isMobile ? 'text' : 'outlined'}
-                  onClick={toggleFav}
-                >
+                  onClick={toggleFav}>
                   {account.fav ? (
                     <StarFilledIcon {...iconProps} fill={theme.palette.warning.light} />
                   ) : (
@@ -162,8 +155,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
               <Button
                 classes={{ root: classes.iconButton }}
                 variant={isMobile ? 'text' : 'outlined'}
-                onClick={() => setEditAccountDialogOpen(true)}
-              >
+                onClick={() => setEditAccountDialogOpen(true)}>
                 {isMobile ? <MoreIcon {...iconProps} /> : <EditIcon {...iconProps} />}
               </Button>
             </Box>
@@ -180,8 +172,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
               <Tabs
                 value={currentTab}
                 classes={{ indicator: classes.tabIndicator, root: classes.tab }}
-                onChange={(e, v) => setCurrentTab(v)}
-              >
+                onChange={(e, v) => setCurrentTab(v)}>
                 {tabs.map(key => (
                   <Tab key={key} label={key} />
                 ))}

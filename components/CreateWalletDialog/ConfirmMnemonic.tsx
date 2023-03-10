@@ -28,8 +28,7 @@ const ConfirmMnemonic: React.FC<ConfirmMnemonicProps> = ({ onConfirm, error, des
       onSubmit={e => {
         e.preventDefault();
         onConfirm(mnemonic);
-      }}
-    >
+      }}>
       <DialogContent className={classes.dialogContent}>
         <DialogContentText>{description}</DialogContentText>
         <MnemonicPhraseInput mnemonic={mnemonic} onChange={setMnemonic} />

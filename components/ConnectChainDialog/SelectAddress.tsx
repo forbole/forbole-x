@@ -139,8 +139,7 @@ const SelectAddress: React.FC<SelectAddressProps> = ({
               }
             : selectedAddress,
         );
-      }}
-    >
+      }}>
       {isAdvance ? (
         <DialogContent>
           <Box mt={2} mb={2} display="flex" flex={1}>
@@ -261,8 +260,7 @@ const SelectAddress: React.FC<SelectAddressProps> = ({
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                bgcolor={theme.palette.translucent}
-              >
+                bgcolor={theme.palette.translucent}>
                 <CircularProgress />
               </Box>
             ) : null}
@@ -289,8 +287,7 @@ const SelectAddress: React.FC<SelectAddressProps> = ({
           variant="contained"
           color="primary"
           type="submit"
-          disabled={isAdvance ? !hdAddress : !selectedAddress.address}
-        >
+          disabled={isAdvance ? !hdAddress : !selectedAddress.address}>
           {t('next')}
         </Button>
       </DialogActions>

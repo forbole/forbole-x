@@ -23,8 +23,7 @@ const SelectNetwork: React.FC<SelectNetworkProps> = ({ onSelect }) => {
             <Button
               variant="contained"
               className={classes.addAccountButton}
-              onClick={() => onSelect(c)}
-            >
+              onClick={() => onSelect(c)}>
               <Box display="flex" flex={1}>
                 <Avatar
                   className={classes.smallAvatar}

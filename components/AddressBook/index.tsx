@@ -67,8 +67,7 @@ const AddressBook: React.FC = () => {
       <Tabs
         value={currentTab}
         classes={{ indicator: classes.tabIndicator, root: classes.tab }}
-        onChange={(e, v) => setCurrentTab(v)}
-      >
+        onChange={(e, v) => setCurrentTab(v)}>
         {tabs.map(tab => (
           <Tab key={tab.label} label={`${tab.label} (${tab.address.length})`} />
         ))}
@@ -82,41 +81,33 @@ const AddressBook: React.FC = () => {
               alignItems="flex-start"
               justifyContent="space-between"
               className={classes.row}
-              px={2}
-            >
+              px={2}>
               <Box
                 display="flex"
                 onClick={() => {
                   router.push(`/address-book/${a.address}`);
                 }}
                 flex={1}
-                my={3}
-              >
+                my={3}>
                 <Avatar src={a.img ? a.img : cryptocurrencies[a.crypto]?.image} alt={a.address} />
                 <Box ml={2}>
                   <Typography>{a.moniker}</Typography>
                   <Box display="flex">
-                    <Typography variant="body2">{a.crypto}
-:
-</Typography>
+                    <Typography variant="body2">{a.crypto}:</Typography>
                     <Typography
                       variant="body2"
                       color="textSecondary"
-                      style={{ marginLeft: theme.spacing(1) }}
-                    >
+                      style={{ marginLeft: theme.spacing(1) }}>
                       {a.address}
                     </Typography>
                   </Box>
                   {a.note ? (
                     <Box display="flex">
-                      <Typography variant="body2">{t('note')}
-:
-</Typography>
+                      <Typography variant="body2">{t('note')}:</Typography>
                       <Typography
                         variant="body2"
                         color="textSecondary"
-                        style={{ marginLeft: theme.spacing(1) }}
-                      >
+                        style={{ marginLeft: theme.spacing(1) }}>
                         {a.note}
                       </Typography>
                     </Box>
@@ -128,8 +119,7 @@ const AddressBook: React.FC = () => {
                   setCurrentAddress(a);
                   setAnchor(e.currentTarget);
                 }}
-                style={{ marginTop: theme.spacing(2) }}
-              >
+                style={{ marginTop: theme.spacing(2) }}>
                 <MoreIcon {...iconProps} />
               </IconButton>
             </Box>
@@ -150,16 +140,14 @@ const AddressBook: React.FC = () => {
         }}
         keepMounted
         open={!!anchor}
-        onClose={onClose}
-      >
+        onClose={onClose}>
         <MenuItem
           className={classes.menuItem}
           button
           onClick={() => {
             setEditAddressOpen(true);
             onClose();
-          }}
-        >
+          }}>
           {t('edit address')}
         </MenuItem>
         <Divider style={{ margin: theme.spacing(1) }} />
@@ -169,8 +157,7 @@ const AddressBook: React.FC = () => {
           onClick={() => {
             setDeleteAddressOpen(true);
             onClose();
-          }}
-        >
+          }}>
           {t('delete address')}
         </MenuItem>
       </Menu>
@@ -191,8 +178,7 @@ const AddressBook: React.FC = () => {
           height="60vh"
           flexDirection="column"
           justifyContent="center"
-          alignItems="center"
-        >
+          alignItems="center">
           <Typography gutterBottom>{t('you have not added any address')}</Typography>
           <Button color="primary" variant="contained" onClick={() => setAddAddressOpen(true)}>
             {t('add address')}

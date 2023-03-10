@@ -29,8 +29,7 @@ const AddressBook: React.FC = () => {
         <IconButton onClick={() => setAddAddressOpen(true)}>
           <AddIcon {...iconProps} />
         </IconButton>
-      }
-    >
+      }>
       {isChromeExt ? null : (
         <Box display="flex" alignItems="center" mb={2}>
           <Typography variant="h1">{t('address book')}</Typography>
@@ -39,8 +38,7 @@ const AddressBook: React.FC = () => {
               onClick={() => setAddAddressOpen(true)}
               color="primary"
               variant="outlined"
-              style={{ color: theme.palette.button, border: '1px solid' }}
-            >
+              style={{ color: theme.palette.button, border: '1px solid' }}>
               {t('add address')}
             </Button>
           </Box>

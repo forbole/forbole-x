@@ -42,8 +42,7 @@ const SectoredByButton: React.FC<SectoredByButtonProps> = ({ sectoredBy, onChang
         }}
         keepMounted
         open={!!anchor}
-        onClose={onClose}
-      >
+        onClose={onClose}>
         {sectoredByTypes.map(s => (
           <MenuItem selected={s === sectoredBy} key={s} onClick={() => onItemClick(s)}>
             {t(s)}

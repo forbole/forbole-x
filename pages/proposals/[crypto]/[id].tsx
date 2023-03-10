@@ -94,8 +94,7 @@ const Proposal: React.FC = () => {
           </Link>
           <Typography>{t('proposal details')}</Typography>
         </Breadcrumbs>
-      }
-    >
+      }>
       <ProposalDetail
         proposal={proposal}
         crypto={crypto}
@@ -112,8 +111,7 @@ const Proposal: React.FC = () => {
           p={1.5}
           bgcolor={theme.palette.bannerBackground}
           zIndex={1000}
-          textAlign="center"
-        >
+          textAlign="center">
           {myVotes.map(v => (
             <Typography key={v.account.address}>
               <div

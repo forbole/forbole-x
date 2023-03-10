@@ -95,8 +95,7 @@ const Start: React.FC<StartProps> = ({ onConnectClick, connections, account, onC
                             memo: '',
                           });
                           onClose();
-                        }}
-                      >
+                        }}>
                         {t('disconnect')}
                       </Button>
                     </TableCell>
@@ -109,8 +108,7 @@ const Start: React.FC<StartProps> = ({ onConnectClick, connections, account, onC
             <Button
               startIcon={<ConnectIcon {...iconProps} />}
               onClick={onConnectClick}
-              color="primary"
-            >
+              color="primary">
               {t('connect chain')}
             </Button>
           </Box>

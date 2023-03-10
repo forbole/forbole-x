@@ -134,14 +134,12 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
               denom: crypto.name,
             },
           });
-        }}
-      >
+        }}>
         <DialogContent>
           <Box mx={3} my={4}>
             <Box mb={2}>
               <Typography>
-                {t('available amount')} {availableAmount?.[crypto.name]?.amount || '0'}
-{' '}
+                {t('available amount')} {availableAmount?.[crypto.name]?.amount || '0'}{' '}
                 {crypto.name}
               </Typography>
             </Box>
@@ -225,8 +223,7 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
             justifyContent="space-between"
             alignItems="center"
             mb={3}
-            mx={2}
-          >
+            mx={2}>
             <Box>
               <Typography variant="h5">
                 {formatTokenAmount(availableAmount, {
@@ -249,8 +246,7 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
               classes={{ root: classes.button }}
               color="primary"
               disabled={loading || insufficientTokens}
-              type="submit"
-            >
+              type="submit">
               {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
             </Button>
           </Box>

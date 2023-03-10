@@ -228,8 +228,7 @@ const AddAddressDialog: React.FC<AddAddressDialogProps> = ({ open, onClose }) =>
             className={classes.dialogButton}
             variant="contained"
             color="primary"
-            disabled={editedAddress.address === '' || editedAddress.moniker === ''}
-          >
+            disabled={editedAddress.address === '' || editedAddress.moniker === ''}>
             {t('save')}
           </Button>
         </DialogActions>

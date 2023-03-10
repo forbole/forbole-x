@@ -38,8 +38,7 @@ const ChangeWalletMoniker: React.FC<ChangeWalletMonikerProps> = ({ walletId, onC
       onSubmit={e => {
         e.preventDefault();
         onButtonClick();
-      }}
-    >
+      }}>
       <DialogTitle>{t('change wallet moniker')}</DialogTitle>
       <DialogContent>
         <Box mb={18}>

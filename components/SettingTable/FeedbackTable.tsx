@@ -93,8 +93,7 @@ const FeedbackTable: React.FC = () => {
             color="primary"
             disabled={
               loading || message.subject === '' || message.text === '' || message.from === ''
-            }
-          >
+            }>
             {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>

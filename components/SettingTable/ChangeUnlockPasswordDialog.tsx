@@ -93,8 +93,7 @@ const ChangeUnlockPasswordDialog: React.FC<ChangeUnlockPasswordDialogProps> = ({
           onSubmit={e => {
             e.preventDefault();
             onButtonClick();
-          }}
-        >
+          }}>
           <DialogTitle>{t('change unlock password')}</DialogTitle>
           <DialogContent>
             <Box mb={18}>
@@ -126,8 +125,7 @@ const ChangeUnlockPasswordDialog: React.FC<ChangeUnlockPasswordDialogProps> = ({
               className={classes.dialogButton}
               variant="contained"
               color="primary"
-              type="submit"
-            >
+              type="submit">
               {t(stage === ChangeUnlockPasswordStage.EnterNewPassword ? 'save' : 'next')}
             </Button>
           </DialogActions>

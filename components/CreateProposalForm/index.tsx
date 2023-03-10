@@ -211,8 +211,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                 renderOption={id => (
                   <Box display="flex" alignItems="center">
                     <Typography>
-                      {cryptocurrencies[id].chainName} -
-{cryptocurrencies[id].name}
+                      {cryptocurrencies[id].chainName} -{cryptocurrencies[id].name}
                     </Typography>
                   </Box>
                 )}
@@ -385,8 +384,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                       <IconButton
                         onClick={() => {
                           setChanges(d => d.filter((a, j) => j !== i));
-                        }}
-                      >
+                        }}>
                         <RemoveIcon {...iconProps} />
                       </IconButton>
                     </Box>
@@ -398,8 +396,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                   <Button
                     variant="text"
                     color="secondary"
-                    onClick={() => setChanges(x => [...x, { subspace: '', key: '', value: '' }])}
-                  >
+                    onClick={() => setChanges(x => [...x, { subspace: '', key: '', value: '' }])}>
                     {t('add change')}
                   </Button>
                 </Box>
@@ -534,8 +531,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
               description === '' ||
               !consent
             }
-            onClick={onNext}
-          >
+            onClick={onNext}>
             {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>

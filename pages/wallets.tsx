@@ -52,8 +52,7 @@ const Wallets: React.FC = () => {
           <>
             <Button
               onClick={e => setWalletsMenuAnchor(e.currentTarget)}
-              endIcon={<ArrowDownIcon {...iconProps} />}
-            >
+              endIcon={<ArrowDownIcon {...iconProps} />}>
               {selectedWallet.type === 'ledger' ? (
                 <LedgerIcon
                   fill={themeStyle.palette.text.primary}
@@ -80,8 +79,7 @@ const Wallets: React.FC = () => {
               }}
               keepMounted
               open={!!walletsMenuAnchor}
-              onClose={() => setWalletsMenuAnchor(undefined)}
-            >
+              onClose={() => setWalletsMenuAnchor(undefined)}>
               {wallets.map((w, i) => (
                 <MenuItem
                   key={w.id}
@@ -89,8 +87,7 @@ const Wallets: React.FC = () => {
                   onClick={() => {
                     setChromeExtSelectedWalletId(w.id);
                     setWalletsMenuAnchor(undefined);
-                  }}
-                >
+                  }}>
                   {w.type === 'ledger' ? (
                     <LedgerIcon
                       fill={themeStyle.palette.text.primary}
@@ -112,8 +109,7 @@ const Wallets: React.FC = () => {
             onCreateWallet={() => setIsCreateWalletDialogOpen(true)}
           />
         ) : null
-      }
-    >
+      }>
       {isChromeExt ? null : (
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography gutterBottom variant="h1">
@@ -122,8 +118,7 @@ const Wallets: React.FC = () => {
           <Button
             style={{ color: themeStyle.palette.button, border: '1px solid' }}
             variant="outlined"
-            onClick={() => setIsCreateWalletDialogOpen(true)}
-          >
+            onClick={() => setIsCreateWalletDialogOpen(true)}>
             {t('add wallet')}
           </Button>
         </Box>

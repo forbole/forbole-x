@@ -32,8 +32,7 @@ const ImportWallet: React.FC<ImportWalletProps> = ({ onConfirm }) => {
       onSubmit={e => {
         e.preventDefault();
         onConfirm(name, selectedCryptos);
-      }}
-    >
+      }}>
       <DialogContent className={classes.dialogContent}>
         <Typography>{t('moniker')}</Typography>
         <TextField
@@ -63,8 +62,7 @@ const ImportWallet: React.FC<ImportWalletProps> = ({ onConfirm }) => {
                           ? cryptos.filter(crypto => crypto !== c.name)
                           : [...cryptos, c.name],
                       )
-                    }
-                  >
+                    }>
                     <Box mr={2}>
                       <Avatar src={c.image} />
                     </Box>
@@ -85,8 +83,7 @@ const ImportWallet: React.FC<ImportWalletProps> = ({ onConfirm }) => {
             variant="contained"
             color="primary"
             disabled={!name || selectedCryptos.length === 0}
-            type="submit"
-          >
+            type="submit">
             {t('import')}
           </Button>
         </Box>

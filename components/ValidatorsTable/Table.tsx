@@ -157,8 +157,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                       active={state.activeSort === column.label}
                       direction={state.activeSort === column.label ? state.sortDirection : 'asc'}
                       onClick={handleSort(column.label)}
-                      IconComponent={ArrowDropDown}
-                    >
+                      IconComponent={ArrowDropDown}>
                       {column.display ? t(column.display) : ''}
                     </TableSortLabel>
                   </TableCell>
@@ -197,8 +196,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                       display="flex"
                       alignItems="center"
                       width={theme.spacing(8)}
-                      justifyContent="space-between"
-                    >
+                      justifyContent="space-between">
                       {v.order}
                       <IconButton onClick={() => toggleFav({ ...v })}>
                         {favValidators.includes(v.address) ? (

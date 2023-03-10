@@ -27,8 +27,7 @@ const CurrencyMenuButton: React.FC = () => {
       <Button
         onClick={e => setCurrencyAnchor(e.currentTarget)}
         className={classes.navBarButton}
-        startIcon={<CurrencyIcon {...iconProps} />}
-      >
+        startIcon={<CurrencyIcon {...iconProps} />}>
         {currency}
       </Button>
       <Menu
@@ -44,8 +43,7 @@ const CurrencyMenuButton: React.FC = () => {
         }}
         keepMounted
         open={!!currencyAnchor}
-        onClose={onClose}
-      >
+        onClose={onClose}>
         {currencies
           .filter(c => c !== currency)
           .map(c => (

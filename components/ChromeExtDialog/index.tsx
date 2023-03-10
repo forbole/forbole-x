@@ -30,8 +30,7 @@ const ChromeExtDialog: React.FC = () => {
             component="a"
             classes={{ root: classes.fixedWidthButton }}
             variant="contained"
-            color="primary"
-          >
+            color="primary">
             {t('install')}
           </Button>
         </Box>

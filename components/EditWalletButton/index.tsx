@@ -107,8 +107,7 @@ const EditWalletButton: React.FC<EditWalletButtonProps> = ({
   return (
     <>
       <IconButton
-        onClick={e => (isChromeExt ? setMenuAnchor(e.currentTarget) : setDialogOpen(true))}
-      >
+        onClick={e => (isChromeExt ? setMenuAnchor(e.currentTarget) : setDialogOpen(true))}>
         {isChromeExt ? <WalletIcon {...largeIconProps} /> : <EditIcon {...smallIconProps} />}
       </IconButton>
       {isChromeExt ? (
@@ -125,8 +124,7 @@ const EditWalletButton: React.FC<EditWalletButtonProps> = ({
           }}
           keepMounted
           open={!!menuAnchor}
-          onClose={() => setMenuAnchor(undefined)}
-        >
+          onClose={() => setMenuAnchor(undefined)}>
           <MenuItem
             button
             onClick={() => {
@@ -134,8 +132,7 @@ const EditWalletButton: React.FC<EditWalletButtonProps> = ({
                 onCreateWallet();
               }
               setMenuAnchor(undefined);
-            }}
-          >
+            }}>
             {t('add wallet')}
           </MenuItem>
           <MenuItem button onClick={() => onMenuItemClick(Stage.ChangeWalletMonikerStage)}>

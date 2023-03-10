@@ -111,8 +111,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
                   if (onDateRangeChange) {
                     onDateRangeChange(d);
                   }
-                }}
-              >
+                }}>
                 {t(d.title)}
               </Button>
             ))}
@@ -216,8 +215,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
               display="flex"
               justifyContent="center"
               alignItems="center"
-              bgcolor={theme.palette.translucent}
-            >
+              bgcolor={theme.palette.translucent}>
               <CircularProgress />
             </Box>
           ) : null}

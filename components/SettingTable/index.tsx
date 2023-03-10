@@ -34,8 +34,7 @@ const SettingTable: React.FC = () => {
       <Tabs
         value={currentTab}
         classes={{ indicator: classes.tabIndicator, root: classes.tab }}
-        onChange={(e, v) => setCurrentTab(v)}
-      >
+        onChange={(e, v) => setCurrentTab(v)}>
         {tabs.map(tab => (
           <Tab key={tab.label} label={t(tab.label)} />
         ))}

@@ -21,8 +21,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onReset }) => {
           className={classes.resetButton}
           variant="contained"
           color="primary"
-          onClick={() => onReset()}
-        >
+          onClick={() => onReset()}>
           {t('reset')}
         </Button>
       </DialogActions>

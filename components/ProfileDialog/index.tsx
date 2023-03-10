@@ -133,8 +133,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
           onSubmit={e => {
             e.preventDefault();
             onSubmit();
-          }}
-        >
+          }}>
           <DialogContent>
             <Box pb={2}>
               <Box position="relative" display="flex">
@@ -156,8 +155,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                       setIsUploadErr(true);
                       setCoverPicUploading(false);
                     }
-                  }}
-                >
+                  }}>
                   {coverPicUploading ? (
                     <CircularProgress />
                   ) : (
@@ -189,8 +187,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                         setIsUploadErr(true);
                         setProfilePicUploading(false);
                       }
-                    }}
-                  >
+                    }}>
                     {profilePicUploading ? (
                       <CircularProgress />
                     ) : (
@@ -254,8 +251,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                   fullWidth
                   color="primary"
                   disabled={loading || !profile.dtag || coverPicUploading || profilePicUploading}
-                  type="submit"
-                >
+                  type="submit">
                   {loading ? <CircularProgress size={themeStyle.spacing(3.5)} /> : t('next')}
                 </Button>
               </Box>

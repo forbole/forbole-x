@@ -32,8 +32,7 @@ const SelectAccountButton: React.FC<SelectAccountButtonProps> = ({
       <Button
         onClick={e => setAccountMenuAnchor(e.currentTarget)}
         size="small"
-        endIcon={<DropDownIcon {...iconProps} />}
-      >
+        endIcon={<DropDownIcon {...iconProps} />}>
         <AccountAvatar account={activeAccount} hideAddress size="small" />
       </Button>
       <Menu
@@ -49,8 +48,7 @@ const SelectAccountButton: React.FC<SelectAccountButtonProps> = ({
         }}
         keepMounted
         open={!!accountMenuAnchor}
-        onClose={() => setAccountMenuAnchor(undefined)}
-      >
+        onClose={() => setAccountMenuAnchor(undefined)}>
         {wallets.map(w => (
           <Box mb={2} key={w.id}>
             <Box px={2}>
@@ -65,8 +63,7 @@ const SelectAccountButton: React.FC<SelectAccountButtonProps> = ({
                 onClick={() => {
                   onAccountChange(a);
                   setAccountMenuAnchor(undefined);
-                }}
-              >
+                }}>
                 <AccountAvatar account={a} hideAddress size="small" />
               </MenuItem>
             ))}

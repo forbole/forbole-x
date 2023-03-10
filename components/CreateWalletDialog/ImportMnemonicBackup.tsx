@@ -28,8 +28,7 @@ const ImportMnemonicBackup: React.FC<ImportMnemonicBackupProps> = ({ onConfirm, 
       onSubmit={e => {
         e.preventDefault();
         onConfirm({ password, backupPhrase });
-      }}
-    >
+      }}>
       <DialogContent className={classes.dialogContent}>
         <Typography>{t('secret recovery phrase backup')}</Typography>
         <TextField
@@ -63,8 +62,7 @@ const ImportMnemonicBackup: React.FC<ImportMnemonicBackupProps> = ({ onConfirm, 
             variant="contained"
             color="primary"
             disabled={!password || !backupPhrase}
-            type="submit"
-          >
+            type="submit">
             {t('next')}
           </Button>
         </Box>

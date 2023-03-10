@@ -61,8 +61,7 @@ const ValidatorAvatar: React.FC<ValidatorAvatarProps> = ({
     <Link
       href={`${crypto.blockExplorerBaseUrl}/validators/${validator.address}`}
       color="textPrimary"
-      target="_blank"
-    >
+      target="_blank">
       <Box display="flex" alignItems="center">
         <Avatar className={avatarClass} alt={validator.name} src={validator.image} />
         <Box className={classes.wrapText} ml={1}>

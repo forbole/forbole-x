@@ -61,8 +61,7 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
       onSubmit={e => {
         e.preventDefault();
         onConfirm();
-      }}
-    >
+      }}>
       <DialogContent className={classes.dialogContent}>
         <DialogContentText>{t('your preference description')}</DialogContentText>
         <Paper style={{ paddingLeft: themeStyle.spacing(1), paddingRight: themeStyle.spacing(1) }}>
@@ -82,8 +81,7 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
                 setAnchor(e.currentTarget);
               }}
               variant="outlined"
-              className={classes.timeRangeButton}
-            >
+              className={classes.timeRangeButton}>
               <Typography>{currency}</Typography>
               <DropDownIcon {...iconProps} style={{ marginTop: '4px' }} />
             </Button>
@@ -101,8 +99,7 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
               }}
               keepMounted
               open={!!anchor}
-              onClose={onClose}
-            >
+              onClose={onClose}>
               {currencies.map((x, i) => {
                 return (
                   <div>
@@ -114,8 +111,7 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
                       onClick={() => {
                         setCurrency(x);
                         onClose();
-                      }}
-                    >
+                      }}>
                       {x}
                     </MenuItem>
                     {i + 1 === currencies.length ? null : (
@@ -134,8 +130,7 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
                 setAnchorLanguage(e.currentTarget);
               }}
               variant="outlined"
-              className={classes.timeRangeButton}
-            >
+              className={classes.timeRangeButton}>
               <Typography>{t(lang)}</Typography>
               <DropDownIcon {...iconProps} style={{ marginTop: '4px' }} />
             </Button>
@@ -153,8 +148,7 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
               }}
               keepMounted
               open={!!anchorLanguage}
-              onClose={onClose}
-            >
+              onClose={onClose}>
               {locales.map((l, i) => {
                 return (
                   <div key={l}>
@@ -164,8 +158,7 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
                         query,
                       }}
                       locale={l}
-                      passHref
-                    >
+                      passHref>
                       <MenuItem className={classes.menuItem} button component="a">
                         {t(l)}
                       </MenuItem>

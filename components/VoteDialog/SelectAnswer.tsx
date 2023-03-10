@@ -66,8 +66,7 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ crypto, onNext, proposal, l
       onSubmit={e => {
         e.preventDefault();
         onNext(voteAccount, answer, memo);
-      }}
-    >
+      }}>
       <DialogContent>
         <Box pb={2}>
           <Box>
@@ -189,8 +188,7 @@ const SelectAnswer: React.FC<SelectAnswerProps> = ({ crypto, onNext, proposal, l
                 className={classes.button}
                 color="primary"
                 disabled={loading || answer === undefined || !consent}
-                type="submit"
-              >
+                type="submit">
                 {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
               </Button>
             </Box>

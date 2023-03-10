@@ -38,8 +38,7 @@ const AddChannel: React.FC<AddChannelProps> = ({ onConfirm, crypto }) => {
       onSubmit={e => {
         e.preventDefault();
         onConfirm({ chainId, channel: `channel-${channel}` });
-      }}
-    >
+      }}>
       <Box mb={-2}>
         <DialogContentText color="error">{t('add channel warning')}</DialogContentText>
       </Box>
@@ -118,8 +117,7 @@ const AddChannel: React.FC<AddChannelProps> = ({ onConfirm, crypto }) => {
           color="primary"
           classes={{ root: classes.fullWidthButton }}
           disabled={!chainId || !channel}
-          type="submit"
-        >
+          type="submit">
           {t('save')}
         </Button>
       </DialogActions>

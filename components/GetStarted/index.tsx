@@ -25,8 +25,7 @@ const GetStarted: React.FC = () => {
       <Box
         className={classes.container}
         mt={isMobile ? '5vh' : '12vh'}
-        width={isMobile ? themeStyle.spacing(40) : 'inherits'}
-      >
+        width={isMobile ? themeStyle.spacing(40) : 'inherits'}>
         {theme === 'light' ? (
           <GetStartedLightImage
             width={isMobile ? themeStyle.spacing(40) : themeStyle.spacing(60)}
@@ -41,23 +40,20 @@ const GetStarted: React.FC = () => {
         <Typography
           className={classes.marginTop}
           variant={isMobile ? 'subtitle1' : 'h4'}
-          align="center"
-        >
+          align="center">
           {t('get started line1')}
         </Typography>
         <Typography
           className={classes.marginTopSub}
           variant={isMobile ? 'subtitle1' : 'h6'}
-          align="center"
-        >
+          align="center">
           {t('get started line2')}
         </Typography>
         <Button
           className={classes.button}
           variant="contained"
           color="primary"
-          onClick={() => setIsOnboardingDialogOpen(true)}
-        >
+          onClick={() => setIsOnboardingDialogOpen(true)}>
           {t('get started button')}
         </Button>
       </Box>

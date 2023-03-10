@@ -43,8 +43,7 @@ const SelectChain: React.FC<SelectChainProps> = ({ crypto, onConfirm, onAddChann
       onSubmit={e => {
         e.preventDefault();
         onConfirm({ chainId, channel });
-      }}
-    >
+      }}>
       <Box mt={-1} mb={-3}>
         <DialogContentText>{t('select ibc chain')}</DialogContentText>
       </Box>
@@ -99,14 +98,12 @@ const SelectChain: React.FC<SelectChainProps> = ({ crypto, onConfirm, onAddChann
                   alignItems="center"
                   justifyContent="space-between"
                   px={2}
-                  pb={1}
-                >
+                  pb={1}>
                   <Typography>{t('select chain')}</Typography>
                   <Button
                     color="primary"
                     startIcon={<AddIcon {...iconProps} fill={theme.palette.primary.main} />}
-                    onClick={() => onAddChannelClick()}
-                  >
+                    onClick={() => onAddChannelClick()}>
                     {t('add new ibc channel')}
                   </Button>
                 </Box>
@@ -154,8 +151,7 @@ const SelectChain: React.FC<SelectChainProps> = ({ crypto, onConfirm, onAddChann
           color="primary"
           classes={{ root: classes.fullWidthButton }}
           disabled={!chainId}
-          type="submit"
-        >
+          type="submit">
           {t('next')}
         </Button>
       </DialogActions>

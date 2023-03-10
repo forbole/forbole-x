@@ -37,8 +37,7 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({
       onSubmit={e => {
         e.preventDefault();
         onNext(withdrawAddress, memo);
-      }}
-    >
+      }}>
       <DialogContent className={classes.dialogContent}>
         <Box my={2}>
           <Box>
@@ -93,8 +92,7 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({
           className={classes.nextButton}
           color="primary"
           disabled={withdrawAddress === '' || loading || !consent}
-          type="submit"
-        >
+          type="submit">
           {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
         </Button>
       </DialogActions>

@@ -65,8 +65,7 @@ const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto }) =>
                   <TableCell
                     key={column.label}
                     className={classes.table__label}
-                    align={column.alignRight ? 'right' : 'inherit'}
-                  >
+                    align={column.alignRight ? 'right' : 'inherit'}>
                     <Typography variant="subtitle1">{t(column.label)}</Typography>
                   </TableCell>
                 );
@@ -80,8 +79,7 @@ const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto }) =>
                   <TableCell>
                     <Link
                       href={`${crypto.blockExplorerBaseUrl}/accounts/${d.depositor.address}`}
-                      target="_blank"
-                    >
+                      target="_blank">
                       <Box className={classes.box} display="flex" alignItems="center">
                         <Avatar
                           className={classes.validatorAvatar}

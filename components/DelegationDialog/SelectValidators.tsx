@@ -132,8 +132,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             })),
           memo,
         );
-      }}
-    >
+      }}>
       <DialogContent className={classes.dialogContent}>
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
@@ -149,14 +148,12 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                   display="flex"
                   alignItems="center"
                   ml={delegations.length <= 1 ? 0 : -5}
-                  mt={i === 0 ? 0 : 1}
-                >
+                  mt={i === 0 ? 0 : 1}>
                   {delegations.length <= 1 ? null : (
                     <IconButton
                       onClick={() => {
                         setDelegations(d => d.filter((a, j) => j !== i));
-                      }}
-                    >
+                      }}>
                       <RemoveIcon {...iconProps} />
                     </IconButton>
                   )}
@@ -199,8 +196,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                           alignItems="center"
                           flexDirection="row"
                           justifyContent="space-between"
-                          width="100%"
-                        >
+                          width="100%">
                           <ValidatorAvatar
                             crypto={crypto}
                             validator={validatorsMap[address]}
@@ -254,8 +250,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                       ...d,
                       { validator: '', amount: '', percentage: '', showSlider: false },
                     ])
-                  }
-                >
+                  }>
                   {t('add validator')}
                 </Button>
               </Box>
@@ -401,8 +396,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
           justifyContent="space-between"
           alignItems="center"
           mb={3}
-          mx={2}
-        >
+          mx={2}>
           <Box>
             <Typography variant="h5">{formatCrypto(totalAmount, { unit: denom, lang })}</Typography>
             <Typography>
@@ -420,8 +414,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               delegations.filter(v => v.validator === '').length !== 0 ||
               !consent
             }
-            type="submit"
-          >
+            type="submit">
             {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>

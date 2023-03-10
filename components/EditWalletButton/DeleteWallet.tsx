@@ -34,16 +34,14 @@ const DeleteWallet: React.FC<DeleteWalletProps> = ({ walletId, onClose }) => {
           className={classes.dialogButton}
           variant="contained"
           color="secondary"
-          onClick={onClose}
-        >
+          onClick={onClose}>
           {t('cancel')}
         </Button>
         <Button
           className={classes.dialogButton}
           variant="contained"
           color="primary"
-          onClick={onButtonClick}
-        >
+          onClick={onButtonClick}>
           {t('yes')}
         </Button>
       </DialogActions>

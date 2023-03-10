@@ -4,7 +4,7 @@ import currencies from '../misc/currencies';
 import usePersistedState from '../misc/usePersistedState';
 
 type Theme = 'light' | 'dark';
-type Currency = typeof currencies[number];
+type Currency = (typeof currencies)[number];
 type FavValidators = string[];
 type FavAddress = { address: string; crypto: string; moniker: string; note?: string; img?: string };
 interface GeneralState {
@@ -145,8 +145,7 @@ const GeneralProvider: React.FC = ({ children }) => {
         addFavAddresses,
         deleteFavAddresses,
         updateFavAddresses,
-      }}
-    >
+      }}>
       {children}
     </GeneralContext.Provider>
   );

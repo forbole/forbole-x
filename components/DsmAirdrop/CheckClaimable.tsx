@@ -128,8 +128,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
           } else {
             onConfirm();
           }
-        }}
-      >
+        }}>
         <Box display="flex" justifyContent="center">
           <Box className={classes.stageContent} width="100%">
             <Typography>{t('airdrop eligibility subtitle')}</Typography>
@@ -206,8 +205,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
                   profileLoading ||
                   chainConnectionsLoading ||
                   (isGranting && !isGrantActive)
-                }
-              >
+                }>
                 {t(
                   shouldGetGrant
                     ? 'get a grant'
@@ -232,8 +230,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
         fullWidth
         maxWidth="sm"
         open={isLoadingDialogOpen}
-        onClose={() => setIsLoadingDialogOpen(false)}
-      >
+        onClose={() => setIsLoadingDialogOpen(false)}>
         <IconButton className={classes.closeButton} onClick={() => setIsLoadingDialogOpen(false)}>
           <CloseIcon {...iconProps} />
         </IconButton>
@@ -244,14 +241,12 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
             justifyContent="center"
             alignItems="center"
             height="100%"
-            my={12}
-          >
+            my={12}>
             <Box
               flexDirection="column"
               justifyContent="center"
               alignItems="center"
-              sx={{ position: 'relative', display: 'flex' }}
-            >
+              sx={{ position: 'relative', display: 'flex' }}>
               <CircularProgress size={themeStyle.spacing(27)} thickness={5} />
               <Box
                 sx={{
@@ -263,8 +258,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                }}
-              >
+                }}>
                 {theme === 'dark' ? (
                   <ImageDefaultDark
                     width={themeStyle.spacing(25)}
@@ -282,8 +276,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
               variant="h4"
               gutterBottom
               align="center"
-              style={{ marginTop: themeStyle.spacing(4) }}
-            >
+              style={{ marginTop: themeStyle.spacing(4) }}>
               {t('getting grant')}
             </Typography>
             <Typography align="center">{t('getting grant description')}</Typography>

@@ -42,15 +42,13 @@ const AssetPopover: React.FC<AssetPopoverProps> = ({
       transformOrigin={{
         vertical: 'top',
         horizontal: 'left',
-      }}
-    >
+      }}>
       <Box
         width={theme.spacing(30)}
         p={2}
         display="flex"
         alignItems="center"
-        justifyContent="space-between"
-      >
+        justifyContent="space-between">
         <Box display="flex" alignItems="center">
           <Avatar className={classes.avatar} src={cryptocurrency.image} />
           <Typography>{cryptocurrency.name}</Typography>

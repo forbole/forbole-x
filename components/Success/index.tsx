@@ -36,8 +36,7 @@ const Success: React.FC<SuccessProps> = ({ onClose, content, hideButton }) => {
               variant="contained"
               className={classes.button}
               color="primary"
-              onClick={onClose}
-            >
+              onClick={onClose}>
               {t('close')}
             </Button>
           </Box>

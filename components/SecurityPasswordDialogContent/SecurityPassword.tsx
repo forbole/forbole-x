@@ -51,8 +51,7 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({
       onSubmit={e => {
         e.preventDefault();
         confirm();
-      }}
-    >
+      }}>
       <DialogContent>
         <DialogContentText>{t('enter security password')}</DialogContentText>
         <PasswordInput
@@ -70,8 +69,7 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({
           variant="contained"
           color="primary"
           disabled={!password.length || loading}
-          type="submit"
-        >
+          type="submit">
           {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
         </Button>
         <Button className={classes.forgotButton} onClick={onForgot}>

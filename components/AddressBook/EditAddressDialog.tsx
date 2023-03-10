@@ -91,8 +91,7 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
         onSubmit={e => {
           e.preventDefault();
           onButtonClick(e);
-        }}
-      >
+        }}>
         <DialogContent>
           <Box mb={2.5}>
             <Typography gutterBottom>{t('moniker')}</Typography>
@@ -173,8 +172,7 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
             type="submit"
             className={classes.dialogButton}
             variant="contained"
-            color="primary"
-          >
+            color="primary">
             {t('save')}
           </Button>
         </DialogActions>

@@ -19,14 +19,12 @@ const FollowUsTable: React.FC = () => {
     <Paper
       style={{
         padding: themeStyle.spacing(1),
-      }}
-    >
+      }}>
       <Link
         className={classes.socialMediaLink}
         href="https://twitter.com/forboleX"
         target="_blank"
-        rel="noopener noreferrer"
-      >
+        rel="noopener noreferrer">
         <Box p={2} display="flex" alignItems="flex-start" justifyContent="space-between">
           <Box display="flex">
             <TwitterIcon
@@ -48,8 +46,7 @@ const FollowUsTable: React.FC = () => {
         className={classes.socialMediaLink}
         href="https://t.me/forbole"
         target="_blank"
-        rel="noopener noreferrer"
-      >
+        rel="noopener noreferrer">
         <Box p={2} display="flex" alignItems="flex-start" justifyContent="space-between">
           <Box display="flex">
             <TelegramIcon
@@ -71,8 +68,7 @@ const FollowUsTable: React.FC = () => {
         className={classes.socialMediaLink}
         href="https://www.forbole.com/blog"
         target="_blank"
-        rel="noopener noreferrer"
-      >
+        rel="noopener noreferrer">
         <Box p={2} display="flex" alignItems="flex-start" justifyContent="space-between">
           <Box display="flex">
             <ForboleIcon {...iconProps} />
@@ -88,8 +84,7 @@ const FollowUsTable: React.FC = () => {
         className={classes.socialMediaLink}
         href="https://desmos.bigdipper.live/"
         target="_blank"
-        rel="noopener noreferrer"
-      >
+        rel="noopener noreferrer">
         <Box p={2} display="flex" alignItems="flex-start" justifyContent="space-between">
           <Box display="flex">
             <BigDipperExplorerIcon {...iconProps} />
@@ -106,8 +101,7 @@ const FollowUsTable: React.FC = () => {
         className={classes.socialMediaLink}
         href="https://github.com/forbole"
         target="_blank"
-        rel="noopener noreferrer"
-      >
+        rel="noopener noreferrer">
         <Box p={2} display="flex" alignItems="flex-start" justifyContent="space-between">
           <Box display="flex">
             <GithubIcon {...iconProps} />

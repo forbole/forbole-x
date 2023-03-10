@@ -62,8 +62,7 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
       onSubmit={e => {
         e.preventDefault();
         onConfirm(Number(amount), denom, address, memo);
-      }}
-    >
+      }}>
       <DialogContent className={classes.dialogContent}>
         <Box mb={4}>
           <Box mb={4} display="flex" justifyContent="center" alignItems="center">
@@ -161,8 +160,7 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
             !isAddressValid(get(destinationChain, 'addressPrefix', ''), address) ||
             !consent
           }
-          type="submit"
-        >
+          type="submit">
           {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
         </Button>
       </DialogActions>

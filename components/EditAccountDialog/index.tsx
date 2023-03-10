@@ -169,8 +169,7 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, on
       maxWidth={content.dialogWidth || 'sm'}
       open={open}
       onClose={onClose}
-      fullScreen={isMobile}
-    >
+      fullScreen={isMobile}>
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

@@ -94,8 +94,7 @@ const NavBar: React.FC<{
       <Box
         className={classes.navBar}
         alignItems="center"
-        style={{ justifyContent: 'space-between' }}
-      >
+        style={{ justifyContent: 'space-between' }}>
         <IconButton onClick={() => (back ? router.back() : setIsChromeExtMenuOpen(true))}>
           {back ? <BackIcon {...iconProps} /> : <MenuIcon {...iconProps} />}
         </IconButton>
@@ -105,8 +104,7 @@ const NavBar: React.FC<{
       <Drawer
         anchor="left"
         open={isChromeExtMenuOpen}
-        onClose={() => setIsChromeExtMenuOpen(false)}
-      >
+        onClose={() => setIsChromeExtMenuOpen(false)}>
         <Box display="flex" justifyContent="flex-end" m={2}>
           <ThemeModeButton />
         </Box>
@@ -139,8 +137,7 @@ const NavBar: React.FC<{
           className={classes.mobileSignoutButton}
           variant="outlined"
           startIcon={<LogOutIcon {...iconProps} />}
-          onClick={signOut}
-        >
+          onClick={signOut}>
           {t('sign out')}
         </Button>
       </Drawer>
@@ -169,8 +166,7 @@ const NavBar: React.FC<{
       <Button
         className={classes.navBarButton}
         startIcon={<LogOutIcon {...iconProps} />}
-        onClick={signOut}
-      >
+        onClick={signOut}>
         {t('sign out')}
       </Button>
     </Box>

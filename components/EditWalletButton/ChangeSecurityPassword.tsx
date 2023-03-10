@@ -54,8 +54,7 @@ const ChangeSecurityPassword: React.FC<ChangeSecurityPasswordProps> = ({ walletI
       onSubmit={e => {
         e.preventDefault();
         onButtonClick();
-      }}
-    >
+      }}>
       <DialogTitle>{t('change security password')}</DialogTitle>
       <DialogContent>
         <Box mb={18}>

@@ -30,8 +30,7 @@ const AccessMyWallet: React.FC<AccessMyWalletProps> = ({ onConfirm, onWhatIsMnem
             <ButtonBase
               key={stage}
               className={classes.borderedButton}
-              onClick={() => onConfirm(stage)}
-            >
+              onClick={() => onConfirm(stage)}>
               <Typography variant="h6" gutterBottom>
                 {t(stage)}
               </Typography>

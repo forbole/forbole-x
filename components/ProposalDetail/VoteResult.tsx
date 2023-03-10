@@ -58,8 +58,7 @@ const VoteResult: React.FC<VoteResultProps> = ({ voteSummary, crypto, proposal }
           dataKey="value"
           labelLine={false}
           stroke="none"
-          paddingAngle={3}
-        >
+          paddingAngle={3}>
           {displayData().data.map((_x: any, index: any) => (
             <Cell
               key={_x.value}

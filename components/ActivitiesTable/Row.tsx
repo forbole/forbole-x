@@ -40,8 +40,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Box mr={1}>
               <Link
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                target="_blank"
-              >
+                target="_blank">
                 <AccountAvatar
                   ledgerIconDisabled
                   account={account}
@@ -70,8 +69,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Box mr={1}>
               <Link
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                target="_blank"
-              >
+                target="_blank">
                 <AccountAvatar
                   ledgerIconDisabled
                   account={account}
@@ -112,8 +110,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Box mr={1}>
               <Link
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                target="_blank"
-              >
+                target="_blank">
                 <AccountAvatar
                   ledgerIconDisabled
                   account={account}
@@ -142,8 +139,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Box mr={1}>
               <Link
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                target="_blank"
-              >
+                target="_blank">
                 <AccountAvatar
                   ledgerIconDisabled
                   account={account}
@@ -164,8 +160,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               href={`${crypto.blockExplorerBaseUrl}/proposals/${activity.detail.proposalId}`}
               target="_blank"
               variant="body1"
-              className={classes.proposalTypography}
-            >
+              className={classes.proposalTypography}>
               {t('proposal with id', { id: activity.detail.proposalId })}
             </Link>
           </>
@@ -177,8 +172,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Box mr={1}>
               <Link
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                target="_blank"
-              >
+                target="_blank">
                 <AccountAvatar
                   ledgerIconDisabled
                   account={account}
@@ -212,14 +206,12 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
                   mr={1}
                   display="flex"
                   alignItems="center"
-                  flexWrap="wrap"
-                >
+                  flexWrap="wrap">
                   <Link
                     href={`${crypto.blockExplorerBaseUrl}/accounts/${input.address}`}
                     target="_blank"
                     variant="body1"
-                    style={{ marginRight: theme.spacing(1) }}
-                  >
+                    style={{ marginRight: theme.spacing(1) }}>
                     {account && input.address === account.address ? (
                       <AccountAvatar
                         ledgerIconDisabled
@@ -252,14 +244,12 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
                   key={`${output.address}_${i}`}
                   display="flex"
                   alignItems="center"
-                  flexWrap="wrap"
-                >
+                  flexWrap="wrap">
                   <Link
                     href={`${crypto.blockExplorerBaseUrl}/accounts/${output.address}`}
                     target="_blank"
                     variant="body1"
-                    style={{ marginRight: theme.spacing(1) }}
-                  >
+                    style={{ marginRight: theme.spacing(1) }}>
                     {account && output.address === account.address ? (
                       <AccountAvatar
                         ledgerIconDisabled
@@ -333,8 +323,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Box mr={1}>
               <Link
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                target="_blank"
-              >
+                target="_blank">
                 <AccountAvatar
                   ledgerIconDisabled
                   account={account}
@@ -349,8 +338,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               href={`${crypto.blockExplorerBaseUrl}/proposals/${activity.detail.proposalId}`}
               target="_blank"
               variant="body1"
-              className={classes.proposalTypography}
-            >
+              className={classes.proposalTypography}>
               {t('proposal with id', { id: activity.detail.proposalId })}
             </Link>
             <Typography>
@@ -375,8 +363,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Box mr={1}>
               <Link
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                target="_blank"
-              >
+                target="_blank">
                 <AccountAvatar
                   ledgerIconDisabled
                   account={account}
@@ -410,8 +397,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               <Box mr={1}>
                 <Link
                   href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                  target="_blank"
-                >
+                  target="_blank">
                   <AccountAvatar
                     ledgerIconDisabled
                     account={account}
@@ -426,8 +412,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
                 className={classes.proposalTypography}
                 variant="body1"
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${activity.detail.fromAddress}`}
-                target="_blank"
-              >
+                target="_blank">
                 {activity.detail.fromAddress}
               </Link>
             )}
@@ -442,8 +427,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               <Box ml={1}>
                 <Link
                   href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                  target="_blank"
-                >
+                  target="_blank">
                   <AccountAvatar
                     ledgerIconDisabled
                     account={account}
@@ -458,8 +442,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
                 className={classes.proposalTypography}
                 variant="body1"
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${activity.detail.toAddress}`}
-                target="_blank"
-              >
+                target="_blank">
                 {activity.detail.toAddress}
               </Link>
             )}
@@ -472,8 +455,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Box mr={1}>
               <Link
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                target="_blank"
-              >
+                target="_blank">
                 <AccountAvatar
                   ledgerIconDisabled
                   account={account}
@@ -488,8 +470,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               className={classes.proposalTypography}
               variant="body1"
               href={`${crypto.blockExplorerBaseUrl}/accounts/${activity.detail.withdrawAddress}`}
-              target="_blank"
-            >
+              target="_blank">
               {activity.detail.withdrawAddress}
             </Link>
           </>

@@ -90,14 +90,12 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
       style={{
         width: themeStyle.spacing(isMenuExpanded ? MenuWidth.Expanded : MenuWidth.Collapsed),
       }}
-      className={classes.leftMenuContainer}
-    >
+      className={classes.leftMenuContainer}>
       <List className={classes.menu}>
         <ListItem
           className={classes.menuItem}
           button
-          onClick={() => setIsMenuExpanded(!isMenuExpanded)}
-        >
+          onClick={() => setIsMenuExpanded(!isMenuExpanded)}>
           <ListItemIcon>
             <Box ml={-1}>
               {isMenuExpanded ? (
@@ -132,8 +130,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
                   arrow
                   disableFocusListener={isMenuExpanded}
                   disableHoverListener={isMenuExpanded}
-                  disableTouchListener={isMenuExpanded}
-                >
+                  disableTouchListener={isMenuExpanded}>
                   <ListItem
                     selected={selected}
                     className={classes.menuItem}
@@ -141,8 +138,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
                     component="a"
                     style={{
                       background: selected ? themeStyle.palette.menuBackground : 'inherits',
-                    }}
-                  >
+                    }}>
                     <ListItemIcon>
                       {React.cloneElement(item.icon, {
                         fill: selected
@@ -202,8 +198,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
               variant="contained"
               color="primary"
               style={{ display: favAccount || !isMenuExpanded ? 'none' : 'block' }}
-              className={classes.starButton}
-            >
+              className={classes.starButton}>
               {t('star now')}
             </Button>
           </Link>

@@ -65,8 +65,7 @@ const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
               url="https://www.forbole.com/"
               quote={address}
               hashtag="#forbole-X"
-              className={classes.socialMediaButton}
-            >
+              className={classes.socialMediaButton}>
               <FacebookIcon
                 size={42}
                 round
@@ -81,8 +80,7 @@ const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
               url="https://www.forbole.com/"
               title={address}
               hashtags={['#forbole']}
-              className={classes.socialMediaButton}
-            >
+              className={classes.socialMediaButton}>
               <TwitterIcon
                 size={42}
                 round
@@ -96,8 +94,7 @@ const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
             <TelegramShareButton
               url="https://www.forbole.com/"
               title={address}
-              className={classes.socialMediaButton}
-            >
+              className={classes.socialMediaButton}>
               <TelegramIcon
                 size={42}
                 round
@@ -112,8 +109,7 @@ const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
               url="https://www.forbole.com/"
               title={address}
               separator=":: "
-              className={classes.socialMediaButton}
-            >
+              className={classes.socialMediaButton}>
               <WhatsappIcon
                 size={42}
                 round
@@ -129,8 +125,7 @@ const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
               subject="backup mnemonic phrase"
               body={address}
               separator=":: "
-              className={classes.socialMediaButton}
-            >
+              className={classes.socialMediaButton}>
               <EmailIcon
                 size={42}
                 round
@@ -150,8 +145,7 @@ const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
       <Snackbar
         open={isCopySuccess}
         autoHideDuration={5000}
-        onClose={() => setIsCopySuccess(false)}
-      >
+        onClose={() => setIsCopySuccess(false)}>
         <Alert onClose={() => setIsCopySuccess(false)} severity="success">
           {t('copied to clipboard')}
         </Alert>

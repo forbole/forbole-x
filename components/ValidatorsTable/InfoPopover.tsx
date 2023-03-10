@@ -40,8 +40,7 @@ const InfoPopover = (props: InfoPopoverProps) => {
       aria-haspopup="true"
       onMouseEnter={handlePopoverOpen}
       onMouseLeave={handlePopoverClose}
-      className={classes.helpOutLintContainer}
-    >
+      className={classes.helpOutLintContainer}>
       <HelpOutline fontSize="small" className={classes.helpOutLine} />
       <Popover
         id="mouse-over-popover"
@@ -57,8 +56,7 @@ const InfoPopover = (props: InfoPopoverProps) => {
           horizontal: 'center',
         }}
         onClose={handlePopoverClose}
-        disableRestoreFocus
-      >
+        disableRestoreFocus>
         <Paper className={classes.popoverContainer} elevation={0}>
           {detail}
           <div className={classes.itemWrapper}>

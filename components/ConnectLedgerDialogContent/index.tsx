@@ -145,14 +145,12 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
-          height="100%"
-        >
+          height="100%">
           <Box
             flexDirection="column"
             justifyContent="center"
             alignItems="center"
-            sx={{ position: 'relative', display: 'flex' }}
-          >
+            sx={{ position: 'relative', display: 'flex' }}>
             <CircularProgress size={themeStyle.spacing(27)} thickness={5} />
             <Box
               sx={{
@@ -164,8 +162,7 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-              }}
-            >
+              }}>
               {theme === 'dark' ? (
                 <ImageDefaultDark width={themeStyle.spacing(25)} height={themeStyle.spacing(25)} />
               ) : (
@@ -221,8 +218,7 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
                     my={3}
                     pl={themeStyle.spacing(0.2)}
                     bgcolor="rgba(196, 196, 196, 0.1)"
-                    borderRadius={themeStyle.spacing(1)}
-                  >
+                    borderRadius={themeStyle.spacing(1)}>
                     <Typography color="textSecondary" variant="body2">
                       {account.address}
                     </Typography>

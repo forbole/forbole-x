@@ -139,8 +139,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               validatorList.filter(v => v.isSelected === true),
               value,
             );
-          }}
-        >
+          }}>
           <DialogContent className={classes.dialogContent}>
             <Box mb={4}>
               <Box mt={4} mb={2}>
@@ -248,8 +247,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               justifyContent="space-between"
               alignItems="center"
               mb={3}
-              mx={2}
-            >
+              mx={2}>
               <Box>
                 <Typography variant="h5">
                   {formatTokenAmount(amount, { defaultUnit: account.crypto, lang, hideAmount })}
@@ -273,8 +271,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                     .reduce((a, b) => a + b, 0) ||
                   !consent
                 }
-                type="submit"
-              >
+                type="submit">
                 {loading ? <CircularProgress size={themeStyle.spacing(3.5)} /> : t('next')}
               </Button>
             </Box>
@@ -306,8 +303,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                 onClick={() => {
                   openDelegationDialog();
                   onClose();
-                }}
-              >
+                }}>
                 {t('delegate')}
               </Button>
             </Box>

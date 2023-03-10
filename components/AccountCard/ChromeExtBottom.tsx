@@ -77,23 +77,20 @@ const ChromeExtBottom: React.FC<ChromeExtBottomProps> = ({
           classes={{ root: classes.delegateButton }}
           variant="contained"
           color="primary"
-          onClick={() => setDelegateDialogOpen(true)}
-        >
+          onClick={() => setDelegateDialogOpen(true)}>
           {t('delegate')}
         </Button>
         <Button
           classes={{ root: classes.sendButton }}
           variant="contained"
-          onClick={() => setSendDialogOpen(true)}
-        >
+          onClick={() => setSendDialogOpen(true)}>
           {t('send')}
         </Button>
         <Button
           classes={{ root: classes.withdrawButton }}
           variant="contained"
           color="secondary"
-          onClick={() => setWithdrawRewardsDialogOpen(true)}
-        >
+          onClick={() => setWithdrawRewardsDialogOpen(true)}>
           {t('withdraw')}
         </Button>
       </Box>

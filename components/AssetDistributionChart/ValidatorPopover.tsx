@@ -43,15 +43,13 @@ const ValidatorPopover: React.FC<ValidatorPopoverProps> = ({
       transformOrigin={{
         vertical: 'top',
         horizontal: 'left',
-      }}
-    >
+      }}>
       <Box
         width={theme.spacing(40)}
         p={2}
         display="flex"
         alignItems="center"
-        justifyContent="space-between"
-      >
+        justifyContent="space-between">
         <Box display="flex" alignItems="center">
           <Avatar className={classes.avatar} src={validator.avatar} />
           <Typography>{validator.moniker}</Typography>

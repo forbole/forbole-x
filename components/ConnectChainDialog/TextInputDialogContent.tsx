@@ -33,8 +33,7 @@ const TextInputDialogContent: React.FC<TextInputDialogContentProps> = ({
       onSubmit={e => {
         e.preventDefault();
         onConfirm(text);
-      }}
-    >
+      }}>
       <DialogContent className={classes.dialogContent}>
         <Typography>{title}</Typography>
         <TextField
@@ -62,8 +61,7 @@ const TextInputDialogContent: React.FC<TextInputDialogContentProps> = ({
             variant="contained"
             color="primary"
             disabled={!text}
-            type="submit"
-          >
+            type="submit">
             {t('next')}
           </Button>
         </Box>

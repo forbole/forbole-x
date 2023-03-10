@@ -278,8 +278,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
           className={classes.fullWidthButton}
           color="primary"
           disabled={!Number(fee.gas)}
-          onClick={() => onConfirm(fee)}
-        >
+          onClick={() => onConfirm(fee)}>
           {!transactionData.fee.gas ? (
             <CircularProgress size={themeStyle.spacing(3.5)} />
           ) : (

@@ -105,15 +105,13 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
         <Box display="flex" my={2} alignItems="center">
           <PieChart
             height={theme.spacing(isMobile ? 16 : 20)}
-            width={theme.spacing(isMobile ? 16 : 20)}
-          >
+            width={theme.spacing(isMobile ? 16 : 20)}>
             <Pie
               data={data.filter(d => !!d.value)}
               innerRadius={theme.spacing(isMobile ? 7 : 8.5)}
               outerRadius={theme.spacing(isMobile ? 7 : 8.5)}
               paddingAngle={12}
-              dataKey="value"
-            >
+              dataKey="value">
               {data
                 .filter(d => !!d.value)
                 .map(d => (
@@ -151,12 +149,11 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
           <Box>
             <Typography variant="h4">{t('total balance')}</Typography>
             <Typography>
-              {formatCurrency(usdPrice * currencyRate, {
+              {`${formatCurrency(usdPrice * currencyRate, {
                 currency,
                 lang,
                 hideUnit: true,
-              })}{' '}
-              / {account.crypto}
+              })} / ${account.crypto}`}
             </Typography>
           </Box>
           <Box display="flex" flexDirection="column" alignItems="flex-end">
@@ -189,7 +186,7 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
             <TableBody>
               {Object.keys(otherTokens.balances).map((token, index) => (
                 <TableRow key={token} className={classes.tableRow}>
-                  <TableCell>#{index + 1}</TableCell>
+                  <TableCell>{`#${index + 1}`}</TableCell>
                   <TableCell>
                     <Box display="flex" alignItems="center">
                       <Avatar

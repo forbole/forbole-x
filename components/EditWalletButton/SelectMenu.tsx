@@ -55,8 +55,7 @@ const SelectMenu: React.FC<SelectMenuProps> = ({
           className={classes.dialogButton}
           variant="contained"
           color="primary"
-          onClick={() => deleteWallet()}
-        >
+          onClick={() => deleteWallet()}>
           {t('delete wallet')}
         </Button>
       </DialogActions>

@@ -15,8 +15,7 @@ const Setting: React.FC = () => {
         <Box mt={1}>
           <Typography variant="h4">{t('settings')}</Typography>
         </Box>
-      }
-    >
+      }>
       {isChromeExt ? null : (
         <Box display="flex" alignItems="center" mb={2}>
           <Typography variant="h1">{t('settings')}</Typography>

@@ -100,8 +100,7 @@ const Account: React.FC = () => {
           <Typography variant="h4">{t('address book')}</Typography>
         </Box>
       }
-      back
-    >
+      back>
       {addressDetail ? (
         <AddressDetailCard address={addressDetail} accountBalance={accountBalance} />
       ) : null}

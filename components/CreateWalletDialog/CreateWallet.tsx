@@ -27,8 +27,7 @@ const CreateWallet: React.FC<CreateWalletProps> = ({ mnemonic, onConfirm }) => {
       onSubmit={e => {
         e.preventDefault();
         onConfirm();
-      }}
-    >
+      }}>
       <DialogContent className={classes.dialogContent}>
         <DialogContentText>
           <Trans

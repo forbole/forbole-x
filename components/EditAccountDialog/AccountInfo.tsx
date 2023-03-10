@@ -41,8 +41,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
       onSubmit={e => {
         e.preventDefault();
         onSave(moniker);
-      }}
-    >
+      }}>
       <DialogContent className={classes.dialogContent}>
         <Box mb={6}>
           <Box mb={4}>
@@ -66,8 +65,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
               <Button
                 variant="outlined"
                 className={classes.iconButton}
-                onClick={() => onShare(account.address)}
-              >
+                onClick={() => onShare(account.address)}>
                 {t('share')}
               </Button>
             </Box>
@@ -85,8 +83,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
               <Button
                 variant="outlined"
                 className={classes.iconButton}
-                onClick={() => onShare(withdrawAddress)}
-              >
+                onClick={() => onShare(withdrawAddress)}>
                 {t('share')}
               </Button>
             </Box>
@@ -101,8 +98,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
               className={classes.actionButton}
               variant="contained"
               color="secondary"
-              onClick={onEdit}
-            >
+              onClick={onEdit}>
               {t('edit reward address')}
             </Button>
           </Box>
@@ -111,8 +107,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
               className={classes.actionButton}
               variant="contained"
               color="primary"
-              onClick={onRemove}
-            >
+              onClick={onRemove}>
               {t('remove account')}
             </Button>
           </Box>

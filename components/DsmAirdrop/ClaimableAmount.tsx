@@ -82,8 +82,7 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
         event.preventDefault();
         setOnClaimLoading(true);
         await onConfirm();
-      }}
-    >
+      }}>
       <Box display="flex" justifyContent="center">
         <Box className={classes.stageContent}>
           <Typography align="center">{t('amount claimable title')}</Typography>
@@ -111,8 +110,7 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
             color="primary"
             className={classes.button}
             variant="contained"
-            type="submit"
-          >
+            type="submit">
             {onClaimLoading ? (
               <CircularProgress color="inherit" size={theme.spacing(3)} />
             ) : (
@@ -123,8 +121,7 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
             onClick={() => setIsConnectChainDialogOpen(true)}
             fullWidth
             className={classes.secondaryButton}
-            variant="outlined"
-          >
+            variant="outlined">
             {t('connect more accounts')}
           </Button>
         </Box>

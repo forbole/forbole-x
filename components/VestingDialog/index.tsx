@@ -51,8 +51,7 @@ const VestingDialog: React.FC<VestingDialogProps> = ({
       fullScreen={isMobile}
       classes={{ paper: classes.dialogPaper }}
       open={open}
-      onClose={onClose}
-    >
+      onClose={onClose}>
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>

@@ -164,8 +164,7 @@ const RedelegationDialog: React.FC<RedelegationDialogProps> = ({
       maxWidth={content.dialogWidth || 'md'}
       open={open}
       onClose={onClose}
-      fullScreen={isMobile}
-    >
+      fullScreen={isMobile}>
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />

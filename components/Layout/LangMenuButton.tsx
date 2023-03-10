@@ -25,8 +25,7 @@ const LangMenuButton: React.FC = () => {
       <Button
         onClick={e => setAnchor(e.currentTarget)}
         className={classes.navBarButton}
-        startIcon={<LangIcon {...iconProps} />}
-      >
+        startIcon={<LangIcon {...iconProps} />}>
         {t(lang)}
       </Button>
       <Menu
@@ -42,8 +41,7 @@ const LangMenuButton: React.FC = () => {
         }}
         keepMounted
         open={!!anchor}
-        onClose={onClose}
-      >
+        onClose={onClose}>
         {locales
           .filter(l => l !== lang)
           .map(l => (
@@ -54,8 +52,7 @@ const LangMenuButton: React.FC = () => {
                   query,
                 }}
                 locale={l}
-                passHref
-              >
+                passHref>
                 <MenuItem button component="a">
                   {t(l)}
                 </MenuItem>

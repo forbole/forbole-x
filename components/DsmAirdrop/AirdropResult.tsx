@@ -23,8 +23,7 @@ const AirdropResult: React.FC<AirdropResultProps> = ({ success, onCompleted, air
         width="100%"
         display="flex"
         flexDirection="column"
-        alignItems="center"
-      >
+        alignItems="center">
         <Box width="100%" display="flex" justifyContent="center" mt={1.5}>
           {success ? <AirdropSuccess /> : <AirdropFailed />}
         </Box>
@@ -39,8 +38,7 @@ const AirdropResult: React.FC<AirdropResultProps> = ({ success, onCompleted, air
           fullWidth
           onClick={() => {
             onCompleted();
-          }}
-        >
+          }}>
           {t(`airdrop result button ${success ? 'success' : 'failed'}`)}
         </Button>
       </Box>

@@ -83,8 +83,7 @@ const ChangeAccountMonikerDialog: React.FC<ChangeAccountMonikerDialogProps> = ({
             className={classes.dialogButton}
             variant="contained"
             color="primary"
-            disabled={!name}
-          >
+            disabled={!name}>
             {t('save')}
           </Button>
         </DialogActions>

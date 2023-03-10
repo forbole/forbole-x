@@ -72,8 +72,7 @@ const VoteTable: React.FC<DepositTableProps> = ({ voteDetails, crypto }) => {
           value={currentTab}
           classes={{ indicator: classes.tabIndicator }}
           onChange={(e, v) => setCurrentTab(v)}
-          textColor={theme === 'light' ? 'primary' : 'inherit'}
-        >
+          textColor={theme === 'light' ? 'primary' : 'inherit'}>
           {tabs.map(tab => (
             <Tab key={tab.label} label={`${t(tab.label)} (${tab.rows.length})`} />
           ))}
@@ -86,8 +85,7 @@ const VoteTable: React.FC<DepositTableProps> = ({ voteDetails, crypto }) => {
                   <TableCell
                     key={column.label}
                     className={classes.table__label}
-                    align={column.alignRight ? 'right' : 'inherit'}
-                  >
+                    align={column.alignRight ? 'right' : 'inherit'}>
                     <Typography variant="subtitle1">{t(column.label)}</Typography>
                   </TableCell>
                 );
@@ -101,8 +99,7 @@ const VoteTable: React.FC<DepositTableProps> = ({ voteDetails, crypto }) => {
                   <TableCell className={classes.tableCell}>
                     <Link
                       href={`${crypto.blockExplorerBaseUrl}/accounts/${v.voter.address}`}
-                      target="_blank"
-                    >
+                      target="_blank">
                       <Box display="flex" alignItems="center">
                         <Avatar
                           className={classes.validatorAvatar}

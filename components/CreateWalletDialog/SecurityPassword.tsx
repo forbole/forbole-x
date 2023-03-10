@@ -19,8 +19,7 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({ onConfirm }) => {
       onSubmit={e => {
         e.preventDefault();
         onConfirm(password);
-      }}
-    >
+      }}>
       <DialogContent className={classes.dialogContent}>
         <DialogContentText>{t('security password description')}</DialogContentText>
         <Box mb={20}>
@@ -39,8 +38,7 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({ onConfirm }) => {
             variant="contained"
             color="primary"
             disabled={password.length < 6}
-            type="submit"
-          >
+            type="submit">
             {t('next')}
           </Button>
         </Box>

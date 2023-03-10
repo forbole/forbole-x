@@ -34,8 +34,7 @@ const SelectWalletButton: React.FC<SelectWalletButtonProps> = ({
       <Button
         onClick={e => setAnchor(e.currentTarget)}
         startIcon={<WalletIcon {...iconProps} />}
-        endIcon={<DropDownIcon {...iconProps} />}
-      >
+        endIcon={<DropDownIcon {...iconProps} />}>
         {get(currentWallet, 'name', '')}
       </Button>
       <Menu
@@ -51,14 +50,12 @@ const SelectWalletButton: React.FC<SelectWalletButtonProps> = ({
         }}
         keepMounted
         open={!!anchor}
-        onClose={onClose}
-      >
+        onClose={onClose}>
         {wallets.map(w => (
           <MenuItem
             selected={w.id === get(currentWallet, 'id', '')}
             key={w.id}
-            onClick={() => onItemClick(w)}
-          >
+            onClick={() => onItemClick(w)}>
             {w.name}
           </MenuItem>
         ))}

@@ -22,16 +22,14 @@ const Reset: React.FC<ResetProps> = ({ onCancel, onResetApp }) => {
           className={classes.resetButton}
           variant="contained"
           color="secondary"
-          onClick={() => onCancel()}
-        >
+          onClick={() => onCancel()}>
           {t('cancel')}
         </Button>
         <Button
           className={classes.resetButton}
           variant="contained"
           color="primary"
-          onClick={() => onResetApp()}
-        >
+          onClick={() => onResetApp()}>
           {t('reset')}
         </Button>
       </DialogActions>

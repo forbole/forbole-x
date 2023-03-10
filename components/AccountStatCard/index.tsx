@@ -104,22 +104,19 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
           ) {
             router.push(`/account/${account.address}`);
           }
-        }}
-      >
+        }}>
         <Box
           mb={3}
           display="flex"
           alignItems="center"
           justifyContent="space-between"
-          className={classes.account}
-        >
+          className={classes.account}>
           <AccountAvatar account={account} hideAddress />
           <Button
             id="button"
             variant="outlined"
             className={classes.timeRangeButton}
-            onClick={() => setDelegateDialogOpen(true)}
-          >
+            onClick={() => setDelegateDialogOpen(true)}>
             {t('delegate')}
           </Button>
         </Box>
@@ -146,8 +143,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
                   mt={-3}
                   mx={8}
                   display="flex"
-                  justifyContent="center"
-                >
+                  justifyContent="center">
                   <CircularProgress />
                 </Box>
               ) : (

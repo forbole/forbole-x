@@ -42,16 +42,14 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             display="flex"
             justifyContent="space-between"
             alignItems={isMobile ? 'center' : 'flex-start'}
-            flex={1}
-          >
+            flex={1}>
             <Box ml={isMobile ? 2 : 0}>
               <Typography variant={isMobile ? 'h6' : 'h4'}>{profile.nickname}</Typography>
               <Box mt={isMobile ? -1 : 0} mb={isMobile ? 2 : 0}>
                 <Typography
                   variant={isMobile ? 'body2' : 'body1'}
                   color="textSecondary"
-                  gutterBottom
-                >
+                  gutterBottom>
                   @{profile.dtag}
                 </Typography>
               </Box>
@@ -60,8 +58,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               className={classes.button}
               variant="outlined"
               onClick={onEditProfile}
-              size={isMobile ? 'small' : 'medium'}
-            >
+              size={isMobile ? 'small' : 'medium'}>
               {t('edit profile')}
             </Button>
           </Box>

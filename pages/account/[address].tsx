@@ -169,8 +169,7 @@ const Account: React.FC = () => {
             onAccountChange={a => router.replace(`/account/${a.address}`)}
           />
         ) : null
-      }
-    >
+      }>
       {profile.dtag ? (
         <ProfileCard
           profile={profile}

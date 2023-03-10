@@ -49,8 +49,7 @@ const Proposals: React.FC = () => {
               padding: theme.spacing(1),
               paddingLeft: theme.spacing(2),
               paddingRight: theme.spacing(2),
-            }}
-          >
+            }}>
             <Box display="flex">
               <Avatar
                 src={crypto.image}
@@ -77,8 +76,7 @@ const Proposals: React.FC = () => {
             }}
             keepMounted
             open={!!accountMenuAnchor}
-            onClose={() => setAccountMenuAnchor(undefined)}
-          >
+            onClose={() => setAccountMenuAnchor(undefined)}>
             {Object.values(cryptocurrencies).map(a => (
               <MenuItem
                 key={a.chainId}
@@ -86,8 +84,7 @@ const Proposals: React.FC = () => {
                 onClick={() => {
                   setActiveCrypto(a.name);
                   setAccountMenuAnchor(undefined);
-                }}
-              >
+                }}>
                 <Box px={2} display="flex">
                   <Avatar
                     src={a.image}

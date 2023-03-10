@@ -85,14 +85,12 @@ const AccountCard: React.FC<AccountCardProps> = ({
         ) {
           router.push(`/account/${account.address}`);
         }
-      }}
-    >
+      }}>
       <Box
         mb={isChromeExt ? 2 : 5}
         display="flex"
         alignItems="flex-start"
-        justifyContent="space-between"
-      >
+        justifyContent="space-between">
         <AccountAvatar account={account} ledgerIconDisabled={ledgerIconDisabled} />
         <AccountMenuButton account={account} />
       </Box>

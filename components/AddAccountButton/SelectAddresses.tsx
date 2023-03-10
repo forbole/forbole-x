@@ -156,8 +156,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
               ]
             : selectedAddresses,
         );
-      }}
-    >
+      }}>
       <DialogTitle>{t('add account')}</DialogTitle>
       {isAdvance ? (
         <DialogContent>
@@ -311,8 +310,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                bgcolor={theme.palette.translucent}
-              >
+                bgcolor={theme.palette.translucent}>
                 <CircularProgress />
               </Box>
             ) : null}
@@ -344,8 +342,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
             (isAdvance
               ? !hdAddress.address || !!accounts.find(a => a.address === hdAddress.address)
               : selectedAddresses.length === 0)
-          }
-        >
+          }>
           {t('next')}
         </Button>
       </DialogActions>

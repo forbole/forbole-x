@@ -21,8 +21,7 @@ const SettingArticle: React.FC = () => {
           </Link>
           <Typography color="textPrimary">{t(`${aboutTitle}`)}</Typography>
         </Breadcrumbs>
-      }
-    >
+      }>
       <Box display="flex" alignItems="center" mb={4}>
         <Typography variant="h1">{t(`${aboutTitle}`)}</Typography>
       </Box>

@@ -26,8 +26,7 @@ const SubmitProposalContent: React.FC<SubmitProposalContentProps> = ({ msgs, acc
       <Box my={1}>
         <Typography>{t('network')}</Typography>
         <Typography color="textSecondary">
-          {cryptocurrencies[account.crypto].chainName} -
-{account.crypto}
+          {cryptocurrencies[account.crypto].chainName} -{account.crypto}
         </Typography>
       </Box>
       <Divider />

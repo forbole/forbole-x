@@ -77,8 +77,12 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
       navigator.clipboard.writeText(account ? account.address : address.address);
       setIsCopySuccess(true);
     },
-    [account?.address, address?.address],
+    [account],
   );
+
+  const onClose = React.useCallback(() => {
+    setIsCopySuccess(false);
+  }, []);
 
   return (
     <>
@@ -120,12 +124,8 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
           />
         ) : null}
       </Box>
-      <Snackbar
-        open={isCopySuccess}
-        autoHideDuration={5000}
-        onClose={() => setIsCopySuccess(false)}
-      >
-        <Alert onClose={() => setIsCopySuccess(false)} severity="success">
+      <Snackbar open={isCopySuccess} autoHideDuration={5000} onClose={onClose}>
+        <Alert onClose={onClose} severity="success">
           {t('copied to clipboard')}
         </Alert>
       </Snackbar>

@@ -47,8 +47,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
         <Tabs
           value={currentTab}
           classes={{ indicator: classes.tabIndicator }}
-          onChange={(e, v) => setCurrentTab(v)}
-        >
+          onChange={(e, v) => setCurrentTab(v)}>
           {tabs.map(tab => (
             <Tab key={tab.label} label={`${t(tab.label)} (${tab.validators.length})`} />
           ))}

@@ -20,8 +20,7 @@ const ImportMnemonic: React.FC<ImportMnemonicProps> = ({ onConfirm }) => {
       onSubmit={e => {
         e.preventDefault();
         onConfirm(mnemonic);
-      }}
-    >
+      }}>
       <DialogContent className={classes.dialogContent}>
         <DialogContentText>{t('import recovery phrase description')}</DialogContentText>
         <MnemonicPhraseInput mnemonic={mnemonic} onChange={setMnemonic} />
@@ -34,8 +33,7 @@ const ImportMnemonic: React.FC<ImportMnemonicProps> = ({ onConfirm }) => {
             color="primary"
             variant="contained"
             disabled={!isValidMnemonic(mnemonic)}
-            type="submit"
-          >
+            type="submit">
             {t('confirm')}
           </Button>
         </Box>

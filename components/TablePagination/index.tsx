@@ -52,16 +52,14 @@ const TablePagination: React.FC<TablePaginationProps> = ({
         onClick={() => onPageChange(0)}
         disabled={page <= 0}
         className={classes.lightGreyButton}
-        variant="contained"
-      >
+        variant="contained">
         <ToFirstPageIcon {...iconProps} />
       </Button>
       <Button
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 0}
         className={classes.lightGreyButton}
-        variant="contained"
-      >
+        variant="contained">
         <PrevIcon {...iconProps} />
       </Button>
       {times(numPagesToDisplay).map(i => (
@@ -70,8 +68,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
           color={page === startFrom + i ? 'primary' : 'default'}
           className={classes.pageButton}
           key={i}
-          onClick={() => onPageChange(startFrom + i)}
-        >
+          onClick={() => onPageChange(startFrom + i)}>
           {startFrom + i + 1}
         </Button>
       ))}
@@ -79,16 +76,14 @@ const TablePagination: React.FC<TablePaginationProps> = ({
         disabled={page >= lastPage}
         onClick={() => onPageChange(page + 1)}
         className={classes.lightGreyButton}
-        variant="contained"
-      >
+        variant="contained">
         <NextIcon {...iconProps} />
       </Button>
       <Button
         disabled={page >= lastPage}
         onClick={() => onPageChange(lastPage)}
         className={classes.lightGreyButton}
-        variant="contained"
-      >
+        variant="contained">
         <ToLastPageIcon {...iconProps} />
       </Button>
       {isMobile ? null : (
@@ -97,15 +92,13 @@ const TablePagination: React.FC<TablePaginationProps> = ({
             variant="contained"
             className={classes.selectButton}
             endIcon={<DropDownIcon {...iconProps} />}
-            onClick={e => setRowsPerPageButtonAnchor(e.currentTarget)}
-          >
+            onClick={e => setRowsPerPageButtonAnchor(e.currentTarget)}>
             {rowsPerPage}
           </Button>
           <Typography
             style={{
               display: hideFooter ? 'none' : 'inherit',
-            }}
-          >
+            }}>
             {t('table footer', {
               range: `${page * rowsPerPage + 1} - ${Math.min((page + 1) * rowsPerPage, rowsCount)}`,
               total: rowsCount,
@@ -124,8 +117,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
             }}
             keepMounted
             open={!!rowsPerPageButtonAnchor}
-            onClose={() => setRowsPerPageButtonAnchor(undefined)}
-          >
+            onClose={() => setRowsPerPageButtonAnchor(undefined)}>
             {ROWS_PER_PAGE_OPTIONS.map(o => (
               <MenuItem
                 button
@@ -133,8 +125,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
                 onClick={() => {
                   onRowsPerPageChange(o);
                   setRowsPerPageButtonAnchor(undefined);
-                }}
-              >
+                }}>
                 {o}
               </MenuItem>
             ))}

@@ -236,8 +236,7 @@ const InputAmount: React.FC<InputAmountProps> = ({
             className={classes.button}
             color="primary"
             disabled={loading || !Number(amount) || insufficientFund || !consent}
-            onClick={() => onNext(address, Number(amount), denom, memo)}
-          >
+            onClick={() => onNext(address, Number(amount), denom, memo)}>
             {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>

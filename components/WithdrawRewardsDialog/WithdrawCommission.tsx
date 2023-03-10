@@ -43,8 +43,7 @@ const WithdrawCommission: React.FC<WithdrawCommissionProps> = ({
       onSubmit={e => {
         e.preventDefault();
         onConfirm(value);
-      }}
-    >
+      }}>
       <DialogContent className={classes.dialogContent}>
         <Box mb={4}>
           <Box mt={4} mb={2}>
@@ -82,8 +81,7 @@ const WithdrawCommission: React.FC<WithdrawCommissionProps> = ({
           justifyContent="space-between"
           alignItems="center"
           mb={3}
-          mx={2}
-        >
+          mx={2}>
           <Box>
             <Typography variant="h5">
               {formatTokenAmount(totalAmount, { defaultUnit: account.crypto, lang })}
@@ -100,8 +98,7 @@ const WithdrawCommission: React.FC<WithdrawCommissionProps> = ({
             classes={{ root: classes.button }}
             color="primary"
             disabled={loading || !consent}
-            type="submit"
-          >
+            type="submit">
             {loading ? <CircularProgress size={themeStyle.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>

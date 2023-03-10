@@ -59,8 +59,7 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({
           }}
           onChange={(e, v) => setCurrentTab(v)}
           textColor={theme === 'light' ? 'primary' : 'inherit'}
-          variant="scrollable"
-        >
+          variant="scrollable">
           {tabs.map(tab => (
             <Tab key={tab.label} label={`${t(tab.label)} (${tab.rows.length})`} />
           ))}
@@ -71,14 +70,12 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({
               <Box
                 className={classes.rowHeader}
                 flexDirection={isMobile ? 'column' : 'row'}
-                alignItems={isMobile ? 'flex-start' : 'center'}
-              >
+                alignItems={isMobile ? 'flex-start' : 'center'}>
                 <Link
                   href={`${crypto.blockExplorerBaseUrl}/transactions/${a.ref.replace('#', '')}`}
                   variant="body2"
                   className={classes.wrapText}
-                  target="_blank"
-                >
+                  target="_blank">
                   {a.ref}
                 </Link>
 

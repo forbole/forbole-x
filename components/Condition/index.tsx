@@ -15,8 +15,7 @@ const Condition: React.FC<{
       flexDirection="row"
       alignItems="center"
       justifyContent="space-between"
-      onClick={onClick}
-    >
+      onClick={onClick}>
       <Box className={`${className} ${classes.root}`}> </Box>
       <Button size="small" color="primary" variant="contained">
         {t('delegate')}

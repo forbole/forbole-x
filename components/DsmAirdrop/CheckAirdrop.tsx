@@ -91,8 +91,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                     style={{
                       borderRadius: theme.spacing(0, 0.5, 0.5, 0),
                       marginLeft: theme.spacing(0.125),
-                    }}
-                  >
+                    }}>
                     {loading ? (
                       <CircularProgress color="inherit" size={theme.spacing(3.5)} />
                     ) : (
@@ -116,8 +115,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                 <Typography
                   style={{
                     color: theme.palette.text.secondary,
-                  }}
-                >
+                  }}>
                   {t('check airdrop slogan')}
                 </Typography>
                 <Box mt={4} padding={0} minWidth="20%">
@@ -125,8 +123,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                     id="button"
                     variant="contained"
                     color="primary"
-                    onClick={() => setIsSelectAccountDialogOpen(true)}
-                  >
+                    onClick={() => setIsSelectAccountDialogOpen(true)}>
                     {loading ? (
                       <CircularProgress color="inherit" size={theme.spacing(3.5)} />
                     ) : (

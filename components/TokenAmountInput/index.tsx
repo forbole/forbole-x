@@ -39,8 +39,7 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
               variant="text"
               size="small"
               endIcon={<DropDownIcon {...iconProps} />}
-              onClick={e => setAnchor(e.currentTarget)}
-            >
+              onClick={e => setAnchor(e.currentTarget)}>
               {denom}
             </Button>
             <Menu
@@ -56,8 +55,7 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
               }}
               keepMounted
               open={!!anchor}
-              onClose={() => setAnchor(undefined)}
-            >
+              onClose={() => setAnchor(undefined)}>
               {Object.keys(availableAmount).map(d => (
                 <MenuItem
                   button
@@ -65,8 +63,7 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
                   onClick={() => {
                     onDenomChange(d);
                     setAnchor(undefined);
-                  }}
-                >
+                  }}>
                   {d}
                 </MenuItem>
               ))}

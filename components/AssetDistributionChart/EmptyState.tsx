@@ -16,8 +16,7 @@ const EmptyState: React.FC = () => {
       display="flex"
       flexDirection="column"
       alignItems="center"
-      height={themeStyle.spacing(33.5)}
-    >
+      height={themeStyle.spacing(33.5)}>
       {theme === 'light' ? (
         <ForboleLogoLight
           style={{

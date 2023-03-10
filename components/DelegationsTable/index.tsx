@@ -67,8 +67,7 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
           classes={{ indicator: classes.tabIndicator }}
           variant="scrollable"
           onChange={(e, v) => setCurrentTab(v)}
-          textColor={theme === 'light' ? 'primary' : 'inherit'}
-        >
+          textColor={theme === 'light' ? 'primary' : 'inherit'}>
           {tabs.map(tab => (
             <Tab key={tab.label} label={`${t(tab.label)} (${tab.rows.length})`} />
           ))}
@@ -116,15 +115,13 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
         onClose={() => {
           setManagingValidator(undefined);
           setAnchor(undefined);
-        }}
-      >
+        }}>
         <MenuItem
           button
           onClick={() => {
             setDelegating(true);
             setAnchor(undefined);
-          }}
-        >
+          }}>
           {t('delegate')}
         </MenuItem>
         <MenuItem
@@ -132,8 +129,7 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
           onClick={() => {
             setRedelegating(true);
             setAnchor(undefined);
-          }}
-        >
+          }}>
           {t('redelegate')}
         </MenuItem>
         <MenuItem
@@ -141,8 +137,7 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
           onClick={() => {
             setUndelegating(true);
             setAnchor(undefined);
-          }}
-        >
+          }}>
           {t('undelegate')}
         </MenuItem>
         <MenuItem
@@ -150,8 +145,7 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
           onClick={() => {
             setClaimingRewards(true);
             setAnchor(undefined);
-          }}
-        >
+          }}>
           {t('withdraw')}
         </MenuItem>
       </Menu>

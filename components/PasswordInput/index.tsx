@@ -83,8 +83,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ withSecurityLevel, value,
                 margin: theme.spacing(0, 1),
                 color: passwordSecurityColors[passwordSecurityLevel],
               }}
-              variant="body2"
-            >
+              variant="body2">
               {t(`password security level ${passwordSecurityLevel}`)}
             </Typography>
           </Box>

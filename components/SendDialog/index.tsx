@@ -132,8 +132,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
       maxWidth={availableAmount[crypto.name]?.amount > 0 ? 'md' : 'sm'}
       open={open}
       onClose={onClose}
-      fullScreen={isMobile}
-    >
+      fullScreen={isMobile}>
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>

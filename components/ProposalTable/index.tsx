@@ -49,8 +49,7 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, crypto }) => 
                       <MLink
                         href={`${crypto.blockExplorerBaseUrl}/accounts/${x.proposer.address}`}
                         target="_blank"
-                        onClick={e => e.stopPropagation()}
-                      >
+                        onClick={e => e.stopPropagation()}>
                         <Box display="flex">
                           <Avatar
                             className={classes.validatorAvatar}

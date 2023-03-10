@@ -35,8 +35,7 @@ const SelectLedgerApp: React.FC<SelectLedgerAppProps> = ({ ledgerAppNames, onCon
       onSubmit={e => {
         e.preventDefault();
         onConfirm(selectedApp);
-      }}
-    >
+      }}>
       <DialogContent className={classes.dialogContent}>
         <Typography gutterBottom>{t('select ledger app description')}</Typography>
         <List className={classes.list}>
@@ -63,8 +62,7 @@ const SelectLedgerApp: React.FC<SelectLedgerAppProps> = ({ ledgerAppNames, onCon
             disabled={!selectedApp}
             color="primary"
             variant="contained"
-            type="submit"
-          >
+            type="submit">
             {t('next')}
           </Button>
         </Box>

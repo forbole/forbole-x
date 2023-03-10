@@ -173,8 +173,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
       maxWidth={content.dialogWidth || (availableAmount[crypto.name]?.amount > 0 ? 'md' : 'sm')}
       open={open}
       onClose={onClose}
-      fullScreen={isMobile}
-    >
+      fullScreen={isMobile}>
       {availableAmount[crypto.name]?.amount > 0 ? (
         <>
           {isPrevStageAvailable ? (

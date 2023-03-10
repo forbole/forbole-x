@@ -56,8 +56,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
       onSubmit={e => {
         e.preventDefault();
         onConfirm(Number(amount), denom, memo);
-      }}
-    >
+      }}>
       <DialogContent className={classes.dialogContent}>
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
@@ -146,8 +145,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
           justifyContent="space-between"
           alignItems="center"
           mb={3}
-          mx={2}
-        >
+          mx={2}>
           <Box>
             <Typography variant="h5">
               {formatCrypto(Number(amount), { unit: denom, lang })}
@@ -161,8 +159,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             className={classes.button}
             color="primary"
             disabled={loading || !Number(amount) || Number(amount) > totalAmount || !consent}
-            type="submit"
-          >
+            type="submit">
             {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>

@@ -49,8 +49,7 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
       onSubmit={e => {
         e.preventDefault();
         onConfirm(Number(amount), denom);
-      }}
-    >
+      }}>
       <DialogContent className={classes.dialogContent}>
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
@@ -120,8 +119,7 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
           justifyContent="space-between"
           alignItems="center"
           mb={3}
-          mx={2}
-        >
+          mx={2}>
           <Box>
             <Typography variant="h5">
               {formatCrypto(Number(amount), { unit: denom, lang })}
@@ -138,8 +136,7 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
             className={classes.button}
             color="primary"
             disabled={!Number(amount) || insufficientFund}
-            type="submit"
-          >
+            type="submit">
             {t('next')}
           </Button>
         </Box>

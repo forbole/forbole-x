@@ -339,16 +339,14 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
           onClose(event, reason);
         }
       }}
-      fullScreen={isMobile}
-    >
+      fullScreen={isMobile}>
       {isPrevStageAvailable ? (
         <IconButton
           className={classes.backButton}
           onClick={() => {
             toPrevStage();
             closeAllLedgerConnections();
-          }}
-        >
+          }}>
           <BackIcon {...iconProps} />
         </IconButton>
       ) : null}

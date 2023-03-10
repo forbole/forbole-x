@@ -64,8 +64,7 @@ const Chart: React.FC<ChartProp> = ({ data: rawData, setPopoverIndex, setAnchorP
               dataKey="value"
               animationBegin={200 * i}
               animationDuration={200}
-              animationEasing="linear"
-            >
+              animationEasing="linear">
               <Cell
                 style={{ cursor: 'pointer' }}
                 onMouseEnter={() => setActiveIndex(i)}

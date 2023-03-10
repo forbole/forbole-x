@@ -361,16 +361,14 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           onClose(event, reason);
         }
       }}
-      fullScreen={isMobile}
-    >
+      fullScreen={isMobile}>
       {isPrevStageAvailable ? (
         <IconButton
           className={classes.backButton}
           onClick={() => {
             toPrevStage();
             closeAllLedgerConnections();
-          }}
-        >
+          }}>
           <BackIcon {...iconProps} />
         </IconButton>
       ) : null}

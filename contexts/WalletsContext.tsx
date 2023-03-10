@@ -300,8 +300,7 @@ const WalletsProvider: React.FC = ({ children }) => {
         reset,
         updatePassword,
         signOut,
-      }}
-    >
+      }}>
       {children}
     </WalletsContext.Provider>
   );

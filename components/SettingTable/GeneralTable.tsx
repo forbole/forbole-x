@@ -64,8 +64,7 @@ const GeneralTable: React.FC = () => {
               setAnchor(e.currentTarget);
             }}
             variant="outlined"
-            className={classes.timeRangeButton}
-          >
+            className={classes.timeRangeButton}>
             <Typography>{currency}</Typography>
             <DropDownIcon {...iconProps} style={{ marginTop: '4px' }} />
           </Button>
@@ -82,8 +81,7 @@ const GeneralTable: React.FC = () => {
             }}
             keepMounted
             open={!!anchor}
-            onClose={onClose}
-          >
+            onClose={onClose}>
             {currencies.map((x, i) => {
               return (
                 <div>
@@ -93,8 +91,7 @@ const GeneralTable: React.FC = () => {
                     onClick={() => {
                       setCurrency(x);
                       onClose();
-                    }}
-                  >
+                    }}>
                     {x}
                   </MenuItem>
                   {i + 1 === currencies.length ? null : (
@@ -113,8 +110,7 @@ const GeneralTable: React.FC = () => {
               setAnchorLanguage(e.currentTarget);
             }}
             variant="outlined"
-            className={classes.timeRangeButton}
-          >
+            className={classes.timeRangeButton}>
             <Typography>{t(lang)}</Typography>
             <DropDownIcon {...iconProps} style={{ marginTop: '4px' }} />
           </Button>
@@ -131,8 +127,7 @@ const GeneralTable: React.FC = () => {
             }}
             keepMounted
             open={!!anchorLanguage}
-            onClose={onClose}
-          >
+            onClose={onClose}>
             {locales.map((l, i) => {
               return (
                 <div key={l}>
@@ -142,8 +137,7 @@ const GeneralTable: React.FC = () => {
                       query,
                     }}
                     locale={l}
-                    passHref
-                  >
+                    passHref>
                     <MenuItem className={classes.menuItem} button component="a">
                       {t(l)}
                     </MenuItem>
@@ -164,8 +158,7 @@ const GeneralTable: React.FC = () => {
             className={classes.timeRangeButton}
             onClick={e => {
               setAnchorMode(e.currentTarget);
-            }}
-          >
+            }}>
             <Typography>{t(theme)}</Typography>
             <DropDownIcon {...iconProps} style={{ marginTop: '4px' }} />
           </Button>
@@ -182,8 +175,7 @@ const GeneralTable: React.FC = () => {
             }}
             keepMounted
             open={!!anchorMode}
-            onClose={onClose}
-          >
+            onClose={onClose}>
             {themes.map((x, i) => {
               return (
                 <div>
@@ -193,8 +185,7 @@ const GeneralTable: React.FC = () => {
                     onClick={() => {
                       setTheme(x);
                       onClose();
-                    }}
-                  >
+                    }}>
                     {t(x)}
                   </MenuItem>
                   {i + 1 === themes.length ? null : (
@@ -230,8 +221,7 @@ const GeneralTable: React.FC = () => {
           paddingLeft: themeStyle.spacing(1),
           paddingRight: themeStyle.spacing(1),
           marginTop: themeStyle.spacing(2),
-        }}
-      >
+        }}>
         <Box p={2} display="flex" alignItems="center" justifyContent="space-between">
           <Typography variant="subtitle1">{t('always require password')}</Typography>
           <Box my={-2}>

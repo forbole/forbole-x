@@ -114,8 +114,7 @@ const Layout: React.FC<LayoutProps> = ({
           marginLeft: isChromeExt
             ? 0
             : theme.spacing(isMenuExpanded ? MenuWidth.Expanded : MenuWidth.Collapsed),
-        }}
-      >
+        }}>
         {passwordRequired && isFirstTimeUser ? <GetStarted /> : null}
         {!passwordRequired || appUnlockState === 'unlocked' ? children : null}
       </Box>

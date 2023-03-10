@@ -76,15 +76,13 @@ const AddressDetailCard: React.FC<AddressDetailCardProps> = ({ address, accountB
             mb={4}
             display={isMobile ? 'block' : 'flex'}
             justifyContent="space-between"
-            alignItems="flex-start"
-          >
+            alignItems="flex-start">
             <AccountAvatar size="large" address={address} />
             <Box display="flex" mt={isMobile ? 2 : 0} ml={isMobile ? -2 : 0}>
               <Button
                 classes={{ root: classes.sendButton }}
                 variant="contained"
-                onClick={() => setSendDialogOpen(true)}
-              >
+                onClick={() => setSendDialogOpen(true)}>
                 {t('send')}
               </Button>
             </Box>

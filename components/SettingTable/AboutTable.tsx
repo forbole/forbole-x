@@ -14,8 +14,7 @@ const AboutTable: React.FC = () => {
     <Paper
       style={{
         padding: themeStyle.spacing(1),
-      }}
-    >
+      }}>
       <Link href="/settings/about-forbole-x" passHref>
         <MLink color="textPrimary">
           <Box p={2} display="flex" alignItems="center" justifyContent="space-between">
@@ -39,8 +38,7 @@ const AboutTable: React.FC = () => {
       <MLink
         href="https://www.forbole.com/terms-and-conditions"
         color="textPrimary"
-        target="_blank"
-      >
+        target="_blank">
         <Box p={2} display="flex" alignItems="center" justifyContent="space-between">
           <Typography color="textPrimary" variant="subtitle1">
             {t('terms of conditions')}

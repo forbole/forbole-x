@@ -68,8 +68,7 @@ const SelectAccountDialog: React.FC<SelectAccountDialogProps> = ({
                 variant="contained"
                 type="submit"
                 fullWidth
-                disabled={!value}
-              >
+                disabled={!value}>
                 {t('next')}
               </Button>
             </FormControl>

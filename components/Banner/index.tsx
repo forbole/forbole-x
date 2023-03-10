@@ -33,8 +33,7 @@ const Banner: React.FC = () => {
             margin: theme.spacing(0.5, 0.5, 0),
           },
         }}
-        IndicatorIcon={<Box p={0.5} borderRadius="50%" />}
-      >
+        IndicatorIcon={<Box p={0.5} borderRadius="50%" />}>
         {banners.map(banner => (
           <Link href="/dsm-airdrop" key={banner}>
             <CardMedia className={classes.bannerImage} image={banner} component="img" />

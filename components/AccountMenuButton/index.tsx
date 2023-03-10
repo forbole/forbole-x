@@ -48,8 +48,7 @@ const AccountMenuButton: React.FC<{
         }}
         keepMounted
         open={!!anchor}
-        onClose={onClose}
-      >
+        onClose={onClose}>
         {wallet && wallet.type === 'ledger' ? (
           <MenuItem
             className={classes.menuItem}
@@ -57,8 +56,7 @@ const AccountMenuButton: React.FC<{
             onClick={() => {
               setShowAddressOnLedgerDialogOpen(true);
               onClose();
-            }}
-          >
+            }}>
             {t('show address on ledger')}
           </MenuItem>
         ) : null}
@@ -68,8 +66,7 @@ const AccountMenuButton: React.FC<{
           onClick={() => {
             setChangeAccountNameOpen(true);
             onClose();
-          }}
-        >
+          }}>
           {t('change account moniker')}
         </MenuItem>
         <Box m={2}>
@@ -80,8 +77,7 @@ const AccountMenuButton: React.FC<{
             onClick={() => {
               setDeleteAccountOpen(true);
               onClose();
-            }}
-          >
+            }}>
             {t('delete account')}
           </Button>
         </Box>
