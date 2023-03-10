@@ -11,7 +11,6 @@ const useStyles = makeStyles(
       height: theme.spacing(7),
     },
     wrapText: {
-      maxWidth: theme.spacing(18),
       textOverflow: 'ellipsis',
       whiteSpace: 'unset',
       overflow: 'hidden',
