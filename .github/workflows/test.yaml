@@ -1,19 +1,42 @@
-name: Test
-on: push
+name: Tests
+# Tests runs unit tests over the entire repository.
+# This workflow is run on every pull request and push to main.
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
 jobs:
   tests:
+    name: Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install modules
-        run: yarn
-      - name: Run lint check
-        run: yarn lint
-      - name: Run unit tests
-        run: yarn test
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Compute diff 📜
+        uses: technote-space/get-diff-action@v6.1.2
+        id: git_diff
+        with:
+          PATTERNS: +(src|__tests__)/**/*.+(js|jsx|ts|tsx)
+          FILES: |
+            package.json
+            yarn.lock
+
+      - name: Install 🔨
+        if: env.GIT_DIFF
+        run: yarn install --immutable
+
+      - name: Run unit tests 🧪
+        if: env.GIT_DIFF
+        run: yarn test --coverage
+
       - name: Run build check
         run: yarn build
+
       - name: Run e2e tests
         uses: cypress-io/github-action@v2
         with:
           start: yarn start
+
