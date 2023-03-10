@@ -11,16 +11,11 @@ import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/para
 import { SoftwareUpgradeProposal } from 'cosmjs-types/cosmos/upgrade/v1beta1/upgrade';
 import { CommunityPoolSpendProposal } from 'cosmjs-types/cosmos/distribution/v1beta1/distribution';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import Long from 'long';
 import { LedgerSigner } from '@cosmjs/ledger-amino';
-import { fromBase64, fromHex } from '@cosmjs/encoding';
+import { fromHex } from '@cosmjs/encoding';
 import { DesmosClient, OfflineSignerAdapter } from '@desmoslabs/desmjs';
-import {
-  bech32AddressToAny,
-  singleSignatureToAny,
-} from '@desmoslabs/desmjs/build/aminomessages/profiles';
-import { SingleSignature } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
+import { bech32AddressToAny } from '@desmoslabs/desmjs/build/aminomessages/profiles';
 import cryptocurrencies from '../cryptocurrencies';
 import sendMsgToChromeExt from '../sendMsgToChromeExt';
 import { Bech32Address } from '../../desmos-proto/profiles/v1beta1/models_chain_links';
@@ -61,8 +56,6 @@ const formatTransactionMsg = (msg: TransactionMsg) => {
       'value.proof.pubKey.value',
       Uint8Array.from(fromHex(get(transformedMsg, 'value.proof.pubKey.value', ''))),
     );
-
-    const proof = get(transformedMsg, 'value.proof');
   }
 
   if (get(msg, 'value.content.typeUrl') === '/cosmos.gov.v1beta1.TextProposal') {

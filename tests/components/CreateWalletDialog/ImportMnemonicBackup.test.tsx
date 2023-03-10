@@ -1,6 +1,5 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import last from 'lodash/last';
 import ImportMnemonicBackup from '../../../components/CreateWalletDialog/ImportMnemonicBackup';
 
 const onConfirm = jest.fn();

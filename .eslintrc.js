@@ -44,6 +44,8 @@ module.exports = {
     endOfLine: 'off',
     indent: 'off',
     'react/jsx-closing-bracket-location': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
+    'react/jsx-wrap-multilines': ['error', { declaration: false, assignment: false }],
   },
   overrides: [
     {

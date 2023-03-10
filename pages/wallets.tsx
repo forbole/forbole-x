@@ -80,7 +80,7 @@ const Wallets: React.FC = () => {
               keepMounted
               open={!!walletsMenuAnchor}
               onClose={() => setWalletsMenuAnchor(undefined)}>
-              {wallets.map((w, i) => (
+              {wallets.map(w => (
                 <MenuItem
                   key={w.id}
                   button

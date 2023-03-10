@@ -18,7 +18,7 @@ export default async function contactUs(req, res) {
         subject: body.subject,
         text: body.text,
       },
-      function (err, info) {
+      function (err) {
         if (err) {
           res.status(500).json({ success: false, err: err.message });
         } else {

@@ -8,7 +8,7 @@ import {
 } from '@cosmjs/amino';
 import { stringToPath } from '@cosmjs/crypto';
 import { LedgerSigner } from '@cosmjs/ledger-amino';
-import { toBase64, toHex } from '@cosmjs/encoding';
+import { toHex } from '@cosmjs/encoding';
 import TerraApp from '@terra-money/ledger-terra-js';
 import {
   AuthInfo,
@@ -29,8 +29,6 @@ import {
   SignatureValueType,
   SingleSignature,
 } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
-import { SignerData } from '@cosmjs/stargate';
-import { Any } from '@desmoslabs/desmjs-types/google/protobuf/any';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import _ from 'lodash';
 import { WalletOption } from './getWalletAddress';
@@ -86,41 +84,6 @@ const signProofWithKeplr = async (proof: any, chainId: string, keplrChainInfo: C
     }
     throw err;
   }
-};
-
-const signWithMnemonic = async (signerAddress: string, mnemonic: string, option: WalletOption) => {
-  const fees: StdFee = {
-    gas: '0',
-    amount: [],
-  };
-  const signerData: any = {
-    accountNumber: '0',
-    chainId: option.chainId,
-    sequence: '0',
-  };
-
-  const signerOptions: any = {
-    hdPaths: [
-      stringToPath(
-        `m/44'/${option.coinType}'/${option.account || 0}'/${option.change || 0}/${
-          option.index || 0
-        }`,
-      ),
-    ],
-    prefix: option.prefix,
-  };
-
-  const signer = await Secp256k1HdWallet.fromMnemonic(mnemonic, signerOptions);
-  const [ac] = await signer.getAccounts();
-
-  return signer.signAmino(ac.address, {
-    msgs: [],
-    memo: signerAddress,
-    fee: fees,
-    sequence: signerData.sequence,
-    chain_id: signerData.chainId,
-    account_number: signerData.accountNumber,
-  });
 };
 
 const generateProofMnemonic = async (
@@ -311,8 +274,7 @@ const generateProof = async (
     const auth = await terraLCDClient.auth.accountInfo(terraAddress);
 
     // TerraStation Direct Signing mode
-    // @ts-ignore
-    if (signMode === 'SIGN_MODE_DIRECT') {
+    if ((signMode as string) === 'SIGN_MODE_DIRECT') {
       const txBody = get(result, 'result.body', {});
       const signDoc = new SignDoc(
         proof.chain_id,

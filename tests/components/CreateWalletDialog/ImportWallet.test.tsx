@@ -1,6 +1,5 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import last from 'lodash/last';
 import ImportWallet from '../../../components/CreateWalletDialog/ImportWallet';
 import cryptocurrencies from '../../../misc/cryptocurrencies';
 

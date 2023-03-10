@@ -1,3 +1,4 @@
+import React from 'react';
 import { renderHook, act, cleanup } from '@testing-library/react-hooks';
 import { WalletsProvider, useWalletsContext } from '../../contexts/WalletsContext';
 import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt';
