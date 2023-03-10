@@ -1,7 +1,7 @@
 import { Box, Avatar, Typography, Link, useTheme } from '@material-ui/core';
 import useTranslation from 'next-translate/useTranslation';
 import React from 'react';
-import { useGetStyles } from './styles';
+import useGetStyles from './styles';
 import { formatTokenAmount, getVoteAnswer } from '../../misc/utils';
 import useIsMobile from '../../misc/useIsMobile';
 import AccountAvatar from '../AccountAvatar';

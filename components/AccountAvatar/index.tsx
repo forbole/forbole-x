@@ -77,7 +77,7 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
       navigator.clipboard.writeText(account ? account.address : address.address);
       setIsCopySuccess(true);
     },
-    [account, address.address],
+    [account, address?.address],
   );
 
   const onClose = React.useCallback(() => {
