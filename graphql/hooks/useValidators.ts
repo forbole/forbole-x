@@ -10,7 +10,9 @@ const useValidators = (crypto: string, addresses?: string[]) => {
     gql`
       ${addresses ? getValidatorsByAddresses(crypto) : getValidators(crypto)}
     `,
-    addresses ? { variables: { addresses } } : undefined
+    addresses
+      ? { variables: { addresses }, fetchPolicy: 'cache-and-network' }
+      : { fetchPolicy: 'cache-and-network' }
   )
 
   const [fetchProfiles, { data: profilesData }] = useLazyQuery(
