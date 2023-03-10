@@ -211,7 +211,8 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       case ImportStage.ConnectLedgerDeviceStage:
         return {
           title: '',
-          step: 2,
+          // Importing crypto stage should be considered a different step
+          step: !ledgerCryptos.length ? 2 : 4,
           content: (
             <ConnectLedgerDialogContent
               onConnect={async (signer) => {
@@ -304,7 +305,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       case CommonStage.ImportLedgerWalletStage:
         return {
           title: t('import wallet title'),
-          step: stage === CommonStage.ImportLedgerWalletStage ? 2 : 5,
+          step: stage === CommonStage.ImportLedgerWalletStage ? 3 : 5,
           content: (
             <ImportWallet
               onConfirm={(name, cryptos) =>
