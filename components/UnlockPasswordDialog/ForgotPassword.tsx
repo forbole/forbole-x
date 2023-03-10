@@ -1,15 +1,15 @@
-import { Box, Button, DialogActions, DialogContent, DialogContentText } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import useStyles from './styles'
+import { Box, Button, DialogActions, DialogContent, DialogContentText } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useStyles from './styles';
 
 interface ForgotPasswordProps {
-  onReset(): void
+  onReset(): void;
 }
 
 const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onReset }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
 
   return (
     <>
@@ -28,7 +28,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onReset }) => {
         <Box my={3.5} />
       </DialogActions>
     </>
-  )
-}
+  );
+};
 
-export default ForgotPassword
+export default ForgotPassword;

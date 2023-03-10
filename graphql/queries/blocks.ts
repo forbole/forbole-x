@@ -5,7 +5,7 @@ export const getBlockByTimestamp = (crypto: string) => `
       timestamp
     }
   }
-`
+`;
 
 // export const getBlockByTimestamp = (crypto: string) => `
 //   query Block($timestamp: timestamp!) @api(name: ${crypto}bdjuno) {

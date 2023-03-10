@@ -10,28 +10,28 @@ import {
   Grid,
   CircularProgress,
   useTheme,
-} from '@material-ui/core'
-import { Autocomplete } from '@material-ui/lab'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import keyBy from 'lodash/keyBy'
-import shuffle from 'lodash/shuffle'
-import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import { formatCrypto, formatCurrency } from '../../misc/utils'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import ValidatorAvatar from '../ValidatorAvatar'
-import MemoInput from '../MemoInput'
+} from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import keyBy from 'lodash/keyBy';
+import shuffle from 'lodash/shuffle';
+import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
+import { formatCrypto, formatCurrency } from '../../misc/utils';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import ValidatorAvatar from '../ValidatorAvatar';
+import MemoInput from '../MemoInput';
 
 interface SelectValidatorsProps {
-  onConfirm(toValidator: Validator, memo: string): void
-  validators: Validator[]
-  amount: number
-  denom: string
-  crypto: Cryptocurrency
-  loading: boolean
-  availableAmount: TokenAmount
+  onConfirm(toValidator: Validator, memo: string): void;
+  validators: Validator[];
+  amount: number;
+  denom: string;
+  crypto: Cryptocurrency;
+  loading: boolean;
+  availableAmount: TokenAmount;
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
@@ -43,25 +43,25 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   loading,
   availableAmount,
 }) => {
-  const { amount: totalAmount, price } = Object.values(availableAmount)[0]
-  const { t, lang } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const { currency, currencyRate, hideAmount } = useGeneralContext()
-  const theme = useTheme()
-  const [toValidator, setToValidator] = React.useState<Validator>()
-  const [memo, setMemo] = React.useState('')
-  const [consent, setConsent] = React.useState(true)
+  const { amount: totalAmount, price } = Object.values(availableAmount)[0];
+  const { t, lang } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const { currency, currencyRate, hideAmount } = useGeneralContext();
+  const theme = useTheme();
+  const [toValidator, setToValidator] = React.useState<Validator>();
+  const [memo, setMemo] = React.useState('');
+  const [consent, setConsent] = React.useState(true);
 
-  const validatorsMap = keyBy(validators, 'address')
-  const randomizedValidators = React.useMemo(() => shuffle(validators), [])
+  const validatorsMap = keyBy(validators, 'address');
+  const randomizedValidators = React.useMemo(() => shuffle(validators), []);
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(toValidator, memo)
+      onSubmit={e => {
+        e.preventDefault();
+        onConfirm(toValidator, memo);
       }}
     >
       <DialogContent className={classes.dialogContent}>
@@ -78,16 +78,18 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               <Box display="flex" alignItems="center">
                 <Autocomplete
                   options={randomizedValidators.map(({ address }) => address)}
-                  getOptionLabel={(option) => validatorsMap[option].name}
+                  getOptionLabel={option => validatorsMap[option].name}
                   openOnFocus
                   fullWidth
                   filterOptions={(options: string[], { inputValue }: any) =>
-                    options.filter((o) =>
-                      (validatorsMap[o].name || '').toLowerCase().includes(inputValue.toLowerCase())
+                    options.filter(o =>
+                      (validatorsMap[o].name || '')
+                        .toLowerCase()
+                        .includes(inputValue.toLowerCase()),
                     )
                   }
                   onChange={(e, address) => setToValidator(validatorsMap[address])}
-                  renderOption={(address) => (
+                  renderOption={address => (
                     <ValidatorAvatar
                       crypto={crypto}
                       validator={validatorsMap[address]}
@@ -191,7 +193,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
         </Box>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default SelectValidators
+export default SelectValidators;

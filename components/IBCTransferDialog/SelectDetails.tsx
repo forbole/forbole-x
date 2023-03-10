@@ -9,27 +9,27 @@ import {
   Typography,
   CircularProgress,
   useTheme,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import get from 'lodash/get'
-import keyBy from 'lodash/keyBy'
-import { Autocomplete } from '@material-ui/lab'
-import ArrowIcon from '../../assets/images/icons/icon_arrow_right.svg'
-import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
-import useStyles from './styles'
-import cryptocurrencies from '../../misc/cryptocurrencies'
-import useIconProps from '../../misc/useIconProps'
-import AddressInput from '../AddressInput'
-import MemoInput from '../MemoInput'
-import { isAddressValid } from '../../misc/utils'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import get from 'lodash/get';
+import keyBy from 'lodash/keyBy';
+import { Autocomplete } from '@material-ui/lab';
+import ArrowIcon from '../../assets/images/icons/icon_arrow_right.svg';
+import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg';
+import useStyles from './styles';
+import cryptocurrencies from '../../misc/cryptocurrencies';
+import useIconProps from '../../misc/useIconProps';
+import AddressInput from '../AddressInput';
+import MemoInput from '../MemoInput';
+import { isAddressValid } from '../../misc/utils';
 
 interface SelectDetailsProps {
-  onConfirm(amount: number, denom: string, address: string, memo: string): void
-  account: Account
-  chainId: string
-  availableAmount: TokenAmount
-  loading: boolean
+  onConfirm(amount: number, denom: string, address: string, memo: string): void;
+  account: Account;
+  chainId: string;
+  availableAmount: TokenAmount;
+  loading: boolean;
 }
 
 const SelectDetails: React.FC<SelectDetailsProps> = ({
@@ -39,29 +39,29 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
   chainId,
   loading,
 }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const theme = useTheme()
-  const [amount, setAmount] = React.useState('')
-  const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
-  const [address, setAddress] = React.useState('')
-  const [memo, setMemo] = React.useState('')
-  const [consent, setConsent] = React.useState(true)
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const theme = useTheme();
+  const [amount, setAmount] = React.useState('');
+  const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0]);
+  const [address, setAddress] = React.useState('');
+  const [memo, setMemo] = React.useState('');
+  const [consent, setConsent] = React.useState(true);
 
-  const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount)
+  const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount);
 
-  const chainMap = keyBy(cryptocurrencies[account.crypto].ibcChains, 'chainId')
+  const chainMap = keyBy(cryptocurrencies[account.crypto].ibcChains, 'chainId');
 
-  const sourceChain = chainMap[cryptocurrencies[account.crypto].chainId]
-  const destinationChain = chainMap[chainId]
+  const sourceChain = chainMap[cryptocurrencies[account.crypto].chainId];
+  const destinationChain = chainMap[chainId];
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(Number(amount), denom, address, memo)
+      onSubmit={e => {
+        e.preventDefault();
+        onConfirm(Number(amount), denom, address, memo);
       }}
     >
       <DialogContent className={classes.dialogContent}>
@@ -95,11 +95,11 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
           <Typography>{t('token')}</Typography>
           <Autocomplete
             options={Object.keys(availableAmount)}
-            getOptionLabel={(token) => token}
+            getOptionLabel={token => token}
             openOnFocus
             fullWidth
             filterOptions={(options: string[], { inputValue }: any) =>
-              options.filter((token) => token.toLowerCase().includes(inputValue.toLowerCase()))
+              options.filter(token => token.toLowerCase().includes(inputValue.toLowerCase()))
             }
             onChange={(_e, token: string) => setDenom(token)}
             renderInput={({ InputProps, ...params }) => (
@@ -127,7 +127,7 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
             type="number"
             variant="filled"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={e => setAmount(e.target.value)}
             fullWidth
             InputProps={{ disableUnderline: true }}
             error={insufficientFund}
@@ -167,7 +167,7 @@ const SelectDetails: React.FC<SelectDetailsProps> = ({
         </Button>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default SelectDetails
+export default SelectDetails;

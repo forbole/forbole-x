@@ -8,77 +8,77 @@ import {
   IconButton,
   TextField,
   Typography,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import useStyles from './styles'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import useIconProps from '../../misc/useIconProps'
-import useIsMobile from '../../misc/useIsMobile'
-import { FavAddress } from './index'
-import cryptocurrencies from '../../misc/cryptocurrencies'
-import { isAddressValid } from '../../misc/utils'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import CloseIcon from '../../assets/images/icons/icon_cross.svg';
+import useStyles from './styles';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import useIconProps from '../../misc/useIconProps';
+import useIsMobile from '../../misc/useIsMobile';
+import { FavAddress } from './index';
+import cryptocurrencies from '../../misc/cryptocurrencies';
+import { isAddressValid } from '../../misc/utils';
 
 interface UpdatedAddress extends FavAddress {
-  newAddress: string
+  newAddress: string;
 }
 
 interface EditAddressDialogProps {
-  currentAddress: FavAddress
-  open: boolean
-  onClose(): void
+  currentAddress: FavAddress;
+  open: boolean;
+  onClose(): void;
 }
 
 const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, open, onClose }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const { updateFavAddresses } = useGeneralContext()
-  const isMobile = useIsMobile()
-  const [monikerError, setMonikerError] = React.useState('')
-  const [addressError, setAddressError] = React.useState('')
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const { updateFavAddresses } = useGeneralContext();
+  const isMobile = useIsMobile();
+  const [monikerError, setMonikerError] = React.useState('');
+  const [addressError, setAddressError] = React.useState('');
 
   const [updatedAddress, setUpdatedAddress] = React.useState<UpdatedAddress>({
     ...currentAddress,
     newAddress: currentAddress.address,
-  })
+  });
 
-  const onButtonClick = (e) => {
+  const onButtonClick = e => {
     if (updatedAddress.moniker === '') {
-      setMonikerError(t('moniker warning'))
+      setMonikerError(t('moniker warning'));
     } else if (
       !isAddressValid(cryptocurrencies[updatedAddress.crypto].prefix, updatedAddress.newAddress)
     ) {
-      setAddressError(t('invalid address', { crypto: updatedAddress.crypto }))
+      setAddressError(t('invalid address', { crypto: updatedAddress.crypto }));
     } else {
-      onSubmit(e)
+      onSubmit(e);
     }
-  }
+  };
 
   const onSubmit = React.useCallback(
-    async (e) => {
+    async e => {
       try {
-        e.preventDefault()
-        await updateFavAddresses(updatedAddress)
-        onClose()
+        e.preventDefault();
+        await updateFavAddresses(updatedAddress);
+        onClose();
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     },
-    [updateFavAddresses, updatedAddress]
-  )
+    [updateFavAddresses, updatedAddress],
+  );
 
   React.useEffect(() => {
     if (open) {
-      setMonikerError('')
-      setAddressError('')
+      setMonikerError('');
+      setAddressError('');
       setUpdatedAddress({
         ...currentAddress,
         newAddress: currentAddress.address,
-      })
+      });
     }
-  }, [open])
+  }, [open]);
 
   return (
     <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
@@ -88,9 +88,9 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
       <DialogTitle>{t('edit address')}</DialogTitle>
       <form
         noValidate
-        onSubmit={(e) => {
-          e.preventDefault()
-          onButtonClick(e)
+        onSubmit={e => {
+          e.preventDefault();
+          onButtonClick(e);
         }}
       >
         <DialogContent>
@@ -106,7 +106,7 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
               error={!!monikerError}
               helperText={monikerError}
               value={updatedAddress.moniker}
-              onChange={(e) =>
+              onChange={e =>
                 setUpdatedAddress({
                   address: updatedAddress.address,
                   img: updatedAddress.img,
@@ -130,7 +130,7 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
               error={!!addressError}
               helperText={addressError}
               value={updatedAddress.newAddress}
-              onChange={(e) =>
+              onChange={e =>
                 setUpdatedAddress({
                   address: updatedAddress.address,
                   img: updatedAddress.img,
@@ -155,7 +155,7 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
               }}
               placeholder={t('optional')}
               value={updatedAddress.note}
-              onChange={(e) =>
+              onChange={e =>
                 setUpdatedAddress({
                   address: updatedAddress.address,
                   img: updatedAddress.img,
@@ -180,7 +180,7 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
         </DialogActions>
       </form>
     </Dialog>
-  )
-}
+  );
+};
 
-export default EditAddressDialog
+export default EditAddressDialog;

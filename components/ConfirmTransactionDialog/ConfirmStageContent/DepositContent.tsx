@@ -1,16 +1,16 @@
-import { Divider, Typography, Box } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils'
+import { Divider, Typography, Box } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils';
 
 interface DepositContentProps {
-  msgs: TransactionMsgDeposit[]
-  account: Account
-  denoms: TokenPrice[]
+  msgs: TransactionMsgDeposit[];
+  account: Account;
+  denoms: TokenPrice[];
 }
 
 const DepositContent: React.FC<DepositContentProps> = ({ msgs, account, denoms }) => {
-  const { t, lang } = useTranslation('common')
+  const { t, lang } = useTranslation('common');
 
   return (
     <>
@@ -45,7 +45,7 @@ const DepositContent: React.FC<DepositContentProps> = ({ msgs, account, denoms }
         </React.Fragment>
       ))}
     </>
-  )
-}
+  );
+};
 
-export default DepositContent
+export default DepositContent;

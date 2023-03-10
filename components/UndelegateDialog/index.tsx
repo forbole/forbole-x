@@ -1,24 +1,24 @@
 /* eslint-disable camelcase */
-import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import SelectValidators from './SelectValidators'
-import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
-import cryptocurrencies from '../../misc/cryptocurrencies'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import useIsMobile from '../../misc/useIsMobile'
-import useSendTransaction from '../../misc/tx/useSendTransaction'
+import { Dialog, DialogTitle, IconButton } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import CloseIcon from '../../assets/images/icons/icon_cross.svg';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
+import SelectValidators from './SelectValidators';
+import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils';
+import cryptocurrencies from '../../misc/cryptocurrencies';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import useIsMobile from '../../misc/useIsMobile';
+import useSendTransaction from '../../misc/tx/useSendTransaction';
 
 interface UndelegationDialogProps {
-  account: Account
-  validator: Validator
-  delegatedTokens: Array<{ amount: string; denom: string }>
-  tokensPrices: TokenPrice[]
-  open: boolean
-  onClose(): void
+  account: Account;
+  validator: Validator;
+  delegatedTokens: Array<{ amount: string; denom: string }>;
+  tokensPrices: TokenPrice[];
+  open: boolean;
+  onClose(): void;
 }
 
 const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
@@ -29,29 +29,29 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
   delegatedTokens,
   tokensPrices,
 }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const { password } = useWalletsContext()
-  const isMobile = useIsMobile()
-  const sendTransaction = useSendTransaction()
-  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
-  const [loading, setLoading] = React.useState(false)
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const { password } = useWalletsContext();
+  const isMobile = useIsMobile();
+  const sendTransaction = useSendTransaction();
+  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0];
+  const [loading, setLoading] = React.useState(false);
 
   const availableAmount = React.useMemo(
     () => getTokenAmountFromDenoms(delegatedTokens, tokensPrices),
-    [delegatedTokens, tokensPrices, crypto]
-  )
+    [delegatedTokens, tokensPrices, crypto],
+  );
 
   const confirm = React.useCallback(
     async (amount: number, denom: string, memo: string) => {
       try {
-        setLoading(true)
+        setLoading(true);
         const coinsToSend = getEquivalentCoinToSend(
           { amount, denom },
           delegatedTokens,
-          tokensPrices
-        )
+          tokensPrices,
+        );
         await sendTransaction(password, account.address, {
           msgs: [
             {
@@ -64,21 +64,21 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
             },
           ],
           memo,
-        })
-        setLoading(false)
-        onClose()
+        });
+        setLoading(false);
+        onClose();
       } catch (err) {
-        setLoading(false)
+        setLoading(false);
       }
     },
-    [delegatedTokens, tokensPrices, account, password, account, sendTransaction]
-  )
+    [delegatedTokens, tokensPrices, account, password, account, sendTransaction],
+  );
 
   React.useEffect(() => {
     if (open) {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [open])
+  }, [open]);
 
   return (
     <Dialog fullWidth maxWidth="md" open={open} onClose={onClose} fullScreen={isMobile}>
@@ -94,7 +94,7 @@ const UndelegationDialog: React.FC<UndelegationDialogProps> = ({
         loading={loading}
       />
     </Dialog>
-  )
-}
+  );
+};
 
-export default UndelegationDialog
+export default UndelegationDialog;

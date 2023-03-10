@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   Table,
   TableHead,
@@ -9,46 +9,46 @@ import {
   useTheme,
   IconButton,
   TableSortLabel,
-} from '@material-ui/core'
-import { gql, useQuery } from '@apollo/client'
-import useTranslation from 'next-translate/useTranslation'
-import keyBy from 'lodash/keyBy'
-import get from 'lodash/get'
-import { ArrowDropDown } from '@material-ui/icons'
-import { useRouter } from 'next/router'
-import TablePagination from '../TablePagination'
-import InActiveStatus from './InActive'
-import { useGetStyles } from './styles'
-import useIconProps from '../../misc/useIconProps'
-import { getSlashingParams } from '../../graphql/queries/validators'
+} from '@material-ui/core';
+import { gql, useQuery } from '@apollo/client';
+import useTranslation from 'next-translate/useTranslation';
+import keyBy from 'lodash/keyBy';
+import get from 'lodash/get';
+import { ArrowDropDown } from '@material-ui/icons';
+import { useRouter } from 'next/router';
+import TablePagination from '../TablePagination';
+import InActiveStatus from './InActive';
+import { useGetStyles } from './styles';
+import useIconProps from '../../misc/useIconProps';
+import { getSlashingParams } from '../../graphql/queries/validators';
 import {
   formatPercentage,
   formatCrypto,
   getValidatorCondition,
   getValidatorConditionClass,
-} from '../../misc/utils'
-import StarIcon from '../../assets/images/icons/icon_star.svg'
-import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import { useTableDefaultHook } from './hooks'
-import DelegationDialog from '../DelegationDialog'
-import InfoPopover from './InfoPopover'
-import ValidatorAvatar from '../ValidatorAvatar'
-import Condition from '../Condition'
+} from '../../misc/utils';
+import StarIcon from '../../assets/images/icons/icon_star.svg';
+import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import { useTableDefaultHook } from './hooks';
+import DelegationDialog from '../DelegationDialog';
+import InfoPopover from './InfoPopover';
+import ValidatorAvatar from '../ValidatorAvatar';
+import Condition from '../Condition';
 
 interface ValidatorsTableProps {
-  validators: Validator[]
-  crypto: any
-  account: Account
-  onToggle?: any
-  alignRight?: boolean
-  initialActiveSort?: string
-  initialSortDirection?: 'asc' | 'desc'
+  validators: Validator[];
+  crypto: any;
+  account: Account;
+  onToggle?: any;
+  alignRight?: boolean;
+  initialActiveSort?: string;
+  initialSortDirection?: 'asc' | 'desc';
   pagination?: {
-    rowsPerPage: number | undefined
-  }
-  availableTokens: AvailableTokens
-  currentTab: number
+    rowsPerPage: number | undefined;
+  };
+  availableTokens: AvailableTokens;
+  currentTab: number;
 }
 
 const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
@@ -62,36 +62,36 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
   availableTokens,
   currentTab,
 }) => {
-  const { classes } = useGetStyles()
-  const { t, lang } = useTranslation('common')
-  const theme = useTheme()
-  const iconProps = useIconProps()
-  const { addFavValidators, deleteFavValidators, favValidators } = useGeneralContext()
-  const [delegatingValidator, setDelegatingValidator] = React.useState<Validator>()
-  const router = useRouter()
-  const validatorsMap = keyBy(validators, 'address')
+  const { classes } = useGetStyles();
+  const { t, lang } = useTranslation('common');
+  const theme = useTheme();
+  const iconProps = useIconProps();
+  const { addFavValidators, deleteFavValidators, favValidators } = useGeneralContext();
+  const [delegatingValidator, setDelegatingValidator] = React.useState<Validator>();
+  const router = useRouter();
+  const validatorsMap = keyBy(validators, 'address');
 
   const { data: paramsData } = useQuery(
     gql`
       ${getSlashingParams(get(crypto, 'name', ''))}
-    `
-  )
+    `,
+  );
   const slashingParams = get(paramsData, ['slashing_params', 0, 'params'], {
     signed_blocks_window: 0,
-  })
-  const signedBlockWindow = slashingParams.signed_blocks_window
+  });
+  const signedBlockWindow = slashingParams.signed_blocks_window;
 
   const totalVotingPower = React.useMemo(
-    () => validators.map((v) => v.votingPower).reduce((a, b) => a + b, 0),
-    [validators]
-  )
+    () => validators.map(v => v.votingPower).reduce((a, b) => a + b, 0),
+    [validators],
+  );
 
   const { handleChangePage, handleChangeRowsPerPage, handleSort, state } = useTableDefaultHook({
     data: validators,
     rowsPerPageCount: pagination?.rowsPerPage,
     initialActiveSort,
     initialSortDirection,
-  })
+  });
 
   const columns = [
     {
@@ -129,26 +129,26 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
       lableAlign: alignRight,
       detail: 'status popover detail',
     },
-  ]
+  ];
 
   const toggleFav = (validator: Validator) => {
     if (favValidators.includes(validator.address)) {
-      deleteFavValidators(validator.address)
+      deleteFavValidators(validator.address);
     } else {
-      addFavValidators(validator.address)
+      addFavValidators(validator.address);
     }
-  }
+  };
 
   React.useEffect(() => {
-    handleChangePage(0)
-  }, [currentTab])
+    handleChangePage(0);
+  }, [currentTab]);
 
   return (
     <Box mt={2}>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            {columns.map((column) => {
+            {columns.map(column => {
               if (column.sort) {
                 return (
                   <TableCell key={column.label}>
@@ -162,7 +162,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                       {column.display ? t(column.display) : ''}
                     </TableSortLabel>
                   </TableCell>
-                )
+                );
               }
               return (
                 <TableCell key={column.label} className={classes.table__label}>
@@ -173,7 +173,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                     ) : null}
                   </Box>
                 </TableCell>
-              )
+              );
             })}
           </TableRow>
         </TableHead>
@@ -181,15 +181,15 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
           {state.data
             .slice(
               state.page * state.rowsPerPage,
-              state.page * state.rowsPerPage + state.rowsPerPage
+              state.page * state.rowsPerPage + state.rowsPerPage,
             )
-            .map((v) => {
-              const missedBlockCounter = get(validatorsMap, [v.address, 'missedBlockCounter'], 0)
-              const conditionClass = getValidatorCondition(signedBlockWindow, missedBlockCounter)
+            .map(v => {
+              const missedBlockCounter = get(validatorsMap, [v.address, 'missedBlockCounter'], 0);
+              const conditionClass = getValidatorCondition(signedBlockWindow, missedBlockCounter);
               const condition =
                 get(validatorsMap, [v.address, 'status'], '') === 'active'
                   ? getValidatorConditionClass(conditionClass)
-                  : undefined
+                  : undefined;
               return (
                 <TableRow key={v.address} className={classes.tableRow}>
                   <TableCell className={classes.tableCell}>
@@ -214,8 +214,9 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                   </TableCell>
                   <TableCell className={classes.tableCell}>
                     {formatCrypto(v.votingPower, { unit: crypto.name, lang })} (
-                    {formatPercentage(v.votingPower / totalVotingPower, lang)})
-                  </TableCell>
+                    {formatPercentage(v.votingPower / totalVotingPower, lang)}
+)
+</TableCell>
                   {/* <TableCell className={classes.tableCell}>
                     {formatPercentage(v.selfRatio, lang)}
                   </TableCell> */}
@@ -234,7 +235,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                     )}
                   </TableCell>
                 </TableRow>
-              )
+              );
             })}
         </TableBody>
       </Table>
@@ -256,7 +257,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
         />
       ) : null}
     </Box>
-  )
-}
+  );
+};
 
-export default ValidatorsTable
+export default ValidatorsTable;

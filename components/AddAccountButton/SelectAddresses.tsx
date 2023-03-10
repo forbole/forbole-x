@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-await-in-loop */
-import React from 'react'
+import React from 'react';
 import {
   Box,
   DialogTitle,
@@ -17,30 +17,30 @@ import {
   useTheme,
   CircularProgress,
   TextField,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import times from 'lodash/times'
-import TablePagination from '../TablePagination'
-import useStyles from './styles'
-import getWalletAddress from '../../misc/tx/getWalletAddress'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import { fetchAccountBalance } from '../../graphql/fetch/accountBalances'
-import { formatTokenAmount } from '../../misc/utils'
-import { CustomTheme } from '../../misc/theme'
-import cryptocurrencies from '../../misc/cryptocurrencies'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import times from 'lodash/times';
+import TablePagination from '../TablePagination';
+import useStyles from './styles';
+import getWalletAddress from '../../misc/tx/getWalletAddress';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import { fetchAccountBalance } from '../../graphql/fetch/accountBalances';
+import { formatTokenAmount } from '../../misc/utils';
+import { CustomTheme } from '../../misc/theme';
+import cryptocurrencies from '../../misc/cryptocurrencies';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
-const MAX_ADDRESSES = 100
-let inputTimeout
+const MAX_ADDRESSES = 100;
+let inputTimeout;
 
 interface SelectAddressesProps {
   onSelect: (
-    addresses: Array<{ address: string; index: number; account: number; change: number }>
-  ) => void
-  walletId: string
-  securityPassword: string
-  ledgerTransport?: any
-  crypto: string
+    addresses: Array<{ address: string; index: number; account: number; change: number }>,
+  ) => void;
+  walletId: string;
+  securityPassword: string;
+  ledgerTransport?: any;
+  crypto: string;
 }
 
 const SelectAddresses: React.FC<SelectAddressesProps> = ({
@@ -50,34 +50,34 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
   crypto,
   ledgerTransport,
 }) => {
-  const { t, lang } = useTranslation('common')
-  const classes = useStyles()
-  const { hideAmount } = useGeneralContext()
-  const theme: CustomTheme = useTheme()
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const { t, lang } = useTranslation('common');
+  const classes = useStyles();
+  const { hideAmount } = useGeneralContext();
+  const theme: CustomTheme = useTheme();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [addresses, setAddresses] = React.useState<
     Array<{ address: string; balance: TokenAmount }>
-  >(times(10).map(() => ({ address: '', balance: {} })))
+  >(times(10).map(() => ({ address: '', balance: {} })));
   const [selectedAddresses, setSelectedAddresses] = React.useState<
     Array<{ address: string; index: number; account: number; change: number }>
-  >([])
-  const [loading, setLoading] = React.useState(false)
+  >([]);
+  const [loading, setLoading] = React.useState(false);
   // Advanced account
-  const [isAdvance, setIsAdvance] = React.useState(false)
-  const [hdAccount, setHdAccount] = React.useState('')
-  const [hdIndex, setHdIndex] = React.useState('')
-  const [hdChange, setHdChange] = React.useState('')
-  const [hdAddress, setHdAddress] = React.useState({ address: '', balance: {} })
+  const [isAdvance, setIsAdvance] = React.useState(false);
+  const [hdAccount, setHdAccount] = React.useState('');
+  const [hdIndex, setHdIndex] = React.useState('');
+  const [hdChange, setHdChange] = React.useState('');
+  const [hdAddress, setHdAddress] = React.useState({ address: '', balance: {} });
 
-  const { viewMnemonicPhrase, accounts, wallets } = useWalletsContext()
-  const existingAddresses = accounts.map((a) => a.address)
-  const wallet = wallets.find((w) => w.id === walletId)
+  const { viewMnemonicPhrase, accounts, wallets } = useWalletsContext();
+  const existingAddresses = accounts.map(a => a.address);
+  const wallet = wallets.find(w => w.id === walletId);
 
   const updateAddresses = React.useCallback(async () => {
     try {
-      setLoading(true)
-      const mnemonic = await viewMnemonicPhrase(walletId, securityPassword)
+      setLoading(true);
+      const mnemonic = await viewMnemonicPhrase(walletId, securityPassword);
       if (isAdvance && hdAccount !== '' && hdIndex !== '') {
         const address = await getWalletAddress(
           mnemonic,
@@ -89,12 +89,12 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
             ledgerAppName: cryptocurrencies[crypto].ledgerAppName,
             coinType: cryptocurrencies[crypto].coinType,
           },
-          ledgerTransport
-        )
-        const { total: balance } = await fetchAccountBalance(address, crypto, true)
-        setHdAddress({ address, balance })
+          ledgerTransport,
+        );
+        const { total: balance } = await fetchAccountBalance(address, crypto, true);
+        setHdAddress({ address, balance });
       } else if (!isAdvance) {
-        const newAddresses = []
+        const newAddresses = [];
         for (let i = page * rowsPerPage; i < (page + 1) * rowsPerPage; i += 1) {
           const address = await getWalletAddress(
             mnemonic,
@@ -106,16 +106,16 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
               ledgerAppName: cryptocurrencies[crypto].ledgerAppName,
               coinType: cryptocurrencies[crypto].coinType,
             },
-            ledgerTransport
-          )
-          const { total: balance } = await fetchAccountBalance(address, crypto, true)
-          newAddresses.push({ address, balance })
+            ledgerTransport,
+          );
+          const { total: balance } = await fetchAccountBalance(address, crypto, true);
+          newAddresses.push({ address, balance });
         }
-        setAddresses(newAddresses)
+        setAddresses(newAddresses);
       }
-      setLoading(false)
+      setLoading(false);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   }, [
     page,
@@ -128,22 +128,22 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
     hdAccount,
     hdChange,
     hdIndex,
-  ])
+  ]);
 
   React.useEffect(() => {
     if (!isAdvance) {
-      updateAddresses()
+      updateAddresses();
     } else {
-      clearTimeout(inputTimeout)
-      inputTimeout = setTimeout(updateAddresses, 500)
+      clearTimeout(inputTimeout);
+      inputTimeout = setTimeout(updateAddresses, 500);
     }
-  }, [page, rowsPerPage, hdAccount, hdIndex, hdChange, isAdvance])
+  }, [page, rowsPerPage, hdAccount, hdIndex, hdChange, isAdvance]);
 
   return (
     <form
       noValidate
-      onSubmit={async (e) => {
-        e.preventDefault()
+      onSubmit={async e => {
+        e.preventDefault();
         onSelect(
           isAdvance
             ? [
@@ -154,8 +154,8 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
                   change: Number(hdChange) || 0,
                 },
               ]
-            : selectedAddresses
-        )
+            : selectedAddresses,
+        );
       }}
     >
       <DialogTitle>{t('add account')}</DialogTitle>
@@ -169,7 +169,11 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
           <Typography gutterBottom>{t('advanced account')}</Typography>
           <Typography gutterBottom>{t('enter hd path')}</Typography>
           <Box display="flex" alignItems="center">
-            <Typography>m/44'/{cryptocurrencies[crypto].coinType}'/</Typography>
+            <Typography>
+              m/44'/
+              {cryptocurrencies[crypto].coinType}
+              '/
+            </Typography>
             <Box mx={2}>
               <TextField
                 fullWidth
@@ -179,7 +183,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
                   disableUnderline: true,
                 }}
                 value={hdAccount}
-                onChange={(e) => setHdAccount(e.target.value)}
+                onChange={e => setHdAccount(e.target.value)}
               />
             </Box>
             {wallet.type === 'mnemonic' ? (
@@ -194,7 +198,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
                       disableUnderline: true,
                     }}
                     value={hdChange}
-                    onChange={(e) => setHdChange(e.target.value)}
+                    onChange={e => setHdChange(e.target.value)}
                   />
                 </Box>
                 <Typography>'/</Typography>
@@ -211,7 +215,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
                   disableUnderline: true,
                 }}
                 value={hdIndex}
-                onChange={(e) => setHdIndex(e.target.value)}
+                onChange={e => setHdIndex(e.target.value)}
               />
             </Box>
           </Box>
@@ -220,7 +224,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
               <Box mt={2}>
                 <Typography>{t('account')}</Typography>
                 <Typography color="textSecondary">{hdAddress.address}</Typography>
-                {accounts.find((a) => a.address === hdAddress.address) ? (
+                {accounts.find(a => a.address === hdAddress.address) ? (
                   <Typography color="error">{t('address already exist')}</Typography>
                 ) : null}
               </Box>
@@ -254,11 +258,11 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
 
             <TableBody>
               {addresses.map(({ address, balance }, i) => {
-                const account = page * rowsPerPage + i
+                const account = page * rowsPerPage + i;
                 const color =
                   loading || existingAddresses.includes(address)
                     ? theme.palette.text.disabled
-                    : 'inherit'
+                    : 'inherit';
                 return (
                   <TableRow key={account} className={classes.tableRow}>
                     <TableCell className={classes.tableCell}>
@@ -266,14 +270,14 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
                         className={classes.checkbox}
                         disabled={loading || existingAddresses.includes(address)}
                         checked={
-                          !!selectedAddresses.find((a) => a.account === account) ||
+                          !!selectedAddresses.find(a => a.account === account) ||
                           existingAddresses.includes(address)
                         }
-                        onChange={(e) =>
-                          setSelectedAddresses((a) =>
+                        onChange={e =>
+                          setSelectedAddresses(a =>
                             e.target.checked
                               ? [...a, { address, account, index: 0, change: 0 }]
-                              : a.filter((aa) => aa.account !== account)
+                              : a.filter(aa => aa.account !== account),
                           )
                         }
                         color="primary"
@@ -294,7 +298,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
                       </Typography>
                     </TableCell>
                   </TableRow>
-                )
+                );
               })}
             </TableBody>
             {loading ? (
@@ -338,7 +342,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
           disabled={
             loading ||
             (isAdvance
-              ? !hdAddress.address || !!accounts.find((a) => a.address === hdAddress.address)
+              ? !hdAddress.address || !!accounts.find(a => a.address === hdAddress.address)
               : selectedAddresses.length === 0)
           }
         >
@@ -346,7 +350,7 @@ const SelectAddresses: React.FC<SelectAddressesProps> = ({
         </Button>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default SelectAddresses
+export default SelectAddresses;

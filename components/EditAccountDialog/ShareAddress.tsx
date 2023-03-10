@@ -6,40 +6,40 @@ import {
   Divider,
   Typography,
   useTheme,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { Alert } from '@material-ui/lab'
-import QRCode from 'qrcode.react'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import { Alert } from '@material-ui/lab';
+import QRCode from 'qrcode.react';
 import {
   FacebookShareButton,
   TwitterShareButton,
   TelegramShareButton,
   WhatsappShareButton,
   EmailShareButton,
-} from 'react-share'
-import FacebookIcon from '../../assets/images/icons/facebook.svg'
-import TwitterIcon from '../../assets/images/icons/twitter.svg'
-import TelegramIcon from '../../assets/images/icons/telegram.svg'
-import WhatsappIcon from '../../assets/images/icons/whatsapp.svg'
-import EmailIcon from '../../assets/images/icons/gmail.svg'
-import useStyles from './styles'
-import { CustomTheme } from '../../misc/theme'
+} from 'react-share';
+import FacebookIcon from '../../assets/images/icons/facebook.svg';
+import TwitterIcon from '../../assets/images/icons/twitter.svg';
+import TelegramIcon from '../../assets/images/icons/telegram.svg';
+import WhatsappIcon from '../../assets/images/icons/whatsapp.svg';
+import EmailIcon from '../../assets/images/icons/gmail.svg';
+import useStyles from './styles';
+import { CustomTheme } from '../../misc/theme';
 
 interface ShareAddressProps {
-  address: string
+  address: string;
 }
 
 const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const theme: CustomTheme = useTheme()
-  const [isCopySuccess, setIsCopySuccess] = React.useState(false)
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const theme: CustomTheme = useTheme();
+  const [isCopySuccess, setIsCopySuccess] = React.useState(false);
 
   const copyText = React.useCallback(() => {
-    navigator.clipboard.writeText(address)
-    setIsCopySuccess(true)
-  }, [address])
+    navigator.clipboard.writeText(address);
+    setIsCopySuccess(true);
+  }, [address]);
 
   return (
     <>
@@ -157,7 +157,7 @@ const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
         </Alert>
       </Snackbar>
     </>
-  )
-}
+  );
+};
 
-export default ShareAddress
+export default ShareAddress;

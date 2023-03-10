@@ -1,14 +1,14 @@
-import { Box, Button, DialogActions, DialogContent, DialogTitle, Divider } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import useStyles from './styles'
+import { Box, Button, DialogActions, DialogContent, DialogTitle, Divider } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useStyles from './styles';
 
 interface SelectMenuProps {
-  wallet: Wallet
-  changeWalletMoniker(): void
-  changeSecurityPassword(): void
-  checkMnemonicPhrase(): void
-  deleteWallet(): void
+  wallet: Wallet;
+  changeWalletMoniker(): void;
+  changeSecurityPassword(): void;
+  checkMnemonicPhrase(): void;
+  deleteWallet(): void;
 }
 
 const SelectMenu: React.FC<SelectMenuProps> = ({
@@ -18,8 +18,8 @@ const SelectMenu: React.FC<SelectMenuProps> = ({
   checkMnemonicPhrase,
   deleteWallet,
 }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
 
   return (
     <>
@@ -61,7 +61,7 @@ const SelectMenu: React.FC<SelectMenuProps> = ({
         </Button>
       </DialogActions>
     </>
-  )
-}
+  );
+};
 
-export default SelectMenu
+export default SelectMenu;

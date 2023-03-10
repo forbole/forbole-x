@@ -10,35 +10,35 @@ import {
   Box,
   Avatar,
   useTheme,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import format from 'date-fns/format'
-import LogoLight from '../../assets/images/image_default_light.svg'
-import LogoDark from '../../assets/images/image_default_dark.svg'
-import ConnectIcon from '../../assets/images/icons/icon_connect.svg'
-import useStyles from './styles'
-import connectableChains from '../../misc/connectableChains'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import useIconProps from '../../misc/useIconProps'
-import useSendTransaction from '../../misc/tx/useSendTransaction'
-import { useWalletsContext } from '../../contexts/WalletsContext'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import format from 'date-fns/format';
+import LogoLight from '../../assets/images/image_default_light.svg';
+import LogoDark from '../../assets/images/image_default_dark.svg';
+import ConnectIcon from '../../assets/images/icons/icon_connect.svg';
+import useStyles from './styles';
+import connectableChains from '../../misc/connectableChains';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import useIconProps from '../../misc/useIconProps';
+import useSendTransaction from '../../misc/tx/useSendTransaction';
+import { useWalletsContext } from '../../contexts/WalletsContext';
 
 interface StartProps {
-  account: Account
-  onConnectClick(): void
-  onClose(): void
-  connections: ChainConnection[]
+  account: Account;
+  onConnectClick(): void;
+  onClose(): void;
+  connections: ChainConnection[];
 }
 
 const Start: React.FC<StartProps> = ({ onConnectClick, connections, account, onClose }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const { theme } = useGeneralContext()
-  const themeStyle = useTheme()
-  const sendTransaction = useSendTransaction()
-  const { password } = useWalletsContext()
-  const iconProps = useIconProps(undefined, themeStyle.palette.primary.main)
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const { theme } = useGeneralContext();
+  const themeStyle = useTheme();
+  const sendTransaction = useSendTransaction();
+  const { password } = useWalletsContext();
+  const iconProps = useIconProps(undefined, themeStyle.palette.primary.main);
 
   return (
     <DialogContent className={classes.dialogContent}>
@@ -57,7 +57,7 @@ const Start: React.FC<StartProps> = ({ onConnectClick, connections, account, onC
 
             <TableBody>
               {connections.map(({ creationTime, externalAddress, chainName }, i) => {
-                const chain = connectableChains[chainName]
+                const chain = connectableChains[chainName];
                 return (
                   <TableRow key={chainName + externalAddress} className={classes.borderedTableRow}>
                     <TableCell className={classes.tableCell}>
@@ -93,15 +93,15 @@ const Start: React.FC<StartProps> = ({ onConnectClick, connections, account, onC
                               },
                             ],
                             memo: '',
-                          })
-                          onClose()
+                          });
+                          onClose();
                         }}
                       >
                         {t('disconnect')}
                       </Button>
                     </TableCell>
                   </TableRow>
-                )
+                );
               })}
             </TableBody>
           </Table>
@@ -132,7 +132,7 @@ const Start: React.FC<StartProps> = ({ onConnectClick, connections, account, onC
         </Box>
       )}
     </DialogContent>
-  )
-}
+  );
+};
 
-export default Start
+export default Start;

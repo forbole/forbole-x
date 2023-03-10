@@ -6,33 +6,33 @@ import {
   DialogTitle,
   IconButton,
   Typography,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import useStyles from './styles'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import useIconProps from '../../misc/useIconProps'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import CloseIcon from '../../assets/images/icons/icon_cross.svg';
+import useStyles from './styles';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import useIconProps from '../../misc/useIconProps';
 
 interface DeleteAccountDialogProps {
-  account: Account
-  open: boolean
-  onClose(): void
+  account: Account;
+  open: boolean;
+  onClose(): void;
 }
 
 const DeleteAccountDialog: React.FC<DeleteAccountDialogProps> = ({ account, open, onClose }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const { deleteAccount } = useWalletsContext()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const { deleteAccount } = useWalletsContext();
 
   const onButtonClick = React.useCallback(async () => {
     try {
-      await deleteAccount(account.address, account.walletId)
+      await deleteAccount(account.address, account.walletId);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }, [deleteAccount, account])
+  }, [deleteAccount, account]);
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -62,7 +62,7 @@ const DeleteAccountDialog: React.FC<DeleteAccountDialogProps> = ({ account, open
         </Button>
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};
 
-export default DeleteAccountDialog
+export default DeleteAccountDialog;

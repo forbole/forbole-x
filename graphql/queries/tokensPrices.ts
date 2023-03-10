@@ -16,4 +16,4 @@ query TokenPrice @api(name: ${crypto}bdjuno) {
       }
     }
   }
-`
+`;

@@ -1,15 +1,15 @@
-import { Typography } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { useGetStyles } from './styles'
+import { Typography } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import { useGetStyles } from './styles';
 
 interface ActiveProps {
-  proposal: Proposal
+  proposal: Proposal;
 }
 
 const VoteTime: React.FC<ActiveProps> = ({ proposal }) => {
-  const { classes } = useGetStyles()
-  const { t } = useTranslation('common')
+  const { classes } = useGetStyles();
+  const { t } = useTranslation('common');
 
   return (
     <Typography variant="subtitle1" color="textSecondary">
@@ -18,7 +18,7 @@ const VoteTime: React.FC<ActiveProps> = ({ proposal }) => {
         {`(${proposal.duration} ${proposal.duration > 1 ? t('days') : t('day')})`}
       </span>
     </Typography>
-  )
-}
+  );
+};
 
-export default VoteTime
+export default VoteTime;

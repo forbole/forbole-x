@@ -1,13 +1,13 @@
-import React from 'react'
-import { Box, Typography } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import Layout from '../../components/Layout'
-import SettingTable from '../../components/SettingTable'
-import useIsChromeExt from '../../misc/useIsChromeExt'
+import React from 'react';
+import { Box, Typography } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import Layout from '../../components/Layout';
+import SettingTable from '../../components/SettingTable';
+import useIsChromeExt from '../../misc/useIsChromeExt';
 
 const Setting: React.FC = () => {
-  const { t } = useTranslation('common')
-  const { isChromeExt } = useIsChromeExt()
+  const { t } = useTranslation('common');
+  const { isChromeExt } = useIsChromeExt();
 
   return (
     <Layout
@@ -24,7 +24,7 @@ const Setting: React.FC = () => {
       )}
       <SettingTable />
     </Layout>
-  )
-}
+  );
+};
 
-export default Setting
+export default Setting;

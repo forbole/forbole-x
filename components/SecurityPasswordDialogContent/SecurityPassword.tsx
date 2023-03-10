@@ -5,20 +5,20 @@ import {
   DialogContentText,
   CircularProgress,
   useTheme,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import useStyles from './styles'
-import PasswordInput from '../PasswordInput'
-import { useWalletsContext } from '../../contexts/WalletsContext'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useStyles from './styles';
+import PasswordInput from '../PasswordInput';
+import { useWalletsContext } from '../../contexts/WalletsContext';
 
 interface SecurityPasswordProps {
-  onForgot: () => void
-  onUnlock: (password: string) => void
-  password: string
-  setPassword: any
-  loading: boolean
-  walletId: string
+  onForgot: () => void;
+  onUnlock: (password: string) => void;
+  password: string;
+  setPassword: any;
+  loading: boolean;
+  walletId: string;
 }
 
 const SecurityPassword: React.FC<SecurityPasswordProps> = ({
@@ -29,28 +29,28 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({
   loading,
   walletId,
 }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const [error, setError] = React.useState('')
-  const theme = useTheme()
-  const { viewMnemonicPhrase } = useWalletsContext()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const [error, setError] = React.useState('');
+  const theme = useTheme();
+  const { viewMnemonicPhrase } = useWalletsContext();
 
   const confirm = React.useCallback(async () => {
     try {
-      await viewMnemonicPhrase(walletId, password)
-      onUnlock(password)
+      await viewMnemonicPhrase(walletId, password);
+      onUnlock(password);
     } catch (err) {
-      setError(t(err.message))
+      setError(t(err.message));
     }
-  }, [walletId, onUnlock, password])
+  }, [walletId, onUnlock, password]);
 
   return (
     <form
       noValidate
       className={classes.form}
-      onSubmit={(e) => {
-        e.preventDefault()
-        confirm()
+      onSubmit={e => {
+        e.preventDefault();
+        confirm();
       }}
     >
       <DialogContent>
@@ -61,7 +61,7 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({
           value={password}
           error={!!error}
           helperText={error}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={e => setPassword(e.target.value)}
         />
       </DialogContent>
       <DialogActions className={classes.action}>
@@ -79,7 +79,7 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({
         </Button>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default SecurityPassword
+export default SecurityPassword;

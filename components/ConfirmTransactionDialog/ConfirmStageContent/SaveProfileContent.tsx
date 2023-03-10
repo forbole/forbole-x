@@ -1,19 +1,19 @@
-import { Divider, Typography, Box, useTheme, Avatar } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import SaveProfileIcon from '../../../assets/images/icons/icon_profile_tx.svg'
-import { useGeneralContext } from '../../../contexts/GeneralContext'
-import useStyles from '../styles'
+import { Divider, Typography, Box, useTheme, Avatar } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import SaveProfileIcon from '../../../assets/images/icons/icon_profile_tx.svg';
+import { useGeneralContext } from '../../../contexts/GeneralContext';
+import useStyles from '../styles';
 
 interface SaveProfileContentProps {
-  msgs: TransactionMsgSaveProfile[]
+  msgs: TransactionMsgSaveProfile[];
 }
 
 const SaveProfileContent: React.FC<SaveProfileContentProps> = ({ msgs }) => {
-  const { t } = useTranslation('common')
-  const themeStyle = useTheme()
-  const { theme } = useGeneralContext()
-  const classes = useStyles()
+  const { t } = useTranslation('common');
+  const themeStyle = useTheme();
+  const { theme } = useGeneralContext();
+  const classes = useStyles();
 
   return (
     <>
@@ -53,7 +53,7 @@ const SaveProfileContent: React.FC<SaveProfileContentProps> = ({ msgs }) => {
         </React.Fragment>
       ))}
     </>
-  )
-}
+  );
+};
 
-export default SaveProfileContent
+export default SaveProfileContent;

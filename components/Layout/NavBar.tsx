@@ -9,35 +9,35 @@ import {
   ListItemIcon,
   ListItemText,
   useTheme,
-} from '@material-ui/core'
-import React from 'react'
-import Link from 'next/link'
-import useTranslation from 'next-translate/useTranslation'
-import { useRouter } from 'next/router'
-import useStyles from './styles'
+} from '@material-ui/core';
+import React from 'react';
+import Link from 'next/link';
+import useTranslation from 'next-translate/useTranslation';
+import { useRouter } from 'next/router';
+import useStyles from './styles';
 // import NotiIcon from '../../assets/images/icons/icon_notification_71.svg'
-import SettingsIcon from '../../assets/images/icons/icon_settings.svg'
-import AddressBookIcon from '../../assets/images/icons/icon_address_book.svg'
-import MenuIcon from '../../assets/images/icons/icon_menu.svg'
-import BackIcon from '../../assets/images/icons/icon_back.svg'
-import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg'
-import HideIcon from '../../assets/images/icons/icon_hide.svg'
-import ShowIcon from '../../assets/images/icons/icon_show.svg'
-import LogOutIcon from '../../assets/images/icons/log-out.svg'
-import CurrencyMenuButton from './CurrencyMenuButton'
+import SettingsIcon from '../../assets/images/icons/icon_settings.svg';
+import AddressBookIcon from '../../assets/images/icons/icon_address_book.svg';
+import MenuIcon from '../../assets/images/icons/icon_menu.svg';
+import BackIcon from '../../assets/images/icons/icon_back.svg';
+import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg';
+import HideIcon from '../../assets/images/icons/icon_hide.svg';
+import ShowIcon from '../../assets/images/icons/icon_show.svg';
+import LogOutIcon from '../../assets/images/icons/log-out.svg';
+import CurrencyMenuButton from './CurrencyMenuButton';
 // import LangMenuButton from './LangMenuButton'
-import ThemeModeButton from './ThemeModeButton'
-import useIconProps from '../../misc/useIconProps'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+import ThemeModeButton from './ThemeModeButton';
+import useIconProps from '../../misc/useIconProps';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
 const NavBar: React.FC<{
-  HeaderLeftComponent?: React.ReactNode
-  ChromeExtTitleComponent?: React.ReactNode
-  ChromeExtRightComponent?: React.ReactNode
-  back?: boolean
-  menuWidth: number
-  isChromeExt: boolean
+  HeaderLeftComponent?: React.ReactNode;
+  ChromeExtTitleComponent?: React.ReactNode;
+  ChromeExtRightComponent?: React.ReactNode;
+  back?: boolean;
+  menuWidth: number;
+  isChromeExt: boolean;
 }> = ({
   HeaderLeftComponent,
   ChromeExtTitleComponent,
@@ -46,14 +46,14 @@ const NavBar: React.FC<{
   isChromeExt,
   back,
 }) => {
-  const iconProps = useIconProps(3)
-  const classes = useStyles({})
-  const { t } = useTranslation('common')
-  const theme = useTheme()
-  const router = useRouter()
-  const { signOut } = useWalletsContext()
-  const { setHideAmount, hideAmount } = useGeneralContext()
-  const [isChromeExtMenuOpen, setIsChromeExtMenuOpen] = React.useState(false)
+  const iconProps = useIconProps(3);
+  const classes = useStyles({});
+  const { t } = useTranslation('common');
+  const theme = useTheme();
+  const router = useRouter();
+  const { signOut } = useWalletsContext();
+  const { setHideAmount, hideAmount } = useGeneralContext();
+  const [isChromeExtMenuOpen, setIsChromeExtMenuOpen] = React.useState(false);
 
   const chromeExtMenuItems = React.useMemo(
     () => [
@@ -86,8 +86,8 @@ const NavBar: React.FC<{
       //   href: '/settings?tab=about',
       // },
     ],
-    [iconProps, t]
-  )
+    [iconProps, t],
+  );
 
   return isChromeExt ? (
     <>
@@ -111,7 +111,7 @@ const NavBar: React.FC<{
           <ThemeModeButton />
         </Box>
         <List style={{ width: theme.spacing(menuWidth), padding: theme.spacing(0, 2) }} id="navBar">
-          {chromeExtMenuItems.map((item) => {
+          {chromeExtMenuItems.map(item => {
             return (
               <React.Fragment key={item.title}>
                 <Link href={item.href} passHref>
@@ -132,7 +132,7 @@ const NavBar: React.FC<{
                   </Box>
                 ) : null} */}
               </React.Fragment>
-            )
+            );
           })}
         </List>
         <Button
@@ -157,7 +157,7 @@ const NavBar: React.FC<{
       <IconButton className={classes.navBarButton}>
         <NotiIcon {...iconProps} />
       </IconButton> */}
-      <IconButton className={classes.navBarButton} onClick={() => setHideAmount((h) => !h)}>
+      <IconButton className={classes.navBarButton} onClick={() => setHideAmount(h => !h)}>
         {hideAmount ? <HideIcon {...iconProps} /> : <ShowIcon {...iconProps} />}
       </IconButton>
       <ThemeModeButton />
@@ -174,7 +174,7 @@ const NavBar: React.FC<{
         {t('sign out')}
       </Button>
     </Box>
-  )
-}
+  );
+};
 
-export default React.memo(NavBar)
+export default React.memo(NavBar);

@@ -12,29 +12,29 @@ import {
   ListItemText,
   Checkbox,
   Avatar,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import connectableChains from '../../misc/connectableChains'
-import useStyles from './styles'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import connectableChains from '../../misc/connectableChains';
+import useStyles from './styles';
 
 interface SelectLedgerAppProps {
-  ledgerAppNames: string[]
-  onConfirm(app: string): void
+  ledgerAppNames: string[];
+  onConfirm(app: string): void;
 }
 
 const SelectLedgerApp: React.FC<SelectLedgerAppProps> = ({ ledgerAppNames, onConfirm }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
 
-  const [selectedApp, setSelectedApp] = React.useState('')
+  const [selectedApp, setSelectedApp] = React.useState('');
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(selectedApp)
+      onSubmit={e => {
+        e.preventDefault();
+        onConfirm(selectedApp);
       }}
     >
       <DialogContent className={classes.dialogContent}>
@@ -70,7 +70,7 @@ const SelectLedgerApp: React.FC<SelectLedgerAppProps> = ({ ledgerAppNames, onCon
         </Box>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default SelectLedgerApp
+export default SelectLedgerApp;

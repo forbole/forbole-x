@@ -1,26 +1,26 @@
-import { Button, DialogActions, DialogContent, Typography, DialogTitle } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import useStyles from './styles'
+import { Button, DialogActions, DialogContent, Typography, DialogTitle } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import useStyles from './styles';
 
 interface RemoveAccountProps {
-  onClose(): void
-  account: Account
+  onClose(): void;
+  account: Account;
 }
 
 const RemoveAccount: React.FC<RemoveAccountProps> = ({ onClose, account }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const { deleteAccount } = useWalletsContext()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const { deleteAccount } = useWalletsContext();
 
   const onButtonClick = React.useCallback(async () => {
     try {
-      await deleteAccount(account.address, account.walletId)
+      await deleteAccount(account.address, account.walletId);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }, [deleteAccount, account])
+  }, [deleteAccount, account]);
 
   return (
     <>
@@ -46,7 +46,7 @@ const RemoveAccount: React.FC<RemoveAccountProps> = ({ onClose, account }) => {
         </Button>
       </DialogActions>
     </>
-  )
-}
+  );
+};
 
-export default RemoveAccount
+export default RemoveAccount;

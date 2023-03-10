@@ -1,20 +1,20 @@
-import { Box, Button, DialogActions, DialogContent, Typography } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import RejectedLight from '../../assets/images/tx_rejected_light.svg'
-import RejectedDark from '../../assets/images/tx_rejected_dark.svg'
-import useStyles from './styles'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+import { Box, Button, DialogActions, DialogContent, Typography } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import RejectedLight from '../../assets/images/tx_rejected_light.svg';
+import RejectedDark from '../../assets/images/tx_rejected_dark.svg';
+import useStyles from './styles';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
 interface FailProps {
-  onClose(): void
-  message: string
+  onClose(): void;
+  message: string;
 }
 
 const Fail: React.FC<FailProps> = ({ onClose, message }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const { theme } = useGeneralContext()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const { theme } = useGeneralContext();
 
   return (
     <>
@@ -35,7 +35,7 @@ const Fail: React.FC<FailProps> = ({ onClose, message }) => {
         </Box>
       </DialogActions>
     </>
-  )
-}
+  );
+};
 
-export default Fail
+export default Fail;

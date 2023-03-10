@@ -7,20 +7,20 @@ import {
   Box,
   Link,
   useTheme,
-} from '@material-ui/core'
-import CircleUnchecked from '@material-ui/icons/RadioButtonUnchecked'
-import CircleCheckedFilled from '@material-ui/icons/CheckCircle'
-import useTranslation from 'next-translate/useTranslation'
-import Trans from 'next-translate/Trans'
-import React from 'react'
-import useStyles from './styles'
-import { CustomTheme } from '../../misc/theme'
+} from '@material-ui/core';
+import CircleUnchecked from '@material-ui/icons/RadioButtonUnchecked';
+import CircleCheckedFilled from '@material-ui/icons/CheckCircle';
+import useTranslation from 'next-translate/useTranslation';
+import Trans from 'next-translate/Trans';
+import React from 'react';
+import useStyles from './styles';
+import { CustomTheme } from '../../misc/theme';
 
 interface RequestPhraseDialogContentProps {
-  onConfirm(): void
-  consent: boolean
-  setConsent: (value: boolean) => void
-  title: string
+  onConfirm(): void;
+  consent: boolean;
+  setConsent: (value: boolean) => void;
+  title: string;
 }
 
 const RequestPhraseDialogContent: React.FC<RequestPhraseDialogContentProps> = ({
@@ -29,17 +29,17 @@ const RequestPhraseDialogContent: React.FC<RequestPhraseDialogContentProps> = ({
   setConsent,
   title,
 }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const themeStyle: CustomTheme = useTheme()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const themeStyle: CustomTheme = useTheme();
 
   return (
     <Box className={classes.requestBox}>
       <form
         noValidate
-        onSubmit={(e) => {
-          e.preventDefault()
-          onConfirm()
+        onSubmit={e => {
+          e.preventDefault();
+          onConfirm();
         }}
       >
         <DialogContent className={classes.dialogContent}>
@@ -54,7 +54,7 @@ const RequestPhraseDialogContent: React.FC<RequestPhraseDialogContentProps> = ({
                     color: themeStyle.palette.text.secondary,
                   }}
                   checked={consent}
-                  onChange={(e) => setConsent(e.target.checked)}
+                  onChange={e => setConsent(e.target.checked)}
                 />
               }
               label={
@@ -95,7 +95,7 @@ const RequestPhraseDialogContent: React.FC<RequestPhraseDialogContentProps> = ({
         </DialogContent>
       </form>
     </Box>
-  )
-}
+  );
+};
 
-export default RequestPhraseDialogContent
+export default RequestPhraseDialogContent;

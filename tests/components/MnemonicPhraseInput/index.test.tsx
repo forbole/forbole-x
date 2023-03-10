@@ -1,48 +1,48 @@
-import React from 'react'
-import renderer from 'react-test-renderer'
-import MnemonicPhraseInput from '../../../components/MnemonicPhraseInput'
+import React from 'react';
+import renderer from 'react-test-renderer';
+import MnemonicPhraseInput from '../../../components/MnemonicPhraseInput';
 
-const onChange = jest.fn()
-const focus = jest.fn()
-const blur = jest.fn()
-document.getElementById = jest.fn().mockImplementation((id) =>
+const onChange = jest.fn();
+const focus = jest.fn();
+const blur = jest.fn();
+document.getElementById = jest.fn().mockImplementation(id =>
   id === 'mnemonic-24'
     ? null
     : {
         focus,
         blur,
-      }
-)
+      },
+);
 const mnemonic =
-  'guide check kick present flash casual history auto agree help actor swarm battle decline canyon magnet novel curve dad guilt web actor weekend uncover'
+  'guide check kick present flash casual history auto agree help actor swarm battle decline canyon magnet novel curve dad guilt web actor weekend uncover';
 
 describe('component: MnemonicPhraseInput', () => {
   it('renders default state correctly', () => {
     const component = renderer.create(
-      <MnemonicPhraseInput onChange={onChange} mnemonic={mnemonic} />
-    )
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
+      <MnemonicPhraseInput onChange={onChange} mnemonic={mnemonic} />,
+    );
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
   it('renders empty mnemonic state correctly', () => {
-    const component = renderer.create(<MnemonicPhraseInput onChange={onChange} mnemonic="" />)
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
+    const component = renderer.create(<MnemonicPhraseInput onChange={onChange} mnemonic="" />);
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
   it('renders disabled state correctly', () => {
-    const component = renderer.create(<MnemonicPhraseInput disabled mnemonic={mnemonic} />)
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
+    const component = renderer.create(<MnemonicPhraseInput disabled mnemonic={mnemonic} />);
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
   it('renders no onChange state correctly', () => {
-    const component = renderer.create(<MnemonicPhraseInput mnemonic={mnemonic} />)
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
+    const component = renderer.create(<MnemonicPhraseInput mnemonic={mnemonic} />);
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
   it('moves to next input when space is pressed', () => {
     const component = renderer.create(
-      <MnemonicPhraseInput onChange={onChange} mnemonic={mnemonic} />
-    )
+      <MnemonicPhraseInput onChange={onChange} mnemonic={mnemonic} />,
+    );
     renderer.act(() => {
       component.root
         .findByProps({
@@ -50,15 +50,15 @@ describe('component: MnemonicPhraseInput', () => {
         })
         .props.onKeyPress({
           key: ' ',
-        })
-    })
-    expect(document.getElementById).toBeCalledWith('mnemonic-2')
-    expect(focus).toBeCalled()
-  })
+        });
+    });
+    expect(document.getElementById).toBeCalledWith('mnemonic-2');
+    expect(focus).toBeCalled();
+  });
   it('does nothing when non space key is pressed', () => {
     const component = renderer.create(
-      <MnemonicPhraseInput onChange={onChange} mnemonic={mnemonic} />
-    )
+      <MnemonicPhraseInput onChange={onChange} mnemonic={mnemonic} />,
+    );
     renderer.act(() => {
       component.root
         .findByProps({
@@ -66,15 +66,15 @@ describe('component: MnemonicPhraseInput', () => {
         })
         .props.onKeyPress({
           key: 'a',
-        })
-    })
-    expect(document.getElementById).toBeCalledTimes(0)
-    expect(focus).toBeCalledTimes(0)
-  })
+        });
+    });
+    expect(document.getElementById).toBeCalledTimes(0);
+    expect(focus).toBeCalledTimes(0);
+  });
   it('blurs input when space is pressed on last input', () => {
     const component = renderer.create(
-      <MnemonicPhraseInput onChange={onChange} mnemonic={mnemonic} />
-    )
+      <MnemonicPhraseInput onChange={onChange} mnemonic={mnemonic} />,
+    );
     renderer.act(() => {
       component.root
         .findByProps({
@@ -82,15 +82,15 @@ describe('component: MnemonicPhraseInput', () => {
         })
         .props.onKeyPress({
           key: ' ',
-        })
-    })
-    expect(document.getElementById).toBeCalledWith('mnemonic-23')
-    expect(blur).toBeCalled()
-  })
+        });
+    });
+    expect(document.getElementById).toBeCalledWith('mnemonic-23');
+    expect(blur).toBeCalled();
+  });
   it('calls onChange with correct params when input value changes', () => {
     const component = renderer.create(
-      <MnemonicPhraseInput onChange={onChange} mnemonic={mnemonic} />
-    )
+      <MnemonicPhraseInput onChange={onChange} mnemonic={mnemonic} />,
+    );
     renderer.act(() => {
       component.root
         .findByProps({
@@ -100,12 +100,12 @@ describe('component: MnemonicPhraseInput', () => {
           target: {
             value: 'apple',
           },
-        })
-    })
-    expect(onChange).toBeCalledWith(mnemonic.replace('check', 'apple'))
-  })
-})
+        });
+    });
+    expect(onChange).toBeCalledWith(mnemonic.replace('check', 'apple'));
+  });
+});
 
 afterEach(() => {
-  jest.clearAllMocks()
-})
+  jest.clearAllMocks();
+});

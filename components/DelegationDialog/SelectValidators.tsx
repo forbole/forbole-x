@@ -13,40 +13,40 @@ import {
   useTheme,
   Slider,
   Card,
-} from '@material-ui/core'
-import { Autocomplete } from '@material-ui/lab'
-import { gql, useQuery } from '@apollo/client'
-import get from 'lodash/get'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import keyBy from 'lodash/keyBy'
-import shuffle from 'lodash/shuffle'
-import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
-import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
+} from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
+import { gql, useQuery } from '@apollo/client';
+import get from 'lodash/get';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import keyBy from 'lodash/keyBy';
+import shuffle from 'lodash/shuffle';
+import RemoveIcon from '../../assets/images/icons/icon_clear.svg';
+import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
 import {
   formatCrypto,
   formatCurrency,
   getValidatorCondition,
   getValidatorConditionClass,
-} from '../../misc/utils'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import useIsMobile from '../../misc/useIsMobile'
-import ValidatorAvatar from '../ValidatorAvatar'
-import { getSlashingParams } from '../../graphql/queries/validators'
-import Condition from '../Condition'
-import MemoInput from '../MemoInput'
+} from '../../misc/utils';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import useIsMobile from '../../misc/useIsMobile';
+import ValidatorAvatar from '../ValidatorAvatar';
+import { getSlashingParams } from '../../graphql/queries/validators';
+import Condition from '../Condition';
+import MemoInput from '../MemoInput';
 
 interface SelectValidatorsProps {
-  onConfirm(delegations: Array<{ amount: number; validator: Validator }>, memo: string): void
-  delegations: Array<{ amount: number; validator: Validator }>
-  price: number
-  crypto: Cryptocurrency
-  validators: Validator[]
-  amount: number
-  denom: string
-  loading: boolean
+  onConfirm(delegations: Array<{ amount: number; validator: Validator }>, memo: string): void;
+  delegations: Array<{ amount: number; validator: Validator }>;
+  price: number;
+  crypto: Cryptocurrency;
+  validators: Validator[];
+  amount: number;
+  denom: string;
+  loading: boolean;
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
@@ -59,41 +59,41 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   onConfirm,
   loading,
 }) => {
-  const { t, lang } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const { currency, currencyRate, hideAmount } = useGeneralContext()
-  const isMobile = useIsMobile()
-  const theme = useTheme()
+  const { t, lang } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const { currency, currencyRate, hideAmount } = useGeneralContext();
+  const isMobile = useIsMobile();
+  const theme = useTheme();
   const [delegations, setDelegations] = React.useState<
     Array<{ amount: string; validator: any; percentage: string; showSlider: boolean }>
   >(
     defaultDelegations
-      ? defaultDelegations.map((d) => ({
+      ? defaultDelegations.map(d => ({
           amount: d.amount.toString(),
           validator: d.validator,
           percentage: ((100 * d.amount) / amount).toFixed(2),
           showSlider: false,
         }))
-      : [{ amount: amount.toString(), validator: {}, percentage: '100', showSlider: false }]
-  )
-  const [memo, setMemo] = React.useState('')
-  const [consent, setConsent] = React.useState(true)
+      : [{ amount: amount.toString(), validator: {}, percentage: '100', showSlider: false }],
+  );
+  const [memo, setMemo] = React.useState('');
+  const [consent, setConsent] = React.useState(true);
 
-  const validatorsMap = keyBy(validators, 'address')
-  const randomizedValidators = React.useMemo(() => shuffle(validators), [])
+  const validatorsMap = keyBy(validators, 'address');
+  const randomizedValidators = React.useMemo(() => shuffle(validators), []);
 
   const { data: paramsData } = useQuery(
     gql`
       ${getSlashingParams(get(crypto, 'name', ''))}
-    `
-  )
+    `,
+  );
   const slashingParams = get(paramsData, ['slashing_params', 0, 'params'], {
     signed_blocks_window: 0,
-  })
-  const signedBlockWindow = slashingParams.signed_blocks_window
+  });
+  const signedBlockWindow = slashingParams.signed_blocks_window;
   React.useMemo(() => {
-    setDelegations((d) =>
+    setDelegations(d =>
       d.map((a, j) =>
         j < delegations.length - 1
           ? {
@@ -105,33 +105,33 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
               ...a,
               percentage:
                 String(
-                  (100 - (1 / delegations.length) * (delegations.length - 1) * 100).toFixed(2)
+                  (100 - (1 / delegations.length) * (delegations.length - 1) * 100).toFixed(2),
                 ) || '',
               amount: String(amount * (1 - (1 / delegations.length) * (delegations.length - 1))),
-            }
-      )
-    )
-  }, [delegations.length])
+            },
+      ),
+    );
+  }, [delegations.length]);
 
   const totalAmount = React.useMemo(
-    () => delegations.map((v) => Number(v.amount)).reduce((a, b) => a + b, 0),
-    [delegations]
-  )
+    () => delegations.map(v => Number(v.amount)).reduce((a, b) => a + b, 0),
+    [delegations],
+  );
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
+      onSubmit={e => {
+        e.preventDefault();
         onConfirm(
           delegations
-            .filter((v) => v.validator.name && Number(v.amount))
-            .map((v) => ({
+            .filter(v => v.validator.name && Number(v.amount))
+            .map(v => ({
               validator: v.validator,
               amount: Number(v.amount),
             })),
-          memo
-        )
+          memo,
+        );
       }}
     >
       <DialogContent className={classes.dialogContent}>
@@ -154,7 +154,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                   {delegations.length <= 1 ? null : (
                     <IconButton
                       onClick={() => {
-                        setDelegations((d) => d.filter((a, j) => j !== i))
+                        setDelegations(d => d.filter((a, j) => j !== i));
                       }}
                     >
                       <RemoveIcon {...iconProps} />
@@ -162,37 +162,37 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                   )}
                   <Autocomplete
                     options={randomizedValidators.map(({ address }) => address)}
-                    getOptionLabel={(option) => validatorsMap[option].name}
+                    getOptionLabel={option => validatorsMap[option].name}
                     openOnFocus
                     fullWidth
                     filterOptions={(options: string[], { inputValue }: any) =>
-                      options.filter((o) =>
+                      options.filter(o =>
                         (validatorsMap[o].name || '')
                           .toLowerCase()
-                          .includes(inputValue.toLowerCase())
+                          .includes(inputValue.toLowerCase()),
                       )
                     }
                     onChange={(e, address) => {
-                      setDelegations((d) =>
+                      setDelegations(d =>
                         d.map((a, j) =>
-                          j === i ? { ...a, validator: validatorsMap[address] || {} } : a
-                        )
-                      )
+                          j === i ? { ...a, validator: validatorsMap[address] || {} } : a,
+                        ),
+                      );
                     }}
-                    renderOption={(address) => {
+                    renderOption={address => {
                       const missedBlockCounter = get(
                         validatorsMap,
                         [address, 'missedBlockCounter'],
-                        0
-                      )
+                        0,
+                      );
                       const conditionClass = getValidatorCondition(
                         signedBlockWindow,
-                        missedBlockCounter
-                      )
+                        missedBlockCounter,
+                      );
                       const condition =
                         validatorsMap[address].status === 'active'
                           ? getValidatorConditionClass(conditionClass)
-                          : undefined
+                          : undefined;
                       return (
                         <Box
                           display="flex"
@@ -209,7 +209,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                           />
                           <Condition className={condition} />
                         </Box>
-                      )
+                      );
                     }}
                     renderInput={({ InputProps, inputProps, ...params }) => (
                       <TextField
@@ -250,7 +250,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                   variant="text"
                   color="secondary"
                   onClick={() =>
-                    setDelegations((d) => [
+                    setDelegations(d => [
                       ...d,
                       { validator: '', amount: '', percentage: '', showSlider: false },
                     ])
@@ -291,8 +291,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                         endAdornment: <InputAdornment position="end">{denom}</InputAdornment>,
                       }}
                       value={v.amount}
-                      onChange={(e) =>
-                        setDelegations((d) =>
+                      onChange={e =>
+                        setDelegations(d =>
                           d.map((a, j) =>
                             j === i
                               ? {
@@ -300,36 +300,36 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                                   amount: e.target.value,
                                   percentage: ((100 * Number(e.target.value)) / amount).toFixed(2),
                                 }
-                              : a
-                          )
+                              : a,
+                          ),
                         )
                       }
                     />
                     {isMobile ? null : (
                       <TextField
                         onFocus={() => {
-                          setDelegations((d) =>
+                          setDelegations(d =>
                             d.map((a, j) =>
                               j === i
                                 ? {
                                     ...a,
                                     showSlider: true,
                                   }
-                                : a
-                            )
-                          )
-                          const closeSlider = (e) => {
+                                : a,
+                            ),
+                          );
+                          const closeSlider = e => {
                             if (!e.target.className.includes('MuiSlider')) {
-                              window.removeEventListener('click', closeSlider)
-                              setDelegations((d) =>
+                              window.removeEventListener('click', closeSlider);
+                              setDelegations(d =>
                                 d.map((a, j) => ({
                                   ...a,
                                   showSlider: false,
-                                }))
-                              )
+                                })),
+                              );
                             }
-                          }
-                          setTimeout(() => window.addEventListener('click', closeSlider), 100)
+                          };
+                          setTimeout(() => window.addEventListener('click', closeSlider), 100);
                         }}
                         className={classes.percentageTextField}
                         variant="filled"
@@ -344,8 +344,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                           className: classes.numberInput,
                         }}
                         value={v.percentage}
-                        onChange={(e) =>
-                          setDelegations((d) =>
+                        onChange={e =>
+                          setDelegations(d =>
                             d.map((a, j) =>
                               j === i
                                 ? {
@@ -353,8 +353,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                                     percentage: e.target.value,
                                     amount: ((amount * Number(e.target.value)) / 100).toFixed(2),
                                   }
-                                : a
-                            )
+                                : a,
+                            ),
                           )
                         }
                       />
@@ -371,19 +371,19 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                         min={0}
                         max={1}
                         onChange={(_event, newValue) => {
-                          setDelegations((d) =>
+                          setDelegations(d =>
                             d.map((a, j) =>
                               j === i
                                 ? {
                                     ...a,
                                     percentage: String(
-                                      typeof newValue === 'number' ? newValue * 100 : ''
+                                      typeof newValue === 'number' ? newValue * 100 : '',
                                     ),
                                     amount: String((amount * Number(newValue || '') * 100) / 100),
                                   }
-                                : a
-                            )
-                          )
+                                : a,
+                            ),
+                          );
                         }}
                       />
                     </Card>
@@ -415,9 +415,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             color="primary"
             disabled={
               loading ||
-              !delegations.filter((v) => v.validator.name && Number(v.amount)).length ||
+              !delegations.filter(v => v.validator.name && Number(v.amount)).length ||
               totalAmount > amount ||
-              delegations.filter((v) => v.validator === '').length !== 0 ||
+              delegations.filter(v => v.validator === '').length !== 0 ||
               !consent
             }
             type="submit"
@@ -427,7 +427,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
         </Box>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default SelectValidators
+export default SelectValidators;

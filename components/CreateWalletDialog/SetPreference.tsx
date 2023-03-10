@@ -10,25 +10,25 @@ import {
   MenuItem,
   Paper,
   useTheme,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import IOSSwitch from '../IOSSwitch'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
-import currencies from '../../misc/currencies'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import IOSSwitch from '../IOSSwitch';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
+import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg';
+import currencies from '../../misc/currencies';
 
 interface SetPreferenceProps {
-  onConfirm(): void
+  onConfirm(): void;
 }
 
 const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
-  const { t, lang } = useTranslation('common')
-  const classes = useStyles()
+  const { t, lang } = useTranslation('common');
+  const classes = useStyles();
   const {
     theme,
     currency,
@@ -36,31 +36,31 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
     setTheme,
     alwaysRequirePassword,
     setAlwaysRequirePassword,
-  } = useGeneralContext()
+  } = useGeneralContext();
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAlwaysRequirePassword(event.target.checked)
-  }
+    setAlwaysRequirePassword(event.target.checked);
+  };
   const handleModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTheme(event.target.checked ? 'dark' : 'light')
-  }
-  const { locales, pathname, query } = useRouter()
-  const themeStyle = useTheme()
-  const iconProps = useIconProps()
-  const [anchor, setAnchor] = React.useState<Element>()
-  const [anchorMode, setAnchorMode] = React.useState<Element>()
-  const [anchorLanguage, setAnchorLanguage] = React.useState<Element>()
+    setTheme(event.target.checked ? 'dark' : 'light');
+  };
+  const { locales, pathname, query } = useRouter();
+  const themeStyle = useTheme();
+  const iconProps = useIconProps();
+  const [anchor, setAnchor] = React.useState<Element>();
+  const [anchorMode, setAnchorMode] = React.useState<Element>();
+  const [anchorLanguage, setAnchorLanguage] = React.useState<Element>();
   const onClose = React.useCallback(() => {
-    setAnchor(undefined)
-    setAnchorLanguage(undefined)
-    setAnchorMode(undefined)
-  }, [setAnchor, setAnchorLanguage, setAnchorMode])
+    setAnchor(undefined);
+    setAnchorLanguage(undefined);
+    setAnchorMode(undefined);
+  }, [setAnchor, setAnchorLanguage, setAnchorMode]);
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm()
+      onSubmit={e => {
+        e.preventDefault();
+        onConfirm();
       }}
     >
       <DialogContent className={classes.dialogContent}>
@@ -71,15 +71,15 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
             <IOSSwitch
               sx={{ m: 1 }}
               checked={theme === 'dark'}
-              onChange={(e) => handleModeChange(e)}
+              onChange={e => handleModeChange(e)}
             />
           </Box>
           <Divider />
           <Box px={2} py={2} display="flex" alignItems="center" justifyContent="space-between">
             <Typography variant="subtitle1">{t('currency')}</Typography>
             <Button
-              onClick={(e) => {
-                setAnchor(e.currentTarget)
+              onClick={e => {
+                setAnchor(e.currentTarget);
               }}
               variant="outlined"
               className={classes.timeRangeButton}
@@ -112,8 +112,8 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
                       key={i}
                       button
                       onClick={() => {
-                        setCurrency(x)
-                        onClose()
+                        setCurrency(x);
+                        onClose();
                       }}
                     >
                       {x}
@@ -122,7 +122,7 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
                       <Divider style={{ margin: themeStyle.spacing(1) }} />
                     )}
                   </div>
-                )
+                );
               })}
             </Menu>
           </Box>
@@ -130,8 +130,8 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
           <Box px={2} py={2} display="flex" alignItems="center" justifyContent="space-between">
             <Typography variant="subtitle1">{t('language')}</Typography>
             <Button
-              onClick={(e) => {
-                setAnchorLanguage(e.currentTarget)
+              onClick={e => {
+                setAnchorLanguage(e.currentTarget);
               }}
               variant="outlined"
               className={classes.timeRangeButton}
@@ -174,7 +174,7 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
                       <Divider style={{ margin: themeStyle.spacing(1) }} />
                     )}
                   </div>
-                )
+                );
               })}
             </Menu>
           </Box>
@@ -184,7 +184,7 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
             <IOSSwitch
               sx={{ m: 1 }}
               checked={alwaysRequirePassword}
-              onChange={(e) => handlePasswordChange(e)}
+              onChange={e => handlePasswordChange(e)}
             />
           </Box>
         </Paper>
@@ -202,7 +202,7 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
         </Box>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default SetPreference
+export default SetPreference;

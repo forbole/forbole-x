@@ -1,25 +1,25 @@
-import { Button, DialogActions, DialogContent, DialogContentText, Box } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { isValidMnemonic } from '../../misc/utils'
-import MnemonicPhraseInput from '../MnemonicPhraseInput'
-import useStyles from './styles'
+import { Button, DialogActions, DialogContent, DialogContentText, Box } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import { isValidMnemonic } from '../../misc/utils';
+import MnemonicPhraseInput from '../MnemonicPhraseInput';
+import useStyles from './styles';
 
 interface ImportMnemonicProps {
-  onConfirm(mnemonic: string): void
+  onConfirm(mnemonic: string): void;
 }
 
 const ImportMnemonic: React.FC<ImportMnemonicProps> = ({ onConfirm }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const [mnemonic, setMnemonic] = React.useState('')
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const [mnemonic, setMnemonic] = React.useState('');
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(mnemonic)
+      onSubmit={e => {
+        e.preventDefault();
+        onConfirm(mnemonic);
       }}
     >
       <DialogContent className={classes.dialogContent}>
@@ -41,7 +41,7 @@ const ImportMnemonic: React.FC<ImportMnemonicProps> = ({ onConfirm }) => {
         </Box>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default ImportMnemonic
+export default ImportMnemonic;

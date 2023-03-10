@@ -1,20 +1,20 @@
-import React from 'react'
-import { Box, Button, IconButton, Typography, useTheme } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import Layout from '../components/Layout'
-import AddressBookTable from '../components/AddressBook'
-import AddAddressDialog from '../components/AddAddressDialog'
-import { CustomTheme } from '../misc/theme'
-import useIsChromeExt from '../misc/useIsChromeExt'
-import AddIcon from '../assets/images/icons/icon_add_wallet.svg'
-import useIconProps from '../misc/useIconProps'
+import React from 'react';
+import { Box, Button, IconButton, Typography, useTheme } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import Layout from '../components/Layout';
+import AddressBookTable from '../components/AddressBook';
+import AddAddressDialog from '../components/AddAddressDialog';
+import { CustomTheme } from '../misc/theme';
+import useIsChromeExt from '../misc/useIsChromeExt';
+import AddIcon from '../assets/images/icons/icon_add_wallet.svg';
+import useIconProps from '../misc/useIconProps';
 
 const AddressBook: React.FC = () => {
-  const { t } = useTranslation('common')
-  const theme: CustomTheme = useTheme()
-  const { isChromeExt } = useIsChromeExt()
-  const iconProps = useIconProps(3)
-  const [addAddressOpen, setAddAddressOpen] = React.useState(false)
+  const { t } = useTranslation('common');
+  const theme: CustomTheme = useTheme();
+  const { isChromeExt } = useIsChromeExt();
+  const iconProps = useIconProps(3);
+  const [addAddressOpen, setAddAddressOpen] = React.useState(false);
 
   return (
     <Layout
@@ -49,7 +49,7 @@ const AddressBook: React.FC = () => {
       <AddressBookTable />
       <AddAddressDialog open={addAddressOpen} onClose={() => setAddAddressOpen(false)} />
     </Layout>
-  )
-}
+  );
+};
 
-export default AddressBook
+export default AddressBook;

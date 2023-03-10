@@ -1,15 +1,15 @@
-import { Paper, Divider, Box, Typography, useTheme, Link as MLink } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import Link from 'next/link'
-import useIconProps from '../../misc/useIconProps'
-import ArrowNextIcon from '../../assets/images/icons/icon_arrow_next.svg'
-import pkg from '../../package.json'
+import { Paper, Divider, Box, Typography, useTheme, Link as MLink } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import Link from 'next/link';
+import useIconProps from '../../misc/useIconProps';
+import ArrowNextIcon from '../../assets/images/icons/icon_arrow_next.svg';
+import pkg from '../../package.json';
 
 const AboutTable: React.FC = () => {
-  const { t } = useTranslation('common')
-  const themeStyle = useTheme()
-  const iconProps = useIconProps()
+  const { t } = useTranslation('common');
+  const themeStyle = useTheme();
+  const iconProps = useIconProps();
   return (
     <Paper
       style={{
@@ -56,7 +56,7 @@ const AboutTable: React.FC = () => {
         <Typography>v{pkg.version}</Typography>
       </Box>
     </Paper>
-  )
-}
+  );
+};
 
-export default AboutTable
+export default AboutTable;

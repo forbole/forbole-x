@@ -1,9 +1,9 @@
-const getGqlDateFormat = (date: Date) => date.toISOString().split('.')[0]
+const getGqlDateFormat = (date: Date) => date.toISOString().split('.')[0];
 
 export const getLatestAccountBalanceOld = (
   crypto: string,
   address: string,
-  availableBalanceOnly?: boolean
+  availableBalanceOnly?: boolean,
 ): string => `
   query AccountBalance{
     token_price {
@@ -25,9 +25,9 @@ export const getLatestAccountBalanceOld = (
       coins
     }
     ${
-  availableBalanceOnly
-    ? ''
-    : `
+      availableBalanceOnly
+        ? ''
+        : `
         action_delegation(address: "${address}") {
           delegations
         }
@@ -35,25 +35,25 @@ export const getLatestAccountBalanceOld = (
           unbonding_delegations
         }
       ${
-      address.includes('valoper') // validator only
-        ? `action_validator_commission_amount(address: "${address}") {
+        address.includes('valoper') // validator only
+          ? `action_validator_commission_amount(address: "${address}") {
         coins
       }`
-        : ''
-    }
+          : ''
+      }
       action_delegation_reward(address: "${address}") {
         coins
         validator_address
       }
     `
-}
+    }
   }
-`
+`;
 
 export const getLatestAccountBalance = (
   crypto: string,
   address: string,
-  availableBalanceOnly?: boolean
+  availableBalanceOnly?: boolean,
 ): string => `
   query AccountBalance @api(name: ${crypto}bdjuno) {
     token_price {
@@ -98,7 +98,7 @@ export const getLatestAccountBalance = (
     `
     }
   }
-`
+`;
 
 export const getAccountBalanceAtHeight = (crypto: string, address: string): string => `
   query AccountBalance($height: Int!, $timestamp: timestamp! ){
@@ -138,7 +138,7 @@ export const getAccountBalanceAtHeight = (crypto: string, address: string): stri
       validator_address
     }
   }  
-`
+`;
 
 // export const getAccountBalanceAtHeight = (crypto: string, address: string): string => `
 //   query AccountBalance($height: Int!, $timestamp: timestamp! ) @api(name: ${crypto}bdjuno) {
@@ -220,4 +220,4 @@ query AccountBalance($address: String!) @api(name: ${crypto}bdjuno) {
     }
   }
 }  
-`
+`;

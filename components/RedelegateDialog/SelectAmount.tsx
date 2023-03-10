@@ -8,21 +8,21 @@ import {
   useTheme,
   TextField,
   InputAdornment,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import get from 'lodash/get'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import { formatCrypto, formatCurrency, formatTokenAmount } from '../../misc/utils'
-import useStyles from './styles'
-import ValidatorAvatar from '../ValidatorAvatar'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import get from 'lodash/get';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import { formatCrypto, formatCurrency, formatTokenAmount } from '../../misc/utils';
+import useStyles from './styles';
+import ValidatorAvatar from '../ValidatorAvatar';
 
 interface SelectAmountProps {
-  onConfirm(amount: number, denom: string): void
-  account: Account
-  crypto: Cryptocurrency
-  fromValidator: Validator
-  availableAmount: TokenAmount
+  onConfirm(amount: number, denom: string): void;
+  account: Account;
+  crypto: Cryptocurrency;
+  fromValidator: Validator;
+  availableAmount: TokenAmount;
 }
 
 const SelectAmount: React.FC<SelectAmountProps> = ({
@@ -32,23 +32,23 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
   onConfirm,
   availableAmount,
 }) => {
-  const { amount: totalAmount, price } = Object.values(availableAmount)[0]
-  const { t, lang } = useTranslation('common')
-  const classes = useStyles()
-  const { currency, currencyRate, hideAmount } = useGeneralContext()
-  const theme = useTheme()
-  const [amount, setAmount] = React.useState(hideAmount ? '' : totalAmount.toString())
-  const [percentage, setPercentage] = React.useState('100')
-  const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
+  const { amount: totalAmount, price } = Object.values(availableAmount)[0];
+  const { t, lang } = useTranslation('common');
+  const classes = useStyles();
+  const { currency, currencyRate, hideAmount } = useGeneralContext();
+  const theme = useTheme();
+  const [amount, setAmount] = React.useState(hideAmount ? '' : totalAmount.toString());
+  const [percentage, setPercentage] = React.useState('100');
+  const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0]);
 
-  const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount)
+  const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount);
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(Number(amount), denom)
+      onSubmit={e => {
+        e.preventDefault();
+        onConfirm(Number(amount), denom);
       }}
     >
       <DialogContent className={classes.dialogContent}>
@@ -84,9 +84,9 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
                     endAdornment: <InputAdornment position="end">{denom}</InputAdornment>,
                   }}
                   value={amount}
-                  onChange={(e) => {
-                    setAmount(e.target.value)
-                    setPercentage(((100 * Number(e.target.value)) / totalAmount).toFixed(2))
+                  onChange={e => {
+                    setAmount(e.target.value);
+                    setPercentage(((100 * Number(e.target.value)) / totalAmount).toFixed(2));
                   }}
                 />
                 <TextField
@@ -103,9 +103,9 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
                     className: classes.numberInput,
                   }}
                   value={percentage}
-                  onChange={(e) => {
-                    setPercentage(e.target.value)
-                    setAmount(((totalAmount * Number(e.target.value)) / 100).toFixed(2))
+                  onChange={e => {
+                    setPercentage(e.target.value);
+                    setAmount(((totalAmount * Number(e.target.value)) / 100).toFixed(2));
                   }}
                 />
               </Box>
@@ -145,7 +145,7 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
         </Box>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default SelectAmount
+export default SelectAmount;

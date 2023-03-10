@@ -5,17 +5,17 @@ import {
   FormControlLabel,
   useTheme,
   FilledTextFieldProps,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import useStyles from './styles'
-import { isValidMnemonic } from '../../misc/utils'
-import { CustomTheme } from '../../misc/theme'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useStyles from './styles';
+import { isValidMnemonic } from '../../misc/utils';
+import { CustomTheme } from '../../misc/theme';
 
 interface MemoInputProps extends Partial<FilledTextFieldProps> {
-  setValue: (value: string) => void
-  consent: boolean
-  setConsent: (value: boolean) => void
+  setValue: (value: string) => void;
+  consent: boolean;
+  setConsent: (value: boolean) => void;
 }
 
 const MemoInput: React.FC<MemoInputProps> = ({
@@ -29,19 +29,19 @@ const MemoInput: React.FC<MemoInputProps> = ({
   consent,
   setConsent,
 }) => {
-  const { t, lang } = useTranslation('common')
-  const classes = useStyles()
-  const themeStyle: CustomTheme = useTheme()
+  const { t, lang } = useTranslation('common');
+  const classes = useStyles();
+  const themeStyle: CustomTheme = useTheme();
 
-  const hasError = React.useMemo(() => isValidMnemonic(value), [value])
+  const hasError = React.useMemo(() => isValidMnemonic(value), [value]);
 
   React.useEffect(() => {
     if (hasError) {
-      setConsent(false)
+      setConsent(false);
     } else {
-      setConsent(true)
+      setConsent(true);
     }
-  }, [hasError])
+  }, [hasError]);
 
   return (
     <>
@@ -54,7 +54,7 @@ const MemoInput: React.FC<MemoInputProps> = ({
         variant="filled"
         placeholder={placeholder}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={e => setValue(e.target.value)}
         error={hasError}
         helperText={hasError ? t('memo warning') : false}
       />
@@ -66,7 +66,7 @@ const MemoInput: React.FC<MemoInputProps> = ({
                 color: themeStyle.palette.error.main,
               }}
               checked={consent}
-              onChange={(e) => setConsent(e.target.checked)}
+              onChange={e => setConsent(e.target.checked)}
             />
           }
           label={
@@ -75,15 +75,14 @@ const MemoInput: React.FC<MemoInputProps> = ({
               style={{
                 fontSize: themeStyle.spacing(1.8),
                 color: themeStyle.palette.error.main,
-              }}
-            >
+              }}>
               {t('memo warning consent')}
             </Typography>
           }
         />
       ) : null}
     </>
-  )
-}
+  );
+};
 
-export default MemoInput
+export default MemoInput;

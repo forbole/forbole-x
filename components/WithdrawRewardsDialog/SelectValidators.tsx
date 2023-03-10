@@ -9,33 +9,33 @@ import {
   FilledTextFieldProps,
   CircularProgress,
   useTheme,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import cloneDeep from 'lodash/cloneDeep'
-import TablePagination from '../TablePagination'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import cloneDeep from 'lodash/cloneDeep';
+import TablePagination from '../TablePagination';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
-import { formatCurrency, formatTokenAmount, getTokenAmountBalance } from '../../misc/utils'
-import useStyles from './styles'
-import { ValidatorTag } from './index'
-import MemoInput from '../MemoInput'
-import ValidatorAvatar from '../ValidatorAvatar'
-import ImageDefaultDark from '../../assets/images/image_default_dark.svg'
-import ImageDefaultLight from '../../assets/images/image_default_light.svg'
-import { CustomTheme } from '../../misc/theme'
+import { formatCurrency, formatTokenAmount, getTokenAmountBalance } from '../../misc/utils';
+import useStyles from './styles';
+import { ValidatorTag } from './index';
+import MemoInput from '../MemoInput';
+import ValidatorAvatar from '../ValidatorAvatar';
+import ImageDefaultDark from '../../assets/images/image_default_dark.svg';
+import ImageDefaultLight from '../../assets/images/image_default_light.svg';
+import { CustomTheme } from '../../misc/theme';
 
 interface SelectValidatorsProps extends Partial<FilledTextFieldProps> {
-  wallet: Wallet
-  onConfirm(delegations: ValidatorTag[], m: string): void
-  account: Account
-  crypto: Cryptocurrency
-  totalAmount: TokenAmount
-  validators: Validator[]
-  preselectedValidatorAddresses?: string[]
-  loading: boolean
-  openDelegationDialog: () => void
-  onClose(): void
+  wallet: Wallet;
+  onConfirm(delegations: ValidatorTag[], m: string): void;
+  account: Account;
+  crypto: Cryptocurrency;
+  totalAmount: TokenAmount;
+  validators: Validator[];
+  preselectedValidatorAddresses?: string[];
+  loading: boolean;
+  openDelegationDialog: () => void;
+  onClose(): void;
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
@@ -50,102 +50,103 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   openDelegationDialog,
   onClose,
 }) => {
-  const { t, lang } = useTranslation('common')
-  const classes = useStyles()
-  const { currency, theme, currencyRate, hideAmount } = useGeneralContext()
-  const [amount, setAmount] = React.useState<TokenAmount>({})
-  const [page, setPage] = React.useState(0)
-  const [value, setValue] = React.useState('')
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const { t, lang } = useTranslation('common');
+  const classes = useStyles();
+  const { currency, theme, currencyRate, hideAmount } = useGeneralContext();
+  const [amount, setAmount] = React.useState<TokenAmount>({});
+  const [page, setPage] = React.useState(0);
+  const [value, setValue] = React.useState('');
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   // const [currentTab, setCurrentTab] = React.useState(0)
-  const [consent, setConsent] = React.useState(true)
-  const [state, setState] = React.useState({})
-  const themeStyle: CustomTheme = useTheme()
+  const [consent, setConsent] = React.useState(true);
+  const [state, setState] = React.useState({});
+  const themeStyle: CustomTheme = useTheme();
 
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked })
-  }
+  const handleChange = event => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
 
-  const [isSelectAll, setIsSelectAll] = React.useState(false)
+  const [isSelectAll, setIsSelectAll] = React.useState(false);
 
-  const validatorsWithTag = []
-  validators.forEach((x) => {
-    validatorsWithTag.push({ ...x, isSelected: false })
-  })
-  const [validatorList, setValidatorList] = React.useState(validatorsWithTag)
+  const validatorsWithTag = [];
+  validators.forEach(x => {
+    validatorsWithTag.push({ ...x, isSelected: false });
+  });
+  const [validatorList, setValidatorList] = React.useState(validatorsWithTag);
 
-  const calculateWithdrawAmount = (latestValidatorList) => {
-    const withdrawAmount: TokenAmount = {}
-    latestValidatorList.forEach((x) => {
+  const calculateWithdrawAmount = latestValidatorList => {
+    const withdrawAmount: TokenAmount = {};
+    latestValidatorList.forEach(x => {
       if (x.isSelected) {
-        Object.keys(x.rewards).forEach((denom) => {
+        Object.keys(x.rewards).forEach(denom => {
           if (withdrawAmount[denom]) {
-            withdrawAmount[denom].amount += x.rewards[denom].amount
+            withdrawAmount[denom].amount += x.rewards[denom].amount;
           } else {
-            withdrawAmount[denom] = cloneDeep(x.rewards[denom])
+            withdrawAmount[denom] = cloneDeep(x.rewards[denom]);
           }
-        })
+        });
       }
-    })
-    setAmount(withdrawAmount)
-  }
+    });
+    setAmount(withdrawAmount);
+  };
 
-  const onSelect = (address) => {
-    const index = validatorList.findIndex((v) => v.address === address)
-    const updatedList = validatorList
+  const onSelect = address => {
+    const index = validatorList.findIndex(v => v.address === address);
+    const updatedList = validatorList;
 
     if (updatedList[index].isSelected === true) {
-      updatedList[index].isSelected = false
+      updatedList[index].isSelected = false;
     } else {
-      updatedList[index].isSelected = true
+      updatedList[index].isSelected = true;
     }
-    setValidatorList(updatedList)
-    calculateWithdrawAmount(updatedList)
-  }
+    setValidatorList(updatedList);
+    calculateWithdrawAmount(updatedList);
+  };
 
   const handleSelectAll = () => {
-    const updatedList = validatorList
+    const updatedList = validatorList;
     if (!isSelectAll) {
-      updatedList.forEach((x) => {
-        const index = validatorList.findIndex((v) => v.address === x.address)
-        updatedList[index].isSelected = true
-      })
+      updatedList.forEach(x => {
+        const index = validatorList.findIndex(v => v.address === x.address);
+        updatedList[index].isSelected = true;
+      });
     } else {
-      updatedList.forEach((x) => {
-        const index = validatorList.findIndex((v) => v.address === x.address)
-        updatedList[index].isSelected = false
-      })
+      updatedList.forEach(x => {
+        const index = validatorList.findIndex(v => v.address === x.address);
+        updatedList[index].isSelected = false;
+      });
     }
-    setIsSelectAll(!isSelectAll)
-    setValidatorList(updatedList)
-    calculateWithdrawAmount(updatedList)
-  }
+    setIsSelectAll(!isSelectAll);
+    setValidatorList(updatedList);
+    calculateWithdrawAmount(updatedList);
+  };
 
   React.useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-extra-semi
-    ;(preselectedValidatorAddresses || []).forEach((a) => {
-      onSelect(a)
-    })
-  }, [])
+    (preselectedValidatorAddresses || []).forEach(a => {
+      onSelect(a);
+    });
+  }, []);
 
   return (
     <>
       {Object.keys(totalAmount).length > 0 ? (
         <form
           noValidate
-          onSubmit={(e) => {
-            e.preventDefault()
+          onSubmit={e => {
+            e.preventDefault();
             onConfirm(
-              validatorList.filter((v) => v.isSelected === true),
-              value
-            )
+              validatorList.filter(v => v.isSelected === true),
+              value,
+            );
           }}
         >
           <DialogContent className={classes.dialogContent}>
             <Box mb={4}>
               <Box mt={4} mb={2}>
                 <Typography className={classes.totalReward}>
-                  {t('total reward amount')}&nbsp;
+                  {t('total reward amount')}
+                  &nbsp;
                   {formatTokenAmount(totalAmount, {
                     defaultUnit: account.crypto,
                     lang,
@@ -173,7 +174,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                 labelPlacement="end"
               />
               <Box mt={0} minHeight="3vw">
-                {validatorList.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((v) => (
+                {validatorList.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map(v => (
                   <FormControlLabel
                     key={v.address}
                     className={classes.controllLabel}
@@ -214,7 +215,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                 onPageChange={setPage}
                 onRowsPerPageChange={setRowsPerPage}
               />
-              {validatorList.filter((x) => x.isSelected === true).length > 5 ? (
+              {validatorList.filter(x => x.isSelected === true).length > 5 ? (
                 <Box mt={2}>
                   <Typography color="secondary">
                     {wallet.type === 'mnemonic'
@@ -268,7 +269,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                 disabled={
                   loading ||
                   !Object.values(amount)
-                    .map((a) => a.amount)
+                    .map(a => a.amount)
                     .reduce((a, b) => a + b, 0) ||
                   !consent
                 }
@@ -303,8 +304,8 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                 classes={{ root: classes.button }}
                 color="primary"
                 onClick={() => {
-                  openDelegationDialog()
-                  onClose()
+                  openDelegationDialog();
+                  onClose();
                 }}
               >
                 {t('delegate')}
@@ -314,7 +315,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
         </>
       )}
     </>
-  )
-}
+  );
+};
 
-export default SelectValidators
+export default SelectValidators;

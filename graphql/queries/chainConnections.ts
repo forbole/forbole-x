@@ -9,4 +9,4 @@ export const getChainConnections = (crypto: string): string => `
       }
     }
   }
-`
+`;

@@ -1,27 +1,27 @@
-import { Button, DialogActions, DialogContent, DialogTitle, Typography } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import useStyles from './styles'
-import { useWalletsContext } from '../../contexts/WalletsContext'
+import { Button, DialogActions, DialogContent, DialogTitle, Typography } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useStyles from './styles';
+import { useWalletsContext } from '../../contexts/WalletsContext';
 
 interface DeleteWalletProps {
-  walletId: string
-  onClose(): void
+  walletId: string;
+  onClose(): void;
 }
 
 const DeleteWallet: React.FC<DeleteWalletProps> = ({ walletId, onClose }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const { deleteWallet } = useWalletsContext()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const { deleteWallet } = useWalletsContext();
 
   const onButtonClick = React.useCallback(async () => {
     try {
-      await deleteWallet(walletId)
-      onClose()
+      await deleteWallet(walletId);
+      onClose();
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }, [deleteWallet, walletId])
+  }, [deleteWallet, walletId]);
 
   return (
     <>
@@ -48,7 +48,7 @@ const DeleteWallet: React.FC<DeleteWalletProps> = ({ walletId, onClose }) => {
         </Button>
       </DialogActions>
     </>
-  )
-}
+  );
+};
 
-export default DeleteWallet
+export default DeleteWallet;

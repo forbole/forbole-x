@@ -1,53 +1,53 @@
-import React from 'react'
-import renderer from 'react-test-renderer'
-import CreateWalletDialog from '../../../components/CreateWalletDialog'
+import React from 'react';
+import renderer from 'react-test-renderer';
+import CreateWalletDialog from '../../../components/CreateWalletDialog';
 
 const mockWalletsContext = {
   addWallet: jest.fn(),
-}
+};
 
-const onClose = jest.fn()
+const onClose = jest.fn();
 
 jest.mock('../../../contexts/WalletsContext', () => ({
   useWalletsContext: () => mockWalletsContext,
-}))
+}));
 
-jest.mock('../../../misc/sendMsgToChromeExt', () => jest.fn())
+jest.mock('../../../misc/sendMsgToChromeExt', () => jest.fn());
 
-jest.mock('../../../components/CreateWalletDialog/CreateWallet', () => (props) => (
+jest.mock('../../../components/CreateWalletDialog/CreateWallet', () => props => (
   <div id="CreateWallet" {...props} />
-))
-jest.mock('../../../components/CreateWalletDialog/ConfirmMnemonic', () => (props) => (
+));
+jest.mock('../../../components/CreateWalletDialog/ConfirmMnemonic', () => props => (
   <div id="ConfirmMnemonic" {...props} />
-))
-jest.mock('../../../components/CreateWalletDialog/SecurityPassword', () => (props) => (
+));
+jest.mock('../../../components/CreateWalletDialog/SecurityPassword', () => props => (
   <div id="SecurityPassword" {...props} />
-))
-jest.mock('../../../components/CreateWalletDialog/ImportWallet', () => (props) => (
+));
+jest.mock('../../../components/CreateWalletDialog/ImportWallet', () => props => (
   <div id="ImportWallet" {...props} />
-))
-jest.mock('../../../components/CreateWalletDialog/AccessMyWallet', () => (props) => (
+));
+jest.mock('../../../components/CreateWalletDialog/AccessMyWallet', () => props => (
   <div id="AccessMyWallet" {...props} />
-))
-jest.mock('../../../components/CreateWalletDialog/ImportMnemonicBackup', () => (props) => (
+));
+jest.mock('../../../components/CreateWalletDialog/ImportMnemonicBackup', () => props => (
   <div id="ImportMnemonicBackup" {...props} />
-))
-jest.mock('../../../components/CreateWalletDialog/WhatIsMnemonic', () => (props) => (
+));
+jest.mock('../../../components/CreateWalletDialog/WhatIsMnemonic', () => props => (
   <div id="WhatIsMnemonic" {...props} />
-))
-jest.mock('@material-ui/core/Dialog', () => (props) => <div id="dialog" {...props} />)
+));
+jest.mock('@material-ui/core/Dialog', () => props => <div id="dialog" {...props} />);
 
 describe('component: CreateWalletDialog', () => {
   it('renders open state correctly', () => {
-    const component = renderer.create(<CreateWalletDialog open onClose={onClose} />)
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
+    const component = renderer.create(<CreateWalletDialog open onClose={onClose} />);
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
   it('renders closed state correctly', () => {
-    const component = renderer.create(<CreateWalletDialog open={false} onClose={onClose} />)
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
+    const component = renderer.create(<CreateWalletDialog open={false} onClose={onClose} />);
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
   // it('renders import wallets stage correctly', () => {
   //   const component = renderer.create(<CreateWalletDialog open={false} onClose={onClose} />)
   //   renderer.act(() => {
@@ -396,8 +396,8 @@ describe('component: CreateWalletDialog', () => {
   //   const tree = component.toJSON()
   //   expect(tree).toMatchSnapshot()
   // })
-})
+});
 
 afterEach(() => {
-  jest.clearAllMocks()
-})
+  jest.clearAllMocks();
+});

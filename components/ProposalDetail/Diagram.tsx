@@ -1,20 +1,20 @@
-import { Box, Typography } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { useGetStyles } from './styles'
-import { formatPercentage, formatCrypto } from '../../misc/utils'
+import { Box, Typography } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import { useGetStyles } from './styles';
+import { formatPercentage, formatCrypto } from '../../misc/utils';
 
 interface DiagramProps {
-  crypto: Cryptocurrency
-  value: number
-  title: string
-  color: string
-  percentage: number
+  crypto: Cryptocurrency;
+  value: number;
+  title: string;
+  color: string;
+  percentage: number;
 }
 
 const Diagram: React.FC<DiagramProps> = ({ value, title, color, crypto, percentage }) => {
-  const { classes } = useGetStyles(color)
-  const { t, lang } = useTranslation('common')
+  const { classes } = useGetStyles(color);
+  const { t, lang } = useTranslation('common');
 
   return (
     <Box m={1} position="relative">
@@ -27,7 +27,7 @@ const Diagram: React.FC<DiagramProps> = ({ value, title, color, crypto, percenta
         </Typography>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default Diagram
+export default Diagram;

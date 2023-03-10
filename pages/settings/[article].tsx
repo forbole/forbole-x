@@ -1,15 +1,15 @@
-import React from 'react'
-import { Box, Typography, Breadcrumbs, Link as MLink } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import Layout from '../../components/Layout'
+import React from 'react';
+import { Box, Typography, Breadcrumbs, Link as MLink } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import Layout from '../../components/Layout';
 
 const SettingArticle: React.FC = () => {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation('common');
 
-  const router = useRouter()
-  const aboutTitle = String(router.query.article).replace(/-/g, ' ')
+  const router = useRouter();
+  const aboutTitle = String(router.query.article).replace(/-/g, ' ');
 
   return (
     <Layout
@@ -28,7 +28,7 @@ const SettingArticle: React.FC = () => {
       </Box>
       <Typography>{t(`${aboutTitle} detail`)}</Typography>
     </Layout>
-  )
-}
+  );
+};
 
-export default SettingArticle
+export default SettingArticle;

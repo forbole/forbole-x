@@ -7,21 +7,21 @@ import {
   FilledTextFieldProps,
   CircularProgress,
   useTheme,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
-import { formatCurrency, formatTokenAmount, getTokenAmountBalance } from '../../misc/utils'
-import useStyles from './styles'
-import MemoInput from '../MemoInput'
-import { CustomTheme } from '../../misc/theme'
+import { formatCurrency, formatTokenAmount, getTokenAmountBalance } from '../../misc/utils';
+import useStyles from './styles';
+import MemoInput from '../MemoInput';
+import { CustomTheme } from '../../misc/theme';
 
 interface WithdrawCommissionProps extends Partial<FilledTextFieldProps> {
-  onConfirm(m: string): void
-  account: Account
-  totalAmount: TokenAmount
-  loading: boolean
+  onConfirm(m: string): void;
+  account: Account;
+  totalAmount: TokenAmount;
+  loading: boolean;
 }
 
 const WithdrawCommission: React.FC<WithdrawCommissionProps> = ({
@@ -30,19 +30,19 @@ const WithdrawCommission: React.FC<WithdrawCommissionProps> = ({
   onConfirm,
   loading,
 }) => {
-  const { t, lang } = useTranslation('common')
-  const classes = useStyles()
-  const { currency, currencyRate, hideAmount } = useGeneralContext()
-  const [value, setValue] = React.useState('')
-  const [consent, setConsent] = React.useState(true)
-  const themeStyle: CustomTheme = useTheme()
+  const { t, lang } = useTranslation('common');
+  const classes = useStyles();
+  const { currency, currencyRate, hideAmount } = useGeneralContext();
+  const [value, setValue] = React.useState('');
+  const [consent, setConsent] = React.useState(true);
+  const themeStyle: CustomTheme = useTheme();
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(value)
+      onSubmit={e => {
+        e.preventDefault();
+        onConfirm(value);
       }}
     >
       <DialogContent className={classes.dialogContent}>
@@ -107,7 +107,7 @@ const WithdrawCommission: React.FC<WithdrawCommissionProps> = ({
         </Box>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default WithdrawCommission
+export default WithdrawCommission;

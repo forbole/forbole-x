@@ -1,19 +1,19 @@
-import React from 'react'
-import { Popover, Paper, Typography } from '@material-ui/core'
-import { HelpOutline } from '@material-ui/icons'
-import { useInfoPopoverHook } from './hooks'
-import { useGetStyles } from './styles'
+import React from 'react';
+import { Popover, Paper, Typography } from '@material-ui/core';
+import { HelpOutline } from '@material-ui/icons';
+import { useInfoPopoverHook } from './hooks';
+import { useGetStyles } from './styles';
 
 export interface InfoPopoverProps {
-  detail: string
-  className?: string
+  detail: string;
+  className?: string;
 }
 
 const InfoPopover = (props: InfoPopoverProps) => {
-  const { detail } = props
+  const { detail } = props;
 
-  const { handlePopoverOpen, handlePopoverClose, anchorEl, open } = useInfoPopoverHook()
-  const { classes } = useGetStyles()
+  const { handlePopoverOpen, handlePopoverClose, anchorEl, open } = useInfoPopoverHook();
+  const { classes } = useGetStyles();
 
   const conditions = [
     {
@@ -32,7 +32,7 @@ const InfoPopover = (props: InfoPopoverProps) => {
       display: '0%',
       className: '',
     },
-  ]
+  ];
 
   return (
     <span
@@ -62,19 +62,19 @@ const InfoPopover = (props: InfoPopoverProps) => {
         <Paper className={classes.popoverContainer} elevation={0}>
           {detail}
           <div className={classes.itemWrapper}>
-            {conditions.map((x) => {
+            {conditions.map(x => {
               return (
                 <div className={classes.item} key={x.display}>
                   <Typography>{x.display}</Typography>
                   <div className={`${classes.condition} ${x.className}`} />
                 </div>
-              )
+              );
             })}
           </div>
         </Paper>
       </Popover>
     </span>
-  )
-}
+  );
+};
 
-export default InfoPopover
+export default InfoPopover;

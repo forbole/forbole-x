@@ -11,25 +11,25 @@ import {
   TableCell,
   useTheme,
   Button,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import get from 'lodash/get'
-import { PieChart, Pie, Cell } from 'recharts'
-import ArrowNextIcon from '../../assets/images/icons/icon_arrow_next.svg'
-import useStyles from './styles'
-import { CustomTheme } from '../../misc/theme'
-import { formatCrypto, formatCurrency } from '../../misc/utils'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import cryptocurrencies from '../../misc/cryptocurrencies'
-import useIconProps from '../../misc/useIconProps'
-import useIsMobile from '../../misc/useIsMobile'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import get from 'lodash/get';
+import { PieChart, Pie, Cell } from 'recharts';
+import ArrowNextIcon from '../../assets/images/icons/icon_arrow_next.svg';
+import useStyles from './styles';
+import { CustomTheme } from '../../misc/theme';
+import { formatCrypto, formatCurrency } from '../../misc/utils';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import cryptocurrencies from '../../misc/cryptocurrencies';
+import useIconProps from '../../misc/useIconProps';
+import useIsMobile from '../../misc/useIsMobile';
 
 interface AccountBalanceCardProps {
-  account: Account
-  accountBalance: AccountBalance
-  onVestingClick: () => void
-  hideVestingButton?: boolean
+  account: Account;
+  accountBalance: AccountBalance;
+  onVestingClick: () => void;
+  hideVestingButton?: boolean;
 }
 
 const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
@@ -38,58 +38,58 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
   onVestingClick,
   hideVestingButton,
 }) => {
-  const classes = useStyles()
-  const { t, lang } = useTranslation('common')
-  const theme: CustomTheme = useTheme()
-  const { currency, currencyRate, hideAmount } = useGeneralContext()
-  const isMobile = useIsMobile()
+  const classes = useStyles();
+  const { t, lang } = useTranslation('common');
+  const theme: CustomTheme = useTheme();
+  const { currency, currencyRate, hideAmount } = useGeneralContext();
+  const isMobile = useIsMobile();
   const data = Object.keys(accountBalance.balance)
     .filter(
-      (k) =>
-        k !== 'commissions' || get(accountBalance, `balance.${k}.${account.crypto}.amount`, 0) > 0
+      k =>
+        k !== 'commissions' || get(accountBalance, `balance.${k}.${account.crypto}.amount`, 0) > 0,
     )
     .map((k, i) => ({
       name: t(k),
       value: get(accountBalance, `balance.${k}.${account.crypto}.amount`, 0),
       color: theme.palette.pieChart2[i % theme.palette.pieChart2.length],
-    }))
-  const iconProps = useIconProps()
-  const usdPrice = get(accountBalance, `balance.available.${account.crypto}.price`, 0)
-  const totalBalance = data.map((d) => d.value).reduce((a, b) => a + b, 0)
+    }));
+  const iconProps = useIconProps();
+  const usdPrice = get(accountBalance, `balance.available.${account.crypto}.price`, 0);
+  const totalBalance = data.map(d => d.value).reduce((a, b) => a + b, 0);
 
   // Other Token
   const otherTokens = React.useMemo(() => {
-    const balances = {}
-    const rewards = {}
-    const commissions = {}
-    Object.keys(accountBalance.balance).forEach((k) => {
-      Object.keys(accountBalance.balance[k]).forEach((tk) => {
+    const balances = {};
+    const rewards = {};
+    const commissions = {};
+    Object.keys(accountBalance.balance).forEach(k => {
+      Object.keys(accountBalance.balance[k]).forEach(tk => {
         // Skip native token
         if (tk === account.crypto) {
-          return
+          return;
         }
-        const amount = get(accountBalance, `balance.${k}.${tk}.amount`, 0)
-        const price = get(accountBalance, `balance.${k}.${tk}.price`, 0)
+        const amount = get(accountBalance, `balance.${k}.${tk}.amount`, 0);
+        const price = get(accountBalance, `balance.${k}.${tk}.price`, 0);
         balances[tk] = {
           amount: get(balances, `${tk}.amount`, 0) + amount,
           price,
-        }
+        };
         if (k === 'rewards') {
           rewards[tk] = {
             amount: get(rewards, `${tk}.amount`, 0) + amount,
             price,
-          }
+          };
         }
         if (k === 'commissions') {
           commissions[tk] = {
             amount: get(commissions, `${tk}.amount`, 0) + amount,
             price,
-          }
+          };
         }
-      })
-    })
-    return { balances, rewards, commissions }
-  }, [accountBalance, account])
+      });
+    });
+    return { balances, rewards, commissions };
+  }, [accountBalance, account]);
 
   return (
     <>
@@ -108,15 +108,15 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
             width={theme.spacing(isMobile ? 16 : 20)}
           >
             <Pie
-              data={data.filter((d) => !!d.value)}
+              data={data.filter(d => !!d.value)}
               innerRadius={theme.spacing(isMobile ? 7 : 8.5)}
               outerRadius={theme.spacing(isMobile ? 7 : 8.5)}
               paddingAngle={12}
               dataKey="value"
             >
               {data
-                .filter((d) => !!d.value)
-                .map((d) => (
+                .filter(d => !!d.value)
+                .map(d => (
                   <Cell
                     key={d.name}
                     strokeLinejoin="round"
@@ -127,7 +127,7 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
             </Pie>
           </PieChart>
           <Box flex={1} ml={isMobile ? 2 : 10}>
-            {data.map((d) => (
+            {data.map(d => (
               <Box key={d.name} display="flex" alignItems="center" justifyContent="space-between">
                 <Box display="flex" alignItems="center" mb={0.5}>
                   <Box
@@ -189,7 +189,7 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
             <TableBody>
               {Object.keys(otherTokens.balances).map((token, index) => (
                 <TableRow key={token} className={classes.tableRow}>
-                  <TableCell># {index + 1}</TableCell>
+                  <TableCell>#{index + 1}</TableCell>
                   <TableCell>
                     <Box display="flex" alignItems="center">
                       <Avatar
@@ -231,7 +231,7 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
         </Card>
       ) : null}
     </>
-  )
-}
+  );
+};
 
-export default AccountBalanceCard
+export default AccountBalanceCard;

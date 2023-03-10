@@ -1,27 +1,27 @@
-import { Box, Typography, Divider, Button } from '@material-ui/core'
-import React from 'react'
-import useTranslation from 'next-translate/useTranslation'
-import useStyles from './styles'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+import { Box, Typography, Divider, Button } from '@material-ui/core';
+import React from 'react';
+import useTranslation from 'next-translate/useTranslation';
+import useStyles from './styles';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 import {
   formatPercentage,
   formatTokenAmount,
   transformValidatorsWithTokenAmount,
-} from '../../misc/utils'
-import DelegationDialog from '../DelegationDialog'
-import WithdrawRewardsDialog from '../WithdrawRewardsDialog'
-import SendDialog from '../SendDialog'
-import useValidators from '../../graphql/hooks/useValidators'
+} from '../../misc/utils';
+import DelegationDialog from '../DelegationDialog';
+import WithdrawRewardsDialog from '../WithdrawRewardsDialog';
+import SendDialog from '../SendDialog';
+import useValidators from '../../graphql/hooks/useValidators';
 
 interface ChromeExtBottomProps {
-  availableTokens: AvailableTokens
-  delegated: TokenAmount
-  rewards: TokenAmount
-  commissions: TokenAmount
-  account: Account
-  inflation: number
-  balanceData: any
+  availableTokens: AvailableTokens;
+  delegated: TokenAmount;
+  rewards: TokenAmount;
+  commissions: TokenAmount;
+  account: Account;
+  inflation: number;
+  balanceData: any;
 }
 
 const ChromeExtBottom: React.FC<ChromeExtBottomProps> = ({
@@ -33,21 +33,21 @@ const ChromeExtBottom: React.FC<ChromeExtBottomProps> = ({
   inflation,
   balanceData,
 }) => {
-  const classes = useStyles()
-  const { t, lang } = useTranslation('common')
-  const { wallets } = useWalletsContext()
-  const { hideAmount } = useGeneralContext()
-  const wallet = wallets.find((w) => w.id === account.walletId)
+  const classes = useStyles();
+  const { t, lang } = useTranslation('common');
+  const { wallets } = useWalletsContext();
+  const { hideAmount } = useGeneralContext();
+  const wallet = wallets.find(w => w.id === account.walletId);
 
-  const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
-  const [withdrawRewardsDialogOpen, setWithdrawRewardsDialogOpen] = React.useState(false)
-  const [sendDialogOpen, setSendDialogOpen] = React.useState(false)
+  const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false);
+  const [withdrawRewardsDialogOpen, setWithdrawRewardsDialogOpen] = React.useState(false);
+  const [sendDialogOpen, setSendDialogOpen] = React.useState(false);
 
-  const validatorsData = useValidators(account.crypto)
+  const validatorsData = useValidators(account.crypto);
   const validators = React.useMemo(
     () => transformValidatorsWithTokenAmount(validatorsData, balanceData),
-    [validatorsData, balanceData]
-  )
+    [validatorsData, balanceData],
+  );
 
   return (
     <>
@@ -121,7 +121,7 @@ const ChromeExtBottom: React.FC<ChromeExtBottomProps> = ({
         availableTokens={availableTokens}
       />
     </>
-  )
-}
+  );
+};
 
-export default ChromeExtBottom
+export default ChromeExtBottom;

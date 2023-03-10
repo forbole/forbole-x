@@ -1,26 +1,33 @@
-import { Button, DialogActions, DialogContent, Typography, Box, TextField } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import PasswordInput from '../PasswordInput'
-import useStyles from './styles'
+import {
+  Button,
+  DialogActions,
+  DialogContent,
+  Typography,
+  Box,
+  TextField,
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import PasswordInput from '../PasswordInput';
+import useStyles from './styles';
 
 interface ImportMnemonicBackupProps {
-  onConfirm(params: { password: string; backupPhrase: string }): void
-  error: string
+  onConfirm(params: { password: string; backupPhrase: string }): void;
+  error: string;
 }
 
 const ImportMnemonicBackup: React.FC<ImportMnemonicBackupProps> = ({ onConfirm, error }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const [password, setPassword] = React.useState('')
-  const [backupPhrase, setBackupPhrase] = React.useState('')
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const [password, setPassword] = React.useState('');
+  const [backupPhrase, setBackupPhrase] = React.useState('');
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm({ password, backupPhrase })
+      onSubmit={e => {
+        e.preventDefault();
+        onConfirm({ password, backupPhrase });
       }}
     >
       <DialogContent className={classes.dialogContent}>
@@ -35,14 +42,14 @@ const ImportMnemonicBackup: React.FC<ImportMnemonicBackupProps> = ({ onConfirm, 
           rows={8}
           fullWidth
           value={backupPhrase}
-          onChange={(e) => setBackupPhrase(e.target.value)}
+          onChange={e => setBackupPhrase(e.target.value)}
         />
         <Box my={3}>
           <Typography>{t('encryption password')}</Typography>
           <PasswordInput
             placeholder={t('encryption password')}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={e => setPassword(e.target.value)}
           />
           <Typography variant="body2" color="error">
             {error}
@@ -63,7 +70,7 @@ const ImportMnemonicBackup: React.FC<ImportMnemonicBackupProps> = ({ onConfirm, 
         </Box>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default ImportMnemonicBackup
+export default ImportMnemonicBackup;

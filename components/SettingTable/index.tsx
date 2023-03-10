@@ -1,25 +1,25 @@
-import React from 'react'
-import { Box, Tabs, Tab } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import useStyles from './styles'
-import GeneralTable from './GeneralTable'
+import React from 'react';
+import { Box, Tabs, Tab } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import useStyles from './styles';
+import GeneralTable from './GeneralTable';
 // import HelpTable from './HelpTable'
-import FeedbackTable from './FeedbackTable'
-import AboutTable from './AboutTable'
-import FollowUsTable from './FollowUsTable'
+import FeedbackTable from './FeedbackTable';
+import AboutTable from './AboutTable';
+import FollowUsTable from './FollowUsTable';
 
 export type FavAddress = {
-  address: string
-  crypto: string
-  moniker: string
-  note?: string
-  img?: string
-}
+  address: string;
+  crypto: string;
+  moniker: string;
+  note?: string;
+  img?: string;
+};
 
 const SettingTable: React.FC = () => {
-  const classes = useStyles()
-  const { t } = useTranslation('common')
-  const [currentTab, setCurrentTab] = React.useState(0)
+  const classes = useStyles();
+  const { t } = useTranslation('common');
+  const [currentTab, setCurrentTab] = React.useState(0);
 
   const tabs = [
     { label: 'general' },
@@ -27,7 +27,7 @@ const SettingTable: React.FC = () => {
     { label: 'feedback' },
     { label: 'follow us' },
     { label: 'about' },
-  ]
+  ];
 
   return (
     <>
@@ -36,7 +36,7 @@ const SettingTable: React.FC = () => {
         classes={{ indicator: classes.tabIndicator, root: classes.tab }}
         onChange={(e, v) => setCurrentTab(v)}
       >
-        {tabs.map((tab) => (
+        {tabs.map(tab => (
           <Tab key={tab.label} label={t(tab.label)} />
         ))}
       </Tabs>
@@ -47,7 +47,7 @@ const SettingTable: React.FC = () => {
       {currentTab === 2 ? <FollowUsTable /> : null}
       {currentTab === 3 ? <AboutTable /> : null}
     </>
-  )
-}
+  );
+};
 
-export default SettingTable
+export default SettingTable;

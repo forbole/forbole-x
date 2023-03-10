@@ -20,6 +20,6 @@ const defaultDenoms: TokenPrice[] = [
       },
     },
   },
-]
+];
 
-export default defaultDenoms
+export default defaultDenoms;

@@ -1,19 +1,19 @@
-import { Paper, Divider, Box, Typography, useTheme, Link } from '@material-ui/core'
-import { TwitterIcon, TelegramIcon } from 'react-share'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import ForboleIcon from '../../assets/images/icons/icon_forbole.svg'
-import GithubIcon from '../../assets/images/icons/icon_github.svg'
-import BigDipperExplorerIcon from '../../assets/images/icons/icon_big_dipper_explorer.svg'
-import { CustomTheme } from '../../misc/theme'
+import { Paper, Divider, Box, Typography, useTheme, Link } from '@material-ui/core';
+import { TwitterIcon, TelegramIcon } from 'react-share';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
+import ForboleIcon from '../../assets/images/icons/icon_forbole.svg';
+import GithubIcon from '../../assets/images/icons/icon_github.svg';
+import BigDipperExplorerIcon from '../../assets/images/icons/icon_big_dipper_explorer.svg';
+import { CustomTheme } from '../../misc/theme';
 
 const FollowUsTable: React.FC = () => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const themeStyle: CustomTheme = useTheme()
-  const iconProps = useIconProps(3)
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const themeStyle: CustomTheme = useTheme();
+  const iconProps = useIconProps(3);
 
   return (
     <Paper
@@ -119,7 +119,7 @@ const FollowUsTable: React.FC = () => {
         </Box>
       </Link>
     </Paper>
-  )
-}
+  );
+};
 
-export default FollowUsTable
+export default FollowUsTable;

@@ -1,24 +1,24 @@
-import { Box, Button, Typography, useTheme } from '@material-ui/core'
-import React from 'react'
-import useTranslation from 'next-translate/useTranslation'
-import GetStartedLightImage from '../../assets/images/get_started_light.svg'
-import GetStartedDarkImage from '../../assets/images/get_started_dark.svg'
-import useStyles from './styles'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import OnboardingDialog from '../OnboardingDialog'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import CreateWalletDialog from '../CreateWalletDialog'
-import useIsMobile from '../../misc/useIsMobile'
+import { Box, Button, Typography, useTheme } from '@material-ui/core';
+import React from 'react';
+import useTranslation from 'next-translate/useTranslation';
+import GetStartedLightImage from '../../assets/images/get_started_light.svg';
+import GetStartedDarkImage from '../../assets/images/get_started_dark.svg';
+import useStyles from './styles';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import OnboardingDialog from '../OnboardingDialog';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import CreateWalletDialog from '../CreateWalletDialog';
+import useIsMobile from '../../misc/useIsMobile';
 
 const GetStarted: React.FC = () => {
-  const classes = useStyles()
-  const { theme } = useGeneralContext()
-  const themeStyle = useTheme()
-  const isMobile = useIsMobile()
-  const { unlockWallets } = useWalletsContext()
-  const { t } = useTranslation('common')
-  const [isOnboardingDialogOpen, setIsOnboardingDialogOpen] = React.useState(false)
-  const [isCreateWalletDialogOpen, setIsCreateWalletDialogOpen] = React.useState(false)
+  const classes = useStyles();
+  const { theme } = useGeneralContext();
+  const themeStyle = useTheme();
+  const isMobile = useIsMobile();
+  const { unlockWallets } = useWalletsContext();
+  const { t } = useTranslation('common');
+  const [isOnboardingDialogOpen, setIsOnboardingDialogOpen] = React.useState(false);
+  const [isCreateWalletDialogOpen, setIsCreateWalletDialogOpen] = React.useState(false);
 
   return (
     <>
@@ -64,10 +64,10 @@ const GetStarted: React.FC = () => {
       <OnboardingDialog
         open={isOnboardingDialogOpen}
         onClose={() => setIsOnboardingDialogOpen(false)}
-        onSubmit={(password) => {
-          unlockWallets(password)
-          setIsOnboardingDialogOpen(false)
-          setIsCreateWalletDialogOpen(true)
+        onSubmit={password => {
+          unlockWallets(password);
+          setIsOnboardingDialogOpen(false);
+          setIsCreateWalletDialogOpen(true);
         }}
       />
       <CreateWalletDialog
@@ -75,7 +75,7 @@ const GetStarted: React.FC = () => {
         onClose={() => setIsCreateWalletDialogOpen(false)}
       />
     </>
-  )
-}
+  );
+};
 
-export default GetStarted
+export default GetStarted;

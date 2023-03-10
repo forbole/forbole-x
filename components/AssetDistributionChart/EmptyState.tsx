@@ -1,16 +1,16 @@
-import React from 'react'
-import { Box, Typography, useTheme } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import ForboleLogoDark from '../../assets/images/image_default_dark.svg'
-import ForboleLogoLight from '../../assets/images/image_default_light.svg'
-import useStyles from './styles'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+import React from 'react';
+import { Box, Typography, useTheme } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import ForboleLogoDark from '../../assets/images/image_default_dark.svg';
+import ForboleLogoLight from '../../assets/images/image_default_light.svg';
+import useStyles from './styles';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
 const EmptyState: React.FC = () => {
-  const classes = useStyles()
-  const themeStyle = useTheme()
-  const { theme } = useGeneralContext()
-  const { t } = useTranslation('common')
+  const classes = useStyles();
+  const themeStyle = useTheme();
+  const { theme } = useGeneralContext();
+  const { t } = useTranslation('common');
   return (
     <Box
       display="flex"
@@ -35,7 +35,7 @@ const EmptyState: React.FC = () => {
       )}
       <Typography className={classes.noAsset}>{t('no asset')}</Typography>
     </Box>
-  )
-}
+  );
+};
 
-export default EmptyState
+export default EmptyState;

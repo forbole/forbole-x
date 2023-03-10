@@ -7,16 +7,16 @@ import {
   Button,
   CircularProgress,
   useTheme,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import useStyles from './styles'
-import MemoInput from '../MemoInput'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useStyles from './styles';
+import MemoInput from '../MemoInput';
 
 interface EditRewardAddressProps {
-  oldWithdrawAddress: string
-  onNext(r: string, m: string): void
-  loading: boolean
+  oldWithdrawAddress: string;
+  onNext(r: string, m: string): void;
+  loading: boolean;
 }
 
 const EditRewardAddress: React.FC<EditRewardAddressProps> = ({
@@ -24,19 +24,19 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({
   onNext,
   loading,
 }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const theme = useTheme()
-  const [withdrawAddress, setWithdrawAddress] = React.useState('')
-  const [memo, setMemo] = React.useState('')
-  const [consent, setConsent] = React.useState(true)
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const theme = useTheme();
+  const [withdrawAddress, setWithdrawAddress] = React.useState('');
+  const [memo, setMemo] = React.useState('');
+  const [consent, setConsent] = React.useState(true);
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onNext(withdrawAddress, memo)
+      onSubmit={e => {
+        e.preventDefault();
+        onNext(withdrawAddress, memo);
       }}
     >
       <DialogContent className={classes.dialogContent}>
@@ -64,7 +64,7 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({
                   disableUnderline: true,
                 }}
                 value={withdrawAddress}
-                onChange={(e) => setWithdrawAddress(e.target.value)}
+                onChange={e => setWithdrawAddress(e.target.value)}
               />
             </Box>
             <Box>
@@ -99,7 +99,7 @@ const EditRewardAddress: React.FC<EditRewardAddressProps> = ({
         </Button>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default EditRewardAddress
+export default EditRewardAddress;

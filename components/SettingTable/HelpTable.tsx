@@ -1,16 +1,16 @@
-import { Divider, Box, Typography, useTheme, Grid, TextField } from '@material-ui/core'
-import { Autocomplete } from '@material-ui/lab'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
+import { Divider, Box, Typography, useTheme, Grid, TextField } from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
+import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg';
 
 const HelpTable: React.FC = () => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const themeStyle = useTheme()
-  const iconProps = useIconProps()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const themeStyle = useTheme();
+  const iconProps = useIconProps();
 
   const helpContent = [
     {
@@ -97,25 +97,25 @@ const HelpTable: React.FC = () => {
       detail:
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an ',
     },
-  ]
+  ];
 
-  const categories = ['transfer and receive', 'about staking', 'wallet and security', 'category 4']
+  const categories = ['transfer and receive', 'about staking', 'wallet and security', 'category 4'];
 
-  const [listedDetail, setListedDetail] = React.useState(helpContent)
+  const [listedDetail, setListedDetail] = React.useState(helpContent);
 
   const onClick = (i: number) => {
-    const updatedListDetail = listedDetail
-    updatedListDetail[i].display = !updatedListDetail[i].display
-    setListedDetail([...updatedListDetail])
-  }
+    const updatedListDetail = listedDetail;
+    updatedListDetail[i].display = !updatedListDetail[i].display;
+    setListedDetail([...updatedListDetail]);
+  };
 
   return (
     <>
       <Box className={classes.searchingBox} height={themeStyle.spacing(7)}>
         <Autocomplete
           options={helpContent}
-          groupBy={(option) => option.category}
-          getOptionLabel={(option) => option.title}
+          groupBy={option => option.category}
+          getOptionLabel={option => option.title}
           openOnFocus
           fullWidth
           renderInput={({ InputProps, ...props }) => (
@@ -157,9 +157,9 @@ const HelpTable: React.FC = () => {
                   </Box>
                   <Divider />
                 </>
-              )
+              );
             }
-            return null
+            return null;
           })}
         </Grid>
         <Grid item xs={6}>
@@ -180,9 +180,9 @@ const HelpTable: React.FC = () => {
                   </Box>
                   <Divider />
                 </>
-              )
+              );
             }
-            return null
+            return null;
           })}
         </Grid>
         <Grid item xs={6}>
@@ -203,9 +203,9 @@ const HelpTable: React.FC = () => {
                   </Box>
                   <Divider />
                 </>
-              )
+              );
             }
-            return null
+            return null;
           })}
         </Grid>
         <Grid item xs={6}>
@@ -226,14 +226,14 @@ const HelpTable: React.FC = () => {
                   </Box>
                   <Divider />
                 </>
-              )
+              );
             }
-            return null
+            return null;
           })}
         </Grid>
       </Grid>
     </>
-  )
-}
+  );
+};
 
-export default HelpTable
+export default HelpTable;

@@ -1,24 +1,24 @@
-import React from 'react'
-import { Box, Popover, Typography, Avatar, Divider, useTheme } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import get from 'lodash/get'
-import useStyles from './styles'
-import { formatCurrency, formatPercentage, formatTokenAmount } from '../../misc/utils'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+import React from 'react';
+import { Box, Popover, Typography, Avatar, Divider, useTheme } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import get from 'lodash/get';
+import useStyles from './styles';
+import { formatCurrency, formatPercentage, formatTokenAmount } from '../../misc/utils';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
 interface AssetPopoverProps {
   accountBalance: {
-    available: TokenAmount
-    delegated: TokenAmount
-    rewards: TokenAmount
-    commissions: TokenAmount
-    unbonding: TokenAmount
-    total: TokenAmount
-  }
-  cryptocurrency: Cryptocurrency
-  percentage: number
-  anchorPosition?: { top: number; left: number }
-  onClose(): void
+    available: TokenAmount;
+    delegated: TokenAmount;
+    rewards: TokenAmount;
+    commissions: TokenAmount;
+    unbonding: TokenAmount;
+    total: TokenAmount;
+  };
+  cryptocurrency: Cryptocurrency;
+  percentage: number;
+  anchorPosition?: { top: number; left: number };
+  onClose(): void;
 }
 
 const AssetPopover: React.FC<AssetPopoverProps> = ({
@@ -28,10 +28,10 @@ const AssetPopover: React.FC<AssetPopoverProps> = ({
   anchorPosition,
   onClose,
 }) => {
-  const classes = useStyles()
-  const { t, lang } = useTranslation('common')
-  const { currency, currencyRate, hideAmount } = useGeneralContext()
-  const theme = useTheme()
+  const classes = useStyles();
+  const { t, lang } = useTranslation('common');
+  const { currency, currencyRate, hideAmount } = useGeneralContext();
+  const theme = useTheme();
 
   return (
     <Popover
@@ -57,7 +57,7 @@ const AssetPopover: React.FC<AssetPopoverProps> = ({
         </Box>
         <Typography>{formatPercentage(percentage, lang)}</Typography>
       </Box>
-      {['available', 'delegated', 'unbonding', 'rewards', 'total'].map((key) => (
+      {['available', 'delegated', 'unbonding', 'rewards', 'total'].map(key => (
         <React.Fragment key={key}>
           <Divider />
           <Box p={2} display="flex" justifyContent="space-between">
@@ -77,7 +77,7 @@ const AssetPopover: React.FC<AssetPopoverProps> = ({
                   get(accountBalance, `${key}.${cryptocurrency.name.toLowerCase()}.amount`, 0) *
                     get(accountBalance, `${key}.${cryptocurrency.name.toLowerCase()}.price`, 0) *
                     currencyRate,
-                  { currency, lang, hideAmount }
+                  { currency, lang, hideAmount },
                 )}
               </Typography>
             </Box>
@@ -85,7 +85,7 @@ const AssetPopover: React.FC<AssetPopoverProps> = ({
         </React.Fragment>
       ))}
     </Popover>
-  )
-}
+  );
+};
 
-export default AssetPopover
+export default AssetPopover;

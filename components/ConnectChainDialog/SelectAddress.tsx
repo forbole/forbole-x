@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-await-in-loop */
-import React from 'react'
+import React from 'react';
 import {
   Box,
   DialogTitle,
@@ -17,23 +17,23 @@ import {
   useTheme,
   CircularProgress,
   TextField,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import times from 'lodash/times'
-import TablePagination from '../TablePagination'
-import useStyles from './styles'
-import getWalletAddress from '../../misc/tx/getWalletAddress'
-import { CustomTheme } from '../../misc/theme'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import times from 'lodash/times';
+import TablePagination from '../TablePagination';
+import useStyles from './styles';
+import getWalletAddress from '../../misc/tx/getWalletAddress';
+import { CustomTheme } from '../../misc/theme';
 
-const MAX_ADDRESSES = 100
+const MAX_ADDRESSES = 100;
 
 interface SelectAddressProps {
-  onConfirm: (result: { address: string; account: number; change: number; index: number }) => void
-  coinType: number
-  prefix: string
-  mnemonic: string
-  ledgerAppName: string
-  ledgerTransport: any
+  onConfirm: (result: { address: string; account: number; change: number; index: number }) => void;
+  coinType: number;
+  prefix: string;
+  mnemonic: string;
+  ledgerAppName: string;
+  ledgerTransport: any;
 }
 
 const SelectAddress: React.FC<SelectAddressProps> = ({
@@ -44,31 +44,31 @@ const SelectAddress: React.FC<SelectAddressProps> = ({
   ledgerAppName,
   ledgerTransport,
 }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const theme: CustomTheme = useTheme()
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const theme: CustomTheme = useTheme();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [addresses, setAddresses] = React.useState(
-    times(10).map(() => ({ address: '', index: 0, account: 0, change: 0 }))
-  )
+    times(10).map(() => ({ address: '', index: 0, account: 0, change: 0 })),
+  );
   const [selectedAddress, setSelectedAddress] = React.useState<{
-    address: string
-    index: number
-    account: number
-    change: number
-  }>({ address: '', index: 0, account: 0, change: 0 })
-  const [loading, setLoading] = React.useState(false)
+    address: string;
+    index: number;
+    account: number;
+    change: number;
+  }>({ address: '', index: 0, account: 0, change: 0 });
+  const [loading, setLoading] = React.useState(false);
   // Advanced account
-  const [isAdvance, setIsAdvance] = React.useState(false)
-  const [hdAccount, setHdAccount] = React.useState('')
-  const [hdIndex, setHdIndex] = React.useState('')
-  const [hdChange, setHdChange] = React.useState('')
-  const [hdAddress, setHdAddress] = React.useState('')
+  const [isAdvance, setIsAdvance] = React.useState(false);
+  const [hdAccount, setHdAccount] = React.useState('');
+  const [hdIndex, setHdIndex] = React.useState('');
+  const [hdChange, setHdChange] = React.useState('');
+  const [hdAddress, setHdAddress] = React.useState('');
 
   const updateAddresses = React.useCallback(async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       if (isAdvance && hdAccount !== '' && hdIndex !== '') {
         const address = await getWalletAddress(
           mnemonic,
@@ -80,11 +80,11 @@ const SelectAddress: React.FC<SelectAddressProps> = ({
             change: Number(hdChange) || 0,
             index: Number(hdIndex) || 0,
           },
-          ledgerTransport
-        )
-        setHdAddress(address)
+          ledgerTransport,
+        );
+        setHdAddress(address);
       } else if (!isAdvance) {
-        const newAddresses = []
+        const newAddresses = [];
         for (let i = page * rowsPerPage; i < (page + 1) * rowsPerPage; i += 1) {
           const address = await getWalletAddress(
             mnemonic,
@@ -96,15 +96,15 @@ const SelectAddress: React.FC<SelectAddressProps> = ({
               change: 0,
               index: 0,
             },
-            ledgerTransport
-          )
-          newAddresses.push({ address, index: 0, account: i, change: 0 })
+            ledgerTransport,
+          );
+          newAddresses.push({ address, index: 0, account: i, change: 0 });
         }
-        setAddresses(newAddresses)
+        setAddresses(newAddresses);
       }
-      setLoading(false)
+      setLoading(false);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   }, [
     page,
@@ -118,17 +118,17 @@ const SelectAddress: React.FC<SelectAddressProps> = ({
     hdAccount,
     hdChange,
     hdIndex,
-  ])
+  ]);
 
   React.useEffect(() => {
-    updateAddresses()
-  }, [page, rowsPerPage, hdAccount, hdIndex, hdChange, isAdvance])
+    updateAddresses();
+  }, [page, rowsPerPage, hdAccount, hdIndex, hdChange, isAdvance]);
 
   return (
     <form
       noValidate
-      onSubmit={async (e) => {
-        e.preventDefault()
+      onSubmit={async e => {
+        e.preventDefault();
         onConfirm(
           isAdvance
             ? {
@@ -137,8 +137,8 @@ const SelectAddress: React.FC<SelectAddressProps> = ({
                 index: Number(hdIndex) || 0,
                 change: Number(hdChange) || 0,
               }
-            : selectedAddress
-        )
+            : selectedAddress,
+        );
       }}
     >
       {isAdvance ? (
@@ -151,7 +151,11 @@ const SelectAddress: React.FC<SelectAddressProps> = ({
           <Typography gutterBottom>{t('advanced account')}</Typography>
           <Typography gutterBottom>{t('enter hd path')}</Typography>
           <Box display="flex" alignItems="center">
-            <Typography>m/44'/{coinType}'/</Typography>
+            <Typography>
+              m/44'/
+              {coinType}
+              '/
+            </Typography>
             <Box mx={2}>
               <TextField
                 fullWidth
@@ -161,7 +165,7 @@ const SelectAddress: React.FC<SelectAddressProps> = ({
                   disableUnderline: true,
                 }}
                 value={hdAccount}
-                onChange={(e) => setHdAccount(e.target.value)}
+                onChange={e => setHdAccount(e.target.value)}
               />
             </Box>
             {!ledgerTransport ? (
@@ -176,7 +180,7 @@ const SelectAddress: React.FC<SelectAddressProps> = ({
                       disableUnderline: true,
                     }}
                     value={hdChange}
-                    onChange={(e) => setHdChange(e.target.value)}
+                    onChange={e => setHdChange(e.target.value)}
                   />
                 </Box>
                 <Typography>'/</Typography>
@@ -193,7 +197,7 @@ const SelectAddress: React.FC<SelectAddressProps> = ({
                   disableUnderline: true,
                 }}
                 value={hdIndex}
-                onChange={(e) => setHdIndex(e.target.value)}
+                onChange={e => setHdIndex(e.target.value)}
               />
             </Box>
           </Box>
@@ -222,7 +226,7 @@ const SelectAddress: React.FC<SelectAddressProps> = ({
 
             <TableBody>
               {addresses.map(({ address }, i) => {
-                const account = page * rowsPerPage + i
+                const account = page * rowsPerPage + i;
                 return (
                   <TableRow key={account} className={classes.tableRow}>
                     <TableCell className={classes.tableCell}>
@@ -244,7 +248,7 @@ const SelectAddress: React.FC<SelectAddressProps> = ({
                       <Typography>{address}</Typography>
                     </TableCell>
                   </TableRow>
-                )
+                );
               })}
             </TableBody>
             {loading ? (
@@ -291,7 +295,7 @@ const SelectAddress: React.FC<SelectAddressProps> = ({
         </Button>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default SelectAddress
+export default SelectAddress;

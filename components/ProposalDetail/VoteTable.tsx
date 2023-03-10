@@ -11,37 +11,37 @@ import {
   Tabs,
   Tab,
   Link,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { useGetStyles } from './styles'
-import { VoteDetail } from './index'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import TablePagination from '../TablePagination'
-import { formatCrypto, formatPercentage } from '../../misc/utils'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import { useGetStyles } from './styles';
+import { VoteDetail } from './index';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import TablePagination from '../TablePagination';
+import { formatCrypto, formatPercentage } from '../../misc/utils';
 
 interface DepositTableProps {
-  voteDetails: VoteDetail[]
-  crypto: Cryptocurrency
+  voteDetails: VoteDetail[];
+  crypto: Cryptocurrency;
 }
 
 const VoteTable: React.FC<DepositTableProps> = ({ voteDetails, crypto }) => {
-  const { classes } = useGetStyles()
-  const { t, lang } = useTranslation('common')
-  const [currentTab, setCurrentTab] = React.useState(0)
-  const { theme } = useGeneralContext()
+  const { classes } = useGetStyles();
+  const { t, lang } = useTranslation('common');
+  const [currentTab, setCurrentTab] = React.useState(0);
+  const { theme } = useGeneralContext();
 
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const tabs = [
     { label: 'all votes', rows: voteDetails },
-    { label: 'yes', rows: voteDetails.filter((v) => v.answer === 'yes') },
-    { label: 'no', rows: voteDetails.filter((v) => v.answer === 'no') },
-    { label: 'veto', rows: voteDetails.filter((v) => v.answer === 'veto') },
-    { label: 'abstain', rows: voteDetails.filter((v) => v.answer === 'abstain') },
-    { label: 'absence', rows: voteDetails.filter((v) => v.answer === 'absence') },
-  ]
+    { label: 'yes', rows: voteDetails.filter(v => v.answer === 'yes') },
+    { label: 'no', rows: voteDetails.filter(v => v.answer === 'no') },
+    { label: 'veto', rows: voteDetails.filter(v => v.answer === 'veto') },
+    { label: 'abstain', rows: voteDetails.filter(v => v.answer === 'abstain') },
+    { label: 'absence', rows: voteDetails.filter(v => v.answer === 'absence') },
+  ];
 
   const columns = [
     {
@@ -63,7 +63,7 @@ const VoteTable: React.FC<DepositTableProps> = ({ voteDetails, crypto }) => {
       label: 'answer',
       alignRight: true,
     },
-  ]
+  ];
 
   return (
     <Card>
@@ -74,14 +74,14 @@ const VoteTable: React.FC<DepositTableProps> = ({ voteDetails, crypto }) => {
           onChange={(e, v) => setCurrentTab(v)}
           textColor={theme === 'light' ? 'primary' : 'inherit'}
         >
-          {tabs.map((tab) => (
+          {tabs.map(tab => (
             <Tab key={tab.label} label={`${t(tab.label)} (${tab.rows.length})`} />
           ))}
         </Tabs>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              {columns.map((column) => {
+              {columns.map(column => {
                 return (
                   <TableCell
                     key={column.label}
@@ -90,12 +90,12 @@ const VoteTable: React.FC<DepositTableProps> = ({ voteDetails, crypto }) => {
                   >
                     <Typography variant="subtitle1">{t(column.label)}</Typography>
                   </TableCell>
-                )
+                );
               })}
             </TableRow>
           </TableHead>
           <TableBody>
-            {tabs[currentTab].rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((v) => {
+            {tabs[currentTab].rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map(v => {
               return (
                 <TableRow className={classes.tableRow}>
                   <TableCell className={classes.tableCell}>
@@ -134,7 +134,7 @@ const VoteTable: React.FC<DepositTableProps> = ({ voteDetails, crypto }) => {
                     <Typography variant="subtitle1">{t(v.answer)}</Typography>
                   </TableCell>
                 </TableRow>
-              )
+              );
             })}
           </TableBody>
         </Table>
@@ -147,7 +147,7 @@ const VoteTable: React.FC<DepositTableProps> = ({ voteDetails, crypto }) => {
         />
       </Box>
     </Card>
-  )
-}
+  );
+};
 
-export default VoteTable
+export default VoteTable;

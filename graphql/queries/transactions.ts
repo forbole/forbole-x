@@ -12,4 +12,4 @@ query Transactions($address: _text) @api(name: ${crypto}bdjuno) {
     }
   }
 }
-`
+`;

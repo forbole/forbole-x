@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   Box,
   Card,
@@ -12,72 +12,72 @@ import {
   TableBody,
   TableRow,
   TableCell,
-} from '@material-ui/core'
-import Linkify from 'react-linkify'
-import useTranslation from 'next-translate/useTranslation'
-import get from 'lodash/get'
-import { useGetStyles } from './styles'
-import ActiveStatus from './ActiveStatus'
-import DepositTable from './DepositTable'
-import VoteTime from './VoteTime'
-import DepositTime from './DepositTime'
-import InactiveTime from './InactiveTime'
-import InActiveStatus from './InActiveStatus'
-import VoteDialog from '../VoteDialog'
-import VoteResult from './VoteResult'
-import VoteTable from './VoteTable'
-import Markdown from '../Markdown'
-import { formatTokenAmount, getTokenAmountFromDenoms } from '../../misc/utils'
+} from '@material-ui/core';
+import Linkify from 'react-linkify';
+import useTranslation from 'next-translate/useTranslation';
+import get from 'lodash/get';
+import { useGetStyles } from './styles';
+import ActiveStatus from './ActiveStatus';
+import DepositTable from './DepositTable';
+import VoteTime from './VoteTime';
+import DepositTime from './DepositTime';
+import InactiveTime from './InactiveTime';
+import InActiveStatus from './InActiveStatus';
+import VoteDialog from '../VoteDialog';
+import VoteResult from './VoteResult';
+import VoteTable from './VoteTable';
+import Markdown from '../Markdown';
+import { formatTokenAmount, getTokenAmountFromDenoms } from '../../misc/utils';
 
 export interface VoteSummary {
-  amount: number
-  description: string
+  amount: number;
+  description: string;
   data: {
-    title: string
-    percentage: number
-    value: number
-  }[]
+    title: string;
+    percentage: number;
+    value: number;
+  }[];
 }
 
 export interface VoteDetail {
   voter: {
-    name: string
-    image: string
-    address: string
-  }
-  votingPower: number
-  votingPowerPercentage: number
-  votingPowerOverride: number
-  answer: string
+    name: string;
+    image: string;
+    address: string;
+  };
+  votingPower: number;
+  votingPowerPercentage: number;
+  votingPowerOverride: number;
+  answer: string;
 }
 
 export interface DepositDetail {
   depositor: {
-    name: string
-    image: string
-    address: string
-  }
-  amount: TokenAmount
-  time: string
+    name: string;
+    image: string;
+    address: string;
+  };
+  amount: TokenAmount;
+  time: string;
 }
 
 interface ProposalDetailProps {
-  proposal: Proposal
-  crypto: Cryptocurrency
-  voteSummary?: VoteSummary
-  voteDetails?: VoteDetail[]
-  denoms: TokenPrice[]
+  proposal: Proposal;
+  crypto: Cryptocurrency;
+  voteSummary?: VoteSummary;
+  voteDetails?: VoteDetail[];
+  denoms: TokenPrice[];
 }
 
 const TimeContent: React.FC<{ proposal: Proposal }> = ({ proposal }) => {
   if (proposal.tag === 'vote') {
-    return <VoteTime proposal={proposal} />
+    return <VoteTime proposal={proposal} />;
   }
   if (proposal.tag === 'deposit') {
-    return <DepositTime proposal={proposal} />
+    return <DepositTime proposal={proposal} />;
   }
-  return <InactiveTime proposal={proposal} />
-}
+  return <InactiveTime proposal={proposal} />;
+};
 
 const ProposalDetail: React.FC<ProposalDetailProps> = ({
   proposal,
@@ -86,16 +86,16 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
   voteDetails,
   denoms,
 }) => {
-  const { classes } = useGetStyles()
-  const { t, lang } = useTranslation('common')
-  const [voteDialogOpen, setVoteDialogOpen] = React.useState(false)
+  const { classes } = useGetStyles();
+  const { t, lang } = useTranslation('common');
+  const [voteDialogOpen, setVoteDialogOpen] = React.useState(false);
 
   const cleanedProposalDescription = React.useMemo(() => {
     if (proposal && proposal.description) {
-      return proposal.description.replace(/\\n\s?/g, '<br/>').replace('#', '') || ''
+      return proposal.description.replace(/\\n\s?/g, '<br/>').replace('#', '') || '';
     }
-    return ''
-  }, [proposal])
+    return '';
+  }, [proposal]);
 
   return (
     <>
@@ -244,7 +244,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
                         href={`${crypto.blockExplorerBaseUrl}/accounts/${get(
                           proposal,
                           'content.recipient',
-                          ''
+                          '',
                         )}`}
                       >
                         {get(proposal, 'content.recipient', '')}
@@ -259,7 +259,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
                       <Typography variant="subtitle1" display="inline">
                         {formatTokenAmount(
                           getTokenAmountFromDenoms(get(proposal, 'content.amount', []), denoms),
-                          { defaultUnit: crypto.name, lang }
+                          { defaultUnit: crypto.name, lang },
                         )}
                       </Typography>
                     </Grid>
@@ -291,7 +291,7 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({
         onClose={() => setVoteDialogOpen(false)}
       />
     </>
-  )
-}
+  );
+};
 
-export default ProposalDetail
+export default ProposalDetail;

@@ -57,6 +57,7 @@
   },
   "devDependencies": {
     "@keplr-wallet/types": "^0.9.9",
+    "@next/eslint-plugin-next": "^13.2.4",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/cypress": "^8.0.2",
     "@testing-library/dom": "^7.29.0",

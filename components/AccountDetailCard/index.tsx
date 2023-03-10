@@ -1,41 +1,41 @@
-import { Box, Button, Card, Divider, Grid, useTheme, Tabs, Tab } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import get from 'lodash/get'
-import StarIcon from '../../assets/images/icons/icon_star.svg'
-import EditIcon from '../../assets/images/icons/icon_edit_tool.svg'
-import MoreIcon from '../../assets/images/icons/icon_more.svg'
-import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
-import AccountAvatar from '../AccountAvatar'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import BalanceChart, { dateRanges } from '../BalanceChart'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import StatBox from './StatBox'
-import DelegationDialog from '../DelegationDialog'
-import WithdrawRewardsDialog from '../WithdrawRewardsDialog'
+import { Box, Button, Card, Divider, Grid, useTheme, Tabs, Tab } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import get from 'lodash/get';
+import StarIcon from '../../assets/images/icons/icon_star.svg';
+import EditIcon from '../../assets/images/icons/icon_edit_tool.svg';
+import MoreIcon from '../../assets/images/icons/icon_more.svg';
+import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg';
+import AccountAvatar from '../AccountAvatar';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import BalanceChart, { dateRanges } from '../BalanceChart';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import StatBox from './StatBox';
+import DelegationDialog from '../DelegationDialog';
+import WithdrawRewardsDialog from '../WithdrawRewardsDialog';
 import {
   formatCurrency,
   formatTokenAmount,
   getTokenAmountBalance,
   getTotalBalance,
   getTotalTokenAmount,
-} from '../../misc/utils'
-import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
-import SendDialog from '../SendDialog'
-import useIsMobile from '../../misc/useIsMobile'
-import EditAccountDialog from '../EditAccountDialog'
-import cryptocurrencies from '../../misc/cryptocurrencies'
+} from '../../misc/utils';
+import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod';
+import SendDialog from '../SendDialog';
+import useIsMobile from '../../misc/useIsMobile';
+import EditAccountDialog from '../EditAccountDialog';
+import cryptocurrencies from '../../misc/cryptocurrencies';
 
 interface AccountDetailCardProps {
-  profileExist: boolean
-  onCreateProfile(): void
-  wallet: Wallet
-  account: Account
-  validators: Validator[]
-  accountBalance: AccountBalance
-  availableTokens: any
+  profileExist: boolean;
+  onCreateProfile(): void;
+  wallet: Wallet;
+  account: Account;
+  validators: Validator[];
+  accountBalance: AccountBalance;
+  availableTokens: any;
 }
 
 const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
@@ -47,56 +47,56 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
   availableTokens,
   validators,
 }) => {
-  const { lang, t } = useTranslation('common')
-  const { currency, currencyRate, hideAmount } = useGeneralContext()
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const theme = useTheme()
-  const isMobile = useIsMobile()
-  const { updateAccount } = useWalletsContext()
-  const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
-  const [withdrawRewardsDialogOpen, setWithdrawRewardsDialogOpen] = React.useState(false)
-  const [sendDialogOpen, setSendDialogOpen] = React.useState(false)
-  const [editAccountDialogOpen, setEditAccountDialogOpen] = React.useState(false)
+  const { lang, t } = useTranslation('common');
+  const { currency, currencyRate, hideAmount } = useGeneralContext();
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const theme = useTheme();
+  const isMobile = useIsMobile();
+  const { updateAccount } = useWalletsContext();
+  const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false);
+  const [withdrawRewardsDialogOpen, setWithdrawRewardsDialogOpen] = React.useState(false);
+  const [sendDialogOpen, setSendDialogOpen] = React.useState(false);
+  const [editAccountDialogOpen, setEditAccountDialogOpen] = React.useState(false);
   const [timestamps, setTimestamps] = React.useState<Date[]>(
-    dateRanges.find((d) => d.isDefault).timestamps.map((timestamp) => new Date(timestamp))
-  )
-  const [currentTab, setCurrentTab] = React.useState(0)
+    dateRanges.find(d => d.isDefault).timestamps.map(timestamp => new Date(timestamp)),
+  );
+  const [currentTab, setCurrentTab] = React.useState(0);
   // Balance Data
   const { totalTokenAmount, usdBalance } = React.useMemo(() => {
     return {
       totalTokenAmount: getTotalTokenAmount(accountBalance).amount,
       usdBalance: getTotalBalance(accountBalance).balance,
-    }
-  }, [accountBalance])
+    };
+  }, [accountBalance]);
   // Chart Data
-  const tabs = [t('overview'), ...Object.keys(totalTokenAmount)]
-  const selectedTabToken = currentTab === 0 ? undefined : tabs[currentTab]
-  const selectedTabTokenAmount = totalTokenAmount[selectedTabToken]
+  const tabs = [t('overview'), ...Object.keys(totalTokenAmount)];
+  const selectedTabToken = currentTab === 0 ? undefined : tabs[currentTab];
+  const selectedTabTokenAmount = totalTokenAmount[selectedTabToken];
   const { data: accountsWithBalance, loading } = useAccountsBalancesWithinPeriod(
     [account],
-    timestamps
-  )
+    timestamps,
+  );
   const chartData = accountsWithBalance.length
-    ? accountsWithBalance[0].balances.map((b) => {
+    ? accountsWithBalance[0].balances.map(b => {
         return {
           ...getTotalBalance(b, selectedTabToken),
           amount: selectedTabToken
             ? get(getTotalTokenAmount(b), ['amount', selectedTabToken, 'amount'], 0)
             : undefined,
-        }
+        };
       })
-    : []
+    : [];
 
   const toggleFav = React.useCallback(() => {
-    updateAccount(account.address, account.walletId, { fav: !account.fav })
-  }, [account.address, account.fav, account.walletId, updateAccount])
+    updateAccount(account.address, account.walletId, { fav: !account.fav });
+  }, [account.address, account.fav, account.walletId, updateAccount]);
 
   const displayItems = Object.values(get(accountBalance, 'balance.commissions', {})).find(
-    (c: any) => c.amount
+    (c: any) => c.amount,
   )
     ? ['available', 'delegated', 'unbonding', 'rewards', 'commissions']
-    : ['available', 'delegated', 'unbonding', 'rewards']
+    : ['available', 'delegated', 'unbonding', 'rewards'];
   return (
     <>
       <Card className={classes.accountCard}>
@@ -182,7 +182,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                 classes={{ indicator: classes.tabIndicator, root: classes.tab }}
                 onChange={(e, v) => setCurrentTab(v)}
               >
-                {tabs.map((key) => (
+                {tabs.map(key => (
                   <Tab key={key} label={key} />
                 ))}
               </Tabs>
@@ -191,15 +191,15 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
             <BalanceChart
               crypto={account.crypto}
               data={chartData}
-              onDateRangeChange={(dateRange) => {
-                setTimestamps(dateRange.timestamps.map((ts) => new Date(ts)))
+              onDateRangeChange={dateRange => {
+                setTimestamps(dateRange.timestamps.map(ts => new Date(ts)));
               }}
               title={
                 currentTab === 0
                   ? formatCurrency(usdBalance * currencyRate, { currency, lang, hideAmount })
                   : formatTokenAmount(
                       { [selectedTabToken]: selectedTabTokenAmount },
-                      { defaultUnit: account.crypto, lang, hideAmount }
+                      { defaultUnit: account.crypto, lang, hideAmount },
                     )
               }
               subtitle={
@@ -207,7 +207,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                   ? ''
                   : formatCurrency(
                       selectedTabTokenAmount.amount * selectedTabTokenAmount.price * currencyRate,
-                      { currency, lang, hideAmount }
+                      { currency, lang, hideAmount },
                     )
               }
               loading={loading}
@@ -216,7 +216,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
             {account.crypto === selectedTabToken ? (
               <Box mt={isMobile ? 6 : 10}>
                 <Grid container spacing={4}>
-                  {displayItems.map((key) => (
+                  {displayItems.map(key => (
                     <StatBox
                       key={key}
                       title={t(key)}
@@ -228,7 +228,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
                       subtitle={formatCurrency(
                         getTokenAmountBalance(get(accountBalance, `balance.${key}`, {})) *
                           currencyRate,
-                        { currency, lang, hideAmount }
+                        { currency, lang, hideAmount },
                       )}
                     />
                   ))}
@@ -267,7 +267,7 @@ const AccountDetailCard: React.FC<AccountDetailCardProps> = ({
         account={account}
       />
     </>
-  )
-}
+  );
+};
 
-export default AccountDetailCard
+export default AccountDetailCard;

@@ -7,20 +7,20 @@ import {
   Grid,
   Typography,
   Box,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import WithMnemonicIconLight from '../../assets/images/login_light.svg'
-import WithMnemonicIconDark from '../../assets/images/login_dark.svg'
-import WithoutMnemonicIconLight from '../../assets/images/create_wallet_light.svg'
-import WithoutMnemonicIconDark from '../../assets/images/create_wallet_dark.svg'
-import useStyles from './styles'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import WithMnemonicIconLight from '../../assets/images/login_light.svg';
+import WithMnemonicIconDark from '../../assets/images/login_dark.svg';
+import WithoutMnemonicIconLight from '../../assets/images/create_wallet_light.svg';
+import WithoutMnemonicIconDark from '../../assets/images/create_wallet_dark.svg';
+import useStyles from './styles';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
 interface StartProps {
-  onImportWalletClick(): void
-  onCreateWalletClick(): void
-  onWhatIsMnemonicClick(): void
+  onImportWalletClick(): void;
+  onCreateWalletClick(): void;
+  onWhatIsMnemonicClick(): void;
 }
 
 const Start: React.FC<StartProps> = ({
@@ -28,9 +28,9 @@ const Start: React.FC<StartProps> = ({
   onCreateWalletClick,
   onWhatIsMnemonicClick,
 }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const { theme } = useGeneralContext()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const { theme } = useGeneralContext();
 
   return (
     <>
@@ -67,7 +67,7 @@ const Start: React.FC<StartProps> = ({
         </Button> */}
       </DialogActions>
     </>
-  )
-}
+  );
+};
 
-export default Start
+export default Start;

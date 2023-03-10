@@ -9,11 +9,11 @@ import {
   TextField,
   Typography,
   useTheme,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import Trans from 'next-translate/Trans'
-import React from 'react'
-import { Alert } from '@material-ui/lab'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import Trans from 'next-translate/Trans';
+import React from 'react';
+import { Alert } from '@material-ui/lab';
 import {
   FacebookShareButton,
   FacebookIcon,
@@ -25,15 +25,15 @@ import {
   WhatsappIcon,
   EmailShareButton,
   EmailIcon,
-} from 'react-share'
-import useStyles from './styles'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import useIconProps from '../../misc/useIconProps'
-import PasswordInput from '../PasswordInput'
-import useStateHistory from '../../misc/useStateHistory'
-import MnemonicPhraseInput from '../MnemonicPhraseInput'
-import BackIcon from '../../assets/images/icons/icon_back.svg'
-import { CustomTheme } from '../../misc/theme'
+} from 'react-share';
+import useStyles from './styles';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import useIconProps from '../../misc/useIconProps';
+import PasswordInput from '../PasswordInput';
+import useStateHistory from '../../misc/useStateHistory';
+import MnemonicPhraseInput from '../MnemonicPhraseInput';
+import BackIcon from '../../assets/images/icons/icon_back.svg';
+import { CustomTheme } from '../../misc/theme';
 
 enum Stage {
   SecurityPassword = 'security password',
@@ -44,51 +44,51 @@ enum Stage {
 }
 
 interface ViewMnemonicPhraseProps {
-  walletId: string
-  onClose(): void
+  walletId: string;
+  onClose(): void;
 }
 
 const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClose }) => {
-  const { t } = useTranslation('common')
-  const theme: CustomTheme = useTheme()
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const [error, setError] = React.useState('')
-  const [securityPassword, setSecurityPassword] = React.useState('')
-  const [backupPassword, setBackupPassword] = React.useState('')
-  const [encryptionPhrase, setEncryptionPhrase] = React.useState('')
-  const [mnemonicPhrase, setMnemonicPhrase] = React.useState('')
-  const [buttonText, setButtonText] = React.useState('next')
+  const { t } = useTranslation('common');
+  const theme: CustomTheme = useTheme();
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const [error, setError] = React.useState('');
+  const [securityPassword, setSecurityPassword] = React.useState('');
+  const [backupPassword, setBackupPassword] = React.useState('');
+  const [encryptionPhrase, setEncryptionPhrase] = React.useState('');
+  const [mnemonicPhrase, setMnemonicPhrase] = React.useState('');
+  const [buttonText, setButtonText] = React.useState('next');
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
-    Stage.SecurityPassword
-  )
-  const [isCopySuccess, setIsCopySuccess] = React.useState(false)
+    Stage.SecurityPassword,
+  );
+  const [isCopySuccess, setIsCopySuccess] = React.useState(false);
 
-  const { viewMnemonicPhrase, viewMnemonicPhraseBackup } = useWalletsContext()
+  const { viewMnemonicPhrase, viewMnemonicPhraseBackup } = useWalletsContext();
   const onButtonClick = React.useCallback(async () => {
     try {
-      setError('')
+      setError('');
       if (stage === Stage.SecurityPassword) {
-        await viewMnemonicPhrase(walletId, securityPassword)
-        setStage(Stage.DisplayMnemonic)
-        const result = await viewMnemonicPhrase(walletId, securityPassword)
-        setMnemonicPhrase(result)
-        setButtonText('export secret recovery phrase')
+        await viewMnemonicPhrase(walletId, securityPassword);
+        setStage(Stage.DisplayMnemonic);
+        const result = await viewMnemonicPhrase(walletId, securityPassword);
+        setMnemonicPhrase(result);
+        setButtonText('export secret recovery phrase');
       } else if (stage === Stage.DisplayMnemonic) {
-        setStage(Stage.BackupPassword)
-        setButtonText('next')
+        setStage(Stage.BackupPassword);
+        setButtonText('next');
       } else if (stage === Stage.BackupPassword) {
-        const result = await viewMnemonicPhraseBackup(walletId, securityPassword, backupPassword)
-        setEncryptionPhrase(result)
-        setStage(Stage.ExportMnemonic)
-        setButtonText('share')
+        const result = await viewMnemonicPhraseBackup(walletId, securityPassword, backupPassword);
+        setEncryptionPhrase(result);
+        setStage(Stage.ExportMnemonic);
+        setButtonText('share');
       } else if (stage === Stage.ExportMnemonic) {
-        setStage(Stage.SocialMedia)
+        setStage(Stage.SocialMedia);
       } else {
-        onClose()
+        onClose();
       }
     } catch (err) {
-      setError(err.message)
+      setError(err.message);
     }
   }, [
     securityPassword,
@@ -99,39 +99,39 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
     setStage,
     viewMnemonicPhraseBackup,
     viewMnemonicPhrase,
-  ])
+  ]);
 
   React.useEffect(() => {
-    setError('')
-    setSecurityPassword('')
-    setBackupPassword('')
-    setStage(Stage.SecurityPassword, true)
-    setEncryptionPhrase('')
-    setMnemonicPhrase('')
-  }, [])
+    setError('');
+    setSecurityPassword('');
+    setBackupPassword('');
+    setStage(Stage.SecurityPassword, true);
+    setEncryptionPhrase('');
+    setMnemonicPhrase('');
+  }, []);
 
   const onPrev = () => {
     if (stage === Stage.BackupPassword) {
-      setButtonText('export secret recovery phrase')
+      setButtonText('export secret recovery phrase');
     } else if (stage === Stage.SocialMedia) {
-      setButtonText('share')
-      setBackupPassword('')
-    } else setButtonText('next')
-    setBackupPassword('')
-    toPrevStage()
-  }
+      setButtonText('share');
+      setBackupPassword('');
+    } else setButtonText('next');
+    setBackupPassword('');
+    toPrevStage();
+  };
 
   const copyText = React.useCallback(() => {
-    navigator.clipboard.writeText(encryptionPhrase)
-    setIsCopySuccess(true)
-  }, [encryptionPhrase])
+    navigator.clipboard.writeText(encryptionPhrase);
+    setIsCopySuccess(true);
+  }, [encryptionPhrase]);
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onButtonClick()
+      onSubmit={e => {
+        e.preventDefault();
+        onButtonClick();
       }}
     >
       {isPrevStageAvailable ? (
@@ -147,7 +147,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
               <Typography gutterBottom>{t('enter security password')}</Typography>
               <PasswordInput
                 value={securityPassword}
-                onChange={(e) => setSecurityPassword(e.target.value)}
+                onChange={e => setSecurityPassword(e.target.value)}
                 placeholder={t('password')}
                 error={!!error}
                 helperText={error}
@@ -163,7 +163,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
             <Typography gutterBottom>{t('encryption password')}</Typography>
             <PasswordInput
               value={backupPassword}
-              onChange={(e) => setBackupPassword(e.target.value)}
+              onChange={e => setBackupPassword(e.target.value)}
               placeholder={t('password')}
               error={!!error}
               helperText={error}
@@ -215,8 +215,8 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
               multiline
               rows={5}
               onFocus={(e: any) => {
-                e.target.select()
-                navigator.clipboard.writeText(encryptionPhrase)
+                e.target.select();
+                navigator.clipboard.writeText(encryptionPhrase);
               }}
             />
           </Box>
@@ -349,7 +349,7 @@ const ViewMnemonicPhrase: React.FC<ViewMnemonicPhraseProps> = ({ walletId, onClo
         </Alert>
       </Snackbar>
     </form>
-  )
-}
+  );
+};
 
-export default ViewMnemonicPhrase
+export default ViewMnemonicPhrase;

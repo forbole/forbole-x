@@ -1,14 +1,14 @@
-import { Button, Menu, MenuItem } from '@material-ui/core'
-import React from 'react'
-import get from 'lodash/get'
-import WalletIcon from '../../assets/images/icons/icon_wallet_manage.svg'
-import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
-import useIconProps from '../../misc/useIconProps'
+import { Button, Menu, MenuItem } from '@material-ui/core';
+import React from 'react';
+import get from 'lodash/get';
+import WalletIcon from '../../assets/images/icons/icon_wallet_manage.svg';
+import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg';
+import useIconProps from '../../misc/useIconProps';
 
 interface SelectWalletButtonProps {
-  wallets: Wallet[]
-  currentWallet?: Wallet
-  onWalletChange(wallet: Wallet): void
+  wallets: Wallet[];
+  currentWallet?: Wallet;
+  onWalletChange(wallet: Wallet): void;
 }
 
 const SelectWalletButton: React.FC<SelectWalletButtonProps> = ({
@@ -16,23 +16,23 @@ const SelectWalletButton: React.FC<SelectWalletButtonProps> = ({
   currentWallet,
   onWalletChange,
 }) => {
-  const iconProps = useIconProps(2)
+  const iconProps = useIconProps(2);
 
-  const [anchor, setAnchor] = React.useState<Element>()
+  const [anchor, setAnchor] = React.useState<Element>();
 
-  const onClose = React.useCallback(() => setAnchor(undefined), [setAnchor])
+  const onClose = React.useCallback(() => setAnchor(undefined), [setAnchor]);
   const onItemClick = React.useCallback(
-    (c) => {
-      onWalletChange(c)
-      onClose()
+    c => {
+      onWalletChange(c);
+      onClose();
     },
-    [onWalletChange, onClose]
-  )
+    [onWalletChange, onClose],
+  );
 
   return (
     <>
       <Button
-        onClick={(e) => setAnchor(e.currentTarget)}
+        onClick={e => setAnchor(e.currentTarget)}
         startIcon={<WalletIcon {...iconProps} />}
         endIcon={<DropDownIcon {...iconProps} />}
       >
@@ -53,7 +53,7 @@ const SelectWalletButton: React.FC<SelectWalletButtonProps> = ({
         open={!!anchor}
         onClose={onClose}
       >
-        {wallets.map((w) => (
+        {wallets.map(w => (
           <MenuItem
             selected={w.id === get(currentWallet, 'id', '')}
             key={w.id}
@@ -64,7 +64,7 @@ const SelectWalletButton: React.FC<SelectWalletButtonProps> = ({
         ))}
       </Menu>
     </>
-  )
-}
+  );
+};
 
-export default React.memo(SelectWalletButton)
+export default React.memo(SelectWalletButton);

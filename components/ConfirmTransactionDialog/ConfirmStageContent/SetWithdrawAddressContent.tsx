@@ -1,17 +1,17 @@
-import React from 'react'
-import { Box, Divider, Typography, useTheme } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import WithdrawIcon from '../../../assets/images/icons/icon_withdraw_tx.svg'
-import ValidatorAvatar from '../../ValidatorAvatar'
-import cryptocurrencies from '../../../misc/cryptocurrencies'
+import React from 'react';
+import { Box, Divider, Typography, useTheme } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import WithdrawIcon from '../../../assets/images/icons/icon_withdraw_tx.svg';
+import ValidatorAvatar from '../../ValidatorAvatar';
+import cryptocurrencies from '../../../misc/cryptocurrencies';
 
 interface SetWithdrawAddressContentProps {
-  msgs: TransactionMsgSetWithdrawAddress[]
-  account: Account
+  msgs: TransactionMsgSetWithdrawAddress[];
+  account: Account;
 }
 
 const SetWithdrawAddressContent: React.FC<SetWithdrawAddressContentProps> = ({ msgs, account }) => {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation('common');
 
   return (
     <>
@@ -34,7 +34,7 @@ const SetWithdrawAddressContent: React.FC<SetWithdrawAddressContentProps> = ({ m
         </React.Fragment>
       ))}
     </>
-  )
-}
+  );
+};
 
-export default SetWithdrawAddressContent
+export default SetWithdrawAddressContent;

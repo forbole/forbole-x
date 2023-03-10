@@ -6,18 +6,18 @@ import {
   DialogTitle,
   IconButton,
   Typography,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import useStyles from './styles'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import useIconProps from '../../misc/useIconProps'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import CloseIcon from '../../assets/images/icons/icon_cross.svg';
+import useStyles from './styles';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import useIconProps from '../../misc/useIconProps';
 
 interface DeleteAddressDialogProps {
-  accountAddress: string
-  open: boolean
-  onClose(): void
+  accountAddress: string;
+  open: boolean;
+  onClose(): void;
 }
 
 const DeleteAddressDialog: React.FC<DeleteAddressDialogProps> = ({
@@ -25,19 +25,19 @@ const DeleteAddressDialog: React.FC<DeleteAddressDialogProps> = ({
   open,
   onClose,
 }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const { deleteFavAddresses } = useGeneralContext()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const { deleteFavAddresses } = useGeneralContext();
 
   const onButtonClick = React.useCallback(async () => {
     try {
-      await deleteFavAddresses(accountAddress)
+      await deleteFavAddresses(accountAddress);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-    onClose()
-  }, [deleteFavAddresses, accountAddress])
+    onClose();
+  }, [deleteFavAddresses, accountAddress]);
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -67,7 +67,7 @@ const DeleteAddressDialog: React.FC<DeleteAddressDialogProps> = ({
         </Button>
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};
 
-export default DeleteAddressDialog
+export default DeleteAddressDialog;

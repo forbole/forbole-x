@@ -5,4 +5,4 @@ query WithdrawAddress($address: String!) @api(name: ${crypto}bdjuno) {
       delegator_address
     }
   }
-`
+`;

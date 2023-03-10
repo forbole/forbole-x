@@ -1,20 +1,20 @@
-import { Box, Button, CircularProgress, Typography, useTheme } from '@material-ui/core'
-import React from 'react'
-import useTranslation from 'next-translate/useTranslation'
-import useStyles from './styles'
-import { formatCrypto } from '../../misc/utils'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import AirdropEligibilityDetails from './AirdropEligibilityDetails'
+import { Box, Button, CircularProgress, Typography, useTheme } from '@material-ui/core';
+import React from 'react';
+import useTranslation from 'next-translate/useTranslation';
+import useStyles from './styles';
+import { formatCrypto } from '../../misc/utils';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import AirdropEligibilityDetails from './AirdropEligibilityDetails';
 
 interface ClaimableAmountProps {
-  onConfirm(): void
-  amount: number
-  chainConnections: ChainConnection[]
-  loading: boolean
-  setIsConnectChainDialogOpen(open: boolean): void
-  externalAddress: string
-  connectedChainsStakingInfo: any
-  connectedChainsLpInfo: any
+  onConfirm(): void;
+  amount: number;
+  chainConnections: ChainConnection[];
+  loading: boolean;
+  setIsConnectChainDialogOpen(open: boolean): void;
+  externalAddress: string;
+  connectedChainsStakingInfo: any;
+  connectedChainsLpInfo: any;
 }
 
 const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
@@ -27,61 +27,61 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
   connectedChainsStakingInfo,
   connectedChainsLpInfo,
 }) => {
-  const classes = useStyles()
-  const { t, lang } = useTranslation('common')
-  const { currency } = useGeneralContext()
-  const theme = useTheme()
+  const classes = useStyles();
+  const { t, lang } = useTranslation('common');
+  const { currency } = useGeneralContext();
+  const theme = useTheme();
 
-  const [onClaimLoading, setOnClaimLoading] = React.useState(false)
+  const [onClaimLoading, setOnClaimLoading] = React.useState(false);
 
-  const [dataStakingInfo, setDataStakingInfo] = React.useState()
-  const [lpInfos, setLpInfos] = React.useState()
+  const [dataStakingInfo, setDataStakingInfo] = React.useState();
+  const [lpInfos, setLpInfos] = React.useState();
 
   const verify = React.useCallback(async () => {
     try {
       const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/users/${externalAddress}`
-      ).then((r) => r.json())
+        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/users/${externalAddress}`,
+      ).then(r => r.json());
       // eslint-disable-next-line camelcase
-      const { staking_infos, dsm_allotted, lp_infos } = data
+      const { staking_infos, dsm_allotted, lp_infos } = data;
       setDataStakingInfo(
-        staking_infos.filter((s) => !chainConnections.find((c) => c.externalAddress === s.address))
-      )
+        staking_infos.filter(s => !chainConnections.find(c => c.externalAddress === s.address)),
+      );
       setLpInfos(
-        lp_infos.filter((s) => !chainConnections.find((c) => c.externalAddress === s.address))
-      )
+        lp_infos.filter(s => !chainConnections.find(c => c.externalAddress === s.address)),
+      );
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }, [externalAddress, chainConnections])
+  }, [externalAddress, chainConnections]);
 
   React.useEffect(() => {
-    verify()
-  }, [])
+    verify();
+  }, []);
 
   const nonEligibleAddresses = React.useMemo(() => {
-    const eligibleAddresses = [...connectedChainsStakingInfo, ...connectedChainsLpInfo]
-    const nonEligible = []
-    chainConnections.forEach((c) => {
+    const eligibleAddresses = [...connectedChainsStakingInfo, ...connectedChainsLpInfo];
+    const nonEligible = [];
+    chainConnections.forEach(c => {
       if (
         !eligibleAddresses.find(
-          (a) =>
+          a =>
             a.address === c.externalAddress &&
-            (c.chainName === 'likecoin' ? a.chain_name === 'Likecoin' : true)
+            (c.chainName === 'likecoin' ? a.chain_name === 'Likecoin' : true),
         )
       ) {
-        nonEligible.push(c)
+        nonEligible.push(c);
       }
-    })
-    return nonEligible
-  }, [chainConnections, connectedChainsStakingInfo, connectedChainsLpInfo])
+    });
+    return nonEligible;
+  }, [chainConnections, connectedChainsStakingInfo, connectedChainsLpInfo]);
 
   return (
     <form
-      onSubmit={async (event) => {
-        event.preventDefault()
-        setOnClaimLoading(true)
-        await onConfirm()
+      onSubmit={async event => {
+        event.preventDefault();
+        setOnClaimLoading(true);
+        await onConfirm();
       }}
     >
       <Box display="flex" justifyContent="center">
@@ -130,7 +130,7 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
         </Box>
       </Box>
     </form>
-  )
-}
+  );
+};
 
-export default ClaimableAmount
+export default ClaimableAmount;

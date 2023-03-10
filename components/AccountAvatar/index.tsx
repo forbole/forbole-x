@@ -6,34 +6,34 @@ import {
   useTheme,
   IconButton,
   TypographyProps,
-} from '@material-ui/core'
-import React from 'react'
-import { Alert } from '@material-ui/lab'
-import useTranslation from 'next-translate/useTranslation'
-import { Variant } from '@material-ui/core/styles/createTypography'
-import CopyIcon from '../../assets/images/icons/icon_copy.svg'
-import useIconProps from '../../misc/useIconProps'
-import cryptocurrencies from '../../misc/cryptocurrencies'
-import useStyles from './styles'
-import { CustomTheme } from '../../misc/theme'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import LedgerIcon from '../../assets/images/icons/usb_device.svg'
+} from '@material-ui/core';
+import React from 'react';
+import { Alert } from '@material-ui/lab';
+import useTranslation from 'next-translate/useTranslation';
+import { Variant } from '@material-ui/core/styles/createTypography';
+import CopyIcon from '../../assets/images/icons/icon_copy.svg';
+import useIconProps from '../../misc/useIconProps';
+import cryptocurrencies from '../../misc/cryptocurrencies';
+import useStyles from './styles';
+import { CustomTheme } from '../../misc/theme';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import LedgerIcon from '../../assets/images/icons/usb_device.svg';
 
 interface AccountAvatarProps {
   address?: {
-    address: string
-    crypto: string
-    moniker: string
-    note?: string
-    img?: string
-  }
-  account?: Account
-  hideAddress?: boolean
-  disableCopyAddress?: boolean
-  size?: 'small' | 'base' | 'large'
-  ledgerIconDisabled?: boolean
-  titleProps?: TypographyProps
-  avatarSize?: number
+    address: string;
+    crypto: string;
+    moniker: string;
+    note?: string;
+    img?: string;
+  };
+  account?: Account;
+  hideAddress?: boolean;
+  disableCopyAddress?: boolean;
+  size?: 'small' | 'base' | 'large';
+  ledgerIconDisabled?: boolean;
+  titleProps?: TypographyProps;
+  avatarSize?: number;
 }
 
 const AccountAvatar: React.FC<AccountAvatarProps> = ({
@@ -46,39 +46,39 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
   titleProps,
   avatarSize,
 }) => {
-  const crypto = cryptocurrencies[account ? account.crypto : address.crypto]
-  const { t } = useTranslation('common')
-  const iconProps = useIconProps()
-  const themeStyle: CustomTheme = useTheme()
-  const classes = useStyles()
-  const [isCopySuccess, setIsCopySuccess] = React.useState(false)
-  const { wallets } = useWalletsContext()
+  const crypto = cryptocurrencies[account ? account.crypto : address.crypto];
+  const { t } = useTranslation('common');
+  const iconProps = useIconProps();
+  const themeStyle: CustomTheme = useTheme();
+  const classes = useStyles();
+  const [isCopySuccess, setIsCopySuccess] = React.useState(false);
+  const { wallets } = useWalletsContext();
   const walletAccountInfo = React.useMemo(
     () =>
       account
-        ? { ...account, ...wallets.find((wal) => wal.id === account.walletId) }
+        ? { ...account, ...wallets.find(wal => wal.id === account.walletId) }
         : { type: 'mnemonic' },
-    [account, wallets]
-  )
+    [account, wallets],
+  );
 
-  let avatarClass = ''
-  let titleVariant: Variant = 'h5'
+  let avatarClass = '';
+  let titleVariant: Variant = 'h5';
   if (size === 'small') {
-    avatarClass = classes.smallAvatar
-    titleVariant = 'body1'
+    avatarClass = classes.smallAvatar;
+    titleVariant = 'body1';
   } else if (size === 'large') {
-    avatarClass = classes.largeAvatar
-    titleVariant = 'h3'
+    avatarClass = classes.largeAvatar;
+    titleVariant = 'h3';
   }
 
   const copyText = React.useCallback(
-    (e) => {
-      e.stopPropagation()
-      navigator.clipboard.writeText(account ? account.address : address.address)
-      setIsCopySuccess(true)
+    e => {
+      e.stopPropagation();
+      navigator.clipboard.writeText(account ? account.address : address.address);
+      setIsCopySuccess(true);
     },
-    [account?.address, address?.address]
-  )
+    [account?.address, address?.address],
+  );
 
   return (
     <>
@@ -130,7 +130,7 @@ const AccountAvatar: React.FC<AccountAvatarProps> = ({
         </Alert>
       </Snackbar>
     </>
-  )
-}
+  );
+};
 
-export default AccountAvatar
+export default AccountAvatar;

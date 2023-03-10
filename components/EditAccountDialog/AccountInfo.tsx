@@ -6,20 +6,20 @@ import {
   Typography,
   TextField,
   Divider,
-} from '@material-ui/core'
-import { HelpOutline } from '@material-ui/icons'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import useStyles from './styles'
+} from '@material-ui/core';
+import { HelpOutline } from '@material-ui/icons';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useStyles from './styles';
 
 interface AccountInfoProps {
-  onEdit(): void
-  onRemove(): void
-  onSave(moniker: string): void
-  onShare(address: string): void
-  onDetail(): void
-  account: Account
-  withdrawAddress: string
+  onEdit(): void;
+  onRemove(): void;
+  onSave(moniker: string): void;
+  onShare(address: string): void;
+  onDetail(): void;
+  account: Account;
+  withdrawAddress: string;
 }
 
 const AccountInfo: React.FC<AccountInfoProps> = ({
@@ -31,16 +31,16 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
   onDetail,
   withdrawAddress,
 }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const [moniker, setMoniker] = React.useState(account.name)
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const [moniker, setMoniker] = React.useState(account.name);
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onSave(moniker)
+      onSubmit={e => {
+        e.preventDefault();
+        onSave(moniker);
       }}
     >
       <DialogContent className={classes.dialogContent}>
@@ -54,7 +54,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
                 disableUnderline: true,
               }}
               value={moniker}
-              onChange={(e) => setMoniker(e.target.value)}
+              onChange={e => setMoniker(e.target.value)}
             />
           </Box>
           <Box my={1} display="flex">
@@ -124,7 +124,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
         </Box>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default AccountInfo
+export default AccountInfo;

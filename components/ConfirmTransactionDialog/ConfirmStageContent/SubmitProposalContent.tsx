@@ -1,16 +1,16 @@
-import React from 'react'
-import { Box, Divider, Typography } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import last from 'lodash/last'
-import cryptocurrencies from '../../../misc/cryptocurrencies'
+import React from 'react';
+import { Box, Divider, Typography } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import last from 'lodash/last';
+import cryptocurrencies from '../../../misc/cryptocurrencies';
 
 interface SubmitProposalContentProps {
-  msgs: TransactionMsgSubmitProposal[]
-  account: Account
+  msgs: TransactionMsgSubmitProposal[];
+  account: Account;
 }
 
 const SubmitProposalContent: React.FC<SubmitProposalContentProps> = ({ msgs, account }) => {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation('common');
 
   return (
     <>
@@ -26,7 +26,8 @@ const SubmitProposalContent: React.FC<SubmitProposalContentProps> = ({ msgs, acc
       <Box my={1}>
         <Typography>{t('network')}</Typography>
         <Typography color="textSecondary">
-          {cryptocurrencies[account.crypto].chainName} - {account.crypto}
+          {cryptocurrencies[account.crypto].chainName} -
+{account.crypto}
         </Typography>
       </Box>
       <Divider />
@@ -48,7 +49,7 @@ const SubmitProposalContent: React.FC<SubmitProposalContentProps> = ({ msgs, acc
       </Box>
       <Divider />
     </>
-  )
-}
+  );
+};
 
-export default SubmitProposalContent
+export default SubmitProposalContent;

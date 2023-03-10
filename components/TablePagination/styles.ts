@@ -1,7 +1,7 @@
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(
-  (theme) => ({
+  theme => ({
     lightGreyButton: {
       backgroundColor: theme.palette.grey[100],
       minWidth: 0,
@@ -27,7 +27,7 @@ const useStyles = makeStyles(
   {
     name: 'HookGlobalStyles',
     index: 2,
-  }
-)
+  },
+);
 
-export default useStyles
+export default useStyles;

@@ -1,5 +1,5 @@
-import { makeStyles, createStyles } from '@material-ui/core/styles'
-import { CustomTheme } from '../../misc/theme'
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { CustomTheme } from '../../misc/theme';
 
 export const useGetStyles = (status?: string, alignRight?: boolean) => {
   const useStyles = makeStyles(
@@ -141,9 +141,9 @@ export const useGetStyles = (status?: string, alignRight?: boolean) => {
     {
       name: 'HookGlobalStyles',
       index: 2,
-    }
-  )
+    },
+  );
   return {
     classes: useStyles(),
-  }
-}
+  };
+};

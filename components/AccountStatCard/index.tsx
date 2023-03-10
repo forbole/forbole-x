@@ -6,17 +6,17 @@ import {
   CircularProgress,
   IconButton,
   Button,
-} from '@material-ui/core'
-import React from 'react'
-import { LineChart, Line, YAxis } from 'recharts'
-import UpIcon from '@material-ui/icons/ArrowDropUp'
-import DownIcon from '@material-ui/icons/ArrowDropDown'
-import useTranslation from 'next-translate/useTranslation'
-import get from 'lodash/get'
-import { useRouter } from 'next/router'
-import useStyles from './styles'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import cryptocurrencies from '../../misc/cryptocurrencies'
+} from '@material-ui/core';
+import React from 'react';
+import { LineChart, Line, YAxis } from 'recharts';
+import UpIcon from '@material-ui/icons/ArrowDropUp';
+import DownIcon from '@material-ui/icons/ArrowDropDown';
+import useTranslation from 'next-translate/useTranslation';
+import get from 'lodash/get';
+import { useRouter } from 'next/router';
+import useStyles from './styles';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import cryptocurrencies from '../../misc/cryptocurrencies';
 import {
   createEmptyChartData,
   formatCrypto,
@@ -26,52 +26,52 @@ import {
   getTotalTokenAmount,
   transformGqlAcountBalance,
   transformValidatorsWithTokenAmount,
-} from '../../misc/utils'
-import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod'
-import { dateRanges } from '../BalanceChart'
-import AccountAvatar from '../AccountAvatar'
-import StarIcon from '../../assets/images/icons/icon_star.svg'
-import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import useIconProps from '../../misc/useIconProps'
-import DelegationDialog from '../DelegationDialog'
-import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance'
-import useValidators from '../../graphql/hooks/useValidators'
+} from '../../misc/utils';
+import useAccountsBalancesWithinPeriod from '../../graphql/hooks/useAccountsBalancesWithinPeriod';
+import { dateRanges } from '../BalanceChart';
+import AccountAvatar from '../AccountAvatar';
+import StarIcon from '../../assets/images/icons/icon_star.svg';
+import StarFilledIcon from '../../assets/images/icons/icon_star_marked.svg';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import useIconProps from '../../misc/useIconProps';
+import DelegationDialog from '../DelegationDialog';
+import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance';
+import useValidators from '../../graphql/hooks/useValidators';
 
 const dailyTimestamps = dateRanges
-  .find((d) => d.title === 'day')
-  .timestamps.map((timestamp) => new Date(timestamp))
+  .find(d => d.title === 'day')
+  .timestamps.map(timestamp => new Date(timestamp));
 
 interface AccountStatCardProps {
-  account: Account
+  account: Account;
 }
 
 const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
-  const crypto = cryptocurrencies[account.crypto]
-  const iconProps = useIconProps()
-  const classes = useStyles()
-  const theme = useTheme()
-  const { t, lang } = useTranslation('common')
-  const { currency, currencyRate, hideAmount } = useGeneralContext()
-  const { updateAccount } = useWalletsContext()
-  const router = useRouter()
+  const crypto = cryptocurrencies[account.crypto];
+  const iconProps = useIconProps();
+  const classes = useStyles();
+  const theme = useTheme();
+  const { t, lang } = useTranslation('common');
+  const { currency, currencyRate, hideAmount } = useGeneralContext();
+  const { updateAccount } = useWalletsContext();
+  const router = useRouter();
   // Historic data
   const {
     data: [accountWithBalance],
     loading,
-  } = useAccountsBalancesWithinPeriod([account], dailyTimestamps)
-  const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false)
+  } = useAccountsBalancesWithinPeriod([account], dailyTimestamps);
+  const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false);
   const data = createEmptyChartData(
-    (get(accountWithBalance, 'balances', []) as AccountBalance[]).map((b) => getTotalBalance(b)),
+    (get(accountWithBalance, 'balances', []) as AccountBalance[]).map(b => getTotalBalance(b)),
     0,
-    1
-  )
+    1,
+  );
   // Latest data
-  const { data: latestData } = useLatestAccountBalance(account.crypto, account.address)
-  const validatorsData = useValidators(account.crypto)
+  const { data: latestData } = useLatestAccountBalance(account.crypto, account.address);
+  const validatorsData = useValidators(account.crypto);
 
   const { tokenAmounts, usdBalance, availableTokens, validators } = React.useMemo(() => {
-    const accountBalance = transformGqlAcountBalance(latestData, Date.now())
+    const accountBalance = transformGqlAcountBalance(latestData, Date.now());
     return {
       tokenAmounts: getTotalTokenAmount(accountBalance).amount,
       usdBalance: getTotalBalance(accountBalance).balance,
@@ -80,29 +80,29 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
         coins: [],
         tokens_prices: [],
       }),
-    }
-  }, [data])
+    };
+  }, [data]);
 
-  const firstBalance = get(data, '[0].balance', 0)
-  const diff = Math.abs(usdBalance - firstBalance)
-  const percentageChange = Math.round((100 * diff) / firstBalance) / 100 || 0
-  const increasing = usdBalance - firstBalance > 0
+  const firstBalance = get(data, '[0].balance', 0);
+  const diff = Math.abs(usdBalance - firstBalance);
+  const percentageChange = Math.round((100 * diff) / firstBalance) / 100 || 0;
+  const increasing = usdBalance - firstBalance > 0;
 
   const toggleFav = React.useCallback(() => {
-    updateAccount(account.address, account.walletId, { fav: !account.fav })
-  }, [account.address, account.fav, account.walletId, updateAccount])
+    updateAccount(account.address, account.walletId, { fav: !account.fav });
+  }, [account.address, account.fav, account.walletId, updateAccount]);
 
   return (
     <>
       <Card
         className={classes.container}
-        onClick={(e) => {
+        onClick={e => {
           if (
             String((e.target as any).className).includes('MuiButton-label') === false &&
             String((e.target as any).id) !== 'button' &&
             String((e.target as any).id) !== 'icon_star_marked_svg__Path_2_'
           ) {
-            router.push(`/account/${account.address}`)
+            router.push(`/account/${account.address}`);
           }
         }}
       >
@@ -125,7 +125,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
         </Box>
         <Box>
           {Object.keys(tokenAmounts).length ? (
-            Object.keys(tokenAmounts).map((ta) => (
+            Object.keys(tokenAmounts).map(ta => (
               <Typography key={ta} variant="h4">
                 {formatCrypto(tokenAmounts[ta].amount, { unit: ta, lang, hideAmount })}
               </Typography>
@@ -201,7 +201,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
         validators={validators}
       />
     </>
-  )
-}
+  );
+};
 
-export default AccountStatCard
+export default AccountStatCard;

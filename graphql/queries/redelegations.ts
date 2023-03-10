@@ -26,4 +26,4 @@ query Redelegations($address: String!) @api(name: ${crypto}bdjuno) {
       }
     }
   }
-`
+`;

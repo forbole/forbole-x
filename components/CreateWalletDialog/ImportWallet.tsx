@@ -9,29 +9,29 @@ import {
   ButtonBase,
   Grid,
   useTheme,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import cryptocurrencies from '../../misc/cryptocurrencies'
-import useStyles from './styles'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import cryptocurrencies from '../../misc/cryptocurrencies';
+import useStyles from './styles';
 
 interface ImportWalletProps {
-  onConfirm(name: string, cryptos: string[]): void
+  onConfirm(name: string, cryptos: string[]): void;
 }
 
 const ImportWallet: React.FC<ImportWalletProps> = ({ onConfirm }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const theme = useTheme()
-  const [name, setName] = React.useState('')
-  const [selectedCryptos, setSelectedCryptos] = React.useState<string[]>([])
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const theme = useTheme();
+  const [name, setName] = React.useState('');
+  const [selectedCryptos, setSelectedCryptos] = React.useState<string[]>([]);
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(name, selectedCryptos)
+      onSubmit={e => {
+        e.preventDefault();
+        onConfirm(name, selectedCryptos);
       }}
     >
       <DialogContent className={classes.dialogContent}>
@@ -41,7 +41,7 @@ const ImportWallet: React.FC<ImportWalletProps> = ({ onConfirm }) => {
           variant="filled"
           placeholder={t('wallet name')}
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={e => setName(e.target.value)}
           InputProps={{
             disableUnderline: true,
           }}
@@ -50,18 +50,18 @@ const ImportWallet: React.FC<ImportWalletProps> = ({ onConfirm }) => {
           <Typography>{t('select currencies')}</Typography>
           <br />
           <Grid container spacing={2}>
-            {Object.values(cryptocurrencies).map((c) => {
-              const isSelected = selectedCryptos.includes(c.name)
+            {Object.values(cryptocurrencies).map(c => {
+              const isSelected = selectedCryptos.includes(c.name);
               return (
                 <Grid key={c.name} item md={4}>
                   <ButtonBase
                     className={classes.cryptoButton}
                     style={isSelected ? { border: `1px solid ${theme.palette.text.primary}` } : {}}
                     onClick={() =>
-                      setSelectedCryptos((cryptos) =>
+                      setSelectedCryptos(cryptos =>
                         isSelected
-                          ? cryptos.filter((crypto) => crypto !== c.name)
-                          : [...cryptos, c.name]
+                          ? cryptos.filter(crypto => crypto !== c.name)
+                          : [...cryptos, c.name],
                       )
                     }
                   >
@@ -73,7 +73,7 @@ const ImportWallet: React.FC<ImportWalletProps> = ({ onConfirm }) => {
                     </Typography>
                   </ButtonBase>
                 </Grid>
-              )
+              );
             })}
           </Grid>
         </Box>
@@ -92,7 +92,7 @@ const ImportWallet: React.FC<ImportWalletProps> = ({ onConfirm }) => {
         </Box>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default ImportWallet
+export default ImportWallet;

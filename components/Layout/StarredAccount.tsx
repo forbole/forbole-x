@@ -1,6 +1,6 @@
-import React from 'react'
-import Link from 'next/link'
-import useTranslation from 'next-translate/useTranslation'
+import React from 'react';
+import Link from 'next/link';
+import useTranslation from 'next-translate/useTranslation';
 import {
   Avatar,
   Box,
@@ -10,38 +10,38 @@ import {
   useTheme,
   CircularProgress,
   Typography,
-} from '@material-ui/core'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+} from '@material-ui/core';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 import {
   formatTokenAmount,
   getTotalBalance,
   getTotalTokenAmount,
   transformGqlAcountBalance,
-} from '../../misc/utils'
-import { CustomTheme } from '../../misc/theme'
-import cryptocurrencies from '../../misc/cryptocurrencies'
-import useStyles from './styles'
-import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance'
+} from '../../misc/utils';
+import { CustomTheme } from '../../misc/theme';
+import cryptocurrencies from '../../misc/cryptocurrencies';
+import useStyles from './styles';
+import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance';
 
 interface StarredAccountProps {
-  account: Account
+  account: Account;
 }
 
 const StarredAccount: React.FC<StarredAccountProps> = ({ account }) => {
-  const themeStyle: CustomTheme = useTheme()
-  const { lang } = useTranslation('common')
-  const { currency, hideAmount } = useGeneralContext()
-  const classes = useStyles({})
-  const crypto = cryptocurrencies[account.crypto]
+  const themeStyle: CustomTheme = useTheme();
+  const { lang } = useTranslation('common');
+  const { currency, hideAmount } = useGeneralContext();
+  const classes = useStyles({});
+  const crypto = cryptocurrencies[account.crypto];
   // Latest data
-  const { data: balanceData, loading } = useLatestAccountBalance(account.crypto, account.address)
+  const { data: balanceData, loading } = useLatestAccountBalance(account.crypto, account.address);
   const { tokenAmounts, usdBalance } = React.useMemo(() => {
-    const accountBalance = transformGqlAcountBalance(balanceData, Date.now())
+    const accountBalance = transformGqlAcountBalance(balanceData, Date.now());
     return {
       tokenAmounts: getTotalTokenAmount(accountBalance).amount,
       usdBalance: getTotalBalance(accountBalance).balance,
-    }
-  }, [balanceData])
+    };
+  }, [balanceData]);
   return (
     <Link key={account.address} href="/account/[address]" as={`/account/${account.address}`}>
       <ListItem className={classes.favMenuItem} button component="a">
@@ -75,7 +75,7 @@ const StarredAccount: React.FC<StarredAccountProps> = ({ account }) => {
         </Box>
       </ListItem>
     </Link>
-  )
-}
+  );
+};
 
-export default StarredAccount
+export default StarredAccount;

@@ -1,24 +1,24 @@
-import { Button, DialogActions, DialogContent, DialogContentText, Box } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import PasswordInput from '../PasswordInput'
-import useStyles from './styles'
+import { Button, DialogActions, DialogContent, DialogContentText, Box } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import PasswordInput from '../PasswordInput';
+import useStyles from './styles';
 
 interface SecurityPasswordProps {
-  onConfirm(password: string): void
+  onConfirm(password: string): void;
 }
 
 const SecurityPassword: React.FC<SecurityPasswordProps> = ({ onConfirm }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const [password, setPassword] = React.useState('')
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const [password, setPassword] = React.useState('');
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(password)
+      onSubmit={e => {
+        e.preventDefault();
+        onConfirm(password);
       }}
     >
       <DialogContent className={classes.dialogContent}>
@@ -27,7 +27,7 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({ onConfirm }) => {
           <PasswordInput
             placeholder={t('password')}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={e => setPassword(e.target.value)}
             withSecurityLevel
           />
         </Box>
@@ -46,7 +46,7 @@ const SecurityPassword: React.FC<SecurityPasswordProps> = ({ onConfirm }) => {
         </Box>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default SecurityPassword
+export default SecurityPassword;

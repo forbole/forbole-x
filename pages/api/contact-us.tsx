@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer'
+import nodemailer from 'nodemailer';
 
 export default async function contactUs(req, res) {
   if (req.method === 'POST') {
@@ -9,8 +9,8 @@ export default async function contactUs(req, res) {
         user: process.env.MAILGUN_USER,
         pass: process.env.MAILGUN_KEY,
       },
-    })
-    const body = JSON.parse(req.body)
+    });
+    const body = JSON.parse(req.body);
     transporter.sendMail(
       {
         from: body.from,
@@ -20,11 +20,11 @@ export default async function contactUs(req, res) {
       },
       function (err, info) {
         if (err) {
-          res.status(500).json({ success: false, err: err.message })
+          res.status(500).json({ success: false, err: err.message });
         } else {
-          res.status(200).json({ success: true })
+          res.status(200).json({ success: true });
         }
-      }
-    )
+      },
+    );
   }
 }

@@ -9,4 +9,4 @@ query VestingAccount($address: String!) @api(name: ${crypto}bdjuno) {
       start_time
     }
   }
-`
+`;

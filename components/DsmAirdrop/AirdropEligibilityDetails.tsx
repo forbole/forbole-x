@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   Box,
   Typography,
@@ -7,18 +7,18 @@ import {
   TextField,
   CircularProgress,
   alpha,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import TickIcon from '../../assets/images/icons/icon_tick.svg'
-import WarningIcon from '../../assets/images/icons/icon_warning.svg'
-import { formatCrypto } from '../../misc/utils'
-import useIconProps from '../../misc/useIconProps'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import TickIcon from '../../assets/images/icons/icon_tick.svg';
+import WarningIcon from '../../assets/images/icons/icon_warning.svg';
+import { formatCrypto } from '../../misc/utils';
+import useIconProps from '../../misc/useIconProps';
 
 interface AirdropEligibilityDetailsProps {
-  dataStakingInfo: any
-  lpInfos: any
-  nonEligibleAddresses?: ChainConnection[]
-  greyTick?: boolean
+  dataStakingInfo: any;
+  lpInfos: any;
+  nonEligibleAddresses?: ChainConnection[];
+  greyTick?: boolean;
 }
 
 const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
@@ -27,22 +27,22 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
   nonEligibleAddresses,
   greyTick,
 }) => {
-  const { t, lang } = useTranslation('common')
-  const theme = useTheme()
+  const { t, lang } = useTranslation('common');
+  const theme = useTheme();
   const iconProps = useIconProps(
     undefined,
-    greyTick ? theme.palette.grey[300] : theme.palette.primary.main
-  )
-  const errorIconProps = useIconProps(undefined, theme.palette.error.main)
+    greyTick ? theme.palette.grey[300] : theme.palette.primary.main,
+  );
+  const errorIconProps = useIconProps(undefined, theme.palette.error.main);
 
   return (
     <>
       {dataStakingInfo !== null && dataStakingInfo !== undefined ? (
         <Box>
           {dataStakingInfo.map((item, key) => {
-            const chain = item.chain_name
-            const dsm = item.dsm_allotted
-            const { claimed } = item
+            const chain = item.chain_name;
+            const dsm = item.dsm_allotted;
+            const { claimed } = item;
             return (
               <Box key={key}>
                 <Box
@@ -99,16 +99,16 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                   <Typography color="textSecondary">{item.address}</Typography>
                 </Box>
               </Box>
-            )
+            );
           })}
         </Box>
       ) : null}
       {lpInfos !== null && lpInfos !== undefined ? (
         <Box pb={theme.spacing(0.2)}>
           {lpInfos.map((item, key) => {
-            const chain = item.chain_name
-            const dsm = item.dsm_allotted
-            const { claimed } = item
+            const chain = item.chain_name;
+            const dsm = item.dsm_allotted;
+            const { claimed } = item;
             return (
               <Box key={key}>
                 <Box
@@ -161,12 +161,12 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
                   <Typography color="textSecondary">{item.address}</Typography>
                 </Box>
               </Box>
-            )
+            );
           })}
         </Box>
       ) : null}
       {nonEligibleAddresses
-        ? nonEligibleAddresses.map((a) => (
+        ? nonEligibleAddresses.map(a => (
             // eslint-disable-next-line react/jsx-indent
             <Box key={a.externalAddress + a.chainName}>
               <Box
@@ -202,7 +202,7 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
           ))
         : null}
     </>
-  )
-}
+  );
+};
 
-export default AirdropEligibilityDetails
+export default AirdropEligibilityDetails;

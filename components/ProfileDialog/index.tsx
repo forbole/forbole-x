@@ -12,24 +12,24 @@ import {
   useTheme,
   ButtonBase,
   Snackbar,
-} from '@material-ui/core'
-import { Alert } from '@material-ui/lab'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import CameraIcon from '../../assets/images/icons/icon_camera.svg'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import useSendTransaction from '../../misc/tx/useSendTransaction'
-import uploadIPFSImage from '../../misc/uploadIPFSImage'
+} from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import CloseIcon from '../../assets/images/icons/icon_cross.svg';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
+import CameraIcon from '../../assets/images/icons/icon_camera.svg';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import useSendTransaction from '../../misc/tx/useSendTransaction';
+import uploadIPFSImage from '../../misc/uploadIPFSImage';
 
 interface ProfileDialogProps {
-  open: boolean
-  onClose(): void
-  profile: Profile
-  account: Account
+  open: boolean;
+  onClose(): void;
+  profile: Profile;
+  account: Account;
 }
 
 const ProfileDialog: React.FC<ProfileDialogProps> = ({
@@ -38,58 +38,58 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
   onClose,
   account,
 }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const themeStyle = useTheme()
-  const { theme } = useGeneralContext()
-  const { password } = useWalletsContext()
-  const sendTransaction = useSendTransaction()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const themeStyle = useTheme();
+  const { theme } = useGeneralContext();
+  const { password } = useWalletsContext();
+  const sendTransaction = useSendTransaction();
 
-  const [loading, setLoading] = React.useState(false)
-  const [profile, setProfile] = React.useState(defaultProfile)
-  const [coverPicUploading, setCoverPicUploading] = React.useState(false)
-  const [profilePicUploading, setProfilePicUploading] = React.useState(false)
-  const [isUploadErr, setIsUploadErr] = React.useState(false)
+  const [loading, setLoading] = React.useState(false);
+  const [profile, setProfile] = React.useState(defaultProfile);
+  const [coverPicUploading, setCoverPicUploading] = React.useState(false);
+  const [profilePicUploading, setProfilePicUploading] = React.useState(false);
+  const [isUploadErr, setIsUploadErr] = React.useState(false);
 
-  const [errors, setErrors] = React.useState({ dtag: false, nickname: false, bio: false })
+  const [errors, setErrors] = React.useState({ dtag: false, nickname: false, bio: false });
 
   React.useEffect(() => {
     if (open) {
-      setLoading(false)
-      setProfile(defaultProfile)
-      setCoverPicUploading(false)
-      setProfilePicUploading(false)
-      setErrors({ dtag: false, nickname: false, bio: false })
+      setLoading(false);
+      setProfile(defaultProfile);
+      setCoverPicUploading(false);
+      setProfilePicUploading(false);
+      setErrors({ dtag: false, nickname: false, bio: false });
     }
-  }, [open])
+  }, [open]);
 
   const onSubmit = React.useCallback(async () => {
     // Validate entries
-    let hasErr = false
-    const errs = { dtag: false, nickname: false, bio: false }
+    let hasErr = false;
+    const errs = { dtag: false, nickname: false, bio: false };
     if (
       profile.dtag.length < 6 ||
       profile.dtag.length > 30 ||
       !profile.dtag.match(/^[A-Za-z0-9_]+$/)
     ) {
-      errs.dtag = true
-      hasErr = true
+      errs.dtag = true;
+      hasErr = true;
     }
     if (profile.nickname && profile.nickname.length < 2) {
-      errs.nickname = true
-      hasErr = true
+      errs.nickname = true;
+      hasErr = true;
     }
     if (profile.bio.length > 1000) {
-      errs.bio = true
-      hasErr = true
+      errs.bio = true;
+      hasErr = true;
     }
-    setErrors(errs)
+    setErrors(errs);
     if (hasErr) {
-      return
+      return;
     }
     try {
-      setLoading(true)
+      setLoading(true);
       const value = {
         dtag: profile.dtag,
         nickname: profile.nickname,
@@ -97,29 +97,29 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
         profilePicture: profile.profilePic,
         coverPicture: profile.coverPic,
         creator: account.address,
-      }
+      };
       // Remove key with empty space
-      Object.keys(value).forEach((k) => {
+      Object.keys(value).forEach(k => {
         if (!value[k]) {
-          delete value[k]
+          delete value[k];
         }
-      })
+      });
       const msgs: TransactionMsgSaveProfile[] = [
         {
           typeUrl: '/desmos.profiles.v3.MsgSaveProfile',
           value,
         },
-      ]
+      ];
       await sendTransaction(password, account.address, {
         msgs,
         memo: '',
-      })
-      setLoading(false)
-      onClose()
+      });
+      setLoading(false);
+      onClose();
     } catch (err) {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [password, account, profile, sendTransaction])
+  }, [password, account, profile, sendTransaction]);
 
   return (
     <>
@@ -130,9 +130,9 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
         <DialogTitle>{t(profile.dtag ? 'edit profile' : 'create profile')}</DialogTitle>
         <form
           noValidate
-          onSubmit={(e) => {
-            e.preventDefault()
-            onSubmit()
+          onSubmit={e => {
+            e.preventDefault();
+            onSubmit();
           }}
         >
           <DialogContent>
@@ -148,13 +148,13 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                   className={classes.imgOverlay}
                   onClick={async () => {
                     try {
-                      const coverPic = await uploadIPFSImage(() => setCoverPicUploading(true))
-                      setCoverPicUploading(false)
-                      setProfile((p) => ({ ...p, coverPic }))
+                      const coverPic = await uploadIPFSImage(() => setCoverPicUploading(true));
+                      setCoverPicUploading(false);
+                      setProfile(p => ({ ...p, coverPic }));
                     } catch (err) {
-                      console.log(err)
-                      setIsUploadErr(true)
-                      setCoverPicUploading(false)
+                      console.log(err);
+                      setIsUploadErr(true);
+                      setCoverPicUploading(false);
                     }
                   }}
                 >
@@ -179,13 +179,15 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                     className={classes.avatarOverlay}
                     onClick={async () => {
                       try {
-                        const profilePic = await uploadIPFSImage(() => setProfilePicUploading(true))
-                        setProfilePicUploading(false)
-                        setProfile((p) => ({ ...p, profilePic }))
+                        const profilePic = await uploadIPFSImage(() =>
+                          setProfilePicUploading(true),
+                        );
+                        setProfilePicUploading(false);
+                        setProfile(p => ({ ...p, profilePic }));
                       } catch (err) {
-                        console.log(err)
-                        setIsUploadErr(true)
-                        setProfilePicUploading(false)
+                        console.log(err);
+                        setIsUploadErr(true);
+                        setProfilePicUploading(false);
                       }
                     }}
                   >
@@ -209,7 +211,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                     disableUnderline: true,
                   }}
                   value={profile.nickname}
-                  onChange={(e) => setProfile((p) => ({ ...p, nickname: e.target.value }))}
+                  onChange={e => setProfile(p => ({ ...p, nickname: e.target.value }))}
                   error={errors.nickname}
                   helperText={errors.nickname ? t('profile nickname rules') : undefined}
                 />
@@ -224,7 +226,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                     disableUnderline: true,
                   }}
                   value={profile.dtag}
-                  onChange={(e) => setProfile((p) => ({ ...p, dtag: e.target.value }))}
+                  onChange={e => setProfile(p => ({ ...p, dtag: e.target.value }))}
                   error={errors.dtag}
                   helperText={errors.dtag ? t('profile dtag rules') : undefined}
                 />
@@ -241,7 +243,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                     disableUnderline: true,
                   }}
                   value={profile.bio}
-                  onChange={(e) => setProfile((p) => ({ ...p, bio: e.target.value }))}
+                  onChange={e => setProfile(p => ({ ...p, bio: e.target.value }))}
                   error={errors.bio}
                   helperText={errors.bio ? t('profile bio rules') : undefined}
                 />
@@ -267,7 +269,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
         </Alert>
       </Snackbar>
     </>
-  )
-}
+  );
+};
 
-export default ProfileDialog
+export default ProfileDialog;

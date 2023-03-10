@@ -1,20 +1,20 @@
-import { Box, Button, Typography } from '@material-ui/core'
-import React from 'react'
-import useTranslation from 'next-translate/useTranslation'
-import Link from 'next/link'
-import useStyles from './styles'
-import AirdropSuccess from '../../assets/images/airdrop_success.svg'
-import AirdropFailed from '../../assets/images/airdrop_failed.svg'
+import { Box, Button, Typography } from '@material-ui/core';
+import React from 'react';
+import useTranslation from 'next-translate/useTranslation';
+import Link from 'next/link';
+import useStyles from './styles';
+import AirdropSuccess from '../../assets/images/airdrop_success.svg';
+import AirdropFailed from '../../assets/images/airdrop_failed.svg';
 
 interface AirdropResultProps {
-  success: boolean
-  onCompleted: () => void
-  airdropResponse: string
+  success: boolean;
+  onCompleted: () => void;
+  airdropResponse: string;
 }
 
 const AirdropResult: React.FC<AirdropResultProps> = ({ success, onCompleted, airdropResponse }) => {
-  const classes = useStyles()
-  const { t } = useTranslation('common')
+  const classes = useStyles();
+  const { t } = useTranslation('common');
 
   return (
     <Box display="flex" justifyContent="center">
@@ -38,14 +38,14 @@ const AirdropResult: React.FC<AirdropResultProps> = ({ success, onCompleted, air
           variant="contained"
           fullWidth
           onClick={() => {
-            onCompleted()
+            onCompleted();
           }}
         >
           {t(`airdrop result button ${success ? 'success' : 'failed'}`)}
         </Button>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default AirdropResult
+export default AirdropResult;

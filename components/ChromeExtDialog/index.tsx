@@ -1,19 +1,19 @@
-import { Box, Button, Typography, Dialog, DialogContent } from '@material-ui/core'
-import React from 'react'
-import useTranslation from 'next-translate/useTranslation'
-import useIconProps from '../../misc/useIconProps'
-import useStyles from './styles'
-import useIsMobile from '../../misc/useIsMobile'
-import IconExtDark from '../../assets/images/icons/icon_ext_dark.svg'
-import IconExtLight from '../../assets/images/icons/icon_ext_light.svg'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+import { Box, Button, Typography, Dialog, DialogContent } from '@material-ui/core';
+import React from 'react';
+import useTranslation from 'next-translate/useTranslation';
+import useIconProps from '../../misc/useIconProps';
+import useStyles from './styles';
+import useIsMobile from '../../misc/useIsMobile';
+import IconExtDark from '../../assets/images/icons/icon_ext_dark.svg';
+import IconExtLight from '../../assets/images/icons/icon_ext_light.svg';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
 const ChromeExtDialog: React.FC = () => {
-  const { t } = useTranslation('common')
-  const iconProps = useIconProps(20)
-  const classes = useStyles()
-  const isMobile = useIsMobile()
-  const { theme } = useGeneralContext()
+  const { t } = useTranslation('common');
+  const iconProps = useIconProps(20);
+  const classes = useStyles();
+  const isMobile = useIsMobile();
+  const { theme } = useGeneralContext();
 
   return (
     <Dialog fullWidth open fullScreen={isMobile}>
@@ -37,7 +37,7 @@ const ChromeExtDialog: React.FC = () => {
         </Box>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
-export default ChromeExtDialog
+export default ChromeExtDialog;

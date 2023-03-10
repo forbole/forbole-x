@@ -5,4 +5,4 @@ export const getInflation = (crypto: string): string => `
       height
     }
   }
-`
+`;

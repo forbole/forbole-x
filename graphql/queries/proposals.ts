@@ -25,7 +25,7 @@ query Proposals @api(name: ${crypto}bdjuno) {
     status
   }
 }
-`
+`;
 
 export const getDepositParams = (crypto: string): string => `
 query DepositParams @api(name: ${crypto}bdjuno) {
@@ -34,7 +34,7 @@ query DepositParams @api(name: ${crypto}bdjuno) {
     tally_params
   }
 }
-`
+`;
 
 export const getProposal = (crypto: string): string => `
 query Proposal($id: Int!) @api(name: ${crypto}bdjuno) {
@@ -83,7 +83,7 @@ query Proposal($id: Int!) @api(name: ${crypto}bdjuno) {
     }
   }
 }
-`
+`;
 
 export const getProposalResult = (crypto: string): string => `
 query ProposalResult($id: Int!) @api(name: ${crypto}bdjuno) {
@@ -96,7 +96,7 @@ query ProposalResult($id: Int!) @api(name: ${crypto}bdjuno) {
     yes
   }
 }
-`
+`;
 
 export const getVoteDetail = (crypto: string): string => `
 query VoteDetail($id: Int!) @api(name: ${crypto}bdjuno) {
@@ -122,4 +122,4 @@ query VoteDetail($id: Int!) @api(name: ${crypto}bdjuno) {
     }
   }
 }
-`
+`;

@@ -1,5 +1,5 @@
-import React from 'react'
-import useTranslation from 'next-translate/useTranslation'
+import React from 'react';
+import useTranslation from 'next-translate/useTranslation';
 import {
   Box,
   Button,
@@ -10,40 +10,40 @@ import {
   Paper,
   Tooltip,
   useTheme,
-} from '@material-ui/core'
-import Link from 'next/link'
-import { Lottie } from '@alfonmga/react-lottie-light-ts'
-import DarkModeAnimationJsonData from '../../assets/lotties/starred-account-animation-dark.json'
-import LightModeAnimationJsonData from '../../assets/lotties/starred-account-animation-light.json'
-import OverviewIcon from '../../assets/images/icons/icon_overview.svg'
-import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg'
-import DelegateIcon from '../../assets/images/icons/icon_delegate_08.svg'
-import ProposalIcon from '../../assets/images/icons/icon_proposal.svg'
-import AddressBookIcon from '../../assets/images/icons/icon_address_book.svg'
-import Logo from '../../assets/images/logo.svg'
-import LogoExpended from '../../assets/images/logo_expended.svg'
-import useStyles from './styles'
-import StarredAccount from './StarredAccount'
-import useIconProps from '../../misc/useIconProps'
-import { MenuWidth } from '.'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import { CustomTheme } from '../../misc/theme'
-import { useWalletsContext } from '../../contexts/WalletsContext'
+} from '@material-ui/core';
+import Link from 'next/link';
+import { Lottie } from '@alfonmga/react-lottie-light-ts';
+import DarkModeAnimationJsonData from '../../assets/lotties/starred-account-animation-dark.json';
+import LightModeAnimationJsonData from '../../assets/lotties/starred-account-animation-light.json';
+import OverviewIcon from '../../assets/images/icons/icon_overview.svg';
+import WalletManageIcon from '../../assets/images/icons/icon_wallet_manage.svg';
+import DelegateIcon from '../../assets/images/icons/icon_delegate_08.svg';
+import ProposalIcon from '../../assets/images/icons/icon_proposal.svg';
+import AddressBookIcon from '../../assets/images/icons/icon_address_book.svg';
+import Logo from '../../assets/images/logo.svg';
+import LogoExpended from '../../assets/images/logo_expended.svg';
+import useStyles from './styles';
+import StarredAccount from './StarredAccount';
+import useIconProps from '../../misc/useIconProps';
+import { MenuWidth } from '.';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import { CustomTheme } from '../../misc/theme';
+import { useWalletsContext } from '../../contexts/WalletsContext';
 
 interface LeftMenuProps {
-  activeItem: string
-  isMenuExpanded: boolean
-  setIsMenuExpanded(isExpanded: boolean): void
+  activeItem: string;
+  isMenuExpanded: boolean;
+  setIsMenuExpanded(isExpanded: boolean): void;
 }
 
 const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMenuExpanded }) => {
-  const { t } = useTranslation('common')
-  const themeStyle: CustomTheme = useTheme()
-  const iconProps = useIconProps(3)
-  const { theme } = useGeneralContext()
-  const classes = useStyles({ mode: theme })
-  const { accounts } = useWalletsContext()
-  const favAccount = accounts.some((acc) => !!acc.fav)
+  const { t } = useTranslation('common');
+  const themeStyle: CustomTheme = useTheme();
+  const iconProps = useIconProps(3);
+  const { theme } = useGeneralContext();
+  const classes = useStyles({ mode: theme });
+  const { accounts } = useWalletsContext();
+  const favAccount = accounts.some(acc => !!acc.fav);
   const items = React.useMemo(
     () => [
       {
@@ -82,8 +82,8 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
       //   href: '/explorer',
       // },
     ],
-    [iconProps, t]
-  )
+    [iconProps, t],
+  );
 
   return (
     <Paper
@@ -121,8 +121,8 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
           </ListItemIcon>
         </ListItem>
         <Box className={classes.menuItems}>
-          {items.map((item) => {
-            const selected = item.href === activeItem
+          {items.map(item => {
+            const selected = item.href === activeItem;
             return (
               <Link key={item.title} href={item.href} as={`${item.href}`} passHref>
                 <Tooltip
@@ -160,7 +160,7 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
                   </ListItem>
                 </Tooltip>
               </Link>
-            )
+            );
           })}
         </Box>
         <Box className={classes.favMenu}>
@@ -208,14 +208,14 @@ const LeftMenu: React.FC<LeftMenuProps> = ({ activeItem, isMenuExpanded, setIsMe
             </Button>
           </Link>
           {accounts
-            .filter((account) => account.fav)
-            .map((account) => (
+            .filter(account => account.fav)
+            .map(account => (
               <StarredAccount key={account.address} account={account} />
             ))}
         </Box>
       </List>
     </Paper>
-  )
-}
+  );
+};
 
-export default React.memo(LeftMenu)
+export default React.memo(LeftMenu);

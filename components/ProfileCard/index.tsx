@@ -1,16 +1,16 @@
-import { Card, CardMedia, CardContent, Typography, Avatar, Box, Button } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import Markdown from '../Markdown'
-import useStyles from './styles'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import useIsMobile from '../../misc/useIsMobile'
+import { Card, CardMedia, CardContent, Typography, Avatar, Box, Button } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import Markdown from '../Markdown';
+import useStyles from './styles';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import useIsMobile from '../../misc/useIsMobile';
 
 interface ProfileCardProps {
-  profile: Profile
-  chainConnections: ChainConnection[]
-  onEditProfile(): void
-  onChainConnectionClick(): void
+  profile: Profile;
+  chainConnections: ChainConnection[];
+  onEditProfile(): void;
+  onChainConnectionClick(): void;
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({
@@ -19,10 +19,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   onEditProfile,
   onChainConnectionClick,
 }) => {
-  const classes = useStyles()
-  const { t } = useTranslation('common')
-  const { theme } = useGeneralContext()
-  const isMobile = useIsMobile()
+  const classes = useStyles();
+  const { t } = useTranslation('common');
+  const { theme } = useGeneralContext();
+  const isMobile = useIsMobile();
 
   return (
     <Card className={classes.container}>
@@ -72,7 +72,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         </Button>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default ProfileCard
+export default ProfileCard;
