@@ -5,7 +5,7 @@ on:
   pull_request:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   tests:
@@ -19,7 +19,7 @@ jobs:
         uses: technote-space/get-diff-action@v6.1.2
         id: git_diff
         with:
-          PATTERNS: +(src|__tests__)/**/*.+(js|jsx|ts|tsx)
+          PATTERNS: +(src|__tests__|**)/**/*.+(js|jsx|ts|tsx)
           FILES: |
             package.json
             yarn.lock
