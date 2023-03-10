@@ -33,9 +33,11 @@ jobs:
         run: yarn test --coverage
 
       - name: Run build check
+        if: env.GIT_DIFF
         run: yarn build
 
       - name: Run e2e tests
+        if: env.GIT_DIFF
         uses: cypress-io/github-action@v2
         with:
           start: yarn start
