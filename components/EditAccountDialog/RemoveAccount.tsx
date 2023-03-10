@@ -1,4 +1,4 @@
-import { Button, DialogActions, DialogContent, Typography, DialogTitle } from '@material-ui/core';
+import { Button, DialogActions, DialogContent, Typography } from '@material-ui/core';
 import useTranslation from 'next-translate/useTranslation';
 import React from 'react';
 import { useWalletsContext } from '../../contexts/WalletsContext';

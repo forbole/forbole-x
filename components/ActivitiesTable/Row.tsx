@@ -202,7 +202,9 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             {activity.detail.inputs.map((input, i) => {
               return (
                 <Box
-                  key={`${input.address}_${i}`}
+                  // key={`${input.address}_${i}`}
+                  // recipient addresses should be unique, even in multisend transactions
+                  key={`${input.address}`}
                   mr={1}
                   display="flex"
                   alignItems="center"
@@ -239,12 +241,8 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               );
             })}
             <Box className={classes.detail}>
-              {activity.detail.outputs.map((output, i) => (
-                <Box
-                  key={`${output.address}_${i}`}
-                  display="flex"
-                  alignItems="center"
-                  flexWrap="wrap">
+              {activity.detail.outputs.map(output => (
+                <Box key={`${output.address}`} display="flex" alignItems="center" flexWrap="wrap">
                   <Link
                     href={`${crypto.blockExplorerBaseUrl}/accounts/${output.address}`}
                     target="_blank"

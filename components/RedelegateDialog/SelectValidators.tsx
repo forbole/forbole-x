@@ -43,7 +43,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   loading,
   availableAmount,
 }) => {
-  const { amount: totalAmount, price } = Object.values(availableAmount)[0];
+  const { price } = Object.values(availableAmount)[0];
   const { t, lang } = useTranslation('common');
   const classes = useStyles();
   const iconProps = useIconProps();

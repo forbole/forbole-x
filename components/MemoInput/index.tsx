@@ -29,7 +29,7 @@ const MemoInput: React.FC<MemoInputProps> = ({
   consent,
   setConsent,
 }) => {
-  const { t, lang } = useTranslation('common');
+  const { t } = useTranslation('common');
   const classes = useStyles();
   const themeStyle: CustomTheme = useTheme();
 

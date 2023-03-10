@@ -1,3 +1,4 @@
+import React from 'react';
 import Link from 'next/link';
 import { Box, Card, CardMedia, alpha, useTheme } from '@material-ui/core';
 import Carousel from 'react-material-ui-carousel';

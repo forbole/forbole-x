@@ -15,7 +15,7 @@ import { Autocomplete } from '@material-ui/lab';
 import useTranslation from 'next-translate/useTranslation';
 import React from 'react';
 import CloseIcon from '../../assets/images/icons/icon_cross.svg';
-import { useGetStyles } from './styles';
+import useGetStyles from './styles';
 import { useGeneralContext } from '../../contexts/GeneralContext';
 import useIconProps from '../../misc/useIconProps';
 import useIsMobile from '../../misc/useIsMobile';

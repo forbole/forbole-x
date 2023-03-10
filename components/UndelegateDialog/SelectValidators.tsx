@@ -46,7 +46,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   const theme = useTheme();
   const [amount, setAmount] = React.useState(hideAmount ? '' : totalAmount.toString());
   const [percentage, setPercentage] = React.useState('100');
-  const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0]);
+  const [denom] = React.useState(Object.keys(availableAmount)[0]);
   const [memo, setMemo] = React.useState('');
   const [consent, setConsent] = React.useState(true);
 

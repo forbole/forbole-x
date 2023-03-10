@@ -34,7 +34,7 @@ const ChainLinkContent: React.FC<ChainLinkContentProps> = ({ msgs, account }) =>
         <Typography color="textSecondary">{account.address}</Typography>
       </Box>
       <Divider />
-      {msgs.map((m, i) => (
+      {msgs.map(m => (
         <React.Fragment key={m.value.chainAddress.value.value}>
           <Box my={1}>
             <Typography>{t('connect to')}</Typography>

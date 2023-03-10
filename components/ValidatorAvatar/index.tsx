@@ -65,6 +65,8 @@ const ValidatorAvatar: React.FC<ValidatorAvatarProps> = ({
       <Box display="flex" alignItems="center">
         <Avatar className={avatarClass} alt={validator.name} src={validator.image} />
         <Box className={classes.wrapText} ml={1}>
+          {/* TODO: verify if this link works */}
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <Link color="primary" variant={titleVariant}>
             {validator.name}
           </Link>

@@ -12,7 +12,7 @@ import {
   fetchAccountBalance,
   fetchBalancesByValidators,
 } from '../../graphql/fetch/accountBalances';
-import { getTokenAmountBalance, sumTokenAmounts } from '../../misc/utils';
+import { sumTokenAmounts } from '../../misc/utils';
 import { useWalletsContext } from '../../contexts/WalletsContext';
 import cryptocurrencies from '../../misc/cryptocurrencies';
 import AssetPopover from './AssetPopover';

@@ -15,10 +15,9 @@ import useTranslation from 'next-translate/useTranslation';
 import keyBy from 'lodash/keyBy';
 import get from 'lodash/get';
 import { ArrowDropDown } from '@material-ui/icons';
-import { useRouter } from 'next/router';
 import TablePagination from '../TablePagination';
 import InActiveStatus from './InActive';
-import { useGetStyles } from './styles';
+import useGetStyles from './styles';
 import useIconProps from '../../misc/useIconProps';
 import { getSlashingParams } from '../../graphql/queries/validators';
 import {
@@ -68,7 +67,6 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
   const iconProps = useIconProps();
   const { addFavValidators, deleteFavValidators, favValidators } = useGeneralContext();
   const [delegatingValidator, setDelegatingValidator] = React.useState<Validator>();
-  const router = useRouter();
   const validatorsMap = keyBy(validators, 'address');
 
   const { data: paramsData } = useQuery(
@@ -212,9 +210,8 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
                   </TableCell>
                   <TableCell className={classes.tableCell}>
                     {formatCrypto(v.votingPower, { unit: crypto.name, lang })} (
-                    {formatPercentage(v.votingPower / totalVotingPower, lang)}
-)
-</TableCell>
+                    {formatPercentage(v.votingPower / totalVotingPower, lang)})
+                  </TableCell>
                   {/* <TableCell className={classes.tableCell}>
                     {formatPercentage(v.selfRatio, lang)}
                   </TableCell> */}

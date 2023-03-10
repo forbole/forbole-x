@@ -2,7 +2,7 @@ import { Box, Typography } from '@material-ui/core';
 import { differenceInDays } from 'date-fns';
 import useTranslation from 'next-translate/useTranslation';
 import React from 'react';
-import { useGetStyles } from './styles';
+import useGetStyles from './styles';
 
 interface ActiveProps {
   proposal: Proposal;

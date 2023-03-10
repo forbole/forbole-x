@@ -23,12 +23,12 @@ interface AccountRowProps {
 }
 
 const AccountRow: React.FC<AccountRowProps> = ({ account }) => {
-  const { t, lang } = useTranslation('common');
+  const { lang } = useTranslation('common');
   const classes = useStyles();
   const theme = useTheme();
   const { hideAmount } = useGeneralContext();
   const { data: balanceData, loading } = useLatestAccountBalance(account.crypto, account.address);
-  const { tokenAmounts, usdBalance } = React.useMemo(() => {
+  const { tokenAmounts } = React.useMemo(() => {
     const accountBalance = transformGqlAcountBalance(balanceData, Date.now());
     return {
       tokenAmounts: getTotalTokenAmount(accountBalance).amount,

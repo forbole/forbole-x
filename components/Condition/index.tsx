@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button } from '@material-ui/core';
 import useTranslation from 'next-translate/useTranslation';
-import { useStyles } from './styles';
+import useStyles from './styles';
 
 const Condition: React.FC<{
   className?: string;

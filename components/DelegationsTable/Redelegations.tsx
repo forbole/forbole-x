@@ -10,11 +10,9 @@ import {
 import useTranslation from 'next-translate/useTranslation';
 import React from 'react';
 import { format, differenceInCalendarDays } from 'date-fns';
-import ToIcon from '../../assets/images/icons/icon_arrow down_title.svg';
 import useStyles from './styles';
-import { formatTokenAmount, formatHeight } from '../../misc/utils';
+import { formatTokenAmount } from '../../misc/utils';
 import useIsMobile from '../../misc/useIsMobile';
-import useIconProps from '../../misc/useIconProps';
 import ValidatorAvatar from '../ValidatorAvatar';
 import { useGeneralContext } from '../../contexts/GeneralContext';
 

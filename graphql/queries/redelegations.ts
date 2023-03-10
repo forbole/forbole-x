@@ -1,4 +1,4 @@
-export const getRedelegations = (crypto: string): string => `
+const getRedelegations = (crypto: string): string => `
 query Redelegations($address: String!) @api(name: ${crypto}bdjuno) {
     redelegations: redelegation(where: { delegator_address: {_eq: $address} }, distinct_on: [height] ,order_by: { height: desc }) {
       height
@@ -27,3 +27,5 @@ query Redelegations($address: String!) @api(name: ${crypto}bdjuno) {
     }
   }
 `;
+
+export default getRedelegations;

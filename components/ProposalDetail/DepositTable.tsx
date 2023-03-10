@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import useTranslation from 'next-translate/useTranslation';
 import React from 'react';
-import { useGetStyles } from './styles';
+import useGetStyles from './styles';
 import Active from './ActiveStatus';
 import { formatTokenAmount } from '../../misc/utils';
 import DepositDialog from '../DepositDialog';
@@ -73,9 +73,9 @@ const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto }) =>
             </TableRow>
           </TableHead>
           <TableBody>
-            {proposal.depositDetails.map((d, i) => {
+            {proposal.depositDetails.map(d => {
               return (
-                <TableRow className={classes.tableRow} key={i}>
+                <TableRow className={classes.tableRow} key={`${d.depositor}_${d.time}`}>
                   <TableCell>
                     <Link
                       href={`${crypto.blockExplorerBaseUrl}/accounts/${d.depositor.address}`}

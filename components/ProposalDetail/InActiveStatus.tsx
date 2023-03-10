@@ -1,6 +1,6 @@
 import { Box, Typography } from '@material-ui/core';
 import React from 'react';
-import { useGetStyles } from './styles';
+import useGetStyles from './styles';
 
 interface InActiveStatusProps {
   status: string;

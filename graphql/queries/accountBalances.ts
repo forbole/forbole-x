@@ -1,5 +1,3 @@
-const getGqlDateFormat = (date: Date) => date.toISOString().split('.')[0];
-
 export const getLatestAccountBalanceOld = (
   crypto: string,
   address: string,

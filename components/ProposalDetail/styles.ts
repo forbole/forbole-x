@@ -1,7 +1,7 @@
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { CustomTheme } from '../../misc/theme';
 
-export const useGetStyles = (color?: string, status?: string) => {
+const useGetStyles = (color?: string, status?: string) => {
   const statusColor = () => {
     if (status === 'rejected') {
       return 'unbonded';
@@ -157,3 +157,5 @@ export const useGetStyles = (color?: string, status?: string) => {
     classes: useStyles(),
   };
 };
+
+export default useGetStyles;

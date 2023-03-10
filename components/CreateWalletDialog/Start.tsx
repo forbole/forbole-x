@@ -1,6 +1,5 @@
 import {
   ButtonBase,
-  Button,
   DialogActions,
   DialogContent,
   DialogContentText,
@@ -23,11 +22,7 @@ interface StartProps {
   onWhatIsMnemonicClick(): void;
 }
 
-const Start: React.FC<StartProps> = ({
-  onImportWalletClick,
-  onCreateWalletClick,
-  onWhatIsMnemonicClick,
-}) => {
+const Start: React.FC<StartProps> = ({ onImportWalletClick, onCreateWalletClick }) => {
   const { t } = useTranslation('common');
   const classes = useStyles();
   const { theme } = useGeneralContext();

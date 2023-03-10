@@ -44,18 +44,6 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
     newAddress: currentAddress.address,
   });
 
-  const onButtonClick = e => {
-    if (updatedAddress.moniker === '') {
-      setMonikerError(t('moniker warning'));
-    } else if (
-      !isAddressValid(cryptocurrencies[updatedAddress.crypto].prefix, updatedAddress.newAddress)
-    ) {
-      setAddressError(t('invalid address', { crypto: updatedAddress.crypto }));
-    } else {
-      onSubmit(e);
-    }
-  };
-
   const onSubmit = React.useCallback(
     async e => {
       try {
@@ -68,6 +56,18 @@ const EditAddressDialog: React.FC<EditAddressDialogProps> = ({ currentAddress, o
     },
     [updateFavAddresses, updatedAddress],
   );
+
+  const onButtonClick = e => {
+    if (updatedAddress.moniker === '') {
+      setMonikerError(t('moniker warning'));
+    } else if (
+      !isAddressValid(cryptocurrencies[updatedAddress.crypto].prefix, updatedAddress.newAddress)
+    ) {
+      setAddressError(t('invalid address', { crypto: updatedAddress.crypto }));
+    } else {
+      onSubmit(e);
+    }
+  };
 
   React.useEffect(() => {
     if (open) {

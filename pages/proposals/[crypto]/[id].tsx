@@ -16,7 +16,7 @@ import {
   getVoteDetail,
 } from '../../../graphql/queries/proposals';
 import { transformProposal, transformVoteSummary, transformVoteDetail } from '../../../misc/utils';
-import { getTokensPrices } from '../../../graphql/queries/tokensPrices';
+import getTokensPrices from '../../../graphql/queries/tokensPrices';
 import useLatestAccountBalance from '../../../graphql/hooks/useLatestAccountBalance';
 import { useWalletsContext } from '../../../contexts/WalletsContext';
 import { CustomTheme } from '../../../misc/theme';

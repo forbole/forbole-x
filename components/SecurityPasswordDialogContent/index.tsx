@@ -47,18 +47,15 @@ const SecurityPasswordDialogContent: React.FC<SecurityPasswordDialogContentProps
   const cancel = React.useCallback(() => {
     setStage(SecurityPasswordDialogContentStage.UnlockPasswordStage);
   }, [setStage]);
-  const [error, setError] = React.useState('');
   const [password, setPassword] = React.useState('');
 
   const onButtonClick = React.useCallback(async () => {
     try {
-      setError('');
       onConfirm(password);
     } catch (err) {
-      setError(t(err.message));
       setPassword('');
     }
-  }, [password, setError, setPassword]);
+  }, [password, setPassword]);
 
   const content: Content = React.useMemo(() => {
     switch (stage) {

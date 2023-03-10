@@ -4,7 +4,7 @@ import flatten from 'lodash/flatten';
 import cryptocurrencies from '../../misc/cryptocurrencies';
 import { getTokenAmountFromDenoms } from '../../misc/utils';
 import { getAccountBalanceAtHeight } from '../queries/accountBalances';
-import { getBlockByTimestamp } from '../queries/blocks';
+import getBlockByTimestamp from '../queries/blocks';
 
 const fetchBalance = async (address: string, crypto: string, timestamp: Date) => {
   const block = await fetch(`${cryptocurrencies[crypto].graphqlHttpUrl}/graphql`, {

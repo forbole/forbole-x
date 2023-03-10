@@ -11,7 +11,7 @@ import useTranslation from 'next-translate/useTranslation';
 import React from 'react';
 import { format, differenceInCalendarDays } from 'date-fns';
 import useStyles from './styles';
-import { formatTokenAmount, formatHeight } from '../../misc/utils';
+import { formatTokenAmount } from '../../misc/utils';
 import useIsMobile from '../../misc/useIsMobile';
 import ValidatorAvatar from '../ValidatorAvatar';
 import { useGeneralContext } from '../../contexts/GeneralContext';

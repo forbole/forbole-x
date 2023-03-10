@@ -20,7 +20,7 @@ import {
   transformGqlAcountBalance,
 } from '../../misc/utils';
 import ChromeExtBottom from './ChromeExtBottom';
-import { getInflation } from '../../graphql/queries/inflation';
+import getInflation from '../../graphql/queries/inflation';
 import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance';
 
 interface AccountCardProps {

@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { CustomTheme } from '../../misc/theme';
 
-export const useGetStyles = (tag?: string) => {
+const useGetStyles = (tag?: string) => {
   const useStyles = React.useMemo(
     () =>
       makeStyles((theme: CustomTheme) =>
@@ -95,3 +95,5 @@ export const useGetStyles = (tag?: string) => {
     classes: useStyles(),
   };
 };
+
+export default useGetStyles;

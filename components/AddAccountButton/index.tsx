@@ -1,6 +1,5 @@
 /* eslint-disable no-await-in-loop */
 import { Dialog, IconButton, useTheme } from '@material-ui/core';
-import useTranslation from 'next-translate/useTranslation';
 import React from 'react';
 import get from 'lodash/get';
 import useStyles from './styles';
@@ -34,7 +33,6 @@ interface AddAccountButtonProps {
 }
 
 const AddAccountButton: React.FC<AddAccountButtonProps> = ({ walletId }) => {
-  const { t } = useTranslation('common');
   const smallIconProps = useIconProps();
   const classes = useStyles();
   const [crypto, setCrypto] = React.useState('');

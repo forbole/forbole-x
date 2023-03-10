@@ -34,7 +34,7 @@ const ChainUnlinkContent: React.FC<ChainUnlinkContentProps> = ({ msgs, account }
         <Typography color="textSecondary">{account.address}</Typography>
       </Box>
       <Divider />
-      {msgs.map((m, i) => (
+      {msgs.map(m => (
         <React.Fragment key={m.value.target}>
           <Box my={1}>
             <Typography>{t('disconnect')}</Typography>

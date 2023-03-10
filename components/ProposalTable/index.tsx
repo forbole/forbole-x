@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Card, Typography, Avatar, Divider, Link as MLink } from '@material-ui/core';
 import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
-import { useGetStyles } from './styles';
+import useGetStyles from './styles';
 import Active from './Active';
 import InActive from './InActive';
 import VoteDialog from '../VoteDialog';

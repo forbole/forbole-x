@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Typography,
-  useTheme,
-  Button,
-  TextField,
-  CircularProgress,
-  alpha,
-} from '@material-ui/core';
+import { Box, Typography, useTheme, alpha } from '@material-ui/core';
 import useTranslation from 'next-translate/useTranslation';
 import TickIcon from '../../assets/images/icons/icon_tick.svg';
 import WarningIcon from '../../assets/images/icons/icon_warning.svg';
@@ -39,12 +31,12 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
     <>
       {dataStakingInfo !== null && dataStakingInfo !== undefined ? (
         <Box>
-          {dataStakingInfo.map((item, key) => {
+          {dataStakingInfo.map(item => {
             const chain = item.chain_name;
             const dsm = item.dsm_allotted;
             const { claimed } = item;
             return (
-              <Box key={key}>
+              <Box key={item}>
                 <Box
                   display="flex"
                   flexDirection="row"
@@ -100,12 +92,12 @@ const AirdropEligibilityDetails: React.FC<AirdropEligibilityDetailsProps> = ({
       ) : null}
       {lpInfos !== null && lpInfos !== undefined ? (
         <Box pb={theme.spacing(0.2)}>
-          {lpInfos.map((item, key) => {
+          {lpInfos.map(item => {
             const chain = item.chain_name;
             const dsm = item.dsm_allotted;
             const { claimed } = item;
             return (
-              <Box key={key}>
+              <Box key={item}>
                 <Box
                   display="flex"
                   flexDirection="row"

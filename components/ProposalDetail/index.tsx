@@ -16,7 +16,7 @@ import {
 import Linkify from 'react-linkify';
 import useTranslation from 'next-translate/useTranslation';
 import get from 'lodash/get';
-import { useGetStyles } from './styles';
+import useGetStyles from './styles';
 import ActiveStatus from './ActiveStatus';
 import DepositTable from './DepositTable';
 import VoteTime from './VoteTime';

@@ -56,7 +56,7 @@ const Start: React.FC<StartProps> = ({ onConnectClick, connections, account, onC
             </TableHead>
 
             <TableBody>
-              {connections.map(({ creationTime, externalAddress, chainName }, i) => {
+              {connections.map(({ creationTime, externalAddress, chainName }) => {
                 const chain = connectableChains[chainName];
                 return (
                   <TableRow key={chainName + externalAddress} className={classes.borderedTableRow}>

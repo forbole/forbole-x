@@ -3,7 +3,6 @@ import React from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import useStyles from './styles';
 import { formatCrypto } from '../../misc/utils';
-import { useGeneralContext } from '../../contexts/GeneralContext';
 import AirdropEligibilityDetails from './AirdropEligibilityDetails';
 
 interface ClaimableAmountProps {
@@ -29,7 +28,6 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
 }) => {
   const classes = useStyles();
   const { t, lang } = useTranslation('common');
-  const { currency } = useGeneralContext();
   const theme = useTheme();
 
   const [onClaimLoading, setOnClaimLoading] = React.useState(false);
@@ -43,7 +41,7 @@ const ClaimableAmount: React.FC<ClaimableAmountProps> = ({
         `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/users/${externalAddress}`,
       ).then(r => r.json());
       // eslint-disable-next-line camelcase
-      const { staking_infos, dsm_allotted, lp_infos } = data;
+      const { staking_infos, lp_infos } = data;
       setDataStakingInfo(
         staking_infos.filter(s => !chainConnections.find(c => c.externalAddress === s.address)),
       );

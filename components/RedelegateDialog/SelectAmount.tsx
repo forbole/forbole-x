@@ -39,7 +39,7 @@ const SelectAmount: React.FC<SelectAmountProps> = ({
   const theme = useTheme();
   const [amount, setAmount] = React.useState(hideAmount ? '' : totalAmount.toString());
   const [percentage, setPercentage] = React.useState('100');
-  const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0]);
+  const [denom] = React.useState(Object.keys(availableAmount)[0]);
 
   const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount);
 

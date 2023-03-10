@@ -23,17 +23,17 @@ import {
   transformValidatorsWithTokenAmount,
   transformVestingAccount,
 } from '../../misc/utils';
-import { getRedelegations } from '../../graphql/queries/redelegations';
-import { getTransactions } from '../../graphql/queries/transactions';
+import getRedelegations from '../../graphql/queries/redelegations';
+import getTransactions from '../../graphql/queries/transactions';
 import AccountBalanceCard from '../../components/AccountBalanceCard';
 import IBCTransferDialog from '../../components/IBCTransferDialog';
 import ProfileCard from '../../components/ProfileCard';
 import { getProfile } from '../../graphql/queries/profile';
 import ProfileDialog from '../../components/ProfileDialog';
-import { getVestingAccount } from '../../graphql/queries/vestingAccount';
+import getVestingAccount from '../../graphql/queries/vestingAccount';
 import VestingDialog from '../../components/VestingDialog';
 import SelectAccountButton from '../../components/SelectAccountButton';
-import { getChainConnections } from '../../graphql/queries/chainConnections';
+import getChainConnections from '../../graphql/queries/chainConnections';
 import ConnectChainDialog from '../../components/ConnectChainDialog';
 import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance';
 import useValidators from '../../graphql/hooks/useValidators';

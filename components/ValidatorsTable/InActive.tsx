@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from '@material-ui/core';
 import React from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import { useGetStyles } from './styles';
+import useGetStyles from './styles';
 
 interface InActiveProps {
   status: string;

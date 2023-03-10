@@ -30,12 +30,12 @@ interface StarredAccountProps {
 const StarredAccount: React.FC<StarredAccountProps> = ({ account }) => {
   const themeStyle: CustomTheme = useTheme();
   const { lang } = useTranslation('common');
-  const { currency, hideAmount } = useGeneralContext();
+  const { hideAmount } = useGeneralContext();
   const classes = useStyles({});
   const crypto = cryptocurrencies[account.crypto];
   // Latest data
   const { data: balanceData, loading } = useLatestAccountBalance(account.crypto, account.address);
-  const { tokenAmounts, usdBalance } = React.useMemo(() => {
+  const { tokenAmounts } = React.useMemo(() => {
     const accountBalance = transformGqlAcountBalance(balanceData, Date.now());
     return {
       tokenAmounts: getTotalTokenAmount(accountBalance).amount,

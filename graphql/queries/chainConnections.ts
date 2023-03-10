@@ -1,4 +1,4 @@
-export const getChainConnections = (crypto: string): string => `
+const getChainConnections = (crypto: string): string => `
   query ChainLink($address: String!) @api(name: ${crypto}djuno) {
     chain_link(where: {user_address: {_eq: $address}}) {
       external_address
@@ -10,3 +10,5 @@ export const getChainConnections = (crypto: string): string => `
     }
   }
 `;
+
+export default getChainConnections;

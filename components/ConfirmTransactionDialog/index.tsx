@@ -10,7 +10,7 @@ import { formatTokenAmount, getTokenAmountFromDenoms } from '../../misc/utils';
 import useStyles from './styles';
 import useIsMobile from '../../misc/useIsMobile';
 import { useWalletsContext } from '../../contexts/WalletsContext';
-import { getTokensPrices } from '../../graphql/queries/tokensPrices';
+import getTokensPrices from '../../graphql/queries/tokensPrices';
 import CloseIcon from '../../assets/images/icons/icon_cross.svg';
 import BackIcon from '../../assets/images/icons/icon_back.svg';
 import useIconProps from '../../misc/useIconProps';

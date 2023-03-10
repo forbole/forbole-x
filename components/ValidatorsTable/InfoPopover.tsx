@@ -2,7 +2,7 @@ import React from 'react';
 import { Popover, Paper, Typography } from '@material-ui/core';
 import { HelpOutline } from '@material-ui/icons';
 import { useInfoPopoverHook } from './hooks';
-import { useGetStyles } from './styles';
+import useGetStyles from './styles';
 
 export interface InfoPopoverProps {
   detail: string;

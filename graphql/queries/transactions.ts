@@ -1,4 +1,4 @@
-export const getTransactions = (crypto: string): string => `
+const getTransactions = (crypto: string): string => `
 query Transactions($address: _text) @api(name: ${crypto}bdjuno) {
   messages_by_address(args: {addresses: $address, types: "{}"}) {
     type
@@ -13,3 +13,5 @@ query Transactions($address: _text) @api(name: ${crypto}bdjuno) {
   }
 }
 `;
+
+export default getTransactions;

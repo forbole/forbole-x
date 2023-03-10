@@ -73,14 +73,14 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
   const { theme } = useGeneralContext();
   const themeStyle: CustomTheme = useTheme();
   const iconProps = useIconProps();
-  const [isCopySuccess, setIsCopySuccess] = React.useState(false);
+  // const [isCopySuccess, setIsCopySuccess] = React.useState(false);
   const retryTimeoutRef = React.useRef<any>(undefined);
 
   const copyText = React.useCallback(
     e => {
       e.stopPropagation();
       navigator.clipboard.writeText(account ? account.address : null);
-      setIsCopySuccess(true);
+      // setIsCopySuccess(true);
     },
     [account?.address],
   );
@@ -191,9 +191,9 @@ const ConnectLedgerDialogContent: React.FC<ConnectLedgerDialogContentProps> = ({
             <>
               {instruction.image instanceof Array ? (
                 <Carousel indicators={false} interval={3000}>
-                  {instruction.image.map((item, i) => {
+                  {instruction.image.map(item => {
                     const Svg = item;
-                    return <Svg key={i} item={item} />;
+                    return <Svg key={String(item)} item={item} />;
                   })}
                 </Carousel>
               ) : (

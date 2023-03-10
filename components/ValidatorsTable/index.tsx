@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Card, Tabs, Tab } from '@material-ui/core';
 import useTranslation from 'next-translate/useTranslation';
-import { useGetStyles } from './styles';
+import useGetStyles from './styles';
 import Table from './Table';
 import { useGeneralContext } from '../../contexts/GeneralContext';
 

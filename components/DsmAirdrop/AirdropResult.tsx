@@ -1,7 +1,6 @@
 import { Box, Button, Typography } from '@material-ui/core';
 import React from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import Link from 'next/link';
 import useStyles from './styles';
 import AirdropSuccess from '../../assets/images/airdrop_success.svg';
 import AirdropFailed from '../../assets/images/airdrop_failed.svg';

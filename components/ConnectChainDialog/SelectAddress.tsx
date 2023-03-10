@@ -3,7 +3,6 @@
 import React from 'react';
 import {
   Box,
-  DialogTitle,
   DialogContent,
   Typography,
   Table,

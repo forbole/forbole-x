@@ -47,13 +47,13 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
   const themeStyle = useTheme();
   const iconProps = useIconProps();
   const [anchor, setAnchor] = React.useState<Element>();
-  const [anchorMode, setAnchorMode] = React.useState<Element>();
+  // const [anchorMode, setAnchorMode] = React.useState<Element>();
   const [anchorLanguage, setAnchorLanguage] = React.useState<Element>();
   const onClose = React.useCallback(() => {
     setAnchor(undefined);
     setAnchorLanguage(undefined);
-    setAnchorMode(undefined);
-  }, [setAnchor, setAnchorLanguage, setAnchorMode]);
+    // setAnchorMode(undefined);
+  }, [setAnchor, setAnchorLanguage]);
 
   return (
     <form
@@ -106,7 +106,7 @@ const SetPreference: React.FC<SetPreferenceProps> = ({ onConfirm }) => {
                     <MenuItem
                       value={x}
                       className={classes.menuItem}
-                      key={i}
+                      key={x}
                       button
                       onClick={() => {
                         setCurrency(x);

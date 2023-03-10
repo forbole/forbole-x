@@ -18,8 +18,8 @@ import {
   transformUnbonding,
   transformValidatorsWithTokenAmount,
 } from '../../misc/utils';
-import { getRedelegations } from '../../graphql/queries/redelegations';
-import { getTransactions } from '../../graphql/queries/transactions';
+import getRedelegations from '../../graphql/queries/redelegations';
+import getTransactions from '../../graphql/queries/transactions';
 import { useGeneralContext } from '../../contexts/GeneralContext';
 import AccountAvatar from '../../components/AccountAvatar';
 import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance';

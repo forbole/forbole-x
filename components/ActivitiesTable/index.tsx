@@ -4,7 +4,7 @@ import React from 'react';
 import SuccessIcon from '../../assets/images/icons/icon_status_success.svg';
 import FailIcon from '../../assets/images/icons/icon_status_reject.svg';
 import TablePagination from '../TablePagination';
-import { useGetStyles } from './styles';
+import useGetStyles from './styles';
 import Row from './Row';
 import { useGeneralContext } from '../../contexts/GeneralContext';
 import useIconProps from '../../misc/useIconProps';
@@ -65,8 +65,8 @@ const ActivitiesTable: React.FC<ActivitiesTableProps> = ({
           ))}
         </Tabs>
         <Box className={classes.table} mt={2}>
-          {tabs[currentTab].rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((a, i) => (
-            <Box key={`${a.ref}-${i}`}>
+          {tabs[currentTab].rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map(a => (
+            <Box key={`${a.ref}-${a.date}`}>
               <Box
                 className={classes.rowHeader}
                 flexDirection={isMobile ? 'column' : 'row'}

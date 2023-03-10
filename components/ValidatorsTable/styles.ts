@@ -1,7 +1,7 @@
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { CustomTheme } from '../../misc/theme';
 
-export const useGetStyles = (status?: string, alignRight?: boolean) => {
+const useGetStyles = (status?: string, alignRight?: boolean) => {
   const useStyles = makeStyles(
     (theme: CustomTheme) =>
       createStyles({
@@ -147,3 +147,5 @@ export const useGetStyles = (status?: string, alignRight?: boolean) => {
     classes: useStyles(),
   };
 };
+
+export default useGetStyles;

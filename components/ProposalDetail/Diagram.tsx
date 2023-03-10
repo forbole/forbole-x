@@ -1,7 +1,7 @@
 import { Box, Typography } from '@material-ui/core';
 import useTranslation from 'next-translate/useTranslation';
 import React from 'react';
-import { useGetStyles } from './styles';
+import useGetStyles from './styles';
 import { formatPercentage, formatCrypto } from '../../misc/utils';
 
 interface DiagramProps {

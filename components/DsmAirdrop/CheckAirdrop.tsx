@@ -1,10 +1,8 @@
 import React from 'react';
 import { Box, Typography, useTheme, Button, TextField, CircularProgress } from '@material-ui/core';
 import useTranslation from 'next-translate/useTranslation';
-import TickIcon from '../../assets/images/icons/icon_tick.svg';
 import ParachuteIcon from '../../assets/images/parachute.svg';
 import SelectAccountDialog from '../SelectAccountDialog';
-import useStyles from './styles';
 import { formatCrypto } from '../../misc/utils';
 import AirdropEligibilityDetails from './AirdropEligibilityDetails';
 
@@ -18,12 +16,10 @@ interface CheckAirdropProps {
 
 const CheckAirdrop: React.FC<CheckAirdropProps> = ({
   onConfirm,
-  claimEnabled,
   setSelectedAddress,
   externalAddress,
   setExternalAddress,
 }) => {
-  const classes = useStyles();
   const { t, lang } = useTranslation('common');
   const theme = useTheme();
   const [loading, setLoading] = React.useState(false);
@@ -41,7 +37,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
       ).then(r => r.json());
       setVerifyData(data);
       // eslint-disable-next-line camelcase
-      const { staking_infos, dsm_allotted, lp_infos } = data;
+      const { staking_infos, lp_infos } = data;
       setDataStakingInfo(staking_infos);
       setLpInfos(lp_infos);
       setLoading(false);
@@ -142,7 +138,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
       <SelectAccountDialog
         setSelectedAddress={setSelectedAddress}
         open={isSelectAccountDialogOpen}
-        onSubmit={(e, value) => {
+        onSubmit={e => {
           e.preventDefault();
           onConfirm();
         }}

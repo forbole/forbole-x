@@ -168,7 +168,7 @@ const AccountStatCard: React.FC<AccountStatCardProps> = ({ account }) => {
                   )}
                   <Box mr={2}>
                     <Typography color="textSecondary" variant="caption">
-                      {formatPercentage(percentageChange, lang)} {t('24h')}
+                      {`${formatPercentage(percentageChange, lang)} ${t('24h')}`}
                     </Typography>
                   </Box>
                   <Typography variant="caption">

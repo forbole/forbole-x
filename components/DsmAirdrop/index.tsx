@@ -11,7 +11,7 @@ import { useWalletsContext } from '../../contexts/WalletsContext';
 import cryptocurrencies from '../../misc/cryptocurrencies';
 import { getProfile } from '../../graphql/queries/profile';
 import { transformChainConnections, transformProfile } from '../../misc/utils';
-import { getChainConnections } from '../../graphql/queries/chainConnections';
+import getChainConnections from '../../graphql/queries/chainConnections';
 import ClaimableAmount from './ClaimableAmount';
 import AirdropResult from './AirdropResult';
 import CheckAirdrop from './CheckAirdrop';
@@ -37,7 +37,7 @@ type Stage = CommonStage;
 const DsmAirdrop: React.FC = () => {
   const classes = useStyles();
   const { t } = useTranslation('common');
-  const { accounts, wallets } = useWalletsContext();
+  const { accounts } = useWalletsContext();
 
   const [selectedAddress, setSelectedAddress] = React.useState('');
   const [externalAddress, setExternalAddress] = React.useState('');
@@ -67,9 +67,7 @@ const DsmAirdrop: React.FC = () => {
     [chainConnectionsData],
   );
 
-  const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
-    CommonStage.StartStage,
-  );
+  const [stage, setStage] = useStateHistory<Stage>(CommonStage.StartStage);
 
   const [totalDsmAllocated, setTotalDsmAllocated] = useState(0);
   const [totalDsmAllocatedLoading, setTotalDsmAllocatedLoading] = useState(false);

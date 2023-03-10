@@ -29,7 +29,7 @@ import {
 } from '../../misc/utils';
 import useIsMobile from '../../misc/useIsMobile';
 import cryptocurrencies from '../../misc/cryptocurrencies';
-import { useAddressSendDialogHook } from './hooks';
+import useAddressSendDialogHook from './hooks';
 import TokenAmountInput from '../TokenAmountInput';
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg';
 import { useGeneralContext } from '../../contexts/GeneralContext';
@@ -68,8 +68,10 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
   const avaiableAccountsMap = keyBy(avaiableAccounts, 'address');
   const [sender, setSender] = React.useState<Account>(avaiableAccounts[0]);
 
-  const { getAvailableAmount } = useAddressSendDialogHook({ account: sender, crypto });
-  const { availableAmount, availableTokens } = getAvailableAmount();
+  const { availableAmount, availableTokens } = useAddressSendDialogHook({
+    account: sender,
+    crypto,
+  });
 
   const onConfirm = React.useCallback(
     async (r: { amount: { amount: number; denom: string }; address: string }) => {

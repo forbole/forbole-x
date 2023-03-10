@@ -1,5 +1,4 @@
 import { Dialog, IconButton } from '@material-ui/core';
-import useTranslation from 'next-translate/useTranslation';
 import React from 'react';
 import CloseIcon from '../../assets/images/icons/icon_cross.svg';
 import useStyles from './styles';
@@ -20,7 +19,6 @@ const ShowAddressOnLedgerDialog: React.FC<ShowAddressOnLedgerDialogProps> = ({
   open,
   onClose,
 }) => {
-  const { t } = useTranslation('common');
   const classes = useStyles();
   const iconProps = useIconProps();
 

@@ -15,7 +15,7 @@ import useTranslation from 'next-translate/useTranslation';
 import keyBy from 'lodash/keyBy';
 import last from 'lodash/last';
 import useIconProps from '../../misc/useIconProps';
-import { useGetStyles } from './styles';
+import useGetStyles from './styles';
 import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg';
 import { useWalletsContext } from '../../contexts/WalletsContext';
 import cryptocurrencies from '../../misc/cryptocurrencies';
