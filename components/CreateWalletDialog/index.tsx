@@ -305,6 +305,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       case CommonStage.ImportLedgerWalletStage:
         return {
           title: t('import wallet title'),
+          // Ledger flow does not ask user for password or preferences, so the step has to be different
           step: stage === CommonStage.ImportLedgerWalletStage ? 3 : 5,
           content: (
             <ImportWallet
