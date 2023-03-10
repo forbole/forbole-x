@@ -65,8 +65,8 @@ const ValidatorAvatar: React.FC<ValidatorAvatarProps> = ({
     >
       <Box display="flex" alignItems="center">
         <Avatar className={avatarClass} alt={validator.name} src={validator.image} />
-        <Box ml={1}>
-          <Link className={classes.wrapText} color="primary" variant={titleVariant}>
+        <Box className={classes.wrapText} ml={1}>
+          <Link color="primary" variant={titleVariant}>
             {validator.name}
           </Link>
           {withCommission ? (
