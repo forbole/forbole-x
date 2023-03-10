@@ -1,0 +1,26 @@
+name: Lint
+# Lint runs the linter over the entire repository.
+# This workflow is run on every pull request and push to main.
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  Lint:
+    name: Lint code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+
+      - name: Cache Yarn files 💾
+        uses: c-hive/gha-yarn-cache@v1
+
+      - name: Install 🔨
+        run: yarn install --immutable
+
+      - name: Run lint ✅
+        run: yarn run lint
