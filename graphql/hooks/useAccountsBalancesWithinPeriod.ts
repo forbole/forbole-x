@@ -11,7 +11,7 @@ const fetchBalance = async (address: string, crypto: string, timestamp: Date) =>
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      query: getBlockByTimestamp(crypto),
+      query: getBlockByTimestamp(),
       variables: { timestamp },
     }),
   }).then(r => r.json());
