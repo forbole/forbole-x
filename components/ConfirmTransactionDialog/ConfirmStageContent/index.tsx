@@ -10,44 +10,44 @@ import {
   TextField,
   Typography,
   useTheme,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import dynamic from 'next/dynamic'
-import get from 'lodash/get'
-import EditGasIcon from '../../../assets/images/icons/edit_gas.svg'
-import CloseIcon from '../../../assets/images/icons/icon_cross.svg'
-import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils'
-import useStyles from '../styles'
-import SendContent from './SendContent'
-import DelegateContent from './DelegateContent'
-import RedelegateContent from './RedelegateContent'
-import UndelegateContent from './UndelegateContent'
-import ClaimRewardsContent from './ClaimRewardsContent'
-import { useGeneralContext } from '../../../contexts/GeneralContext'
-import { CustomTheme } from '../../../misc/theme'
-import IBCTransferContent from './IBCTransferContent'
-import SubmitProposalContent from './SubmitProposalContent'
-import VoteContent from './VoteContent'
-import DepositContent from './DepositContent'
-import SaveProfileContent from './SaveProfileContent'
-import SetWithdrawAddressContent from './SetWithdrawAddressContent'
-import MultiSendContent from './MultiSendContent'
-import ChainLinkContent from './ChainLinkContent'
-import ChainUnlinkContent from './ChainUnlinkContent'
-import useIconProps from '../../../misc/useIconProps'
-import cryptocurrencies from '../../../misc/cryptocurrencies'
-import { transformFee } from '../../../misc/tx/estimateGasFee'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import dynamic from 'next/dynamic';
+import get from 'lodash/get';
+import EditGasIcon from '../../../assets/images/icons/edit_gas.svg';
+import CloseIcon from '../../../assets/images/icons/icon_cross.svg';
+import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils';
+import useStyles from '../styles';
+import SendContent from './SendContent';
+import DelegateContent from './DelegateContent';
+import RedelegateContent from './RedelegateContent';
+import UndelegateContent from './UndelegateContent';
+import ClaimRewardsContent from './ClaimRewardsContent';
+import { useGeneralContext } from '../../../contexts/GeneralContext';
+import { CustomTheme } from '../../../misc/theme';
+import IBCTransferContent from './IBCTransferContent';
+import SubmitProposalContent from './SubmitProposalContent';
+import VoteContent from './VoteContent';
+import DepositContent from './DepositContent';
+import SaveProfileContent from './SaveProfileContent';
+import SetWithdrawAddressContent from './SetWithdrawAddressContent';
+import MultiSendContent from './MultiSendContent';
+import ChainLinkContent from './ChainLinkContent';
+import ChainUnlinkContent from './ChainUnlinkContent';
+import useIconProps from '../../../misc/useIconProps';
+import cryptocurrencies from '../../../misc/cryptocurrencies';
+import { transformFee } from '../../../misc/tx/estimateGasFee';
 
-const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
+const ReactJson = dynamic(() => import('react-json-view'), { ssr: false });
 
 interface ConfirmStageContentProps {
-  account: Account
-  denoms: TokenPrice[]
-  validators: { [address: string]: Validator }
-  transactionData: Transaction
-  onConfirm(fee: { amount: { amount: string; denom: string }[]; gas: string }): void
-  totalAmount: TokenAmount
+  account: Account;
+  denoms: TokenPrice[];
+  validators: { [address: string]: Validator };
+  transactionData: Transaction;
+  onConfirm(fee: { amount: { amount: string; denom: string }[]; gas: string }): void;
+  totalAmount: TokenAmount;
 }
 
 const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
@@ -58,22 +58,22 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
   onConfirm,
   totalAmount,
 }) => {
-  const { t, lang } = useTranslation('common')
-  const classes = useStyles()
-  const { theme } = useGeneralContext()
-  const themeStyle: CustomTheme = useTheme()
-  const iconProps = useIconProps()
+  const { t, lang } = useTranslation('common');
+  const classes = useStyles();
+  const { theme } = useGeneralContext();
+  const themeStyle: CustomTheme = useTheme();
+  const iconProps = useIconProps();
 
-  const [viewingData, setViewingData] = React.useState(false)
-  const [gas, setGas] = React.useState(transactionData.fee.gas)
-  const fee = transformFee(cryptocurrencies[account.crypto], Number(gas))
-  const [isEdittingGas, setIsEdittingGas] = React.useState(false)
+  const [viewingData, setViewingData] = React.useState(false);
+  const [gas, setGas] = React.useState(transactionData.fee.gas);
+  const fee = transformFee(cryptocurrencies[account.crypto], Number(gas));
+  const [isEdittingGas, setIsEdittingGas] = React.useState(false);
 
   React.useEffect(() => {
-    setGas(transactionData.fee.gas)
-  }, [transactionData.fee.gas])
+    setGas(transactionData.fee.gas);
+  }, [transactionData.fee.gas]);
 
-  const { typeUrl } = transactionData.msgs[0]
+  const { typeUrl } = transactionData.msgs[0];
 
   const content = React.useMemo(() => {
     switch (typeUrl) {
@@ -85,7 +85,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             totalAmount={totalAmount}
             msgs={transactionData.msgs as TransactionMsgSend[]}
           />
-        )
+        );
       case '/cosmos.bank.v1beta1.MsgMultiSend':
         return (
           <MultiSendContent
@@ -94,7 +94,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             totalAmount={totalAmount}
             msgs={transactionData.msgs as TransactionMsgMultiSend[]}
           />
-        )
+        );
       case '/cosmos.staking.v1beta1.MsgDelegate':
         return (
           <DelegateContent
@@ -104,7 +104,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             msgs={transactionData.msgs as TransactionMsgDelegate[]}
             validators={validators}
           />
-        )
+        );
       case '/cosmos.staking.v1beta1.MsgUndelegate':
         return (
           <UndelegateContent
@@ -114,7 +114,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             msgs={transactionData.msgs as TransactionMsgUndelegate[]}
             validators={validators}
           />
-        )
+        );
       case '/cosmos.staking.v1beta1.MsgBeginRedelegate':
         return (
           <RedelegateContent
@@ -124,7 +124,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             msgs={transactionData.msgs as TransactionMsgRedelegate[]}
             validators={validators}
           />
-        )
+        );
       case '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward':
       case '/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission':
         return (
@@ -138,7 +138,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             }
             validators={validators}
           />
-        )
+        );
       case '/ibc.applications.transfer.v1.MsgTransfer':
         return (
           <IBCTransferContent
@@ -147,16 +147,16 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             totalAmount={totalAmount}
             msgs={transactionData.msgs as TransactionMsgIBCTransfer[]}
           />
-        )
+        );
       case '/cosmos.gov.v1beta1.MsgSubmitProposal':
         return (
           <SubmitProposalContent
             account={account}
             msgs={transactionData.msgs as TransactionMsgSubmitProposal[]}
           />
-        )
+        );
       case '/cosmos.gov.v1beta1.MsgVote':
-        return <VoteContent msgs={transactionData.msgs as TransactionMsgVote[]} />
+        return <VoteContent msgs={transactionData.msgs as TransactionMsgVote[]} />;
       case '/cosmos.gov.v1beta1.MsgDeposit':
         return (
           <DepositContent
@@ -164,34 +164,34 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
             account={account}
             denoms={denoms}
           />
-        )
+        );
       case '/desmos.profiles.v3.MsgSaveProfile':
-        return <SaveProfileContent msgs={transactionData.msgs as TransactionMsgSaveProfile[]} />
+        return <SaveProfileContent msgs={transactionData.msgs as TransactionMsgSaveProfile[]} />;
       case '/desmos.profiles.v3.MsgLinkChainAccount':
         return (
           <ChainLinkContent
             account={account}
             msgs={transactionData.msgs as TransactionMsgLinkChainAccount[]}
           />
-        )
+        );
       case '/desmos.profiles.v3.MsgUnlinkChainAccount':
         return (
           <ChainUnlinkContent
             account={account}
             msgs={transactionData.msgs as TransactionMsgUnlinkChainAccount[]}
           />
-        )
+        );
       case '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress':
         return (
           <SetWithdrawAddressContent
             account={account}
             msgs={transactionData.msgs as TransactionMsgSetWithdrawAddress[]}
           />
-        )
+        );
       default:
-        return null
+        return null;
     }
-  }, [typeUrl, validators, account, transactionData, totalAmount, denoms])
+  }, [typeUrl, validators, account, transactionData, totalAmount, denoms]);
 
   return (
     <>
@@ -213,7 +213,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
                     lang,
                   })}
             </Typography>
-            <IconButton onClick={() => setIsEdittingGas((g) => !g)}>
+            <IconButton onClick={() => setIsEdittingGas(g => !g)}>
               {isEdittingGas ? <CloseIcon {...iconProps} /> : <EditGasIcon {...iconProps} />}
             </IconButton>
           </Box>
@@ -230,7 +230,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
               }}
               placeholder={get(transactionData, 'fee.gas', '0')}
               value={gas}
-              onChange={(e) => setGas(e.target.value)}
+              onChange={e => setGas(e.target.value)}
             />
             <Box px={1}>
               <Slider
@@ -248,7 +248,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
 
         <Divider />
         <Box my={1} display="flex" justifyContent="flex-end">
-          <Button onClick={() => setViewingData((v) => !v)} variant="text" color="primary">
+          <Button onClick={() => setViewingData(v => !v)} variant="text" color="primary">
             {t(viewingData ? 'hide data' : 'view data')}
           </Button>
         </Box>
@@ -278,8 +278,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
           className={classes.fullWidthButton}
           color="primary"
           disabled={!Number(fee.gas)}
-          onClick={() => onConfirm(fee)}
-        >
+          onClick={() => onConfirm(fee)}>
           {!transactionData.fee.gas ? (
             <CircularProgress size={themeStyle.spacing(3.5)} />
           ) : (
@@ -288,7 +287,7 @@ const ConfirmStageContent: React.FC<ConfirmStageContentProps> = ({
         </Button>
       </DialogActions>
     </>
-  )
-}
+  );
+};
 
-export default ConfirmStageContent
+export default ConfirmStageContent;

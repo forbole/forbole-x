@@ -1,17 +1,17 @@
-import { Box, Button } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { useGetStyles } from './styles'
+import { Box, Button } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useGetStyles from './styles';
 
 interface ActiveStatusProps {
-  status: string
-  onClick: () => void
-  className?: string
+  status: string;
+  onClick: () => void;
+  className?: string;
 }
 
 const ActiveStatus: React.FC<ActiveStatusProps> = ({ status, onClick, className }) => {
-  const { classes } = useGetStyles('', status)
-  const { t } = useTranslation('common')
+  const { classes } = useGetStyles('', status);
+  const { t } = useTranslation('common');
 
   return (
     <Box onClick={onClick} className={className}>
@@ -19,7 +19,7 @@ const ActiveStatus: React.FC<ActiveStatusProps> = ({ status, onClick, className 
         {t(status)}
       </Button>
     </Box>
-  )
-}
+  );
+};
 
-export default ActiveStatus
+export default ActiveStatus;

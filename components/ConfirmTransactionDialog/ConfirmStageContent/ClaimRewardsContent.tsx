@@ -1,19 +1,19 @@
-import React from 'react'
-import { Box, Divider, Typography, useTheme } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import WithdrawIcon from '../../../assets/images/icons/icon_withdraw_tx.svg'
-import ValidatorAvatar from '../../ValidatorAvatar'
-import cryptocurrencies from '../../../misc/cryptocurrencies'
+import React from 'react';
+import { Box, Divider, Typography, useTheme } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import WithdrawIcon from '../../../assets/images/icons/icon_withdraw_tx.svg';
+import ValidatorAvatar from '../../ValidatorAvatar';
+import cryptocurrencies from '../../../misc/cryptocurrencies';
 
 interface ClaimRewardsContentProps {
-  msgs: (TransactionMsgWithdrawReward | TransactionMsgWithdrawCommission)[]
-  account: Account
-  validators: { [address: string]: Validator }
+  msgs: (TransactionMsgWithdrawReward | TransactionMsgWithdrawCommission)[];
+  account: Account;
+  validators: { [address: string]: Validator };
 }
 
 const ClaimRewardsContent: React.FC<ClaimRewardsContentProps> = ({ msgs, account, validators }) => {
-  const { t } = useTranslation('common')
-  const theme = useTheme()
+  const { t } = useTranslation('common');
+  const theme = useTheme();
   return (
     <>
       <Box display="flex" flexDirection="column" alignItems="center" mt={6}>
@@ -42,7 +42,7 @@ const ClaimRewardsContent: React.FC<ClaimRewardsContentProps> = ({ msgs, account
       </Box>
       <Divider />
     </>
-  )
-}
+  );
+};
 
-export default ClaimRewardsContent
+export default ClaimRewardsContent;

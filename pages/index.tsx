@@ -1,24 +1,24 @@
-import { Box, Grid, Typography } from '@material-ui/core'
-import React from 'react'
-import useTranslation from 'next-translate/useTranslation'
-import Layout from '../components/Layout'
-import WalletBalanceChart from '../components/WalletBalanceChart'
-import AccountStatCard from '../components/AccountStatCard'
-import { useWalletsContext } from '../contexts/WalletsContext'
-import AssetDistributionChart from '../components/AssetDistributionChart'
-import Banner from '../components/Banner/index'
+import React from 'react';
+import { Box, Grid, Typography } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import Layout from '../components/Layout';
+import WalletBalanceChart from '../components/WalletBalanceChart';
+import AccountStatCard from '../components/AccountStatCard';
+import { useWalletsContext } from '../contexts/WalletsContext';
+import AssetDistributionChart from '../components/AssetDistributionChart';
+import Banner from '../components/Banner/index';
 
 const Home: React.FC = () => {
-  const { t } = useTranslation('common')
-  const { accounts } = useWalletsContext()
+  const { t } = useTranslation('common');
+  const { accounts } = useWalletsContext();
 
-  const [airdropEnabled, setAirdropEnabled] = React.useState(false)
+  const [airdropEnabled, setAirdropEnabled] = React.useState(false);
 
   React.useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/config`)
-      .then((r) => r.json())
-      .then((data) => setAirdropEnabled(data.airdrop_enabled))
-  }, [])
+      .then(r => r.json())
+      .then(data => setAirdropEnabled(data.airdrop_enabled));
+  }, []);
 
   return (
     <Layout passwordRequired activeItem="/">
@@ -37,14 +37,14 @@ const Home: React.FC = () => {
         </Typography>
       </Box>
       <Grid container spacing={3}>
-        {accounts.map((account) => (
+        {accounts.map(account => (
           <Grid key={account.address} item lg={4} md={6} xs={12}>
             <AccountStatCard account={account} />
           </Grid>
         ))}
       </Grid>
     </Layout>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

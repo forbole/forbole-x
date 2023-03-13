@@ -7,24 +7,24 @@ import {
   IconButton,
   DialogContent,
   useTheme,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import BackIcon from '../../assets/images/icons/icon_back.svg'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import SelectAmount from './SelectAmount'
-import SelectValidators from './SelectValidators'
-import useStateHistory from '../../misc/useStateHistory'
-import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import useIsMobile from '../../misc/useIsMobile'
-import cryptocurrencies from '../../misc/cryptocurrencies'
-import ImageDefaultDark from '../../assets/images/image_default_dark.svg'
-import ImageDefaultLight from '../../assets/images/image_default_light.svg'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import useSendTransaction from '../../misc/tx/useSendTransaction'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import CloseIcon from '../../assets/images/icons/icon_cross.svg';
+import BackIcon from '../../assets/images/icons/icon_back.svg';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
+import SelectAmount from './SelectAmount';
+import SelectValidators from './SelectValidators';
+import useStateHistory from '../../misc/useStateHistory';
+import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import useIsMobile from '../../misc/useIsMobile';
+import cryptocurrencies from '../../misc/cryptocurrencies';
+import ImageDefaultDark from '../../assets/images/image_default_dark.svg';
+import ImageDefaultLight from '../../assets/images/image_default_light.svg';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import useSendTransaction from '../../misc/tx/useSendTransaction';
 
 enum DelegationStage {
   SelectAmountStage = 'select amount',
@@ -32,18 +32,18 @@ enum DelegationStage {
 }
 
 interface DelegationDialogProps {
-  account?: Account
-  validators: Validator[]
-  defaultValidator?: Validator
-  availableTokens: AvailableTokens
-  open: boolean
-  onClose(): void
+  account?: Account;
+  validators: Validator[];
+  defaultValidator?: Validator;
+  availableTokens: AvailableTokens;
+  open: boolean;
+  onClose(): void;
 }
 
 interface Content {
-  title: string
-  content: React.ReactNode
-  dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  title: string;
+  content: React.ReactNode;
+  dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
 const DelegationDialog: React.FC<DelegationDialogProps> = ({
@@ -54,51 +54,51 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
   availableTokens,
   defaultValidator,
 }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const themeStyle = useTheme()
-  const iconProps = useIconProps()
-  const { password } = useWalletsContext()
-  const { theme } = useGeneralContext()
-  const isMobile = useIsMobile()
-  const sendTransaction = useSendTransaction()
-  const [amount, setAmount] = React.useState(0)
-  const [denom, setDenom] = React.useState('')
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const themeStyle = useTheme();
+  const iconProps = useIconProps();
+  const { password } = useWalletsContext();
+  const { theme } = useGeneralContext();
+  const isMobile = useIsMobile();
+  const sendTransaction = useSendTransaction();
+  const [amount, setAmount] = React.useState(0);
+  const [denom, setDenom] = React.useState('');
   const [delegations, setDelegations] = React.useState<
     Array<{ amount: number; validator: Validator }>
-  >([])
-  const [loading, setLoading] = React.useState(false)
-  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
+  >([]);
+  const [loading, setLoading] = React.useState(false);
+  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0];
 
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<DelegationStage>(
-    DelegationStage.SelectAmountStage
-  )
+    DelegationStage.SelectAmountStage,
+  );
 
   const availableAmount = React.useMemo(
     () => getTokenAmountFromDenoms(availableTokens.coins, availableTokens.tokens_prices),
-    [availableTokens]
-  )
+    [availableTokens],
+  );
 
   const confirmAmount = React.useCallback(
     (a: number, d: string) => {
-      setAmount(a)
-      setDenom(d)
-      setDelegations([{ amount: a, validator: (defaultValidator || {}) as Validator }])
-      setStage(DelegationStage.SelectValidatorsStage)
+      setAmount(a);
+      setDenom(d);
+      setDelegations([{ amount: a, validator: (defaultValidator || {}) as Validator }]);
+      setStage(DelegationStage.SelectValidatorsStage);
     },
-    [setAmount, setStage, defaultValidator]
-  )
+    [setAmount, setStage, defaultValidator],
+  );
 
   const confirmDelegations = React.useCallback(
     async (d: Array<{ amount: number; validator: Validator }>, memo: string) => {
       try {
-        setLoading(true)
-        const msgs: TransactionMsgDelegate[] = d.map((r) => {
+        setLoading(true);
+        const msgs: TransactionMsgDelegate[] = d.map(r => {
           const coinsToSend = getEquivalentCoinToSend(
             { amount: r.amount, denom },
             availableTokens.coins,
-            availableTokens.tokens_prices
-          )
+            availableTokens.tokens_prices,
+          );
           return {
             typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
             value: {
@@ -109,20 +109,20 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
                 denom: coinsToSend.denom,
               },
             },
-          }
-        })
+          };
+        });
         await sendTransaction(password, account.address, {
           msgs,
           memo,
-        })
-        setLoading(false)
-        onClose()
+        });
+        setLoading(false);
+        onClose();
       } catch (err) {
-        setLoading(false)
+        setLoading(false);
       }
     },
-    [setStage, password, availableTokens, account, denom, sendTransaction]
-  )
+    [setStage, password, availableTokens, account, denom, sendTransaction],
+  );
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
@@ -141,7 +141,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
               loading={loading}
             />
           ),
-        }
+        };
       case DelegationStage.SelectAmountStage:
       default:
         return {
@@ -153,19 +153,19 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
               onConfirm={confirmAmount}
             />
           ),
-        }
+        };
     }
-  }, [stage, t])
+  }, [stage, t]);
 
   React.useEffect(() => {
     if (open) {
-      setAmount(0)
-      setDenom('')
-      setDelegations([])
-      setLoading(false)
-      setStage(DelegationStage.SelectAmountStage, true)
+      setAmount(0);
+      setDenom('');
+      setDelegations([]);
+      setLoading(false);
+      setStage(DelegationStage.SelectAmountStage, true);
     }
-  }, [open])
+  }, [open]);
 
   return (
     <Dialog
@@ -173,8 +173,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
       maxWidth={content.dialogWidth || (availableAmount[crypto.name]?.amount > 0 ? 'md' : 'sm')}
       open={open}
       onClose={onClose}
-      fullScreen={isMobile}
-    >
+      fullScreen={isMobile}>
       {availableAmount[crypto.name]?.amount > 0 ? (
         <>
           {isPrevStageAvailable ? (
@@ -209,7 +208,7 @@ const DelegationDialog: React.FC<DelegationDialogProps> = ({
         </>
       )}
     </Dialog>
-  )
-}
+  );
+};
 
-export default DelegationDialog
+export default DelegationDialog;

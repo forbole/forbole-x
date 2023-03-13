@@ -134,6 +134,6 @@ const cryptocurrencies: { [key: string]: Cryptocurrency } = {
     },
     supportsDesmosProfile: false,
   },
-}
+};
 
-export default cryptocurrencies
+export default cryptocurrencies;

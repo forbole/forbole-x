@@ -1,18 +1,18 @@
-import { Box, Typography } from '@material-ui/core'
-import { differenceInDays } from 'date-fns'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { useGetStyles } from './styles'
+import { Box, Typography } from '@material-ui/core';
+import { differenceInDays } from 'date-fns';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useGetStyles from './styles';
 
 interface ActiveProps {
-  proposal: Proposal
+  proposal: Proposal;
 }
 
 const DepositTime: React.FC<ActiveProps> = ({ proposal }) => {
-  const { classes } = useGetStyles()
-  const { t } = useTranslation('common')
+  const { classes } = useGetStyles();
+  const { t } = useTranslation('common');
 
-  const dateDiff = differenceInDays(new Date(proposal.depositEndTime), new Date())
+  const dateDiff = differenceInDays(new Date(proposal.depositEndTime), new Date());
 
   return (
     <Box display="flex">
@@ -30,7 +30,7 @@ const DepositTime: React.FC<ActiveProps> = ({ proposal }) => {
         </Typography>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default DepositTime
+export default DepositTime;

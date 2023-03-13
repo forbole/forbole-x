@@ -1,17 +1,17 @@
-import { Box, Typography, Button } from '@material-ui/core'
-import React from 'react'
-import useTranslation from 'next-translate/useTranslation'
-import { useGetStyles } from './styles'
+import { Box, Typography, Button } from '@material-ui/core';
+import React from 'react';
+import useTranslation from 'next-translate/useTranslation';
+import useGetStyles from './styles';
 
 interface InActiveProps {
-  status: string
-  alignRight: boolean
-  onClick: () => void
+  status: string;
+  alignRight: boolean;
+  onClick: () => void;
 }
 
 const InActive: React.FC<InActiveProps> = ({ status, alignRight, onClick }) => {
-  const { classes } = useGetStyles(status, alignRight)
-  const { t } = useTranslation('common')
+  const { classes } = useGetStyles(status, alignRight);
+  const { t } = useTranslation('common');
 
   return (
     <Box className={classes.inActiveStatus}>
@@ -22,7 +22,7 @@ const InActive: React.FC<InActiveProps> = ({ status, alignRight, onClick }) => {
         {t('delegate')}
       </Button>
     </Box>
-  )
-}
+  );
+};
 
-export default InActive
+export default InActive;

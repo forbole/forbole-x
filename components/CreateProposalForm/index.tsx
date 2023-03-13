@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   Box,
   Button,
@@ -9,66 +9,66 @@ import {
   CircularProgress,
   useTheme,
   IconButton,
-} from '@material-ui/core'
-import { Autocomplete } from '@material-ui/lab'
-import useTranslation from 'next-translate/useTranslation'
-import keyBy from 'lodash/keyBy'
-import last from 'lodash/last'
-import useIconProps from '../../misc/useIconProps'
-import { useGetStyles } from './styles'
-import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import cryptocurrencies from '../../misc/cryptocurrencies'
-import RemoveIcon from '../../assets/images/icons/icon_clear.svg'
-import MemoInput from '../MemoInput'
-import TokenAmountInput from '../TokenAmountInput'
-import useSendTransaction from '../../misc/tx/useSendTransaction'
+} from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
+import useTranslation from 'next-translate/useTranslation';
+import keyBy from 'lodash/keyBy';
+import last from 'lodash/last';
+import useIconProps from '../../misc/useIconProps';
+import useGetStyles from './styles';
+import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import cryptocurrencies from '../../misc/cryptocurrencies';
+import RemoveIcon from '../../assets/images/icons/icon_clear.svg';
+import MemoInput from '../MemoInput';
+import TokenAmountInput from '../TokenAmountInput';
+import useSendTransaction from '../../misc/tx/useSendTransaction';
 
 interface CreateProposalFormProps {
-  account: Account
+  account: Account;
 }
 
 const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
-  const { classes } = useGetStyles()
-  const theme = useTheme()
-  const { t } = useTranslation('common')
-  const { accounts, password } = useWalletsContext()
+  const { classes } = useGetStyles();
+  const theme = useTheme();
+  const { t } = useTranslation('common');
+  const { accounts, password } = useWalletsContext();
 
-  const iconProps = useIconProps()
-  const sendTransaction = useSendTransaction()
+  const iconProps = useIconProps();
+  const sendTransaction = useSendTransaction();
 
   const types = [
     '/cosmos.gov.v1beta1.TextProposal',
     '/cosmos.params.v1beta1.ParameterChangeProposal',
     '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal',
     '/cosmos.distribution.v1beta1.CommunityPoolSpendProposal',
-  ]
+  ];
 
-  const [crypto, setCrypto] = React.useState(account.crypto)
-  const network = cryptocurrencies[crypto]
-  const [type, setType] = React.useState('')
+  const [crypto, setCrypto] = React.useState(account.crypto);
+  const network = cryptocurrencies[crypto];
+  const [type, setType] = React.useState('');
 
-  const [proposalAccount, setProposalAccount] = React.useState<Account>(account)
-  const accountsMap = keyBy(accounts, 'address')
+  const [proposalAccount, setProposalAccount] = React.useState<Account>(account);
+  const accountsMap = keyBy(accounts, 'address');
 
-  const [description, setDescription] = React.useState('')
-  const [title, setTitle] = React.useState('')
-  const [memo, setMemo] = React.useState('')
-  const [loading, setLoading] = React.useState(false)
-  const [name, setName] = React.useState('')
-  const [height, setHeight] = React.useState('')
-  const [info, setInfo] = React.useState('')
-  const [recipient, setRecipient] = React.useState('')
-  const [amount, setAmount] = React.useState('')
-  const [consent, setConsent] = React.useState(true)
+  const [description, setDescription] = React.useState('');
+  const [title, setTitle] = React.useState('');
+  const [memo, setMemo] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [name, setName] = React.useState('');
+  const [height, setHeight] = React.useState('');
+  const [info, setInfo] = React.useState('');
+  const [recipient, setRecipient] = React.useState('');
+  const [amount, setAmount] = React.useState('');
+  const [consent, setConsent] = React.useState(true);
 
   const [changes, setChanges] = React.useState<
     Array<{ subspace: string; key: string; value: string }>
-  >([{ subspace: '', key: '', value: '' }])
+  >([{ subspace: '', key: '', value: '' }]);
 
   const onNext = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const msg = {
         typeUrl: '/cosmos.gov.v1beta1.MsgSubmitProposal',
         value: {
@@ -85,7 +85,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                 title,
                 description,
                 changes: [
-                  changes.map((x) => ({
+                  changes.map(x => ({
                     subspace: x.subspace,
                     key: x.key,
                     value: x.value,
@@ -123,17 +123,17 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
           initialDeposit: [],
           proposer: proposalAccount.address,
         },
-      } as unknown as TransactionMsgSubmitProposal
+      } as unknown as TransactionMsgSubmitProposal;
 
       await sendTransaction(password, proposalAccount.address, {
         msgs: [msg],
         memo,
-      })
-      setLoading(false)
+      });
+      setLoading(false);
     } catch (err) {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <Box>
@@ -146,22 +146,20 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
         </Typography>
         <Box display="flex" alignItems="center" mb={3}>
           <Autocomplete
-            options={accounts.filter((a) => a.crypto === crypto).map(({ address }) => address)}
-            getOptionLabel={(option) =>
-              `${accountsMap[option].name} ${accountsMap[option].address}`
-            }
+            options={accounts.filter(a => a.crypto === crypto).map(({ address }) => address)}
+            getOptionLabel={option => `${accountsMap[option].name} ${accountsMap[option].address}`}
             openOnFocus
             fullWidth
             filterOptions={(options: string[], { inputValue }: any) => {
-              return options.filter((o) =>
-                accountsMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
-              )
+              return options.filter(o =>
+                accountsMap[o].name.toLowerCase().includes(inputValue.toLowerCase()),
+              );
             }}
             onChange={(_e, address: string) => {
-              setProposalAccount(accountsMap[address])
-              setCrypto(accountsMap[address].crypto)
+              setProposalAccount(accountsMap[address]);
+              setCrypto(accountsMap[address].crypto);
             }}
-            renderOption={(address) => (
+            renderOption={address => (
               <Box display="flex" alignItems="center">
                 <Typography>{`${accountsMap[address].name}  ${accountsMap[address].address}`}</Typography>
               </Box>
@@ -198,22 +196,22 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
             <Box display="flex" alignItems="center">
               <Autocomplete
                 options={Object.keys(cryptocurrencies)}
-                getOptionLabel={(option) => cryptocurrencies[option].chainName}
+                getOptionLabel={option => cryptocurrencies[option].chainName}
                 openOnFocus
                 fullWidth
                 filterOptions={(options: string[], { inputValue }: any) =>
-                  options.filter((o) =>
-                    cryptocurrencies[o].chainName.toLowerCase().includes(inputValue.toLowerCase())
+                  options.filter(o =>
+                    cryptocurrencies[o].chainName.toLowerCase().includes(inputValue.toLowerCase()),
                   )
                 }
                 onChange={(_e, id: string) => {
-                  setCrypto(id)
-                  setProposalAccount((a) => (a.crypto === id ? a : null))
+                  setCrypto(id);
+                  setProposalAccount(a => (a.crypto === id ? a : null));
                 }}
-                renderOption={(id) => (
+                renderOption={id => (
                   <Box display="flex" alignItems="center">
                     <Typography>
-                      {cryptocurrencies[id].chainName} - {cryptocurrencies[id].name}
+                      {cryptocurrencies[id].chainName} -{cryptocurrencies[id].name}
                     </Typography>
                   </Box>
                 )}
@@ -249,18 +247,18 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
             <Box display="flex" alignItems="center">
               <Autocomplete
                 options={types}
-                getOptionLabel={(option) => t(last(option.split('.')))}
+                getOptionLabel={option => t(last(option.split('.')))}
                 openOnFocus
                 fullWidth
                 filterOptions={(options: string[], { inputValue }: any) =>
-                  options.filter((o) =>
+                  options.filter(o =>
                     t(last(o.split('.')))
                       .toLowerCase()
-                      .includes(inputValue.toLowerCase())
+                      .includes(inputValue.toLowerCase()),
                   )
                 }
                 onChange={(_e, id: string) => setType(id)}
-                renderOption={(id) => <Typography>{t(last(id.split('.')))}</Typography>}
+                renderOption={id => <Typography>{t(last(id.split('.')))}</Typography>}
                 renderInput={({ InputProps, ...params }) => (
                   <TextField
                     {...params}
@@ -296,7 +294,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
               className: classes.input,
             }}
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={e => setTitle(e.target.value)}
           />
         </Box>
 
@@ -315,7 +313,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
               className: classes.input,
             }}
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={e => setDescription(e.target.value)}
           />
         </Box>
         {type === '/cosmos.params.v1beta1.ParameterChangeProposal' &&
@@ -334,10 +332,10 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                       disableUnderline: true,
                       className: classes.input,
                     }}
-                    onChange={(e) => {
-                      setChanges((d) =>
-                        d.map((a, j) => (j === i ? { ...a, subspace: e.target.value } : a))
-                      )
+                    onChange={e => {
+                      setChanges(d =>
+                        d.map((a, j) => (j === i ? { ...a, subspace: e.target.value } : a)),
+                      );
                     }}
                   />
                 </Grid>
@@ -353,10 +351,10 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                       disableUnderline: true,
                       className: classes.input,
                     }}
-                    onChange={(e) => {
-                      setChanges((d) =>
-                        d.map((a, j) => (j === i ? { ...a, key: e.target.value } : a))
-                      )
+                    onChange={e => {
+                      setChanges(d =>
+                        d.map((a, j) => (j === i ? { ...a, key: e.target.value } : a)),
+                      );
                     }}
                   />
                 </Grid>
@@ -373,10 +371,10 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                       disableUnderline: true,
                       className: classes.input,
                     }}
-                    onChange={(e) => {
-                      setChanges((d) =>
-                        d.map((a, j) => (j === i ? { ...a, value: e.target.value } : a))
-                      )
+                    onChange={e => {
+                      setChanges(d =>
+                        d.map((a, j) => (j === i ? { ...a, value: e.target.value } : a)),
+                      );
                     }}
                   />
                 </Grid>
@@ -385,9 +383,8 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                     <Box mt={3.5}>
                       <IconButton
                         onClick={() => {
-                          setChanges((d) => d.filter((a, j) => j !== i))
-                        }}
-                      >
+                          setChanges(d => d.filter((a, j) => j !== i));
+                        }}>
                         <RemoveIcon {...iconProps} />
                       </IconButton>
                     </Box>
@@ -399,8 +396,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                   <Button
                     variant="text"
                     color="secondary"
-                    onClick={() => setChanges((x) => [...x, { subspace: '', key: '', value: '' }])}
-                  >
+                    onClick={() => setChanges(x => [...x, { subspace: '', key: '', value: '' }])}>
                     {t('add change')}
                   </Button>
                 </Box>
@@ -424,7 +420,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                     className: classes.input,
                   }}
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={e => setName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={4}>
@@ -441,7 +437,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                     className: classes.input,
                   }}
                   value={height}
-                  onChange={(e) => setHeight(e.target.value)}
+                  onChange={e => setHeight(e.target.value)}
                 />
               </Grid>
               <Grid item xs={4}>
@@ -457,7 +453,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                     className: classes.input,
                   }}
                   value={info}
-                  onChange={(e) => setInfo(e.target.value)}
+                  onChange={e => setInfo(e.target.value)}
                 />
               </Grid>
             </Grid>
@@ -480,7 +476,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                     className: classes.input,
                   }}
                   value={recipient}
-                  onChange={(e) => setRecipient(e.target.value)}
+                  onChange={e => setRecipient(e.target.value)}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -491,7 +487,7 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
                   value={amount}
                   placeholder="0"
                   denom={crypto}
-                  onValueChange={(a) => setAmount(a)}
+                  onValueChange={a => setAmount(a)}
                   onDenomChange={() => null}
                   availableAmount={{ [crypto]: { amount: 0, price: 0 } }}
                   InputProps={{
@@ -535,14 +531,13 @@ const CreateProposalForm: React.FC<CreateProposalFormProps> = ({ account }) => {
               description === '' ||
               !consent
             }
-            onClick={onNext}
-          >
+            onClick={onNext}>
             {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default CreateProposalForm
+export default CreateProposalForm;

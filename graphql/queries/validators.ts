@@ -28,7 +28,7 @@ query Validators @api(name: ${crypto}bdjuno) {
     }
   }
 }
-`
+`;
 
 export const getValidatorsByAddresses = (crypto: string): string => `
 query Validators($addresses: [String!]) @api(name: ${crypto}bdjuno) {
@@ -57,7 +57,7 @@ query Validators($addresses: [String!]) @api(name: ${crypto}bdjuno) {
     }
   }
 }
-`
+`;
 
 export const getSlashingParams = (crypto: string) => `
 query Validators @api(name: ${crypto}bdjuno) {
@@ -65,4 +65,4 @@ query Validators @api(name: ${crypto}bdjuno) {
     params
   }
 }
-`
+`;

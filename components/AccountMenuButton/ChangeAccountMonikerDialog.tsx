@@ -8,19 +8,19 @@ import {
   IconButton,
   TextField,
   Typography,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import useStyles from './styles'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import useIconProps from '../../misc/useIconProps'
-import useIsMobile from '../../misc/useIsMobile'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import CloseIcon from '../../assets/images/icons/icon_cross.svg';
+import useStyles from './styles';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import useIconProps from '../../misc/useIconProps';
+import useIsMobile from '../../misc/useIsMobile';
 
 interface ChangeAccountMonikerDialogProps {
-  account: Account
-  open: boolean
-  onClose(): void
+  account: Account;
+  open: boolean;
+  onClose(): void;
 }
 
 const ChangeAccountMonikerDialog: React.FC<ChangeAccountMonikerDialogProps> = ({
@@ -28,31 +28,31 @@ const ChangeAccountMonikerDialog: React.FC<ChangeAccountMonikerDialogProps> = ({
   open,
   onClose,
 }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const [name, setName] = React.useState('')
-  const { updateAccount } = useWalletsContext()
-  const isMobile = useIsMobile()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const [name, setName] = React.useState('');
+  const { updateAccount } = useWalletsContext();
+  const isMobile = useIsMobile();
 
   const onButtonClick = React.useCallback(
-    async (e) => {
+    async e => {
       try {
-        e.preventDefault()
-        await updateAccount(account.address, account.walletId, { name })
-        onClose()
+        e.preventDefault();
+        await updateAccount(account.address, account.walletId, { name });
+        onClose();
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     },
-    [name, updateAccount, account]
-  )
+    [name, updateAccount, account],
+  );
 
   React.useEffect(() => {
     if (open) {
-      setName('')
+      setName('');
     }
-  }, [open])
+  }, [open]);
 
   return (
     <Dialog fullWidth open={open} onClose={onClose} fullScreen={isMobile}>
@@ -73,7 +73,7 @@ const ChangeAccountMonikerDialog: React.FC<ChangeAccountMonikerDialogProps> = ({
               }}
               placeholder={t('account moniker')}
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={e => setName(e.target.value)}
             />
           </Box>
         </DialogContent>
@@ -83,14 +83,13 @@ const ChangeAccountMonikerDialog: React.FC<ChangeAccountMonikerDialogProps> = ({
             className={classes.dialogButton}
             variant="contained"
             color="primary"
-            disabled={!name}
-          >
+            disabled={!name}>
             {t('save')}
           </Button>
         </DialogActions>
       </form>
     </Dialog>
-  )
-}
+  );
+};
 
-export default ChangeAccountMonikerDialog
+export default ChangeAccountMonikerDialog;

@@ -1,6 +1,6 @@
-import React from 'react'
-import ReactMarkdown from 'markdown-to-jsx'
-import { Typography, Link } from '@material-ui/core'
+import React from 'react';
+import ReactMarkdown from 'markdown-to-jsx';
+import { Typography, Link } from '@material-ui/core';
 
 const options = {
   // disableParsingRawHTML: true,
@@ -65,14 +65,14 @@ const options = {
       component: Link,
       props: {
         target: '_blank',
-        onClick: (e) => e.stopPropagation(),
+        onClick: e => e.stopPropagation(),
       },
     },
   },
-}
+};
 
 const Markdown = (props: any) => {
-  return <ReactMarkdown options={options} {...props} />
-}
+  return <ReactMarkdown options={options} {...props} />;
+};
 
-export default Markdown
+export default Markdown;

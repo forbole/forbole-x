@@ -9,36 +9,36 @@ import {
   DialogContent,
   DialogTitle,
   CircularProgress,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import useStyles from './styles'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useStyles from './styles';
 
 const FeedbackTable: React.FC = () => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const theme = useTheme()
-  const [isSuccessDialogOpen, setIsSuccessDialogOpen] = React.useState(false)
-  const [loading, setLoading] = React.useState(false)
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const theme = useTheme();
+  const [isSuccessDialogOpen, setIsSuccessDialogOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
-  const [message, setMessage] = React.useState({ from: '', subject: '', text: '' })
+  const [message, setMessage] = React.useState({ from: '', subject: '', text: '' });
 
-  const handleClick = async (e) => {
-    e.preventDefault()
+  const handleClick = async e => {
+    e.preventDefault();
     try {
-      setLoading(true)
+      setLoading(true);
       await fetch('/api/contact-us', {
         method: 'POST',
         body: JSON.stringify(message),
-      })
-      setLoading(false)
-      setIsSuccessDialogOpen(true)
-      setMessage({ from: '', subject: '', text: '' })
+      });
+      setLoading(false);
+      setIsSuccessDialogOpen(true);
+      setMessage({ from: '', subject: '', text: '' });
     } catch (err) {
-      setLoading(false)
-      console.log(err)
+      setLoading(false);
+      console.log(err);
     }
-  }
+  };
 
   return (
     <Paper className={classes.paper}>
@@ -54,7 +54,7 @@ const FeedbackTable: React.FC = () => {
           }}
           placeholder={t('email placeholder')}
           value={message.from}
-          onChange={(e) => setMessage({ ...message, from: e.target.value })}
+          onChange={e => setMessage({ ...message, from: e.target.value })}
         />
         <Typography>{t('subject')}</Typography>
         <TextField
@@ -67,7 +67,7 @@ const FeedbackTable: React.FC = () => {
           }}
           placeholder={t('subject placeholder')}
           value={message.subject}
-          onChange={(e) => setMessage({ ...message, subject: e.target.value })}
+          onChange={e => setMessage({ ...message, subject: e.target.value })}
         />
 
         <Typography>{t('message')}</Typography>
@@ -83,7 +83,7 @@ const FeedbackTable: React.FC = () => {
           }}
           placeholder={t('message placeholder')}
           value={message.text}
-          onChange={(e) => setMessage({ ...message, text: e.target.value })}
+          onChange={e => setMessage({ ...message, text: e.target.value })}
         />
         <Box display="flex" justifyContent="flex-end" pt={4}>
           <Button
@@ -93,8 +93,7 @@ const FeedbackTable: React.FC = () => {
             color="primary"
             disabled={
               loading || message.subject === '' || message.text === '' || message.from === ''
-            }
-          >
+            }>
             {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
@@ -112,7 +111,7 @@ const FeedbackTable: React.FC = () => {
         </DialogContent>
       </Dialog>
     </Paper>
-  )
-}
+  );
+};
 
-export default FeedbackTable
+export default FeedbackTable;

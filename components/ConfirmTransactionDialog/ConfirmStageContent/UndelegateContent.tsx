@@ -1,17 +1,17 @@
-import React from 'react'
-import { Box, Divider, Typography, useTheme } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import DelegateIcon from '../../../assets/images/icons/icon_delegate_tx.svg'
-import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils'
-import ValidatorAvatar from '../../ValidatorAvatar'
-import cryptocurrencies from '../../../misc/cryptocurrencies'
+import React from 'react';
+import { Box, Divider, Typography, useTheme } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import DelegateIcon from '../../../assets/images/icons/icon_delegate_tx.svg';
+import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils';
+import ValidatorAvatar from '../../ValidatorAvatar';
+import cryptocurrencies from '../../../misc/cryptocurrencies';
 
 interface UndelegateContentProps {
-  totalAmount: TokenAmount
-  msgs: TransactionMsgUndelegate[]
-  denoms: TokenPrice[]
-  account: Account
-  validators: { [address: string]: Validator }
+  totalAmount: TokenAmount;
+  msgs: TransactionMsgUndelegate[];
+  denoms: TokenPrice[];
+  account: Account;
+  validators: { [address: string]: Validator };
 }
 
 const UndelegateContent: React.FC<UndelegateContentProps> = ({
@@ -21,8 +21,8 @@ const UndelegateContent: React.FC<UndelegateContentProps> = ({
   account,
   validators,
 }) => {
-  const { t, lang } = useTranslation('common')
-  const theme = useTheme()
+  const { t, lang } = useTranslation('common');
+  const theme = useTheme();
   return (
     <>
       <Box display="flex" flexDirection="column" alignItems="center" mt={6}>
@@ -65,7 +65,7 @@ const UndelegateContent: React.FC<UndelegateContentProps> = ({
       </Box>
       <Divider />
     </>
-  )
-}
+  );
+};
 
-export default UndelegateContent
+export default UndelegateContent;

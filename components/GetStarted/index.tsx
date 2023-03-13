@@ -1,32 +1,31 @@
-import { Box, Button, Typography, useTheme } from '@material-ui/core'
-import React from 'react'
-import useTranslation from 'next-translate/useTranslation'
-import GetStartedLightImage from '../../assets/images/get_started_light.svg'
-import GetStartedDarkImage from '../../assets/images/get_started_dark.svg'
-import useStyles from './styles'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import OnboardingDialog from '../OnboardingDialog'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import CreateWalletDialog from '../CreateWalletDialog'
-import useIsMobile from '../../misc/useIsMobile'
+import { Box, Button, Typography, useTheme } from '@material-ui/core';
+import React from 'react';
+import useTranslation from 'next-translate/useTranslation';
+import GetStartedLightImage from '../../assets/images/get_started_light.svg';
+import GetStartedDarkImage from '../../assets/images/get_started_dark.svg';
+import useStyles from './styles';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import OnboardingDialog from '../OnboardingDialog';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import CreateWalletDialog from '../CreateWalletDialog';
+import useIsMobile from '../../misc/useIsMobile';
 
 const GetStarted: React.FC = () => {
-  const classes = useStyles()
-  const { theme } = useGeneralContext()
-  const themeStyle = useTheme()
-  const isMobile = useIsMobile()
-  const { unlockWallets } = useWalletsContext()
-  const { t } = useTranslation('common')
-  const [isOnboardingDialogOpen, setIsOnboardingDialogOpen] = React.useState(false)
-  const [isCreateWalletDialogOpen, setIsCreateWalletDialogOpen] = React.useState(false)
+  const classes = useStyles();
+  const { theme } = useGeneralContext();
+  const themeStyle = useTheme();
+  const isMobile = useIsMobile();
+  const { unlockWallets } = useWalletsContext();
+  const { t } = useTranslation('common');
+  const [isOnboardingDialogOpen, setIsOnboardingDialogOpen] = React.useState(false);
+  const [isCreateWalletDialogOpen, setIsCreateWalletDialogOpen] = React.useState(false);
 
   return (
     <>
       <Box
         className={classes.container}
         mt={isMobile ? '5vh' : '12vh'}
-        width={isMobile ? themeStyle.spacing(40) : 'inherits'}
-      >
+        width={isMobile ? themeStyle.spacing(40) : 'inherits'}>
         {theme === 'light' ? (
           <GetStartedLightImage
             width={isMobile ? themeStyle.spacing(40) : themeStyle.spacing(60)}
@@ -41,33 +40,30 @@ const GetStarted: React.FC = () => {
         <Typography
           className={classes.marginTop}
           variant={isMobile ? 'subtitle1' : 'h4'}
-          align="center"
-        >
+          align="center">
           {t('get started line1')}
         </Typography>
         <Typography
           className={classes.marginTopSub}
           variant={isMobile ? 'subtitle1' : 'h6'}
-          align="center"
-        >
+          align="center">
           {t('get started line2')}
         </Typography>
         <Button
           className={classes.button}
           variant="contained"
           color="primary"
-          onClick={() => setIsOnboardingDialogOpen(true)}
-        >
+          onClick={() => setIsOnboardingDialogOpen(true)}>
           {t('get started button')}
         </Button>
       </Box>
       <OnboardingDialog
         open={isOnboardingDialogOpen}
         onClose={() => setIsOnboardingDialogOpen(false)}
-        onSubmit={(password) => {
-          unlockWallets(password)
-          setIsOnboardingDialogOpen(false)
-          setIsCreateWalletDialogOpen(true)
+        onSubmit={password => {
+          unlockWallets(password);
+          setIsOnboardingDialogOpen(false);
+          setIsCreateWalletDialogOpen(true);
         }}
       />
       <CreateWalletDialog
@@ -75,7 +71,7 @@ const GetStarted: React.FC = () => {
         onClose={() => setIsCreateWalletDialogOpen(false)}
       />
     </>
-  )
-}
+  );
+};
 
-export default GetStarted
+export default GetStarted;

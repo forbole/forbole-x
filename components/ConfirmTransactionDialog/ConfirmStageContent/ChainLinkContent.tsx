@@ -1,19 +1,19 @@
-import React from 'react'
-import { Avatar, Box, Divider, Typography, useTheme } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import ConnectIcon from '../../../assets/images/icons/icon_connect.svg'
-import connectableChains from '../../../misc/connectableChains'
-import useIconProps from '../../../misc/useIconProps'
+import React from 'react';
+import { Avatar, Box, Divider, Typography, useTheme } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import ConnectIcon from '../../../assets/images/icons/icon_connect.svg';
+import connectableChains from '../../../misc/connectableChains';
+import useIconProps from '../../../misc/useIconProps';
 
 interface ChainLinkContentProps {
-  msgs: TransactionMsgLinkChainAccount[]
-  account: Account
+  msgs: TransactionMsgLinkChainAccount[];
+  account: Account;
 }
 
 const ChainLinkContent: React.FC<ChainLinkContentProps> = ({ msgs, account }) => {
-  const { t } = useTranslation('common')
-  const theme = useTheme()
-  const iconProps = useIconProps(undefined, theme.palette.grey[4])
+  const { t } = useTranslation('common');
+  const theme = useTheme();
+  const iconProps = useIconProps(undefined, theme.palette.grey[4]);
   return (
     <>
       <Box display="flex" flexDirection="column" alignItems="center" mt={6}>
@@ -34,7 +34,7 @@ const ChainLinkContent: React.FC<ChainLinkContentProps> = ({ msgs, account }) =>
         <Typography color="textSecondary">{account.address}</Typography>
       </Box>
       <Divider />
-      {msgs.map((m, i) => (
+      {msgs.map(m => (
         <React.Fragment key={m.value.chainAddress.value.value}>
           <Box my={1}>
             <Typography>{t('connect to')}</Typography>
@@ -46,7 +46,7 @@ const ChainLinkContent: React.FC<ChainLinkContentProps> = ({ msgs, account }) =>
         </React.Fragment>
       ))}
     </>
-  )
-}
+  );
+};
 
-export default ChainLinkContent
+export default ChainLinkContent;

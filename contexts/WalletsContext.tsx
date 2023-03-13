@@ -1,33 +1,33 @@
-import React from 'react'
-import sendMsgToChromeExt from '../misc/sendMsgToChromeExt'
-import usePersistedState from '../misc/usePersistedState'
-import { useGeneralContext } from './GeneralContext'
+import React from 'react';
+import sendMsgToChromeExt from '../misc/sendMsgToChromeExt';
+import usePersistedState from '../misc/usePersistedState';
+import { useGeneralContext } from './GeneralContext';
 
-const PASSWORD_EXPIRES_IN_MIN = 15
+const PASSWORD_EXPIRES_IN_MIN = 15;
 
 interface WalletsState {
-  isFirstTimeUser: boolean
-  appUnlockState: AppUnlockState
-  isChromeExtInstalled: boolean
-  wallets: Wallet[]
-  accounts: Account[]
-  password: string
-  updatePassword?: (password: string) => void
-  unlockWallets?: (password: string) => void
-  addWallet?: (wallet: CreateWalletParams) => void
-  updateWallet?: (id: string, wallet: UpdateWalletParams) => void
-  deleteWallet?: (id: string) => void
-  addAccount?: (account: CreateAccountParams, securityPassword: string) => void
-  updateAccount?: (address: string, walletId: string, account: UpdateAccountParams) => void
-  deleteAccount?: (address: string, walletId: string) => void
-  viewMnemonicPhrase?: (id: string, securityPassword: string) => Promise<string>
+  isFirstTimeUser: boolean;
+  appUnlockState: AppUnlockState;
+  isChromeExtInstalled: boolean;
+  wallets: Wallet[];
+  accounts: Account[];
+  password: string;
+  updatePassword?: (password: string) => void;
+  unlockWallets?: (password: string) => void;
+  addWallet?: (wallet: CreateWalletParams) => void;
+  updateWallet?: (id: string, wallet: UpdateWalletParams) => void;
+  deleteWallet?: (id: string) => void;
+  addAccount?: (account: CreateAccountParams, securityPassword: string) => void;
+  updateAccount?: (address: string, walletId: string, account: UpdateAccountParams) => void;
+  deleteAccount?: (address: string, walletId: string) => void;
+  viewMnemonicPhrase?: (id: string, securityPassword: string) => Promise<string>;
   viewMnemonicPhraseBackup?: (
     id: string,
     securityPassword: string,
-    backupPassword: string
-  ) => Promise<string>
-  reset?: () => void
-  signOut?: () => void
+    backupPassword: string,
+  ) => Promise<string>;
+  reset?: () => void;
+  signOut?: () => void;
 }
 
 const initialState: WalletsState = {
@@ -37,83 +37,83 @@ const initialState: WalletsState = {
   wallets: [],
   accounts: [],
   password: '',
-}
+};
 
-const WalletsContext = React.createContext<WalletsState>(initialState)
+const WalletsContext = React.createContext<WalletsState>(initialState);
 
 const WalletsProvider: React.FC = ({ children }) => {
-  const { alwaysRequirePassword } = useGeneralContext()
-  const [wallets, setWallets] = React.useState<Wallet[]>([])
-  const [accounts, setAccounts] = React.useState<Account[]>([])
-  const [appUnlockState, setAppUnlockState] = React.useState(initialState.appUnlockState)
-  const [isFirstTimeUser, setIsFirstTimeUser] = usePersistedState('isFirstTimeUser', false)
-  const [isChromeExtInstalled, setIsChromeExtInstalled] = React.useState(false)
+  const { alwaysRequirePassword } = useGeneralContext();
+  const [wallets, setWallets] = React.useState<Wallet[]>([]);
+  const [accounts, setAccounts] = React.useState<Account[]>([]);
+  const [appUnlockState, setAppUnlockState] = React.useState(initialState.appUnlockState);
+  const [isFirstTimeUser, setIsFirstTimeUser] = usePersistedState('isFirstTimeUser', false);
+  const [isChromeExtInstalled, setIsChromeExtInstalled] = React.useState(false);
   const [password, setPassword] = usePersistedState(
     'password',
     '',
     PASSWORD_EXPIRES_IN_MIN * 60 * 1000,
-    alwaysRequirePassword
-  )
+    alwaysRequirePassword,
+  );
 
   const reset = React.useCallback(async () => {
     await sendMsgToChromeExt({
       event: 'reset',
-    })
-    setIsFirstTimeUser(true)
-    setAccounts([])
-    setWallets([])
-    setPassword('')
-    setAppUnlockState('locked')
-  }, [setIsFirstTimeUser, setAccounts, setWallets, setPassword, setAppUnlockState])
+    });
+    setIsFirstTimeUser(true);
+    setAccounts([]);
+    setWallets([]);
+    setPassword('');
+    setAppUnlockState('locked');
+  }, [setIsFirstTimeUser, setAccounts, setWallets, setPassword, setAppUnlockState]);
 
   const checkIsFirstTimeUser = React.useCallback(async () => {
     try {
       const response = await sendMsgToChromeExt({
         event: 'ping',
-      })
-      setIsFirstTimeUser(response.isFirstTimeUser)
-      setIsChromeExtInstalled(true)
+      });
+      setIsFirstTimeUser(response.isFirstTimeUser);
+      setIsChromeExtInstalled(true);
     } catch (err) {
-      setIsChromeExtInstalled(false)
+      setIsChromeExtInstalled(false);
     }
-  }, [])
+  }, []);
 
   const unlockWallets = React.useCallback(
     async (pw: string) => {
       try {
         if (!isFirstTimeUser) {
-          setAppUnlockState('unlocking')
+          setAppUnlockState('unlocking');
           const walletaResponse = await sendMsgToChromeExt({
             event: 'getWallets',
             data: {
               password: pw,
             },
-          })
+          });
           const accountsResponse = await sendMsgToChromeExt({
             event: 'getAccounts',
             data: {
               password: pw,
             },
-          })
-          setWallets(walletaResponse.wallets)
-          setAccounts(accountsResponse.accounts)
-          setAppUnlockState('unlocked')
+          });
+          setWallets(walletaResponse.wallets);
+          setAccounts(accountsResponse.accounts);
+          setAppUnlockState('unlocked');
         }
-        setPassword(pw)
+        setPassword(pw);
       } catch (err) {
-        setAppUnlockState('locked')
-        throw err
+        setAppUnlockState('locked');
+        throw err;
       }
     },
-    [isFirstTimeUser, setPassword, setWallets, setAccounts, setAppUnlockState]
-  )
+    [isFirstTimeUser, setPassword, setWallets, setAccounts, setAppUnlockState],
+  );
 
   const signOut = React.useCallback(() => {
-    setAppUnlockState(initialState.appUnlockState)
-    setPassword(initialState.password)
-    setWallets(initialState.wallets)
-    setAccounts(initialState.accounts)
-  }, [])
+    setAppUnlockState(initialState.appUnlockState);
+    setPassword(initialState.password);
+    setWallets(initialState.wallets);
+    setAccounts(initialState.accounts);
+  }, []);
 
   const updatePassword = React.useCallback(
     async (pw: string) => {
@@ -123,11 +123,11 @@ const WalletsProvider: React.FC = ({ children }) => {
           oldPassword: password,
           password: pw,
         },
-      })
-      setPassword(pw)
+      });
+      setPassword(pw);
     },
-    [setPassword, password]
-  )
+    [setPassword, password],
+  );
 
   const addWallet = React.useCallback(
     async (wallet: CreateWalletParams) => {
@@ -137,13 +137,13 @@ const WalletsProvider: React.FC = ({ children }) => {
           wallet,
           password,
         },
-      })
-      setIsFirstTimeUser(false)
-      setWallets((ws) => [{ ...result.wallet, type: wallet.type }, ...ws])
-      setAccounts((acs) => [...result.accounts, ...acs])
+      });
+      setIsFirstTimeUser(false);
+      setWallets(ws => [{ ...result.wallet, type: wallet.type }, ...ws]);
+      setAccounts(acs => [...result.accounts, ...acs]);
     },
-    [password, setIsFirstTimeUser, setWallets, setAccounts]
-  )
+    [password, setIsFirstTimeUser, setWallets, setAccounts],
+  );
 
   const updateWallet = React.useCallback(
     async (id: string, wallet: UpdateWalletParams) => {
@@ -154,11 +154,11 @@ const WalletsProvider: React.FC = ({ children }) => {
           id,
           password,
         },
-      })
-      setWallets((ws) => ws.map((w) => (w.id === id ? result.wallet : w)))
+      });
+      setWallets(ws => ws.map(w => (w.id === id ? result.wallet : w)));
     },
-    [password, setWallets]
-  )
+    [password, setWallets],
+  );
 
   const deleteWallet = React.useCallback(
     async (id: string) => {
@@ -168,11 +168,11 @@ const WalletsProvider: React.FC = ({ children }) => {
           id,
           password,
         },
-      })
+      });
       await Promise.all(
         accounts
-          .filter((a) => a.walletId === id)
-          .map((a) =>
+          .filter(a => a.walletId === id)
+          .map(a =>
             sendMsgToChromeExt({
               event: 'deleteAccount',
               data: {
@@ -180,20 +180,20 @@ const WalletsProvider: React.FC = ({ children }) => {
                 walletId: a.walletId,
                 password,
               },
-            })
-          )
-      )
-      setWallets((ws) => {
-        const newWallets = ws.filter((w) => w.id !== id)
+            }),
+          ),
+      );
+      setWallets(ws => {
+        const newWallets = ws.filter(w => w.id !== id);
         if (!newWallets.length) {
-          reset()
+          reset();
         }
-        return newWallets
-      })
-      setAccounts((acs) => acs.filter((a) => a.walletId !== id))
+        return newWallets;
+      });
+      setAccounts(acs => acs.filter(a => a.walletId !== id));
     },
-    [password, accounts, setWallets, setIsFirstTimeUser, setAccounts, reset]
-  )
+    [password, accounts, setWallets, setIsFirstTimeUser, setAccounts, reset],
+  );
 
   const addAccount = React.useCallback(
     async (account: CreateAccountParams, securityPassword: string) => {
@@ -204,11 +204,11 @@ const WalletsProvider: React.FC = ({ children }) => {
           securityPassword,
           password,
         },
-      })
-      setAccounts((acs) => [result.account, ...acs])
+      });
+      setAccounts(acs => [result.account, ...acs]);
     },
-    [password, accounts, setAccounts]
-  )
+    [password, accounts, setAccounts],
+  );
 
   const updateAccount = React.useCallback(
     async (address: string, walletId: string, account: UpdateAccountParams) => {
@@ -220,13 +220,13 @@ const WalletsProvider: React.FC = ({ children }) => {
           walletId,
           password,
         },
-      })
-      setAccounts((acs) =>
-        acs.map((a) => (a.address === address && a.walletId === walletId ? result.account : a))
-      )
+      });
+      setAccounts(acs =>
+        acs.map(a => (a.address === address && a.walletId === walletId ? result.account : a)),
+      );
     },
-    [password, setAccounts]
-  )
+    [password, setAccounts],
+  );
 
   const deleteAccount = React.useCallback(
     async (address: string, walletId: string) => {
@@ -237,11 +237,11 @@ const WalletsProvider: React.FC = ({ children }) => {
           walletId,
           password,
         },
-      })
-      setAccounts((acs) => acs.filter((a) => a.address !== address || a.walletId !== walletId))
+      });
+      setAccounts(acs => acs.filter(a => a.address !== address || a.walletId !== walletId));
     },
-    [password, setAccounts]
-  )
+    [password, setAccounts],
+  );
 
   // Can be used to verify security password
   const viewMnemonicPhrase = React.useCallback(
@@ -253,11 +253,11 @@ const WalletsProvider: React.FC = ({ children }) => {
           securityPassword,
           password,
         },
-      })
-      return mnemonic
+      });
+      return mnemonic;
     },
-    [password]
-  )
+    [password],
+  );
 
   const viewMnemonicPhraseBackup = React.useCallback(
     async (id: string, securityPassword: string, backupPassword: string) => {
@@ -269,15 +269,15 @@ const WalletsProvider: React.FC = ({ children }) => {
           backupPassword,
           password,
         },
-      })
-      return mnemonic
+      });
+      return mnemonic;
     },
-    [password]
-  )
+    [password],
+  );
 
   React.useEffect(() => {
-    checkIsFirstTimeUser()
-  }, [])
+    checkIsFirstTimeUser();
+  }, []);
 
   return (
     <WalletsContext.Provider
@@ -300,13 +300,12 @@ const WalletsProvider: React.FC = ({ children }) => {
         reset,
         updatePassword,
         signOut,
-      }}
-    >
+      }}>
       {children}
     </WalletsContext.Provider>
-  )
-}
+  );
+};
 
-const useWalletsContext = (): WalletsState => React.useContext(WalletsContext)
+const useWalletsContext = (): WalletsState => React.useContext(WalletsContext);
 
-export { WalletsProvider, useWalletsContext }
+export { WalletsProvider, useWalletsContext };

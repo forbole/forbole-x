@@ -1,50 +1,50 @@
-import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import get from 'lodash/get'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import InputAmount from './InputAmount'
-import { getEquivalentCoinToSend } from '../../misc/utils'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import useSendTransaction from '../../misc/tx/useSendTransaction'
-import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance'
+import { Dialog, DialogTitle, IconButton } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import get from 'lodash/get';
+import CloseIcon from '../../assets/images/icons/icon_cross.svg';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
+import InputAmount from './InputAmount';
+import { getEquivalentCoinToSend } from '../../misc/utils';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import useSendTransaction from '../../misc/tx/useSendTransaction';
+import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance';
 
 interface DepositDialogProps {
-  crypto: Cryptocurrency
-  open: boolean
-  onClose(): void
-  proposal: Proposal
+  crypto: Cryptocurrency;
+  open: boolean;
+  onClose(): void;
+  proposal: Proposal;
 }
 
 const DepositDialog: React.FC<DepositDialogProps> = ({ crypto, open, onClose, proposal }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const { password, accounts: allAccounts } = useWalletsContext()
-  const accounts = allAccounts.filter((a) => a.crypto === crypto.name)
-  const sendTransaction = useSendTransaction()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const { password, accounts: allAccounts } = useWalletsContext();
+  const accounts = allAccounts.filter(a => a.crypto === crypto.name);
+  const sendTransaction = useSendTransaction();
 
-  const [loading, setLoading] = React.useState(false)
-  const [address, setAddress] = React.useState('')
+  const [loading, setLoading] = React.useState(false);
+  const [address, setAddress] = React.useState('');
 
-  const { data: balanceData } = useLatestAccountBalance(crypto.name, address)
+  const { data: balanceData } = useLatestAccountBalance(crypto.name, address);
 
   const availableTokens = get(balanceData, 'account[0].available[0]', {
     coins: [],
     tokens_prices: [],
-  })
+  });
 
   const confirmAmount = React.useCallback(
     async (depositor: string, amount: number, denom: string, memo: string) => {
       try {
-        setLoading(true)
+        setLoading(true);
         const coinsToSend = getEquivalentCoinToSend(
           { amount, denom },
           availableTokens.coins,
-          availableTokens.tokens_prices
-        )
+          availableTokens.tokens_prices,
+        );
         const msg: TransactionMsgDeposit = {
           typeUrl: '/cosmos.gov.v1beta1.MsgDeposit',
           value: {
@@ -52,20 +52,20 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ crypto, open, onClose, pr
             proposalId: proposal.id,
             amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
           },
-        }
+        };
         await sendTransaction(password, depositor, {
           msgs: [msg],
           memo,
-        })
-        setLoading(false)
-        onClose()
+        });
+        setLoading(false);
+        onClose();
       } catch (err) {
-        setLoading(false)
-        console.log(err)
+        setLoading(false);
+        console.log(err);
       }
     },
-    [availableTokens, sendTransaction]
-  )
+    [availableTokens, sendTransaction],
+  );
 
   return (
     <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose}>
@@ -85,7 +85,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ crypto, open, onClose, pr
         loading={loading}
       />
     </Dialog>
-  )
-}
+  );
+};
 
-export default DepositDialog
+export default DepositDialog;

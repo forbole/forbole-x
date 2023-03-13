@@ -1,8 +1,8 @@
-import { makeStyles } from '@material-ui/core/styles'
-import { CustomTheme } from '../../misc/theme'
+import { makeStyles } from '@material-ui/core/styles';
+import { CustomTheme } from '../../misc/theme';
 
 interface StyleProps {
-  mode?: string
+  mode?: string;
 }
 
 const useStyles = makeStyles(
@@ -129,7 +129,7 @@ const useStyles = makeStyles(
   {
     name: 'HookGlobalStyles',
     index: 2,
-  }
-)
+  },
+);
 
-export default useStyles
+export default useStyles;

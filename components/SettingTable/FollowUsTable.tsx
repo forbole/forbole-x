@@ -1,32 +1,30 @@
-import { Paper, Divider, Box, Typography, useTheme, Link } from '@material-ui/core'
-import { TwitterIcon, TelegramIcon } from 'react-share'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import ForboleIcon from '../../assets/images/icons/icon_forbole.svg'
-import GithubIcon from '../../assets/images/icons/icon_github.svg'
-import BigDipperExplorerIcon from '../../assets/images/icons/icon_big_dipper_explorer.svg'
-import { CustomTheme } from '../../misc/theme'
+import { Paper, Divider, Box, Typography, useTheme, Link } from '@material-ui/core';
+import { TwitterIcon, TelegramIcon } from 'react-share';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
+import ForboleIcon from '../../assets/images/icons/icon_forbole.svg';
+import GithubIcon from '../../assets/images/icons/icon_github.svg';
+import BigDipperExplorerIcon from '../../assets/images/icons/icon_big_dipper_explorer.svg';
+import { CustomTheme } from '../../misc/theme';
 
 const FollowUsTable: React.FC = () => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const themeStyle: CustomTheme = useTheme()
-  const iconProps = useIconProps(3)
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const themeStyle: CustomTheme = useTheme();
+  const iconProps = useIconProps(3);
 
   return (
     <Paper
       style={{
         padding: themeStyle.spacing(1),
-      }}
-    >
+      }}>
       <Link
         className={classes.socialMediaLink}
         href="https://twitter.com/forboleX"
         target="_blank"
-        rel="noopener noreferrer"
-      >
+        rel="noopener noreferrer">
         <Box p={2} display="flex" alignItems="flex-start" justifyContent="space-between">
           <Box display="flex">
             <TwitterIcon
@@ -48,8 +46,7 @@ const FollowUsTable: React.FC = () => {
         className={classes.socialMediaLink}
         href="https://t.me/forbole"
         target="_blank"
-        rel="noopener noreferrer"
-      >
+        rel="noopener noreferrer">
         <Box p={2} display="flex" alignItems="flex-start" justifyContent="space-between">
           <Box display="flex">
             <TelegramIcon
@@ -71,8 +68,7 @@ const FollowUsTable: React.FC = () => {
         className={classes.socialMediaLink}
         href="https://www.forbole.com/blog"
         target="_blank"
-        rel="noopener noreferrer"
-      >
+        rel="noopener noreferrer">
         <Box p={2} display="flex" alignItems="flex-start" justifyContent="space-between">
           <Box display="flex">
             <ForboleIcon {...iconProps} />
@@ -88,8 +84,7 @@ const FollowUsTable: React.FC = () => {
         className={classes.socialMediaLink}
         href="https://desmos.bigdipper.live/"
         target="_blank"
-        rel="noopener noreferrer"
-      >
+        rel="noopener noreferrer">
         <Box p={2} display="flex" alignItems="flex-start" justifyContent="space-between">
           <Box display="flex">
             <BigDipperExplorerIcon {...iconProps} />
@@ -106,8 +101,7 @@ const FollowUsTable: React.FC = () => {
         className={classes.socialMediaLink}
         href="https://github.com/forbole"
         target="_blank"
-        rel="noopener noreferrer"
-      >
+        rel="noopener noreferrer">
         <Box p={2} display="flex" alignItems="flex-start" justifyContent="space-between">
           <Box display="flex">
             <GithubIcon {...iconProps} />
@@ -119,7 +113,7 @@ const FollowUsTable: React.FC = () => {
         </Box>
       </Link>
     </Paper>
-  )
-}
+  );
+};
 
-export default FollowUsTable
+export default FollowUsTable;

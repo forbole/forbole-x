@@ -1,17 +1,17 @@
-import React from 'react'
-import { Box, Divider, Typography, useTheme } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import DelegateIcon from '../../../assets/images/icons/icon_delegate_tx.svg'
-import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils'
-import ValidatorAvatar from '../../ValidatorAvatar'
-import cryptocurrencies from '../../../misc/cryptocurrencies'
+import React from 'react';
+import { Box, Divider, Typography, useTheme } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import DelegateIcon from '../../../assets/images/icons/icon_delegate_tx.svg';
+import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils';
+import ValidatorAvatar from '../../ValidatorAvatar';
+import cryptocurrencies from '../../../misc/cryptocurrencies';
 
 interface RedelegateContentProps {
-  totalAmount: TokenAmount
-  msgs: TransactionMsgRedelegate[]
-  denoms: TokenPrice[]
-  account: Account
-  validators: { [address: string]: Validator }
+  totalAmount: TokenAmount;
+  msgs: TransactionMsgRedelegate[];
+  denoms: TokenPrice[];
+  account: Account;
+  validators: { [address: string]: Validator };
 }
 
 const RedelegateContent: React.FC<RedelegateContentProps> = ({
@@ -21,8 +21,8 @@ const RedelegateContent: React.FC<RedelegateContentProps> = ({
   account,
   validators,
 }) => {
-  const { t, lang } = useTranslation('common')
-  const theme = useTheme()
+  const { t, lang } = useTranslation('common');
+  const theme = useTheme();
   return (
     <>
       <Box display="flex" flexDirection="column" alignItems="center" mt={6}>
@@ -42,7 +42,7 @@ const RedelegateContent: React.FC<RedelegateContentProps> = ({
         </Typography>
       </Box>
       <Divider />
-      {msgs.map((m) => (
+      {msgs.map(m => (
         <React.Fragment key={m.value.validatorDstAddress}>
           <Box my={1}>
             <Typography>{t('redelegate from')}</Typography>
@@ -75,7 +75,7 @@ const RedelegateContent: React.FC<RedelegateContentProps> = ({
       ))}
       <Divider />
     </>
-  )
-}
+  );
+};
 
-export default RedelegateContent
+export default RedelegateContent;

@@ -1,29 +1,29 @@
-import { Box, Card, Tabs, Tab, Menu, MenuItem } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import get from 'lodash/get'
-import TablePagination from '../TablePagination'
-import useStyles from './styles'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import UndelegationDialog from '../UndelegateDialog'
-import Delegations from './Delegations'
-import Unbonding from './Unbonding'
-import RedelegationDialog from '../RedelegateDialog'
-import Redelegations from './Redelegations'
-import DelegationDialog from '../DelegationDialog'
-import WithdrawRewardsDialog from '../WithdrawRewardsDialog'
+import { Box, Card, Tabs, Tab, Menu, MenuItem } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import get from 'lodash/get';
+import TablePagination from '../TablePagination';
+import useStyles from './styles';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import UndelegationDialog from '../UndelegateDialog';
+import Delegations from './Delegations';
+import Unbonding from './Unbonding';
+import RedelegationDialog from '../RedelegateDialog';
+import Redelegations from './Redelegations';
+import DelegationDialog from '../DelegationDialog';
+import WithdrawRewardsDialog from '../WithdrawRewardsDialog';
 
 interface DelegationsTableProps {
-  isAddressDetail?: boolean
-  wallet?: Wallet
-  account?: Account
-  validators: Validator[]
-  unbondings: Unbonding[]
-  redelegations: Redelegation[]
-  delegatedTokens: { [address: string]: Array<{ amount: string; denom: string }> }
-  crypto: Cryptocurrency
-  availableTokens: any
-  commissions: TokenAmount
+  isAddressDetail?: boolean;
+  wallet?: Wallet;
+  account?: Account;
+  validators: Validator[];
+  unbondings: Unbonding[];
+  redelegations: Redelegation[];
+  delegatedTokens: { [address: string]: Array<{ amount: string; denom: string }> };
+  crypto: Cryptocurrency;
+  availableTokens: any;
+  commissions: TokenAmount;
 }
 
 const DelegationsTable: React.FC<DelegationsTableProps> = ({
@@ -38,26 +38,26 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
   availableTokens,
   commissions,
 }) => {
-  const classes = useStyles()
-  const { t } = useTranslation('common')
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
-  const [currentTab, setCurrentTab] = React.useState(0)
-  const [managingValidator, setManagingValidator] = React.useState<Validator>()
-  const { theme } = useGeneralContext()
-  const [anchor, setAnchor] = React.useState<Element>()
-  const [undelegating, setUndelegating] = React.useState(false)
-  const [redelegating, setRedelegating] = React.useState(false)
-  const [delegating, setDelegating] = React.useState(false)
-  const [claimingRewards, setClaimingRewards] = React.useState(false)
+  const classes = useStyles();
+  const { t } = useTranslation('common');
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [currentTab, setCurrentTab] = React.useState(0);
+  const [managingValidator, setManagingValidator] = React.useState<Validator>();
+  const { theme } = useGeneralContext();
+  const [anchor, setAnchor] = React.useState<Element>();
+  const [undelegating, setUndelegating] = React.useState(false);
+  const [redelegating, setRedelegating] = React.useState(false);
+  const [delegating, setDelegating] = React.useState(false);
+  const [claimingRewards, setClaimingRewards] = React.useState(false);
 
   const tabs = [
-    { label: 'delegations', rows: validators.filter((v) => !!v.delegated) },
+    { label: 'delegations', rows: validators.filter(v => !!v.delegated) },
     { label: 'redelegations', rows: redelegations },
     { label: 'unbonding', rows: unbondings },
-  ]
+  ];
 
-  const rows = tabs[currentTab].rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+  const rows = tabs[currentTab].rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
 
   return (
     <Card className={classes.container}>
@@ -67,9 +67,8 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
           classes={{ indicator: classes.tabIndicator }}
           variant="scrollable"
           onChange={(e, v) => setCurrentTab(v)}
-          textColor={theme === 'light' ? 'primary' : 'inherit'}
-        >
-          {tabs.map((tab) => (
+          textColor={theme === 'light' ? 'primary' : 'inherit'}>
+          {tabs.map(tab => (
             <Tab key={tab.label} label={`${t(tab.label)} (${tab.rows.length})`} />
           ))}
         </Tabs>
@@ -80,8 +79,8 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
               validators={rows as Validator[]}
               crypto={crypto}
               onManageClick={(e, v) => {
-                setManagingValidator(v)
-                setAnchor(e.currentTarget)
+                setManagingValidator(v);
+                setAnchor(e.currentTarget);
               }}
             />
           ) : null}
@@ -114,44 +113,39 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
         keepMounted
         open={!!anchor}
         onClose={() => {
-          setManagingValidator(undefined)
-          setAnchor(undefined)
-        }}
-      >
+          setManagingValidator(undefined);
+          setAnchor(undefined);
+        }}>
         <MenuItem
           button
           onClick={() => {
-            setDelegating(true)
-            setAnchor(undefined)
-          }}
-        >
+            setDelegating(true);
+            setAnchor(undefined);
+          }}>
           {t('delegate')}
         </MenuItem>
         <MenuItem
           button
           onClick={() => {
-            setRedelegating(true)
-            setAnchor(undefined)
-          }}
-        >
+            setRedelegating(true);
+            setAnchor(undefined);
+          }}>
           {t('redelegate')}
         </MenuItem>
         <MenuItem
           button
           onClick={() => {
-            setUndelegating(true)
-            setAnchor(undefined)
-          }}
-        >
+            setUndelegating(true);
+            setAnchor(undefined);
+          }}>
           {t('undelegate')}
         </MenuItem>
         <MenuItem
           button
           onClick={() => {
-            setClaimingRewards(true)
-            setAnchor(undefined)
-          }}
-        >
+            setClaimingRewards(true);
+            setAnchor(undefined);
+          }}>
           {t('withdraw')}
         </MenuItem>
       </Menu>
@@ -164,8 +158,8 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
             tokensPrices={availableTokens.tokens_prices}
             open={undelegating}
             onClose={() => {
-              setManagingValidator(undefined)
-              setUndelegating(false)
+              setManagingValidator(undefined);
+              setUndelegating(false);
             }}
           />
           <RedelegationDialog
@@ -176,15 +170,15 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
             tokensPrices={availableTokens.tokens_prices}
             open={redelegating}
             onClose={() => {
-              setManagingValidator(undefined)
-              setRedelegating(false)
+              setManagingValidator(undefined);
+              setRedelegating(false);
             }}
           />
           <DelegationDialog
             open={delegating}
             onClose={() => {
-              setManagingValidator(undefined)
-              setDelegating(false)
+              setManagingValidator(undefined);
+              setDelegating(false);
             }}
             account={account}
             validators={validators}
@@ -205,7 +199,7 @@ const DelegationsTable: React.FC<DelegationsTableProps> = ({
         </>
       ) : null}
     </Card>
-  )
-}
+  );
+};
 
-export default DelegationsTable
+export default DelegationsTable;

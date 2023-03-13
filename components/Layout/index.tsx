@@ -1,19 +1,19 @@
-import React from 'react'
-import { Box, useTheme } from '@material-ui/core'
-import { useRouter } from 'next/router'
-import get from 'lodash/get'
-import qs from 'query-string'
-import lzutf8 from 'lzutf8'
-import useStyles from './styles'
-import LeftMenu from './LeftMenu'
-import NavBar from './NavBar'
-import GetStarted from '../GetStarted'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import UnlockPasswordDialog from '../UnlockPasswordDialog'
-import usePersistedState from '../../misc/usePersistedState'
-import ConfirmTransactionDialog from '../ConfirmTransactionDialog'
-import ChromeExtDialog from '../ChromeExtDialog'
-import useIsChromeExt from '../../misc/useIsChromeExt'
+import React from 'react';
+import { Box, useTheme } from '@material-ui/core';
+import { useRouter } from 'next/router';
+import get from 'lodash/get';
+import qs from 'query-string';
+import lzutf8 from 'lzutf8';
+import useStyles from './styles';
+import LeftMenu from './LeftMenu';
+import NavBar from './NavBar';
+import GetStarted from '../GetStarted';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import UnlockPasswordDialog from '../UnlockPasswordDialog';
+import usePersistedState from '../../misc/usePersistedState';
+import ConfirmTransactionDialog from '../ConfirmTransactionDialog';
+import ChromeExtDialog from '../ChromeExtDialog';
+import useIsChromeExt from '../../misc/useIsChromeExt';
 
 export enum MenuWidth {
   Expanded = 32,
@@ -21,13 +21,13 @@ export enum MenuWidth {
 }
 
 interface LayoutProps {
-  activeItem?: string
-  passwordRequired?: boolean
-  children: React.ReactNode
-  HeaderLeftComponent?: React.ReactNode
-  ChromeExtTitleComponent?: React.ReactNode
-  ChromeExtRightComponent?: React.ReactNode
-  back?: boolean
+  activeItem?: string;
+  passwordRequired?: boolean;
+  children: React.ReactNode;
+  HeaderLeftComponent?: React.ReactNode;
+  ChromeExtTitleComponent?: React.ReactNode;
+  ChromeExtRightComponent?: React.ReactNode;
+  back?: boolean;
 }
 
 const Layout: React.FC<LayoutProps> = ({
@@ -39,25 +39,25 @@ const Layout: React.FC<LayoutProps> = ({
   back,
   children,
 }) => {
-  const classes = useStyles({})
-  const theme = useTheme()
-  const [isMenuExpanded, setIsMenuExpanded, loaded] = usePersistedState('isMenuExpanded', true)
+  const classes = useStyles({});
+  const theme = useTheme();
+  const [isMenuExpanded, setIsMenuExpanded, loaded] = usePersistedState('isMenuExpanded', true);
   const { isFirstTimeUser, appUnlockState, isChromeExtInstalled, unlockWallets, password } =
-    useWalletsContext()
+    useWalletsContext();
   // Hide menu for chrome extension
-  const router = useRouter()
-  const { isChromeExt } = useIsChromeExt()
+  const router = useRouter();
+  const { isChromeExt } = useIsChromeExt();
 
   // Open ConfirmTransactionDialog with correct query params
   const { address, transactionData, open, onClose } = React.useMemo(() => {
-    const { url, query } = qs.parseUrl(router.asPath)
+    const { url, query } = qs.parseUrl(router.asPath);
     return {
       address: get(router, 'query.address', ''),
       transactionData: get(router, 'query.transactionData', '')
         ? JSON.parse(
             lzutf8.decompress(get(router, 'query.transactionData', '""'), {
               inputEncoding: 'Base64',
-            })
+            }),
           )
         : '',
       open: !!get(router, 'query.transactionData', ''),
@@ -66,29 +66,29 @@ const Layout: React.FC<LayoutProps> = ({
           qs.stringifyUrl({
             url,
             query: { ...query, transactionData: undefined, address: undefined },
-          })
+          }),
         ),
-    }
-  }, [router])
+    };
+  }, [router]);
 
   const initPassword = React.useCallback(async () => {
     try {
       if (appUnlockState !== 'unlocked') {
         if (localStorage.getItem('web-unlock-pasword')) {
-          await unlockWallets(String(localStorage.getItem('web-unlock-pasword')))
-          localStorage.removeItem('web-unlock-pasword')
+          await unlockWallets(String(localStorage.getItem('web-unlock-pasword')));
+          localStorage.removeItem('web-unlock-pasword');
         } else if (password) {
-          await unlockWallets(password)
+          await unlockWallets(password);
         }
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }, [password, appUnlockState, unlockWallets])
+  }, [password, appUnlockState, unlockWallets]);
 
   React.useEffect(() => {
-    initPassword()
-  }, [initPassword])
+    initPassword();
+  }, [initPassword]);
 
   return loaded ? (
     <>
@@ -114,8 +114,7 @@ const Layout: React.FC<LayoutProps> = ({
           marginLeft: isChromeExt
             ? 0
             : theme.spacing(isMenuExpanded ? MenuWidth.Expanded : MenuWidth.Collapsed),
-        }}
-      >
+        }}>
         {passwordRequired && isFirstTimeUser ? <GetStarted /> : null}
         {!passwordRequired || appUnlockState === 'unlocked' ? children : null}
       </Box>
@@ -132,7 +131,7 @@ const Layout: React.FC<LayoutProps> = ({
         />
       ) : null}
     </>
-  ) : null
-}
+  ) : null;
+};
 
-export default React.memo(Layout)
+export default React.memo(Layout);

@@ -6,40 +6,40 @@ import {
   Divider,
   Typography,
   useTheme,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { Alert } from '@material-ui/lab'
-import QRCode from 'qrcode.react'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import { Alert } from '@material-ui/lab';
+import QRCode from 'qrcode.react';
 import {
   FacebookShareButton,
   TwitterShareButton,
   TelegramShareButton,
   WhatsappShareButton,
   EmailShareButton,
-} from 'react-share'
-import FacebookIcon from '../../assets/images/icons/facebook.svg'
-import TwitterIcon from '../../assets/images/icons/twitter.svg'
-import TelegramIcon from '../../assets/images/icons/telegram.svg'
-import WhatsappIcon from '../../assets/images/icons/whatsapp.svg'
-import EmailIcon from '../../assets/images/icons/gmail.svg'
-import useStyles from './styles'
-import { CustomTheme } from '../../misc/theme'
+} from 'react-share';
+import FacebookIcon from '../../assets/images/icons/facebook.svg';
+import TwitterIcon from '../../assets/images/icons/twitter.svg';
+import TelegramIcon from '../../assets/images/icons/telegram.svg';
+import WhatsappIcon from '../../assets/images/icons/whatsapp.svg';
+import EmailIcon from '../../assets/images/icons/gmail.svg';
+import useStyles from './styles';
+import { CustomTheme } from '../../misc/theme';
 
 interface ShareAddressProps {
-  address: string
+  address: string;
 }
 
 const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const theme: CustomTheme = useTheme()
-  const [isCopySuccess, setIsCopySuccess] = React.useState(false)
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const theme: CustomTheme = useTheme();
+  const [isCopySuccess, setIsCopySuccess] = React.useState(false);
 
   const copyText = React.useCallback(() => {
-    navigator.clipboard.writeText(address)
-    setIsCopySuccess(true)
-  }, [address])
+    navigator.clipboard.writeText(address);
+    setIsCopySuccess(true);
+  }, [address]);
 
   return (
     <>
@@ -65,8 +65,7 @@ const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
               url="https://www.forbole.com/"
               quote={address}
               hashtag="#forbole-X"
-              className={classes.socialMediaButton}
-            >
+              className={classes.socialMediaButton}>
               <FacebookIcon
                 size={42}
                 round
@@ -81,8 +80,7 @@ const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
               url="https://www.forbole.com/"
               title={address}
               hashtags={['#forbole']}
-              className={classes.socialMediaButton}
-            >
+              className={classes.socialMediaButton}>
               <TwitterIcon
                 size={42}
                 round
@@ -96,8 +94,7 @@ const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
             <TelegramShareButton
               url="https://www.forbole.com/"
               title={address}
-              className={classes.socialMediaButton}
-            >
+              className={classes.socialMediaButton}>
               <TelegramIcon
                 size={42}
                 round
@@ -112,8 +109,7 @@ const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
               url="https://www.forbole.com/"
               title={address}
               separator=":: "
-              className={classes.socialMediaButton}
-            >
+              className={classes.socialMediaButton}>
               <WhatsappIcon
                 size={42}
                 round
@@ -129,8 +125,7 @@ const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
               subject="backup mnemonic phrase"
               body={address}
               separator=":: "
-              className={classes.socialMediaButton}
-            >
+              className={classes.socialMediaButton}>
               <EmailIcon
                 size={42}
                 round
@@ -150,14 +145,13 @@ const ShareAddress: React.FC<ShareAddressProps> = ({ address }) => {
       <Snackbar
         open={isCopySuccess}
         autoHideDuration={5000}
-        onClose={() => setIsCopySuccess(false)}
-      >
+        onClose={() => setIsCopySuccess(false)}>
         <Alert onClose={() => setIsCopySuccess(false)} severity="success">
           {t('copied to clipboard')}
         </Alert>
       </Snackbar>
     </>
-  )
-}
+  );
+};
 
-export default ShareAddress
+export default ShareAddress;

@@ -1,13 +1,13 @@
-import { Box, Grid, Typography } from '@material-ui/core'
-import times from 'lodash/times'
-import React from 'react'
-import useStyles from './styles'
+import { Box, Grid, Typography } from '@material-ui/core';
+import times from 'lodash/times';
+import React from 'react';
+import useStyles from './styles';
 
 interface MnemonicPhraseInputProps {
-  mnemonic: string
-  onChange?(mnemonic: string): void
-  disabled?: boolean
-  mnemonicAmount?: number
+  mnemonic: string;
+  onChange?(mnemonic: string): void;
+  disabled?: boolean;
+  mnemonicAmount?: number;
 }
 
 const MnemonicPhraseInput: React.FC<MnemonicPhraseInputProps> = ({
@@ -16,23 +16,23 @@ const MnemonicPhraseInput: React.FC<MnemonicPhraseInputProps> = ({
   disabled,
   mnemonicAmount,
 }) => {
-  const classes = useStyles()
+  const classes = useStyles();
   const mnemonicArr = React.useMemo(() => {
-    const arr = mnemonic.split(/\s+/)
-    return times(mnemonicAmount || 24).map((i) => arr[i] || '')
-  }, [mnemonic, mnemonicAmount])
+    const arr = mnemonic.split(/\s+/);
+    return times(mnemonicAmount || 24).map(i => arr[i] || '');
+  }, [mnemonic, mnemonicAmount]);
 
   const moveToNextInput = React.useCallback((i: number) => {
-    const nextInput = document.getElementById(`mnemonic-${i + 1}`)
+    const nextInput = document.getElementById(`mnemonic-${i + 1}`);
     if (nextInput) {
-      nextInput.focus()
+      nextInput.focus();
     } else {
-      document.getElementById(`mnemonic-${i}`).blur()
+      document.getElementById(`mnemonic-${i}`).blur();
     }
-  }, [])
+  }, []);
   return (
     <Grid container spacing={2}>
-      {times(mnemonicAmount || 24).map((i) => (
+      {times(mnemonicAmount || 24).map(i => (
         <Grid item xs={3} key={`mnemonic-${i}`}>
           <Box position="relative">
             {disabled ? (
@@ -44,21 +44,21 @@ const MnemonicPhraseInput: React.FC<MnemonicPhraseInputProps> = ({
                 autoComplete="off"
                 onChange={
                   onChange
-                    ? (e) =>
+                    ? e =>
                         onChange(
                           mnemonicArr
                             .map((m, j) =>
-                              j === i ? e.target.value.replace(/^. + [^ ]*$/, '') : m
+                              j === i ? e.target.value.replace(/^. + [^ ]*$/, '') : m,
                             )
                             .join(' ')
                             .replace(/\s+/g, ' ')
-                            .trim()
+                            .trim(),
                         )
                     : undefined
                 }
-                onKeyPress={(e) => {
+                onKeyPress={e => {
                   if (e.key === ' ') {
-                    moveToNextInput(i)
+                    moveToNextInput(i);
                   }
                 }}
                 className={classes.input}
@@ -71,7 +71,7 @@ const MnemonicPhraseInput: React.FC<MnemonicPhraseInputProps> = ({
         </Grid>
       ))}
     </Grid>
-  )
-}
+  );
+};
 
-export default React.memo(MnemonicPhraseInput)
+export default React.memo(MnemonicPhraseInput);

@@ -7,21 +7,21 @@ import {
   Box,
   Button,
   Typography,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
 // import { LineChart, Line, YAxis } from 'recharts'
-import React from 'react'
-import useStyles from './styles'
-import { formatPercentage, formatTokenAmount } from '../../misc/utils'
-import useIsMobile from '../../misc/useIsMobile'
-import ValidatorAvatar from '../ValidatorAvatar'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+import React from 'react';
+import useStyles from './styles';
+import { formatPercentage, formatTokenAmount } from '../../misc/utils';
+import useIsMobile from '../../misc/useIsMobile';
+import ValidatorAvatar from '../ValidatorAvatar';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
 interface DelegationsProps {
-  isAddressDetail?: boolean
-  validators: Validator[]
-  crypto: Cryptocurrency
-  onManageClick(e: any, v: Validator): void
+  isAddressDetail?: boolean;
+  validators: Validator[];
+  crypto: Cryptocurrency;
+  onManageClick(e: any, v: Validator): void;
 }
 
 const Delegations: React.FC<DelegationsProps> = ({
@@ -30,22 +30,22 @@ const Delegations: React.FC<DelegationsProps> = ({
   onManageClick,
   isAddressDetail,
 }) => {
-  const classes = useStyles()
-  const { t, lang } = useTranslation('common')
+  const classes = useStyles();
+  const { t, lang } = useTranslation('common');
   // const themeStyle = useTheme()
-  const isMobile = useIsMobile()
-  const { hideAmount } = useGeneralContext()
+  const isMobile = useIsMobile();
+  const { hideAmount } = useGeneralContext();
 
   return isMobile ? (
     <Table>
       <TableBody>
-        {validators.map((v) => {
+        {validators.map(v => {
           return (
             <TableRow key={v.name} className={classes.tableRow}>
               <TableCell className={classes.tableCell}>
                 <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
                   <ValidatorAvatar crypto={crypto} validator={v} withCommission />
-                  <Button variant="contained" color="primary" onClick={(e) => onManageClick(e, v)}>
+                  <Button variant="contained" color="primary" onClick={e => onManageClick(e, v)}>
                     {t('manage')}
                   </Button>
                 </Box>
@@ -63,7 +63,7 @@ const Delegations: React.FC<DelegationsProps> = ({
                 </Box>
               </TableCell>
             </TableRow>
-          )
+          );
         })}
       </TableBody>
     </Table>
@@ -83,7 +83,7 @@ const Delegations: React.FC<DelegationsProps> = ({
         </TableRow>
       </TableHead>
       <TableBody>
-        {validators.map((v) => {
+        {validators.map(v => {
           return (
             <TableRow key={v.name} className={classes.tableRow}>
               <TableCell className={classes.tableCell}>
@@ -104,22 +104,18 @@ const Delegations: React.FC<DelegationsProps> = ({
               {isAddressDetail ? null : (
                 <TableCell className={classes.tableCell}>
                   <Box my={-2}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={(e) => onManageClick(e, v)}
-                    >
+                    <Button variant="contained" color="primary" onClick={e => onManageClick(e, v)}>
                       {t('manage')}
                     </Button>
                   </Box>
                 </TableCell>
               )}
             </TableRow>
-          )
+          );
         })}
       </TableBody>
     </Table>
-  )
-}
+  );
+};
 
-export default Delegations
+export default Delegations;

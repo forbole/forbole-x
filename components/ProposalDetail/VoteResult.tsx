@@ -1,37 +1,37 @@
-import { Box, Typography, useTheme } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { PieChart, Pie, Cell as RawCell } from 'recharts'
-import { useGetStyles } from './styles'
-import Diagram from './Diagram'
-import { VoteSummary } from './index'
-import { formatCrypto, formatPercentage } from '../../misc/utils'
+import { Box, Typography, useTheme } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import { PieChart, Pie, Cell as RawCell } from 'recharts';
+import useGetStyles from './styles';
+import Diagram from './Diagram';
+import { VoteSummary } from './index';
+import { formatCrypto, formatPercentage } from '../../misc/utils';
 
 // HACK: bypass incorrect prop types
-const Cell = RawCell as any
+const Cell = RawCell as any;
 
 interface VoteResultProps {
-  voteSummary: VoteSummary
-  crypto: Cryptocurrency
-  proposal: Proposal
+  voteSummary: VoteSummary;
+  crypto: Cryptocurrency;
+  proposal: Proposal;
 }
 
 const VoteResult: React.FC<VoteResultProps> = ({ voteSummary, crypto, proposal }) => {
-  const { classes } = useGetStyles()
-  const { t, lang } = useTranslation('common')
-  const theme = useTheme()
+  const { classes } = useGetStyles();
+  const { t, lang } = useTranslation('common');
+  const theme = useTheme();
 
-  const COLORS = ['#1EC490', '#FD565F', '#E0A111', '#379AFE']
+  const COLORS = ['#1EC490', '#FD565F', '#E0A111', '#379AFE'];
   const displayData = () => {
-    let totalVote = 0
-    voteSummary.data.forEach((v) => {
-      totalVote += v.value
-    })
+    let totalVote = 0;
+    voteSummary.data.forEach(v => {
+      totalVote += v.value;
+    });
     if (totalVote > 0) {
       return {
         data: voteSummary.data,
         colors: COLORS,
-      }
+      };
     }
     return {
       data: [
@@ -42,8 +42,8 @@ const VoteResult: React.FC<VoteResultProps> = ({ voteSummary, crypto, proposal }
         },
       ],
       colors: [theme.palette.grey[100]],
-    }
-  }
+    };
+  };
 
   return (
     <Box display="flex" mb={4}>
@@ -58,8 +58,7 @@ const VoteResult: React.FC<VoteResultProps> = ({ voteSummary, crypto, proposal }
           dataKey="value"
           labelLine={false}
           stroke="none"
-          paddingAngle={3}
-        >
+          paddingAngle={3}>
           {displayData().data.map((_x: any, index: any) => (
             <Cell
               key={_x.value}
@@ -131,7 +130,7 @@ const VoteResult: React.FC<VoteResultProps> = ({ voteSummary, crypto, proposal }
         </Box>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default VoteResult
+export default VoteResult;

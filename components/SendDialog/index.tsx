@@ -7,77 +7,77 @@ import {
   Box,
   Typography,
   useTheme,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import SelectRecipients from './SelectRecipients'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils'
-import useIsMobile from '../../misc/useIsMobile'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import ImageDefaultDark from '../../assets/images/image_default_dark.svg'
-import ImageDefaultLight from '../../assets/images/image_default_light.svg'
-import cryptocurrencies from '../../misc/cryptocurrencies'
-import useSendTransaction from '../../misc/tx/useSendTransaction'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import CloseIcon from '../../assets/images/icons/icon_cross.svg';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
+import SelectRecipients from './SelectRecipients';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import { getEquivalentCoinToSend, getTokenAmountFromDenoms } from '../../misc/utils';
+import useIsMobile from '../../misc/useIsMobile';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import ImageDefaultDark from '../../assets/images/image_default_dark.svg';
+import ImageDefaultLight from '../../assets/images/image_default_light.svg';
+import cryptocurrencies from '../../misc/cryptocurrencies';
+import useSendTransaction from '../../misc/tx/useSendTransaction';
 
 interface SendDialogProps {
-  account: Account
-  availableTokens: AvailableTokens
-  open: boolean
-  onClose(): void
+  account: Account;
+  availableTokens: AvailableTokens;
+  open: boolean;
+  onClose(): void;
 }
 
 const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open, onClose }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const themeStyle = useTheme()
-  const iconProps = useIconProps()
-  const { password } = useWalletsContext()
-  const isMobile = useIsMobile()
-  const sendTransaction = useSendTransaction()
-  const [loading, setLoading] = React.useState(false)
-  const { theme } = useGeneralContext()
-  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0]
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const themeStyle = useTheme();
+  const iconProps = useIconProps();
+  const { password } = useWalletsContext();
+  const isMobile = useIsMobile();
+  const sendTransaction = useSendTransaction();
+  const [loading, setLoading] = React.useState(false);
+  const { theme } = useGeneralContext();
+  const crypto = account ? cryptocurrencies[account.crypto] : Object.values(cryptocurrencies)[0];
 
   const availableAmount = React.useMemo(
     () => getTokenAmountFromDenoms(availableTokens.coins, availableTokens.tokens_prices),
-    [availableTokens]
-  )
+    [availableTokens],
+  );
 
   const confirm = React.useCallback(
     async (
       recipients: Array<{ amount: { amount: number; denom: string }; address: string }>,
-      memo: string
+      memo: string,
     ) => {
       try {
-        setLoading(true)
+        setLoading(true);
         if (recipients.length > 1) {
-          const inputs = []
-          const outputs = recipients.map((r) => {
+          const inputs = [];
+          const outputs = recipients.map(r => {
             const coinsToSend = getEquivalentCoinToSend(
               r.amount,
               availableTokens.coins,
-              availableTokens.tokens_prices
-            )
-            const inputCoinIndex = inputs.findIndex((i) => i.coins[0].denom === coinsToSend.denom)
+              availableTokens.tokens_prices,
+            );
+            const inputCoinIndex = inputs.findIndex(i => i.coins[0].denom === coinsToSend.denom);
             if (inputCoinIndex > -1) {
               inputs[inputCoinIndex].coins[0].amount = String(
-                Number(inputs[inputCoinIndex].coins[0].amount) + coinsToSend.amount
-              )
+                Number(inputs[inputCoinIndex].coins[0].amount) + coinsToSend.amount,
+              );
             } else {
               inputs.push({
                 address: account.address,
                 coins: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
-              })
+              });
             }
             return {
               address: r.address,
               coins: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
-            }
-          })
+            };
+          });
           await sendTransaction(password, account.address, {
             msgs: [
               {
@@ -89,14 +89,14 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
               },
             ],
             memo,
-          })
+          });
         } else {
-          const msgs: TransactionMsgSend[] = recipients.map((r) => {
+          const msgs: TransactionMsgSend[] = recipients.map(r => {
             const coinsToSend = getEquivalentCoinToSend(
               r.amount,
               availableTokens.coins,
-              availableTokens.tokens_prices
-            )
+              availableTokens.tokens_prices,
+            );
             return {
               typeUrl: '/cosmos.bank.v1beta1.MsgSend',
               value: {
@@ -104,27 +104,27 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
                 toAddress: r.address,
                 amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
               },
-            }
-          })
+            };
+          });
           await sendTransaction(password, account.address, {
             msgs,
             memo,
-          })
+          });
         }
-        setLoading(false)
-        onClose()
+        setLoading(false);
+        onClose();
       } catch (err) {
-        setLoading(false)
+        setLoading(false);
       }
     },
-    [availableTokens, sendTransaction]
-  )
+    [availableTokens, sendTransaction],
+  );
 
   React.useEffect(() => {
     if (open) {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [open])
+  }, [open]);
 
   return (
     <Dialog
@@ -132,8 +132,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
       maxWidth={availableAmount[crypto.name]?.amount > 0 ? 'md' : 'sm'}
       open={open}
       onClose={onClose}
-      fullScreen={isMobile}
-    >
+      fullScreen={isMobile}>
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
@@ -162,7 +161,7 @@ const SendDialog: React.FC<SendDialogProps> = ({ account, availableTokens, open,
         )}
       </>
     </Dialog>
-  )
-}
+  );
+};
 
-export default SendDialog
+export default SendDialog;
