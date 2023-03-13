@@ -201,23 +201,35 @@ const generateProof = async (
 ): Promise<{ proof: ChainLinkProof; address: string }> => {
   // Reformat input proof if it is already provided
 
-  // TODO: fix this implementation
+  // Proof has 3 components:
+  // 1. plainText
+  // 2. pubKey
+  // 3. signature
+
+  let proofPlainText
+  let proofPubKey
+  let proofSignature
+  // address is not part of proof, but is expected as the return object of the function
+  let proofAddress
+
   if (proofText) {
     try {
       const proofObj = JSON.parse(proofText)
-      return {
-        proof: {
-          plainText: proofObj.proof.plain_text,
-          pubKey: {
-            typeUrl: '/cosmos.crypto.secp256k1.PubKey',
-            value: proofObj.proof.pub_key.value,
-          },
-          signature: proofObj.proof.signature,
-        },
-        address: proofObj.address.value,
+      proofPlainText = proofObj.proof.plain_text
+      proofSignature = singleSignatureToAny(
+        SingleSignature.fromPartial({
+          valueType: proofObj.proof.pub_key.valueType,
+          signature: proofObj.proof.pub_key.value,
+        })
+      )
+      proofPubKey = {
+        typeUrl: '/cosmos.crypto.secp256k1.PubKey',
+        value: proofObj.proof.pub_key.value,
       }
+
+      proofAddress = proofObj.address.value
     } catch (err) {
-      throw new Error('Invalid Proof')
+      window.alert(`Error parsing proof object ${err.message} `)
     }
   }
   const proof = {
@@ -236,17 +248,6 @@ const generateProof = async (
     msgs: [],
     sequence: '0',
   }
-
-  // Proof has 3 components:
-  // 1. plainText
-  // 2. pubKey
-  // 3. signature
-
-  let proofPlainText
-  let proofPubKey
-  let proofSignature
-  // address is not part of proof, but is expected as the return object of the function
-  let proofAddress
 
   // private key wallets
   if (option.isPrivateKey) {
