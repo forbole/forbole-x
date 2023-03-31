@@ -1,13 +1,13 @@
-import { Divider, Typography, Box } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
+import { Divider, Typography, Box } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
 
 interface VoteContentProps {
-  msgs: TransactionMsgVote[]
+  msgs: TransactionMsgVote[];
 }
 
 const VoteContent: React.FC<VoteContentProps> = ({ msgs }) => {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation('common');
 
   return (
     <>
@@ -30,7 +30,7 @@ const VoteContent: React.FC<VoteContentProps> = ({ msgs }) => {
         </React.Fragment>
       ))}
     </>
-  )
-}
+  );
+};
 
-export default VoteContent
+export default VoteContent;

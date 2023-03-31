@@ -1,13 +1,20 @@
-import { Button, DialogActions, DialogContent, Typography, Box, TextField } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import useStyles from './styles'
+import {
+  Button,
+  DialogActions,
+  DialogContent,
+  Typography,
+  Box,
+  TextField,
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useStyles from './styles';
 
 interface TextInputDialogContentProps {
-  onConfirm(text: string): void
-  error: string
-  title: string
-  placeholder: string
+  onConfirm(text: string): void;
+  error: string;
+  title: string;
+  placeholder: string;
 }
 
 const TextInputDialogContent: React.FC<TextInputDialogContentProps> = ({
@@ -16,18 +23,17 @@ const TextInputDialogContent: React.FC<TextInputDialogContentProps> = ({
   title,
   placeholder,
 }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const [text, setText] = React.useState('')
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const [text, setText] = React.useState('');
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(text)
-      }}
-    >
+      onSubmit={e => {
+        e.preventDefault();
+        onConfirm(text);
+      }}>
       <DialogContent className={classes.dialogContent}>
         <Typography>{title}</Typography>
         <TextField
@@ -40,7 +46,7 @@ const TextInputDialogContent: React.FC<TextInputDialogContentProps> = ({
           rows={8}
           fullWidth
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={e => setText(e.target.value)}
         />
         <Box my={3}>
           <Typography variant="body2" color="error">
@@ -55,14 +61,13 @@ const TextInputDialogContent: React.FC<TextInputDialogContentProps> = ({
             variant="contained"
             color="primary"
             disabled={!text}
-            type="submit"
-          >
+            type="submit">
             {t('next')}
           </Button>
         </Box>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default TextInputDialogContent
+export default TextInputDialogContent;

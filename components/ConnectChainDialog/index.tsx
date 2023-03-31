@@ -1,30 +1,29 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { Dialog, DialogTitle, IconButton } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { MsgLinkChainAccountEncodeObject } from '@desmoslabs/desmjs'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import BackIcon from '../../assets/images/icons/icon_back.svg'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import Start from './Start'
-import useStateHistory from '../../misc/useStateHistory'
-import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
-import useIsMobile from '../../misc/useIsMobile'
-import { closeAllLedgerConnections, getPrefix } from '../../misc/utils'
-import SelectWalletType from './SelectWalletType'
-import SelectChain from './SelectChain'
-import ImportMnemonic from './ImportMnemonic'
-import SelectAddress from './SelectAddress'
-import connectableChains from '../../misc/connectableChains'
-import generateProof from '../../misc/tx/generateProof'
-import SelectLedgerApp from './SelectLedgerApp'
-import useSendTransaction from '../../misc/tx/useSendTransaction'
-import TextInputDialogContent from './TextInputDialogContent'
-import RequestPhrase from './RequestPhrase'
+import { Dialog, DialogTitle, IconButton } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import CloseIcon from '../../assets/images/icons/icon_cross.svg';
+import BackIcon from '../../assets/images/icons/icon_back.svg';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import Start from './Start';
+import useStateHistory from '../../misc/useStateHistory';
+import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent';
+import useIsMobile from '../../misc/useIsMobile';
+import { closeAllLedgerConnections, getPrefix } from '../../misc/utils';
+import SelectWalletType from './SelectWalletType';
+import SelectChain from './SelectChain';
+import ImportMnemonic from './ImportMnemonic';
+import SelectAddress from './SelectAddress';
+import connectableChains from '../../misc/connectableChains';
+import generateProof from '../../misc/tx/generateProof';
+import SelectLedgerApp from './SelectLedgerApp';
+import useSendTransaction from '../../misc/tx/useSendTransaction';
+import TextInputDialogContent from './TextInputDialogContent';
+import RequestPhrase from './RequestPhrase';
 
-let ledgerTransport
+let ledgerTransport;
 
 enum Stage {
   StartStage = 'start',
@@ -41,17 +40,17 @@ enum Stage {
 }
 
 interface ConnectChainDialogProps {
-  open: boolean
-  onClose(event?: unknown, reason?: string): void
-  connections: ChainConnection[]
-  account: Account
-  shouldConnect?: boolean
+  open: boolean;
+  onClose(event?: unknown, reason?: string): void;
+  connections: ChainConnection[];
+  account: Account;
+  shouldConnect?: boolean;
 }
 
 interface Content {
-  title: string
-  dialogSize: 'sm' | 'md' | 'lg'
-  content: React.ReactNode
+  title: string;
+  dialogSize: 'sm' | 'md' | 'lg';
+  content: React.ReactNode;
 }
 
 const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
@@ -61,42 +60,42 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
   account,
   shouldConnect,
 }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const isMobile = useIsMobile()
-  const sendTransaction = useSendTransaction()
-  const { password } = useWalletsContext()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const isMobile = useIsMobile();
+  const sendTransaction = useSendTransaction();
+  const { password } = useWalletsContext();
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
-    shouldConnect ? Stage.SelectChainStage : Stage.StartStage
-  )
+    shouldConnect ? Stage.SelectChainStage : Stage.StartStage,
+  );
 
-  const [consent, setConsent] = React.useState(false)
-  const [mnemonic, setMnemonic] = React.useState('')
-  const [chain, setChain] = React.useState('')
-  const [ledgerApp, setLedgerApp] = React.useState('')
-  const [error, setError] = React.useState('')
+  const [consent, setConsent] = React.useState(false);
+  const [mnemonic, setMnemonic] = React.useState('');
+  const [chain, setChain] = React.useState('');
+  const [ledgerApp, setLedgerApp] = React.useState('');
+  const [error, setError] = React.useState('');
   // for Ledger
   const [connectChainInfo, setConnectChainInfo] = React.useState({
     account: 0,
     change: 0,
     index: 0,
     address: '',
-  })
+  });
 
   React.useEffect(() => {
     if (open) {
-      setMnemonic('')
-      setChain('')
-      setLedgerApp('')
-      setError('')
-      setStage(shouldConnect ? Stage.SelectChainStage : Stage.StartStage, true)
+      setMnemonic('');
+      setChain('');
+      setLedgerApp('');
+      setError('');
+      setStage(shouldConnect ? Stage.SelectChainStage : Stage.StartStage, true);
     }
-  }, [open, shouldConnect])
+  }, [open, shouldConnect]);
 
   React.useEffect(() => {
-    setError('')
-  }, [stage])
+    setError('');
+  }, [stage]);
 
   const genProofAndSendTx = React.useCallback(
     async (
@@ -104,10 +103,10 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       isKeplr?: boolean,
       isTerraStation?: boolean,
       privateKey?: string,
-      proofText?: string
+      proofText?: string,
     ) => {
       try {
-        setError('')
+        setError('');
 
         const { proof, address } = await generateProof(
           account.address,
@@ -127,8 +126,8 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
           ledgerTransport,
           isKeplr,
           isTerraStation,
-          proofText
-        )
+          proofText,
+        );
 
         await sendTransaction(password, account.address, {
           msgs: [
@@ -151,15 +150,15 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
             } as TransactionMsgLinkChainAccount,
           ],
           memo: '',
-        })
-        onClose()
+        });
+        onClose();
       } catch (err) {
-        setError(err.message)
-        console.log(err)
+        setError(err.message);
+        console.log(err);
       }
     },
-    [account, mnemonic, chain, onClose, ledgerApp]
-  )
+    [account, mnemonic, chain, onClose, ledgerApp],
+  );
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
@@ -169,13 +168,13 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
           dialogSize: 'sm',
           content: (
             <SelectChain
-              onConfirm={(c) => {
-                setChain(c)
-                setStage(Stage.SelectWalletTypeStage)
+              onConfirm={c => {
+                setChain(c);
+                setStage(Stage.SelectWalletTypeStage);
               }}
             />
           ),
-        }
+        };
       case Stage.SelectWalletTypeStage:
         return {
           title: t('connect chain'),
@@ -184,39 +183,39 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
             <SelectWalletType
               chain={chain}
               error={error}
-              onConfirm={(type) => {
+              onConfirm={type => {
                 if (type === 'keplr') {
-                  genProofAndSendTx(undefined, true)
+                  genProofAndSendTx(undefined, true);
                 } else if (type === 'terra station') {
-                  genProofAndSendTx(undefined, false, true)
+                  genProofAndSendTx(undefined, false, true);
                 } else if (type === 'private key') {
-                  setStage(Stage.EnterPrivateKeyStage)
+                  setStage(Stage.EnterPrivateKeyStage);
                 } else if (type === 'upload proof') {
-                  setStage(Stage.EnterChainLinkProofStage)
+                  setStage(Stage.EnterChainLinkProofStage);
                 } else if (type === 'mnemonic') {
-                  setStage(Stage.RequestPhraseStage)
+                  setStage(Stage.RequestPhraseStage);
                 } else {
-                  setStage(Stage.SelectLedgerAppStage)
+                  setStage(Stage.SelectLedgerAppStage);
                 }
               }}
             />
           ),
-        }
+        };
       case Stage.ImportMnemonicPhraseStage:
         return {
           title: t('import recovery phrase'),
           dialogSize: 'sm',
           content: (
             <ImportMnemonic
-              onConfirm={(m) => {
-                ledgerTransport = undefined
-                setLedgerApp(undefined)
-                setMnemonic(m)
-                setStage(Stage.SelectAddressStage)
+              onConfirm={m => {
+                ledgerTransport = undefined;
+                setLedgerApp(undefined);
+                setMnemonic(m);
+                setStage(Stage.SelectAddressStage);
               }}
             />
           ),
-        }
+        };
       case Stage.SignInLedgerStage:
       case Stage.ConnectLedgerStage:
         return {
@@ -224,19 +223,19 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
           dialogSize: 'sm',
           content: (
             <ConnectLedgerDialogContent
-              onConnect={(transport) => {
-                ledgerTransport = transport
+              onConnect={transport => {
+                ledgerTransport = transport;
                 if (stage === Stage.ConnectLedgerStage) {
-                  setStage(Stage.SelectAddressStage)
+                  setStage(Stage.SelectAddressStage);
                 } else {
-                  genProofAndSendTx(connectChainInfo)
+                  genProofAndSendTx(connectChainInfo);
                 }
               }}
               ledgerAppName={ledgerApp}
               signTransaction
             />
           ),
-        }
+        };
       case Stage.SelectLedgerAppStage:
         return {
           title: t('select ledger app'),
@@ -244,13 +243,13 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
           content: (
             <SelectLedgerApp
               ledgerAppNames={connectableChains[chain].ledgerAppNames}
-              onConfirm={(app) => {
-                setLedgerApp(app)
-                setStage(Stage.ConnectLedgerStage)
+              onConfirm={app => {
+                setLedgerApp(app);
+                setStage(Stage.ConnectLedgerStage);
               }}
             />
           ),
-        }
+        };
       case Stage.RequestPhraseStage:
         return {
           title: t('recovery phrase request'),
@@ -261,35 +260,35 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
               setConsent={setConsent}
               title={t('request description')}
               onConfirm={() => {
-                setStage(Stage.ImportMnemonicPhraseStage)
+                setStage(Stage.ImportMnemonicPhraseStage);
               }}
             />
           ),
-        }
+        };
       case Stage.EnterChainLinkProofStage:
       case Stage.EnterPrivateKeyStage:
         return {
           title: t(
-            stage === Stage.EnterChainLinkProofStage ? 'chain link proof' : 'import private key'
+            stage === Stage.EnterChainLinkProofStage ? 'chain link proof' : 'import private key',
           ),
           dialogSize: 'sm',
           content: (
             <TextInputDialogContent
               title={t(stage === Stage.EnterChainLinkProofStage ? 'proof' : 'private key')}
               placeholder={t(
-                stage === Stage.EnterChainLinkProofStage ? 'proof description' : 'private key'
+                stage === Stage.EnterChainLinkProofStage ? 'proof description' : 'private key',
               )}
               error={error}
-              onConfirm={(text) => {
+              onConfirm={text => {
                 if (stage === Stage.EnterChainLinkProofStage) {
-                  genProofAndSendTx(undefined, undefined, undefined, undefined, text)
+                  genProofAndSendTx(undefined, undefined, undefined, undefined, text);
                 } else {
-                  genProofAndSendTx(undefined, undefined, undefined, text)
+                  genProofAndSendTx(undefined, undefined, undefined, text);
                 }
               }}
             />
           ),
-        }
+        };
       case Stage.SelectAddressStage:
         return {
           title: t('select address'),
@@ -301,17 +300,17 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
               mnemonic={mnemonic}
               ledgerAppName={ledgerApp}
               ledgerTransport={ledgerTransport}
-              onConfirm={(result) => {
+              onConfirm={result => {
                 if (ledgerApp) {
-                  setStage(Stage.SignInLedgerStage)
-                  setConnectChainInfo(result)
+                  setStage(Stage.SignInLedgerStage);
+                  setConnectChainInfo(result);
                 } else {
-                  genProofAndSendTx(result)
+                  genProofAndSendTx(result);
                 }
               }}
             />
           ),
-        }
+        };
       case Stage.StartStage:
       default:
         return {
@@ -325,9 +324,9 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
               onConnectClick={() => setStage(Stage.SelectChainStage)}
             />
           ),
-        }
+        };
     }
-  }, [stage, t, connections])
+  }, [stage, t, connections]);
 
   return (
     <Dialog
@@ -336,19 +335,17 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       open={open}
       onClose={(event, reason) => {
         if (reason !== 'backdropClick') {
-          onClose(event, reason)
+          onClose(event, reason);
         }
       }}
-      fullScreen={isMobile}
-    >
+      fullScreen={isMobile}>
       {isPrevStageAvailable ? (
         <IconButton
           className={classes.backButton}
           onClick={() => {
-            toPrevStage()
-            closeAllLedgerConnections()
-          }}
-        >
+            toPrevStage();
+            closeAllLedgerConnections();
+          }}>
           <BackIcon {...iconProps} />
         </IconButton>
       ) : null}
@@ -358,7 +355,7 @@ const ConnectChainDialog: React.FC<ConnectChainDialogProps> = ({
       {content.title ? <DialogTitle>{content.title}</DialogTitle> : null}
       {content.content}
     </Dialog>
-  )
-}
+  );
+};
 
-export default ConnectChainDialog
+export default ConnectChainDialog;

@@ -239,6 +239,6 @@ const connectableChains = {
     chainId: 'bitsong-2b',
     feeDenom: 'ubtsg',
   },
-}
+};
 
-export default connectableChains
+export default connectableChains;

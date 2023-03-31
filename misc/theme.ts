@@ -1,46 +1,46 @@
-import { ThemeOptions, Theme } from '@material-ui/core'
-import { Palette } from '@material-ui/core/styles/createPalette'
+import { ThemeOptions, Theme } from '@material-ui/core';
+import { Palette } from '@material-ui/core/styles/createPalette';
 
 interface CustomPalette extends Palette {
-  tagColor: { [key: string]: string }
-  statusColor: { [key: string]: string }
-  translucent: string
-  indicator: string
-  pieChart: string[]
-  pieChart2: string[]
-  button: string
-  menuBackground: string
-  socialMediaIcon: { background: string; fill: string }
-  iconBorder: string
-  divider: string
+  tagColor: { [key: string]: string };
+  statusColor: { [key: string]: string };
+  translucent: string;
+  indicator: string;
+  pieChart: string[];
+  pieChart2: string[];
+  button: string;
+  menuBackground: string;
+  socialMediaIcon: { background: string; fill: string };
+  iconBorder: string;
+  divider: string;
   dataChangeButton: {
     clicked: {
-      text: string
-      background: string
-      border: string
-    }
+      text: string;
+      background: string;
+      border: string;
+    };
     unClicked: {
-      text: string
-      background: string
-      border: string
-    }
-  }
+      text: string;
+      background: string;
+      border: string;
+    };
+  };
   condition: {
-    zero: string
-    one: string
-    two: string
-    three: string
-  }
-  dialogBackground: string
-  reactJsonBackground: string
-  buttonDisabled: string
-  validator: string
-  cardBackground: string
-  bannerBackground: string
+    zero: string;
+    one: string;
+    two: string;
+    three: string;
+  };
+  dialogBackground: string;
+  reactJsonBackground: string;
+  buttonDisabled: string;
+  validator: string;
+  cardBackground: string;
+  bannerBackground: string;
 }
 
 export interface CustomTheme extends Theme {
-  palette: CustomPalette
+  palette: CustomPalette;
 }
 
 const common = {
@@ -105,7 +105,7 @@ const common = {
     },
   },
   shadows: [...Array(7).fill('none'), ...Array(18).fill('0px 3px 16px #00000029')],
-}
+};
 
 const lightTheme = {
   ...common,
@@ -208,7 +208,7 @@ const lightTheme = {
     cardBackground: '#F7F7F7',
     bannerBackground: '#1A2A3D',
   },
-} as unknown as ThemeOptions
+} as unknown as ThemeOptions;
 
 const darkTheme = {
   ...common,
@@ -306,6 +306,6 @@ const darkTheme = {
     cardBackground: '#3D4047',
     bannerBackground: '#1A2A3D',
   },
-} as unknown as ThemeOptions
+} as unknown as ThemeOptions;
 
-export { lightTheme, darkTheme }
+export { lightTheme, darkTheme };

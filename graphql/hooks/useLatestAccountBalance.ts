@@ -1,8 +1,8 @@
-import { gql, useQuery } from '@apollo/client'
-import get from 'lodash/get'
-import flatten from 'lodash/flatten'
-import { getLatestAccountBalance } from '../queries/accountBalances'
-import cryptocurrencies from '../../misc/cryptocurrencies'
+import { gql, useQuery } from '@apollo/client';
+import get from 'lodash/get';
+import flatten from 'lodash/flatten';
+import { getLatestAccountBalance } from '../queries/accountBalances';
+import cryptocurrencies from '../../misc/cryptocurrencies';
 
 export const transformHasuraActionResult = (queryResult: any, denom: string) => ({
   account: [
@@ -13,7 +13,7 @@ export const transformHasuraActionResult = (queryResult: any, denom: string) => 
           coins: get(queryResult, 'data.action_account_balance.coins', []),
         },
       ],
-      delegated: get(queryResult, 'data.action_delegation.delegations', []).map((r) => ({
+      delegated: get(queryResult, 'data.action_delegation.delegations', []).map(r => ({
         amount: get(r, 'coins[0]', { amount: '0', denom }),
         validator: {
           validator_info: {
@@ -22,8 +22,8 @@ export const transformHasuraActionResult = (queryResult: any, denom: string) => 
         },
       })),
       unbonding: flatten(
-        get(queryResult, 'data.action_unbonding_delegation.unbonding_delegations', []).map((r) =>
-          get(r, 'entries', []).map((u) => ({
+        get(queryResult, 'data.action_unbonding_delegation.unbonding_delegations', []).map(r =>
+          get(r, 'entries', []).map(u => ({
             amount: {
               amount: u.balance,
               denom,
@@ -34,27 +34,25 @@ export const transformHasuraActionResult = (queryResult: any, denom: string) => 
                 operator_address: r.validator_address,
               },
             },
-          }))
-        )
+          })),
+        ),
       ),
       rewards: flatten(
-        get(queryResult, 'data.action_delegation_reward', []).map((r) => ({
+        get(queryResult, 'data.action_delegation_reward', []).map(r => ({
           amount: r.coins,
           validator: {
             validator_info: {
               operator_address: r.validator_address,
             },
           },
-        }))
+        })),
       ).filter((c: any) => c.amount),
-      commissions: get(queryResult, 'data.action_validator_commission_amount.coins', []).map(
-        (r) => ({
-          amount: r,
-        })
-      ),
+      commissions: get(queryResult, 'data.action_validator_commission_amount.coins', []).map(r => ({
+        amount: r,
+      })),
     },
   ],
-})
+});
 
 const useLatestAccountBalance = (crypto: string, address: string) => {
   const queryResult = useQuery(
@@ -64,12 +62,12 @@ const useLatestAccountBalance = (crypto: string, address: string) => {
     {
       pollInterval: 15000,
       fetchPolicy: 'no-cache',
-    }
-  )
+    },
+  );
 
-  const data = transformHasuraActionResult(queryResult, cryptocurrencies[crypto].gasFee.denom)
+  const data = transformHasuraActionResult(queryResult, cryptocurrencies[crypto].gasFee.denom);
 
-  return { ...queryResult, data }
-}
+  return { ...queryResult, data };
+};
 
-export default useLatestAccountBalance
+export default useLatestAccountBalance;

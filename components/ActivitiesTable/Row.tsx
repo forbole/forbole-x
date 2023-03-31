@@ -1,37 +1,37 @@
-import { Box, Avatar, Typography, Link, useTheme } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { useGetStyles } from './styles'
-import { formatTokenAmount, getVoteAnswer } from '../../misc/utils'
-import useIsMobile from '../../misc/useIsMobile'
-import AccountAvatar from '../AccountAvatar'
-import ValidatorAvatar from '../ValidatorAvatar'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+import { Box, Avatar, Typography, Link, useTheme } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useGetStyles from './styles';
+import { formatTokenAmount, getVoteAnswer } from '../../misc/utils';
+import useIsMobile from '../../misc/useIsMobile';
+import AccountAvatar from '../AccountAvatar';
+import ValidatorAvatar from '../ValidatorAvatar';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
 export type FavAddress = {
-  address: string
-  crypto: string
-  moniker: string
-  note?: string
-  img?: string
-}
+  address: string;
+  crypto: string;
+  moniker: string;
+  note?: string;
+  img?: string;
+};
 
 interface RowProps {
-  address?: FavAddress
-  activity: Activity
-  account?: Account
-  crypto: Cryptocurrency
+  address?: FavAddress;
+  activity: Activity;
+  account?: Account;
+  crypto: Cryptocurrency;
 }
 
 const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
-  const { classes } = useGetStyles(activity.tag)
-  const theme = useTheme()
-  const { t, lang } = useTranslation('common')
-  const isMobile = useIsMobile()
-  const { hideAmount } = useGeneralContext()
+  const { classes } = useGetStyles(activity.tag);
+  const theme = useTheme();
+  const { t, lang } = useTranslation('common');
+  const isMobile = useIsMobile();
+  const { hideAmount } = useGeneralContext();
   const accountDetail = account
     ? { name: account.name, address: account.address }
-    : { name: address.moniker, address: address.address }
+    : { name: address.moniker, address: address.address };
   const Content = React.useMemo(
     () => () => {
       if (activity.tag === 'delegate') {
@@ -40,8 +40,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Box mr={1}>
               <Link
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                target="_blank"
-              >
+                target="_blank">
                 <AccountAvatar
                   ledgerIconDisabled
                   account={account}
@@ -62,7 +61,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               <ValidatorAvatar crypto={crypto} validator={activity.detail.validator} size="small" />
             </Box>
           </>
-        )
+        );
       }
       if (activity.tag === 'redelegate') {
         return (
@@ -70,8 +69,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Box mr={1}>
               <Link
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                target="_blank"
-              >
+                target="_blank">
                 <AccountAvatar
                   ledgerIconDisabled
                   account={account}
@@ -104,7 +102,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               />
             </Box>
           </>
-        )
+        );
       }
       if (activity.tag === 'undelegate') {
         return (
@@ -112,8 +110,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Box mr={1}>
               <Link
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                target="_blank"
-              >
+                target="_blank">
                 <AccountAvatar
                   ledgerIconDisabled
                   account={account}
@@ -134,7 +131,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               <ValidatorAvatar crypto={crypto} validator={activity.detail.validator} size="small" />
             </Box>
           </>
-        )
+        );
       }
       if (activity.tag === 'deposit') {
         return (
@@ -142,8 +139,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Box mr={1}>
               <Link
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                target="_blank"
-              >
+                target="_blank">
                 <AccountAvatar
                   ledgerIconDisabled
                   account={account}
@@ -164,12 +160,11 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               href={`${crypto.blockExplorerBaseUrl}/proposals/${activity.detail.proposalId}`}
               target="_blank"
               variant="body1"
-              className={classes.proposalTypography}
-            >
+              className={classes.proposalTypography}>
               {t('proposal with id', { id: activity.detail.proposalId })}
             </Link>
           </>
-        )
+        );
       }
       if (activity.tag === 'withdrawReward') {
         return (
@@ -177,8 +172,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Box mr={1}>
               <Link
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                target="_blank"
-              >
+                target="_blank">
                 <AccountAvatar
                   ledgerIconDisabled
                   account={account}
@@ -200,7 +194,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               <ValidatorAvatar crypto={crypto} validator={activity.detail.validator} size="small" />
             </Box>
           </>
-        )
+        );
       }
       if (activity.tag === 'multisend') {
         return (
@@ -208,18 +202,18 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             {activity.detail.inputs.map((input, i) => {
               return (
                 <Box
-                  key={`${input.address}_${i}`}
+                  // key={`${input.address}_${i}`}
+                  // recipient addresses should be unique, even in multisend transactions
+                  key={`${input.address}`}
                   mr={1}
                   display="flex"
                   alignItems="center"
-                  flexWrap="wrap"
-                >
+                  flexWrap="wrap">
                   <Link
                     href={`${crypto.blockExplorerBaseUrl}/accounts/${input.address}`}
                     target="_blank"
                     variant="body1"
-                    style={{ marginRight: theme.spacing(1) }}
-                  >
+                    style={{ marginRight: theme.spacing(1) }}>
                     {account && input.address === account.address ? (
                       <AccountAvatar
                         ledgerIconDisabled
@@ -244,22 +238,16 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
                     <Typography>{t('toTheFollowingRecepients')}</Typography>
                   ) : null}
                 </Box>
-              )
+              );
             })}
             <Box className={classes.detail}>
-              {activity.detail.outputs.map((output, i) => (
-                <Box
-                  key={`${output.address}_${i}`}
-                  display="flex"
-                  alignItems="center"
-                  flexWrap="wrap"
-                >
+              {activity.detail.outputs.map(output => (
+                <Box key={`${output.address}`} display="flex" alignItems="center" flexWrap="wrap">
                   <Link
                     href={`${crypto.blockExplorerBaseUrl}/accounts/${output.address}`}
                     target="_blank"
                     variant="body1"
-                    style={{ marginRight: theme.spacing(1) }}
-                  >
+                    style={{ marginRight: theme.spacing(1) }}>
                     {account && output.address === account.address ? (
                       <AccountAvatar
                         ledgerIconDisabled
@@ -284,7 +272,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               ))}
             </Box>
           </Box>
-        )
+        );
       }
       if (activity.tag === 'createValidator') {
         return (
@@ -301,7 +289,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               {activity?.detail?.name}
             </Typography>
           </>
-        )
+        );
       }
       if (activity.tag === 'fund') {
         return (
@@ -316,7 +304,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               {t('toCommunityPool')}
             </Typography>
           </>
-        )
+        );
       }
       if (activity.tag === 'verifyInvariant') {
         return (
@@ -325,7 +313,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Typography className={classes.validatorTypography}>{accountDetail.name}</Typography>
             <Typography>{t(`${activity.tag}Activity`)}</Typography>
           </>
-        )
+        );
       }
       if (activity.tag === 'vote') {
         return (
@@ -333,8 +321,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Box mr={1}>
               <Link
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                target="_blank"
-              >
+                target="_blank">
                 <AccountAvatar
                   ledgerIconDisabled
                   account={account}
@@ -349,8 +336,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               href={`${crypto.blockExplorerBaseUrl}/proposals/${activity.detail.proposalId}`}
               target="_blank"
               variant="body1"
-              className={classes.proposalTypography}
-            >
+              className={classes.proposalTypography}>
               {t('proposal with id', { id: activity.detail.proposalId })}
             </Link>
             <Typography>
@@ -358,7 +344,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               <span className={classes.amount}>{t(getVoteAnswer(activity.detail.ans))}</span>
             </Typography>
           </>
-        )
+        );
       }
       if (activity.tag === 'unjail') {
         return (
@@ -367,7 +353,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Typography className={classes.validatorTypography}>{accountDetail.name}</Typography>
             <Typography>{t(`${activity.tag}Activity`)}</Typography>
           </>
-        )
+        );
       }
       if (activity.tag === 'submitProposal') {
         return (
@@ -375,8 +361,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Box mr={1}>
               <Link
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                target="_blank"
-              >
+                target="_blank">
                 <AccountAvatar
                   ledgerIconDisabled
                   account={account}
@@ -390,7 +375,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               {t(`${activity.tag}Activity`)} <b>{activity.detail.proposalTitle}</b>
             </Typography>
           </>
-        )
+        );
       }
       if (activity.tag === 'editValidator') {
         return (
@@ -401,7 +386,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               {t(`${activity.tag}Activity`)} {activity.detail.name}
             </Typography>
           </>
-        )
+        );
       }
       if (activity.tag === 'send') {
         return (
@@ -410,8 +395,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               <Box mr={1}>
                 <Link
                   href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                  target="_blank"
-                >
+                  target="_blank">
                   <AccountAvatar
                     ledgerIconDisabled
                     account={account}
@@ -426,8 +410,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
                 className={classes.proposalTypography}
                 variant="body1"
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${activity.detail.fromAddress}`}
-                target="_blank"
-              >
+                target="_blank">
                 {activity.detail.fromAddress}
               </Link>
             )}
@@ -442,8 +425,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               <Box ml={1}>
                 <Link
                   href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                  target="_blank"
-                >
+                  target="_blank">
                   <AccountAvatar
                     ledgerIconDisabled
                     account={account}
@@ -458,13 +440,12 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
                 className={classes.proposalTypography}
                 variant="body1"
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${activity.detail.toAddress}`}
-                target="_blank"
-              >
+                target="_blank">
                 {activity.detail.toAddress}
               </Link>
             )}
           </>
-        )
+        );
       }
       if (activity.tag === 'setRewardAddress') {
         return (
@@ -472,8 +453,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
             <Box mr={1}>
               <Link
                 href={`${crypto.blockExplorerBaseUrl}/accounts/${accountDetail.address}`}
-                target="_blank"
-              >
+                target="_blank">
                 <AccountAvatar
                   ledgerIconDisabled
                   account={account}
@@ -488,17 +468,16 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
               className={classes.proposalTypography}
               variant="body1"
               href={`${crypto.blockExplorerBaseUrl}/accounts/${activity.detail.withdrawAddress}`}
-              target="_blank"
-            >
+              target="_blank">
               {activity.detail.withdrawAddress}
             </Link>
           </>
-        )
+        );
       }
-      return null
+      return null;
     },
-    [activity.ref, JSON.stringify(activity.detail || {}), classes]
-  )
+    [activity.ref, JSON.stringify(activity.detail || {}), classes],
+  );
 
   return (
     <Box className={classes.rowContainer}>
@@ -511,7 +490,7 @@ const Row: React.FC<RowProps> = ({ activity, account, crypto, address }) => {
         <Content />
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default Row
+export default Row;

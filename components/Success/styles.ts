@@ -1,7 +1,7 @@
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(
-  (theme) => ({
+  theme => ({
     button: {
       width: theme.spacing(16),
     },
@@ -45,7 +45,7 @@ const useStyles = makeStyles(
   {
     name: 'HookGlobalStyles',
     index: 2,
-  }
-)
+  },
+);
 
-export default useStyles
+export default useStyles;

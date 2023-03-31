@@ -1,8 +1,8 @@
-import React from 'react'
-import { makeStyles, createStyles } from '@material-ui/core/styles'
-import { CustomTheme } from '../../misc/theme'
+import React from 'react';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { CustomTheme } from '../../misc/theme';
 
-export const useGetStyles = (tag?: string) => {
+const useGetStyles = (tag?: string) => {
   const useStyles = React.useMemo(
     () =>
       makeStyles((theme: CustomTheme) =>
@@ -86,12 +86,14 @@ export const useGetStyles = (tag?: string) => {
           detail: {
             marginTop: theme.spacing(3),
           },
-        })
+        }),
       ),
-    [tag]
-  )
+    [tag],
+  );
 
   return {
     classes: useStyles(),
-  }
-}
+  };
+};
+
+export default useGetStyles;

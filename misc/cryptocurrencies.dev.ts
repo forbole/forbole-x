@@ -45,6 +45,6 @@ const cryptocurrencies: { [key: string]: Cryptocurrency } = {
       '/desmos.profiles.v3.MsgUnlinkChainAccount': 400000,
     },
   },
-}
+};
 
-export default cryptocurrencies
+export default cryptocurrencies;

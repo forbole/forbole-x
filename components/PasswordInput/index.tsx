@@ -6,32 +6,32 @@ import {
   Box,
   Typography,
   useTheme,
-} from '@material-ui/core'
-import React from 'react'
-import passwordStrength from 'check-password-strength'
-import useTranslation from 'next-translate/useTranslation'
-import HidePasswordIcon from '../../assets/images/icons/icon_hide.svg'
-import ShowPasswordIcon from '../../assets/images/icons/icon_show.svg'
-import useIconProps from '../../misc/useIconProps'
+} from '@material-ui/core';
+import React from 'react';
+import passwordStrength from 'check-password-strength';
+import useTranslation from 'next-translate/useTranslation';
+import HidePasswordIcon from '../../assets/images/icons/icon_hide.svg';
+import ShowPasswordIcon from '../../assets/images/icons/icon_show.svg';
+import useIconProps from '../../misc/useIconProps';
 
 interface PasswordInputProps extends Partial<FilledTextFieldProps> {
-  withSecurityLevel?: boolean
+  withSecurityLevel?: boolean;
 }
 
 const PasswordInput: React.FC<PasswordInputProps> = ({ withSecurityLevel, value, ...props }) => {
-  const iconProps = useIconProps()
-  const theme = useTheme()
-  const { t } = useTranslation('common')
-  const [isShowingPassword, setIsShowingPassword] = React.useState(false)
+  const iconProps = useIconProps();
+  const theme = useTheme();
+  const { t } = useTranslation('common');
+  const [isShowingPassword, setIsShowingPassword] = React.useState(false);
 
   const passwordSecurityLevel = React.useMemo(() => {
-    return value ? passwordStrength(value).id : 0
-  }, [value])
+    return value ? passwordStrength(value).id : 0;
+  }, [value]);
   const passwordSecurityColors = [
     theme.palette.error.main,
     theme.palette.warning.main,
     theme.palette.success.main,
-  ]
+  ];
 
   return (
     <>
@@ -40,7 +40,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ withSecurityLevel, value,
           disableUnderline: true,
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton onClick={() => setIsShowingPassword((prev) => !prev)}>
+              <IconButton onClick={() => setIsShowingPassword(prev => !prev)}>
                 {isShowingPassword ? (
                   <ShowPasswordIcon {...iconProps} />
                 ) : (
@@ -83,8 +83,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ withSecurityLevel, value,
                 margin: theme.spacing(0, 1),
                 color: passwordSecurityColors[passwordSecurityLevel],
               }}
-              variant="body2"
-            >
+              variant="body2">
               {t(`password security level ${passwordSecurityLevel}`)}
             </Typography>
           </Box>
@@ -92,7 +91,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ withSecurityLevel, value,
         </Box>
       ) : null}
     </>
-  )
-}
+  );
+};
 
-export default PasswordInput
+export default PasswordInput;

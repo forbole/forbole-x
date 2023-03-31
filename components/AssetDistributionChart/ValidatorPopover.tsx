@@ -1,25 +1,25 @@
-import React from 'react'
-import { Box, Popover, Typography, Avatar, Divider, useTheme } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import get from 'lodash/get'
-import useStyles from './styles'
+import React from 'react';
+import { Box, Popover, Typography, Avatar, Divider, useTheme } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import get from 'lodash/get';
+import useStyles from './styles';
 import {
   formatCrypto,
   formatCurrency,
   formatPercentage,
   getTokenAmountBalance,
-} from '../../misc/utils'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+} from '../../misc/utils';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
 interface ValidatorPopoverProps {
-  balance: TokenAmount
+  balance: TokenAmount;
   validator: {
-    moniker: string
-    avatar: string
-  }
-  percentage: number
-  anchorPosition?: { top: number; left: number }
-  onClose(): void
+    moniker: string;
+    avatar: string;
+  };
+  percentage: number;
+  anchorPosition?: { top: number; left: number };
+  onClose(): void;
 }
 
 const ValidatorPopover: React.FC<ValidatorPopoverProps> = ({
@@ -29,10 +29,10 @@ const ValidatorPopover: React.FC<ValidatorPopoverProps> = ({
   anchorPosition,
   onClose,
 }) => {
-  const classes = useStyles()
-  const { t, lang } = useTranslation('common')
-  const { currency, currencyRate, hideAmount } = useGeneralContext()
-  const theme = useTheme()
+  const classes = useStyles();
+  const { t, lang } = useTranslation('common');
+  const { currency, currencyRate, hideAmount } = useGeneralContext();
+  const theme = useTheme();
 
   return (
     <Popover
@@ -43,15 +43,13 @@ const ValidatorPopover: React.FC<ValidatorPopoverProps> = ({
       transformOrigin={{
         vertical: 'top',
         horizontal: 'left',
-      }}
-    >
+      }}>
       <Box
         width={theme.spacing(40)}
         p={2}
         display="flex"
         alignItems="center"
-        justifyContent="space-between"
-      >
+        justifyContent="space-between">
         <Box display="flex" alignItems="center">
           <Avatar className={classes.avatar} src={validator.avatar} />
           <Typography>{validator.moniker}</Typography>
@@ -70,7 +68,7 @@ const ValidatorPopover: React.FC<ValidatorPopoverProps> = ({
           })}
         </Typography>
       </Box>
-      {Object.keys(balance).map((key) => (
+      {Object.keys(balance).map(key => (
         <React.Fragment key={key}>
           <Divider />
           <Box p={2} display="flex" justifyContent="space-between">
@@ -90,7 +88,7 @@ const ValidatorPopover: React.FC<ValidatorPopoverProps> = ({
                   get(balance as any, `${key}.amount`, 0) *
                     get(balance as any, `${key}.price`, 0) *
                     currencyRate,
-                  { currency, lang, hideAmount }
+                  { currency, lang, hideAmount },
                 )}
               </Typography>
             </Box>
@@ -98,7 +96,7 @@ const ValidatorPopover: React.FC<ValidatorPopoverProps> = ({
         </React.Fragment>
       ))}
     </Popover>
-  )
-}
+  );
+};
 
-export default ValidatorPopover
+export default ValidatorPopover;

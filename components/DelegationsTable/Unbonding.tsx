@@ -6,31 +6,31 @@ import {
   TableBody,
   Box,
   Typography,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { format, differenceInCalendarDays } from 'date-fns'
-import useStyles from './styles'
-import { formatTokenAmount, formatHeight } from '../../misc/utils'
-import useIsMobile from '../../misc/useIsMobile'
-import ValidatorAvatar from '../ValidatorAvatar'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import { format, differenceInCalendarDays } from 'date-fns';
+import useStyles from './styles';
+import { formatTokenAmount } from '../../misc/utils';
+import useIsMobile from '../../misc/useIsMobile';
+import ValidatorAvatar from '../ValidatorAvatar';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
 interface UnbondingProps {
-  unbondings: Unbonding[]
-  crypto: Cryptocurrency
+  unbondings: Unbonding[];
+  crypto: Cryptocurrency;
 }
 
 const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
-  const classes = useStyles()
-  const { t, lang } = useTranslation('common')
-  const isMobile = useIsMobile()
-  const { hideAmount } = useGeneralContext()
+  const classes = useStyles();
+  const { t, lang } = useTranslation('common');
+  const isMobile = useIsMobile();
+  const { hideAmount } = useGeneralContext();
 
   return isMobile ? (
     <Table>
       <TableBody>
-        {unbondings.map((u) => {
+        {unbondings.map(u => {
           return (
             <TableRow key={u.height} className={classes.tableRow}>
               <TableCell className={classes.tableCell}>
@@ -53,7 +53,7 @@ const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
                 </Box>
               </TableCell>
             </TableRow>
-          )
+          );
         })}
       </TableBody>
     </Table>
@@ -68,7 +68,7 @@ const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {unbondings.map((u) => {
+        {unbondings.map(u => {
           return (
             <TableRow key={u.height} className={classes.tableRow}>
               {/* <TableCell className={classes.tableCell}>
@@ -102,11 +102,11 @@ const Unbonding: React.FC<UnbondingProps> = ({ unbondings, crypto }) => {
                 </Box>
               </TableCell>
             </TableRow>
-          )
+          );
         })}
       </TableBody>
     </Table>
-  )
-}
+  );
+};
 
-export default Unbonding
+export default Unbonding;

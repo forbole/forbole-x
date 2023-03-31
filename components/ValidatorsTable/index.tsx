@@ -1,15 +1,15 @@
-import React from 'react'
-import { Box, Card, Tabs, Tab } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import { useGetStyles } from './styles'
-import Table from './Table'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+import React from 'react';
+import { Box, Card, Tabs, Tab } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import useGetStyles from './styles';
+import Table from './Table';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
 interface ValidatorsTableProps {
-  validators: Validator[]
-  crypto: Cryptocurrency
-  account: Account
-  availableTokens: AvailableTokens
+  validators: Validator[];
+  crypto: Cryptocurrency;
+  account: Account;
+  availableTokens: AvailableTokens;
 }
 
 const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
@@ -18,28 +18,28 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
   account,
   availableTokens,
 }) => {
-  const { favValidators } = useGeneralContext()
-  const { classes } = useGetStyles()
-  const { t } = useTranslation('common')
-  const [currentTab, setCurrentTab] = React.useState(0)
+  const { favValidators } = useGeneralContext();
+  const { classes } = useGetStyles();
+  const { t } = useTranslation('common');
+  const [currentTab, setCurrentTab] = React.useState(0);
 
   const tabs = React.useMemo(
     () => [
       {
         label: 'active validators',
-        validators: validators.filter((v) => v.isActive),
+        validators: validators.filter(v => v.isActive),
       },
       {
         label: 'inactive validators',
-        validators: validators.filter((v) => !v.isActive),
+        validators: validators.filter(v => !v.isActive),
       },
       {
         label: 'favourite',
-        validators: validators.filter((v) => favValidators.includes(v.address)),
+        validators: validators.filter(v => favValidators.includes(v.address)),
       },
     ],
-    [validators, favValidators]
-  )
+    [validators, favValidators],
+  );
 
   return (
     <Card>
@@ -47,9 +47,8 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
         <Tabs
           value={currentTab}
           classes={{ indicator: classes.tabIndicator }}
-          onChange={(e, v) => setCurrentTab(v)}
-        >
-          {tabs.map((tab) => (
+          onChange={(e, v) => setCurrentTab(v)}>
+          {tabs.map(tab => (
             <Tab key={tab.label} label={`${t(tab.label)} (${tab.validators.length})`} />
           ))}
         </Tabs>
@@ -64,7 +63,7 @@ const ValidatorsTable: React.FC<ValidatorsTableProps> = ({
         />
       </Box>
     </Card>
-  )
-}
+  );
+};
 
-export default ValidatorsTable
+export default ValidatorsTable;

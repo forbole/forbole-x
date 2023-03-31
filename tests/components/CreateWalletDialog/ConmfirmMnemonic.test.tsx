@@ -1,48 +1,48 @@
-import React from 'react'
-import renderer from 'react-test-renderer'
-import ConfirmMnemonic from '../../../components/CreateWalletDialog/ConfirmMnemonic'
+import React from 'react';
+import renderer from 'react-test-renderer';
+import ConfirmMnemonic from '../../../components/CreateWalletDialog/ConfirmMnemonic';
 
-const onConfirm = jest.fn()
+const onConfirm = jest.fn();
 
-jest.mock('../../../components/MnemonicPhraseInput', () => (props) => (
+jest.mock('../../../components/MnemonicPhraseInput', () => props => (
   <div id="MnemonicPhraseInput" {...props} />
-))
+));
 
 describe('component: CreateWalletDialog - ConfirmMnemonic', () => {
   it('renders default state correctly', () => {
     const component = renderer.create(
-      <ConfirmMnemonic description="description" error="" onConfirm={onConfirm} />
-    )
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
+      <ConfirmMnemonic description="description" error="" onConfirm={onConfirm} />,
+    );
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
   it('renders error state correctly', () => {
     const component = renderer.create(
-      <ConfirmMnemonic description="description" error="error" onConfirm={onConfirm} />
-    )
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
+      <ConfirmMnemonic description="description" error="error" onConfirm={onConfirm} />,
+    );
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
   it('calls onConfirm with correct params', () => {
     const component = renderer.create(
-      <ConfirmMnemonic description="description" error="" onConfirm={onConfirm} />
-    )
+      <ConfirmMnemonic description="description" error="" onConfirm={onConfirm} />,
+    );
     renderer.act(() => {
       component.root
         .findByProps({
           id: 'MnemonicPhraseInput',
         })
-        .props.onChange('mnemonic')
-    })
+        .props.onChange('mnemonic');
+    });
     renderer.act(() => {
-      component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() })
-    })
-    expect(onConfirm).toBeCalledWith('mnemonic')
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
-})
+      component.root.findByType('form').props.onSubmit({ preventDefault: jest.fn() });
+    });
+    expect(onConfirm).toBeCalledWith('mnemonic');
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+});
 
 afterEach(() => {
-  jest.clearAllMocks()
-})
+  jest.clearAllMocks();
+});

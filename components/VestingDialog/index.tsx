@@ -10,24 +10,24 @@ import {
   TableCell,
   TableBody,
   Box,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { format } from 'date-fns'
-import TablePagination from '../TablePagination'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import { formatTokenAmount } from '../../misc/utils'
-import useIsMobile from '../../misc/useIsMobile'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import { format } from 'date-fns';
+import TablePagination from '../TablePagination';
+import CloseIcon from '../../assets/images/icons/icon_cross.svg';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
+import { formatTokenAmount } from '../../misc/utils';
+import useIsMobile from '../../misc/useIsMobile';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
 interface VestingDialogProps {
-  open: boolean
-  onClose(): void
-  account: Account
-  totalAmount: TokenAmount
-  vestingPeriods: VestingPeriod[]
+  open: boolean;
+  onClose(): void;
+  account: Account;
+  totalAmount: TokenAmount;
+  vestingPeriods: VestingPeriod[];
 }
 
 const VestingDialog: React.FC<VestingDialogProps> = ({
@@ -37,13 +37,13 @@ const VestingDialog: React.FC<VestingDialogProps> = ({
   totalAmount,
   vestingPeriods,
 }) => {
-  const { t, lang } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const isMobile = useIsMobile()
-  const { hideAmount } = useGeneralContext()
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const { t, lang } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const isMobile = useIsMobile();
+  const { hideAmount } = useGeneralContext();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   return (
     <Dialog
@@ -51,8 +51,7 @@ const VestingDialog: React.FC<VestingDialogProps> = ({
       fullScreen={isMobile}
       classes={{ paper: classes.dialogPaper }}
       open={open}
-      onClose={onClose}
-    >
+      onClose={onClose}>
       <IconButton className={classes.closeButton} onClick={onClose}>
         <CloseIcon {...iconProps} />
       </IconButton>
@@ -75,7 +74,7 @@ const VestingDialog: React.FC<VestingDialogProps> = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {vestingPeriods.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((v) => {
+              {vestingPeriods.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map(v => {
                 return (
                   <TableRow key={v.date} className={classes.tableRow}>
                     <TableCell className={classes.tableCell}>
@@ -89,7 +88,7 @@ const VestingDialog: React.FC<VestingDialogProps> = ({
                       {format(v.date, 'dd MMM, yyyy HH:mm')}
                     </TableCell>
                   </TableRow>
-                )
+                );
               })}
             </TableBody>
           </Table>
@@ -103,7 +102,7 @@ const VestingDialog: React.FC<VestingDialogProps> = ({
         </Box>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
-export default VestingDialog
+export default VestingDialog;

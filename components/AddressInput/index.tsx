@@ -1,30 +1,30 @@
-import { TextField, InputAdornment, Box, FormHelperText } from '@material-ui/core'
-import React from 'react'
-import { Autocomplete } from '@material-ui/lab'
-import keyBy from 'lodash/keyBy'
-import useTranslation from 'next-translate/useTranslation'
-import useIconProps from '../../misc/useIconProps'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
-import AccountAvatar from '../AccountAvatar'
-import { isAddressValid } from '../../misc/utils'
+import { TextField, InputAdornment, Box, FormHelperText } from '@material-ui/core';
+import React from 'react';
+import { Autocomplete } from '@material-ui/lab';
+import keyBy from 'lodash/keyBy';
+import useTranslation from 'next-translate/useTranslation';
+import useIconProps from '../../misc/useIconProps';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg';
+import AccountAvatar from '../AccountAvatar';
+import { isAddressValid } from '../../misc/utils';
 
 interface AddressInputProps {
-  prefix: string
-  value: string
-  onChange(value: string): void
+  prefix: string;
+  value: string;
+  onChange(value: string): void;
 }
 
 const AddressInput: React.FC<AddressInputProps> = ({ prefix, value, onChange }) => {
-  const iconProps = useIconProps()
-  const { t } = useTranslation()
-  const { favAddresses } = useGeneralContext()
+  const iconProps = useIconProps();
+  const { t } = useTranslation();
+  const { favAddresses } = useGeneralContext();
   const addressesMap = keyBy(
-    favAddresses.filter((a) => isAddressValid(prefix, a.address)),
-    'address'
-  )
+    favAddresses.filter(a => isAddressValid(prefix, a.address)),
+    'address',
+  );
 
-  const error = value && !isAddressValid(prefix, value)
+  const error = value && !isAddressValid(prefix, value);
 
   return (
     <Box flex={1}>
@@ -33,19 +33,19 @@ const AddressInput: React.FC<AddressInputProps> = ({ prefix, value, onChange }) 
         inputValue={value}
         onInputChange={(e, address: string) => onChange(address)}
         freeSolo
-        getOptionLabel={(option) => option}
+        getOptionLabel={option => option}
         openOnFocus
         fullWidth
         filterOptions={(options: string[], { inputValue }: any) =>
-          options.filter((o) =>
+          options.filter(o =>
             (
               addressesMap[o]?.moniker?.toLowerCase() +
               addressesMap[o]?.note?.toLowerCase() +
               addressesMap[o]?.address?.toLowerCase()
-            ).includes(inputValue.toLowerCase())
+            ).includes(inputValue.toLowerCase()),
           )
         }
-        renderOption={(address) => (
+        renderOption={address => (
           <AccountAvatar address={addressesMap[address]} size="small" disableCopyAddress />
         )}
         renderInput={({ InputProps, inputProps, ...params }) => (
@@ -77,7 +77,7 @@ const AddressInput: React.FC<AddressInputProps> = ({ prefix, value, onChange }) 
         </FormHelperText>
       ) : null}
     </Box>
-  )
-}
+  );
+};
 
-export default AddressInput
+export default AddressInput;

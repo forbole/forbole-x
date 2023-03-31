@@ -1,16 +1,16 @@
-import { Card, CardMedia, CardContent, Typography, Avatar, Box, Button } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import Markdown from '../Markdown'
-import useStyles from './styles'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import useIsMobile from '../../misc/useIsMobile'
+import { Card, CardMedia, CardContent, Typography, Avatar, Box, Button } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import Markdown from '../Markdown';
+import useStyles from './styles';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import useIsMobile from '../../misc/useIsMobile';
 
 interface ProfileCardProps {
-  profile: Profile
-  chainConnections: ChainConnection[]
-  onEditProfile(): void
-  onChainConnectionClick(): void
+  profile: Profile;
+  chainConnections: ChainConnection[];
+  onEditProfile(): void;
+  onChainConnectionClick(): void;
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({
@@ -19,10 +19,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   onEditProfile,
   onChainConnectionClick,
 }) => {
-  const classes = useStyles()
-  const { t } = useTranslation('common')
-  const { theme } = useGeneralContext()
-  const isMobile = useIsMobile()
+  const classes = useStyles();
+  const { t } = useTranslation('common');
+  const { theme } = useGeneralContext();
+  const isMobile = useIsMobile();
 
   return (
     <Card className={classes.container}>
@@ -42,16 +42,14 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             display="flex"
             justifyContent="space-between"
             alignItems={isMobile ? 'center' : 'flex-start'}
-            flex={1}
-          >
+            flex={1}>
             <Box ml={isMobile ? 2 : 0}>
               <Typography variant={isMobile ? 'h6' : 'h4'}>{profile.nickname}</Typography>
               <Box mt={isMobile ? -1 : 0} mb={isMobile ? 2 : 0}>
                 <Typography
                   variant={isMobile ? 'body2' : 'body1'}
                   color="textSecondary"
-                  gutterBottom
-                >
+                  gutterBottom>
                   @{profile.dtag}
                 </Typography>
               </Box>
@@ -60,8 +58,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               className={classes.button}
               variant="outlined"
               onClick={onEditProfile}
-              size={isMobile ? 'small' : 'medium'}
-            >
+              size={isMobile ? 'small' : 'medium'}>
               {t('edit profile')}
             </Button>
           </Box>
@@ -72,7 +69,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         </Button>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default ProfileCard
+export default ProfileCard;

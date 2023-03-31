@@ -6,40 +6,39 @@ import {
   DialogTitle,
   TextField,
   Typography,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import useStyles from './styles'
-import { useWalletsContext } from '../../contexts/WalletsContext'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useStyles from './styles';
+import { useWalletsContext } from '../../contexts/WalletsContext';
 
 interface ChangeWalletMonikerProps {
-  walletId: string
-  onClose(): void
+  walletId: string;
+  onClose(): void;
 }
 
 const ChangeWalletMoniker: React.FC<ChangeWalletMonikerProps> = ({ walletId, onClose }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const [name, setName] = React.useState('')
-  const { updateWallet } = useWalletsContext()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const [name, setName] = React.useState('');
+  const { updateWallet } = useWalletsContext();
 
   const onButtonClick = React.useCallback(async () => {
     try {
-      await updateWallet(walletId, { name })
-      onClose()
+      await updateWallet(walletId, { name });
+      onClose();
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }, [name, updateWallet, walletId])
+  }, [name, updateWallet, walletId]);
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onButtonClick()
-      }}
-    >
+      onSubmit={e => {
+        e.preventDefault();
+        onButtonClick();
+      }}>
       <DialogTitle>{t('change wallet moniker')}</DialogTitle>
       <DialogContent>
         <Box mb={18}>
@@ -52,7 +51,7 @@ const ChangeWalletMoniker: React.FC<ChangeWalletMonikerProps> = ({ walletId, onC
             }}
             placeholder={t('wallet moniker')}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={e => setName(e.target.value)}
           />
         </Box>
       </DialogContent>
@@ -62,7 +61,7 @@ const ChangeWalletMoniker: React.FC<ChangeWalletMonikerProps> = ({ walletId, onC
         </Button>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default ChangeWalletMoniker
+export default ChangeWalletMoniker;

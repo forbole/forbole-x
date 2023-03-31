@@ -1,16 +1,16 @@
-import { makeStyles, createStyles } from '@material-ui/core/styles'
-import { CustomTheme } from '../../misc/theme'
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { CustomTheme } from '../../misc/theme';
 
-export const useGetStyles = (status?: string) => {
+const useGetStyles = (status?: string) => {
   const statusColor = () => {
     if (status === 'rejected' || status === 'failed') {
-      return 'unbonded'
+      return 'unbonded';
     }
     if (status === 'invalid') {
-      return 'unknown'
+      return 'unknown';
     }
-    return 'active'
-  }
+    return 'active';
+  };
   const useStyles = makeStyles(
     (theme: CustomTheme) =>
       createStyles({
@@ -74,9 +74,11 @@ export const useGetStyles = (status?: string) => {
     {
       name: 'HookGlobalStyles',
       index: 2,
-    }
-  )
+    },
+  );
   return {
     classes: useStyles(),
-  }
-}
+  };
+};
+
+export default useGetStyles;

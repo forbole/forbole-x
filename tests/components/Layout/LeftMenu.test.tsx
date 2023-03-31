@@ -1,24 +1,24 @@
-import React from 'react'
-import renderer from 'react-test-renderer'
-import LeftMenu from '../../../components/Layout/LeftMenu'
+import React from 'react';
+import renderer from 'react-test-renderer';
+import LeftMenu from '../../../components/Layout/LeftMenu';
 
-const setIsMenuExpanded = jest.fn()
+const setIsMenuExpanded = jest.fn();
 
 describe('component: Layout - LeftMenu', () => {
   it('renders no matching activeItem correctly', () => {
     const component = renderer.create(
-      <LeftMenu activeItem="" isMenuExpanded setIsMenuExpanded={setIsMenuExpanded} />
-    )
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
+      <LeftMenu activeItem="" isMenuExpanded setIsMenuExpanded={setIsMenuExpanded} />,
+    );
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
   it('renders activeItem "/" correctly', () => {
     const component = renderer.create(
-      <LeftMenu activeItem="/" isMenuExpanded setIsMenuExpanded={setIsMenuExpanded} />
-    )
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
+      <LeftMenu activeItem="/" isMenuExpanded setIsMenuExpanded={setIsMenuExpanded} />,
+    );
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
   // it('renders collapsed menu correctly', () => {
   //   const component = renderer.create(
   //     <LeftMenu activeItem="/" isMenuExpanded={false} setIsMenuExpanded={setIsMenuExpanded} />
@@ -37,8 +37,8 @@ describe('component: Layout - LeftMenu', () => {
   //   })
   //   expect(setIsMenuExpanded).toBeCalledWith(true)
   // })
-})
+});
 
 afterEach(() => {
-  jest.clearAllMocks()
-})
+  jest.clearAllMocks();
+});

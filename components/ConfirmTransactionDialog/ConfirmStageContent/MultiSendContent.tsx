@@ -1,14 +1,14 @@
-import React from 'react'
-import { Box, Divider, Typography, useTheme } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import SendIcon from '../../../assets/images/icons/icon_send_tx.svg'
-import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils'
+import React from 'react';
+import { Box, Divider, Typography, useTheme } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import SendIcon from '../../../assets/images/icons/icon_send_tx.svg';
+import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils';
 
 interface MultiSendContentProps {
-  totalAmount: TokenAmount
-  msgs: TransactionMsgMultiSend[]
-  denoms: TokenPrice[]
-  account: Account
+  totalAmount: TokenAmount;
+  msgs: TransactionMsgMultiSend[];
+  denoms: TokenPrice[];
+  account: Account;
 }
 
 const MultiSendContent: React.FC<MultiSendContentProps> = ({
@@ -17,8 +17,8 @@ const MultiSendContent: React.FC<MultiSendContentProps> = ({
   totalAmount,
   account,
 }) => {
-  const { t, lang } = useTranslation('common')
-  const theme = useTheme()
+  const { t, lang } = useTranslation('common');
+  const theme = useTheme();
   return (
     <>
       <Box display="flex" flexDirection="column" alignItems="center" mt={6}>
@@ -55,7 +55,7 @@ const MultiSendContent: React.FC<MultiSendContentProps> = ({
         </React.Fragment>
       ))}
     </>
-  )
-}
+  );
+};
 
-export default MultiSendContent
+export default MultiSendContent;

@@ -1,25 +1,25 @@
-import React from 'react'
-import renderer from 'react-test-renderer'
-import { useWalletsContext } from '../../../contexts/WalletsContext'
-import ChangeWalletMonikerDialog from '../../../components/EditWalletButton/ChangeWalletMoniker'
+import React from 'react';
+import renderer from 'react-test-renderer';
+import { useWalletsContext } from '../../../contexts/WalletsContext';
+import ChangeWalletMonikerDialog from '../../../components/EditWalletButton/ChangeWalletMoniker';
 
-const onClose = jest.fn()
-const updateWallet = jest.fn()
+const onClose = jest.fn();
+const updateWallet = jest.fn();
 
-jest.mock('@material-ui/core/Dialog', () => (props) => <div id="dialog" {...props} />)
+jest.mock('@material-ui/core/Dialog', () => props => <div id="dialog" {...props} />);
 jest.mock('../../../contexts/WalletsContext', () => ({
   useWalletsContext: jest.fn(),
-}))
-;(useWalletsContext as jest.Mock).mockReturnValue({ updateWallet })
+}));
+(useWalletsContext as jest.Mock).mockReturnValue({ updateWallet });
 
 describe('component: ChangeWalletMonikerDialog', () => {
   it('renders opened state correctly', () => {
     const component = renderer.create(
-      <ChangeWalletMonikerDialog walletId="123" onClose={onClose} />
-    )
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
+      <ChangeWalletMonikerDialog walletId="123" onClose={onClose} />,
+    );
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
   // it('renders closed state correctly', () => {
   //   const component = renderer.create(
   //     <ChangeWalletMonikerDialog walletId="123" open={false} onClose={onClose} />
@@ -65,8 +65,8 @@ describe('component: ChangeWalletMonikerDialog', () => {
   //   expect(updateWallet).toBeCalledWith('123', { name: 'new name' })
   //   expect(onClose).toBeCalledTimes(0)
   // })
-})
+});
 
 afterEach(() => {
-  jest.clearAllMocks()
-})
+  jest.clearAllMocks();
+});

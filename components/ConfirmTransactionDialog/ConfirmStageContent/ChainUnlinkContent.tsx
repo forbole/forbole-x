@@ -1,19 +1,19 @@
-import React from 'react'
-import { Avatar, Box, Divider, Typography, useTheme } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import DisconnectIcon from '../../../assets/images/icons/icon_disconnect.svg'
-import connectableChains from '../../../misc/connectableChains'
-import useIconProps from '../../../misc/useIconProps'
+import React from 'react';
+import { Avatar, Box, Divider, Typography, useTheme } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import DisconnectIcon from '../../../assets/images/icons/icon_disconnect.svg';
+import connectableChains from '../../../misc/connectableChains';
+import useIconProps from '../../../misc/useIconProps';
 
 interface ChainUnlinkContentProps {
-  msgs: TransactionMsgUnlinkChainAccount[]
-  account: Account
+  msgs: TransactionMsgUnlinkChainAccount[];
+  account: Account;
 }
 
 const ChainUnlinkContent: React.FC<ChainUnlinkContentProps> = ({ msgs, account }) => {
-  const { t } = useTranslation('common')
-  const theme = useTheme()
-  const iconProps = useIconProps(undefined, theme.palette.grey[4])
+  const { t } = useTranslation('common');
+  const theme = useTheme();
+  const iconProps = useIconProps(undefined, theme.palette.grey[4]);
   return (
     <>
       <Box display="flex" flexDirection="column" alignItems="center" mt={6}>
@@ -34,7 +34,7 @@ const ChainUnlinkContent: React.FC<ChainUnlinkContentProps> = ({ msgs, account }
         <Typography color="textSecondary">{account.address}</Typography>
       </Box>
       <Divider />
-      {msgs.map((m, i) => (
+      {msgs.map(m => (
         <React.Fragment key={m.value.target}>
           <Box my={1}>
             <Typography>{t('disconnect')}</Typography>
@@ -46,7 +46,7 @@ const ChainUnlinkContent: React.FC<ChainUnlinkContentProps> = ({ msgs, account }
         </React.Fragment>
       ))}
     </>
-  )
-}
+  );
+};
 
-export default ChainUnlinkContent
+export default ChainUnlinkContent;

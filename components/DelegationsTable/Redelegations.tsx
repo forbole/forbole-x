@@ -6,33 +6,31 @@ import {
   TableBody,
   Box,
   Typography,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { format, differenceInCalendarDays } from 'date-fns'
-import ToIcon from '../../assets/images/icons/icon_arrow down_title.svg'
-import useStyles from './styles'
-import { formatTokenAmount, formatHeight } from '../../misc/utils'
-import useIsMobile from '../../misc/useIsMobile'
-import useIconProps from '../../misc/useIconProps'
-import ValidatorAvatar from '../ValidatorAvatar'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import { format, differenceInCalendarDays } from 'date-fns';
+import useStyles from './styles';
+import { formatTokenAmount } from '../../misc/utils';
+import useIsMobile from '../../misc/useIsMobile';
+import ValidatorAvatar from '../ValidatorAvatar';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
 interface RedelegationsProps {
-  redelegations: Redelegation[]
-  crypto: Cryptocurrency
+  redelegations: Redelegation[];
+  crypto: Cryptocurrency;
 }
 
 const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) => {
-  const classes = useStyles()
-  const { t, lang } = useTranslation('common')
-  const isMobile = useIsMobile()
-  const { hideAmount } = useGeneralContext()
+  const classes = useStyles();
+  const { t, lang } = useTranslation('common');
+  const isMobile = useIsMobile();
+  const { hideAmount } = useGeneralContext();
 
   return isMobile ? (
     <Table>
       <TableBody>
-        {redelegations.map((r) => {
+        {redelegations.map(r => {
           return (
             <TableRow key={r.height} className={classes.tableRow}>
               <TableCell className={classes.tableCell}>
@@ -64,7 +62,7 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
                 </Box>
               </TableCell>
             </TableRow>
-          )
+          );
         })}
       </TableBody>
     </Table>
@@ -80,7 +78,7 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
         </TableRow>
       </TableHead>
       <TableBody>
-        {redelegations.map((u) => {
+        {redelegations.map(u => {
           return (
             <TableRow key={u.height} className={classes.tableRow}>
               {/* <TableCell className={classes.tableCell}>
@@ -122,11 +120,11 @@ const Redelegations: React.FC<RedelegationsProps> = ({ redelegations, crypto }) 
                 </Box>
               </TableCell>
             </TableRow>
-          )
+          );
         })}
       </TableBody>
     </Table>
-  )
-}
+  );
+};
 
-export default Redelegations
+export default Redelegations;

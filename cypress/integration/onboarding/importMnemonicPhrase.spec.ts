@@ -5,71 +5,71 @@ describe('Create wallet by importing secret recovery phrase on first visit', () 
     id: '123',
     name: 'test wallet name',
     cryptos: ['DSM'],
-  }
+  };
   const testAccount = {
     walletId: '123',
     address: 'address',
     crypto: 'DSM',
     index: 0,
-  }
+  };
   const mnemonic =
-    'scan surprise tide guilt industry antenna legal bulb transfer tonight topple start file lumber shift museum humble hawk ivory horse embrace cheese spend raise'
+    'scan surprise tide guilt industry antenna legal bulb transfer tonight topple start file lumber shift museum humble hawk ivory horse embrace cheese spend raise';
   it('successfully loads and click Get Started', () => {
     cy.visit('http://localhost:3000', {
       onBeforeLoad(win: any) {
-        win.chrome = win.chrome || {}
+        win.chrome = win.chrome || {};
         win.chrome.runtime = {
           sendMessage(_id, msg, callback) {
             if (msg.event === 'ping') {
-              callback({ isFirstTimeUser: true })
+              callback({ isFirstTimeUser: true });
             } else if (msg.event === 'addWallet') {
-              callback({ wallet: testWallet, accounts: [testAccount] })
+              callback({ wallet: testWallet, accounts: [testAccount] });
             } else if (msg.event === 'verifyMnemonic') {
-              callback({ mnemonic })
+              callback({ mnemonic });
             } else if (msg.event === 'getWallets') {
-              callback({ wallets: [testWallet] })
+              callback({ wallets: [testWallet] });
             } else if (msg.event === 'getAccounts') {
-              callback({ accounts: [testAccount] })
+              callback({ accounts: [testAccount] });
             }
           },
-        }
+        };
       },
-    })
-    cy.contains('Get Started').should('be.visible')
-    cy.wait(1000)
-    cy.contains('Get Started').click()
-    cy.get('input').should('be.visible')
-  })
+    });
+    cy.contains('Get Started').should('be.visible');
+    cy.wait(1000);
+    cy.contains('Get Started').click();
+    cy.get('input').should('be.visible');
+  });
   it('sets a unlock password', () => {
-    cy.get('input').type('123123').should('have.value', '123123')
-    cy.contains('Next').click()
-    cy.contains('Confirm Password').should('be.visible')
-  })
+    cy.get('input').type('123123').should('have.value', '123123');
+    cy.contains('Next').click();
+    cy.contains('Confirm Password').should('be.visible');
+  });
   it('confirms the unlock password', () => {
-    cy.get('input').type('123123').should('have.value', '123123')
-    cy.get('button').contains('Confirm').click()
-  })
+    cy.get('input').type('123123').should('have.value', '123123');
+    cy.get('button').contains('Confirm').click();
+  });
   it('import secret recovery phrase', () => {
-    cy.contains('Import Wallet').click()
-    cy.contains('Import Secret Recovery Phrase').click()
-    cy.get('#mnemonic-0').type(mnemonic)
-    cy.contains('Next').click()
-  })
+    cy.contains('Import Wallet').click();
+    cy.contains('Import Secret Recovery Phrase').click();
+    cy.get('#mnemonic-0').type(mnemonic);
+    cy.contains('Next').click();
+  });
   it('sets preferences', () => {
-    cy.get('.MuiBox-root > span').should('have.class', 'MuiSwitch-root').click({ multiple: true })
-    cy.get('.MuiButton-outlined').contains('USD').dblclick()
-    cy.get('.MuiButton-outlined').contains('ENG').dblclick()
-    cy.get('button').contains('Start Now').click()
-  })
+    cy.get('.MuiBox-root > span').should('have.class', 'MuiSwitch-root').click({ multiple: true });
+    cy.get('.MuiButton-outlined').contains('USD').dblclick();
+    cy.get('.MuiButton-outlined').contains('ENG').dblclick();
+    cy.get('button').contains('Start Now').click();
+  });
   it('sets a secure security password', () => {
-    cy.get('input').type('123qweASD!@#').should('have.value', '123qweASD!@#')
-    cy.contains('Strong').should('be.visible')
-    cy.get('button').contains('Next').click()
-  })
+    cy.get('input').type('123qweASD!@#').should('have.value', '123qweASD!@#');
+    cy.contains('Strong').should('be.visible');
+    cy.get('button').contains('Next').click();
+  });
   it('sets wallet name and select cryptos', () => {
-    cy.get('input').type('test wallet name').should('have.value', testWallet.name)
-    cy.get('button').contains(testWallet.cryptos[0]).click()
-    cy.get('button').contains('Import').click()
-    cy.contains(testWallet.name).should('be.visible')
-  })
-})
+    cy.get('input').type('test wallet name').should('have.value', testWallet.name);
+    cy.get('button').contains(testWallet.cryptos[0]).click();
+    cy.get('button').contains('Import').click();
+    cy.contains(testWallet.name).should('be.visible');
+  });
+});

@@ -1,36 +1,35 @@
-import { Box, Button, DialogActions, DialogContent, Typography } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import get from 'lodash/get'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import { formatCrypto, formatCurrency, formatTokenAmount } from '../../misc/utils'
-import TokenAmountInput from '../TokenAmountInput'
-import useStyles from './styles'
+import { Box, Button, DialogActions, DialogContent, Typography } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import get from 'lodash/get';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import { formatCrypto, formatCurrency, formatTokenAmount } from '../../misc/utils';
+import TokenAmountInput from '../TokenAmountInput';
+import useStyles from './styles';
 
 interface SelectAmountProps {
-  onConfirm(amount: number, denom: string): void
-  account: Account
-  availableAmount: TokenAmount
+  onConfirm(amount: number, denom: string): void;
+  account: Account;
+  availableAmount: TokenAmount;
 }
 
 const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availableAmount }) => {
-  const { t, lang } = useTranslation('common')
-  const classes = useStyles()
-  const { currency, currencyRate, hideAmount } = useGeneralContext()
-  const [amount, setAmount] = React.useState('')
-  const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
+  const { t, lang } = useTranslation('common');
+  const classes = useStyles();
+  const { currency, currencyRate, hideAmount } = useGeneralContext();
+  const [amount, setAmount] = React.useState('');
+  const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0]);
 
-  const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount)
-  const ifError = get(availableAmount, `${denom}.amount`, 0) <= Number(amount)
+  const insufficientFund = get(availableAmount, `${denom}.amount`, 0) < Number(amount);
+  const ifError = get(availableAmount, `${denom}.amount`, 0) <= Number(amount);
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(Number(amount), denom)
-      }}
-    >
+      onSubmit={e => {
+        e.preventDefault();
+        onConfirm(Number(amount), denom);
+      }}>
       <DialogContent className={classes.dialogContent}>
         <Box mb={32}>
           <Typography className={classes.marginBottom}>
@@ -64,8 +63,7 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availab
           justifyContent="space-between"
           alignItems="center"
           mb={3}
-          mx={2}
-        >
+          mx={2}>
           <Box>
             <Typography variant="h5">
               {formatCrypto(Number(amount), { unit: denom, lang })}
@@ -82,14 +80,13 @@ const SelectAmount: React.FC<SelectAmountProps> = ({ account, onConfirm, availab
             color="primary"
             classes={{ root: classes.button }}
             disabled={!Number(amount) || insufficientFund}
-            type="submit"
-          >
+            type="submit">
             {t('next')}
           </Button>
         </Box>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default SelectAmount
+export default SelectAmount;

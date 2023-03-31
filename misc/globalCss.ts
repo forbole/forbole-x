@@ -1,5 +1,5 @@
-import { withStyles } from '@material-ui/core'
-import { CustomTheme } from './theme'
+import { withStyles } from '@material-ui/core';
+import { CustomTheme } from './theme';
 
 const GlobalCss = withStyles(
   (theme: CustomTheme) => ({
@@ -85,7 +85,7 @@ const GlobalCss = withStyles(
   {
     name: 'GlobalStyles',
     index: 2,
-  }
-)(() => null)
+  },
+)(() => null);
 
-export default GlobalCss
+export default GlobalCss;

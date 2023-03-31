@@ -1,32 +1,31 @@
-import { Button, Menu, MenuItem } from '@material-ui/core'
-import React from 'react'
-import Link from 'next/link'
-import useTranslation from 'next-translate/useTranslation'
-import { useRouter } from 'next/router'
-import useStyles from './styles'
-import LangIcon from '../../assets/images/icons/icon_language.svg'
-import useIconProps from '../../misc/useIconProps'
+import { Button, Menu, MenuItem } from '@material-ui/core';
+import React from 'react';
+import Link from 'next/link';
+import useTranslation from 'next-translate/useTranslation';
+import { useRouter } from 'next/router';
+import useStyles from './styles';
+import LangIcon from '../../assets/images/icons/icon_language.svg';
+import useIconProps from '../../misc/useIconProps';
 
 const LangMenuButton: React.FC = () => {
-  const { t, lang } = useTranslation('common')
-  const { locales, pathname, query } = useRouter()
-  const iconProps = useIconProps(3)
-  const classes = useStyles({})
-  const [anchor, setAnchor] = React.useState<Element>()
+  const { t, lang } = useTranslation('common');
+  const { locales, pathname, query } = useRouter();
+  const iconProps = useIconProps(3);
+  const classes = useStyles({});
+  const [anchor, setAnchor] = React.useState<Element>();
 
-  const onClose = React.useCallback(() => setAnchor(undefined), [setAnchor])
+  const onClose = React.useCallback(() => setAnchor(undefined), [setAnchor]);
 
   React.useEffect(() => {
-    onClose()
-  }, [lang])
+    onClose();
+  }, [lang]);
 
   return (
     <>
       <Button
-        onClick={(e) => setAnchor(e.currentTarget)}
+        onClick={e => setAnchor(e.currentTarget)}
         className={classes.navBarButton}
-        startIcon={<LangIcon {...iconProps} />}
-      >
+        startIcon={<LangIcon {...iconProps} />}>
         {t(lang)}
       </Button>
       <Menu
@@ -42,11 +41,10 @@ const LangMenuButton: React.FC = () => {
         }}
         keepMounted
         open={!!anchor}
-        onClose={onClose}
-      >
+        onClose={onClose}>
         {locales
-          .filter((l) => l !== lang)
-          .map((l) => (
+          .filter(l => l !== lang)
+          .map(l => (
             <div key={l}>
               <Link
                 href={{
@@ -54,8 +52,7 @@ const LangMenuButton: React.FC = () => {
                   query,
                 }}
                 locale={l}
-                passHref
-              >
+                passHref>
                 <MenuItem button component="a">
                   {t(l)}
                 </MenuItem>
@@ -64,7 +61,7 @@ const LangMenuButton: React.FC = () => {
           ))}
       </Menu>
     </>
-  )
-}
+  );
+};
 
-export default React.memo(LangMenuButton)
+export default React.memo(LangMenuButton);

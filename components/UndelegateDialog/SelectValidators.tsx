@@ -9,22 +9,22 @@ import {
   Grid,
   useTheme,
   CircularProgress,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import _ from 'lodash'
-import useStyles from './styles'
-import { formatCrypto, formatCurrency, formatTokenAmount } from '../../misc/utils'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import ValidatorAvatar from '../ValidatorAvatar'
-import MemoInput from '../MemoInput'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import _ from 'lodash';
+import useStyles from './styles';
+import { formatCrypto, formatCurrency, formatTokenAmount } from '../../misc/utils';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import ValidatorAvatar from '../ValidatorAvatar';
+import MemoInput from '../MemoInput';
 
 interface SelectValidatorsProps {
-  onConfirm(amount: number, denom: string, memo: string): void
-  crypto: Cryptocurrency
-  validator: Validator
-  availableAmount: TokenAmount
-  loading: boolean
+  onConfirm(amount: number, denom: string, memo: string): void;
+  crypto: Cryptocurrency;
+  validator: Validator;
+  availableAmount: TokenAmount;
+  loading: boolean;
 }
 
 const SelectValidators: React.FC<SelectValidatorsProps> = ({
@@ -35,29 +35,28 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
   loading,
 }) => {
   const delegatedAmount = React.useMemo(() => {
-    return Object.values(availableAmount)[0]
-  }, [availableAmount])
+    return Object.values(availableAmount)[0];
+  }, [availableAmount]);
 
-  const totalAmount = _.get(delegatedAmount, 'amount', 1)
-  const price = _.get(delegatedAmount, 'price')
-  const { t, lang } = useTranslation('common')
-  const classes = useStyles()
-  const { currency, currencyRate, hideAmount } = useGeneralContext()
-  const theme = useTheme()
-  const [amount, setAmount] = React.useState(hideAmount ? '' : totalAmount.toString())
-  const [percentage, setPercentage] = React.useState('100')
-  const [denom, setDenom] = React.useState(Object.keys(availableAmount)[0])
-  const [memo, setMemo] = React.useState('')
-  const [consent, setConsent] = React.useState(true)
+  const totalAmount = _.get(delegatedAmount, 'amount', 1);
+  const price = _.get(delegatedAmount, 'price');
+  const { t, lang } = useTranslation('common');
+  const classes = useStyles();
+  const { currency, currencyRate, hideAmount } = useGeneralContext();
+  const theme = useTheme();
+  const [amount, setAmount] = React.useState(hideAmount ? '' : totalAmount.toString());
+  const [percentage, setPercentage] = React.useState('100');
+  const [denom] = React.useState(Object.keys(availableAmount)[0]);
+  const [memo, setMemo] = React.useState('');
+  const [consent, setConsent] = React.useState(true);
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(Number(amount), denom, memo)
-      }}
-    >
+      onSubmit={e => {
+        e.preventDefault();
+        onConfirm(Number(amount), denom, memo);
+      }}>
       <DialogContent className={classes.dialogContent}>
         <Box ml={4} minHeight={360} maxHeight={600}>
           <Typography className={classes.marginBottom}>
@@ -110,9 +109,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                     ),
                   }}
                   value={amount}
-                  onChange={(e) => {
-                    setAmount(e.target.value)
-                    setPercentage(((100 * Number(e.target.value)) / totalAmount).toFixed(2))
+                  onChange={e => {
+                    setAmount(e.target.value);
+                    setPercentage(((100 * Number(e.target.value)) / totalAmount).toFixed(2));
                   }}
                 />
                 <TextField
@@ -129,9 +128,9 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
                     className: classes.numberInput,
                   }}
                   value={percentage}
-                  onChange={(e) => {
-                    setPercentage(e.target.value)
-                    setAmount(((totalAmount * Number(e.target.value)) / 100).toFixed(2))
+                  onChange={e => {
+                    setPercentage(e.target.value);
+                    setAmount(((totalAmount * Number(e.target.value)) / 100).toFixed(2));
                   }}
                 />
               </Box>
@@ -146,8 +145,7 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
           justifyContent="space-between"
           alignItems="center"
           mb={3}
-          mx={2}
-        >
+          mx={2}>
           <Box>
             <Typography variant="h5">
               {formatCrypto(Number(amount), { unit: denom, lang })}
@@ -161,14 +159,13 @@ const SelectValidators: React.FC<SelectValidatorsProps> = ({
             className={classes.button}
             color="primary"
             disabled={loading || !Number(amount) || Number(amount) > totalAmount || !consent}
-            type="submit"
-          >
+            type="submit">
             {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
           </Button>
         </Box>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default SelectValidators
+export default SelectValidators;

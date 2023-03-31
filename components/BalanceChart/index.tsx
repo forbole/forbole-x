@@ -1,7 +1,7 @@
-import { Box, Button, CircularProgress, Typography, useTheme } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { addDays, addHours, format, addYears } from 'date-fns'
+import { Box, Button, CircularProgress, Typography, useTheme } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import { addDays, addHours, format, addYears } from 'date-fns';
 import {
   ResponsiveContainer,
   LineChart,
@@ -10,20 +10,20 @@ import {
   YAxis,
   Tooltip,
   Line,
-} from 'recharts'
-import get from 'lodash/get'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import useStyles from './styles'
-import { formatCrypto, formatCurrency } from '../../misc/utils'
-import { CustomTheme } from '../../misc/theme'
+} from 'recharts';
+import get from 'lodash/get';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import useStyles from './styles';
+import { formatCrypto, formatCurrency } from '../../misc/utils';
+import { CustomTheme } from '../../misc/theme';
 
-const now = new Date()
+const now = new Date();
 
 interface DateRange {
-  title: string
-  format: string
-  timestamps: number[]
-  isDefault?: boolean
+  title: string;
+  format: string;
+  timestamps: number[];
+  isDefault?: boolean;
 }
 
 export const dateRanges: DateRange[] = [
@@ -48,16 +48,16 @@ export const dateRanges: DateRange[] = [
     format: 'd MMM',
     timestamps: new Array(10).fill(null).map((_a, i) => addYears(now, -1 * i).getTime()),
   },
-]
+];
 
 interface BalanceChartProps {
-  title: string
-  subtitle: string
-  data: any[]
-  crypto?: string
-  onDateRangeChange?(dateRange: DateRange): void
-  loading?: boolean
-  hideChart?: boolean
+  title: string;
+  subtitle: string;
+  data: any[];
+  crypto?: string;
+  onDateRangeChange?(dateRange: DateRange): void;
+  loading?: boolean;
+  hideChart?: boolean;
 }
 
 const BalanceChart: React.FC<BalanceChartProps> = ({
@@ -69,13 +69,11 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
   loading,
   hideChart,
 }) => {
-  const { t, lang } = useTranslation('common')
-  const { currency, currencyRate, hideAmount } = useGeneralContext()
-  const theme: CustomTheme = useTheme()
-  const [currentDateRange, setCurrentDateRange] = React.useState(
-    dateRanges.find((d) => d.isDefault)
-  )
-  const classes = useStyles(currentDateRange.title)
+  const { t, lang } = useTranslation('common');
+  const { currency, currencyRate, hideAmount } = useGeneralContext();
+  const theme: CustomTheme = useTheme();
+  const [currentDateRange, setCurrentDateRange] = React.useState(dateRanges.find(d => d.isDefault));
+  const classes = useStyles(currentDateRange.title);
 
   return (
     <>
@@ -88,7 +86,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
         </Box>
         {hideChart ? null : (
           <Box display="flex">
-            {dateRanges.map((d) => (
+            {dateRanges.map(d => (
               <Button
                 key={d.title}
                 className={classes.timeRangeButton}
@@ -109,12 +107,11 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
                       : theme.palette.dataChangeButton.unClicked?.border || 'inherit',
                 }}
                 onClick={() => {
-                  setCurrentDateRange(d)
+                  setCurrentDateRange(d);
                   if (onDateRangeChange) {
-                    onDateRangeChange(d)
+                    onDateRangeChange(d);
                   }
-                }}
-              >
+                }}>
                 {t(d.title)}
               </Button>
             ))}
@@ -128,7 +125,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
               <CartesianGrid stroke={theme.palette.grey[100]} />
               <XAxis
                 dataKey="timestamp"
-                tickFormatter={(v) => format(v, currentDateRange.format)}
+                tickFormatter={v => format(v, currentDateRange.format)}
                 type="number"
                 ticks={currentDateRange.timestamps}
                 domain={['dataMin', 'dataMax']}
@@ -140,7 +137,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
                 dataKey="balance"
                 axisLine={false}
                 tickLine={false}
-                tickFormatter={(v) =>
+                tickFormatter={v =>
                   formatCurrency(v * currencyRate, {
                     lang,
                     currency,
@@ -165,7 +162,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
                     : // @ts-ignore
                       formatCrypto(v, { unit: crypto, lang, hideAmount }),
                 ]}
-                labelFormatter={(v) => format(v, 'd MMM h:ma')}
+                labelFormatter={v => format(v, 'd MMM h:ma')}
                 contentStyle={{ backgroundColor: theme.palette.background.paper }}
               />
               <Line
@@ -184,7 +181,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
                     orientation="right"
                     axisLine={false}
                     tickLine={false}
-                    tickFormatter={(v) =>
+                    tickFormatter={v =>
                       formatCrypto(v, {
                         unit: crypto,
                         lang,
@@ -218,15 +215,14 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
               display="flex"
               justifyContent="center"
               alignItems="center"
-              bgcolor={theme.palette.translucent}
-            >
+              bgcolor={theme.palette.translucent}>
               <CircularProgress />
             </Box>
           ) : null}
         </Box>
       )}
     </>
-  )
-}
+  );
+};
 
-export default BalanceChart
+export default BalanceChart;

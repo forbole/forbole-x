@@ -1,23 +1,23 @@
-import React from 'react'
-import renderer from 'react-test-renderer'
-import { useWalletsContext } from '../../../contexts/WalletsContext'
-import DeleteWalletDialog from '../../../components/EditWalletButton/DeleteWallet'
+import React from 'react';
+import renderer from 'react-test-renderer';
+import { useWalletsContext } from '../../../contexts/WalletsContext';
+import DeleteWalletDialog from '../../../components/EditWalletButton/DeleteWallet';
 
-const onClose = jest.fn()
-const deleteWallet = jest.fn()
-jest.spyOn(console, 'log')
-jest.mock('@material-ui/core/Dialog', () => (props) => <div id="dialog" {...props} />)
+const onClose = jest.fn();
+const deleteWallet = jest.fn();
+jest.spyOn(console, 'log');
+jest.mock('@material-ui/core/Dialog', () => props => <div id="dialog" {...props} />);
 jest.mock('../../../contexts/WalletsContext', () => ({
   useWalletsContext: jest.fn(),
-}))
-;(useWalletsContext as jest.Mock).mockReturnValue({ deleteWallet })
+}));
+(useWalletsContext as jest.Mock).mockReturnValue({ deleteWallet });
 
 describe('component: DeleteWalletDialog', () => {
   it('renders opened state correctly', () => {
-    const component = renderer.create(<DeleteWalletDialog walletId="123" onClose={onClose} />)
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
+    const component = renderer.create(<DeleteWalletDialog walletId="123" onClose={onClose} />);
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
   // it('renders closed state correctly', () => {
   //   const component = renderer.create(
   //     <DeleteWalletDialog walletId="123" open={false} onClose={onClose} />
@@ -57,8 +57,8 @@ describe('component: DeleteWalletDialog', () => {
   //   expect(deleteWallet).toBeCalledWith('123')
   //   expect(console.log).toBeCalledWith(new Error('error'))
   // })
-})
+});
 
 afterEach(() => {
-  jest.clearAllMocks()
-})
+  jest.clearAllMocks();
+});

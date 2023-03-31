@@ -1,13 +1,13 @@
-import { Box, Typography } from '@material-ui/core'
-import React from 'react'
-import { useGetStyles } from './styles'
+import { Box, Typography } from '@material-ui/core';
+import React from 'react';
+import useGetStyles from './styles';
 
 interface InActiveProps {
-  status: string
+  status: string;
 }
 
 const InActive: React.FC<InActiveProps> = ({ status }) => {
-  const { classes } = useGetStyles(status)
+  const { classes } = useGetStyles(status);
 
   return (
     <Box className={classes.inActiveStatus}>
@@ -15,7 +15,7 @@ const InActive: React.FC<InActiveProps> = ({ status }) => {
         {status.charAt(0).toUpperCase() + status.slice(1)}
       </Typography>
     </Box>
-  )
-}
+  );
+};
 
-export default InActive
+export default InActive;
