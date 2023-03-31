@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const nextTranslate = require('next-translate')
+const nextTranslate = require('next-translate');
 
 module.exports = {
   ...nextTranslate({
@@ -7,10 +7,10 @@ module.exports = {
       config.module.rules.push({
         test: /\.svg$/,
         use: ['@svgr/webpack'],
-      })
+      });
 
-      return config
+      return config;
     },
   }),
   poweredByHeader: false,
-}
+};

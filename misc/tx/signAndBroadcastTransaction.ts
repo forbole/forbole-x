@@ -152,7 +152,10 @@ const signAndBroadcastCosmosTransaction = async (
       cryptocurrencies[crypto].rpcApiUrl,
       signer,
       {
+        // safe to ignore, tx still work
+        // @ts-ignore
         registry,
+        // @ts-ignore
         aminoTypes: new AminoTypes({ additions: aminoAdditions, prefix: signerOptions.prefix }),
       },
     );
