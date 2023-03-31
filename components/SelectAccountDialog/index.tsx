@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
   Dialog,
   IconButton,
@@ -8,19 +8,19 @@ import {
   RadioGroup,
   FormControl,
   Button,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import useStyles from './styles'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import useIconProps from '../../misc/useIconProps'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import AccountRow from './AccountRow'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import useStyles from './styles';
+import CloseIcon from '../../assets/images/icons/icon_cross.svg';
+import useIconProps from '../../misc/useIconProps';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import AccountRow from './AccountRow';
 
 interface SelectAccountDialogProps {
-  open: boolean
-  onClose(): void
-  onSubmit: (event: any, value: string) => void
-  setSelectedAddress: (address: string) => void
+  open: boolean;
+  onClose(): void;
+  onSubmit: (event: any, value: string) => void;
+  setSelectedAddress: (address: string) => void;
 }
 
 const SelectAccountDialog: React.FC<SelectAccountDialogProps> = ({
@@ -29,22 +29,22 @@ const SelectAccountDialog: React.FC<SelectAccountDialogProps> = ({
   onSubmit,
   setSelectedAddress,
 }) => {
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const { t } = useTranslation('common')
-  const { accounts } = useWalletsContext()
-  const [value, setValue] = useState('')
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const { t } = useTranslation('common');
+  const { accounts } = useWalletsContext();
+  const [value, setValue] = useState('');
 
-  const handleChange = (event) => {
-    setValue(event.target.value)
-  }
+  const handleChange = event => {
+    setValue(event.target.value);
+  };
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    setSelectedAddress(value)
-    onSubmit(event, value)
-    onClose()
-  }
+  const handleSubmit = event => {
+    event.preventDefault();
+    setSelectedAddress(value);
+    onSubmit(event, value);
+    onClose();
+  };
 
   return (
     <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose}>
@@ -58,7 +58,7 @@ const SelectAccountDialog: React.FC<SelectAccountDialogProps> = ({
           <form onSubmit={handleSubmit}>
             <FormControl fullWidth>
               <RadioGroup value={value} onChange={handleChange}>
-                {accounts.map((acc) => (
+                {accounts.map(acc => (
                   <AccountRow account={acc} key={acc.address} />
                 ))}
               </RadioGroup>
@@ -68,8 +68,7 @@ const SelectAccountDialog: React.FC<SelectAccountDialogProps> = ({
                 variant="contained"
                 type="submit"
                 fullWidth
-                disabled={!value}
-              >
+                disabled={!value}>
                 {t('next')}
               </Button>
             </FormControl>
@@ -77,7 +76,7 @@ const SelectAccountDialog: React.FC<SelectAccountDialogProps> = ({
         </DialogContent>
       </>
     </Dialog>
-  )
-}
+  );
+};
 
-export default SelectAccountDialog
+export default SelectAccountDialog;

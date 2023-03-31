@@ -8,7 +8,7 @@ export const getProfile = (crypto: string): string => `
       profile_pic
     }
   }
-`
+`;
 
 export const getProfiles = (crypto: string): string => `
   query Profiles($addresses: [String!]) @api(name: ${crypto}djuno) {
@@ -19,4 +19,4 @@ export const getProfiles = (crypto: string): string => `
       address
     }
   }
-`
+`;

@@ -12,74 +12,76 @@ import {
   CircularProgress,
   useTheme,
   DialogContent,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import keyBy from 'lodash/keyBy'
-import { Autocomplete } from '@material-ui/lab'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import { useWalletsContext } from '../../contexts/WalletsContext'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import keyBy from 'lodash/keyBy';
+import { Autocomplete } from '@material-ui/lab';
+import CloseIcon from '../../assets/images/icons/icon_cross.svg';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
+import { useWalletsContext } from '../../contexts/WalletsContext';
 import {
   getTokenAmountBalance,
   formatCurrency,
   formatTokenAmount,
   getEquivalentCoinToSend,
-} from '../../misc/utils'
-import useIsMobile from '../../misc/useIsMobile'
-import cryptocurrencies from '../../misc/cryptocurrencies'
-import { useAddressSendDialogHook } from './hooks'
-import TokenAmountInput from '../TokenAmountInput'
-import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
-import { useGeneralContext } from '../../contexts/GeneralContext'
-import useSendTransaction from '../../misc/tx/useSendTransaction'
+} from '../../misc/utils';
+import useIsMobile from '../../misc/useIsMobile';
+import cryptocurrencies from '../../misc/cryptocurrencies';
+import useAddressSendDialogHook from './hooks';
+import TokenAmountInput from '../TokenAmountInput';
+import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg';
+import { useGeneralContext } from '../../contexts/GeneralContext';
+import useSendTransaction from '../../misc/tx/useSendTransaction';
 
 export type FavAddress = {
-  address: string
-  crypto: string
-  moniker: string
-  note?: string
-  img?: string
-}
+  address: string;
+  crypto: string;
+  moniker: string;
+  note?: string;
+  img?: string;
+};
 
 interface AddressSendDialogProps {
-  address: FavAddress
-  open: boolean
-  onClose(): void
+  address: FavAddress;
+  open: boolean;
+  onClose(): void;
 }
 
 const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, address }) => {
-  const { t, lang } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const { currency, currencyRate, hideAmount } = useGeneralContext()
+  const { t, lang } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const { currency, currencyRate, hideAmount } = useGeneralContext();
 
-  const { accounts, password } = useWalletsContext()
-  const isMobile = useIsMobile()
-  const sendTransaction = useSendTransaction()
-  const [loading, setLoading] = React.useState(false)
-  const [memo, setMemo] = React.useState('')
-  const [amount, setAmount] = React.useState('')
-  const theme = useTheme()
-  const crypto = address ? cryptocurrencies[address.crypto] : Object.values(cryptocurrencies)[0]
+  const { accounts, password } = useWalletsContext();
+  const isMobile = useIsMobile();
+  const sendTransaction = useSendTransaction();
+  const [loading, setLoading] = React.useState(false);
+  const [memo, setMemo] = React.useState('');
+  const [amount, setAmount] = React.useState('');
+  const theme = useTheme();
+  const crypto = address ? cryptocurrencies[address.crypto] : Object.values(cryptocurrencies)[0];
 
-  const avaiableAccounts = (accounts || []).filter((a) => a.crypto === address.crypto)
-  const avaiableAccountsMap = keyBy(avaiableAccounts, 'address')
-  const [sender, setSender] = React.useState<Account>(avaiableAccounts[0])
+  const avaiableAccounts = (accounts || []).filter(a => a.crypto === address.crypto);
+  const avaiableAccountsMap = keyBy(avaiableAccounts, 'address');
+  const [sender, setSender] = React.useState<Account>(avaiableAccounts[0]);
 
-  const { getAvailableAmount } = useAddressSendDialogHook({ account: sender, crypto })
-  const { availableAmount, availableTokens } = getAvailableAmount()
+  const { availableAmount, availableTokens } = useAddressSendDialogHook({
+    account: sender,
+    crypto,
+  });
 
   const onConfirm = React.useCallback(
     async (r: { amount: { amount: number; denom: string }; address: string }) => {
       try {
-        setLoading(true)
+        setLoading(true);
         const coinsToSend = getEquivalentCoinToSend(
           r.amount,
           availableTokens.coins,
-          availableTokens.tokens_prices
-        )
+          availableTokens.tokens_prices,
+        );
         const msg: TransactionMsgSend = {
           typeUrl: '/cosmos.bank.v1beta1.MsgSend',
           value: {
@@ -87,35 +89,35 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
             toAddress: address.address,
             amount: [{ amount: coinsToSend.amount.toString(), denom: coinsToSend.denom }],
           },
-        }
+        };
 
         await sendTransaction(password, sender.address, {
           msgs: [msg],
           memo,
-        })
-        setLoading(false)
-        onClose()
+        });
+        setLoading(false);
+        onClose();
       } catch (err) {
-        setLoading(false)
+        setLoading(false);
       }
     },
-    [availableTokens, sendTransaction]
-  )
+    [availableTokens, sendTransaction],
+  );
 
   const insufficientTokens = React.useMemo(() => {
     if (Number(amount) > availableAmount?.[crypto.name]?.amount || Number(amount) <= 0) {
-      return true
+      return true;
     }
-    return false
-  }, [amount, availableAmount])
+    return false;
+  }, [amount, availableAmount]);
 
   React.useEffect(() => {
     if (open) {
-      setLoading(false)
-      setAmount('')
-      setSender(avaiableAccounts[0])
+      setLoading(false);
+      setAmount('');
+      setSender(avaiableAccounts[0]);
     }
-  }, [open])
+  }, [open]);
 
   return (
     <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose} fullScreen={isMobile}>
@@ -125,17 +127,16 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
       <DialogTitle>{t('send')}</DialogTitle>
       <form
         noValidate
-        onSubmit={(e) => {
-          e.preventDefault()
+        onSubmit={e => {
+          e.preventDefault();
           onConfirm({
             address: sender.address,
             amount: {
               amount: Number(amount),
               denom: crypto.name,
             },
-          })
-        }}
-      >
+          });
+        }}>
         <DialogContent>
           <Box mx={3} my={4}>
             <Box mb={2}>
@@ -148,18 +149,18 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
               <Typography gutterBottom>{t('sender address')}</Typography>
               <Autocomplete
                 options={Object.keys(avaiableAccountsMap)}
-                getOptionLabel={(option) =>
+                getOptionLabel={option =>
                   `${avaiableAccountsMap[option].name} ${avaiableAccountsMap[option].address}`
                 }
                 openOnFocus
                 fullWidth
                 filterOptions={(options: string[], { inputValue }: any) => {
-                  return options.filter((o) =>
-                    avaiableAccountsMap[o].name.toLowerCase().includes(inputValue.toLowerCase())
-                  )
+                  return options.filter(o =>
+                    avaiableAccountsMap[o].name.toLowerCase().includes(inputValue.toLowerCase()),
+                  );
                 }}
                 onChange={(_e, a: string) => setSender(avaiableAccountsMap[a])}
-                renderOption={(a) => (
+                renderOption={a => (
                   <Box display="flex" alignItems="center">
                     <Typography>{`${avaiableAccountsMap[a].name}  ${avaiableAccountsMap[a].address}`}</Typography>
                   </Box>
@@ -195,7 +196,7 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
                 value={amount}
                 placeholder="0"
                 denom={crypto.name}
-                onValueChange={(a) => setAmount(a)}
+                onValueChange={a => setAmount(a)}
                 onDenomChange={() => null}
                 availableAmount={availableAmount}
               />
@@ -212,7 +213,7 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
                   disableUnderline: true,
                 }}
                 value={memo}
-                onChange={(e) => setMemo(e.target.value)}
+                onChange={e => setMemo(e.target.value)}
               />
             </Box>
           </Box>
@@ -224,8 +225,7 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
             justifyContent="space-between"
             alignItems="center"
             mb={3}
-            mx={2}
-          >
+            mx={2}>
             <Box>
               <Typography variant="h5">
                 {formatTokenAmount(availableAmount, {
@@ -248,15 +248,14 @@ const AddressSendDialog: React.FC<AddressSendDialogProps> = ({ open, onClose, ad
               classes={{ root: classes.button }}
               color="primary"
               disabled={loading || insufficientTokens}
-              type="submit"
-            >
+              type="submit">
               {loading ? <CircularProgress size={theme.spacing(3.5)} /> : t('next')}
             </Button>
           </Box>
         </DialogActions>
       </form>
     </Dialog>
-  )
-}
+  );
+};
 
-export default AddressSendDialog
+export default AddressSendDialog;

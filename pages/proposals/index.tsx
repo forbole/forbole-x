@@ -1,25 +1,25 @@
-import React from 'react'
-import { Box, Button, Menu, MenuItem, Typography, Avatar, useTheme } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import { gql, useQuery } from '@apollo/client'
-import Link from 'next/link'
-import Layout from '../../components/Layout'
-import ProposalTable from '../../components/ProposalTable'
-import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
-import useIconProps from '../../misc/useIconProps'
-import { getProposals } from '../../graphql/queries/proposals'
-import { transformProposals } from '../../misc/utils'
-import cryptocurrencies from '../../misc/cryptocurrencies'
+import React from 'react';
+import { Box, Button, Menu, MenuItem, Typography, Avatar, useTheme } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import { gql, useQuery } from '@apollo/client';
+import Link from 'next/link';
+import Layout from '../../components/Layout';
+import ProposalTable from '../../components/ProposalTable';
+import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg';
+import useIconProps from '../../misc/useIconProps';
+import { getProposals } from '../../graphql/queries/proposals';
+import { transformProposals } from '../../misc/utils';
+import cryptocurrencies from '../../misc/cryptocurrencies';
 
 const Proposals: React.FC = () => {
-  const { t } = useTranslation('common')
-  const iconProps = useIconProps()
-  const theme = useTheme()
+  const { t } = useTranslation('common');
+  const iconProps = useIconProps();
+  const theme = useTheme();
 
-  const [accountMenuAnchor, setAccountMenuAnchor] = React.useState<Element>()
+  const [accountMenuAnchor, setAccountMenuAnchor] = React.useState<Element>();
 
-  const [activeCrypto, setActiveCrypto] = React.useState(Object.keys(cryptocurrencies)[0])
-  const crypto = cryptocurrencies[activeCrypto]
+  const [activeCrypto, setActiveCrypto] = React.useState(Object.keys(cryptocurrencies)[0]);
+  const crypto = cryptocurrencies[activeCrypto];
 
   const { data: proposalData } = useQuery(
     gql`
@@ -27,12 +27,12 @@ const Proposals: React.FC = () => {
     `,
     {
       fetchPolicy: 'no-cache',
-    }
-  )
+    },
+  );
 
   const proposalList = React.useMemo(() => {
-    return transformProposals(proposalData)
-  }, [proposalData])
+    return transformProposals(proposalData);
+  }, [proposalData]);
 
   return (
     <Layout passwordRequired activeItem="/proposals">
@@ -40,7 +40,7 @@ const Proposals: React.FC = () => {
         <Typography variant="h1">{t('proposal')}</Typography>
         <Box ml={2} px={2} py={0.5}>
           <Button
-            onClick={(e) => setAccountMenuAnchor(e.currentTarget)}
+            onClick={e => setAccountMenuAnchor(e.currentTarget)}
             size="small"
             endIcon={<DropDownIcon {...iconProps} />}
             style={{
@@ -49,8 +49,7 @@ const Proposals: React.FC = () => {
               padding: theme.spacing(1),
               paddingLeft: theme.spacing(2),
               paddingRight: theme.spacing(2),
-            }}
-          >
+            }}>
             <Box display="flex">
               <Avatar
                 src={crypto.image}
@@ -77,17 +76,15 @@ const Proposals: React.FC = () => {
             }}
             keepMounted
             open={!!accountMenuAnchor}
-            onClose={() => setAccountMenuAnchor(undefined)}
-          >
-            {Object.values(cryptocurrencies).map((a) => (
+            onClose={() => setAccountMenuAnchor(undefined)}>
+            {Object.values(cryptocurrencies).map(a => (
               <MenuItem
                 key={a.chainId}
                 button
                 onClick={() => {
-                  setActiveCrypto(a.name)
-                  setAccountMenuAnchor(undefined)
-                }}
-              >
+                  setActiveCrypto(a.name);
+                  setAccountMenuAnchor(undefined);
+                }}>
                 <Box px={2} display="flex">
                   <Avatar
                     src={a.image}
@@ -114,7 +111,7 @@ const Proposals: React.FC = () => {
       </Box>
       <ProposalTable crypto={crypto} proposals={proposalList} />
     </Layout>
-  )
-}
+  );
+};
 
-export default Proposals
+export default Proposals;

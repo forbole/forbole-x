@@ -10,41 +10,40 @@ import {
   TextField,
   Typography,
   useTheme,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import get from 'lodash/get'
-import keyBy from 'lodash/keyBy'
-import { Autocomplete } from '@material-ui/lab'
-import AddIcon from '../../assets/images/icons/icon_add.svg'
-import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import get from 'lodash/get';
+import keyBy from 'lodash/keyBy';
+import { Autocomplete } from '@material-ui/lab';
+import AddIcon from '../../assets/images/icons/icon_add.svg';
+import DropDownIcon from '../../assets/images/icons/icon_arrow_down_input_box.svg';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
 
 interface SelectChainProps {
-  onConfirm(params: { chainId: string; channel: string }): void
-  onAddChannelClick(): void
-  crypto: Cryptocurrency
+  onConfirm(params: { chainId: string; channel: string }): void;
+  onAddChannelClick(): void;
+  crypto: Cryptocurrency;
 }
 
 const SelectChain: React.FC<SelectChainProps> = ({ crypto, onConfirm, onAddChannelClick }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const theme = useTheme()
-  const [chainId, setChainId] = React.useState('')
-  const [channel, setChannel] = React.useState('')
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const theme = useTheme();
+  const [chainId, setChainId] = React.useState('');
+  const [channel, setChannel] = React.useState('');
 
-  const chainMap = keyBy(crypto.ibcChains, 'chainId')
+  const chainMap = keyBy(crypto.ibcChains, 'chainId');
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm({ chainId, channel })
-      }}
-    >
+      onSubmit={e => {
+        e.preventDefault();
+        onConfirm({ chainId, channel });
+      }}>
       <Box mt={-1} mb={-3}>
         <DialogContentText>{t('select ibc chain')}</DialogContentText>
       </Box>
@@ -55,28 +54,28 @@ const SelectChain: React.FC<SelectChainProps> = ({ crypto, onConfirm, onAddChann
             classes={{
               option: classes.listItem,
             }}
-            options={crypto.ibcChains.map((chain) => chain.chainId)}
-            getOptionLabel={(option) => get(chainMap, `${option}.name`, '') as string}
+            options={crypto.ibcChains.map(chain => chain.chainId)}
+            getOptionLabel={option => get(chainMap, `${option}.name`, '') as string}
             openOnFocus
             fullWidth
             filterOptions={(options: string[], { inputValue }: any) =>
               options.filter(
-                (o) =>
+                o =>
                   o === '' ||
                   `${get(chainMap, `${o}.name`, '')}${get(chainMap, `${o}.chainId`, '')}${get(
                     chainMap,
                     `${o}.channel`,
-                    ''
+                    '',
                   )}`
                     .toLowerCase()
-                    .includes(inputValue.toLowerCase())
+                    .includes(inputValue.toLowerCase()),
               )
             }
             onChange={(e, id) => {
-              setChainId(id)
-              setChannel(get(chainMap, `${id}.channel`, '') as string)
+              setChainId(id);
+              setChannel(get(chainMap, `${id}.channel`, '') as string);
             }}
-            renderOption={(o) => (
+            renderOption={o => (
               <Box display="flex" alignItems="center">
                 <Avatar
                   className={classes.largeAvatar}
@@ -99,14 +98,12 @@ const SelectChain: React.FC<SelectChainProps> = ({ crypto, onConfirm, onAddChann
                   alignItems="center"
                   justifyContent="space-between"
                   px={2}
-                  pb={1}
-                >
+                  pb={1}>
                   <Typography>{t('select chain')}</Typography>
                   <Button
                     color="primary"
                     startIcon={<AddIcon {...iconProps} fill={theme.palette.primary.main} />}
-                    onClick={() => onAddChannelClick()}
-                  >
+                    onClick={() => onAddChannelClick()}>
                     {t('add new ibc channel')}
                   </Button>
                 </Box>
@@ -154,13 +151,12 @@ const SelectChain: React.FC<SelectChainProps> = ({ crypto, onConfirm, onAddChann
           color="primary"
           classes={{ root: classes.fullWidthButton }}
           disabled={!chainId}
-          type="submit"
-        >
+          type="submit">
           {t('next')}
         </Button>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default SelectChain
+export default SelectChain;

@@ -1,41 +1,41 @@
-import React from 'react'
-import { Box, Card, Typography, Avatar, Divider, Link as MLink } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import Link from 'next/link'
-import { useGetStyles } from './styles'
-import Active from './Active'
-import InActive from './InActive'
-import VoteDialog from '../VoteDialog'
-import DepositDialog from '../DepositDialog'
-import Markdown from '../Markdown'
+import React from 'react';
+import { Box, Card, Typography, Avatar, Divider, Link as MLink } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import Link from 'next/link';
+import useGetStyles from './styles';
+import Active from './Active';
+import InActive from './InActive';
+import VoteDialog from '../VoteDialog';
+import DepositDialog from '../DepositDialog';
+import Markdown from '../Markdown';
 
 interface ProposalsTableProps {
-  proposals: Proposal[]
-  crypto: Cryptocurrency
+  proposals: Proposal[];
+  crypto: Cryptocurrency;
 }
 
 const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, crypto }) => {
-  const { classes } = useGetStyles()
-  const { t } = useTranslation('common')
+  const { classes } = useGetStyles();
+  const { t } = useTranslation('common');
 
-  const [voteDialogOpen, setVoteDialogOpen] = React.useState(false)
-  const [depositDialogOpen, setDepositDialogOpen] = React.useState(false)
-  const [selectedProposal, setSelectedProposal] = React.useState<Proposal>()
+  const [voteDialogOpen, setVoteDialogOpen] = React.useState(false);
+  const [depositDialogOpen, setDepositDialogOpen] = React.useState(false);
+  const [selectedProposal, setSelectedProposal] = React.useState<Proposal>();
   const onClick = (proposal: Proposal) => {
-    setSelectedProposal(proposal)
+    setSelectedProposal(proposal);
     if (proposal.tag === 'vote') {
-      setVoteDialogOpen(true)
+      setVoteDialogOpen(true);
     }
-    setSelectedProposal(proposal)
+    setSelectedProposal(proposal);
     if (proposal.tag === 'deposit') {
-      setDepositDialogOpen(true)
+      setDepositDialogOpen(true);
     }
-  }
+  };
 
   return (
     <>
       <Card>
-        {proposals.map((x) => {
+        {proposals.map(x => {
           return (
             <Link key={x.id} href={`/proposals/${crypto.name}/${x.id}`}>
               <Box className={classes.box}>
@@ -49,8 +49,7 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, crypto }) => 
                       <MLink
                         href={`${crypto.blockExplorerBaseUrl}/accounts/${x.proposer.address}`}
                         target="_blank"
-                        onClick={(e) => e.stopPropagation()}
-                      >
+                        onClick={e => e.stopPropagation()}>
                         <Box display="flex">
                           <Avatar
                             className={classes.validatorAvatar}
@@ -92,7 +91,7 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, crypto }) => 
                 {proposals.length > 1 && <Divider className={classes.divider} />}
               </Box>
             </Link>
-          )
+          );
         })}
       </Card>
       <VoteDialog
@@ -108,7 +107,7 @@ const ProposalTable: React.FC<ProposalsTableProps> = ({ proposals, crypto }) => 
         onClose={() => setDepositDialogOpen(false)}
       />
     </>
-  )
-}
+  );
+};
 
-export default ProposalTable
+export default ProposalTable;

@@ -1,31 +1,31 @@
-import get from 'lodash/get'
-import last from 'lodash/last'
-import cloneDeep from 'lodash/cloneDeep'
-import drop from 'lodash/drop'
-import keyBy from 'lodash/keyBy'
-import flatten from 'lodash/flatten'
-import { format, differenceInDays } from 'date-fns'
-import TransportWebHID from '@ledgerhq/hw-transport-webhid'
-import { EnglishMnemonic } from '@cosmjs/crypto'
-import defaultDenoms from './defaultDenoms'
-import connectableChains from './connectableChains'
+import get from 'lodash/get';
+import last from 'lodash/last';
+import cloneDeep from 'lodash/cloneDeep';
+import drop from 'lodash/drop';
+import keyBy from 'lodash/keyBy';
+import flatten from 'lodash/flatten';
+import { format, differenceInDays } from 'date-fns';
+import TransportWebHID from '@ledgerhq/hw-transport-webhid';
+import { EnglishMnemonic } from '@cosmjs/crypto';
+import defaultDenoms from './defaultDenoms';
+import connectableChains from './connectableChains';
 
 export const formatPercentage = (percent: number, lang: string): string =>
   new Intl.NumberFormat(lang, {
     style: 'percent',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(percent || 0)
+  }).format(percent || 0);
 
 export const formatCrypto = (
   amount: number,
   option: {
-    unit: string
-    lang: string
-    hideUnit?: boolean
-    compact?: boolean
-    hideAmount?: boolean
-  }
+    unit: string;
+    lang: string;
+    hideUnit?: boolean;
+    compact?: boolean;
+    hideAmount?: boolean;
+  },
 ): string =>
   `${
     option.hideAmount
@@ -35,17 +35,17 @@ export const formatCrypto = (
           maximumFractionDigits: option.compact ? 2 : 6,
           notation: option.compact ? 'compact' : undefined,
         }).format(amount || 0)
-  }${option.hideUnit ? '' : ` ${(option.unit || '').toUpperCase()}`}`
+  }${option.hideUnit ? '' : ` ${(option.unit || '').toUpperCase()}`}`;
 
 export const formatCurrency = (
   amount: number,
   option: {
-    currency: string
-    lang: string
-    hideUnit?: boolean
-    compact?: boolean
-    hideAmount?: boolean
-  }
+    currency: string;
+    lang: string;
+    hideUnit?: boolean;
+    compact?: boolean;
+    hideAmount?: boolean;
+  },
 ): string =>
   `${
     option.hideAmount
@@ -55,183 +55,183 @@ export const formatCurrency = (
           currency: option.currency,
           notation: option.compact ? 'compact' : undefined,
         }).format(amount || 0)
-  }${option.hideUnit ? '' : ` ${option.currency}`}`
+  }${option.hideUnit ? '' : ` ${option.currency}`}`;
 
 export const getTokenAmountFromDenoms = (
   coins: Array<{ denom: string; amount: string }>,
-  denoms: TokenPrice[]
+  denoms: TokenPrice[],
 ): TokenAmount => {
-  const result = {}
-  ;(coins || []).forEach((coin) => {
-    const denomsToUse = denoms.length ? denoms : defaultDenoms
-    denomsToUse.some((d) => {
+  const result = {};
+  (coins || []).forEach(coin => {
+    const denomsToUse = denoms.length ? denoms : defaultDenoms;
+    denomsToUse.some(d => {
       const unit = get(d, 'token_unit.token.token_units', []).find(
-        (t) => t && coin && t.denom === coin.denom
-      )
+        t => t && coin && t.denom === coin.denom,
+      );
       if (unit) {
-        const base = get(d, 'token_unit.token.token_units', []).find((t) => t.denom === d.unit_name)
-        const denom = base.denom.toUpperCase()
+        const base = get(d, 'token_unit.token.token_units', []).find(t => t.denom === d.unit_name);
+        const denom = base.denom.toUpperCase();
         if (result[denom]) {
           result[denom].amount += Number(
-            (Number(coin.amount) * 10 ** (unit.exponent - base.exponent)).toFixed(6)
-          )
+            (Number(coin.amount) * 10 ** (unit.exponent - base.exponent)).toFixed(6),
+          );
         } else {
           result[denom] = {
             amount: Number(
-              (Number(coin.amount) * 10 ** (unit.exponent - base.exponent)).toFixed(6)
+              (Number(coin.amount) * 10 ** (unit.exponent - base.exponent)).toFixed(6),
             ),
             price: d.price,
-          }
+          };
         }
-        return true
+        return true;
       }
-      return false
-    })
-  })
-  return result
-}
+      return false;
+    });
+  });
+  return result;
+};
 
 export const formatTokenAmount = (
   tokenAmount: TokenAmount,
-  option: { defaultUnit: string; lang: string; delimiter?: string; hideAmount?: boolean }
+  option: { defaultUnit: string; lang: string; delimiter?: string; hideAmount?: boolean },
 ): string =>
   tokenAmount && Object.keys(tokenAmount).length
     ? Object.keys(tokenAmount)
-        .map((ta) =>
+        .map(ta =>
           formatCrypto(tokenAmount[ta].amount, {
             unit: ta,
             lang: option.lang,
             hideAmount: option.hideAmount,
-          })
+          }),
         )
         .join(option.delimiter || '\n')
     : formatCrypto(0, {
         unit: option.defaultUnit,
         lang: option.lang,
         hideAmount: option.hideAmount,
-      })
+      });
 
 export const sumTokenAmounts = (tokenAmounts: TokenAmount[]): TokenAmount => {
-  const amount: TokenAmount = {}
-  tokenAmounts.forEach((ba) => {
-    Object.keys(ba).forEach((t) => {
+  const amount: TokenAmount = {};
+  tokenAmounts.forEach(ba => {
+    Object.keys(ba).forEach(t => {
       if (!amount[t]) {
-        amount[t] = { amount: 0, price: 0 }
+        amount[t] = { amount: 0, price: 0 };
       }
-      amount[t].amount = Number(((amount[t].amount || 0) + ba[t].amount).toFixed(6))
-      amount[t].price = ba[t].price
-    })
-  })
-  return amount
-}
+      amount[t].amount = Number(((amount[t].amount || 0) + ba[t].amount).toFixed(6));
+      amount[t].price = ba[t].price;
+    });
+  });
+  return amount;
+};
 
 export const getTotalTokenAmount = (
-  accountBalance?: AccountBalance
+  accountBalance?: AccountBalance,
 ): { amount: TokenAmount; timestamp: number } => {
   if (!accountBalance) {
     return {
       amount: {},
       timestamp: 0,
-    }
+    };
   }
-  const { balance, timestamp } = accountBalance
-  const amount = sumTokenAmounts(Object.values(balance))
+  const { balance, timestamp } = accountBalance;
+  const amount = sumTokenAmounts(Object.values(balance));
   return {
     amount,
     timestamp,
-  }
-}
+  };
+};
 
 export const getTokenAmountBalance = (tokenAmount: TokenAmount, crypto?: string): number =>
   Object.keys(tokenAmount)
-    .filter((k) => !crypto || k === crypto)
-    .map((k) => tokenAmount[k].amount * tokenAmount[k].price)
-    .reduce((x, y) => x + y, 0)
+    .filter(k => !crypto || k === crypto)
+    .map(k => tokenAmount[k].amount * tokenAmount[k].price)
+    .reduce((x, y) => x + y, 0);
 
 export const getTotalBalance = (
   accountBalance?: AccountBalance,
-  crypto?: string
+  crypto?: string,
 ): { balance: number; timestamp: number } => {
   if (!accountBalance) {
     return {
       balance: 0,
       timestamp: 0,
-    }
+    };
   }
-  const { balance, timestamp } = accountBalance
+  const { balance, timestamp } = accountBalance;
   return {
     balance: Object.values(balance)
-      .map((b) => getTokenAmountBalance(b, crypto))
+      .map(b => getTokenAmountBalance(b, crypto))
       .reduce((x, y) => x + y, 0),
     timestamp,
-  }
-}
+  };
+};
 
 export const getWalletsBalancesFromAccountsBalances = (
   wallets: Wallet[],
-  accounts: AccountWithBalance[]
+  accounts: AccountWithBalance[],
 ): WalletWithBalance[] =>
-  wallets.map((w) => {
+  wallets.map(w => {
     const accBalances = accounts
-      .filter((a) => a.walletId === w.id)
-      .map((a) => a.balances.map((b) => getTotalBalance(b)))
-    let balances = accBalances[0] || []
-    drop(accBalances).forEach((ab) => {
+      .filter(a => a.walletId === w.id)
+      .map(a => a.balances.map(b => getTotalBalance(b)));
+    let balances = accBalances[0] || [];
+    drop(accBalances).forEach(ab => {
       balances = balances.map((b, i) => ({
         balance: b.balance + ab[i].balance,
         timestamp: b.timestamp,
-      }))
-    })
+      }));
+    });
     return {
       ...w,
       balances: balances.sort((a, b) => a.timestamp - b.timestamp),
-    }
-  })
+    };
+  });
 
 export const transformGqlAcountBalance = (data: any, timestamp: number): AccountBalance => {
-  const denoms = get(data, 'account[0].available[0].tokens_prices', [])
+  const denoms = get(data, 'account[0].available[0].tokens_prices', []);
   const balance = {
     available: getTokenAmountFromDenoms(get(data, 'account[0].available[0].coins', []), denoms),
     delegated: getTokenAmountFromDenoms(
-      get(data, 'account[0].delegated', []).map((d) => d.amount),
-      denoms
+      get(data, 'account[0].delegated', []).map(d => d.amount),
+      denoms,
     ),
     unbonding: getTokenAmountFromDenoms(
-      get(data, 'account[0].unbonding', []).map((d) => d.amount),
-      denoms
+      get(data, 'account[0].unbonding', []).map(d => d.amount),
+      denoms,
     ),
     rewards: getTokenAmountFromDenoms(
-      get(data, 'account[0].rewards', []).map((d) => get(d, 'amount[0]')),
-      denoms
+      get(data, 'account[0].rewards', []).map(d => get(d, 'amount[0]')),
+      denoms,
     ),
     commissions: getTokenAmountFromDenoms(
-      flatten(get(data, 'account[0].validator[0].validator.commissions', []).map((d) => d.amount)),
-      denoms
+      flatten(get(data, 'account[0].validator[0].validator.commissions', []).map(d => d.amount)),
+      denoms,
     ),
-  }
+  };
   return {
     balance,
     timestamp,
     availableTokens: get(data, 'account[0].available[0]', { coins: [], tokens_prices: [] }),
-  }
-}
+  };
+};
 
-const statuses = ['unknown', 'unbonded', 'unbonded', 'active']
+const statuses = ['unknown', 'unbonded', 'unbonded', 'active'];
 
 export const getValidatorStatus = (status: number, jailed: boolean): string => {
   if (jailed) {
-    return 'jailed'
+    return 'jailed';
   }
-  return statuses[status]
-}
+  return statuses[status];
+};
 
 export const transformValidators = (data: any, profilesData?: any): Validator[] => {
   if (!data) {
-    return []
+    return [];
   }
-  const profiles = profilesData ? keyBy(profilesData.profile, 'address') : {}
+  const profiles = profilesData ? keyBy(profilesData.profile, 'address') : {};
   const validators = data.validator
-    .map((validator) => ({
+    .map(validator => ({
       address: get(validator, 'info.operator_address', ''),
       image:
         get(profiles, `${get(validator, 'info.self_delegate_address', '')}.profile_pic`) ||
@@ -248,88 +248,88 @@ export const transformValidators = (data: any, profilesData?: any): Validator[] 
         10 ** 6, // TODO: use tokens_prices to handle denoms
       status: getValidatorStatus(
         get(validator, 'status[0].status', 0),
-        get(validator, 'status[0].jailed', false)
+        get(validator, 'status[0].jailed', false),
       ),
       isActive: get(validator, 'status[0].status', 0) === statuses.indexOf('active'),
       missedBlockCounter: get(
         validator,
         ['validator_signing_infos', 0, 'missed_blocks_counter'],
-        0
+        0,
       ),
     }))
     .sort((a, b) => (a.name > b.name ? 1 : -1))
     .map((validator, i) => ({
       ...validator,
       order: i + 1,
-    }))
-  return validators
-}
+    }));
+  return validators;
+};
 
 export const transformValidatorsWithTokenAmount = (validators: Validator[], balanceData: any) => {
-  const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
-  const delegatedByValidator = {}
-  get(balanceData, 'account[0].delegated', []).forEach((d) => {
+  const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', []);
+  const delegatedByValidator = {};
+  get(balanceData, 'account[0].delegated', []).forEach(d => {
     if (Number(get(d, 'amount.amount', '0')) > 0) {
       delegatedByValidator[get(d, 'validator.validator_info.operator_address', '')] =
-        getTokenAmountFromDenoms([d.amount], tokensPrices)
+        getTokenAmountFromDenoms([d.amount], tokensPrices);
     }
-  })
-  const rewardsByValidator = {}
-  get(balanceData, 'account[0].rewards', []).forEach((d) => {
-    const coins = d.amount.filter((a) => Number(a.amount) > 0)
+  });
+  const rewardsByValidator = {};
+  get(balanceData, 'account[0].rewards', []).forEach(d => {
+    const coins = d.amount.filter(a => Number(a.amount) > 0);
     if (coins.length > 0) {
       rewardsByValidator[get(d, 'validator.validator_info.operator_address', '')] =
-        getTokenAmountFromDenoms(coins, tokensPrices)
+        getTokenAmountFromDenoms(coins, tokensPrices);
     }
-  })
-  const unbondingByValidator = {}
-  get(balanceData, 'account[0].unbonding', []).forEach((d) => {
+  });
+  const unbondingByValidator = {};
+  get(balanceData, 'account[0].unbonding', []).forEach(d => {
     if (new Date(`${d.completion_timestamp}Z`).getTime() > Date.now()) {
       unbondingByValidator[get(d, 'validator.validator_info.operator_address', '')] =
-        getTokenAmountFromDenoms([d.amount], tokensPrices)
+        getTokenAmountFromDenoms([d.amount], tokensPrices);
     }
-  })
-  const commissionsByValidator = {}
-  get(balanceData, 'account[0].validator', []).forEach((v) => {
-    get(v, 'validator.commissions', []).forEach((d) => {
+  });
+  const commissionsByValidator = {};
+  get(balanceData, 'account[0].validator', []).forEach(v => {
+    get(v, 'validator.commissions', []).forEach(d => {
       commissionsByValidator[get(v, 'operator_address', '')] = getTokenAmountFromDenoms(
         d.amount,
-        tokensPrices
-      )
-    })
-  })
-  return validators.map((v) => ({
+        tokensPrices,
+      );
+    });
+  });
+  return validators.map(v => ({
     ...v,
     delegated: delegatedByValidator[v.address],
     rewards: rewardsByValidator[v.address],
     unbonding: unbondingByValidator[v.address],
     commissionAmount: commissionsByValidator[v.address],
-  }))
-}
+  }));
+};
 
 export const transformUnbonding = (validatorsData: Validator[], balanceData: any): Unbonding[] => {
-  const validators = keyBy(validatorsData, 'address')
-  const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
+  const validators = keyBy(validatorsData, 'address');
+  const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', []);
   return get(balanceData, 'account[0].unbonding', [])
-    .map((u) => ({
+    .map(u => ({
       validator: validators[get(u, 'validator.validator_info.operator_address', '')],
       amount: getTokenAmountFromDenoms([u.amount], tokensPrices),
       height: Number(u.height),
       completionDate: new Date(`${u.completion_timestamp}Z`),
     }))
-    .filter((r) => r.completionDate.getTime() > Date.now())
-    .sort((a, b) => b.height - a.height)
-}
+    .filter(r => r.completionDate.getTime() > Date.now())
+    .sort((a, b) => b.height - a.height);
+};
 
 export const transformRedelegations = (data: any, balanceData: any): Redelegation[] => {
-  const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
+  const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', []);
   return get(data, 'redelegations', [])
-    .map((u) => ({
+    .map(u => ({
       fromValidator: {
         name: get(
           u,
           'from_validator.description[0].moniker',
-          get(u, 'from_validator.info.operator_address', '')
+          get(u, 'from_validator.info.operator_address', ''),
         ),
         address: get(u, 'from_validator.info.operator_address', ''),
         image: get(u, 'from_validator.description[0].avatar_url', ''),
@@ -338,7 +338,7 @@ export const transformRedelegations = (data: any, balanceData: any): Redelegatio
         name: get(
           u,
           'to_validator.description[0].moniker',
-          get(u, 'to_validator.info.operator_address', '')
+          get(u, 'to_validator.info.operator_address', ''),
         ),
         address: get(u, 'to_validator.info.operator_address', ''),
         image: get(u, 'to_validator.description[0].avatar_url', ''),
@@ -347,18 +347,18 @@ export const transformRedelegations = (data: any, balanceData: any): Redelegatio
       height: Number(u.height),
       completionDate: new Date(`${u.completion_timestamp}Z`),
     }))
-    .filter((r) => r.completionDate.getTime() > Date.now())
-    .sort((a, b) => b.height - a.height)
-}
+    .filter(r => r.completionDate.getTime() > Date.now())
+    .sort((a, b) => b.height - a.height);
+};
 
 export const transformTransactions = (
   data: any,
   validatorsMap: { [address: string]: Validator },
-  prices: TokenPrice[]
+  prices: TokenPrice[],
 ): Activity[] => {
-  const tokensPrices = prices.length ? prices : defaultDenoms
+  const tokensPrices = prices.length ? prices : defaultDenoms;
   return get(data, 'messages_by_address', [])
-    .map((t) => {
+    .map(t => {
       if (t.type.includes('MsgSend')) {
         return {
           ref: `#${get(t, 'transaction_hash', '')}`,
@@ -366,7 +366,7 @@ export const transformTransactions = (
           tag: 'send',
           date: `${format(
             new Date(get(t, 'transaction.block.timestamp')),
-            'dd MMM yyyy HH:mm'
+            'dd MMM yyyy HH:mm',
           )} UTC`,
           detail: {
             fromAddress: get(t, 'value.from_address', ''),
@@ -374,7 +374,7 @@ export const transformTransactions = (
           },
           amount: getTokenAmountFromDenoms(get(t, 'value.amount', []), tokensPrices),
           success: get(t, 'transaction.success', false),
-        }
+        };
       }
       if (t.type.includes('MsgMultiSend')) {
         return {
@@ -383,21 +383,21 @@ export const transformTransactions = (
           tag: 'multisend',
           date: `${format(
             new Date(get(t, 'transaction.block.timestamp')),
-            'dd MMM yyyy HH:mm'
+            'dd MMM yyyy HH:mm',
           )} UTC`,
           detail: {
-            inputs: get(t, 'value.inputs', []).map((input) => ({
+            inputs: get(t, 'value.inputs', []).map(input => ({
               ...input,
               tokenAmount: getTokenAmountFromDenoms(input.coins, tokensPrices),
             })),
-            outputs: get(t, 'value.outputs', []).map((output) => ({
+            outputs: get(t, 'value.outputs', []).map(output => ({
               ...output,
               tokenAmount: getTokenAmountFromDenoms(output.coins, tokensPrices),
             })),
           },
           amount: getTokenAmountFromDenoms(get(t, 'value.amount', []), tokensPrices),
           success: get(t, 'transaction.success', false),
-        }
+        };
       }
       if (t.type.includes('MsgDelegate')) {
         return {
@@ -406,14 +406,14 @@ export const transformTransactions = (
           tag: 'delegate',
           date: `${format(
             new Date(get(t, 'transaction.block.timestamp')),
-            'dd MMM yyyy HH:mm'
+            'dd MMM yyyy HH:mm',
           )} UTC`,
           detail: {
             validator: get(validatorsMap, `${get(t, 'value.validator_address', '')}`, {}),
           },
           amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
           success: get(t, 'transaction.success', false),
-        }
+        };
       }
       if (t.type.includes('MsgBeginRedelegate')) {
         return {
@@ -422,7 +422,7 @@ export const transformTransactions = (
           tag: 'redelegate',
           date: `${format(
             new Date(get(t, 'transaction.block.timestamp')),
-            'dd MMM yyyy HH:mm'
+            'dd MMM yyyy HH:mm',
           )} UTC`,
           detail: {
             srcValidator: get(validatorsMap, `${get(t, 'value.validator_src_address', '')}`, {}),
@@ -430,7 +430,7 @@ export const transformTransactions = (
           },
           amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
           success: get(t, 'transaction.success', false),
-        }
+        };
       }
       if (t.type.includes('MsgUndelegate')) {
         return {
@@ -439,14 +439,14 @@ export const transformTransactions = (
           tag: 'undelegate',
           date: `${format(
             new Date(get(t, 'transaction.block.timestamp')),
-            'dd MMM yyyy HH:mm'
+            'dd MMM yyyy HH:mm',
           )} UTC`,
           detail: {
             validator: get(validatorsMap, `${get(t, 'value.validator_address', '')}`, {}),
           },
           amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
           success: get(t, 'transaction.success', false),
-        }
+        };
       }
       if (t.type.includes('MsgWithdrawDelegatorReward')) {
         return {
@@ -455,14 +455,14 @@ export const transformTransactions = (
           tag: 'withdrawReward',
           date: `${format(
             new Date(get(t, 'transaction.block.timestamp')),
-            'dd MMM yyyy HH:mm'
+            'dd MMM yyyy HH:mm',
           )} UTC`,
           detail: {
             validator: get(validatorsMap, `${get(t, 'value.validator_address', '')}`, {}),
           },
           amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
           success: get(t, 'transaction.success', false),
-        }
+        };
       }
       if (t.type.includes('MsgDeposit')) {
         return {
@@ -471,14 +471,14 @@ export const transformTransactions = (
           tag: 'deposit',
           date: `${format(
             new Date(get(t, 'transaction.block.timestamp')),
-            'dd MMM yyyy HH:mm'
+            'dd MMM yyyy HH:mm',
           )} UTC`,
           detail: {
             proposalId: get(t, 'value.proposal_id', ''),
           },
           amount: getTokenAmountFromDenoms(get(t, 'value.amount', []), tokensPrices),
           success: get(t, 'transaction.success', false),
-        }
+        };
       }
       if (t.type.includes('MsgVote')) {
         return {
@@ -487,7 +487,7 @@ export const transformTransactions = (
           tag: 'vote',
           date: `${format(
             new Date(get(t, 'transaction.block.timestamp')),
-            'dd MMM yyyy HH:mm'
+            'dd MMM yyyy HH:mm',
           )} UTC`,
           detail: {
             proposalId: get(t, 'value.proposal_id', ''),
@@ -495,7 +495,7 @@ export const transformTransactions = (
           },
           amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
           success: get(t, 'transaction.success', false),
-        }
+        };
       }
       if (t.type.includes('MsgSubmitProposal')) {
         return {
@@ -504,14 +504,14 @@ export const transformTransactions = (
           tag: 'submitProposal',
           date: `${format(
             new Date(get(t, 'transaction.block.timestamp')),
-            'dd MMM yyyy HH:mm'
+            'dd MMM yyyy HH:mm',
           )} UTC`,
           detail: {
             proposalTitle: get(t, 'value.content.title', ''),
           },
           amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
           success: get(t, 'transaction.success', false),
-        }
+        };
       }
       if (t.type.includes('MsgSetWithdrawAddress')) {
         return {
@@ -520,7 +520,7 @@ export const transformTransactions = (
           tag: 'setRewardAddress',
           date: `${format(
             new Date(get(t, 'transaction.block.timestamp')),
-            'dd MMM yyyy HH:mm'
+            'dd MMM yyyy HH:mm',
           )} UTC`,
           detail: {
             delegatorAddress: get(t, 'value.delegator_address', ''),
@@ -528,47 +528,47 @@ export const transformTransactions = (
           },
           amount: getTokenAmountFromDenoms([get(t, 'value.amount', {})], tokensPrices),
           success: get(t, 'transaction.success', false),
-        }
+        };
       }
-      return null
+      return null;
     })
-    .filter((a) => !!a)
-}
+    .filter(a => !!a);
+};
 
 export const getEquivalentCoinToSend = (
   amount: { amount: number; denom: string },
   availableCoins: Array<{ amount: string; denom: string }>,
-  tokensPrices: TokenPrice[]
+  tokensPrices: TokenPrice[],
 ): { amount: number; denom: string } => {
   const tokenPrice = (tokensPrices.length ? tokensPrices : defaultDenoms).find(
-    (tp) => tp.unit_name.toLowerCase() === amount.denom.toLowerCase()
-  )
+    tp => tp.unit_name.toLowerCase() === amount.denom.toLowerCase(),
+  );
   if (!tokenPrice) {
-    return { amount: 0, denom: '' }
+    return { amount: 0, denom: '' };
   }
   const coinDenom: { denom: string; exponent: number } = get(
     tokenPrice,
     'token_unit.token.token_units',
-    []
-  ).find((unit) => !!availableCoins.find((c) => c.denom.toLowerCase() === unit.denom.toLowerCase()))
+    [],
+  ).find(unit => !!availableCoins.find(c => c.denom.toLowerCase() === unit.denom.toLowerCase()));
   return {
     amount: Math.round(
-      amount.amount * 10 ** (get(tokenPrice, 'token_unit.exponent', 0) - coinDenom.exponent)
+      amount.amount * 10 ** (get(tokenPrice, 'token_unit.exponent', 0) - coinDenom.exponent),
     ),
     denom: coinDenom.denom,
-  }
-}
+  };
+};
 
 export const createEmptyChartData = (
   rawData: Array<{
-    balance: number
-    timestamp: number
+    balance: number;
+    timestamp: number;
   }>,
   from: number,
-  to: number
+  to: number,
 ): Array<{ balance: number; timestamp: number }> => {
   // Create a straight line
-  const data = cloneDeep(rawData)
+  const data = cloneDeep(rawData);
   if (data.length === 0) {
     data.unshift(
       {
@@ -578,54 +578,54 @@ export const createEmptyChartData = (
       {
         balance: 0,
         timestamp: to,
-      }
-    )
+      },
+    );
   } else if (data.length === 1) {
-    data.unshift({ balance: data[0].balance, timestamp: from })
+    data.unshift({ balance: data[0].balance, timestamp: from });
   }
-  return data
-}
+  return data;
+};
 
 export const getCoinPrice = (coin: string): Promise<number> =>
   fetch(
-    `${process.env.NEXT_PUBLIC_COINGECKO_API_URL}/coins/${coin}/market_chart?vs_currency=usd&days=1&interval=daily`
-  ).then(async (result) => {
-    const data = await result.json()
-    return get(last(get(data, 'prices', [])), 1)
-  })
+    `${process.env.NEXT_PUBLIC_COINGECKO_API_URL}/coins/${coin}/market_chart?vs_currency=usd&days=1&interval=daily`,
+  ).then(async result => {
+    const data = await result.json();
+    return get(last(get(data, 'prices', [])), 1);
+  });
 
 const getTag = (status: string) => {
   if (status === 'PROPOSAL_STATUS_REJECTED') {
-    return 'rejected'
+    return 'rejected';
   }
   if (status === 'PROPOSAL_STATUS_INVALID') {
-    return 'invalid'
+    return 'invalid';
   }
   if (status === 'PROPOSAL_STATUS_PASSED') {
-    return 'passed'
+    return 'passed';
   }
   if (status === 'PROPOSAL_STATUS_VOTING_PERIOD') {
-    return 'vote'
+    return 'vote';
   }
   if (status === 'PROPOSAL_STATUS_DEPOSIT_PERIOD') {
-    return 'deposit'
+    return 'deposit';
   }
   if (status === 'PROPOSAL_STATUS_FAILED') {
-    return 'failed'
+    return 'failed';
   }
-  return ''
-}
+  return '';
+};
 
 export const transformProposals = (proposalData: any): Proposal[] => {
   return get(proposalData, 'proposal', [])
-    .map((p) => ({
+    .map(p => ({
       id: get(p, 'id', ''),
       proposer: {
         name: get(p, 'proposer.validator_infos[0].validator.validator_descriptions[0].moniker', ''),
         image: get(
           p,
           'proposer.validator_infos[0].validator.validator_descriptions[0].avatar_url',
-          ''
+          '',
         ),
         address: get(p, 'proposer.address', ''),
       },
@@ -649,17 +649,17 @@ export const transformProposals = (proposalData: any): Proposal[] => {
       tag: getTag(get(p, 'status', '')),
       duration: differenceInDays(new Date(`${get(p, 'voting_end_time')}Z`), Date.now()),
     }))
-    .sort((a, b) => (a.id < b.id ? 1 : -1))
-}
+    .sort((a, b) => (a.id < b.id ? 1 : -1));
+};
 
 export const transformProposal = (
   proposalData: any,
   balanceData: any,
-  depositParams: any
+  depositParams: any,
 ): Proposal => {
-  const p = get(proposalData, 'proposal[0]')
-  const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', [])
-  let totalDepositsList = []
+  const p = get(proposalData, 'proposal[0]');
+  const tokensPrices = get(balanceData, 'account[0].available[0].tokens_prices', []);
+  let totalDepositsList = [];
   return {
     id: get(p, 'id'),
     proposer: {
@@ -689,50 +689,50 @@ export const transformProposal = (
     ),
     tag: getTag(get(p, 'status')),
     duration: differenceInDays(new Date(`${get(p, 'voting_end_time')}Z`), Date.now()),
-    depositDetails: get(p, 'proposal_deposits', []).map((x) => {
+    depositDetails: get(p, 'proposal_deposits', []).map(x => {
       if (get(x, 'denom') === tokensPrices.unit_name) {
-        totalDepositsList = [...totalDepositsList, get(x, 'amount[0]')]
+        totalDepositsList = [...totalDepositsList, get(x, 'amount[0]')];
       }
       return {
         depositor: {
           name: get(x, 'depositor.validator_infos[0].validator.validator_descriptions[0].moniker'),
           image: get(
             x,
-            'depositor.validator_infos[0].validator.validator_descriptions[0].avatar_url'
+            'depositor.validator_infos[0].validator.validator_descriptions[0].avatar_url',
           ),
           address: get(x, 'depositor.address'),
         },
         amount: getTokenAmountFromDenoms(get(x, 'amount'), tokensPrices),
         time: `${format(new Date(get(x, 'block.timestamp')), 'dd MMM yyyy HH:mm')} UTC`,
-      }
+      };
     }),
     totalDeposits: getTokenAmountFromDenoms(totalDepositsList, tokensPrices),
     minDeposit: depositParams
       ? getTokenAmountFromDenoms(
           get(depositParams, 'gov_params[0].deposit_params.min_deposit'),
-          tokensPrices
+          tokensPrices,
         )
       : null,
     quorum: get(depositParams, 'gov_params[0].tally_params.quorum', 0),
     bondedTokens: get(p, 'staking_pool_snapshot.bonded_tokens', 0) / 10 ** 6,
     content: get(p, 'content'),
-  }
-}
+  };
+};
 
 export const transformVoteSummary = (proposalResult: any): any => {
-  let abstain = 0
-  let no = 0
-  let veto = 0
-  let yes = 0
+  let abstain = 0;
+  let no = 0;
+  let veto = 0;
+  let yes = 0;
 
-  get(proposalResult, 'proposal_tally_result', []).forEach((p) => {
-    abstain += get(p, 'abstain', 0) / 10 ** 6
-    no += get(p, 'no', 0) / 10 ** 6
-    veto += get(p, 'no_with_veto', 0) / 10 ** 6
-    yes += get(p, 'yes', 0) / 10 ** 6
-  })
+  get(proposalResult, 'proposal_tally_result', []).forEach(p => {
+    abstain += get(p, 'abstain', 0) / 10 ** 6;
+    no += get(p, 'no', 0) / 10 ** 6;
+    veto += get(p, 'no_with_veto', 0) / 10 ** 6;
+    yes += get(p, 'yes', 0) / 10 ** 6;
+  });
 
-  const totalAmount = abstain + no + veto + yes
+  const totalAmount = abstain + no + veto + yes;
 
   const voteSummary = {
     percentage: 0.0,
@@ -760,37 +760,37 @@ export const transformVoteSummary = (proposalResult: any): any => {
         value: abstain,
       },
     ],
-  }
+  };
 
-  return voteSummary
-}
+  return voteSummary;
+};
 
 export const getVoteAnswer = (answer: string) => {
   if (answer === 'VOTE_OPTION_YES') {
-    return 'yes'
+    return 'yes';
   }
   if (answer === 'VOTE_OPTION_NO') {
-    return 'no'
+    return 'no';
   }
   if (answer === 'VOTE_OPTION_ABSTAIN') {
-    return 'abstain'
+    return 'abstain';
   }
-  return 'veto'
-}
+  return 'veto';
+};
 
 export const transformVoteDetail = (voteDetail: any, proposal: Proposal): any => {
-  return get(voteDetail, 'proposal_vote', []).map((d) => {
-    const isValidator = !!get(d, 'account.validator_infos', []).length
+  return get(voteDetail, 'proposal_vote', []).map(d => {
+    const isValidator = !!get(d, 'account.validator_infos', []).length;
     const votingPower = isValidator
       ? get(d, 'account.validator_infos[0].validator.validator_voting_powers[0].voting_power', 0)
-      : Number(get(d, 'account.account_balance_histories[0].delegated[0].amount', '0')) / 10 ** 6
+      : Number(get(d, 'account.account_balance_histories[0].delegated[0].amount', '0')) / 10 ** 6;
     return {
       voter: {
         name: get(d, 'account.validator_infos[0].validator.validator_descriptions[0].moniker', ''),
         image: get(
           d,
           'account.validator_infos[0].validator.validator_descriptions[0].avatar_url',
-          ''
+          '',
         ),
         address: get(d, 'voter_address', ''),
       },
@@ -798,42 +798,42 @@ export const transformVoteDetail = (voteDetail: any, proposal: Proposal): any =>
       votingPowerPercentage: votingPower / proposal.bondedTokens,
       votingPowerOverride: isValidator ? 0 : votingPower / proposal.bondedTokens,
       answer: getVoteAnswer(get(d, 'option')),
-    }
-  })
-}
+    };
+  });
+};
 
 export const isAddressValid = (prefix: string, address: string): boolean => {
-  return new RegExp(`^${prefix}([0-9a-zA-Z]){39}$`).test(address)
-}
+  return new RegExp(`^${prefix}([0-9a-zA-Z]){39}$`).test(address);
+};
 
 export const getPrefix = (address: string): string => {
-  return address.substring(0, address.length - 39)
-}
+  return address.substring(0, address.length - 39);
+};
 
 export const formatHeight = (height: number, lang?: string): string =>
-  `${new Intl.NumberFormat(lang).format(height || 0)}`
+  `${new Intl.NumberFormat(lang).format(height || 0)}`;
 
 export const closeAllLedgerConnections = async () => {
-  const devices = await TransportWebHID.list()
-  await Promise.all(devices.map((d) => d.close()))
-}
+  const devices = await TransportWebHID.list();
+  await Promise.all(devices.map(d => d.close()));
+};
 
 export const getValidatorCondition = (signedBlockWindow: number, missedBlockCounter: number) => {
-  return (1 - missedBlockCounter / signedBlockWindow) * 100
-}
+  return (1 - missedBlockCounter / signedBlockWindow) * 100;
+};
 
 export const getValidatorConditionClass = (condition: number) => {
-  let conditionClass = ''
+  let conditionClass = '';
   if (condition > 90) {
-    conditionClass = 'green'
+    conditionClass = 'green';
   } else if (condition > 70 && condition < 90) {
-    conditionClass = 'yellow'
+    conditionClass = 'yellow';
   } else {
-    conditionClass = 'red'
+    conditionClass = 'red';
   }
 
-  return conditionClass
-}
+  return conditionClass;
+};
 
 export const transformProfile = (data: any): Profile => {
   return {
@@ -842,50 +842,50 @@ export const transformProfile = (data: any): Profile => {
     dtag: get(data, 'profile[0].dtag', ''),
     nickname: get(data, 'profile[0].nickname', ''),
     profilePic: get(data, 'profile[0].profile_pic', ''),
-  }
-}
+  };
+};
 
 export const transformChainConnections = (data: any): ChainConnection[] => {
-  const chains = Object.keys(connectableChains)
-  return get(data, 'chain_link', []).map((d) => ({
+  const chains = Object.keys(connectableChains);
+  return get(data, 'chain_link', []).map(d => ({
     creationTime: new Date(`${d.creation_time}Z`).getTime(),
     externalAddress: d.external_address,
     userAddress: d.user_address,
     chainName:
-      chains.find((k) => k === d.chain_config.name) ||
-      chains.find((k) => d.external_address.match(new RegExp(`^${connectableChains[k].prefix}`))) ||
+      chains.find(k => k === d.chain_config.name) ||
+      chains.find(k => d.external_address.match(new RegExp(`^${connectableChains[k].prefix}`))) ||
       d.chain_config.name,
-  }))
-}
+  }));
+};
 
 export const transformVestingAccount = (
   data: any,
-  denoms: TokenPrice[]
+  denoms: TokenPrice[],
 ): { total: TokenAmount; vestingPeriods: VestingPeriod[] } => {
-  const vestingPeriods: VestingPeriod[] = []
-  const startTime = new Date(`${get(data, 'vesting_account[0].start_time')}Z`).getTime()
-  const periods = get(data, 'vesting_account[0].vesting_periods', [])
-  let sumTime = startTime
-  let total: TokenAmount = {}
+  const vestingPeriods: VestingPeriod[] = [];
+  const startTime = new Date(`${get(data, 'vesting_account[0].start_time')}Z`).getTime();
+  const periods = get(data, 'vesting_account[0].vesting_periods', []);
+  let sumTime = startTime;
+  let total: TokenAmount = {};
   for (let i = 0; i < periods.length; i += 1) {
-    const period = periods[i]
-    const amount = getTokenAmountFromDenoms(period.amount, denoms)
-    sumTime += period.length * 1000
-    total = sumTokenAmounts([total, amount])
+    const period = periods[i];
+    const amount = getTokenAmountFromDenoms(period.amount, denoms);
+    sumTime += period.length * 1000;
+    total = sumTokenAmounts([total, amount]);
     vestingPeriods.push({
       amount,
       date: sumTime,
-    })
+    });
   }
-  return { vestingPeriods, total }
-}
+  return { vestingPeriods, total };
+};
 
-export const isValidMnemonic = (input) => {
+export const isValidMnemonic = input => {
   try {
     // eslint-disable-next-line no-new
-    new EnglishMnemonic(input)
-    return true
+    new EnglishMnemonic(input);
+    return true;
   } catch (err) {
-    return false
+    return false;
   }
-}
+};

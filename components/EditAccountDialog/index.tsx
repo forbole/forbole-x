@@ -1,22 +1,22 @@
 /* eslint-disable camelcase */
-import { Dialog, DialogTitle, IconButton, DialogContent, Box, Typography } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import get from 'lodash/get'
-import { gql, useQuery } from '@apollo/client'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import BackIcon from '../../assets/images/icons/icon_back.svg'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import ShareAddress from './ShareAddress'
-import useStateHistory from '../../misc/useStateHistory'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import AccountInfo from './AccountInfo'
-import useIsMobile from '../../misc/useIsMobile'
-import EditRewardAddress from './EditRewardAddress'
-import RemoveAccount from './RemoveAccount'
-import { getWithdrawAddress } from '../../graphql/queries/withdrawAddress'
-import useSendTransaction from '../../misc/tx/useSendTransaction'
+import { Dialog, DialogTitle, IconButton, DialogContent, Box, Typography } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import get from 'lodash/get';
+import { gql, useQuery } from '@apollo/client';
+import CloseIcon from '../../assets/images/icons/icon_cross.svg';
+import BackIcon from '../../assets/images/icons/icon_back.svg';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
+import ShareAddress from './ShareAddress';
+import useStateHistory from '../../misc/useStateHistory';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import AccountInfo from './AccountInfo';
+import useIsMobile from '../../misc/useIsMobile';
+import EditRewardAddress from './EditRewardAddress';
+import RemoveAccount from './RemoveAccount';
+import getWithdrawAddress from '../../graphql/queries/withdrawAddress';
+import useSendTransaction from '../../misc/tx/useSendTransaction';
 
 enum EditAccountStage {
   AccountInfoStage = 'account info',
@@ -27,75 +27,75 @@ enum EditAccountStage {
 }
 
 interface EditAccountDialogProps {
-  account: Account
-  open: boolean
-  onClose(): void
+  account: Account;
+  open: boolean;
+  onClose(): void;
 }
 
 interface Content {
-  title?: string
-  content: React.ReactNode
-  dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  title?: string;
+  content: React.ReactNode;
+  dialogWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
 const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, onClose }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const { updateAccount, password } = useWalletsContext()
-  const isMobile = useIsMobile()
-  const sendTransaction = useSendTransaction()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const { updateAccount, password } = useWalletsContext();
+  const isMobile = useIsMobile();
+  const sendTransaction = useSendTransaction();
 
   const { data } = useQuery(
     gql`
       ${getWithdrawAddress(account.crypto)}
     `,
-    { variables: { address: account.address }, pollInterval: 15000 }
-  )
-  const withdrawAddress = get(data, 'delegation_reward[0].withdraw_address', account.address)
+    { variables: { address: account.address }, pollInterval: 15000 },
+  );
+  const withdrawAddress = get(data, 'delegation_reward[0].withdraw_address', account.address);
 
-  const [loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = React.useState(false);
 
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<EditAccountStage>(
-    EditAccountStage.AccountInfoStage
-  )
-  const [sharingAddress, setSharingAddress] = React.useState(account.address)
+    EditAccountStage.AccountInfoStage,
+  );
+  const [sharingAddress, setSharingAddress] = React.useState(account.address);
 
   const saveMoniker = React.useCallback(
     async (name: string) => {
       try {
-        await updateAccount(account.address, account.walletId, { name })
-        onClose()
+        await updateAccount(account.address, account.walletId, { name });
+        onClose();
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     },
-    [updateAccount, account.address, account.walletId]
-  )
+    [updateAccount, account.address, account.walletId],
+  );
 
   const editRewardAddress = React.useCallback(
     async (newWithdrawAddress: string, memo: string) => {
       try {
-        setLoading(true)
+        setLoading(true);
         const msg: TransactionMsgSetWithdrawAddress = {
           typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
           value: {
             delegatorAddress: account.address,
             withdrawAddress: newWithdrawAddress,
           },
-        }
+        };
         await sendTransaction(password, account.address, {
           msgs: [msg],
           memo,
-        })
-        setLoading(false)
-        onClose()
+        });
+        setLoading(false);
+        onClose();
       } catch (err) {
-        setLoading(false)
+        setLoading(false);
       }
     },
-    [setStage, account, sendTransaction]
-  )
+    [setStage, account, sendTransaction],
+  );
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
@@ -104,7 +104,7 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, on
           title: t('remove account'),
           dialogWidth: 'xs',
           content: <RemoveAccount onClose={onClose} account={account} />,
-        }
+        };
       case EditAccountStage.RewardAddressIntroStage:
         return {
           title: t('reward address intro title'),
@@ -117,12 +117,12 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, on
               </Box>
             </DialogContent>
           ),
-        }
+        };
       case EditAccountStage.AddressSharingStage:
         return {
           title: t('address sharing title'),
           content: <ShareAddress address={sharingAddress} />,
-        }
+        };
       case EditAccountStage.EditRewardAddressStage:
         return {
           title: t('edit reward address'),
@@ -133,7 +133,7 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, on
               loading={loading}
             />
           ),
-        }
+        };
       case EditAccountStage.AccountInfoStage:
       default:
         return {
@@ -146,22 +146,22 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, on
               onRemove={() => setStage(EditAccountStage.RemoveAccountStage)}
               onSave={saveMoniker}
               onDetail={() => setStage(EditAccountStage.RewardAddressIntroStage)}
-              onShare={(address) => {
-                setStage(EditAccountStage.AddressSharingStage)
-                setSharingAddress(address)
+              onShare={address => {
+                setStage(EditAccountStage.AddressSharingStage);
+                setSharingAddress(address);
               }}
             />
           ),
-        }
+        };
     }
-  }, [stage, t])
+  }, [stage, t]);
 
   React.useEffect(() => {
     if (open) {
-      setLoading(false)
-      setStage(EditAccountStage.AccountInfoStage, true)
+      setLoading(false);
+      setStage(EditAccountStage.AccountInfoStage, true);
     }
-  }, [open])
+  }, [open]);
 
   return (
     <Dialog
@@ -169,8 +169,7 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, on
       maxWidth={content.dialogWidth || 'sm'}
       open={open}
       onClose={onClose}
-      fullScreen={isMobile}
-    >
+      fullScreen={isMobile}>
       {isPrevStageAvailable ? (
         <IconButton className={classes.backButton} onClick={toPrevStage}>
           <BackIcon {...iconProps} />
@@ -182,7 +181,7 @@ const EditAccountDialog: React.FC<EditAccountDialogProps> = ({ account, open, on
       {content.title ? <DialogTitle>{content.title}</DialogTitle> : null}
       {content.content}
     </Dialog>
-  )
-}
+  );
+};
 
-export default EditAccountDialog
+export default EditAccountDialog;

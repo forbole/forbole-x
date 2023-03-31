@@ -85,10 +85,8 @@ const estimateGasFee = async (
       Math.round(Number(get(result, 'gas_info.gas_used', '0')) * crypto.gasAdjustment) ||
       tx.msgs.map(msg => crypto.defaultGas[msg.typeUrl]).reduce((a, b) => a + b, 0);
     const fee = transformFee(crypto, gas);
-    console.log('SUCCESS ESTIMATE');
     return fee;
   } catch (err) {
-    console.log('ERR', String(err));
     const gas = tx.msgs.map(msg => crypto.defaultGas[msg.typeUrl]).reduce((a, b) => a + b, 0);
     const fee = transformFee(crypto, gas);
     return fee;

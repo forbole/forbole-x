@@ -9,27 +9,27 @@ import {
   Typography,
   Card,
   Link,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import { useGetStyles } from './styles'
-import Active from './ActiveStatus'
-import { formatTokenAmount } from '../../misc/utils'
-import DepositDialog from '../DepositDialog'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useGetStyles from './styles';
+import Active from './ActiveStatus';
+import { formatTokenAmount } from '../../misc/utils';
+import DepositDialog from '../DepositDialog';
 
 interface DepositTableProps {
-  proposal: Proposal
-  crypto: Cryptocurrency
-  tag: string
+  proposal: Proposal;
+  crypto: Cryptocurrency;
+  tag: string;
 }
 
 const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto }) => {
-  const { classes } = useGetStyles()
-  const { t, lang } = useTranslation('common')
-  const [depositDialogOpen, setDepositDialogOpen] = React.useState(false)
+  const { classes } = useGetStyles();
+  const { t, lang } = useTranslation('common');
+  const [depositDialogOpen, setDepositDialogOpen] = React.useState(false);
   const onClick = () => {
-    setDepositDialogOpen(true)
-  }
+    setDepositDialogOpen(true);
+  };
 
   const columns = [
     {
@@ -43,7 +43,7 @@ const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto }) =>
       label: 'time',
       alignRight: true,
     },
-  ]
+  ];
 
   return (
     <Card>
@@ -60,28 +60,26 @@ const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto }) =>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              {columns.map((column) => {
+              {columns.map(column => {
                 return (
                   <TableCell
                     key={column.label}
                     className={classes.table__label}
-                    align={column.alignRight ? 'right' : 'inherit'}
-                  >
+                    align={column.alignRight ? 'right' : 'inherit'}>
                     <Typography variant="subtitle1">{t(column.label)}</Typography>
                   </TableCell>
-                )
+                );
               })}
             </TableRow>
           </TableHead>
           <TableBody>
-            {proposal.depositDetails.map((d, i) => {
+            {proposal.depositDetails.map(d => {
               return (
-                <TableRow className={classes.tableRow} key={i}>
+                <TableRow className={classes.tableRow} key={`${d.depositor}_${d.time}`}>
                   <TableCell>
                     <Link
                       href={`${crypto.blockExplorerBaseUrl}/accounts/${d.depositor.address}`}
-                      target="_blank"
-                    >
+                      target="_blank">
                       <Box className={classes.box} display="flex" alignItems="center">
                         <Avatar
                           className={classes.validatorAvatar}
@@ -103,7 +101,7 @@ const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto }) =>
                     <Typography variant="subtitle1">{d.time}</Typography>
                   </TableCell>
                 </TableRow>
-              )
+              );
             })}
           </TableBody>
         </Table>
@@ -115,7 +113,7 @@ const DepositTable: React.FC<DepositTableProps> = ({ tag, proposal, crypto }) =>
         />
       </Box>
     </Card>
-  )
-}
+  );
+};
 
-export default DepositTable
+export default DepositTable;

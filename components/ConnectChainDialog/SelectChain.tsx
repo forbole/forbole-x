@@ -12,30 +12,29 @@ import {
   ListItemText,
   Checkbox,
   Avatar,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import connectableChains from '../../misc/connectableChains'
-import useStyles from './styles'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import connectableChains from '../../misc/connectableChains';
+import useStyles from './styles';
 
 interface SelectChainProps {
-  onConfirm(chain: string): void
+  onConfirm(chain: string): void;
 }
 
 const SelectChain: React.FC<SelectChainProps> = ({ onConfirm }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
 
-  const [selectedChain, setSelectedChain] = React.useState('')
+  const [selectedChain, setSelectedChain] = React.useState('');
 
   return (
     <form
       noValidate
-      onSubmit={(e) => {
-        e.preventDefault()
-        onConfirm(selectedChain)
-      }}
-    >
+      onSubmit={e => {
+        e.preventDefault();
+        onConfirm(selectedChain);
+      }}>
       <DialogContent className={classes.dialogContent}>
         <Typography gutterBottom>{t('select chain description')}</Typography>
         <List className={classes.list}>
@@ -62,14 +61,13 @@ const SelectChain: React.FC<SelectChainProps> = ({ onConfirm }) => {
             disabled={!selectedChain}
             color="primary"
             variant="contained"
-            type="submit"
-          >
+            type="submit">
             {t('next')}
           </Button>
         </Box>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
-export default SelectChain
+export default SelectChain;

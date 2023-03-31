@@ -1,7 +1,7 @@
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(
-  (theme) => ({
+  theme => ({
     menuItem: {
       padding: theme.spacing(1, 3),
       borderBottom: `1px solid ${theme.palette.grey[100]}`,
@@ -38,7 +38,7 @@ const useStyles = makeStyles(
   {
     name: 'HookGlobalStyles',
     index: 2,
-  }
-)
+  },
+);
 
-export default useStyles
+export default useStyles;

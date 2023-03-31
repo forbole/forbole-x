@@ -1,27 +1,27 @@
-import { Box, Dialog, DialogTitle, IconButton, LinearProgress } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import BackIcon from '../../assets/images/icons/icon_back.svg'
-import useStyles from './styles'
-import useIconProps from '../../misc/useIconProps'
-import CreateWallet from './CreateWallet'
-import ConfirmMnemonic from './ConfirmMnemonic'
-import { useWalletsContext } from '../../contexts/WalletsContext'
-import SetPreference from './SetPreference'
-import SecurityPassword from './SecurityPassword'
-import ImportWallet from './ImportWallet'
-import AccessMyWallet from './AccessMyWallet'
-import WhatIsMnemonic from './WhatIsMnemonic'
-import Start from './Start'
-import ImportMnemonicBackup from './ImportMnemonicBackup'
-import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt'
-import useStateHistory from '../../misc/useStateHistory'
-import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent'
-import useIsMobile from '../../misc/useIsMobile'
-import getWalletAddress from '../../misc/tx/getWalletAddress'
-import { closeAllLedgerConnections } from '../../misc/utils'
-import cryptocurrencies from '../../misc/cryptocurrencies'
+import { Box, Dialog, DialogTitle, IconButton, LinearProgress } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import CloseIcon from '../../assets/images/icons/icon_cross.svg';
+import BackIcon from '../../assets/images/icons/icon_back.svg';
+import useStyles from './styles';
+import useIconProps from '../../misc/useIconProps';
+import CreateWallet from './CreateWallet';
+import ConfirmMnemonic from './ConfirmMnemonic';
+import { useWalletsContext } from '../../contexts/WalletsContext';
+import SetPreference from './SetPreference';
+import SecurityPassword from './SecurityPassword';
+import ImportWallet from './ImportWallet';
+import AccessMyWallet from './AccessMyWallet';
+import WhatIsMnemonic from './WhatIsMnemonic';
+import Start from './Start';
+import ImportMnemonicBackup from './ImportMnemonicBackup';
+import sendMsgToChromeExt from '../../misc/sendMsgToChromeExt';
+import useStateHistory from '../../misc/useStateHistory';
+import ConnectLedgerDialogContent from '../ConnectLedgerDialogContent';
+import useIsMobile from '../../misc/useIsMobile';
+import getWalletAddress from '../../misc/tx/getWalletAddress';
+import { closeAllLedgerConnections } from '../../misc/utils';
+import cryptocurrencies from '../../misc/cryptocurrencies';
 
 export enum ImportStage {
   ImportMnemonicPhraseStage = 'import secret recovery phrase',
@@ -41,124 +41,124 @@ export enum CommonStage {
   WhatIsMnemonicStage = 'what is secret recovery phrase',
 }
 
-type Stage = CommonStage | ImportStage
+type Stage = CommonStage | ImportStage;
 
 interface CreateWalletDialogProps {
-  open: boolean
-  onClose(event?: unknown, reason?: string): void
-  initialStage?: Stage
+  open: boolean;
+  onClose(event?: unknown, reason?: string): void;
+  initialStage?: Stage;
 }
 
 interface Content {
-  title: string
-  content: React.ReactNode
-  step: 1 | 2 | 3 | 4 | 5
+  title: string;
+  content: React.ReactNode;
+  step: 1 | 2 | 3 | 4 | 5;
 }
 
 const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, initialStage }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const { addWallet } = useWalletsContext()
-  const isMobile = useIsMobile()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const { addWallet } = useWalletsContext();
+  const isMobile = useIsMobile();
   const [stage, setStage, toPrevStage, isPrevStageAvailable] = useStateHistory<Stage>(
-    initialStage || CommonStage.StartStage
-  )
-  const [mnemonic, setMnemonic] = React.useState('')
-  const [securityPassword, setSecurityPassword] = React.useState('')
-  const [error, setError] = React.useState('')
+    initialStage || CommonStage.StartStage,
+  );
+  const [mnemonic, setMnemonic] = React.useState('');
+  const [securityPassword, setSecurityPassword] = React.useState('');
+  const [error, setError] = React.useState('');
 
-  const [ledgerCryptos, setLedgerCryptos] = React.useState([])
-  const [ledgerCryptosIndex, setLedgerCryptosIndex] = React.useState(0)
-  const [ledgerAddresses, setLedgerAddresses] = React.useState([])
-  const [ledgerWalletName, setLedgerWalletName] = React.useState('')
+  const [ledgerCryptos, setLedgerCryptos] = React.useState([]);
+  const [ledgerCryptosIndex, setLedgerCryptosIndex] = React.useState(0);
+  const [ledgerAddresses, setLedgerAddresses] = React.useState([]);
+  const [ledgerWalletName, setLedgerWalletName] = React.useState('');
 
   React.useEffect(() => {
     if (open) {
-      setMnemonic('')
-      setSecurityPassword('')
-      setError('')
-      setLedgerCryptosIndex(0)
-      setLedgerWalletName('')
-      setLedgerAddresses([])
-      setLedgerCryptos([])
-      setStage(initialStage || CommonStage.StartStage, true)
+      setMnemonic('');
+      setSecurityPassword('');
+      setError('');
+      setLedgerCryptosIndex(0);
+      setLedgerWalletName('');
+      setLedgerAddresses([]);
+      setLedgerCryptos([]);
+      setStage(initialStage || CommonStage.StartStage, true);
     }
-  }, [open, initialStage])
+  }, [open, initialStage]);
 
   const createWallet = React.useCallback(async () => {
-    const wallet = await sendMsgToChromeExt({ event: 'generateMnemonic' })
-    setMnemonic(wallet.mnemonic)
-    setStage(CommonStage.CreateWalletStage)
-  }, [setMnemonic])
+    const wallet = await sendMsgToChromeExt({ event: 'generateMnemonic' });
+    setMnemonic(wallet.mnemonic);
+    setStage(CommonStage.CreateWalletStage);
+  }, [setMnemonic]);
 
   const importMnemonic = React.useCallback(
-    async (input) => {
+    async input => {
       try {
         const wallet = await sendMsgToChromeExt({
           event: 'verifyMnemonic',
           data: { mnemonic: input },
-        })
-        setMnemonic(wallet.mnemonic)
-        setStage(CommonStage.SetPreferenceStage)
+        });
+        setMnemonic(wallet.mnemonic);
+        setStage(CommonStage.SetPreferenceStage);
       } catch (err) {
-        setError(t(err.message))
+        setError(t(err.message));
       }
     },
-    [setMnemonic, setStage, setError]
-  )
+    [setMnemonic, setStage, setError],
+  );
 
   const importMnemonicBackup = React.useCallback(
-    async (data) => {
+    async data => {
       try {
         const wallet = await sendMsgToChromeExt({
           event: 'verifyMnemonicBackup',
           data,
-        })
-        setMnemonic(wallet.mnemonic)
-        setStage(CommonStage.SetPreferenceStage)
+        });
+        setMnemonic(wallet.mnemonic);
+        setStage(CommonStage.SetPreferenceStage);
       } catch (err) {
-        setError(t(err.message))
+        setError(t(err.message));
       }
     },
-    [setMnemonic, setStage, setError]
-  )
+    [setMnemonic, setStage, setError],
+  );
 
   const confirmMnemonic = React.useCallback(
-    (input) => {
+    input => {
       if (input === mnemonic) {
-        setStage(CommonStage.SetPreferenceStage)
+        setStage(CommonStage.SetPreferenceStage);
       } else {
-        setError(t('invalid secret recovery phrase'))
+        setError(t('invalid secret recovery phrase'));
       }
     },
-    [mnemonic, setStage, setError]
-  )
+    [mnemonic, setStage, setError],
+  );
 
   const setPreference = React.useCallback(() => {
     try {
-      setStage(CommonStage.SetSecurityPasswordStage)
+      setStage(CommonStage.SetSecurityPasswordStage);
     } catch (err) {
-      setError(t(err.message))
+      setError(t(err.message));
     }
-  }, [setStage, setError])
+  }, [setStage, setError]);
 
   const confirmSecurityPassword = React.useCallback(
     (pw: string) => {
-      setSecurityPassword(pw)
-      setStage(CommonStage.ImportWalletStage)
+      setSecurityPassword(pw);
+      setStage(CommonStage.ImportWalletStage);
     },
-    [setStage, setSecurityPassword]
-  )
+    [setStage, setSecurityPassword],
+  );
 
   const saveWallet = React.useCallback(
     async (name: string, cryptos: string[], type = 'mnemonic', defaultAddresses?: string[]) => {
       if (type === 'ledger' && !defaultAddresses) {
-        setLedgerCryptosIndex(0)
-        setLedgerWalletName(name)
-        setLedgerAddresses([])
-        setLedgerCryptos(cryptos)
-        setStage(ImportStage.ConnectLedgerDeviceStage)
+        setLedgerCryptosIndex(0);
+        setLedgerWalletName(name);
+        setLedgerAddresses([]);
+        setLedgerCryptos(cryptos);
+        setStage(ImportStage.ConnectLedgerDeviceStage);
       } else if (type === 'ledger') {
         await addWallet({
           type,
@@ -167,12 +167,12 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           mnemonic,
           securityPassword,
           addresses: defaultAddresses,
-        })
-        closeAllLedgerConnections()
-        onClose()
+        });
+        closeAllLedgerConnections();
+        onClose();
       } else {
         const addresses = await Promise.all(
-          cryptos.map((c) =>
+          cryptos.map(c =>
             getWalletAddress(mnemonic, {
               account: 0,
               change: 0,
@@ -180,9 +180,9 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
               prefix: cryptocurrencies[c].prefix,
               ledgerAppName: cryptocurrencies[c].ledgerAppName,
               coinType: cryptocurrencies[c].coinType,
-            })
-          )
-        )
+            }),
+          ),
+        );
         await addWallet({
           type,
           name,
@@ -190,21 +190,21 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           mnemonic,
           securityPassword,
           addresses,
-        })
-        onClose()
+        });
+        onClose();
       }
     },
-    [addWallet, mnemonic, securityPassword, onClose]
-  )
+    [addWallet, mnemonic, securityPassword, onClose],
+  );
 
   React.useEffect(() => {
     if (
       ledgerAddresses.length === ledgerCryptos.length &&
       stage === ImportStage.ConnectLedgerDeviceStage
     ) {
-      saveWallet(ledgerWalletName, ledgerCryptos, 'ledger', ledgerAddresses)
+      saveWallet(ledgerWalletName, ledgerCryptos, 'ledger', ledgerAddresses);
     }
-  }, [ledgerAddresses, ledgerCryptos])
+  }, [ledgerAddresses, ledgerCryptos]);
 
   const content: Content = React.useMemo(() => {
     switch (stage) {
@@ -215,10 +215,10 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
           step: !ledgerCryptos.length ? 2 : 4,
           content: (
             <ConnectLedgerDialogContent
-              onConnect={async (signer) => {
+              onConnect={async signer => {
                 // haven't selected cryptos yet
                 if (!ledgerCryptos.length && !ledgerAddresses.length) {
-                  setStage(CommonStage.ImportLedgerWalletStage, undefined, true)
+                  setStage(CommonStage.ImportLedgerWalletStage, undefined, true);
                   // select next crypto
                 } else if (ledgerCryptos.length > ledgerAddresses.length) {
                   const address = await getWalletAddress(
@@ -233,10 +233,10 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
                       coinType: cryptocurrencies[ledgerCryptos[ledgerCryptosIndex]].coinType,
                     },
                     signer,
-                    true
-                  )
-                  setLedgerCryptosIndex((i) => i + 1)
-                  setLedgerAddresses((addresses) => [...addresses, address])
+                    true,
+                  );
+                  setLedgerCryptosIndex(i => i + 1);
+                  setLedgerAddresses(addresses => [...addresses, address]);
                 }
               }}
               ledgerAppName={
@@ -247,7 +247,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
               ledgerAppIndex={ledgerCryptosIndex}
             />
           ),
-        }
+        };
       case ImportStage.ImportMnemonicPhraseStage:
         return {
           title: t('secret recovery phrase'),
@@ -259,13 +259,13 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
               error={error}
             />
           ),
-        }
+        };
       case ImportStage.MnemonicPhraseBackupStage:
         return {
           title: t('secret recovery phrase backup title'),
           step: 2,
           content: <ImportMnemonicBackup onConfirm={importMnemonicBackup} error={error} />,
-        }
+        };
       case CommonStage.CreateWalletStage:
         return {
           title: t('create new wallet title'),
@@ -276,7 +276,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
               onConfirm={() => setStage(CommonStage.ConfirmMnemonicStage)}
             />
           ),
-        }
+        };
       case CommonStage.ConfirmMnemonicStage:
         return {
           title: t('create new wallet title'),
@@ -288,19 +288,19 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
               error={error}
             />
           ),
-        }
+        };
       case CommonStage.SetPreferenceStage:
         return {
           title: t('your preference'),
           step: 3,
           content: <SetPreference onConfirm={setPreference} />,
-        }
+        };
       case CommonStage.SetSecurityPasswordStage:
         return {
           title: t('security password title'),
           step: 4,
           content: <SecurityPassword onConfirm={confirmSecurityPassword} />,
-        }
+        };
       case CommonStage.ImportWalletStage:
       case CommonStage.ImportLedgerWalletStage:
         return {
@@ -313,18 +313,18 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
                 saveWallet(
                   name,
                   cryptos,
-                  stage === CommonStage.ImportLedgerWalletStage ? 'ledger' : 'mnemonic'
+                  stage === CommonStage.ImportLedgerWalletStage ? 'ledger' : 'mnemonic',
                 )
               }
             />
           ),
-        }
+        };
       case CommonStage.WhatIsMnemonicStage:
         return {
           title: t('what is secret recovery phrase'),
           step: 1,
           content: <WhatIsMnemonic />,
-        }
+        };
       case CommonStage.AccessMyWalletStage:
         return {
           title: t('access my wallet title'),
@@ -335,7 +335,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
               onWhatIsMnemonicClick={() => setStage(CommonStage.WhatIsMnemonicStage)}
             />
           ),
-        }
+        };
       case CommonStage.StartStage:
       default:
         return {
@@ -348,9 +348,9 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
               onImportWalletClick={() => setStage(CommonStage.AccessMyWalletStage)}
             />
           ),
-        }
+        };
     }
-  }, [stage, t])
+  }, [stage, t]);
 
   return (
     <Dialog
@@ -358,19 +358,17 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
       open={open}
       onClose={(event, reason) => {
         if (reason !== 'backdropClick') {
-          onClose(event, reason)
+          onClose(event, reason);
         }
       }}
-      fullScreen={isMobile}
-    >
+      fullScreen={isMobile}>
       {isPrevStageAvailable ? (
         <IconButton
           className={classes.backButton}
           onClick={() => {
-            toPrevStage()
-            closeAllLedgerConnections()
-          }}
-        >
+            toPrevStage();
+            closeAllLedgerConnections();
+          }}>
           <BackIcon {...iconProps} />
         </IconButton>
       ) : null}
@@ -411,7 +409,7 @@ const CreateWalletDialog: React.FC<CreateWalletDialogProps> = ({ open, onClose, 
         />
       </Box>
     </Dialog>
-  )
-}
+  );
+};
 
-export default CreateWalletDialog
+export default CreateWalletDialog;

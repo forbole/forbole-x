@@ -1,20 +1,20 @@
-import { Box, Button, DialogActions, DialogContent, Typography } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import SuccessLight from '../../assets/images/tx_success_light.svg'
-import SuccessDark from '../../assets/images/tx_success_dark.svg'
-import useStyles from './styles'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+import { Box, Button, DialogActions, DialogContent, Typography } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import SuccessLight from '../../assets/images/tx_success_light.svg';
+import SuccessDark from '../../assets/images/tx_success_dark.svg';
+import useStyles from './styles';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
 interface SuccessProps {
-  onClose(): void
-  message: string
+  onClose(): void;
+  message: string;
 }
 
 const Success: React.FC<SuccessProps> = ({ onClose, message }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const { theme } = useGeneralContext()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const { theme } = useGeneralContext();
 
   return (
     <>
@@ -35,7 +35,7 @@ const Success: React.FC<SuccessProps> = ({ onClose, message }) => {
         </Box>
       </DialogActions>
     </>
-  )
-}
+  );
+};
 
-export default Success
+export default Success;

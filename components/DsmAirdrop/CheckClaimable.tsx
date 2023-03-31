@@ -9,29 +9,29 @@ import {
   Dialog,
   IconButton,
   DialogContent,
-} from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
-import useStyles from './styles'
-import TickIcon from '../../assets/images/icons/tick.svg'
-import TickActiveIcon from '../../assets/images/icons/tick_active.svg'
-import useIconProps from '../../misc/useIconProps'
-import ImageDefaultDark from '../../assets/images/image_default_dark.svg'
-import ImageDefaultLight from '../../assets/images/image_default_light.svg'
-import { CustomTheme } from '../../misc/theme'
-import CloseIcon from '../../assets/images/icons/icon_cross.svg'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+} from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
+import useStyles from './styles';
+import TickIcon from '../../assets/images/icons/tick.svg';
+import TickActiveIcon from '../../assets/images/icons/tick_active.svg';
+import useIconProps from '../../misc/useIconProps';
+import ImageDefaultDark from '../../assets/images/image_default_dark.svg';
+import ImageDefaultLight from '../../assets/images/image_default_light.svg';
+import { CustomTheme } from '../../misc/theme';
+import CloseIcon from '../../assets/images/icons/icon_cross.svg';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
-let timer
+let timer;
 
 interface CheckClaimableProps {
-  profile: Profile
-  account: Account
-  externalAddress: string
-  chainConnections: ChainConnection[]
-  profileLoading: boolean
-  chainConnectionsLoading: boolean
-  onConfirm(): void
+  profile: Profile;
+  account: Account;
+  externalAddress: string;
+  chainConnections: ChainConnection[];
+  profileLoading: boolean;
+  chainConnectionsLoading: boolean;
+  onConfirm(): void;
 }
 
 const CheckClaimable: React.FC<CheckClaimableProps> = ({
@@ -43,30 +43,30 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
   profileLoading,
   chainConnectionsLoading,
 }) => {
-  const { t } = useTranslation('common')
-  const classes = useStyles()
-  const iconProps = useIconProps()
-  const themeStyle: CustomTheme = useTheme()
-  const { theme } = useGeneralContext()
+  const { t } = useTranslation('common');
+  const classes = useStyles();
+  const iconProps = useIconProps();
+  const themeStyle: CustomTheme = useTheme();
+  const { theme } = useGeneralContext();
 
-  const [isGrantActive, setIsGrantActive] = React.useState(false)
-  const [isGranting, setIsGranting] = React.useState(false)
-  const [canGetGrant, setCanGetGrant] = React.useState(false)
+  const [isGrantActive, setIsGrantActive] = React.useState(false);
+  const [isGranting, setIsGranting] = React.useState(false);
+  const [canGetGrant, setCanGetGrant] = React.useState(false);
 
-  const [isLoadingDialogOpen, setIsLoadingDialogOpen] = React.useState(false)
+  const [isLoadingDialogOpen, setIsLoadingDialogOpen] = React.useState(false);
 
-  const [error, setError] = React.useState('')
+  const [error, setError] = React.useState('');
 
-  const shouldGetGrant = canGetGrant && !isGranting && !isGrantActive
+  const shouldGetGrant = canGetGrant && !isGranting && !isGrantActive;
 
   const checkFeeGrant = React.useCallback(async () => {
     try {
-      setError('')
+      setError('');
       const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/airdrop/grants/${account.address}/${externalAddress}`
-      ).then((r) => (r.ok ? r.json() : r.text()))
+        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/airdrop/grants/${account.address}/${externalAddress}`,
+      ).then(r => (r.ok ? r.json() : r.text()));
       if (typeof result === 'string') {
-        throw new Error(result)
+        throw new Error(result);
       }
       const {
         can_get_grant,
@@ -74,33 +74,33 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
         has_requested_grant,
         can_claim_airdrop,
         used_desmos_address,
-      } = result
+      } = result;
       if (used_desmos_address && used_desmos_address !== account.address) {
         throw new Error(
-          `You've already been granted for claiming the airdrop with address: ${used_desmos_address}`
-        )
+          `You've already been granted for claiming the airdrop with address: ${used_desmos_address}`,
+        );
       }
-      setCanGetGrant(can_get_grant || has_requested_grant || has_enough_dsm)
-      setIsGranting(has_requested_grant && !has_enough_dsm && !can_claim_airdrop)
-      setIsGrantActive(has_enough_dsm || can_claim_airdrop)
+      setCanGetGrant(can_get_grant || has_requested_grant || has_enough_dsm);
+      setIsGranting(has_requested_grant && !has_enough_dsm && !can_claim_airdrop);
+      setIsGrantActive(has_enough_dsm || can_claim_airdrop);
       if (has_enough_dsm) {
-        clearInterval(timer)
-        setIsLoadingDialogOpen(false)
+        clearInterval(timer);
+        setIsLoadingDialogOpen(false);
       }
     } catch (err) {
-      setError(err.message)
-      console.log(err)
+      setError(err.message);
+      console.log(err);
     }
-  }, [account])
+  }, [account]);
 
   React.useEffect(() => {
-    checkFeeGrant()
-    return () => clearTimeout(timer)
-  }, [])
+    checkFeeGrant();
+    return () => clearTimeout(timer);
+  }, []);
 
   const grantFee = React.useCallback(async () => {
     try {
-      setIsLoadingDialogOpen(true)
+      setIsLoadingDialogOpen(true);
       await fetch(`${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/airdrop/grants`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -108,28 +108,27 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
           user_address: externalAddress,
           desmos_address: account.address,
         }),
-      })
-      checkFeeGrant()
-      timer = setInterval(checkFeeGrant, 5000)
+      });
+      checkFeeGrant();
+      timer = setInterval(checkFeeGrant, 5000);
     } catch (err) {
-      setIsLoadingDialogOpen(false)
-      console.log(err)
+      setIsLoadingDialogOpen(false);
+      console.log(err);
     }
-  }, [externalAddress, account])
+  }, [externalAddress, account]);
 
   return (
     <>
       <form
         noValidate
-        onSubmit={(e) => {
-          e.preventDefault()
+        onSubmit={e => {
+          e.preventDefault();
           if (shouldGetGrant) {
-            grantFee()
+            grantFee();
           } else {
-            onConfirm()
+            onConfirm();
           }
-        }}
-      >
+        }}>
         <Box display="flex" justifyContent="center">
           <Box className={classes.stageContent} width="100%">
             <Typography>{t('airdrop eligibility subtitle')}</Typography>
@@ -191,7 +190,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
                   ? 'create profile description'
                   : chainConnections.length === 0
                   ? 'connect account description'
-                  : 'airdrop eligibility description'
+                  : 'airdrop eligibility description',
               )}
             </Typography>
 
@@ -206,8 +205,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
                   profileLoading ||
                   chainConnectionsLoading ||
                   (isGranting && !isGrantActive)
-                }
-              >
+                }>
                 {t(
                   shouldGetGrant
                     ? 'get a grant'
@@ -215,7 +213,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
                     ? 'create profile'
                     : chainConnections.length === 0
                     ? 'connect account'
-                    : 'get started button'
+                    : 'get started button',
                 )}
               </Button>
               <Box mt={1}>
@@ -232,8 +230,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
         fullWidth
         maxWidth="sm"
         open={isLoadingDialogOpen}
-        onClose={() => setIsLoadingDialogOpen(false)}
-      >
+        onClose={() => setIsLoadingDialogOpen(false)}>
         <IconButton className={classes.closeButton} onClick={() => setIsLoadingDialogOpen(false)}>
           <CloseIcon {...iconProps} />
         </IconButton>
@@ -244,14 +241,12 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
             justifyContent="center"
             alignItems="center"
             height="100%"
-            my={12}
-          >
+            my={12}>
             <Box
               flexDirection="column"
               justifyContent="center"
               alignItems="center"
-              sx={{ position: 'relative', display: 'flex' }}
-            >
+              sx={{ position: 'relative', display: 'flex' }}>
               <CircularProgress size={themeStyle.spacing(27)} thickness={5} />
               <Box
                 sx={{
@@ -263,8 +258,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                }}
-              >
+                }}>
                 {theme === 'dark' ? (
                   <ImageDefaultDark
                     width={themeStyle.spacing(25)}
@@ -282,8 +276,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
               variant="h4"
               gutterBottom
               align="center"
-              style={{ marginTop: themeStyle.spacing(4) }}
-            >
+              style={{ marginTop: themeStyle.spacing(4) }}>
               {t('getting grant')}
             </Typography>
             <Typography align="center">{t('getting grant description')}</Typography>
@@ -291,7 +284,7 @@ const CheckClaimable: React.FC<CheckClaimableProps> = ({
         </DialogContent>
       </Dialog>
     </>
-  )
-}
+  );
+};
 
-export default CheckClaimable
+export default CheckClaimable;

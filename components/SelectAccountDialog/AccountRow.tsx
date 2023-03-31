@@ -5,36 +5,36 @@ import {
   Radio,
   Typography,
   useTheme,
-} from '@material-ui/core'
-import React from 'react'
-import useTranslation from 'next-translate/useTranslation'
+} from '@material-ui/core';
+import React from 'react';
+import useTranslation from 'next-translate/useTranslation';
 import {
   transformGqlAcountBalance,
   getTotalBalance,
   getTotalTokenAmount,
   formatTokenAmount,
-} from '../../misc/utils'
-import useStyles from './styles'
-import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance'
-import { useGeneralContext } from '../../contexts/GeneralContext'
+} from '../../misc/utils';
+import useStyles from './styles';
+import useLatestAccountBalance from '../../graphql/hooks/useLatestAccountBalance';
+import { useGeneralContext } from '../../contexts/GeneralContext';
 
 interface AccountRowProps {
-  account: Account
+  account: Account;
 }
 
 const AccountRow: React.FC<AccountRowProps> = ({ account }) => {
-  const { t, lang } = useTranslation('common')
-  const classes = useStyles()
-  const theme = useTheme()
-  const { hideAmount } = useGeneralContext()
-  const { data: balanceData, loading } = useLatestAccountBalance(account.crypto, account.address)
-  const { tokenAmounts, usdBalance } = React.useMemo(() => {
-    const accountBalance = transformGqlAcountBalance(balanceData, Date.now())
+  const { lang } = useTranslation('common');
+  const classes = useStyles();
+  const theme = useTheme();
+  const { hideAmount } = useGeneralContext();
+  const { data: balanceData, loading } = useLatestAccountBalance(account.crypto, account.address);
+  const { tokenAmounts } = React.useMemo(() => {
+    const accountBalance = transformGqlAcountBalance(balanceData, Date.now());
     return {
       tokenAmounts: getTotalTokenAmount(accountBalance).amount,
       usdBalance: getTotalBalance(accountBalance).balance,
-    }
-  }, [balanceData])
+    };
+  }, [balanceData]);
 
   return (
     <Box
@@ -42,8 +42,7 @@ const AccountRow: React.FC<AccountRowProps> = ({ account }) => {
       alignItems="center"
       width="100%"
       justifyContent="space-between"
-      className={classes.accountRow}
-    >
+      className={classes.accountRow}>
       <FormControlLabel
         value={account.address}
         control={<Radio color="primary" />}
@@ -59,7 +58,7 @@ const AccountRow: React.FC<AccountRowProps> = ({ account }) => {
         )}
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default AccountRow
+export default AccountRow;

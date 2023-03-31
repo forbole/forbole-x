@@ -1,23 +1,23 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Registry } from '@cosmjs/proto-signing'
-import { defaultRegistryTypes } from '@cosmjs/stargate'
-import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys'
-import { fromBase64, toBase64 } from '@cosmjs/encoding'
-import { MsgSaveProfile } from '../../desmos-proto/profiles/v1beta1/msgs_profile'
+import { Registry } from '@cosmjs/proto-signing';
+import { defaultRegistryTypes } from '@cosmjs/stargate';
+import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
+import { fromBase64, toBase64 } from '@cosmjs/encoding';
+import { MsgSaveProfile } from '../../desmos-proto/profiles/v1beta1/msgs_profile';
 import {
   MsgLinkChainAccount,
   MsgUnlinkChainAccount,
-} from '../../desmos-proto/profiles/v1beta1/msgs_chain_links'
-import { Bech32Address } from '../../desmos-proto/profiles/v1beta1/models_chain_links'
+} from '../../desmos-proto/profiles/v1beta1/msgs_chain_links';
+import { Bech32Address } from '../../desmos-proto/profiles/v1beta1/models_chain_links';
 
 export const registry = new Registry([
   ...defaultRegistryTypes,
   ['/desmos.profiles.v3.MsgSaveProfile', MsgSaveProfile],
   ['/desmos.profiles.v3.MsgLinkChainAccount', MsgLinkChainAccount],
   ['/desmos.profiles.v3.MsgUnlinkChainAccount', MsgUnlinkChainAccount],
-] as any)
+] as any);
 
 export const aminoAdditions = {
   '/desmos.profiles.v3.MsgSaveProfile': {
@@ -42,8 +42,8 @@ export const aminoAdditions = {
   '/desmos.profiles.v3.MsgLinkChainAccount': {
     aminoType: 'desmos/MsgLinkChainAccount',
     toAmino: ({ chainAddress, proof, chainConfig, signer }) => {
-      const chainAddressValue = Bech32Address.decode(chainAddress.value)
-      const pubKey = PubKey.decode(proof.pubKey.value)
+      const chainAddressValue = Bech32Address.decode(chainAddress.value);
+      const pubKey = PubKey.decode(proof.pubKey.value);
       return {
         chain_address: {
           type: 'desmos/Bech32Address',
@@ -62,7 +62,7 @@ export const aminoAdditions = {
           signature: proof.signature,
         },
         signer,
-      }
+      };
     },
     fromAmino: ({ chain_address, proof, chain_config, signer }) => {
       return {
@@ -85,7 +85,7 @@ export const aminoAdditions = {
           signature: proof.signature,
         },
         signer,
-      }
+      };
     },
   },
   '/desmos.profiles.v3.MsgUnlinkChainAccount': {
@@ -93,4 +93,4 @@ export const aminoAdditions = {
     toAmino: ({ chainName, owner, target }) => ({ chain_name: chainName, owner, target }),
     fromAmino: ({ chain_name, owner, target }) => ({ chainName: chain_name, owner, target }),
   },
-}
+};

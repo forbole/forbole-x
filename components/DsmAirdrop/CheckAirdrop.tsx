@@ -1,57 +1,53 @@
-import React from 'react'
-import { Box, Typography, useTheme, Button, TextField, CircularProgress } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import TickIcon from '../../assets/images/icons/icon_tick.svg'
-import ParachuteIcon from '../../assets/images/parachute.svg'
-import SelectAccountDialog from '../SelectAccountDialog'
-import useStyles from './styles'
-import { formatCrypto } from '../../misc/utils'
-import AirdropEligibilityDetails from './AirdropEligibilityDetails'
+import React from 'react';
+import { Box, Typography, useTheme, Button, TextField, CircularProgress } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import ParachuteIcon from '../../assets/images/parachute.svg';
+import SelectAccountDialog from '../SelectAccountDialog';
+import { formatCrypto } from '../../misc/utils';
+import AirdropEligibilityDetails from './AirdropEligibilityDetails';
 
 interface CheckAirdropProps {
-  onConfirm(): void
-  claimEnabled: boolean
-  setSelectedAddress: (address: string) => void
-  externalAddress: string
-  setExternalAddress: (address: string) => void
+  onConfirm(): void;
+  claimEnabled: boolean;
+  setSelectedAddress: (address: string) => void;
+  externalAddress: string;
+  setExternalAddress: (address: string) => void;
 }
 
 const CheckAirdrop: React.FC<CheckAirdropProps> = ({
   onConfirm,
-  claimEnabled,
   setSelectedAddress,
   externalAddress,
   setExternalAddress,
 }) => {
-  const classes = useStyles()
-  const { t, lang } = useTranslation('common')
-  const theme = useTheme()
-  const [loading, setLoading] = React.useState(false)
-  const [verifyData, setVerifyData] = React.useState(null)
-  const [dataStakingInfo, setDataStakingInfo] = React.useState(null)
-  const [lpInfos, setLpInfos] = React.useState(null)
-  const [error, setError] = React.useState(false)
-  const [isSelectAccountDialogOpen, setIsSelectAccountDialogOpen] = React.useState(false)
+  const { t, lang } = useTranslation('common');
+  const theme = useTheme();
+  const [loading, setLoading] = React.useState(false);
+  const [verifyData, setVerifyData] = React.useState(null);
+  const [dataStakingInfo, setDataStakingInfo] = React.useState(null);
+  const [lpInfos, setLpInfos] = React.useState(null);
+  const [error, setError] = React.useState(false);
+  const [isSelectAccountDialogOpen, setIsSelectAccountDialogOpen] = React.useState(false);
 
   const verify = React.useCallback(async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/users/${externalAddress}`
-      ).then((r) => r.json())
-      setVerifyData(data)
+        `${process.env.NEXT_PUBLIC_DSM_AIRDROP_API_URL}/users/${externalAddress}`,
+      ).then(r => r.json());
+      setVerifyData(data);
       // eslint-disable-next-line camelcase
-      const { staking_infos, dsm_allotted, lp_infos } = data
-      setDataStakingInfo(staking_infos)
-      setLpInfos(lp_infos)
-      setLoading(false)
-      setError(false)
+      const { staking_infos, lp_infos } = data;
+      setDataStakingInfo(staking_infos);
+      setLpInfos(lp_infos);
+      setLoading(false);
+      setError(false);
     } catch (err) {
-      setError(true)
-      setLoading(false)
-      console.log(err)
+      setError(true);
+      setLoading(false);
+      console.log(err);
     }
-  }, [externalAddress])
+  }, [externalAddress]);
 
   return (
     <>
@@ -75,7 +71,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                   }}
                   style={{ width: '70%' }}
                   value={externalAddress}
-                  onChange={(e) => setExternalAddress(e.target.value)}
+                  onChange={e => setExternalAddress(e.target.value)}
                   placeholder={t('cosmos address placeholder')}
                 />
                 <Box padding={0} width="30%">
@@ -84,15 +80,14 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                     fullWidth={undefined}
                     variant="contained"
                     color="primary"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      verify()
+                    onClick={e => {
+                      e.preventDefault();
+                      verify();
                     }}
                     style={{
                       borderRadius: theme.spacing(0, 0.5, 0.5, 0),
                       marginLeft: theme.spacing(0.125),
-                    }}
-                  >
+                    }}>
                     {loading ? (
                       <CircularProgress color="inherit" size={theme.spacing(3.5)} />
                     ) : (
@@ -111,13 +106,12 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
               </Box>
             )}
             <AirdropEligibilityDetails lpInfos={lpInfos} dataStakingInfo={dataStakingInfo} />
-            {[...(dataStakingInfo || []), ...(lpInfos || [])].filter((i) => !i.claimed).length ? (
+            {[...(dataStakingInfo || []), ...(lpInfos || [])].filter(i => !i.claimed).length ? (
               <form noValidate>
                 <Typography
                   style={{
                     color: theme.palette.text.secondary,
-                  }}
-                >
+                  }}>
                   {t('check airdrop slogan')}
                 </Typography>
                 <Box mt={4} padding={0} minWidth="20%">
@@ -125,8 +119,7 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
                     id="button"
                     variant="contained"
                     color="primary"
-                    onClick={() => setIsSelectAccountDialogOpen(true)}
-                  >
+                    onClick={() => setIsSelectAccountDialogOpen(true)}>
                     {loading ? (
                       <CircularProgress color="inherit" size={theme.spacing(3.5)} />
                     ) : (
@@ -145,14 +138,14 @@ const CheckAirdrop: React.FC<CheckAirdropProps> = ({
       <SelectAccountDialog
         setSelectedAddress={setSelectedAddress}
         open={isSelectAccountDialogOpen}
-        onSubmit={(e, value) => {
-          e.preventDefault()
-          onConfirm()
+        onSubmit={e => {
+          e.preventDefault();
+          onConfirm();
         }}
         onClose={() => setIsSelectAccountDialogOpen(false)}
       />
     </>
-  )
-}
+  );
+};
 
-export default CheckAirdrop
+export default CheckAirdrop;

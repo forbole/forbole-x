@@ -1,14 +1,14 @@
-import React from 'react'
-import { Box, Divider, Typography, useTheme } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import SendIcon from '../../../assets/images/icons/icon_send_tx.svg'
-import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils'
+import React from 'react';
+import { Box, Divider, Typography, useTheme } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import SendIcon from '../../../assets/images/icons/icon_send_tx.svg';
+import { formatTokenAmount, getTokenAmountFromDenoms } from '../../../misc/utils';
 
 interface IBCTransferContentProps {
-  totalAmount: TokenAmount
-  msgs: TransactionMsgIBCTransfer[]
-  denoms: TokenPrice[]
-  account: Account
+  totalAmount: TokenAmount;
+  msgs: TransactionMsgIBCTransfer[];
+  denoms: TokenPrice[];
+  account: Account;
 }
 
 const IBCTransferContent: React.FC<IBCTransferContentProps> = ({
@@ -17,8 +17,8 @@ const IBCTransferContent: React.FC<IBCTransferContentProps> = ({
   totalAmount,
   account,
 }) => {
-  const { t, lang } = useTranslation('common')
-  const theme = useTheme()
+  const { t, lang } = useTranslation('common');
+  const theme = useTheme();
   return (
     <>
       <Box display="flex" flexDirection="column" alignItems="center" mt={6}>
@@ -55,7 +55,7 @@ const IBCTransferContent: React.FC<IBCTransferContentProps> = ({
         </React.Fragment>
       ))}
     </>
-  )
-}
+  );
+};
 
-export default IBCTransferContent
+export default IBCTransferContent;

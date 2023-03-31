@@ -1,13 +1,13 @@
-import { Box, Typography } from '@material-ui/core'
-import useTranslation from 'next-translate/useTranslation'
-import React from 'react'
+import { Box, Typography } from '@material-ui/core';
+import useTranslation from 'next-translate/useTranslation';
+import React from 'react';
 
 interface ActiveProps {
-  proposal: Proposal
+  proposal: Proposal;
 }
 
 const InactiveTime: React.FC<ActiveProps> = ({ proposal }) => {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation('common');
 
   return (
     <Box display="flex">
@@ -28,7 +28,7 @@ const InactiveTime: React.FC<ActiveProps> = ({ proposal }) => {
         </Typography>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default InactiveTime
+export default InactiveTime;
