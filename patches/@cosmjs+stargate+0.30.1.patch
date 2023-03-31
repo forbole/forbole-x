@@ -1,16 +1,8 @@
 diff --git a/node_modules/@cosmjs/stargate/build/accounts.js b/node_modules/@cosmjs/stargate/build/accounts.js
-index 1739c71..de37eef 100644
+index 1739c71..f03c504 100644
 --- a/node_modules/@cosmjs/stargate/build/accounts.js
 +++ b/node_modules/@cosmjs/stargate/build/accounts.js
-@@ -26,6 +26,7 @@ function accountFromBaseAccount(input) {
-  */
- function accountFromAny(input) {
-     const { typeUrl, value } = input;
-+    console.log('ACCOUNT FROM ANY 123', typeUrl);
-     switch (typeUrl) {
-         // auth
-         case "/cosmos.auth.v1beta1.BaseAccount":
-@@ -56,6 +57,10 @@ function accountFromAny(input) {
+@@ -56,6 +56,10 @@ function accountFromAny(input) {
              (0, utils_1.assert)(baseAccount);
              return accountFromBaseAccount(baseAccount);
          }
